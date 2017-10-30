@@ -36,6 +36,37 @@ return [
     */
 
     'guards' => [
+        
+        'school' => [
+            'driver' => 'session',
+            'provider' => 'schools',
+        ],
+
+        'sponsor' => [
+            'driver' => 'session',
+            'provider' => 'sponsors',
+        ],
+
+        'parent' => [
+            'driver' => 'session',
+            'provider' => 'parents',
+        ],
+
+        'teenager' => [
+            'driver' => 'session',
+            'provider' => 'teenagers',
+        ],
+
+        'developer' => [
+            'driver' => 'session',
+            'provider' => 'developers',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -65,6 +96,37 @@ return [
     */
 
     'providers' => [
+        
+        'schools' => [
+            'driver' => 'eloquent',
+            'model' => App\Schools::class,
+        ],
+
+        'sponsors' => [
+            'driver' => 'eloquent',
+            'model' => App\Sponsors::class,
+        ],
+
+        'parents' => [
+            'driver' => 'eloquent',
+            'model' => App\Parents::class,
+        ],
+
+        'teenagers' => [
+            'driver' => 'eloquent',
+            'model' => App\Teenagers::class,
+        ],
+
+        'developers' => [
+            'driver' => 'eloquent',
+            'model' => App\Developers::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\AdminUsers::class,
+        ],
+
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
@@ -97,6 +159,13 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+
+        // IF required for each guard :: password reset
+        // 'schools' => [
+        //     'provider' => 'schools',
+        //     'table' => 'school_password_resets',
+        //     'expire' => 60,
+        // ],
     ],
 
 ];
