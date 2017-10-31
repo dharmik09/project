@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
+use Auth;
+use App\Http\Requests\AdminLoginRequest;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -36,18 +37,21 @@ class LoginController extends Controller
         return view('admin.login');
     }
 
-    public function loginCheck(Request $request)
+    public function loginCheck(AdminLoginRequest $request)
     {
         $data = $request->all();
         if (Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password'] ])) {
+            flash('Welcome to the admin panel')->success();
             return redirect()->to(route('admin.home'));
         }
-        return view('admin.login');
+        flash('Invalid Credential')->error()->important();
+        return redirect()->back()->withInput($request->only('email'));
     }
 
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
+        flash('Admin Logout successfully!')->success();
         //$request->session()->flush();
         //$request->session()->regenerate();
         return redirect()->to(route('admin.login'));

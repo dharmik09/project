@@ -14,7 +14,6 @@
     </div>
     @endif
 </div>
-
 <div class="login-box">
     <div class="login-logo">
         <img src="{{ asset('frontend/images/proteen_logo.png')}}" />
@@ -25,7 +24,7 @@
         <form id="login_form" role="form" method="POST" action="{{ url('/admin/loginCheck') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" id="email" maxlength="30" minlength="5" name="email" placeholder="{{trans('labels.emaillbl')}}" value="">
+                <input type="text" class="form-control" id="email" maxlength="30" minlength="5" name="email" placeholder="{{trans('labels.emaillbl')}}" value="{{ old('email') }}">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -37,44 +36,39 @@
                 </div>
                 <div class="col-xs-4">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">{{trans('labels.login')}}</button>
-                </div><!-- /.col -->
+                </div>
             </div>
         </form>
-    </div><!-- /.login-box-body -->
-</div><!-- /.login-box -->
+    </div>
+    <br/>
+    <br/>
+    @include('flash::message')
+</div>
 @stop
 @section('script')
 <script type="text/javascript">
-    jQuery(document).ready(function() {
-        var signupRules = {
-            email: {
-                required: true,
-                email  : true
-            },
-            password: {
-                required: true
-            }
-        };
-        $("#login_form").validate({
-            rules: signupRules,
-            messages: {
-                email: {
-                    required: '<?php echo trans('validation.emailrequired')?>'
-                },
-                password: {
-                    required: '<?php echo trans('validation.passwordrequired')?>'
-                }
-            }
-        });
-    });
-    
-    $(function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
-        });
-    });    
+    // jQuery(document).ready(function() {
+    //     var signupRules = {
+    //         email: {
+    //             required: true,
+    //             email  : true
+    //         },
+    //         password: {
+    //             required: true
+    //         }
+    //     };
+    //     $("#login_form").validate({
+    //         rules: signupRules,
+    //         messages: {
+    //             email: {
+    //                 required: '{{ __("Email is required!") }}'
+    //             },
+    //             password: {
+    //                 required: '{{ __("Password is required!") }}'
+    //             }
+    //         }
+    //     });
+    // });
 </script>
 
 @stop

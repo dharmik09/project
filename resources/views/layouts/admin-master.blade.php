@@ -155,7 +155,10 @@
         <script src="{{ asset('backend/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('backend/js/chosen.jquery.js')}}"></script>
         <script src="{{ asset('backend/js/common_admin.js')}}"></script>
-
+        <script>
+            $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+            $('div.alert.alert-important').delay(5000).fadeOut(350);
+        </script>
         @yield('script')
 
     </body>
