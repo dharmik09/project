@@ -87,6 +87,56 @@
                         </div>
                     </div>
                     <ul class="sidebar-menu">
+                        <li>
+                            <a href="{{ url('developer/home') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.dashboard')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('developer/systemLevel') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.systemlevels')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('developer/apptitudeType') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.apptitudetypes')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('developer/personalityType') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.personalitytypes')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('developer/multipleintelligenceType') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.multipleintelligencetypes')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('developer/interestType') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.interesttypes')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('developer/multipleintelligenceTypeScale') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.multipleintelligencetypescale')}}</span>
+                            </a>
+                        </li>
+                         <li>
+                            <a href="{{ url('developer/personalityTypeScale') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.personalitytypescale')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('developer/apptitudeTypeScale') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.apptitudetypescale')}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('developer/level1Qualities') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.level1qualities')}}</span>
+                            </a>
+                        </li>
                     </ul>
                 </section>  
                 <!-- /.sidebar -->
