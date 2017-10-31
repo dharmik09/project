@@ -1,0 +1,163 @@
+input.invalid{
+ border: 1px solid red;
+}
+.invalid{
+ display: inline;
+}
+em.invalid {
+ width: auto;
+ display: inline;
+ color: red;
+ font-weight: normal;
+ font-style: normal;
+}
+.add-link{
+  font-size: 18px;
+  color:blue;
+}
+
+.i_delete{
+    color:#d73925;
+}
+.s_active{color: #008d4c;}
+.s_inactive{color: #d73925;}
+.add-btn-primary{width: 50px; margin-bottom: 10px;}
+.teen_base_question{padding:0 15px;font-size: 16px;font-weight: 600;margin-top: 10px;}
+.teen_base_answer{padding:0 15px;font-size: 14px;margin-top: 10px;}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {color: #555;font-weight: bold;cursor: default;background-color: #fff;border: 1px solid #ddd;border-bottom-color: transparent;}
+
+.col-md-3.dashboard_page .box {
+    border: 3px solid #e66a45;
+    text-align: center;
+    -webkit-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 3px 8px 0px rgba(0,0,0,0.2);
+    transition:all 0.5s;
+}
+.col-md-3.dashboard_page .box:hover {
+    -webkit-box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.4);
+-moz-box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.4);
+box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.4);
+}
+#api{
+ text-align:center;
+}
+.interest {
+    width: 250px;
+    margin: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    padding: 5px;
+    background: #F5F5F5;
+    display: inline-block;
+    text-align: left;
+}
+.interest .detail_container{
+     text-align: center;
+    width: 155px;
+    float: right;
+    padding-top: 10px;
+}
+.interest .detail_container .inner_detail_container{
+     width: 100%;
+    padding-top: 10px;
+}
+.interest .detail_container .inner_detail_container span{
+     padding: 0 25px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.l4-intermediate-media{
+    width:100%;
+    height: 150px;
+}
+.l4-intermediate-media .header_text td.img{
+        width: 130px;
+    padding: 10px;
+}
+.l4-intermediate-media .header_text td.img img{
+        max-width: 170px;
+    max-height: 120px;
+    margin: 0 auto;
+}
+
+.l4-intermediate-media td.text_area{
+        width: 70%;
+    padding: 10px;
+}
+.l4-intermediate-media textarea{
+        width: 100%;
+    height: 82px;
+    border: 1px solid #e66a45;
+    padding: 5px;
+}
+.l4-intermediate-media td.button_delete{
+    text-align: center;
+}
+.l4-intermediate-media input[type='button']{
+    color: #fff;
+    background: red;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+.l4-intermediate-media .edit_media_img_upd{
+    visibility: hidden;
+    position: absolute;
+}
+.l4-intermediate-media .edit_media_image{color: #fff;
+    background: #e66a45;
+    padding: 10px;
+    margin: 10px 0;
+    display: block;
+    text-align: center;
+    width: 100px;}
+
+.l4-intermediate-media .multi_image_setup{width: 100%;height:100%;display: inherit;}
+
+/*Upload image*/
+.multi_image_setup{position: relative;display: inline-block;width: 80px;height: 80px;cursor: pointer;text-align:center;border: 1px solid #e66a45;margin:0 auto;display: block;}
+.img_replace:hover:after{background: rgba(0, 0, 0, 0.39);content:'+';position:absolute;top:0;left:0;right:0;bottom:0;font-size:30px;font-weight:bold;color:#fff;line-height:80px;display:block;}
+.multi_image_setup .img_select {visibility: hidden;position: absolute;}
+.img_replace .img_view{cursor: pointer;display: block;width: 100%;height: 100%;}
+.response_text{padding:15px 0;}
+
+.answer_option_area {height: 80px;width: 100%}
+
+span.verify_reject {padding:0 5px;}
+span.verify_reject input{margin-right:5px;vertical-align:middle;cursor: pointer;}
+span.verify_reject label{vertical-align:middle;line-height:normal;cursor: pointer;font-weight:normal;display:inline;}
+.tab_detail_cont{display: inline-block;padding:2px;width: 30%;margin-bottom: 16px;vertical-align:middle;}
+.tab_detail_cont .number_btn{max-width: 100px;display: inline;}
+.tab_detail_cont_text_area{display:block;}
+.cst_tbl{margin-bottom: 10px;}
+
+.viewlargeimage img {
+    max-width: 100%;
+}
+
+.viewlargeimage button.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
+    z-index: 999;
+    opacity: 1;
+}
+.viewlargeimage button.close:hover{
+    text-shadow: none;
+    color: #fff;
+}
+
+.viewlargeimage.modal-dialog {
+    width: 670px;
+    margin: 30px auto;
+}
+
+.read_more{
+    bottom: 0;
+    color: #fe6b45;
+    cursor: pointer;
+    font-size: 14px;
+}
