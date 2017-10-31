@@ -85,11 +85,11 @@ class ApptitudeTypeManagementController extends Controller
         $response = $this->objApptitude->saveApptitudeDetail($apptitudeDetail);
         if($response)
         {
-             return Redirect::to("developer/apptitudetype")->with('success',trans('labels.apptitudeupdatesuccess'));
+             return Redirect::to("developer/apptitudeType")->with('success',trans('labels.apptitudeupdatesuccess'));
         }
         else
         {
-            return Redirect::to("developer/apptitudetype")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/apptitudeType")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
@@ -98,11 +98,11 @@ class ApptitudeTypeManagementController extends Controller
         $return = $this->objApptitude->deleteApptitudeType($id);
         if ($return)
         {
-           return Redirect::to("developer/apptitudetype")->with('success', trans('labels.apptitudedeletesuccess'));
+           return Redirect::to("developer/apptitudeType")->with('success', trans('labels.apptitudedeletesuccess'));
         }
         else
         {
-            return Redirect::to("developer/apptitudetype")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/apptitudeType")->with('error', trans('labels.commonerrormessage'));
         }
     }
 

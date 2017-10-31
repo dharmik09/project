@@ -53,11 +53,11 @@ class ApptitudeTypeScaleManagementController extends Controller
         $response = $this->objApptitudeScale->saveApptitudeTypeScaleDetail($apptitudeScaleDetail);
         if($response)
         {
-             return Redirect::to("developer/apptitudetypescale")->with('success',trans('labels.apptitudetypescaleupdatesuccess'));
+             return Redirect::to("developer/apptitudeTypeScale")->with('success',trans('labels.apptitudetypescaleupdatesuccess'));
         }
         else
         {
-            return Redirect::to("developer/apptitudetypescale")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/apptitudeTypeScale")->with('error', trans('labels.commonerrormessage'));
         }
     }
 

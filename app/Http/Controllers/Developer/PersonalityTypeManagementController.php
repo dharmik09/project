@@ -25,8 +25,7 @@ class PersonalityTypeManagementController extends Controller
     }
     public function index()
     {
-        $searchParamArray = Input::all();
-        $personalitytypes = $this->objPersonality->getAllPersonalityTypes($searchParamArray);
+        $personalitytypes = $this->objPersonality->getAllPersonalityTypes();
         $personalityThumbPath = $this->personalityThumbImageUploadPath;
         return view('developer.ListPersonalityTypes', compact('personalitytypes','personalityThumbPath'));
     }
@@ -83,11 +82,11 @@ class PersonalityTypeManagementController extends Controller
         $response = $this->objPersonality->savePersonalityDetail($personalityDetail);
         if($response)
         {
-             return Redirect::to("developer/personalitytype")->with('success',trans('labels.personalityupdatesuccess'));
+             return Redirect::to("developer/personalityType")->with('success',trans('labels.personalityupdatesuccess'));
         }
         else
         {
-            return Redirect::to("developer/personalitytype")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/personalityType")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
@@ -96,11 +95,11 @@ class PersonalityTypeManagementController extends Controller
         $return = $this->objPersonality->deletePersonalityType($id);
         if ($return)
         {
-           return Redirect::to("developer/personalitytype")->with('success', trans('labels.personalitydeletesuccess'));
+           return Redirect::to("developer/personalityType")->with('success', trans('labels.personalitydeletesuccess'));
         }
         else
         {
-            return Redirect::to("developer/personalitytype")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/personalityType")->with('error', trans('labels.commonerrormessage'));
         }
     }
 }

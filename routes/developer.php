@@ -25,3 +25,11 @@ Route::get('/addApptitudeType', 'Developer\ApptitudeTypeManagementController@add
 Route::get('/editApptitudeType/{id}', 'Developer\ApptitudeTypeManagementController@edit');
 Route::get('/deleteApptitudeType/{id}', 'Developer\ApptitudeTypeManagementController@delete');
 Route::post('/saveApptitudeType', 'Developer\ApptitudeTypeManagementController@save');
+
+/* Personality Type Module Routes */
+Route::get('/personalityType', 'Developer\PersonalityTypeManagementController@index')->name('personalityType');
+Route::post('/personalityType', 'Developer\PersonalityTypeManagementController@index')->name('personalityType');
+Route::get('/addPersonalityType', 'Developer\PersonalityTypeManagementController@add')->name('addPersonalityType');
+Route::get('/editPersonalityType/{id}', 'Developer\PersonalityTypeManagementController@edit')->name('editPersonalityType');
+Route::post('/savePersonalityType', 'Developer\PersonalityTypeManagementController@save')->name('savePersonalityType');
+Route::get('/deletePersonalityType/{id}', 'Developer\PersonalityTypeManagementController@delete')->name('deletePersonalityType');
