@@ -24,8 +24,8 @@ class AdminLoginRequest extends Request
     public function rules()
     {
         return [
-            'email'      => 'required',
-            'password'   => 'required'
+            'email'      => 'required | email | exists:admin_users',
+            'password'   => 'required | min:6',
         ];
     }
 }
