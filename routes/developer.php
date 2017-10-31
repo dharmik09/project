@@ -33,3 +33,11 @@ Route::get('/addPersonalityType', 'Developer\PersonalityTypeManagementController
 Route::get('/editPersonalityType/{id}', 'Developer\PersonalityTypeManagementController@edit')->name('editPersonalityType');
 Route::post('/savePersonalityType', 'Developer\PersonalityTypeManagementController@save')->name('savePersonalityType');
 Route::get('/deletePersonalityType/{id}', 'Developer\PersonalityTypeManagementController@delete')->name('deletePersonalityType');
+
+/* Multiple Intelligence Type Module Routes */
+Route::get('/multipleintelligenceType', 'Developer\MultipleIntelligenceTypeManagementController@index');
+Route::post('/multipleintelligenceType', 'Developer\MultipleIntelligenceTypeManagementController@index');
+Route::get('/addMultipleintelligenceType', 'Developer\MultipleIntelligenceTypeManagementController@add');
+Route::get('/editMultipleintelligenceType/{id}', 'Developer\MultipleIntelligenceTypeManagementController@edit');
+Route::post('/saveMultipleintelligenceType', 'Developer\MultipleIntelligenceTypeManagementController@save');
+Route::get('/deleteMultipleintelligenceType/{id}', 'Developer\MultipleIntelligenceTypeManagementController@delete');
