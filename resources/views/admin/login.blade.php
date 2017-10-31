@@ -47,28 +47,28 @@
 @stop
 @section('script')
 <script type="text/javascript">
-    // jQuery(document).ready(function() {
-    //     var signupRules = {
-    //         email: {
-    //             required: true,
-    //             email  : true
-    //         },
-    //         password: {
-    //             required: true
-    //         }
-    //     };
-    //     $("#login_form").validate({
-    //         rules: signupRules,
-    //         messages: {
-    //             email: {
-    //                 required: '{{ __("Email is required!") }}'
-    //             },
-    //             password: {
-    //                 required: '{{ __("Password is required!") }}'
-    //             }
-    //         }
-    //     });
-    // });
+    jQuery(document).ready(function() {
+        var signupRules = {
+            email: {
+                required: true,
+                email  : true
+            },
+            password: {
+                required: true
+            }
+        };
+        $("#login_form").validate({
+            rules: signupRules,
+            messages: {
+                email: {
+                    required: '{{ __("Email is required!") }}'
+                },
+                password: {
+                    required: '{{ __("Password is required!") }}'
+                }
+            }
+        });
+    });
 </script>
 
 @stop
