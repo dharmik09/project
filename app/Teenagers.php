@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 
-//use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -14,7 +13,7 @@ class Teenagers extends Authenticatable {
 
   protected $table = 'pro_t_teenagers';
   protected $guarded = [];
-
+  
   public function getActiveTeenagers() {
       $result = Teenagers::select('*')
               ->where('t_name', '!=','')

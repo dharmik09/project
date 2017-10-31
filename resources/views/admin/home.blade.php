@@ -8,8 +8,9 @@
     </h1>
 </section>
 
-<section class="content"> 
+<section class="content">
     <div class="row">
+        @include('flash::message')
         <div class="box box-info" style="padding-top: 50px;">
             <div class="box-body">                    
             <div class="col-md-12">
@@ -25,6 +26,4 @@
 @stop
 @section('script')
 
-
-@stop    
-
+@stop
