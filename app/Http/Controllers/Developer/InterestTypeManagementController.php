@@ -26,11 +26,9 @@ class InterestTypeManagementController extends Controller
 
     public function index()
     {
-        $searchParamArray = Input::all();
         $interestThumbPath = $this->interestThumbImageUploadPath;
-        $interesttypes = $this->objInterest->getAllInterestTypes($searchParamArray);
-        return view('developer.ListInterestTypes' , compact('interesttypes','interestThumbPath'));
-        
+        $interesttypes = $this->objInterest->getAllInterestTypes();
+        return view('developer.ListInterestTypes', compact('interesttypes','interestThumbPath'));
     }
 
     public function add()
@@ -83,11 +81,11 @@ class InterestTypeManagementController extends Controller
         $response = $this->objInterest->saveInterestDetail($interestDetail);
         if($response)
         {
-            return Redirect::to("developer/interesttype")->with('success',trans('labels.interestupdatesuccess'));
+            return Redirect::to("developer/interestType")->with('success',trans('labels.interestupdatesuccess'));
         }
         else
         {
-            return Redirect::to("developer/interesttype")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/interestType")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
@@ -96,11 +94,11 @@ class InterestTypeManagementController extends Controller
         $return = $this->objInterest->deleteInterestType($id);
         if ($return)
         {
-           return Redirect::to("developer/interesttype")->with('success', trans('labels.interestdeletesuccess'));
+           return Redirect::to("developer/interestType")->with('success', trans('labels.interestdeletesuccess'));
         }
         else
         {
-            return Redirect::to("developer/interesttype")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/interestType")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
