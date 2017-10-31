@@ -33,3 +33,10 @@ Route::group(['prefix' => 'teenager'], function () {
 	Route::get('/register', 'Teenager\RegisterController@showRegistrationForm')->name('register');
 	Route::post('/register', 'Teenager\RegisterController@register');
 });
+
+Route::group(['prefix' => 'developer'], function () {
+	Route::get('/login', 'Developer\LoginController@login')->name('developer.login');
+	Route::post('/loginCheck', 'Developer\LoginController@loginCheck')->name('loginCheck');
+	Route::post('/logout', 'Developer\LoginController@logout')->name('logout');
+	
+});
