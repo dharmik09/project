@@ -33,7 +33,7 @@ class SystemLevels extends Model
      */
     public function getAllSystemLevels($searchParamArray = array())
     {
-        $systemLevels = SystemLevels::where('deleted', '<>', 3)->get();
+        $systemLevels = SystemLevels::where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
         return $systemLevels;
     }
 

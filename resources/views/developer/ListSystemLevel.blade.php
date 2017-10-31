@@ -1,9 +1,5 @@
 @extends('layouts.developer-master')
 
-@section('style')
-<link rel='stylesheet' src='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css'/>
-@stop
-
 @section('content')
 <!-- content push wrapper -->
 
@@ -68,8 +64,6 @@
 @stop
 
 @section('script')
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#listSystemLevel').DataTable();

@@ -20,8 +20,9 @@
         <link rel="stylesheet" href="{{ asset('/backend/css/skins/_all-skins.min.css')}}">
         <link rel="stylesheet" href="{{ asset('backend/plugins/iCheck/square/blue.css')}}">
         <link rel="stylesheet" href="{{ asset('backend/css/custom.css')}}">
-        <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-32x32.png')}}" sizes="32x32" />
-        <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-16x16.png')}}" sizes="16x16" />
+        <link rel='stylesheet' src='https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css'/>
+        <link rel="icon" type="image/png" href="{{ asset('/backend/images/favicon-32x32.png')}}" sizes="32x32" />
+        <link rel="icon" type="image/png" href="{{ asset('/backend/images/favicon-16x16.png')}}" sizes="16x16" />
         
         @yield('header')
     </head>
@@ -199,6 +200,8 @@
         <script src="{{ asset('backend/js/demo.js')}}"></script>
         <script src="{{ asset('backend/plugins/iCheck/icheck.min.js')}}"></script>
         <script src="{{ asset('backend/js/jquery.validate.min.js') }}"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
         @yield('script')
 
