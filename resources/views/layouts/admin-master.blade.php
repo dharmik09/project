@@ -40,8 +40,8 @@
             ?>
             <header class="main-header">
                 <a href="{{ url('/admin')}}" class="logo">
-                    <span class="logo-mini"><img src="{{ asset('frontend/images/proteen_logo.png')}}" /></span>
-                    <span class="logo-lg"><img src="{{ asset('frontend/images/proteen_logo.png')}}" /></span>
+                    <span class="logo-mini"><img src="{{ asset('backend/images/proteen_logo.png')}}" /></span>
+                    <span class="logo-lg"><img src="{{ asset('backend/images/proteen_logo.png')}}" /></span>
                 </a>
                 <nav class="navbar navbar-static-top" role="navigation">
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">

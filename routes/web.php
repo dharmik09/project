@@ -18,8 +18,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
 	Route::get('/login', 'Admin\LoginController@login')->name('admin.login');
 	Route::post('/loginCheck', 'Admin\LoginController@loginCheck')->name('loginCheck');
-	Route::get('/dashboard', 'Admin\HomeController@index');
-  	Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
+	Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
 
   	Route::get('/register', 'Admin\RegisterController@showRegistrationForm')->name('register');
   	Route::post('/register', 'Admin\RegisterController@register');
@@ -32,4 +31,11 @@ Route::group(['prefix' => 'teenager'], function () {
 
 	Route::get('/register', 'Teenager\RegisterController@showRegistrationForm')->name('register');
 	Route::post('/register', 'Teenager\RegisterController@register');
+});
+
+Route::group(['prefix' => 'developer'], function () {
+	Route::get('/login', 'Developer\LoginController@login')->name('developer.login');
+	Route::post('/loginCheck', 'Developer\LoginController@loginCheck')->name('loginCheck');
+	Route::post('/logout', 'Developer\LoginController@logout')->name('logout');
+	
 });

@@ -9,5 +9,6 @@ return [
     'startsession' => 'Sign in to start your session',
     'dashboard' => 'Dashboard',
     'logout' => 'Logout',
+    'online' => 'Online',
 
 ];
