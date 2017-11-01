@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Config;
+use App\MultipleIntelligent;
 
 class MultipleIntelligentScale extends Model
 {
@@ -18,6 +19,10 @@ class MultipleIntelligentScale extends Model
         return $result;
     }
 
+    public function multipleIntelligent() {
+        return $this->belongsTo('App\MultipleIntelligent', 'mts_mi_type_id');
+    }
+
     /**
      * @return array of all the active MultipleIntelligence Types
        Parameters
@@ -25,9 +30,7 @@ class MultipleIntelligentScale extends Model
      */
     public function getAllMultipleIntelligenceTypes()
     { 
-       $multipleintelligenttype = DB::select( DB::raw("SELECT
-                                              scale.* , mi.mit_name
-                                          FROM " . config::get('databaseconstants.TBL_MI_TYPE_SCALE'). " AS scale join " .config::get('databaseconstants.TBL_LEVEL2_MI')." As mi on mi.id = scale.mts_mi_type_id where mi.deleted=1"), array());
+        $multipleintelligenttype = MultipleIntelligentScale::with('multipleIntelligent')->get();
         return $multipleintelligenttype;
     }
 
@@ -103,5 +106,7 @@ class MultipleIntelligentScale extends Model
         }
         return $scale;
     }
+
+    
 
 }
