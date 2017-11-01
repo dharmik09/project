@@ -22,8 +22,7 @@ class MultipleIntelligenceTypeScaleManagementController extends Controller
 
     public function index()
     {
-        $searchParamArray = Input::all();
-        $multipleintelligencetypescale = $this->objMultipleIntelligentscale->getAllMultipleIntelligenceTypes($searchParamArray);
+        $multipleintelligencetypescale = $this->objMultipleIntelligentscale->getAllMultipleIntelligenceTypes();
         return view('developer.ListMultipleIntelligenceTypeScale' , compact('multipleintelligencetypescale'));
     }
 
@@ -57,11 +56,11 @@ class MultipleIntelligenceTypeScaleManagementController extends Controller
         $response = $this->objMultipleIntelligentscale->saveMultipleIntelligenceScaleDetail($multipleintelligenceDetail);
         if($response)
         {
-            return Redirect::to("developer/multipleintelligencetypescale")->with('success',trans('labels.multipleintelligencetypescaleupdatesuccess'));
+            return Redirect::to("developer/multipleintelligenceTypeScale")->with('success',trans('labels.multipleintelligencetypescaleupdatesuccess'));
         }
         else
         {
-            return Redirect::to("developer/multipleintelligencetypescale")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/multipleintelligenceTypeScale")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
@@ -70,11 +69,11 @@ class MultipleIntelligenceTypeScaleManagementController extends Controller
         $return = $this->objMultipleIntelligentscale->deleteMultipleIntelligenceTypeScale($id);
         if ($return)
         {
-           return Redirect::to("developer/multipleintelligencetypescale")->with('success', trans('labels.multipleintelligencedeletesuccess')); 
+           return Redirect::to("developer/multipleintelligenceTypeScale")->with('success', trans('labels.multipleintelligencedeletesuccess')); 
         }
         else
         {
-            return Redirect::to("developer/multipleintelligencetypescale")->with('error', trans('labels.commonerrormessage')); 
+            return Redirect::to("developer/multipleintelligenceTypeScale")->with('error', trans('labels.commonerrormessage')); 
         }
     }
 

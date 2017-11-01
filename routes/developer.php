@@ -49,3 +49,26 @@ Route::get('/addInterestType', 'Developer\InterestTypeManagementController@add')
 Route::get('/editInterestType/{id}', 'Developer\InterestTypeManagementController@edit')->name('editInterestType');
 Route::post('/saveInterestType', 'Developer\InterestTypeManagementController@save')->name('saveInterestType');
 Route::get('/deleteInterestType/{id}', 'Developer\InterestTypeManagementController@delete')->name('deleteInterestType');
+
+/* Multipleintelligence Type Scale Module Routes */
+Route::get('/multipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTypeScaleManagementController@index')->name('multipleintelligenceTypeScale');
+Route::post('/multipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTypeScaleManagementController@index')->name('multipleintelligenceTypeScale');
+Route::get('/addmultipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTypeScaleManagementController@add')->name('addmultipleintelligenceTypeScale');
+Route::get('/editMultipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTypeScaleManagementController@edit')->name('editMultipleintelligenceTypeScale');
+Route::post('/saveMultipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTypeScaleManagementController@save')->name('saveMultipleintelligenceTypeScale');
+Route::get('/deleteMultipleIntelligenceTypeScale/{id}', 'Developer\MultipleIntelligenceTypeScaleManagementController@delete')->name('deleteMultipleIntelligenceTypeScale');
+
+/* Personality Type Scale Module Routes */
+Route::get('/personalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@index')->name('personalityTypeScale');
+Route::post('/personalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@index')->name('personalityTypeScale');
+Route::get('/addPersonalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@add')->name('addPersonalityTypeScale');
+Route::get('/editPersonalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@edit')->name('editPersonalityTypeScale');
+Route::post('/savePersonalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@save')->name('savePersonalityTypeScale');
+Route::get('/deletePersonalityTypeScale/{id}', 'Developer\PersonalityTypeScaleManagementController@delete')->name('deletePersonalityTypeScale');
+
+/* Apptitude Type Scale Module Routes */
+Route::get('/apptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@index')->name('apptitudeTypeScale');
+Route::post('/apptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@index')->name('apptitudeTypeScale');
+Route::get('/addApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@add')->name('addApptitudeTypeScale');
+Route::get('/editApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@edit')->name('editApptitudeTypeScale');
+Route::post('/saveApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@save')->name('saveApptitudeTypeScale');

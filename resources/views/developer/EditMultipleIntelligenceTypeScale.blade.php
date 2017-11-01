@@ -1,4 +1,4 @@
-@extends('developer.Master')
+@extends('layouts.developer-master')
 
 @section('content')
 
@@ -32,7 +32,7 @@
                 </div>
                 @endif
               
-                <form id="addPersonalityTypeScale" class="form-horizontal" method="post" action="{{ url('/developer/savemultipleintelligencetypescale') }}" enctype="multipart/form-data">
+                <form id="addPersonalityTypeScale" class="form-horizontal" method="post" action="{{ url('/developer/saveMultipleintelligenceTypeScale') }}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
                     
                     <div class="box-body">
@@ -105,7 +105,7 @@
                     <?php $row++; } ?>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{trans('labels.savebtn')}}</button>
-                        <a class="btn btn-danger btn-flat pull-right" href="{{ url('developer/multipleintelligencetypescale') }}">{{trans('labels.cancelbtn')}}</a>
+                        <a class="btn btn-danger btn-flat pull-right" href="{{ url('developer/multipleintelligenceTypeScale') }}">{{trans('labels.cancelbtn')}}</a>
                     </div>
                 </form>
             </div>  
