@@ -24,7 +24,7 @@ class Apptitude extends Model
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getAllApptitudeTypes($searchParamArray = array())
+    public function getAllApptitudeTypes()
     {
         $apptitudetypes = $this->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
 
@@ -67,6 +67,10 @@ class Apptitude extends Model
         {
             return false;
         }
+    }
+
+    public function apptitudeTypeScale() {
+        return $this->hasOne('App\ApptitudeTypeScale');
     }
 
 }

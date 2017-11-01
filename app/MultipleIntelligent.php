@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Config;
+use App\MultipleIntelligentScale;
 
 class MultipleIntelligent extends Model
 {
@@ -67,5 +68,11 @@ class MultipleIntelligent extends Model
             return false;
         }
     }
+
+    public function multipleIntelligentScale()
+    {
+        return $this->hasOne('App\MultipleIntelligentScale');
+    }
+
 
 }

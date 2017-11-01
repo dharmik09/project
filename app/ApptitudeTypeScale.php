@@ -18,9 +18,7 @@ class ApptitudeTypeScale extends Model
      */
     public function getAllApptitudeTypesScale()
     {
-        $apptitudetypescales = DB::select( DB::raw("SELECT
-                                              scale.* ,apptitude.apt_name
-                                          FROM " . config::get('databaseconstants.TBL_APPTITUDE_TYPE_SCALE'). " AS scale join " .config::get('databaseconstants.TBL_LEVEL2_APPTITUDE')." As apptitude on apptitude.id = scale.ats_apptitude_type_id where apptitude.deleted=1"), array());
+        $apptitudetypescales = ApptitudeTypeScale::with('apptitude')->get();
 
         return $apptitudetypescales;
     }
@@ -97,5 +95,9 @@ class ApptitudeTypeScale extends Model
             }           
         }
         return $scale;
+    }
+
+    public function apptitude() {
+        return $this->belongsTo('App\Apptitude', 'ats_apptitude_type_id');
     }
 }

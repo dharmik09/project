@@ -19,7 +19,7 @@ class ApptitudeTypeScaleManagementController extends Controller
 
     public function index()
     {
-       $searchParamArray = Input::all();
+        $searchParamArray = Input::all();
         $apptitudetypescales = $this->objApptitudeScale->getAllApptitudeTypesScale($searchParamArray);
         return view('developer.ListApptitudeTypesScale' , compact('apptitudetypescales'));
     }

@@ -23,11 +23,9 @@ class PersonalityScale extends Model
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getAllPersonalityTypes($searchParamArray = array())
+    public function getAllPersonalityTypes()
     {
-        $personalitytypescales = DB::select( DB::raw("SELECT
-                                              scale.* , personality.pt_name
-                                          FROM " . config::get('databaseconstants.TBL_PERSONALITY_TYPE_SCALE'). " AS scale join " .config::get('databaseconstants.TBL_LEVEL2_PERSONALITY')." As personality on personality.id = scale.pts_personality_type_id where personality.deleted=1"), array());
+        $personalitytypescales = PersonalityScale::with('personality')->get();
         return $personalitytypescales;
     }
 
@@ -101,6 +99,10 @@ class PersonalityScale extends Model
             }           
         }
         return $scale;
+    }
+
+    public function personality() {
+        return $this->belongsTo('App\Personality', 'pts_personality_type_id');
     }
 
 }

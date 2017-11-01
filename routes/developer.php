@@ -56,7 +56,7 @@ Route::post('/multipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTyp
 Route::get('/addmultipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTypeScaleManagementController@add')->name('addmultipleintelligenceTypeScale');
 Route::get('/editMultipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTypeScaleManagementController@edit')->name('editMultipleintelligenceTypeScale');
 Route::post('/saveMultipleintelligenceTypeScale', 'Developer\MultipleIntelligenceTypeScaleManagementController@save')->name('saveMultipleintelligenceTypeScale');
-Route::get('/deleteMultipleIntelligenceTypeScale/{id}', 'Developer\MultipleIntelligenceTypeScaleManagementController@delete')->name('deleteMultipleIntelligenceTypeScale');
+// Route::get('/deleteMultipleIntelligenceTypeScale/{id}', 'Developer\MultipleIntelligenceTypeScaleManagementController@delete')->name('deleteMultipleIntelligenceTypeScale');
 
 /* Personality Type Scale Module Routes */
 Route::get('/personalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@index')->name('personalityTypeScale');
@@ -64,14 +64,14 @@ Route::post('/personalityTypeScale', 'Developer\PersonalityTypeScaleManagementCo
 Route::get('/addPersonalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@add')->name('addPersonalityTypeScale');
 Route::get('/editPersonalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@edit')->name('editPersonalityTypeScale');
 Route::post('/savePersonalityTypeScale', 'Developer\PersonalityTypeScaleManagementController@save')->name('savePersonalityTypeScale');
-Route::get('/deletePersonalityTypeScale/{id}', 'Developer\PersonalityTypeScaleManagementController@delete')->name('deletePersonalityTypeScale');
+// Route::get('/deletePersonalityTypeScale/{id}', 'Developer\PersonalityTypeScaleManagementController@delete')->name('deletePersonalityTypeScale');
 
 /* Apptitude Type Scale Module Routes */
 Route::get('/apptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@index')->name('apptitudeTypeScale');
 Route::post('/apptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@index')->name('apptitudeTypeScale');
 Route::get('/addApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@add')->name('addApptitudeTypeScale');
 Route::get('/editApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@edit')->name('editApptitudeTypeScale');
-Route::post('/saveApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@save')->name('saveApptitudeTypeScale');
+// Route::post('/saveApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@save')->name('saveApptitudeTypeScale');
 
 /* Level1 Qualities Module Routes */
 Route::get('/level1Qualities', 'Developer\Level1QualityManagementController@index')->name('level1Qualities');
@@ -80,3 +80,15 @@ Route::get('/addLevel1Quality', 'Developer\Level1QualityManagementController@add
 Route::get('/editLevel1Quality/{id}', 'Developer\Level1QualityManagementController@edit')->name('editLevel1Quality');
 Route::get('/deleteLevel1Quality/{id}', 'Developer\Level1QualityManagementController@delete')->name('deleteLevel1Quality');
 Route::post('/saveLevel1Quality', 'Developer\Level1QualityManagementController@save')->name('saveLevel1Quality');
+
+/* Level4 Promise Plus Module Routes */
+Route::get('/level4PromisePlus', 'Developer\Level4PromisePlusManagementController@index')->name('level4PromisePlus');
+Route::get('/addLevel4PromisePlus', 'Developer\Level4PromisePlusManagementController@add')->name('addLevel4PromisePlus');
+Route::post('/saveLevel4PromisePlus', 'Developer\Level4PromisePlusManagementController@save')->name('saveLevel4PromisePlus');
+Route::get('/editLevel4PromisePlus', 'Developer\Level4PromisePlusManagementController@edit')->name('editLevel4PromisePlus');
+
+/* Interpretation Range Module Routes */
+Route::get('/interpretationRange', 'Developer\InterpretationRangeManagementController@index')->name('interpretationRange');
+Route::get('/addInterpretationRange', 'Developer\InterpretationRangeManagementController@add')->name('addInterpretationRange');
+Route::post('/saveInterpretationRange', 'Developer\InterpretationRangeManagementController@save')->name('saveInterpretationRange');
+Route::get('/editInterpretationRange', 'Developer\InterpretationRangeManagementController@edit')->name('editInterpretationRange');

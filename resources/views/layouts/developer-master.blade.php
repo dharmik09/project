@@ -88,54 +88,64 @@
                         </div>
                     </div>
                     <ul class="sidebar-menu">
-                        <li>
+                        <li class="{{ Request::is('developer/home') ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/home') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.dashboard')}}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="{{ (Request::is('developer/systemLevel') || Request::is('developer/addSystemLevel') || Request::is('developer/editSystemLevel/*') || Request::is('developer/saveSystemLevel') || Request::is('developer/deleteSystemLevel/*')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/systemLevel') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.systemlevels')}}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="{{ (Request::is('developer/apptitudeType') || Request::is('developer/addApptitudeType') || Request::is('developer/editApptitudeType/*') || Request::is('developer/saveApptitudeType') || Request::is('developer/deleteApptitudeType/*')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/apptitudeType') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.apptitudetypes')}}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="{{ (Request::is('developer/personalityType') || Request::is('developer/addPersonalityType') || Request::is('developer/editPersonalityType/*') || Request::is('developer/savePersonalityType') || Request::is('developer/deletePersonalityType/*')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/personalityType') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.personalitytypes')}}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="{{ (Request::is('developer/multipleintelligenceType') || Request::is('developer/addMultipleintelligenceType') || Request::is('developer/editMultipleintelligenceType/*') || Request::is('developer/saveMultipleintelligenceType') || Request::is('developer/deleteMultipleintelligenceType/*')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/multipleintelligenceType') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.multipleintelligencetypes')}}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="{{ (Request::is('developer/interestType') || Request::is('developer/addInterestType') || Request::is('developer/editInterestType/*') || Request::is('developer/saveInterestType') || Request::is('developer/deleteInterestType/*')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/interestType') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.interesttypes')}}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="{{ (Request::is('developer/multipleintelligenceTypeScale') || Request::is('developer/addmultipleintelligenceTypeScale') || Request::is('developer/editMultipleintelligenceTypeScale') || Request::is('developer/saveMultipleintelligenceTypeScale') || Request::is('developer/deleteMultipleIntelligenceTypeScale/*')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/multipleintelligenceTypeScale') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.multipleintelligencetypescale')}}</span>
                             </a>
                         </li>
-                         <li>
+                         <li class="{{ (Request::is('developer/personalityTypeScale') || Request::is('developer/addPersonalityTypeScale') || Request::is('developer/editPersonalityTypeScale') || Request::is('developer/savePersonalityTypeScale') || Request::is('developer/deletePersonalityTypeScale/*')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/personalityTypeScale') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.personalitytypescale')}}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="{{ (Request::is('developer/apptitudeTypeScale') || Request::is('developer/addApptitudeTypeScale') || Request::is('developer/editApptitudeTypeScale') || Request::is('developer/saveApptitudeTypeScale')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/apptitudeTypeScale') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.apptitudetypescale')}}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="{{ (Request::is('developer/level1Qualities') || Request::is('developer/addLevel1Quality') || Request::is('developer/editLevel1Quality/*') || Request::is('developer/deleteLevel1Quality/*') || Request::is('developer/saveLevel1Quality')) ? 'active' : '' }} treeview">
                             <a href="{{ url('developer/level1Qualities') }}">
                                 <i class="fa fa-dashboard"></i> <span>{{trans('labels.level1qualities')}}</span>
+                            </a>
+                        </li>
+                        <li class="{{ (Request::is('developer/level4PromisePlus') || Request::is('developer/editLevel4PromisePlus') || Request::is('developer/addLevel4PromisePlus') || Request::is('developer/saveLevel4PromisePlus')) ? 'active' : '' }} treeview">
+                            <a href="{{ url('developer/level4PromisePlus') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.level4promiseplus')}}</span>
+                            </a>
+                        </li>
+                        <li class="{{ (Request::is('developer/interpretationRange') ||  Request::is('developer/addInterpretationRange') || Request::is('developer/editInterpretationRange'))  ? 'active' : '' }} treeview">
+                            <a href="{{ url('developer/interpretationRange') }}">
+                                <i class="fa fa-dashboard"></i> <span>{{trans('labels.interpretationrange')}}</span>
                             </a>
                         </li>
                     </ul>

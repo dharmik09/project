@@ -33,7 +33,7 @@
                             @forelse($apptitudetypescales as $scales)
                             <tr>
                                 <td>
-                                    {{$scales->apt_name}}
+                                    {{$scales->apptitude->apt_name}}
                                 </td>
                                 <td>
                                 <?php

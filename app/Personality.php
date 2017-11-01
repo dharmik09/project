@@ -68,4 +68,8 @@ class Personality extends Model
         }
     }
 
+    public function personalityScale() {
+        return $this->hasOne('App\PersonalityScale');
+    }
+
 }

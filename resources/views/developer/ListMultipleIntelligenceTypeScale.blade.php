@@ -36,7 +36,7 @@
                             @forelse($multipleintelligencetypescale as $scales)
                             <tr>
                                 <td>
-                                        {{$scales->mit_name}}
+                                        {{$scales->multipleIntelligent->mit_name}}
                                 </td>
                                 <td>
                                 <?php

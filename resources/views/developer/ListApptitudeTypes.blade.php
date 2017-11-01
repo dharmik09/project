@@ -21,7 +21,7 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
-                      <table id="listAptitudeType" class="table table-striped display" cellspacing="0" width="100%">
+                    <table id="listAptitudeType" class="table table-striped display" cellspacing="0" width="100%">
                         <thead>
                             <th>{{trans('labels.apptitudeblheadname')}}</th>
                             <th>{{trans('labels.apptitudeblheadlogo')}}</th>

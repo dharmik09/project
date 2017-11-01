@@ -34,7 +34,7 @@
                             @forelse($personalitytypescales as $scales)
                             <tr>
                                 <td>
-                                        {{$scales->pt_name}}
+                                    {{$scales->personality->pt_name}}
                                 </td>
                                 <td>
                                 <?php
