@@ -1,22 +1,15 @@
 <?php
 
 namespace App;
-
-use Illuminate\Notifications\Notifiable;
-
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Sponsors extends Authenticatable {
-
-  use Notifiable;
-
+class Sponsors extends Model {
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'pro_sc_school';
+  protected $table = 'pro_sp_sponsor';
   /**
    * The attributes that are mass assignable.
    *
@@ -24,26 +17,14 @@ class Sponsors extends Authenticatable {
    */
   protected $guarded = [];
   /**
-   * The get active schools.
+   * The get active sponsors.
    *
    * @var array
    */
-  public function getActiveSchools()
+  public function getActiveSponsors()
   {
-      $result = Schools::select('*')
+      $result = $this->select('*')
                       ->where('deleted', '1')
-                      ->get();
-      return $result;
-  }
-  /**
-   * The get active school by @id.
-   *
-   * @var array
-   */
-  public function getActiveSchool($id)
-  {
-      $result = Schools::select('*')
-                      ->where('id', $id)
                       ->get();
       return $result;
   }

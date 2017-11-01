@@ -9,11 +9,11 @@ use Config;
 class MultipleIntelligent extends Model
 {
     protected $table = 'pro_mit_multiple_intelligence_types';
-    protected $fillable = ['id', 'mit_name','mit_logo','mi_video','mi_information','deleted'];
+    protected $guarded = [];
 
     public function getActiveMultipleIntelligent()
     {
-        $result = MultipleIntelligent::select('*')
+        $result = $this->select('*')
                         ->where('deleted' ,'1')
                         ->get();
         return $result;
@@ -26,7 +26,7 @@ class MultipleIntelligent extends Model
      */
     public function getAllMultipleIntelligenceTypes()
     {
-        $multipleintelligenttype = MultipleIntelligent::where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+        $multipleintelligenttype = $this->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
         return $multipleintelligenttype;
     }
 

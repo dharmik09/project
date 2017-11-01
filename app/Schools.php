@@ -1,16 +1,9 @@
 <?php
 
 namespace App;
-
-use Illuminate\Notifications\Notifiable;
-
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Schools extends Authenticatable {
-
-  use Notifiable;
-
+class Schools extends Model {
   /**
    * The database table used by the model.
    *
@@ -30,7 +23,7 @@ class Schools extends Authenticatable {
    */
   public function getActiveSchools()
   {
-      $result = Schools::select('*')
+      $result = $this->select('*')
                       ->where('deleted', '1')
                       ->get();
       return $result;
@@ -42,7 +35,7 @@ class Schools extends Authenticatable {
    */
   public function getActiveSchool($id)
   {
-      $result = Schools::select('*')
+      $result = $this->select('*')
                       ->where('id', $id)
                       ->get();
       return $result;

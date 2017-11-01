@@ -13,7 +13,7 @@ class Personality extends Model
 
     public function getActivepersonality()
     {
-        $result = Personality::select('*')
+        $result = $this->select('*')
                         ->where('deleted' ,'1')
                         ->get();
         return $result;
@@ -26,7 +26,7 @@ class Personality extends Model
      */
     public function getAllPersonalityTypes($searchParamArray = array())
     {
-        $personalitytypes = Personality::where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+        $personalitytypes = $this->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
         return $personalitytypes;
     }
 

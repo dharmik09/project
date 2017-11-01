@@ -9,11 +9,11 @@ use Config;
 class Apptitude extends Model
 {
     protected $table = 'pro_apt_apptitude_types';
-    protected $fillable = ['id', 'apt_name', 'apt_logo' ,'apt_video', 'ap_information', 'deleted'];
+    protected $guarded = [];
 
     public function getActiveApptitude()
     {
-        $result = Apptitude::select('*')
+        $result = $this->select('*')
                         ->where('deleted' ,'1')
                         ->get();
         return $result;
@@ -26,7 +26,7 @@ class Apptitude extends Model
      */
     public function getAllApptitudeTypes($searchParamArray = array())
     {
-        $apptitudetypes = Apptitude::where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+        $apptitudetypes = $this->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
 
         return $apptitudetypes;
     }

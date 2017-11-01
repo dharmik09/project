@@ -9,11 +9,11 @@ use Config;
 class Interest extends Model
 {
     protected $table = 'pro_it_interest_types';
-    protected $fillable = ['id', 'it_name', 'it_logo' , 'deleted'];
+    protected $guarded = [];
 
     public function getActiveInterest()
     {
-        $result = Interest::select('*')
+        $result = $this->select('*')
                         ->where('deleted' ,'1')
                         ->get();
         return $result;
@@ -26,7 +26,7 @@ class Interest extends Model
      */
     public function getAllInterestTypes($searchParamArray = array())
     {
-        $interesttype = Interest::where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+        $interesttype = $this->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
         return $interesttype;
     }
 

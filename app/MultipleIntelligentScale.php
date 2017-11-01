@@ -9,11 +9,11 @@ use Config;
 class MultipleIntelligentScale extends Model
 {
     protected $table = 'pro_mts_mi_type_scale';
-    protected $fillable = ['id', 'mts_mi_type_id', 'mts_high_min_score','mts_high_max_score' , 'mts_moderate_min_score' ,'mts_moderate_max_score' ,'mts_low_min_score' , 'mts_low_max_score', 'deleted'];
+    protected $guarded = [];
 
     public function getActiveMultipleIntelligentScale()
     {
-        $result = MultipleIntelligentScale::select('*')
+        $result = $this->select('*')
                         ->get();
         return $result;
     }
@@ -69,7 +69,7 @@ class MultipleIntelligentScale extends Model
      */
     public function deleteMultipleIntelligenceTypeScale($id)
     {
-        $response  = MultipleIntelligentScale::where('id', $id)->delete();
+        $response  = $this->where('id', $id)->delete();
         if($response)
         {
             return true;

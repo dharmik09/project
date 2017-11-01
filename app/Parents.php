@@ -2,21 +2,16 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Parents extends Authenticatable {
-
-  use Notifiable;
+class Parents extends Model {
 
   protected $table = 'pro_p_parent';
   protected $guarded = [];
 
   public function getActiveParents($parentType = 1)
   {
-      $result = Parents::select('*')
+      $result = $this->select('*')
                       ->where('deleted', '1')
                       ->where('p_user_type', $parentType)
                       ->get();
@@ -35,9 +30,9 @@ class Parents extends Authenticatable {
   }
 
   public function getParentsData($parentId) {
-      $result = Parents::select('*')
+      $result = $this->select('*')
               ->where('deleted', '1')
-              ->where('id',$parentId)
+              ->where('id', $parentId)
               ->first();
       return $result;
   }

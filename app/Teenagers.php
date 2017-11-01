@@ -15,16 +15,15 @@ class Teenagers extends Authenticatable {
   protected $guarded = [];
   
   public function getActiveTeenagers() {
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('t_name', '!=','')
-              ->where('deleted', '1')
-              ->orWhere('deleted', '2')
+              ->whereIn('deleted', ['1', '2'])
               ->get();
       return $result;
   }
   
   public function getTeenagersData($teenagerId) {
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('deleted', '1')
               ->where('t_isverified', '1')
               ->where('id',$teenagerId)
@@ -33,7 +32,7 @@ class Teenagers extends Authenticatable {
   }
 
   public function getteenagerEmail($id) {
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('t_school', $id)
               ->Orwhere('t_isverified', '0')
               ->get();
@@ -41,7 +40,7 @@ class Teenagers extends Authenticatable {
   }
 
   public function getBirthdate($id) {
-      $result = Teenagers::select('t_birthdate')
+      $result = $this->select('t_birthdate')
               ->where('id', $id)
               ->get();
       foreach ($result as $re) {
@@ -80,7 +79,7 @@ class Teenagers extends Authenticatable {
   }
 
   public function getActiveTeenagersForDashboard($teenId = '') {
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('deleted', '=', 1)
               ->where('t_name', '!=', ' ')
               ->where('t_isverified', '=', 1)
@@ -91,7 +90,7 @@ class Teenagers extends Authenticatable {
   }
 
   public function getActiveTeenagersForGiftCoins($teenId = '', $searchData) {
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('deleted', '=', 1)
               ->where('t_isverified', '=', 1)
               ->where('id', '!=', $teenId)
@@ -108,7 +107,7 @@ class Teenagers extends Authenticatable {
       if ($slot > 0) {
           $slot = $slot * config::get('constant.RECORD_PER_PAGE');
       }
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('deleted', '=', 1)
               ->where('t_name', '!=', ' ')
               ->where('t_isverified', '=', 1)
@@ -132,7 +131,7 @@ class Teenagers extends Authenticatable {
        if (!empty($whereArray)) {
           $whereStr = implode(" OR ", $whereArray);
       }
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('deleted', '=', 1)
               ->where('t_isverified', '=', 1)
               ->where('id', '!=', $teenId)
@@ -156,7 +155,7 @@ class Teenagers extends Authenticatable {
        if (!empty($whereArray)) {
           $whereStr = implode(" OR ", $whereArray);
       }
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('deleted', '=', 1)
               ->where('t_isverified', '=', 1)
               ->where('id', '!=', $teenId)
@@ -179,7 +178,7 @@ class Teenagers extends Authenticatable {
           $whereStr = implode(" OR ", $whereArray);
       }
 
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('deleted', '=', 1)
               ->where('t_isverified', '=', 1)
               ->where('id', '!=', $teenId)
@@ -197,7 +196,7 @@ class Teenagers extends Authenticatable {
       if ($slot > 0) {
           $slot = $slot * config::get('constant.RECORD_PER_PAGE');
       }
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
               ->where('deleted', '=', 1)
               ->where('t_isverified', '=', 1)
               ->where('id', '!=', $teenId)
@@ -221,7 +220,7 @@ class Teenagers extends Authenticatable {
        if (!empty($whereArray)) {
           $whereStr = implode(" OR ", $whereArray);
       }
-      $result = Teenagers::select('*')
+      $result = $this->select('*')
                 ->where('deleted', '=', 1)
                 ->where('t_isverified', '=', 1)
                 ->where('id', '!=', $teenId)

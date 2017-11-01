@@ -52,8 +52,6 @@ class LoginController extends Controller
     {
         Auth::guard('admin')->logout();
         flash('Admin Logout successfully!')->success();
-        //$request->session()->flush();
-        //$request->session()->regenerate();
         return redirect()->to(route('admin.login'));
     }
     

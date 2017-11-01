@@ -9,7 +9,7 @@ use Config;
 class Level1Qualities extends Model
 {
     protected $table = 'pro_l1qa_level1_qualities';
-    protected $fillable = ['id', 'l1qa_name', 'deleted'];
+    protected $guarded = [];
 
     /**
      * @return array of all the active Level1 Qualities
@@ -18,7 +18,7 @@ class Level1Qualities extends Model
      */
     public function getAllLevel1Qualities($searchParamArray = array())
     {
-        $level1qualities = Level1Qualities::where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+        $level1qualities = $this->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
 
         return $level1qualities;
     }

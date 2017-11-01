@@ -13,7 +13,7 @@ class PersonalityScale extends Model
     
     public function getActivePersonalityScale()
     {
-        $result = PersonalityScale::select('*')
+        $result = $this->select('*')
                         ->get();
         return $result;
     }
@@ -69,7 +69,7 @@ class PersonalityScale extends Model
      */
     public function deletePersonalityTypeScale($id)
     {
-        $response  = PersonalityScale::where('id', $id)->delete();
+        $response  = $this->where('id', $id)->delete();
         if($response)
         {
             return true;

@@ -9,7 +9,7 @@ use Config;
 class ApptitudeTypeScale extends Model
 {
     protected $table = 'pro_ats_apptitude_type_scale';
-    protected $fillable = ['id', 'ats_apptitude_type_id', 'ats_high_min_score', 'ats_high_max_score', 'ats_moderate_min_score', 'ats_moderate_max_score', 'ats_low_min_score', 'ats_low_max_score'];
+    protected $guarded = [];
 
     /**
      * @return array of all the active Apptitude Type Scale

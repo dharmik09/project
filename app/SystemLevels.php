@@ -13,7 +13,7 @@ class SystemLevels extends Model
 
     public function getActiveLevels()
     {
-        $result = SystemLevels::select('*')
+        $result = $this->select('*')
                         ->where('deleted' ,'1')
                         ->get();
         return $result;
@@ -21,7 +21,7 @@ class SystemLevels extends Model
     
     public function getLevelname()
     {
-        $result = SystemLevels::select('id', 'sl_name')
+        $result = $this->select('id', 'sl_name')
                         ->where('deleted' ,'1')
                         ->get();
         return $result;
@@ -33,7 +33,7 @@ class SystemLevels extends Model
      */
     public function getAllSystemLevels($searchParamArray = array())
     {
-        $systemLevels = SystemLevels::where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+        $systemLevels = $this->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
         return $systemLevels;
     }
 
