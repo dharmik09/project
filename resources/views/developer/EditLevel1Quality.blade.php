@@ -1,4 +1,4 @@
-@extends('developer.Master')
+@extends('layouts.developer-master')
 
 @section('content')
 
@@ -32,7 +32,7 @@
                 </div>
                 @endif
 
-                <form id="addLevel1Quality" class="form-horizontal" method="post" action="{{ url('/developer/savelevel1quality') }}" enctype="multipart/form-data">
+                <form id="addLevel1Quality" class="form-horizontal" method="post" action="{{ url('/developer/saveLevel1Quality') }}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="id" value="<?php echo (isset($qualityDetail) && !empty($qualityDetail)) ? $qualityDetail->id : '0' ?>">
                     <div class="box-body">
@@ -74,7 +74,7 @@
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{trans('labels.savebtn')}}</button>
-                        <a class="btn btn-danger btn-flat pull-right" href="{{ url('developer/level1qualities') }}">{{trans('labels.cancelbtn')}}</a>
+                        <a class="btn btn-danger btn-flat pull-right" href="{{ url('developer/level1Qualities') }}">{{trans('labels.cancelbtn')}}</a>
                     </div><!-- /.box-footer -->
                 </form>
             </div>   <!-- /.row -->

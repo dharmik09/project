@@ -51,11 +51,11 @@ class Level1QualityManagementController  extends Controller
         $response = $this->objLevel1Quality->saveLevel1QualityDetail($qualityDetail);
         if($response)
         {
-             return Redirect::to("developer/level1qualities")->with('success',trans('labels.qualityupdatesuccess'));
+             return Redirect::to("developer/level1Qualities")->with('success',trans('labels.qualityupdatesuccess'));
         }
         else
         {
-            return Redirect::to("developer/level1qualities")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/level1Qualities")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
@@ -64,11 +64,11 @@ class Level1QualityManagementController  extends Controller
         $return = $this->objLevel1Quality->deleteLevel1QualityType($id);
         if ($return)
         {
-           return Redirect::to("developer/level1qualities")->with('success', trans('labels.qualitydeletesuccess'));
+           return Redirect::to("developer/level1Qualities")->with('success', trans('labels.qualitydeletesuccess'));
         }
         else
         {
-            return Redirect::to("developer/level1qualities")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("developer/level1Qualities")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
