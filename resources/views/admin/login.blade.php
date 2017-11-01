@@ -35,7 +35,7 @@
                 <div class="col-xs-8">
                 </div>
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{trans('labels.login')}}</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat" id="login_submit">{{trans('labels.login')}}</button>
                 </div>
             </div>
         </form>
@@ -66,6 +66,21 @@
                 password: {
                     required: '{{ __("Password is required!") }}'
                 }
+            }
+        });
+
+        $("#login_submit").click(function(){
+            var form = $("#login_form");
+            $("#login_submit").attr("disabled", "disabled");
+            form.validate();
+            if(form.valid())
+            {
+                form.submit();
+                $("#login_submit").attr("disabled", 'disabled');
+            }
+            else
+            {
+                $("#login_submit").removeAttr("disabled", 'disabled');
             }
         });
     });
