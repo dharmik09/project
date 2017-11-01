@@ -24,6 +24,7 @@
 </section>
 
 @stop
+
 @section('script')
 
 <script src="{{ asset('backend/js/highchart.js')}}"></script>
@@ -41,11 +42,10 @@
     }
     var chartType = 'pie';
 
-
-    // Level1 Chart
+    //Level1 Chart
     $(function () {
         var dashboardData = <?php echo $dashboardData;?>;
-        var loginEmiail = '<?php echo Auth::admin()->get()->email; ?>';
+        var loginEmiail = "{{Auth::guard('admin')->user()->email}}";
         var otherAdminEmail = '<?php echo trans('labels.adminemailid'); ?>';
         $('#highchart_option').highcharts({
             chart: {
