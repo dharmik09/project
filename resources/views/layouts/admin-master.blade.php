@@ -5,17 +5,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{trans('labels.appname')}}</title>
-        <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 -->
-
         <link rel="stylesheet" href="{{ asset('/backend/css/bootstrap.min.css')}}">
-        <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('/backend/css/font-awesome.min.css')}}">
-        <!-- Ionicons -->
         <link rel="stylesheet" href="{{ asset('/backend/css/ionicons.min.css')}}">
         <link rel="stylesheet" href="{{ asset('/backend/plugins/datepicker/bootstrap-datetimepicker.css')}}">
-        <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('/backend/css/AdminLTE.min.css')}}">
         <link rel="stylesheet" href="{{ asset('/backend/css/skins/_all-skins.min.css')}}">
         <link rel="stylesheet" href="{{ asset('backend/plugins/iCheck/square/blue.css')}}">
@@ -35,7 +29,7 @@
         <div class="wrapper">
             @if (Auth::guard('admin')->check())
             <?php             
-            $userMenuItems = array('admin/sponsors','admin/addsponsor','admin/editsponsor','admin/coupons','admin/addcoupon','admin/editcoupon','admin/teenagers',
+            $userMenuItems = array('admin/home','admin/sponsors','admin/addsponsor','admin/editsponsor','admin/coupons','admin/addcoupon','admin/editcoupon','admin/teenagers',
                 'admin/parents/{type}','admin/counselors/{type}','admin/sponsoractivity/{id}','admin/schools','admin/editparent/{id}','admin/editschool/{id}','admin/editsponsor/{id}');           
             ?>
             <header class="main-header">
@@ -91,7 +85,21 @@
                             </a>
                         </div>
                     </div>
-                    <ul class="sidebar-menu">                        
+                    <ul class="sidebar-menu">
+                        @if(Auth::guard('admin')->user()->email != trans('labels.adminemailid'))
+                            <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), $userMenuItems) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/teenagers') }}">
+                                    <i class="fa fa-dashboard"></i> <span>All Users</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/teenagers','admin/addteenager','admin/editteenager']) ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/teenagers') }}">
+                                            <i class="fa fa-circle-o"></i> <span>{{trans('labels.teenagers')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif                        
                     </ul>
                 </section>
             </aside>
