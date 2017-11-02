@@ -103,10 +103,15 @@
                                 </ul>
                             </li>
                             <li class="{{ (Request::is('admin/video') || Request::is('admin/addVideo') || Request::is('admin/editVideo/*') || Request::is('admin/saveVideo') || Request::is('admin/deleteVideo/*')) ? 'active' : '' }} treeview">
-                            <a href="{{ url('admin/video') }}">
-                                <i class="fa fa-circle-o"></i> <span>{{trans('labels.video')}}</span>
-                            </a>
-                        </li>  
+                                <a href="{{ url('admin/video') }}">
+                                    <i class="fa fa-circle-o"></i> <span>{{trans('labels.video')}}</span>
+                                </a>
+                            </li>
+                            <li class="{{ (Request::is('admin/faq') || Request::is('admin/addFaq') || Request::is('admin/editFaq/*') || Request::is('admin/saveFaq') || Request::is('admin/deleteFaq/*')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/faq') }}">
+                                    <i class="fa fa-circle-o"></i> <span>{{trans('labels.faq')}}</span>
+                                </a>
+                            </li>  
                         @endif                        
                     </ul>
                 </section>

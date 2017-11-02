@@ -15,3 +15,11 @@ Route::get('/deleteVideo/{id}', 'Admin\VideoManagementController@delete')->name(
 Route::get('/teenagers', 'Admin\TeenagerManagementController@index');
 Route::post('/get-teenagers', 'Admin\TeenagerManagementController@getIndex');
 
+//Faq Section
+Route::get('/faq', 'Admin\FAQManagementController@index');
+Route::post('/faq', 'Admin\FAQManagementController@index');
+Route::get('/addFaq', 'Admin\FAQManagementController@add');
+Route::post('/saveFaq', 'Admin\FAQManagementController@save');
+Route::get('/editFaq/{id}', 'Admin\FAQManagementController@edit');
+Route::get('/deleteFaq/{id}', 'Admin\FAQManagementController@delete');
+
