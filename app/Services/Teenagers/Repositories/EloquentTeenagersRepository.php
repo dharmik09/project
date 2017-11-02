@@ -22,6 +22,18 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
       Parameters
       @$searchParamArray : Array of Searching and Sorting parameters
      */
+
+    public function getAllTeenagersData() {
+        $teenagers = DB::table("pro_t_teenagers AS teenager")
+                ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school", 'teenager.t_school', '=', 'school.id')
+                ->selectRaw('teenager.*, school.sc_name')
+                ->whereIn('teenager.deleted', ['1','2'])
+                ->where('teenager.t_name', '!=', '')
+                ->get();
+
+        return $teenagers;
+    }
+
     public function getAllTeenagers($searchParamArray = array(),$currentPage = 0) {
         $whereStr = '';
         $orderStr = '';

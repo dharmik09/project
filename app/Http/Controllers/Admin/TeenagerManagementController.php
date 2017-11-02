@@ -33,15 +33,14 @@ use App\TeenagerCoinsGift;
 
 class TeenagerManagementController extends Controller {
 
-    public function __construct(TeenagersRepository $TeenagersRepository, SponsorsRepository $SponsorsRepository, ProfessionsRepository $ProfessionsRepository, Level1ActivitiesRepository $Level1ActivitiesRepository, Level2ActivitiesRepository $Level2ActivitiesRepository,TemplatesRepository $TemplatesRepository,Level4ActivitiesRepository $Level4ActivitiesRepository) {
-        $this->middleware('auth.admin');
+    public function __construct(TeenagersRepository $teenagersRepository, SponsorsRepository $sponsorsRepository, ProfessionsRepository $professionsRepository, Level1ActivitiesRepository $level1ActivitiesRepository, Level2ActivitiesRepository $level2ActivitiesRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
         $this->objTeenagers = new Teenagers();
-        $this->TeenagersRepository = $TeenagersRepository;
-        $this->SponsorsRepository = $SponsorsRepository;
-        $this->ProfessionsRepository = $ProfessionsRepository;
-        $this->Level1ActivitiesRepository = $Level1ActivitiesRepository;
-        $this->Level2ActivitiesRepository = $Level2ActivitiesRepository;
-        $this->Level4ActivitiesRepository = $Level4ActivitiesRepository;
+        $this->teenagersRepository = $teenagersRepository;
+        $this->sponsorsRepository = $sponsorsRepository;
+        $this->professionsRepository = $professionsRepository;
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->level2ActivitiesRepository = $level2ActivitiesRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionThumbImageUploadPath = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
@@ -49,12 +48,12 @@ class TeenagerManagementController extends Controller {
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
         $this->controller = 'TeenagerManagementController';
-        $this->loggedInUser = Auth::admin()->get();
+        $this->loggedInUser = Auth::guard('admin');
         $this->interestOriginalImageUploadPath = Config::get('constant.INTEREST_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->apptitudeOriginalImageUploadPath = Config::get('constant.APPTITUDE_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->miOriginalImageUploadPath = Config::get('constant.MI_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->personalityOriginalImageUploadPath = Config::get('constant.PERSONALITY_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $this->TemplateRepository = $TemplatesRepository;
+        $this->templateRepository = $templatesRepository;
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
         $this->cartoonOriginalImageUploadPath = Config::get('constant.CARTOON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
@@ -86,7 +85,7 @@ class TeenagerManagementController extends Controller {
             } else {
                 Cache::forget('searchArray');
             }
-            $teenagers = $this->TeenagersRepository->getAllTeenagers($searchParamArray,$currentPage);
+            $teenagers = $this->teenagersRepository->getAllTeenagersData();
         } else {
             if (Cache::has('searchArray')) {
                 $searchParamArray = Cache::get('searchArray');
@@ -94,26 +93,27 @@ class TeenagerManagementController extends Controller {
             if (Cache::has('teenagerDetail')) {
                 $teenagers = Cache::get('teenagerDetail');
             } else {
-                $teenagers = $this->TeenagersRepository->getAllTeenagers($searchParamArray,$currentPage);
+                $teenagers = $this->teenagersRepository->getAllTeenagersData();
                 Cache::forever('teenagerDetail', $teenagers);
             }
         }
-        Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        
+        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
 
-        return view('admin.ListTeenager', compact('teenagers', 'searchParamArray','currentPage'));
+        return view('admin.listTeenager', compact('teenagers', 'searchParamArray','currentPage'));
     }
 
     public function add() {
         $teenagerDetail = [];
         Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        $sponsorDetail = $this->SponsorsRepository->getApprovedSponsors();
+        $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
         return view('admin.EditTeenager', compact('teenagerDetail', 'sponsorDetail'));
     }
 
     public function edit($id, $sid) {
         $uploadTeenagerThumbPath = $this->teenThumbImageUploadPath;
         //$teenagerDetail = $this->objTeenagers->find($id);
-        $teenagerDetail = $this->TeenagersRepository->getTeenagerById($id);
+        $teenagerDetail = $this->teenagersRepository->getTeenagerById($id);
         Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $selectedSponsors = array();
         if (isset($teenagerDetail->t_sponsors) && !empty($teenagerDetail->t_sponsors)) {
@@ -121,7 +121,7 @@ class TeenagerManagementController extends Controller {
                 $selectedSponsors[] = $val->sponsor_id;
             }
         }
-        $sponsorDetail = $this->SponsorsRepository->getApprovedSponsors();
+        $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
         return view('admin.EditTeenager', compact('teenagerDetail', 'sid', 'uploadTeenagerThumbPath','sponsorDetail', 'selectedSponsors'));
     }
 
@@ -198,21 +198,21 @@ class TeenagerManagementController extends Controller {
             }
         }
         if (isset($teenagerDetail['t_email']) && $teenagerDetail['t_email'] != '') {
-            $teenagerEmailExist = $this->TeenagersRepository->checkActiveEmailExist($teenagerDetail['t_email'], $teenagerDetail['id']);
+            $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenagerDetail['t_email'], $teenagerDetail['id']);
         }
         if (isset($teenagerDetail['t_phone']) && $teenagerDetail['t_phone'] != '') {
-            $teenagerMobileExist = $this->TeenagersRepository->checkActivePhoneExist($teenagerDetail['t_phone'], $teenagerDetail['id']);
+            $teenagerMobileExist = $this->teenagersRepository->checkActivePhoneExist($teenagerDetail['t_phone'], $teenagerDetail['id']);
         }
         else
         {
             $teenagerMobileExist = '';
         }
 
-        $response = ($teenagerEmailExist == '' && $teenagerMobileExist == '') ? $this->TeenagersRepository->saveTeenagerDetail($teenagerDetail) : '0';
+        $response = ($teenagerEmailExist == '' && $teenagerMobileExist == '') ? $this->teenagersRepository->saveTeenagerDetail($teenagerDetail) : '0';
         Cache::forget('teenagerDetail');
         if ($response) {
             if (isset($sponsors) && !empty($sponsors) && Input::get('t_sponsor_choice') == 2) {
-                $sponsorDetail = $this->TeenagersRepository->saveTeenagerSponserId($response->id, implode(',', $sponsors));
+                $sponsorDetail = $this->teenagersRepository->saveTeenagerSponserId($response->id, implode(',', $sponsors));
             }
             Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teenupdatesuccess'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
             if(isset($sid) && !empty($sid) && $sid > 0)
@@ -237,7 +237,7 @@ class TeenagerManagementController extends Controller {
     }
 
     public function delete($id) {
-        $return = $this->TeenagersRepository->deleteTeenager($id);
+        $return = $this->teenagersRepository->deleteTeenager($id);
         if ($return) {
             Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_TEENAGERS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teendeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
 
@@ -305,10 +305,10 @@ class TeenagerManagementController extends Controller {
                 } else {
 
                     if (isset($data['t_email']) && $data['t_email'] != '') {
-                        $teenagerEmailExist = $this->TeenagersRepository->checkActiveEmailExist($data['t_email']);
+                        $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($data['t_email']);
                     }
                     if (isset($data['t_phone']) && $data['t_phone'] != '') {
-                        $teenagerMobileExist = $this->TeenagersRepository->checkActivePhoneExist($data['t_phone']);
+                        $teenagerMobileExist = $this->teenagersRepository->checkActivePhoneExist($data['t_phone']);
                     }
 
                     if (isset($teenagerEmailExist) && $teenagerEmailExist) {
@@ -347,11 +347,11 @@ class TeenagerManagementController extends Controller {
         $teenagerDetail = Session::get('teenagerValidData');
         foreach ($teenagerDetail as $data) {
             if (isset($data['t_country'])) {
-                $data['t_country'] = $this->TeenagersRepository->getCountryIdByName($data['t_country']);
+                $data['t_country'] = $this->teenagersRepository->getCountryIdByName($data['t_country']);
                 $data['t_country'] = (isset($data['t_country']->id)) ? $data['t_country']->id : '0';
             }
             if (isset($data['t_school'])) {
-                $data['t_school'] = $this->TeenagersRepository->getSchoolIdByName($data['t_school']);
+                $data['t_school'] = $this->teenagersRepository->getSchoolIdByName($data['t_school']);
                 $data['t_school'] = (isset($data['t_school']->id)) ? $data['t_school']->id : '0';
             }
             if (isset($data['t_gender'])) {
@@ -363,7 +363,7 @@ class TeenagerManagementController extends Controller {
             }
             $data['t_uniqueid'] = Helpers::getTeenagerUniqueId();
             $data['password'] = bcrypt($data['password']);
-            $response = $this->TeenagersRepository->saveTeenagerDetail($data);
+            $response = $this->teenagersRepository->saveTeenagerDetail($data);
         }
         if ($response) {
             Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teenupdatesuccess'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
@@ -395,7 +395,7 @@ class TeenagerManagementController extends Controller {
 
     public function exportData() {
         ob_start();
-        $teenagerData = $this->TeenagersRepository->getAllTeenagersExport();
+        $teenagerData = $this->teenagersRepository->getAllTeenagersExport();
 
 
         $filename = trans('labels.teenagerdata');
@@ -431,9 +431,9 @@ class TeenagerManagementController extends Controller {
         $finalEmailArr = $emailDetails = array();
                 
         foreach ($teenagerData as $key => $teendata) {
-            $boosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($teendata->id);
+            $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($teendata->id);
             //get teen parents/counsellor
-            $parentCounsellor = $this->TeenagersRepository->getTeenParents($teendata->id);
+            $parentCounsellor = $this->teenagersRepository->getTeenParents($teendata->id);
             if(isset($parentCounsellor) && !empty($parentCounsellor)){
                 $parent = '';
                 $counsellor = '';
@@ -449,7 +449,7 @@ class TeenagerManagementController extends Controller {
                 $parent = 'None';
                 $counsellor = 'None';
             }
-            $sponsors = $this->TeenagersRepository->getTeenagerById($teendata->id);
+            $sponsors = $this->teenagersRepository->getTeenagerById($teendata->id);
 
             if(isset($sponsors->t_sponsors) && !empty($sponsors->t_sponsors)){
                 $sponsor = '';
@@ -515,7 +515,7 @@ class TeenagerManagementController extends Controller {
             
             if ($teendata->sc_name != '') {                
                 //Now check if school has validated 
-                $checkIfMailSent = $this->TeenagersRepository->checkMailSentOrNot($teendata->id);                 
+                $checkIfMailSent = $this->teenagersRepository->checkMailSentOrNot($teendata->id);                 
                 $FieldArray['school_validate_status'] = (empty($checkIfMailSent))? "No":"Yes";                                            
             } else {
                 $FieldArray['school_validate_status'] = 'N/A';        
@@ -548,17 +548,17 @@ class TeenagerManagementController extends Controller {
 
     public function viewDetail($id){
         $uploadTeenagerThumbPath = $this->teenThumbImageUploadPath;
-        $viewTeenDetail = $this->TeenagersRepository->getTeenagerById($id);
-        $l1Activity = $this->Level1ActivitiesRepository->getLevel1ActivityWithAnswer($id);
-        $l2Activity = $this->Level2ActivitiesRepository->getLevel2ActivityWithAnswer($id);
-        $l3Activity = $this->ProfessionsRepository->getLevel3ActivityWithAnswer($id);
-        $boosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($id);
+        $viewTeenDetail = $this->teenagersRepository->getTeenagerById($id);
+        $l1Activity = $this->level1ActivitiesRepository->getLevel1ActivityWithAnswer($id);
+        $l2Activity = $this->level2ActivitiesRepository->getLevel2ActivityWithAnswer($id);
+        $l3Activity = $this->professionsRepository->getLevel3ActivityWithAnswer($id);
+        $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($id);
         $teenagerAPIData = Helpers::getTeenAPIScore($id);
 
-        $totalQuestion = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($id);
+        $totalQuestion = $this->level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($id);
         if (isset($totalQuestion[0]->NoOfAttemptedQuestions) && $totalQuestion[0]->NoOfAttemptedQuestions > 0) {
         $response['NoOfAttemptedQuestionsLevel2'] = $totalQuestion[0]->NoOfAttemptedQuestions;
-        $getTeenagerAttemptedProfession = $this->ProfessionsRepository->getTeenagerAttemptedProfession($id);
+        $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession($id);
         if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
             $response['teenagerAttemptedProfession'] = $getTeenagerAttemptedProfession;
         } else {
@@ -569,7 +569,7 @@ class TeenagerManagementController extends Controller {
 
         if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
             foreach ($getTeenagerAttemptedProfession as $keyProfession => $professionName) {
-                $getProfessionIdFromProfessionName = $this->ProfessionsRepository->getProfessionIdByName($professionName->pf_name);
+                $getProfessionIdFromProfessionName = $this->professionsRepository->getProfessionIdByName($professionName->pf_name);
                 if (isset($getProfessionIdFromProfessionName) && $getProfessionIdFromProfessionName > 0) {
                     $compareLogic = array('HL', 'HM', 'HH', 'ML', 'MM', 'MH', 'LL', 'LM', 'LH');
                     //FOR COMPARE LOGIC RESULT, L ='nomatch', M = 'moderate', H ='match'
@@ -661,7 +661,7 @@ class TeenagerManagementController extends Controller {
             foreach ($arrayCombinePoint as $key => $val) {
                 $point = array_count_values($val);
                 $answer['professionId'] = $key;
-                $pingo = $this->ProfessionsRepository->getProfessionsByProfessionId($key);
+                $pingo = $this->professionsRepository->getProfessionsByProfessionId($key);
 
                 $answer['professionName'] = $pingo[0]->pf_name;
                 $answer['pf_logo'] = $pingo[0]->pf_logo;
@@ -683,7 +683,7 @@ class TeenagerManagementController extends Controller {
                     $answer['matchScale'] = "";
                 }
                 $level4Booster = Helpers::level4Booster($key, $id);
-                $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($id, $key);
+                $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($id, $key);
 
                 $totalPoints = 0;
                 if (!empty($getTeenagerAllTypeBadges)) {
@@ -746,12 +746,12 @@ class TeenagerManagementController extends Controller {
 
 
         //get teen parent/counsellor data
-        $parentCounsellor = $this->TeenagersRepository->getTeenParents($id);
+        $parentCounsellor = $this->teenagersRepository->getTeenParents($id);
         $viewTeenDetail->parentcounsellor = $parentCounsellor;
 
         $teenagerMyIcons = array();
         //Get teenager choosen Icon
-        $teenagerIcons = $this->TeenagersRepository->getTeenagerSelectedIcon($id);
+        $teenagerIcons = $this->teenagersRepository->getTeenagerSelectedIcon($id);
 
         $relationIcon = array();
         $fictionIcon = array();
@@ -865,14 +865,14 @@ class TeenagerManagementController extends Controller {
         //Get Level4 points for attempted professons
         if(isset($l3Activity) && !empty($l3Activity)){
             foreach($l3Activity as $key=>$val){
-                $level4Data[$val->id] = $this->TeenagersRepository->getTeenagerAllTypeBadges($id, $val->id);
+                $level4Data[$val->id] = $this->teenagersRepository->getTeenagerAllTypeBadges($id, $val->id);
                 $level4Data[$val->id]['pf_name'] = $val->pf_name;
                 $level4Data[$val->id]['pf_logo'] = $val->pf_logo;
             }
         }
 
         //get user learning data
-        $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfession($id);
+        $professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($id);
         $finalProfessionArray = [];
         $objLearningStyle = new LearningStyle();
 
@@ -902,7 +902,7 @@ class TeenagerManagementController extends Controller {
             if (isset($professionArray) && !empty($professionArray)) {
                 foreach ($professionArray as $key => $val) {
                     $professionId = $val->id;
-                    $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($id, $professionId);
+                    $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($id, $professionId);
                     $level4Booster = Helpers::level4Booster($professionId, $id);
                     $l4BTotal = (isset($getTeenagerAllTypeBadges['level4Basic']) && !empty($getTeenagerAllTypeBadges['level4Basic'])) ? $getTeenagerAllTypeBadges['level4Basic']['basicAttemptedTotalPoints'] : '';
                     $l4ATotal = (isset($getTeenagerAllTypeBadges['level4Advance']) && !empty($getTeenagerAllTypeBadges['level4Advance'])) ? $getTeenagerAllTypeBadges['level4Advance']['earnedPoints'] : '';
@@ -999,15 +999,15 @@ class TeenagerManagementController extends Controller {
     public function editUserPaymentApproved($id)
     {
         $userid = intval($id);
-        $teenagerDetailbyId = $this->TeenagersRepository->getTeenagerById($id);
+        $teenagerDetailbyId = $this->teenagersRepository->getTeenagerById($id);
         if($teenagerDetailbyId->t_payment_status == 1)
         {
             $teenagerPaymentDetail = array();
             $teenagerPaymentDetail['t_payment_status'] = 2;
             $teenagerPaymentDetail['t_isverified'] = 1;
             $teenagerPaymentDetail['t_sponsor_choice'] = 1;
-            $return = $this->TeenagersRepository->updatePaymentStatus($userid,$teenagerPaymentDetail);
-            $this->TeenagersRepository->deleteTeenagerSponsors($userid);
+            $return = $this->teenagersRepository->updatePaymentStatus($userid,$teenagerPaymentDetail);
+            $this->teenagersRepository->deleteTeenagerSponsors($userid);
             if($return)
             {            
                 // --------------------start sending mail -----------------------------//
@@ -1015,8 +1015,8 @@ class TeenagerManagementController extends Controller {
                 $replaceArray['TEEN_NAME'] = $teenagerDetailbyId->t_name;
 
                 //If user has selected Payment option                       
-                $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.PAYMENT_APPROVED_TEMPLATE'));
-                $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PAYMENT_APPROVED_TEMPLATE'));
+                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
                 $data = array();
                 $data['subject'] = $emailTemplateContent->et_subject;
                 $data['toEmail'] = $teenagerDetailbyId->t_email;
@@ -1041,7 +1041,7 @@ class TeenagerManagementController extends Controller {
     public function exportl4data($id)
     {
         ob_start();
-        $teenData = $this->TeenagersRepository->getTeenagerById($id);
+        $teenData = $this->teenagersRepository->getTeenagerById($id);
         $filename = trans('labels.teenagerdata');
         $fp = fopen('php://output', 'w');
         $FieldArray = [];
@@ -1068,7 +1068,7 @@ class TeenagerManagementController extends Controller {
         $FieldArray['concepts'] = 'Concepts Points';
         $FieldArray['advanceactivity'] = 'Advance Activities';
 
-        $l3Activity = $this->ProfessionsRepository->getLevel3ActivityWithAnswer($id);
+        $l3Activity = $this->professionsRepository->getLevel3ActivityWithAnswer($id);
         $level4Data = array();
         if(isset($l3Activity) && !empty($l3Activity)){
             fputcsv($fp, $teenArray);
@@ -1076,13 +1076,13 @@ class TeenagerManagementController extends Controller {
             fputcsv($fp, $FieldArray);
             foreach($l3Activity as $key=>$val){
                 $FieldArray['total'] = 0;
-                $level4Data = $this->TeenagersRepository->getTeenagerAllTypeBadges($id, $val->id);
+                $level4Data = $this->teenagersRepository->getTeenagerAllTypeBadges($id, $val->id);
                 $FieldArray['advanceactivity'] = 'Approved Photos - '.$level4Data['level4Advance']['snap']."\n"."Approved Document - ".$level4Data['level4Advance']['report']."\n"."Approved Video - ".$level4Data['level4Advance']['shoot'];
                 if(isset($level4Data['level4Intermediate']['templateWiseEarnedPoint']) && !empty($level4Data['level4Intermediate']['templateWiseEarnedPoint'])){
                     $level4concept = '';
                     foreach($level4Data['level4Intermediate']['templateWiseEarnedPoint'] as $templateId=>$point){
                        $level4TemplateDetail = '';
-                       $level4TemplateDetail = $this->Level4ActivitiesRepository->getGamificationTemplateById($templateId);
+                       $level4TemplateDetail = $this->level4ActivitiesRepository->getGamificationTemplateById($templateId);
                        $level4concept .= $level4TemplateDetail->gt_template_title.' -- '.$point."\n";
                     }
                 }else{
@@ -1111,7 +1111,7 @@ class TeenagerManagementController extends Controller {
         $data['orderBy'] = $_REQUEST['orderBy'];
         $data['sortOrder'] = $_REQUEST['sortOrder'];
         $data['page'] = $_REQUEST['page'];
-        $teenagerDetail = $this->TeenagersRepository->getTeenagerById($teenager_Id);
+        $teenagerDetail = $this->teenagersRepository->getTeenagerById($teenager_Id);
         return view('admin.AddCoinsDataForTeenager',compact('teenagerDetail','data'));
     }
 
@@ -1134,7 +1134,7 @@ class TeenagerManagementController extends Controller {
             Cache::forget('searchArray');
         }
         $flag = 0;
-        $userData = $this->TeenagersRepository->getUserDataForCoinsDetail($id);
+        $userData = $this->teenagersRepository->getUserDataForCoinsDetail($id);
         if (!empty($userData)) {
             if (substr($coins, 0, 1) === '-') {
                 $coins = preg_replace('/[-?]/', '', $coins);
@@ -1148,8 +1148,8 @@ class TeenagerManagementController extends Controller {
                 $flag++;
             }
         }
-        $result = $this->TeenagersRepository->updateTeenagerCoinsDetail($id, $coins);
-        $userArray = $this->TeenagersRepository->getTeenagerByTeenagerId($id);
+        $result = $this->teenagersRepository->updateTeenagerCoinsDetail($id, $coins);
+        $userArray = $this->teenagersRepository->getTeenagerByTeenagerId($id);
         $objGiftUser = new TeenagerCoinsGift();
         if($flag) {
             $saveData = [];
@@ -1165,8 +1165,8 @@ class TeenagerManagementController extends Controller {
             $replaceArray['TEEN_NAME'] = $userArray['t_name'];
             $replaceArray['COINS'] = $giftCoins;
             $replaceArray['FROM_USER'] = Auth::admin()->get()->name;
-            $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
-            $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
             $data = array();
             $data['subject'] = $emailTemplateContent->et_subject;
@@ -1186,7 +1186,7 @@ class TeenagerManagementController extends Controller {
 
     public function addCoinsForAllTeenager(){
         $coins = e(Input::get('t_coins'));
-        $userData = $this->TeenagersRepository->getAllUsersCoinsDetail();
+        $userData = $this->teenagersRepository->getAllUsersCoinsDetail();
         $saveData = [];
         if (!empty($userData)) {
             foreach ($userData AS $key => $value) {
@@ -1197,7 +1197,7 @@ class TeenagerManagementController extends Controller {
             }
         }
         foreach ($saveData AS $k => $val) {
-            $result = $this->TeenagersRepository->updateTeenagerCoinsDetail($val['id'], $val['t_coins']);
+            $result = $this->teenagersRepository->updateTeenagerCoinsDetail($val['id'], $val['t_coins']);
         }
         return Redirect::to("admin/teenagers")->with('success', trans('labels.coinsaddsuccess'));
     }
