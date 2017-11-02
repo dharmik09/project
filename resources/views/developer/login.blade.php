@@ -39,6 +39,9 @@
             </div>
         </form>
     </div><!-- /.login-box-body -->
+    <br/>
+    <br/>
+    @include('flash::message')
 </div><!-- /.login-box -->
 @stop
 @section('script')
