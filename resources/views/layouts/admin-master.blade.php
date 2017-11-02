@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="{{ asset('backend/css/custom.css')}}">
         <link rel="stylesheet" href="{{ asset('backend/css/jquery-ui.css')}}">
         <link rel="stylesheet" href="{{ asset('backend/css/chosen.css')}}">
+        <link rel="stylesheet" href="{{ asset('backend/css/jquery.dataTables.min.css') }}"/>
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-32x32.png')}}" sizes="32x32" />
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-16x16.png')}}" sizes="16x16" />
         @yield('header')
@@ -91,7 +92,12 @@
                             </a>
                         </div>
                     </div>
-                    <ul class="sidebar-menu">                        
+                    <ul class="sidebar-menu">
+                        <li class="{{ (Request::is('admin/video') || Request::is('admin/addVideo') || Request::is('admin/editVideo/*') || Request::is('admin/saveVideo') || Request::is('admin/deleteVideo/*')) ? 'active' : '' }} treeview">
+                            <a href="{{ url('admin/video') }}">
+                                <i class="fa fa-circle-o"></i> <span>{{trans('labels.video')}}</span>
+                            </a>
+                        </li>                        
                     </ul>
                 </section>
             </aside>
@@ -155,6 +161,8 @@
         <script src="{{ asset('backend/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('backend/js/chosen.jquery.js')}}"></script>
         <script src="{{ asset('backend/js/common_admin.js')}}"></script>
+        <script type="text/javascript" src="{{ asset('backend/js/jquery.dataTables.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('backend/js/dataTables.bootstrap.min.js') }}"></script>
         <script>
             $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
             $('div.alert.alert-important').delay(5000).fadeOut(350);

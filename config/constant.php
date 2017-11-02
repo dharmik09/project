@@ -185,5 +185,11 @@ return [
     'PARENT_TEEN_SECOND_TIME' => 'parentteenverifiedsecond',
     'LEVEL1A_PROGRESS' => '77.5',
     'LEVEL1B_PROGRESS' => '22.5',
-    'FACEBOOK_CLIENT_ID' => '146901802433877'
+    'FACEBOOK_CLIENT_ID' => '146901802433877',
+    'DEFAULT_IMAGE_HEIGHT' => '60',
+    'DEFAULT_IMAGE_WIDTH' => '60',
+    'VIDEO_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/video/original/',
+    'VIDEO_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/video/thumb/',
+    'VIDEO_THUMB_IMAGE_HEIGHT' => '200',
+    'VIDEO_THUMB_IMAGE_WIDTH' => '200',
 ];
