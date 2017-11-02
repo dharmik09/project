@@ -11,6 +11,8 @@ interface TeenagersRepository extends BaseRepository
      */
     public function getAllTeenagers($searchParamArray = array());
 
+    public function getAllTeenagersData();
+
     /**
      * Save Teenager detail passed in $teenagerDetail array
      */
