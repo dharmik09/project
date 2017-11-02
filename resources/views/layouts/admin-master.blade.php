@@ -171,8 +171,6 @@
         <script src="{{ asset('backend/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('backend/js/chosen.jquery.js')}}"></script>
         <script src="{{ asset('backend/js/common_admin.js')}}"></script>
-        <script type="text/javascript" src="{{ asset('backend/js/jquery.dataTables.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('backend/js/dataTables.bootstrap.min.js') }}"></script>
         <script>
             $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
             $('div.alert.alert-important').delay(5000).fadeOut(350);

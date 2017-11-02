@@ -28,8 +28,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school", 'teenager.t_school', '=', 'school.id')
                 ->selectRaw('teenager.*, school.sc_name')
                 ->whereIn('teenager.deleted', ['1','2'])
-                ->where('teenager.t_name', '!=', '')
-                ->get();
+                ->where('teenager.t_name', '!=', '');
 
         return $teenagers;
     }
@@ -71,7 +70,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 ->selectRaw('teenager.*,school.sc_name')
                 ->whereRaw($whereStr . $orderStr)
                 ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
-
+        echo "<pre/>"; print_r($teenagers); die();
         return $teenagers;
     }
 

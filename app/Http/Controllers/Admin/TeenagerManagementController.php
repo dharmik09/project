@@ -34,7 +34,7 @@ use App\TeenagerCoinsGift;
 class TeenagerManagementController extends Controller {
 
     public function __construct(TeenagersRepository $teenagersRepository, SponsorsRepository $sponsorsRepository, ProfessionsRepository $professionsRepository, Level1ActivitiesRepository $level1ActivitiesRepository, Level2ActivitiesRepository $level2ActivitiesRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
-        $this->objTeenagers = new Teenagers();
+        //$this->objTeenagers = new Teenagers();
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
         $this->professionsRepository = $professionsRepository;
@@ -65,42 +65,76 @@ class TeenagerManagementController extends Controller {
     }
 
     public function index() {
-        $searchParamArray = Input::all();
+        $teenagers = $this->teenagersRepository->getAllTeenagersData();
+        //echo "<pre/>"; print_r($teenagers->first()); die();
         
-        $currentPage = (isset($searchParamArray['gotopage']) && $searchParamArray['gotopage'] > 0 )?$searchParamArray['gotopage']:0;
-        if (isset($searchParamArray['clearSearch'])) {
-            unset($searchParamArray);
-            Cache::forget('searchArray');
-            Cache::forget('teenagerDetail');
-            $searchParamArray = array();
-        }
-        if (!empty($searchParamArray)) {
-            Cache::forget('teenagerDetail');
-            if (isset($searchParamArray['page'])) {
-                if (Cache::has('searchArray')) {
-                    $searchParamArray = Cache::get('searchArray');
-                } else {
-                    Cache::forget('searchArray');
-                }
-            } else {
-                Cache::forget('searchArray');
-            }
-            $teenagers = $this->teenagersRepository->getAllTeenagersData();
-        } else {
-            if (Cache::has('searchArray')) {
-                $searchParamArray = Cache::get('searchArray');
-            }
-            if (Cache::has('teenagerDetail')) {
-                $teenagers = Cache::get('teenagerDetail');
-            } else {
-                $teenagers = $this->teenagersRepository->getAllTeenagersData();
-                Cache::forever('teenagerDetail', $teenagers);
-            }
-        }
+        return view('admin.listTeenager');
+    }
+
+    public function getIndex(){
         
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        $teenagers = $this->teenagersRepository->getAllTeenagersData()->count();
+        $records = array();
+        $columns = array(
+            0 => 'id',
+            1 => 't_name',
+            2 => 't_email',
+            6 => 'deleted',
+        );
+        
+        $order = Input::get('order');
+        $search = Input::get('search');
+        $records["data"] = array();
+        $iTotalRecords = $teenagers;
+        $iTotalFiltered = $iTotalRecords;
+        $iDisplayLength = intval(Input::get('length')) <= 0 ? $iTotalRecords : intval(Input::get('length'));
+        $iDisplayStart = intval(Input::get('start'));
+        $sEcho = intval(Input::get('draw'));
 
-        return view('admin.listTeenager', compact('teenagers', 'searchParamArray','currentPage'));
+        $records["data"] = $this->teenagersRepository->getAllTeenagersData();
+        if (!empty($search['value'])) {
+            $val = $search['value'];
+            $records["data"]->where(function($query) use ($val) {
+                $query->where('teenager.t_name', "Like", "%$val%");
+                $query->orWhere('teenager.created_at', "Like", "%$val%");
+                $query->orWhere('teenager.t_nickname', "Like", "%$val%");
+                $query->orWhere('teenager.t_email', "Like", "%$val%");
+            });
+
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
+                    $query->where('teenager.t_name', "Like", "%$val%");
+                    $query->orWhere('teenager.created_at', "Like", "%$val%");
+                    $query->orWhere('teenager.t_nickname', "Like", "%$val%");
+                    $query->orWhere('teenager.t_email', "Like", "%$val%");
+                })->count();
+        }
+        
+        //order by
+        //echo "<pre/>"; print_r($order);
+        foreach ($order as $o) {
+            $records["data"] = $records["data"]->orderBy($columns[$o['column']], $o['dir']);
+        }
+
+        //limit
+        $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
+        if (!empty($records["data"])) {
+            foreach ($records["data"] as $key => $_records) {
+                $records["data"][$key]->action = "&emsp;<a href='' title='Edit' ><span class='glyphicon glyphicon-edit'></span></a>
+                                                    &emsp;<a href='javascript:;' data-id='' class='btn-delete-game' title='Delete Game' ><span class='glyphicon glyphicon-trash'></span></a>";
+                $records["data"][$key]->deleted = ($_records->deleted == 1) ? "Active" : "Not";
+                $records["data"][$key]->importData = "link";
+                $records["data"][$key]->t_name = trim($_records->t_name);
+            }
+        }
+
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalFiltered;
+
+        return \Response::json($records);
+        exit;
     }
 
     public function add() {

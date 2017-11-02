@@ -13,5 +13,5 @@ Route::get('/deleteVideo/{id}', 'Admin\VideoManagementController@delete')->name(
 
 //All Users section
 Route::get('/teenagers', 'Admin\TeenagerManagementController@index');
-Route::post('/teenagers', 'Admin\TeenagerManagementController@index');
+Route::post('/get-teenagers', 'Admin\TeenagerManagementController@getIndex');
 
