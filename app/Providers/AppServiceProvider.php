@@ -49,6 +49,10 @@ use App\Services\Genericads\Contracts\GenericadsRepository;
 use App\Genericads;
 use App\Services\Genericads\Repositories\EloquentGenericadsRepository;
 
+use App\Services\Coin\Contracts\CoinRepository;
+use App\Coins;
+use App\Services\Coin\Repositories\EloquentCoinRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -110,6 +114,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(GenericadsRepository::class, function () {
         return new EloquentGenericadsRepository(new Genericads());
+        });
+
+        $this->app->bind(CoinRepository::class, function () {
+        return new EloquentCoinRepository(new Coins());
         });
     }
 }

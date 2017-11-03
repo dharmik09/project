@@ -102,16 +102,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="{{ (Request::is('admin/video') || Request::is('admin/addVideo') || Request::is('admin/editVideo/*') || Request::is('admin/saveVideo') || Request::is('admin/deleteVideo/*')) ? 'active' : '' }} treeview">
-                                <a href="{{ url('admin/video') }}">
-                                    <i class="fa fa-circle-o"></i> <span>{{trans('labels.video')}}</span>
-                                </a>
-                            </li>
-                            <li class="{{ (Request::is('admin/faq') || Request::is('admin/addFaq') || Request::is('admin/editFaq/*') || Request::is('admin/saveFaq') || Request::is('admin/deleteFaq/*')) ? 'active' : '' }} treeview">
-                                <a href="{{ url('admin/faq') }}">
-                                    <i class="fa fa-circle-o"></i> <span>{{trans('labels.faq')}}</span>
-                                </a>
-                            </li>
                             <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
                                 <a href="{{ url('admin/listHint') }}">
                                     <i class="fa fa-dashboard"></i> <span>Settings</span><i class="fa fa-angle-left pull-right"></i>
@@ -143,7 +133,22 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>  
+                            </li>
+                            <li class="{{ (Request::is('admin/coins') ||  Request::is('admin/addCoins') || Request::is('admin/editCoins/*') || Request::is('admin/saveCoins') || Request::is('admin/deleteCoins/*')) ? 'active': '' }}">
+                                <a href="{{ url('admin/coins') }}">
+                                    <i class="fa fa-circle-o"></i>ProCoins Packages
+                                </a>
+                            </li>
+                            <li class="{{ (Request::is('admin/video') || Request::is('admin/addVideo') || Request::is('admin/editVideo/*') || Request::is('admin/saveVideo') || Request::is('admin/deleteVideo/*')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/video') }}">
+                                    <i class="fa fa-circle-o"></i> <span>{{trans('labels.video')}}</span>
+                                </a>
+                            </li>
+                            <li class="{{ (Request::is('admin/faq') || Request::is('admin/addFaq') || Request::is('admin/editFaq/*') || Request::is('admin/saveFaq') || Request::is('admin/deleteFaq/*')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/faq') }}">
+                                    <i class="fa fa-circle-o"></i> <span>{{trans('labels.faq')}}</span>
+                                </a>
+                            </li>
                         @endif                        
                     </ul>
                 </section>

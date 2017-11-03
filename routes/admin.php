@@ -64,3 +64,12 @@ Route::get('/editGeneric/{id}', 'Admin\GenericAdsManagementController@edit')->na
 Route::post('/saveGeneric', 'Admin\GenericAdsManagementController@save')->name('saveGeneric');
 Route::get('/deleteGeneric/{id}', 'Admin\GenericAdsManagementController@delete')->name('deleteGeneric');
 
+//ProCoin Packages
+Route::get('/coins', 'Admin\CoinsManagementController@index');
+Route::post('/coins', 'Admin\CoinsManagementController@index');
+Route::get('/addCoins', 'Admin\CoinsManagementController@add');
+Route::post('/saveCoins', 'Admin\CoinsManagementController@save');
+Route::get('/editCoins/{id}', 'Admin\CoinsManagementController@edit');
+Route::get('/deleteCoins/{id}', 'Admin\CoinsManagementController@delete');
+
+
