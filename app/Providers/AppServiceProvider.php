@@ -33,6 +33,22 @@ use App\Services\Template\Contracts\TemplatesRepository;
 use App\Templates;
 use App\Services\Template\Repositories\EloquentTemplatesRepository;
 
+use App\Services\CMS\Contracts\CMSRepository;
+use App\CMS;
+use App\Services\CMS\Repositories\EloquentCMSRepository;
+
+use App\Services\FeedbackQuestions\Contracts\FeedbackQuestionsRepository;
+use App\FeedbackQuestions;
+use App\Services\FeedbackQuestions\Repositories\EloquentFeedbackQuestionsRepository;
+
+use App\Services\Configurations\Contracts\ConfigurationsRepository;
+use App\Configurations;
+use App\Services\Configurations\Repositories\EloquentConfigurationsRepository;
+
+use App\Services\Genericads\Contracts\GenericadsRepository;
+use App\Genericads;
+use App\Services\Genericads\Repositories\EloquentGenericadsRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -78,6 +94,22 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(TemplatesRepository::class, function () {
             return new EloquentTemplatesRepository(new Templates());
+        });
+
+        $this->app->bind(CMSRepository::class, function () {
+        return new EloquentCMSRepository(new CMS());
+        });
+
+        $this->app->bind(FeedbackQuestionsRepository::class, function () {
+        return new EloquentFeedbackQuestionsRepository(new FeedbackQuestions());
+        });
+
+        $this->app->bind(ConfigurationsRepository::class, function () {
+        return new EloquentConfigurationsRepository(new Configurations());
+        });
+
+        $this->app->bind(GenericadsRepository::class, function () {
+        return new EloquentGenericadsRepository(new Genericads());
         });
     }
 }

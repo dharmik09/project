@@ -111,6 +111,38 @@
                                 <a href="{{ url('admin/faq') }}">
                                     <i class="fa fa-circle-o"></i> <span>{{trans('labels.faq')}}</span>
                                 </a>
+                            </li>
+                            <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
+                                <a href="{{ url('admin/listHint') }}">
+                                    <i class="fa fa-dashboard"></i> <span>Settings</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="treeview">
+                                        <a href="{{ url('admin/listHint') }}">
+                                            <i class="fa fa-dashboard"></i> <span>Hint Management</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="{{ url('admin/cms') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.cms')}}
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="{{ url('admin/templates') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.emailtemplates')}}
+                                        </a>
+                                    </li>
+                                    <li class="treeview">
+                                        <a href="{{ url('admin/configurations') }}">
+                                            <i class="fa fa-dashboard"></i> <span>Configuration</span>
+                                        </a>
+                                    </li>
+                                    <li class="treeview">
+                                        <a href="{{ url('admin/genericAds') }}">
+                                            <i class="fa fa-dashboard"></i> <span>Generic Ads</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>  
                         @endif                        
                     </ul>
