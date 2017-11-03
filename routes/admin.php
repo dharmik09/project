@@ -65,11 +65,21 @@ Route::post('/saveGeneric', 'Admin\GenericAdsManagementController@save')->name('
 Route::get('/deleteGeneric/{id}', 'Admin\GenericAdsManagementController@delete')->name('deleteGeneric');
 
 //ProCoin Packages
-Route::get('/coins', 'Admin\CoinsManagementController@index');
-Route::post('/coins', 'Admin\CoinsManagementController@index');
-Route::get('/addCoins', 'Admin\CoinsManagementController@add');
-Route::post('/saveCoins', 'Admin\CoinsManagementController@save');
-Route::get('/editCoins/{id}', 'Admin\CoinsManagementController@edit');
-Route::get('/deleteCoins/{id}', 'Admin\CoinsManagementController@delete');
+Route::get('/coins', 'Admin\CoinsManagementController@index')->name('coins');
+Route::post('/coins', 'Admin\CoinsManagementController@index')->name('coins');
+Route::get('/addCoins', 'Admin\CoinsManagementController@add')->name('addCoins');
+Route::post('/saveCoins', 'Admin\CoinsManagementController@save')->name('saveCoins');
+Route::get('/editCoins/{id}', 'Admin\CoinsManagementController@edit')->name('editCoins');
+Route::get('/deleteCoins/{id}', 'Admin\CoinsManagementController@delete')->name('deleteCoins');
+
+//Level 1 Section
+
+//Activities
+Route::get('/level1Activity', 'Admin\Level1ActivityManagementController@index')->name('level1Activity');
+Route::post('/level1Activity', 'Admin\Level1ActivityManagementController@index')->name('level1Activity');
+Route::get('/deleteLevel1Activity/{id}', 'Admin\Level1ActivityManagementController@delete')->name('deleteLevel1Activity');
+Route::get('/addLevel1Activity', 'Admin\Level1ActivityManagementController@add')->name('addLevel1Activity');
+Route::get('/editLevel1Activity/{id}', 'Admin\Level1ActivityManagementController@edit')->name('editLevel1Activity');
+Route::post('/saveLevel1Activity', 'Admin\Level1ActivityManagementController@save')->name('saveLevel1Activity');
 
 

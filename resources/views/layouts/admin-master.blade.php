@@ -102,6 +102,18 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="{{ (Request::is('admin/level1Activity') || Request::is('admin/editHumanIcon/*') || Request::is('admin/editHumanIconCategory/*') || Request::is('admin/editCartoon/*') || Request::is('admin/editCartoonIconCategory/*') || Request::is('admin/editLevel1Activity/*') || Request::is('admin/addLevel1Activity') || Request::is('admin/editLevel1Activity') || Request::is('admin/cartoons') || Request::is('admin/addCartoon') || Request::is('admin/editCartoon') || Request::is('admin/humanIcons') || Request::is('admin/addHumanIcon') || Request::is('admin/editHumanIcon') || Request::is('admin/humanIconsCategory') || Request::is('admin/addHumanIconsCategory') || Request::is('admin/editHumanIconsCategory') || Request::is('admin/cartoonIconsCategory') || Request::is('admin/addCartoonIconsCategory') || Request::is('admin/editCartoonIconsCategory')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/level1Activity') }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.level1')}}</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{{ (Request::is('admin/level1Activity') || Request::is('admin/addLevel1Activity') || Request::is('admin/editLevel1Activity/*') || Request::is('admin/saveLevel1Activity') || Request::is('admin/deleteLevel1Activity/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/level1Activity') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.activity')}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
                                 <a href="{{ url('admin/listHint') }}">
                                     <i class="fa fa-dashboard"></i> <span>Settings</span><i class="fa fa-angle-left pull-right"></i>
