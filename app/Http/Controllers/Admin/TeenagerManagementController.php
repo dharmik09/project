@@ -66,13 +66,10 @@ class TeenagerManagementController extends Controller {
 
     public function index() {
         $teenagers = $this->teenagersRepository->getAllTeenagersData();
-        //echo "<pre/>"; print_r($teenagers->first()); die();
-        
         return view('admin.listTeenager');
     }
 
     public function getIndex(){
-        
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $teenagers = $this->teenagersRepository->getAllTeenagersData()->count();
         $records = array();
@@ -80,7 +77,10 @@ class TeenagerManagementController extends Controller {
             0 => 'id',
             1 => 't_name',
             2 => 't_email',
+            3 => 't_coins',
+            4 => 't_phone',
             6 => 'deleted',
+            8 => 'created_at',
         );
         
         $order = Input::get('order');
@@ -111,21 +111,39 @@ class TeenagerManagementController extends Controller {
                 })->count();
         }
         
+        if(Input::get("is_date_search") == "yes")
+        {
+            $query .= 'order_date BETWEEN "'.$_POST["start_date"].'" AND "'.$_POST["end_date"].'" AND ';
+            $records["data"]->where(function($query) use ($val) {
+                $query->whereBetween('teenager.created_at', [Input::get("start_date") , Input::get("end_date")]);
+            });
+
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
+                    $query->whereBetween('teenager.created_at', [Input::get("start_date") , Input::get("end_date")]);
+                })->count();
+        }
         //order by
-        //echo "<pre/>"; print_r($order);
         foreach ($order as $o) {
+            //echo "<pre/>"; print_r($); die();
             $records["data"] = $records["data"]->orderBy($columns[$o['column']], $o['dir']);
         }
 
         //limit
         $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
+        // this $sid use for school edit teenager and admin edit teenager
+        $sid = 0;
         if (!empty($records["data"])) {
             foreach ($records["data"] as $key => $_records) {
-                $records["data"][$key]->action = "&emsp;<a href='' title='Edit' ><span class='glyphicon glyphicon-edit'></span></a>
-                                                    &emsp;<a href='javascript:;' data-id='' class='btn-delete-game' title='Delete Game' ><span class='glyphicon glyphicon-trash'></span></a>";
-                $records["data"][$key]->deleted = ($_records->deleted == 1) ? "Active" : "Not";
-                $records["data"][$key]->importData = "link";
+                $records["data"][$key]->t_name = "<a target='_blank' href='".url('/admin/viewteenagers')."/".$_records->id."'>".$_records->t_name."</a>";
+                $records["data"][$key]->action = "<a href='".url('/admin/editteenager')."/".$_records->id."/".$sid."'><i class='fa fa-edit'></i> &nbsp;&nbsp;</a>
+                                                    <a onclick='return confirm('".trans('labels.confirmdelete')."')' href='".url('/admin/deleteteenager')."/".$_records->id."'><i class='i_delete fa fa-trash'></i>&nbsp;&nbsp;</a>
+                                                    <a href='' onClick='add_details('".$_records->id."');' data-toggle='modal' id='#userCoinsData' data-target='#userCoinsData'><i class='fa fa-database' aria-hidden='true'></i></a>";
+                $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";
+                $records["data"][$key]->importData = "<a href='".url('/admin/exportl4data')."/".$_records->id."'><i class='fa fa-file-excel-o' aria-hidden='true'></i></a>";
                 $records["data"][$key]->t_name = trim($_records->t_name);
+                $records["data"][$key]->t_birthdate = date('d/m/Y',strtotime($_records->t_birthdate));
+                $records["data"][$key]->created_at = date('d/m/Y',strtotime($_records->created_at));
             }
         }
 

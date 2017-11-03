@@ -29,6 +29,19 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
+                    <div class="row">
+                        <div class="input-daterange">
+                            <div class="col-md-4">
+                              <input type="text" name="start_date" id="start_date" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                              <input type="text" name="end_date" id="end_date" class="form-control" />
+                            </div>      
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" name="search" id="search" value="Search" class="btn btn-info" />
+                        </div>
+                    </div>
                     <table class="table table-striped" id="teenager_table" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -42,9 +55,8 @@
                                 <th>Export L4 Data</th>
                                 <th>Sign Up Date</th>
                                 <th>{{trans('labels.tblheadactions')}}</th>
-                           </tr>
+                            </tr>
                         </thead>
-                        
                     </table>
                 </div>
             </div>            
@@ -72,9 +84,10 @@
                 "dataType": "json",
                 "type": "POST",
                 headers: { 
-                    'X-CSRF-TOKEN': "{{ csrf_token() }} "
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 "data" : function(data) {
+                    alert(JSON.stringify(data));
                     if (ajaxParams) {
                         $.each(ajaxParams, function(key, value) {
                             data[key] = value;
@@ -88,10 +101,10 @@
                 { "data": "t_name" },
                 { "data": "t_email" },
                 { "data": "t_coins" },
-                { "data": "t_phone" },
-                { "data": "t_birthdate" },
-                { "data": "deleted" },
-                { "data": "importData" },
+                { "data": "t_phone" , "orderable": false},
+                { "data": "t_birthdate" , "orderable": false},
+                { "data": "deleted"},
+                { "data": "importData" , "orderable": false},
                 { "data": "created_at" },
                 { "data": "action", "orderable": false }
             ], 
@@ -107,6 +120,71 @@
     $(document).ready(function() {
         var ajaxParams = {};
         getTeenagerList(ajaxParams);
+        $("#end_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            autoclose: true
+        });
+        $("#start_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            autoclose: true
+        });
+
+        fetch_data('no');
+
+        function fetch_data(is_date_search, start_date='', end_date='')
+        {
+           var dataTable = $('#order_data').DataTable({
+               "processing" : true,
+               "serverSide" : true,
+               "order" : [],
+               "ajax" : {
+                    "url": "{{ url('admin/get-teenagers') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    headers: { 
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    data:{
+                        is_date_search:is_date_search, start_date:start_date, end_date:end_date
+                    }
+                },
+                "columns": [
+                    { "data": "id" },
+                    { "data": "t_name" },
+                    { "data": "t_email" },
+                    { "data": "t_coins" },
+                    { "data": "t_phone" , "orderable": false},
+                    { "data": "t_birthdate" , "orderable": false},
+                    { "data": "deleted"},
+                    { "data": "importData" , "orderable": false},
+                    { "data": "created_at" },
+                    { "data": "action", "orderable": false }
+                ], 
+                "initComplete": function(settings, json) {
+                    if(typeof(json.customMessage) != "undefined" && json.customMessage !== '') {
+                        $('.customMessage').removeClass('hidden');
+                        $('#customMessage').html(json.customMessage);
+                    }
+                }
+            });
+        }
+
+
+        $('#search').click(function(){
+            var start_date = $('#start_date').val();
+            var end_date = $('#end_date').val();
+            if(start_date != '' && end_date !='')
+            {
+               $('#teenager_table').DataTable().destroy();
+               fetch_data('yes', start_date, end_date);
+            }
+            else
+            {
+                alert("Both Date is Required");
+            }
+        }); 
+
+
     });
 
     $("#fromText").datepicker({

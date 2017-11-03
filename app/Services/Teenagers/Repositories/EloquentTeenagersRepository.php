@@ -34,44 +34,43 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     }
 
     public function getAllTeenagers($searchParamArray = array(),$currentPage = 0) {
-        $whereStr = '';
-        $orderStr = '';
+        // $whereStr = '';
+        // $orderStr = '';
 
-        $whereArray = [];
-        $whereArray[] = 'teenager.deleted IN (1,2)';
-        $whereArray[] = 'teenager.t_name != "" ';
+        // $whereArray = [];
+        // $whereArray[] = 'teenager.deleted IN (1,2)';
+        // $whereArray[] = 'teenager.t_name != "" ';
 
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
+        // if (isset($searchParamArray) && !empty($searchParamArray)) {
+        //     if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
+        //         $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
+        //     }
 
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['fromText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['fromText'] != '' && $searchParamArray['toText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " BETWEEN  '" . $searchParamArray['fromText'] . "'" . " AND  '" . $searchParamArray['toText'] ."'"  ;
-            }
+        //     if (isset($searchParamArray['searchBy']) && isset($searchParamArray['fromText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['fromText'] != '' && $searchParamArray['toText'] != '') {
+        //         $whereArray[] = $searchParamArray['searchBy'] . " BETWEEN  '" . $searchParamArray['fromText'] . "'" . " AND  '" . $searchParamArray['toText'] ."'"  ;
+        //     }
 
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
+        //     if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
+        //         $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
+        //     }
+        // }
 
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
+        // if (!empty($whereArray)) {
+        //     $whereStr = implode(" AND ", $whereArray);
+        // }
         
-        if(isset($currentPage) && $currentPage > 0){
-            Paginator::currentPageResolver(function () use ($currentPage) {
-                return $currentPage;
-            });
-        }
+        // if(isset($currentPage) && $currentPage > 0){
+        //     Paginator::currentPageResolver(function () use ($currentPage) {
+        //         return $currentPage;
+        //     });
+        // }
 
-        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ")
-                ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school ", 'teenager.t_school', '=', 'school.id')
-                ->selectRaw('teenager.*,school.sc_name')
-                ->whereRaw($whereStr . $orderStr)
-                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
-        echo "<pre/>"; print_r($teenagers); die();
-        return $teenagers;
+        // $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ")
+        //         ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school ", 'teenager.t_school', '=', 'school.id')
+        //         ->selectRaw('teenager.*,school.sc_name')
+        //         ->whereRaw($whereStr . $orderStr)
+        //         ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+        // return $teenagers;
     }
 
     public function getAllTeenagersExport($searchParamArray = array()) {
