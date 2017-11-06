@@ -36,8 +36,8 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
             $whereStr = implode(" AND ", $whereArray);
         }
 
-        $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ")
-                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket ", 'profession.pf_basket', '=', 'basket.id')
+        $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
+                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket", 'profession.pf_basket', '=', 'basket.id')
                 ->selectRaw('profession.* , basket.b_name')
                 ->whereRaw($whereStr . $orderStr)
                 ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
@@ -82,8 +82,8 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
       @$id : Basket ID
      */
     public function getProfessionsByBasketId($basketid) {
-        $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ")
-                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket ", 'profession.pf_basket', '=', 'basket.id')
+        $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
+                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket", 'profession.pf_basket', '=', 'basket.id')
                 ->selectRaw('profession.*, basket.b_name')
                 ->whereRaw('profession.deleted = 1')
                 ->whereRaw('profession.pf_basket =' . $basketid)
@@ -313,7 +313,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
     }
 
     public function getLevel3ActivityWithAnswer($id) {
-        $level3activities = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS attempt ")
+        $level3activities = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS attempt")
                 ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'attempt.tpa_peofession_id', '=', 'profession.id')
                 ->where('tpa_teenager', '=', $id)
                 ->get();
@@ -327,14 +327,14 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
 
     public function getExportProfession() {
         $finalData = array();
-        $return = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ")
-                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket ", 'profession.pf_basket', '=', 'basket.id')
+        $return = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
+                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket", 'profession.pf_basket', '=', 'basket.id')
                 ->selectRaw('profession.id,profession.pf_name , profession.pf_video , basket.b_name , basket.b_video')
                 ->where('profession.deleted',1)
                 ->get();
         if (isset($return) && !empty($return)) {
             foreach ($return as $key => $val) {
-                $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header ")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->get();
+                $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->get();
                 if (isset($headers) && !empty($headers)) {
                     foreach ($headers as $hkey => $hval) {
                         $professionHeaders[$hval->pfic_title] = $hval->pfic_content;
@@ -368,8 +368,8 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
             $gen[] = $gender;
         }
         $professionattemptCount = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS pa")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS p ", 'pa.tpa_peofession_id', '=', 'p.id')
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'pa.tpa_teenager')
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS p", 'pa.tpa_peofession_id', '=', 'p.id')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'pa.tpa_teenager')
                 ->selectRaw('count(pa.tpa_peofession_id) as professionCount,p.id,p.pf_name')
                 ->whereIn('tpa_peofession_id',$professionIds)
                 ->whereIn('teen.t_gender', $gen)
@@ -430,7 +430,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         }else {
             $professionattempt = DB::select(DB::raw("select teenager.id as teenagerid,teenager.t_uniqueid,teenager.t_name,teenager.t_photo,teenager.t_email,teenager.t_phone from " . config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager
                             left join " . config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS attempted on attempted.tpa_teenager=teenager.id
-                            where ( " . $whereStr ."  ) AND teenager.id != ".$loggedUser." AND teenager.is_search_on = 1 group by attempted.tpa_teenager "));
+                            where ( " . $whereStr ."  ) AND teenager.id != ".$loggedUser." AND teenager.is_search_on = 1 group by attempted.tpa_teenager"));
 
         }
         return $professionattempt;
@@ -458,7 +458,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
     public function getTeenagerAttemptedProfessionForDashboard($userid) {
         $mainArray = [];
         
-        $query = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS attempted ");
+        $query = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS attempted");
         $query->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'attempted.tpa_peofession_id', '=', 'profession.id');
         $query->select('profession.id','profession.pf_name');
         $query->where('attempted.tpa_teenager', '=', $userid);

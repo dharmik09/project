@@ -261,11 +261,12 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 ->where('profession_id', $professionId)
                 ->where('deleted', 1)
                 ->get();
+        
         $basicTotalPoints = (isset($totalBasicPoints[0]->total_points) && $totalBasicPoints[0]->total_points != '') ? $totalBasicPoints[0]->total_points : 0;
         $finalbasicAttemptedPoints = 0;
         //get total points for attempted questions
-        $basicAttemptedTotalPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.activity_id')
+        $basicAttemptedTotalPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->leftjoin(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans", "l4_act.id", "=", "l4_ans.activity_id")
                 ->select(DB::raw('l4_act.points as attemptedpoint'))
                 ->where('l4_act.profession_id', $professionId)
                 ->where('l4_ans.teenager_id', $teenagerId)
@@ -279,9 +280,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
             }
         }
 
-        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.activity_id')
-                ->select(DB::raw('l4_ans.earned_points AS earned_points'),'l4_act.points as attemptedpoint')
+        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.activity_id')
+                ->select(DB::raw('l4_ans.earned_points AS earned_points'), 'l4_act.points as attemptedpoint')
                 ->where('l4_act.profession_id', $professionId)
                 ->where('l4_ans.teenager_id', $teenagerId)
                 ->where('l4_ans.answer_id','!=',0)
@@ -338,8 +339,8 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
 
             foreach ($level4IntermediatePoint as $key => $templateId) {
                 $templateTotalPoints[$templateId->l4ia_question_template] = DB::select(DB::raw("select (SELECT SUM(l4ia_question_point) FROM " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " where deleted=1 and l4ia_profession_id = $professionId and l4ia_question_template = $templateId->l4ia_question_template) as 'total_points'"));
-                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act ")
-                        ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.l4iaua_activity_id')
+                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act")
+                        ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.l4iaua_activity_id')
                         ->select(DB::raw('l4_ans.l4iaua_earned_point AS earned_points'), 'l4_ans.l4iaua_teenager', 'l4_act.l4ia_question_point')
                         ->where('l4_act.l4ia_profession_id', $professionId)
                         ->where('l4_ans.l4iaua_teenager', $teenagerId)
@@ -772,8 +773,8 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 ->where('deleted', 1)
                 ->get();
 
-        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.activity_id')
+        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.activity_id')
                 ->select(DB::raw('l4_ans.earned_points AS earned_points'), 'l4_ans.teenager_id')
                 ->where('l4_act.profession_id', $professionId)
                 ->where('l4_ans.teenager_id', $teenagerId)
@@ -812,14 +813,14 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         if (isset($level4IntermediatePoint) && !empty($level4IntermediatePoint)) {
             foreach ($level4IntermediatePoint as $key => $templateId) {
                 $templateTotalPoints[$templateId->l4ia_question_template] = DB::select(DB::raw("select (SELECT SUM(l4ia_question_point) FROM " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " where deleted=1 and l4ia_profession_id = $professionId and l4ia_question_template = $templateId->l4ia_question_template) as 'total_points'"));
-                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act ")
-                        ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.l4iaua_activity_id')
+                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act")
+                        ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.l4iaua_activity_id')
                         ->select(DB::raw('l4_ans.l4iaua_earned_point AS earned_points'), 'l4_ans.l4iaua_teenager')
                         ->where('l4_act.l4ia_profession_id', $professionId)
                         ->where('l4_ans.l4iaua_teenager', $teenagerId)
                         ->where('l4_ans.l4iaua_template_id', $templateId->l4ia_question_template)
                         ->groupBy('l4_ans.l4iaua_activity_id')
-                        ->orderBy('earned_points', 'desc')
+                        ->orderBy('earned_points','desc')
                         ->get();
                 if (isset($totalEarnIntermediatePoints) && !empty($totalEarnIntermediatePoints)) {
                     foreach ($totalEarnIntermediatePoints as $key2 => $value2) {
@@ -1355,9 +1356,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 ->where('deleted', 1)
                 ->get();
 
-        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.activity_id')
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'l4_ans.teenager_id')
+        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.activity_id')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'l4_ans.teenager_id')
                 ->select(DB::raw('l4_ans.earned_points AS earned_points'))
                 ->where('l4_act.profession_id', $professionId)
                 ->where('teen.t_class', $classId)
@@ -1408,9 +1409,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
 
             foreach ($level4IntermediatePoint as $key => $templateId) {
                 $templateTotalPoints[$templateId->l4ia_question_template] = DB::select(DB::raw("select (SELECT SUM(l4ia_question_point) FROM " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " where deleted=1 and l4ia_profession_id = $professionId and l4ia_question_template = $templateId->l4ia_question_template) as 'total_points'"));
-                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act ")
-                        ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.l4iaua_activity_id')
-                        ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'l4_ans.l4iaua_teenager')
+                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act")
+                        ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.l4iaua_activity_id')
+                        ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'l4_ans.l4iaua_teenager')
                         ->select(DB::raw('l4_ans.l4iaua_earned_point AS earned_points'), 'l4_ans.l4iaua_teenager')
                         ->where('l4_act.l4ia_profession_id', $professionId)
                         ->where('teen.t_class', $classId)
@@ -1487,7 +1488,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         $array['level4Intermediate'] = $intermediateArray;
         $level4AdvancePoint = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA')." As l4_aaus")
                 ->distinct()
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'l4_aaus.l4aaua_teenager')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'l4_aaus.l4aaua_teenager')
                 ->where(['l4_aaus.deleted' => 1, 'teen.t_class' => $classId, 'l4_aaus.l4aaua_profession_id' => $professionId, 'l4_aaus.l4aaua_is_verified' => 2])
                 ->selectRaw('l4_aaus.l4aaua_media_type, l4_aaus.id, l4_aaus.l4aaua_earned_points')
                 ->get();
@@ -1618,12 +1619,12 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
             $whereStr = implode(" AND ", $whereArray);
         }
         //get total points for attempted questions
-        $basicAttemptedTotalPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.activity_id')
+        $basicAttemptedTotalPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.activity_id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'l4_ans.teenager_id', '=', 'teenager.id')
                 ->select(DB::raw('l4_act.points as attemptedpoint'))
                 ->whereRaw($whereStr)
-                ->groupBy('l4_ans.teenager_id' , 'l4_ans.activity_id')
+                ->groupBy('l4_ans.teenager_id', 'l4_ans.activity_id')
                 ->get();
 
         if(isset($basicAttemptedTotalPoints) && !empty($basicAttemptedTotalPoints))
@@ -1633,13 +1634,13 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
             }
         }
 
-        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.activity_id')
+        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.activity_id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'l4_ans.teenager_id', '=', 'teenager.id')
                 ->select(DB::raw('l4_ans.earned_points AS earned_points'),'l4_act.points as attemptedpoint')
                 ->whereRaw($whereStr)
                 ->where('l4_ans.answer_id','!=',0)
-                ->groupBy('l4_ans.teenager_id' , 'l4_ans.activity_id')
+                ->groupBy('l4_ans.teenager_id', 'l4_ans.activity_id')
                 ->orderBy('earned_points', 'desc')
                 ->get();
         $basicEarnedPoints = 0;
@@ -1700,13 +1701,13 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
             }
             foreach ($level4IntermediatePoint as $key => $templateId) {
                 $templateTotalPoints[$templateId->l4ia_question_template] = DB::select(DB::raw("select (SELECT SUM(l4ia_question_point) FROM " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " where deleted=1 and l4ia_profession_id = $professionId and l4ia_question_template = $templateId->l4ia_question_template) as 'total_points'"));
-                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act ")
-                        ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.l4iaua_activity_id')
+                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act")
+                        ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.l4iaua_activity_id')
                         ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'l4_ans.l4iaua_teenager', '=', 'teenager.id')
                         ->select(DB::raw('l4_ans.l4iaua_earned_point AS earned_points'), 'l4_ans.l4iaua_teenager', 'l4_act.l4ia_question_point')
                         ->whereRaw($whereStr)
                         ->where('l4_ans.l4iaua_template_id', $templateId->l4ia_question_template)
-                        ->groupBy('l4_ans.l4iaua_teenager','l4_ans.l4iaua_activity_id')
+                        ->groupBy('l4_ans.l4iaua_teenager', 'l4_ans.l4iaua_activity_id')
                         ->orderBy('earned_points', 'desc')
                         ->get();
                 $getIntermediateQuestionI = DB::select(DB::raw("select (SELECT count(DISTINCT(l4_ic.id)) FROM " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_ic join " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_OPTIONS') . " AS l4_ao on l4_ic.id = l4_ao.l4iao_question_id where l4_ic.deleted=1 AND l4_ic.l4ia_profession_id = " . $professionId . " AND l4_ic.l4ia_question_template = " . $templateId->l4ia_question_template . ") as 'NoOfTotalQuestions', (select count(DISTINCT(L4_I_ANS.l4iaua_activity_id)) from " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS L4_I_AC join " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS L4_I_ANS on L4_I_AC.id = L4_I_ANS.l4iaua_activity_id  where L4_I_AC.l4ia_profession_id = " . $professionId . " AND L4_I_AC.l4ia_question_template=" . $templateId->l4ia_question_template . ") as 'NoOfAttemptedQuestions' "), array());
@@ -1783,7 +1784,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         if (!empty($whereArray)) {
             $whereStr = implode(" AND ", $whereArray);
         }
-        $level4AdvancePoint = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA'). " AS l4_adv ")
+        $level4AdvancePoint = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA'). " AS l4_adv")
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'l4_adv.l4aaua_teenager', '=', 'teenager.id')
                 ->distinct()
                 ->whereRaw($whereStr)

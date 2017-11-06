@@ -413,9 +413,9 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
     }
 
     public function getLevel1ActivityWithAnswer($id) {
-        $level1activities = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
+        $level1activities = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
                 ->join(config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS activity", 'answer.l1ans_activity', '=', 'activity.id')
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->selectRaw('activity.* , answer.*, options.*, activity.id as activityid')
                 ->where('answer.l1ans_teenager', '=', $id)
                 ->get();

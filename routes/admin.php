@@ -27,6 +27,7 @@ Route::post('/insert-map-teenager', 'Admin\TeenagerManagementController@insertMa
 Route::get('/download-excel', 'Admin\TeenagerManagementController@downloadExcel');
 Route::get('/export-teenager', 'Admin\TeenagerManagementController@exportData');
 Route::get('/clear-cache-teenager','Admin\TeenagerManagementController@clearCache');
+Route::get('/export-l4-data/{id}', 'Admin\TeenagerManagementController@exportl4data');
 
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');

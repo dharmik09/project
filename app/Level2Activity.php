@@ -19,7 +19,7 @@ class Level2Activity extends Model
                                             left  join ".config::get('databaseconstants.TBL_LEVEL2_MI')." As mi on mi.id = activity.l2ac_mi_type
                                             left  join ".config::get('databaseconstants.TBL_LEVEL2_INTEREST')." As interest on interest.id = activity.l2ac_interest
                                             left  join ".config::get('databaseconstants.TBL_LEVEL2_PERSONALITY')." As personality on personality.id = activity.l2ac_personality_type
-                                                where activity.id = ".$id." group by  activity.id "));
+                                                where activity.id = ".$id." group by activity.id"));
 
         return $level2activities;
     }

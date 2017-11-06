@@ -124,12 +124,12 @@ class TeenagerManagementController extends Controller {
         $sid = 0;
         if (!empty($records["data"])) {
             foreach ($records["data"] as $key => $_records) {
-                $records["data"][$key]->t_name = "<a target='_blank' href='".url('/admin/viewteenagers')."/".$_records->id."'>".$_records->t_name."</a>";
-                $records["data"][$key]->action = "<a href='".url('/admin/editteenager')."/".$_records->id."/".$sid."'><i class='fa fa-edit'></i> &nbsp;&nbsp;</a>
-                                                    <a onclick='return confirm('".trans('labels.confirmdelete')."')' href='".url('/admin/deleteteenager')."/".$_records->id."'><i class='i_delete fa fa-trash'></i>&nbsp;&nbsp;</a>
+                $records["data"][$key]->t_name = "<a target='_blank' href='".url('/admin/view-teenager')."/".$_records->id."'>".$_records->t_name."</a>";
+                $records["data"][$key]->action = "<a href='".url('/admin/edit-teenager')."/".$_records->id."/".$sid."'><i class='fa fa-edit'></i> &nbsp;&nbsp;</a>
+                                                    <a onclick='return confirm('".trans('labels.confirmdelete')."')' href='".url('/admin/delete-teenager')."/".$_records->id."'><i class='i_delete fa fa-trash'></i>&nbsp;&nbsp;</a>
                                                     <a href='' onClick='add_details('".$_records->id."');' data-toggle='modal' id='#userCoinsData' data-target='#userCoinsData'><i class='fa fa-database' aria-hidden='true'></i></a>";
                 $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";
-                $records["data"][$key]->importData = "<a href='".url('/admin/exportl4data')."/".$_records->id."'><i class='fa fa-file-excel-o' aria-hidden='true'></i></a>";
+                $records["data"][$key]->importData = "<a href='".url('/admin/export-l4-data')."/".$_records->id."'><i class='fa fa-file-excel-o' aria-hidden='true'></i></a>";
                 $records["data"][$key]->t_name = trim($_records->t_name);
                 $records["data"][$key]->t_birthdate = date('d/m/Y',strtotime($_records->t_birthdate));
                 $records["data"][$key]->created_at = date('d/m/Y',strtotime($_records->created_at));
@@ -600,11 +600,13 @@ class TeenagerManagementController extends Controller {
         $l3Activity = $this->professionsRepository->getLevel3ActivityWithAnswer($id);
         $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($id);
         $teenagerAPIData = Helpers::getTeenAPIScore($id);
-
         $totalQuestion = $this->level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($id);
+        
         if (isset($totalQuestion[0]->NoOfAttemptedQuestions) && $totalQuestion[0]->NoOfAttemptedQuestions > 0) {
         $response['NoOfAttemptedQuestionsLevel2'] = $totalQuestion[0]->NoOfAttemptedQuestions;
         $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession($id);
+        echo "<pre/>"; print_r($getTeenagerAttemptedProfession); die();
+        
         if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
             $response['teenagerAttemptedProfession'] = $getTeenagerAttemptedProfession;
         } else {

@@ -78,8 +78,8 @@ class PersonalityScale extends Model
         }
     }
     
-    public function calculatePersonalityHML($personality,$score){
-        
+    public function calculatePersonalityHML($personality, $score){
+        $scale = "H";
         $personalityScale = $this->getAllPersonalityTypes();
         foreach($personalityScale as $key=>$val){
             if($personality == $val->pt_name)

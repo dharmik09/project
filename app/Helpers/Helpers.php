@@ -1098,8 +1098,8 @@ Class Helpers {
 
     public static function getPriviouslyAttemptedQuestionId($teenagerId) {
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS acitvity ", 'answer.l1ans_activity', '=', 'acitvity.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS acitvity", 'answer.l1ans_activity', '=', 'acitvity.id')
                 ->selectRaw('answer.* , acitvity.l1ac_text')
                 ->where('l1ans_teenager', $teenagerId)
                 ->orderBy('created_at', 'desc')
@@ -1117,7 +1117,7 @@ Class Helpers {
 
     public static function getQuestionData($activityId) {
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS acitvity ")
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS acitvity")
                 ->selectRaw('acitvity.l1ac_text')
                 ->where('acitvity.id', $activityId)
                 ->first();
@@ -1137,14 +1137,14 @@ Class Helpers {
             '8' => ['Many' => 442, 'Not Sure' => 253, 'Few' => 493], '9' => ['Yes' => 644, 'Sometimes' => 332, 'No' => 212], '10' => ['Yes' => 769, 'Sometimes' => 188, 'No' => 231], '11' => ['Confused' => 440, 'None' => 163, 'Very Clear' => 585], '12' => ['Few' => 921, 'Many' => 198, 'None' => 69],
             '13' => ['Disagree' => 641, 'Sometimes' => 273, 'Agree' => 274], '14' => ['No' => 430, 'Not Sure' => 402, 'Yes' => 356], '15' => ['Yes' => 581, 'Sometimes' => 299, 'No' => 308], '16' => ['Yes' => 563, 'Sometimes' => 344, 'No' => 281]];
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->selectRaw('answer.* , options.*')
                 ->where('l1ans_activity', $activityId)
                 ->get();
 
         //Level1 options name
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS answer ")->where('l1op_activity', $activityId)->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS answer")->where('l1op_activity', $activityId)->get();
         if (!empty($option)) {
             foreach ($option as $key => $data) {
                 $optionCount[] = $data->l1op_option;
@@ -1222,8 +1222,8 @@ Class Helpers {
         if (!empty($whereArray)) {
             $whereStr = implode(" AND ", $whereArray);
         }
-        $allAnswers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+        $allAnswers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'answer.l1ans_teenager', '=', 'teenager.id')
                 ->selectRaw('answer.* , options.*,teenager.t_gender,teenager.t_birthdate')
                 ->whereRaw($whereStr)
@@ -1257,7 +1257,7 @@ Class Helpers {
         }
 
         //Level1 options name
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS answer ")->where('l1op_activity', $activityId)->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS answer")->where('l1op_activity', $activityId)->get();
         if (!empty($option)) {
             foreach ($option as $key => $data) {
                 $optionCount[] = $data->l1op_option;
@@ -1292,8 +1292,8 @@ Class Helpers {
     public static function calculateTrendForLevel1Gender($activityId, $genderid) {
         $Percenticon = '';
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'answer.l1ans_teenager', '=', 'teenager.id')
                 ->selectRaw('answer.* , options.*,teenager.t_gender')
                 ->where('l1ans_activity', $activityId)
@@ -1304,7 +1304,7 @@ Class Helpers {
         //Level1 options name
 
 
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
 
         if (!empty($option)) {
             foreach ($option as $key => $data) {
@@ -1338,8 +1338,8 @@ Class Helpers {
     public static function calculateTrendForLevel1School($activityId, $school) {
         $Percenticon = '';
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'answer.l1ans_teenager', '=', 'teenager.id')
                 ->selectRaw('answer.* , options.*,teenager.t_gender')
                 ->where('l1ans_activity', $activityId)
@@ -1350,7 +1350,7 @@ Class Helpers {
         //Level1 options name
 
 
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
 
         if (!empty($option)) {
             foreach ($option as $key => $data) {
@@ -1384,8 +1384,8 @@ Class Helpers {
     public static function calculateTrendForLevel1Class($activityId, $class_id, $school) {
         $Percenticon = '';
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'answer.l1ans_teenager', '=', 'teenager.id')
                 ->selectRaw('answer.* , options.*,teenager.t_gender, teenager.deleted, teenager.t_school, teenager.t_class')
                 ->where('l1ans_activity', $activityId)
@@ -1397,7 +1397,7 @@ Class Helpers {
         //Level1 options name
 
 
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
 
         if (!empty($option)) {
             foreach ($option as $key => $data) {
@@ -1431,8 +1431,8 @@ Class Helpers {
     public static function calculateTrendForLevel1Age($activityId, $from, $to) {
         $Percenticon = '';
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'answer.l1ans_teenager', '=', 'teenager.id')
                 ->selectRaw('answer.* , options.*, teenager.deleted, teenager.t_birthdate')
                 ->where('l1ans_activity', $activityId)
@@ -1443,7 +1443,7 @@ Class Helpers {
         //Level1 options name
 
 
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
 
         if (!empty($option)) {
             foreach ($option as $key => $data) {
@@ -1489,8 +1489,8 @@ Class Helpers {
         if (!empty($whereArray)) {
             $whereStr = implode(" AND ", $whereArray);
         }
-        $allAnswers = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options ", 'answer.l2ans_answer', '=', 'options.id')
+        $allAnswers = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'answer.l2ans_answer', '=', 'options.id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'answer.l2ans_teenager', '=', 'teenager.id')
                 ->selectRaw('answer.* , options.*,teenager.t_birthdate')
                 ->whereRaw($whereStr)
@@ -1529,7 +1529,7 @@ Class Helpers {
                 ->get();*/
 
         //Level1 options name by activityId
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options ")->select('id', 'options.l2op_activity', 'options.l2op_option')->where('deleted', 1)->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options")->select('id', 'options.l2op_activity', 'options.l2op_option')->where('deleted', 1)->get();
 
         if (!empty($option)) {
             foreach ($option as $key => $data) {
@@ -1566,15 +1566,15 @@ Class Helpers {
 
 
         //Level1 Details by activityId
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'answer.l1ans_teenager', '=', 'teenager.id')
                 ->selectRaw('answer.* , options.*,teenager.t_gender')
                 ->where('l1ans_activity', $activityId)
                 ->get();
 
         //Level2 options name by activityId
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options")->select('id', 'options.l1op_activity', 'options.l1op_option')->get();
 
         if (!empty($option)) {
             foreach ($option as $key => $data) {
@@ -1678,8 +1678,8 @@ Class Helpers {
 
     public static function getQuality() {
 
-        $answers = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON_QUALITIES') . " AS qualityicon ")
-                ->join(config::get('databaseconstants.TBL_TEENAGER_ICON') . " AS icon ", 'qualityicon.tiqa_ti_id', '=', 'icon.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON_QUALITIES') . " AS qualityicon")
+                ->join(config::get('databaseconstants.TBL_TEENAGER_ICON') . " AS icon", 'qualityicon.tiqa_ti_id', '=', 'icon.id')
                 ->selectRaw('qualityicon.id,qualityicon.tiqa_teenager,qualityicon.tiqa_quality_id,qualityicon.tiqa_response,qualityicon.tiqa_ti_id,icon.ti_icon_type')
                 ->where('tiqa_response', 1)
                 ->where('ti_icon_type', 4)
@@ -1687,7 +1687,7 @@ Class Helpers {
                 ->orwhere('ti_icon_type', 2)->where('tiqa_response', 1)
                 ->get();
 
-        $quality = DB::table(config::get('databaseconstants.TBL_LEVEL1_QUALITY') . " AS quality ")->select('id', 'quality.l1qa_name')->where('deleted', 1)->get();
+        $quality = DB::table(config::get('databaseconstants.TBL_LEVEL1_QUALITY') . " AS quality")->select('id', 'quality.l1qa_name')->where('deleted', 1)->get();
 
         if (!empty($answers)) {
             foreach ($answers as $key => $data) {
@@ -1874,7 +1874,7 @@ Class Helpers {
 
     public static function getCountForAttemptedProfession($pf_id, $sid, $cid) {
         $professionattempt = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS profession")
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ", 'teenager.id', '=', 'profession.tpa_teenager')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'teenager.id', '=', 'profession.tpa_teenager')
                 ->selectRaw('teenager.*')
                 ->where('profession.tpa_peofession_id', $pf_id)
                 ->where('teenager.t_school', $sid)
@@ -2036,16 +2036,16 @@ Class Helpers {
             '8' => ['Many' => 442, 'Not Sure' => 253, 'Few' => 493], '9' => ['Yes' => 644, 'Sometimes' => 332, 'No' => 212], '10' => ['Yes' => 769, 'Sometimes' => 188, 'No' => 231], '11' => ['Confused' => 440, 'None' => 163, 'Very Clear' => 585], '12' => ['Few' => 921, 'Many' => 198, 'None' => 69],
             '13' => ['Disagree' => 641, 'Sometimes' => 273, 'Agree' => 274], '14' => ['No' => 430, 'Not Sure' => 402, 'Yes' => 356], '15' => ['Yes' => 581, 'Sometimes' => 299, 'No' => 308], '16' => ['Yes' => 563, 'Sometimes' => 344, 'No' => 281]];
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'answer.l1ans_teenager')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'answer.l1ans_teenager')
                 ->selectRaw('answer.* , options.*')
                 ->where('l1ans_activity', $activityId)
                 ->where('teen.t_class', $cid)
                 ->get();
 
         //Level1 options name
-        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS answer ")->where('l1op_activity', $activityId)->get();
+        $option = DB::table(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS answer")->where('l1op_activity', $activityId)->get();
         if (!empty($option)) {
             foreach ($option as $key => $data) {
                 $optionCount[] = $data->l1op_option;
@@ -2366,8 +2366,8 @@ Class Helpers {
             '8' => ['Many' => 442, 'Not Sure' => 253, 'Few' => 493], '9' => ['Yes' => 644, 'Sometimes' => 332, 'No' => 212], '10' => ['Yes' => 769, 'Sometimes' => 188, 'No' => 231], '11' => ['Confused' => 440, 'None' => 163, 'Very Clear' => 585], '12' => ['Few' => 921, 'Many' => 198, 'None' => 69],
             '13' => ['Disagree' => 641, 'Sometimes' => 273, 'Agree' => 274], '14' => ['No' => 430, 'Not Sure' => 402, 'Yes' => 356], '15' => ['Yes' => 581, 'Sometimes' => 299, 'No' => 308], '16' => ['Yes' => 563, 'Sometimes' => 344, 'No' => 281]];
 
-        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options ", 'answer.l1ans_answer', '=', 'options.id')
+        $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS options", 'answer.l1ans_answer', '=', 'options.id')
                 ->selectRaw('answer.* , options.*')
                 ->where('l1ans_activity', $activityId)
                 ->get();
