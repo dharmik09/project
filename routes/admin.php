@@ -116,4 +116,12 @@ Route::get('/editCartoonIconCategory/{id}', 'Admin\Level1CartoonIconCategoryMana
 Route::get('/deleteCartoonIconCategory/{id}', 'Admin\Level1CartoonIconCategoryManagementController@delete')->name('deleteCartoonIconCategory');
 Route::post('/saveCartoonIconCategory', 'Admin\Level1CartoonIconCategoryManagementController@save')->name('saveCartoonIconCategory');
 
+//Human Icons Category
+Route::get('/humanIconsCategory', 'Admin\Level1HumanIconCategoryManagementController@index')->name('humanIconsCategory');
+Route::post('/humanIconsCategory', 'Admin\Level1HumanIconCategoryManagementController@index')->name('humanIconsCategory');
+Route::get('/addHumanIconsCategory', 'Admin\Level1HumanIconCategoryManagementController@add')->name('addHumanIconsCategory');
+Route::get('/editHumanIconCategory/{id}', 'Admin\Level1HumanIconCategoryManagementController@edit')->name('editHumanIconCategory');
+Route::get('/deleteHumanIconCategory/{id}', 'Admin\Level1HumanIconCategoryManagementController@delete')->name('deleteHumanIconCategory');
+Route::post('/saveHumanIconCategory', 'Admin\Level1HumanIconCategoryManagementController@save')->name('saveHumanIconCategory');
+
 

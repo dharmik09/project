@@ -61,6 +61,10 @@ use App\Services\Level1CartoonIcon\Contracts\Level1CartoonIconRepository;
 use App\Level1CartoonIcon;
 use App\Services\Level1CartoonIcon\Repositories\EloquentLevel1CartoonIconRepository;
 
+use App\Services\Level1HumanIcon\Contracts\Level1HumanIconRepository;
+use App\Level1HumanIcon;
+use App\Services\Level1HumanIcon\Repositories\EloquentLevel1HumanIconRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -134,6 +138,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(Level1CartoonIconRepository::class, function () {
             return new EloquentLevel1CartoonIconRepository(new Level1CartoonIcon());
+        });
+
+        $this->app->bind(Level1HumanIconRepository::class, function () {
+        return new EloquentLevel1HumanIconRepository(new Level1HumanIcon());
         });
     }
 }
