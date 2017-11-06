@@ -110,7 +110,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(FileStorageRepository::class, function () {
             return new EloquentFileStorageRepository(new FileStorage());
-
+        });
+        
         $this->app->bind(CMSRepository::class, function () {
             return new EloquentCMSRepository(new CMS());
         });

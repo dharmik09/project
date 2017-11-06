@@ -94,9 +94,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
             $whereStr = implode(" AND ", $whereArray);
         }
 
-        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ")
-                ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school ", 'teenager.t_school', '=', 'school.id')
-                ->leftjoin(config::get('databaseconstants.TBL_COUNTRIES') . " AS country ", 'teenager.t_country', '=', 'country.id')
+        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager")
+                ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school", 'teenager.t_school', '=', 'school.id')
+                ->leftjoin(config::get('databaseconstants.TBL_COUNTRIES') . " AS country", 'teenager.t_country', '=', 'country.id')
                 ->selectRaw('teenager.*,school.sc_name,country.c_name')
                 ->whereRaw($whereStr . $orderStr)
                 ->get();
@@ -608,8 +608,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
      */
 
     public function getCountryIdByName($country) {
-        $country = DB::select(DB::raw("select country.id from " . config::get('databaseconstants.TBL_COUNTRIES') . " AS country
-                                                      where country.c_name ='" . $country . "' or country.c_code='" . $country . "'"));
+        $country = DB::select(DB::raw("select country.id from " . config::get('databaseconstants.TBL_COUNTRIES') . " AS country where country.c_name ='" . $country . "' or country.c_code='" . $country . "'"));
         if (!empty($country)) {
             return $country[0];
         } else {
@@ -942,8 +941,8 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         $totalL1QsPoints = DB::select(DB::raw("select SUM(l1ac_points) as totalL1QsPoints FROM " . config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " where deleted=1"));
         //get teenagers attmpted question point for L1
 
-        $userL1TotalAttemptedPoints = DB::table(config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS l1 ")
-                ->join(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS l1_ans ", 'l1.id', '=', 'l1_ans.l1ans_activity')
+        $userL1TotalAttemptedPoints = DB::table(config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS l1")
+                ->join(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS l1_ans", 'l1.id', '=', 'l1_ans.l1ans_activity')
                 ->select(DB::raw('SUM(l1.l1ac_points) as totalattemptedpoints'))
                 ->where('l1_ans.l1ans_teenager', $teenagerId)
                 ->where('l1.deleted', 1)
@@ -1309,8 +1308,8 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         $whereArray[] = 'teenager.deleted IN (1,2)';
         $whereArray[] = 'teenager.t_name != "" ';
 
-        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ")
-                    ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school ", 'teenager.t_school', '=', 'school.id')
+        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager")
+                    ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school", 'teenager.t_school', '=', 'school.id')
                     ->selectRaw('teenager.*,school.sc_name')
                     ->where('teenager.deleted','=', 1)
                     ->where('teenager.t_name','!=', '')
