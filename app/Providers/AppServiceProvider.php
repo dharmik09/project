@@ -37,6 +37,30 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 use App\Services\FileStorage\Entities\FileStorage;
 use App\Services\FileStorage\Repositories\EloquentFileStorageRepository;
 
+use App\Services\CMS\Contracts\CMSRepository;
+use App\CMS;
+use App\Services\CMS\Repositories\EloquentCMSRepository;
+
+use App\Services\FeedbackQuestions\Contracts\FeedbackQuestionsRepository;
+use App\FeedbackQuestions;
+use App\Services\FeedbackQuestions\Repositories\EloquentFeedbackQuestionsRepository;
+
+use App\Services\Configurations\Contracts\ConfigurationsRepository;
+use App\Configurations;
+use App\Services\Configurations\Repositories\EloquentConfigurationsRepository;
+
+use App\Services\Genericads\Contracts\GenericadsRepository;
+use App\Genericads;
+use App\Services\Genericads\Repositories\EloquentGenericadsRepository;
+
+use App\Services\Coin\Contracts\CoinRepository;
+use App\Coins;
+use App\Services\Coin\Repositories\EloquentCoinRepository;
+
+use App\Services\Level1CartoonIcon\Contracts\Level1CartoonIconRepository;
+use App\Level1CartoonIcon;
+use App\Services\Level1CartoonIcon\Repositories\EloquentLevel1CartoonIconRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -86,6 +110,29 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(FileStorageRepository::class, function () {
             return new EloquentFileStorageRepository(new FileStorage());
+
+        $this->app->bind(CMSRepository::class, function () {
+            return new EloquentCMSRepository(new CMS());
+        });
+
+        $this->app->bind(FeedbackQuestionsRepository::class, function () {
+            return new EloquentFeedbackQuestionsRepository(new FeedbackQuestions());
+        });
+
+        $this->app->bind(ConfigurationsRepository::class, function () {
+            return new EloquentConfigurationsRepository(new Configurations());
+        });
+
+        $this->app->bind(GenericadsRepository::class, function () {
+            return new EloquentGenericadsRepository(new Genericads());
+        });
+
+        $this->app->bind(CoinRepository::class, function () {
+            return new EloquentCoinRepository(new Coins());
+        });
+
+        $this->app->bind(Level1CartoonIconRepository::class, function () {
+            return new EloquentLevel1CartoonIconRepository(new Level1CartoonIcon());
         });
     }
 }

@@ -102,6 +102,65 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="{{ (Request::is('admin/level1Activity') || Request::is('admin/editHumanIcon/*') || Request::is('admin/editHumanIconCategory/*') || Request::is('admin/editCartoon/*') || Request::is('admin/editCartoonIconCategory/*') || Request::is('admin/editLevel1Activity/*') || Request::is('admin/addLevel1Activity') || Request::is('admin/editLevel1Activity') || Request::is('admin/cartoons') || Request::is('admin/addCartoon') || Request::is('admin/editCartoon') || Request::is('admin/humanIcons') || Request::is('admin/addHumanIcon') || Request::is('admin/editHumanIcon') || Request::is('admin/humanIconsCategory') || Request::is('admin/addHumanIconsCategory') || Request::is('admin/editHumanIconsCategory') || Request::is('admin/cartoonIconsCategory') || Request::is('admin/addCartoonIconsCategory') || Request::is('admin/editCartoonIconsCategory') || Request::is('admin/viewUserImage') || Request::is('admin/uploadCartoons')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/level1Activity') }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.level1')}}</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{{ (Request::is('admin/level1Activity') || Request::is('admin/addLevel1Activity') || Request::is('admin/editLevel1Activity/*') || Request::is('admin/saveLevel1Activity') || Request::is('admin/deleteLevel1Activity/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/level1Activity') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.activity')}}
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Request::is('admin/cartoonIconsCategory') || Request::is('admin/addCartoonIconsCategory') || Request::is('admin/editCartoonIconsCategory/*') || Request::is('admin/saveCartoonIconsCategory') || Request::is('admin/deleteCartoonIconsCategory/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/cartoonIconsCategory') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.level1cartooniconcategory')}}
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Request::is('admin/cartoons') || Request::is('admin/addCartoons') || Request::is('admin/editCartoons/*') || Request::is('admin/saveCartoons') || Request::is('admin/deleteCartoons/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/cartoons') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.level1cartoonicon')}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
+                                <a href="{{ url('admin/listHint') }}">
+                                    <i class="fa fa-dashboard"></i> <span>Settings</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="treeview">
+                                        <a href="{{ url('admin/listHint') }}">
+                                            <i class="fa fa-dashboard"></i> <span>Hint Management</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="{{ url('admin/cms') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.cms')}}
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="{{ url('admin/templates') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.emailtemplates')}}
+                                        </a>
+                                    </li>
+                                    <li class="treeview">
+                                        <a href="{{ url('admin/configurations') }}">
+                                            <i class="fa fa-dashboard"></i> <span>Configuration</span>
+                                        </a>
+                                    </li>
+                                    <li class="treeview">
+                                        <a href="{{ url('admin/genericAds') }}">
+                                            <i class="fa fa-dashboard"></i> <span>Generic Ads</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="{{ (Request::is('admin/coins') ||  Request::is('admin/addCoins') || Request::is('admin/editCoins/*') || Request::is('admin/saveCoins') || Request::is('admin/deleteCoins/*')) ? 'active': '' }}">
+                                <a href="{{ url('admin/coins') }}">
+                                    <i class="fa fa-circle-o"></i>ProCoins Packages
+                                </a>
+                            </li>
                             <li class="{{ (Request::is('admin/video') || Request::is('admin/addVideo') || Request::is('admin/editVideo/*') || Request::is('admin/saveVideo') || Request::is('admin/deleteVideo/*')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/video') }}">
                                     <i class="fa fa-circle-o"></i> <span>{{trans('labels.video')}}</span>
@@ -111,7 +170,7 @@
                                 <a href="{{ url('admin/faq') }}">
                                     <i class="fa fa-circle-o"></i> <span>{{trans('labels.faq')}}</span>
                                 </a>
-                            </li>  
+                            </li>
                         @endif                        
                     </ul>
                 </section>
