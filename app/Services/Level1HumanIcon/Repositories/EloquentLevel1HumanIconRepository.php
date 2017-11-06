@@ -27,40 +27,12 @@ class EloquentLevel1HumanIconRepository extends EloquentBaseRepository implement
       Parameters
       @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getLeve1HumanIcon($searchParamArray = array()) {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'human.deleted IN (1,2)';
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
-
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-
-//        $humanIcon = DB::table(config::get('databaseconstants.TBL_LEVEL1_HUMAN_ICON') . " AS human ")
-//                ->leftjoin(config::get('databaseconstants.TBL_HUMAN_ICON_CATEGORY') . " AS hcategory ", 'human.hi_category', '=', 'hcategory.id')
-//                ->leftjoin(config::get('databaseconstants.TBL_HUMAN_ICON_PROFESSION_MAPPING') . " AS hprofession ", 'human.id', '=', 'hprofession.hpm_humanicon_id')
-//                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'profession.id', '=', 'hprofession.hpm_profession_id')
-//                ->selectRaw('human.* , hcategory.hic_name , GROUP_CONCAT(hprofession.hpm_profession_id),GROUP_CONCAT(profession.pf_name) AS pf_name')
-//                ->whereRaw($whereStr . ' group by human.id ' . $orderStr)
-//                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
-//        
-        $humanIcon = DB::table(config::get('databaseconstants.TBL_LEVEL1_HUMAN_ICON') . " AS human ")
-                ->leftjoin(config::get('databaseconstants.TBL_HUMAN_ICON_CATEGORY') . " AS hcategory ", 'human.hi_category', '=', 'hcategory.id')
+    public function getLeve1HumanIcon() {
+        $humanIcon = DB::table(config::get('databaseconstants.TBL_LEVEL1_HUMAN_ICON') . " AS human")
+                ->leftjoin(config::get('databaseconstants.TBL_HUMAN_ICON_CATEGORY') . " AS hcategory", 'human.hi_category', '=', 'hcategory.id')
                 ->selectRaw('human.*, hcategory.hic_name')
-                ->whereRaw($whereStr . $orderStr)
-                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
-       
+                ->where('human.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                ->get();
         return $humanIcon;
     }
     
@@ -222,13 +194,13 @@ class EloquentLevel1HumanIconRepository extends EloquentBaseRepository implement
     
     public function getLeve1CartoonIconfromUsers($searchParamArray = array())
     {
-        $humanIconUploadbyUser = DB::table(config::get('databaseconstants.TBL_LEVEL1_HUMAN_ICON'). " AS human ")
-                ->leftjoin(config::get('databaseconstants.TBL_HUMAN_ICON_CATEGORY') . " AS hcategory ", 'human.hi_category', '=', 'hcategory.id')
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ", 'human.hi_added_by', '=', 'teenager.id')
+        $humanIconUploadbyUser = DB::table(config::get('databaseconstants.TBL_LEVEL1_HUMAN_ICON'). " AS human")
+                ->leftjoin(config::get('databaseconstants.TBL_HUMAN_ICON_CATEGORY') . " AS hcategory", 'human.hi_category', '=', 'hcategory.id')
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'human.hi_added_by', '=', 'teenager.id')
                 ->selectRaw('human.*,teenager.t_name,teenager.id as teenagerid,hcategory.hic_from')
                 ->where('human.hi_added_by','!=',0)
                 ->where('human.deleted','!=',3)
-                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                ->get();
         return $humanIconUploadbyUser;
     }
 

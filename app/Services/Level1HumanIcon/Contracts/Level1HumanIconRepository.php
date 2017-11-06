@@ -10,7 +10,7 @@ interface Level1HumanIconRepository extends BaseRepository
     /**
      * @return array of all active human icons in the application
      */
-    public function getLeve1HumanIcon($searchParamArray = array());
+    public function getLeve1HumanIcon();
 
     /**
      * Save Human Icon detail passed in $humanIconDetail array
