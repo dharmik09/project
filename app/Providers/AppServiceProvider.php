@@ -53,6 +53,10 @@ use App\Services\Coin\Contracts\CoinRepository;
 use App\Coins;
 use App\Services\Coin\Repositories\EloquentCoinRepository;
 
+use App\Services\Level1CartoonIcon\Contracts\Level1CartoonIconRepository;
+use App\Level1CartoonIcon;
+use App\Services\Level1CartoonIcon\Repositories\EloquentLevel1CartoonIconRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -118,6 +122,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(CoinRepository::class, function () {
         return new EloquentCoinRepository(new Coins());
+        });
+
+        $this->app->bind(Level1CartoonIconRepository::class, function () {
+        return new EloquentLevel1CartoonIconRepository(new Level1CartoonIcon());
         });
     }
 }

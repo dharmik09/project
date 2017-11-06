@@ -82,4 +82,17 @@ Route::get('/addLevel1Activity', 'Admin\Level1ActivityManagementController@add')
 Route::get('/editLevel1Activity/{id}', 'Admin\Level1ActivityManagementController@edit')->name('editLevel1Activity');
 Route::post('/saveLevel1Activity', 'Admin\Level1ActivityManagementController@save')->name('saveLevel1Activity');
 
+//Cartoon Icons
+Route::get('/cartoons', 'Admin\Level1CartoonIconManagementController@index')->name('cartoons');
+Route::post('/cartoons', 'Admin\Level1CartoonIconManagementController@index')->name('cartoons');
+Route::get('/deleteCartoon/{id}', 'Admin\Level1CartoonIconManagementController@delete')->name('deleteCartoon');
+Route::get('/deleteIcon/{id}', 'Admin\Level1CartoonIconManagementController@deleteusericon')->name('deleteIcon');
+Route::get('/addCartoon', 'Admin\Level1CartoonIconManagementController@add')->name('addCartoon');
+Route::get('/editCartoon/{id}', 'Admin\Level1CartoonIconManagementController@edit')->name('editCartoon');
+Route::post('/saveCartoon', 'Admin\Level1CartoonIconManagementController@save')->name('saveCartoon');
+Route::get('/viewUserImage', 'Admin\Level1CartoonIconManagementController@displayimage')->name('viewUserImage');
+Route::post('/deleteSelectedIcon', 'Admin\Level1CartoonIconManagementController@deleteSelectedIcon')->name('deleteSelectedIcon');
+Route::get('/uploadCartoons', 'Admin\Level1CartoonIconManagementController@uploadView')->name('uploadCartoons');
+Route::post('/saveCartoons', 'Admin\Level1CartoonIconManagementController@uploadCartoons')->name('saveCartoons');
+
 
