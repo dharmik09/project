@@ -57,10 +57,10 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('AWS_KEY'),
-            'secret' => env('AWS_SECRET'),
-            'region' => env('AWS_REGION'),
-            'bucket' => env('AWS_BUCKET'),
+            'key' => env('AWS_KEY', "AKIAJMRZEG5XF2BZCAAQ"),
+            'secret' => env('AWS_SECRET', "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"),
+            'region' => env('AWS_REGION', "ap-south-1"),
+            'bucket' => env('AWS_BUCKET', "s3proteen"),
         ],
 
     ],

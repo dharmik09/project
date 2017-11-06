@@ -33,6 +33,10 @@ use App\Services\Template\Contracts\TemplatesRepository;
 use App\Templates;
 use App\Services\Template\Repositories\EloquentTemplatesRepository;
 
+use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\Services\FileStorage\Entities\FileStorage;
+use App\Services\FileStorage\Repositories\EloquentFileStorageRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -78,6 +82,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(TemplatesRepository::class, function () {
             return new EloquentTemplatesRepository(new Templates());
+        });
+
+        $this->app->bind(FileStorageRepository::class, function () {
+            return new EloquentFileStorageRepository(new FileStorage());
         });
     }
 }

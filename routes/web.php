@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
+	Route::get('/', 'Admin\LoginController@login');
 	Route::get('/login', 'Admin\LoginController@login')->name('admin.login');
 	Route::post('/loginCheck', 'Admin\LoginController@loginCheck')->name('loginCheck');
 	Route::get('/loginCheck', 'Admin\LoginController@login');
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'teenager'], function () {
 });
 
 Route::group(['prefix' => 'developer'], function () {
+	Route::get('/', 'Developer\LoginController@login');
 	Route::get('/login', 'Developer\LoginController@login')->name('developer.login');
 	Route::post('/loginCheck', 'Developer\LoginController@loginCheck')->name('loginCheck');
 	Route::post('/logout', 'Developer\LoginController@logout')->name('logout');

@@ -32,7 +32,7 @@
             @if (Auth::guard('admin')->check())
             <?php             
             $userMenuItems = array('admin/home','admin/sponsors','admin/addsponsor','admin/editsponsor','admin/coupons','admin/addcoupon','admin/editcoupon','admin/teenagers',
-                'admin/parents/{type}','admin/counselors/{type}','admin/sponsoractivity/{id}','admin/schools','admin/editparent/{id}','admin/editschool/{id}','admin/editsponsor/{id}');           
+                'admin/add-teenager','admin/parents/{type}','admin/counselors/{type}','admin/sponsoractivity/{id}','admin/schools','admin/editparent/{id}','admin/editschool/{id}','admin/editsponsor/{id}');           
             ?>
             <header class="main-header">
                 <a href="{{ url('/admin')}}" class="logo">
@@ -177,7 +177,7 @@
         <script src="{{ asset('backend/js/chosen.jquery.js')}}"></script>
         <script src="{{ asset('backend/js/common_admin.js')}}"></script>
         <script>
-            $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+            $('div.alert').not('.alert-important').delay(5000).fadeOut(350);
             $('div.alert.alert-important').delay(5000).fadeOut(350);
         </script>
         @yield('script')
