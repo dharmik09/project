@@ -95,4 +95,12 @@ Route::post('/deleteSelectedIcon', 'Admin\Level1CartoonIconManagementController@
 Route::get('/uploadCartoons', 'Admin\Level1CartoonIconManagementController@uploadView')->name('uploadCartoons');
 Route::post('/saveCartoons', 'Admin\Level1CartoonIconManagementController@uploadCartoons')->name('saveCartoons');
 
+//Cartoon Icons Category
+Route::get('/cartoonIconsCategory', 'Admin\Level1CartoonIconCategoryManagementController@index')->name('cartoonIconsCategory');
+Route::post('/cartoonIconsCategory', 'Admin\Level1CartoonIconCategoryManagementController@index')->name('cartoonIconsCategory');
+Route::get('/addCartoonIconsCategory', 'Admin\Level1CartoonIconCategoryManagementController@add')->name('addCartoonIconsCategory');
+Route::get('/editCartoonIconCategory/{id}', 'Admin\Level1CartoonIconCategoryManagementController@edit')->name('editCartoonIconCategory');
+Route::get('/deleteCartoonIconCategory/{id}', 'Admin\Level1CartoonIconCategoryManagementController@delete')->name('deleteCartoonIconCategory');
+Route::post('/saveCartoonIconCategory', 'Admin\Level1CartoonIconCategoryManagementController@save')->name('saveCartoonIconCategory');
+
 

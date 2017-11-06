@@ -112,6 +112,11 @@
                                             <i class="fa fa-circle-o"></i>{{trans('labels.activity')}}
                                         </a>
                                     </li>
+                                    <li class="{{ (Request::is('admin/cartoonIconsCategory') || Request::is('admin/addCartoonIconsCategory') || Request::is('admin/editCartoonIconsCategory/*') || Request::is('admin/saveCartoonIconsCategory') || Request::is('admin/deleteCartoonIconsCategory/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/cartoonIconsCategory') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.level1cartooniconcategory')}}
+                                        </a>
+                                    </li>
                                     <li class="{{ (Request::is('admin/cartoons') || Request::is('admin/addCartoons') || Request::is('admin/editCartoons/*') || Request::is('admin/saveCartoons') || Request::is('admin/deleteCartoons/*')) ? 'active' : '' }}">
                                         <a href="{{ url('admin/cartoons') }}">
                                             <i class="fa fa-circle-o"></i>{{trans('labels.level1cartoonicon')}}
