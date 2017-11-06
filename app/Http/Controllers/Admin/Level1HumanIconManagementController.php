@@ -218,7 +218,7 @@ class Level1HumanIconManagementController extends Controller
                 }
             }
         }
-
+        
         if($uploadCount == $filesCount)
         {
             return Redirect::to("admin/humanIcons")->with('success', trans('labels.level1humaniconupdatesuccess'));
@@ -232,7 +232,7 @@ class Level1HumanIconManagementController extends Controller
     public function displayimage()
     {
         $searchParamArray = Input::all();
-        $level1Humanicon = $this->Level1HumanIconRepository->getLeve1CartoonIconfromUsers($searchParamArray);
+        $level1Humanicon = $this->Level1HumanIconRepository->getLeve1HumanIconfromUsers($searchParamArray);
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $humanThumbPath = $this->humanThumbImageUploadPath;
         return view('admin.ViewUserHumanIcon',compact('level1Humanicon','humanThumbPath'));

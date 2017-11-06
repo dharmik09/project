@@ -112,14 +112,16 @@ Route::get('/deleteHumanIconCategory/{id}', 'Admin\Level1HumanIconCategoryManage
 Route::post('/saveHumanIconCategory', 'Admin\Level1HumanIconCategoryManagementController@save')->name('saveHumanIconCategory');
 
 //Human Icon
-Route::get('/humanIcons', 'Admin\Level1HumanIconManagementController@index')->name('');
-Route::post('/humanIcons', 'Admin\Level1HumanIconManagementController@index')->name('');
-Route::get('/deleteHumanIcon/{id}', 'Admin\Level1HumanIconManagementController@delete')->name('');
-Route::get('/addHumanIcon', 'Admin\Level1HumanIconManagementController@add')->name('');
-Route::get('/editHumanIcon/{id}', 'Admin\Level1HumanIconManagementController@edit')->name('');
-Route::post('/saveHumanIcon', 'Admin\Level1HumanIconManagementController@save')->name('');
-Route::get('/viewHumanUserImage', 'Admin\Level1HumanIconManagementController@displayimage')->name('');
-Route::get('/deleteUserHumanicon/{id}', 'Admin\Level1HumanIconManagementController@deletehumaniconuploadedbyuser')->name('');
+Route::get('/humanIcons', 'Admin\Level1HumanIconManagementController@index')->name('humanIcons');
+Route::post('/humanIcons', 'Admin\Level1HumanIconManagementController@index')->name('humanIcons');
+Route::get('/deleteHumanIcon/{id}', 'Admin\Level1HumanIconManagementController@delete')->name('deleteHumanIcon');
+Route::get('/addHumanIcon', 'Admin\Level1HumanIconManagementController@add')->name('addHumanIcon');
+Route::get('/editHumanIcon/{id}', 'Admin\Level1HumanIconManagementController@edit')->name('editHumanIcon');
+Route::post('/saveHumanIcon', 'Admin\Level1HumanIconManagementController@save')->name('saveHumanIcon');
+Route::get('/viewHumanUserImage', 'Admin\Level1HumanIconManagementController@displayimage')->name('viewHumanUserImage');
+Route::get('/deleteUserHumanIcon/{id}', 'Admin\Level1HumanIconManagementController@deletehumaniconuploadedbyuser')->name('deleteUserHumanIcon');
 Route::post('/deleteHumanIcon', 'Admin\Level1HumanIconManagementController@deleteHumanIcon')->name('deleteHumanIcon');
+Route::get('/uploadHumanIcons', 'Admin\Level1HumanIconManagementController@uploadView');
+Route::post('/saveHumanIcons', 'Admin\Level1HumanIconManagementController@uploadHumanIcons');
 
 

@@ -42,7 +42,7 @@ interface Level1HumanIconRepository extends BaseRepository
      */
     public function saveLevel1HumanIconCategoryDetailForFront($detailArray);
     
-    public function getLeve1CartoonIconfromUsers($searchParamArray = array());
+    public function getLeve1HumanIconfromUsers($searchParamArray = array());
     
     public function deleteLevel1HumanIconuploadedbyUser($id);
    

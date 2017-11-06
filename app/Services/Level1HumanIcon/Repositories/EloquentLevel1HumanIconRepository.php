@@ -192,7 +192,7 @@ class EloquentLevel1HumanIconRepository extends EloquentBaseRepository implement
         return $id;
     }
     
-    public function getLeve1CartoonIconfromUsers($searchParamArray = array())
+    public function getLeve1HumanIconfromUsers($searchParamArray = array())
     {
         $humanIconUploadbyUser = DB::table(config::get('databaseconstants.TBL_LEVEL1_HUMAN_ICON'). " AS human")
                 ->leftjoin(config::get('databaseconstants.TBL_HUMAN_ICON_CATEGORY') . " AS hcategory", 'human.hi_category', '=', 'hcategory.id')
@@ -200,7 +200,7 @@ class EloquentLevel1HumanIconRepository extends EloquentBaseRepository implement
                 ->selectRaw('human.*,teenager.t_name,teenager.id as teenagerid,hcategory.hic_from')
                 ->where('human.hi_added_by','!=',0)
                 ->where('human.deleted','!=',3)
-                ->get();
+                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
         return $humanIconUploadbyUser;
     }
 
