@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Level1HumanIcon\Entities;
+namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Level1HumanIconProfessionMapping extends Model
