@@ -122,6 +122,11 @@
                                             <i class="fa fa-circle-o"></i>{{trans('labels.level1cartoonicon')}}
                                         </a>
                                     </li>
+                                    <li class="{{ (Request::is('admin/humanIconsCategory') || Request::is('admin/addHumanIconsCategory') || Request::is('admin/editHumanIconsCategory/*') || Request::is('admin/saveHumanIconsCategory') || Request::is('admin/deleteHumanIconsCategory/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/humanIconsCategory') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.level1humaniconcategory')}}
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
