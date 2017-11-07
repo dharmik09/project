@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Level2Options extends Model
 {
-    protected $table = 'pro_l1op_level1_options';
+    protected $table = 'pro_l2op_level2_options';
     protected $guarded = [];
 }
