@@ -605,7 +605,6 @@ class TeenagerManagementController extends Controller {
         if (isset($totalQuestion[0]->NoOfAttemptedQuestions) && $totalQuestion[0]->NoOfAttemptedQuestions > 0) {
         $response['NoOfAttemptedQuestionsLevel2'] = $totalQuestion[0]->NoOfAttemptedQuestions;
         $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession($id);
-        echo "<pre/>"; print_r($getTeenagerAttemptedProfession); die();
         
         if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
             $response['teenagerAttemptedProfession'] = $getTeenagerAttemptedProfession;
@@ -618,11 +617,13 @@ class TeenagerManagementController extends Controller {
         if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
             foreach ($getTeenagerAttemptedProfession as $keyProfession => $professionName) {
                 $getProfessionIdFromProfessionName = $this->professionsRepository->getProfessionIdByName($professionName->pf_name);
+                
                 if (isset($getProfessionIdFromProfessionName) && $getProfessionIdFromProfessionName > 0) {
                     $compareLogic = array('HL', 'HM', 'HH', 'ML', 'MM', 'MH', 'LL', 'LM', 'LH');
                     //FOR COMPARE LOGIC RESULT, L ='nomatch', M = 'moderate', H ='match'
                     $compareLogicResult = array('L', 'M', 'H', 'L', 'H', 'H', 'H', 'H', 'H');
                     $value = Helpers::getSpecificCareerMappingFromSystem($getProfessionIdFromProfessionName);
+                    
                     if (!empty($value)) {
                         $value->tcm_scientific_reasoning = (isset($value->tcm_scientific_reasoning) && $value->tcm_scientific_reasoning != '') ? $value->tcm_scientific_reasoning : 'L';
                         $value->tcm_verbal_reasoning = (isset($value->tcm_verbal_reasoning) && $value->tcm_verbal_reasoning != '') ? $value->tcm_verbal_reasoning : 'L';
@@ -650,6 +651,9 @@ class TeenagerManagementController extends Controller {
                         $value->tcm_existential = (isset($value->tcm_existential) && $value->tcm_existential != '') ? $value->tcm_existential : 'L';
 
                         $variable0 = array_keys($compareLogic, $value->tcm_scientific_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Scientific Reasoning']);
+                        
+                        //echo "<pre/>"; print_r($variable0); die();
+        
                         $variable1 = array_keys($compareLogic, $value->tcm_verbal_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Verbal Reasoning']);
                         $variable2 = array_keys($compareLogic, $value->tcm_numerical_ability . $getLevel2AssessmentResult['APIscale']['aptitude']['Numerical Ability']);
                         $variable3 = array_keys($compareLogic, $value->tcm_logical_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Logical Reasoning']);

@@ -107,17 +107,12 @@
                             <label for="cat_name" class="col-sm-2 control-label">{{trans('labels.formlblphoto')}}</label>
                             <div class="col-sm-2">
                                 <input type="file" id="t_photo" name="t_photo" onchange="readURL(this);"/>
-                                <?php
-                                if (isset($teenagerDetail->id) && $teenagerDetail->id != '0') {
-                                    if (File::exists(public_path($uploadTeenagerThumbPath . $teenagerDetail->t_photo)) && $teenagerDetail->t_photo != '') {
-                                        ?><br>
-                                        <img src="{{ url($uploadTeenagerThumbPath.$teenagerDetail->t_photo) }}" alt="{{$teenagerDetail->t_photo}}"  height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                        <?php
-                                    }
-                                }
-                                ?>
+                                @if(isset($teenagerDetail->id) && $teenagerDetail->id != '0')
+                                    <?php
+                                        $image_user = ($teenagerDetail->t_photo != "" && Storage::disk('s3')->exists(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$teenagerDetail->t_photo)) ? Config::get('constant.DEFAULT_AWS').Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$teenagerDetail->t_photo : asset('/backend/images/proteen_logo.png');
+                                    ?>
+                                    <img src="{{$image_user}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                @endif   
                             </div>
                             <label for="image_format" class="col-sm-3 control-label">{{trans('labels.pictureformat')}}</label>
                         </div>

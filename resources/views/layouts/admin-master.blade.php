@@ -32,7 +32,7 @@
             @if (Auth::guard('admin')->check())
             <?php             
             $userMenuItems = array('admin/home','admin/sponsors','admin/addsponsor','admin/editsponsor','admin/coupons','admin/addcoupon','admin/editcoupon','admin/teenagers',
-                'admin/add-teenager','admin/parents/{type}','admin/counselors/{type}','admin/sponsoractivity/{id}','admin/schools','admin/editparent/{id}','admin/editschool/{id}','admin/editsponsor/{id}');           
+                'admin/add-teenager', 'admin/edit-teenager/{id}/{sid}','admin/parents/{type}','admin/counselors/{type}','admin/sponsoractivity/{id}','admin/schools','admin/editparent/{id}','admin/editschool/{id}','admin/editsponsor/{id}');           
             ?>
             <header class="main-header">
                 <a href="{{ url('/admin')}}" class="logo">
