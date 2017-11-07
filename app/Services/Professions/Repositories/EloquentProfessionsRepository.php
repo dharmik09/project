@@ -16,31 +16,12 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
       Parameters
       @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getAllProfessions($searchParamArray = array()) {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'profession.deleted IN (1,2)';
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
-
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-
-        $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ")
-                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket ", 'profession.pf_basket', '=', 'basket.id')
+    public function getAllProfessions() {
+        $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
+                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket", 'profession.pf_basket', '=', 'basket.id')
                 ->selectRaw('profession.* , basket.b_name')
-                ->whereRaw($whereStr . $orderStr)
-                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                ->get();
         return $professions;
     }
 
@@ -55,7 +36,6 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         } else {
             $return = $this->model->create($professionDetail);
         }
-
         return $return;
     }
 
@@ -327,14 +307,14 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
 
     public function getExportProfession() {
         $finalData = array();
-        $return = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ")
-                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket ", 'profession.pf_basket', '=', 'basket.id')
-                ->selectRaw('profession.id,profession.pf_name , profession.pf_video , basket.b_name , basket.b_video')
+        $return = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
+                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket", 'profession.pf_basket', '=', 'basket.id')
+                ->selectRaw('profession.id,profession.pf_name, profession.pf_video, basket.b_name, basket.b_video')
                 ->where('profession.deleted',1)
                 ->get();
         if (isset($return) && !empty($return)) {
             foreach ($return as $key => $val) {
-                $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header ")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->get();
+                $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->get();
                 if (isset($headers) && !empty($headers)) {
                     foreach ($headers as $hkey => $hval) {
                         $professionHeaders[$hval->pfic_title] = $hval->pfic_content;
@@ -351,7 +331,8 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         $return = DB::table(config::get('databaseconstants.TBL_PROFESSIONS'))
                 ->where('pf_basket', $id)
                 ->where('deleted', 1)
-                ->get();
+                ->get()
+                ->toArray();
 
         return $return;
     }

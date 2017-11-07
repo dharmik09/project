@@ -134,4 +134,45 @@ Route::get('/addLevel2Activity', 'Admin\Level2ActivityManagementController@add')
 Route::get('/editLevel2Activity/{id}', 'Admin\Level2ActivityManagementController@edit')->name('editLevel2Activity');
 Route::post('/saveLevel2Activity', 'Admin\Level2ActivityManagementController@save')->name('saveLevel2Activity');
 
+//Level 3 Section
+
+//Baskets
+Route::get('/baskets', 'Admin\BasketManagementController@index');
+Route::post('/baskets', 'Admin\BasketManagementController@index');
+Route::get('/deleteBasket/{id}', 'Admin\BasketManagementController@delete');
+Route::get('/addBasket', 'Admin\BasketManagementController@add');
+Route::get('/editBasket/{id}', 'Admin\BasketManagementController@edit');
+Route::post('/saveBasket', 'Admin\BasketManagementController@save');
+
+//Professions
+Route::get('/professions', 'Admin\ProfessionManagementController@index');
+Route::post('/professions', 'Admin\ProfessionManagementController@index');
+Route::get('/deleteProfession/{id}', 'Admin\ProfessionManagementController@delete');
+Route::get('/addProfession', 'Admin\ProfessionManagementController@add');
+Route::post('/saveProfession', 'Admin\ProfessionManagementController@save');
+Route::get('/editProfession/{id}', 'Admin\ProfessionManagementController@edit');
+Route::get('/addProfessionBulk', 'Admin\ProfessionManagementController@addbulk');
+Route::post('/saveProfessionBulk', 'Admin\ProfessionManagementController@saveprofessionbulk');
+Route::get('/exportProfessoin', 'Admin\ProfessionManagementController@exportData');
+Route::post('/getUserCompetitorsData','Admin\ProfessionManagementController@getUserCompetitorsData');
+Route::get('/exportCompetitors/{id}', 'Admin\ProfessionManagementController@exportCompetotorsData');
+
+//Profession Headers
+Route::get('/headers', 'Admin\ProfessionHeadersManagementController@index')->name('headers');
+Route::post('/headers', 'Admin\ProfessionHeadersManagementController@index')->name('headers');
+//Route::get('/headers/{page}', 'Admin\ProfessionHeadersManagementController@index')->name('');
+//Route::post('/headers/{page}', 'Admin\ProfessionHeadersManagementController@index')->name('');
+Route::get('/addHeader', 'Admin\ProfessionHeadersManagementController@add')->name('addHeader');
+Route::get('/editHeader/{id}', 'Admin\ProfessionHeadersManagementController@edit')->name('editHeader');
+Route::get('/deleteHeader/{id}', 'Admin\ProfessionHeadersManagementController@delete')->name('deleteHeader');
+Route::post('/saveHeader', 'Admin\ProfessionHeadersManagementController@save')->name('saveHeader');
+
+//Career HML Mapping
+Route::get('/careerMapping', 'Admin\CareerMappingManagementController@index')->name('careerMapping');
+Route::post('/careerMapping', 'Admin\CareerMappingManagementController@index')->name('careerMapping');
+Route::get('/addCareerMapping', 'Admin\CareerMappingManagementController@add')->name('addCareerMapping');
+Route::post('/saveAddCareerMapping', 'Admin\CareerMappingManagementController@save')->name('saveAddCareerMapping');
+Route::get('/editCareerMapping/{id}','Admin\CareerMappingManagementController@edit')->name('editCareerMapping');
+
+
 

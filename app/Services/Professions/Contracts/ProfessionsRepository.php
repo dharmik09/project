@@ -9,7 +9,7 @@ interface ProfessionsRepository extends BaseRepository
     /**     
      * @return array of all active professions in the application
      */
-    public function getAllProfessions($searchParamArray = array());
+    public function getAllProfessions();
 
     /**
      * Save Parent detail passed in $professionDetail array

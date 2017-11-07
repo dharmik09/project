@@ -53,9 +53,9 @@ class Professions extends Model {
     }
 
     public function getLevel4AllScore($professionId) {
-        $totalBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.activity_id')
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS l4_teen ", 'l4_teen.id', '=', 'l4_ans.teenager_id')
+        $totalBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.activity_id')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS l4_teen", 'l4_teen.id', '=', 'l4_ans.teenager_id')
                 ->select(DB::raw('l4_ans.earned_points AS total_points'), 'l4_ans.teenager_id')
                 ->where('l4_act.profession_id', $professionId)
                 ->where('l4_act.deleted', 1)
@@ -92,7 +92,7 @@ class Professions extends Model {
         }
 
         $totalIntermediatePoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_I_act")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_I_ans ", 'l4_I_act.id', '=', 'l4_I_ans.l4iaua_activity_id')
+                ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER') . " AS l4_I_ans", 'l4_I_act.id', '=', 'l4_I_ans.l4iaua_activity_id')
                 ->select(DB::raw('l4_I_ans.l4iaua_earned_point AS total_points'), 'l4_I_ans.l4iaua_teenager', 'l4_I_ans.id', 'l4_I_ans.l4iaua_profession_id', 'l4_I_ans.l4iaua_template_id')
                 ->where('l4_I_act.l4ia_profession_id', $professionId)
                 ->groupBy('l4_I_ans.l4iaua_teenager')
@@ -385,8 +385,8 @@ class Professions extends Model {
     }
 
     public function getTotalCompetingOfProfession($professionId) {
-        $getTotalCompetingFromLevel3 = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS tp_att ")
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'tp_att.tpa_teenager', '=', 'teen.id')
+        $getTotalCompetingFromLevel3 = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS tp_att")
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'tp_att.tpa_teenager', '=', 'teen.id')
                 ->select(DB::raw('DISTINCT(tp_att.tpa_teenager) as teenager_id, teen.t_photo, teen.t_name, teen.t_uniqueid,teen.is_search_on, teen.t_phone, teen.t_email'))
                 ->where('tp_att.tpa_peofession_id', $professionId)
                 ->where('teen.deleted', 1)
@@ -411,9 +411,9 @@ class Professions extends Model {
 
 
     public function getLevel4AllScoreForParent($professionId) {
-        $totalBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS_PARENT') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.lbac_activity_id')
-                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent ", 'parent.id', '=', 'l4_ans.lbac_parent_id')
+        $totalBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS_PARENT') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.lbac_activity_id')
+                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'parent.id', '=', 'l4_ans.lbac_parent_id')
                 ->select(DB::raw('l4_ans.lbac_earned_points AS total_points'), 'l4_ans.lbac_parent_id')
                 ->where('l4_act.profession_id', $professionId)
                 ->where('l4_act.deleted', 1)

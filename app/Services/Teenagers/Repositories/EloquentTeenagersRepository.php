@@ -1280,12 +1280,12 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     }
 
     public function getAllActiveTeenagersForNotification(){
-        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ")
-                    ->leftjoin(config::get('databaseconstants.TBL_COUNTRIES') . " AS country ", 'country.id', '=', 'teenager.t_country')
-                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS device_token ", 'teenager.id', '=', 'device_token.tdt_user_id')
+        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager")
+                    ->leftjoin(config::get('databaseconstants.TBL_COUNTRIES') . " AS country", 'country.id', '=', 'teenager.t_country')
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS device_token", 'teenager.id', '=', 'device_token.tdt_user_id')
                     ->select('teenager.*' , 'country.c_name',DB::raw('GROUP_CONCAT(device_token.tdt_device_type) AS tdt_device_type'))
-                    ->where('teenager.deleted' , '=', 1)
-                    ->where('teenager.t_name' , '!=', '')
+                    ->where('teenager.deleted', '=', 1)
+                    ->where('teenager.t_name', '!=', '')
                     ->groupBy('teenager.id')
                     ->get();
         return $teenagers;

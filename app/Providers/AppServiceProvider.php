@@ -61,6 +61,14 @@ use App\Services\Level1HumanIcon\Contracts\Level1HumanIconRepository;
 use App\Level1HumanIcon;
 use App\Services\Level1HumanIcon\Repositories\EloquentLevel1HumanIconRepository;
 
+use App\Services\Baskets\Contracts\BasketsRepository;
+use App\Baskets;
+use App\Services\Baskets\Repositories\EloquentBasketsRepository;
+
+use App\Services\ProfessionHeaders\Contracts\ProfessionHeadersRepository;
+use App\ProfessionHeaders;
+use App\Services\ProfessionHeaders\Repositories\EloquentProfessionHeadersRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -109,31 +117,39 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(CMSRepository::class, function () {
-        return new EloquentCMSRepository(new CMS());
+            return new EloquentCMSRepository(new CMS());
         });
 
         $this->app->bind(FeedbackQuestionsRepository::class, function () {
-        return new EloquentFeedbackQuestionsRepository(new FeedbackQuestions());
+            return new EloquentFeedbackQuestionsRepository(new FeedbackQuestions());
         });
 
         $this->app->bind(ConfigurationsRepository::class, function () {
-        return new EloquentConfigurationsRepository(new Configurations());
+            return new EloquentConfigurationsRepository(new Configurations());
         });
 
         $this->app->bind(GenericadsRepository::class, function () {
-        return new EloquentGenericadsRepository(new Genericads());
+            return new EloquentGenericadsRepository(new Genericads());
         });
 
         $this->app->bind(CoinRepository::class, function () {
-        return new EloquentCoinRepository(new Coins());
+            return new EloquentCoinRepository(new Coins());
         });
 
         $this->app->bind(Level1CartoonIconRepository::class, function () {
-        return new EloquentLevel1CartoonIconRepository(new Level1CartoonIcon());
+            return new EloquentLevel1CartoonIconRepository(new Level1CartoonIcon());
         });
 
         $this->app->bind(Level1HumanIconRepository::class, function () {
-        return new EloquentLevel1HumanIconRepository(new Level1HumanIcon());
+            return new EloquentLevel1HumanIconRepository(new Level1HumanIcon());
+        });
+
+        $this->app->bind(BasketsRepository::class, function () {
+            return new EloquentBasketsRepository(new Baskets());
+        });
+
+        $this->app->bind(ProfessionHeadersRepository::class, function () {
+            return new EloquentProfessionHeadersRepository(new ProfessionHeaders());
         });
     }
 }

@@ -134,6 +134,45 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/level2Activity') }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.level2')}}</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/level2Activity') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.activity')}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="{{ (Request::is('admin/baskets') || Request::is('admin/editprofession/*') || Request::is('admin/editcareermapping/*') || Request::is('admin/editheader/*') || Request::is('admin/editbasket/*') || Request::is('admin/careermapping') || Request::is('admin/addbasket') || Request::is('admin/editbasket/*') || Request::is('admin/professions') || Request::is('admin/addprofession') || Request::is('admin/editprofession/*') || Request::is('admin/headers') || Request::is('admin/addheader') || Request::is('admin/editheader')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/baskets') }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.level3')}}</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{{ (Request::is('admin/baskets') || Request::is('admin/addBaskets') || Request::is('admin/editBaskets/*') || Request::is('admin/saveBaskets') || Request::is('admin/deleteBaskets')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/baskets') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.baskets')}}
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/professions') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.professions')}}
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Request::is('admin/headers') || Request::is('admin/addHeaders') || Request::is('admin/editHeaders/*') || Request::is('admin/saveHeaders') || Request::is('admin/deleteHeaders/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/headers') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.headers')}}
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*')) ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/careerMapping') }}">
+                                            <i class="fa fa-circle-o"></i> <span>Career HML Mapping</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
                                 <a href="{{ url('admin/listHint') }}">
                                     <i class="fa fa-dashboard"></i> <span>Settings</span><i class="fa fa-angle-left pull-right"></i>
@@ -166,18 +205,7 @@
                                     </li>
                                 </ul>
                             </li>
-                             <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*')) ? 'active' : '' }} treeview">
-                                <a href="{{ url('admin/level2Activity') }}">
-                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.level2')}}</span><i class="fa fa-angle-left pull-right"></i>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*')) ? 'active' : '' }}">
-                                        <a href="{{ url('admin/level2Activity') }}">
-                                            <i class="fa fa-circle-o"></i>{{trans('labels.activity')}}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            
                             <li class="{{ (Request::is('admin/coins') ||  Request::is('admin/addCoins') || Request::is('admin/editCoins/*') || Request::is('admin/saveCoins') || Request::is('admin/deleteCoins/*')) ? 'active': '' }}">
                                 <a href="{{ url('admin/coins') }}">
                                     <i class="fa fa-circle-o"></i>ProCoins Packages

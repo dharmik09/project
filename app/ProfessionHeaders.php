@@ -13,10 +13,7 @@ class ProfessionHeaders extends Model
 
     public function getActiveProfessionHeader($id)
     {   
-        $result = DB::select( DB::raw("SELECT
-                                              * 
-                                          FROM " . config::get('databaseconstants.TBL_PROFESSION_HEADER') .
-                                          " where pfic_profession = ".$id." "));
+        $result = ProfessionHeaders::where('pfic_profession', $id)->first();
         return $result;
     }
 
