@@ -22,8 +22,8 @@ class LearningStyle extends Model {
     public function getLearningStyleDetailsById($id) {
         $result = DB::table(config::get('databaseconstants.TBL_LEARNING_STYLE'))
                 ->selectRaw('id AS parameterId, ls_name, ls_description')
-                ->where('deleted','=',1)
-                ->where('id','=',$id)
+                ->where('deleted', '=', 1)
+                ->where('id', '=', $id)
                 ->get();
         return $result;
     }
@@ -31,13 +31,13 @@ class LearningStyle extends Model {
     public function getLearningStyleDetails() {
         $result = DB::table(config::get('databaseconstants.TBL_LEARNING_STYLE'))
                 ->selectRaw('id AS parameterId, ls_name, ls_description, ls_image')
-                ->where('deleted','=',1)
+                ->where('deleted', '=', 1)
                 ->get();
         return $result;
     }
 
     public function getLearningStyleDetailsByProfessionId($id,$perameterId,$teenId) {
-        $learningStyle = DB::table(config::get('databaseconstants.TBL_PROFESSION_LEARNING_STYLE'). " AS Prols ")
+        $learningStyle = DB::table(config::get('databaseconstants.TBL_PROFESSION_LEARNING_STYLE'). " AS Prols")
                         ->selectRaw('Prols.id,Prols.pls_activity_name')
                         ->where('Prols.pls_profession_id', $id)
                         ->where('Prols.pls_parameter_id', $perameterId)

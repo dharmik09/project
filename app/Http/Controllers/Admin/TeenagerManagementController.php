@@ -624,6 +624,7 @@ class TeenagerManagementController extends Controller {
                     $compareLogicResult = array('L', 'M', 'H', 'L', 'H', 'H', 'H', 'H', 'H');
                     $value = Helpers::getSpecificCareerMappingFromSystem($getProfessionIdFromProfessionName);
                     if (!empty($value)) {
+
                         $value->tcm_scientific_reasoning = (isset($value->tcm_scientific_reasoning) && $value->tcm_scientific_reasoning != '') ? $value->tcm_scientific_reasoning : 'L';
                         $value->tcm_verbal_reasoning = (isset($value->tcm_verbal_reasoning) && $value->tcm_verbal_reasoning != '') ? $value->tcm_verbal_reasoning : 'L';
                         $value->tcm_numerical_ability = (isset($value->tcm_numerical_ability) && $value->tcm_numerical_ability != '') ? $value->tcm_numerical_ability : 'L';
@@ -650,9 +651,6 @@ class TeenagerManagementController extends Controller {
                         $value->tcm_existential = (isset($value->tcm_existential) && $value->tcm_existential != '') ? $value->tcm_existential : 'L';
 
                         $variable0 = array_keys($compareLogic, $value->tcm_scientific_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Scientific Reasoning']);
-                        
-                        //echo "<pre/>"; print_r($getLevel2AssessmentResult); die();
-        
                         $variable1 = array_keys($compareLogic, $value->tcm_verbal_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Verbal Reasoning']);
                         $variable2 = array_keys($compareLogic, $value->tcm_numerical_ability . $getLevel2AssessmentResult['APIscale']['aptitude']['Numerical Ability']);
                         $variable3 = array_keys($compareLogic, $value->tcm_logical_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Logical Reasoning']);
@@ -1044,7 +1042,7 @@ class TeenagerManagementController extends Controller {
 
         $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
         $professionOriginalImageUploadPath = $this->professionOriginalImageUploadPath;
-        return view('admin.viewTeenagerDetail', compact('viewTeenDetail','uploadTeenagerThumbPath','l1Activity','l2Activity','l3Activity','boosterPoints','uploadProfessionThumbPath','finalMIParameters','professionOriginalImageUploadPath','level4Data','teenagerMyIcons','response','userLearningData'));
+        return view('admin.ViewTeenagerDetail', compact('viewTeenDetail','uploadTeenagerThumbPath','l1Activity','l2Activity','l3Activity','boosterPoints','uploadProfessionThumbPath','finalMIParameters','professionOriginalImageUploadPath','level4Data','teenagerMyIcons','response','userLearningData'));
     }
 
     public function editUserPaymentApproved($id)
