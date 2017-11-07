@@ -9,59 +9,27 @@ use App\Level2Options;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
 
-class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implements Level2ActivitiesRepository {
-
+class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implements Level2ActivitiesRepository
+{
     /**
      * @return array of all the active level2 activities
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
 
-    public function getAllLeve2Activities($searchParamArray = array())
+    public function getAllLeve2Activities()
     {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'activity.deleted IN (1,2)';
-        //$groupStr = " GROUP BY activity.id";
-        if (isset($searchParamArray) && !empty($searchParamArray))
-        {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                if ($searchParamArray['searchBy'] == 'l2promise_parameters'   && $searchParamArray['searchText'] != '') {
-                    $whereArray[] = "mi.mit_name LIKE '%" . $searchParamArray['searchText'] . "%' Or personality.pt_name LIKE '%" . $searchParamArray['searchText'] . "%' Or interest.it_name LIKE '%" . $searchParamArray['searchText'] . "%' Or apptitude.apt_name LIKE '%" . $searchParamArray['searchText'] . "%'";
-                }
-                else
-                {
-                    $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-                }
-            }
-            
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-
-        if(!empty($whereArray))
-        {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-
-
-            $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity")
-                              ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'activity.id', '=', 'options.l2op_activity')
-                              ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_APPTITUDE') . " AS apptitude", 'apptitude.id', '=', 'activity.l2ac_apptitude_type')
-                              ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_MI') . " AS mi", 'mi.id', '=', 'activity.l2ac_mi_type')
-                              ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_INTEREST') . " AS interest", 'interest.id', '=', 'activity.l2ac_interest')
-                              ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_PERSONALITY') . " AS personality", 'personality.id', '=', 'activity.l2ac_personality_type')
-                              ->selectRaw('activity.* , GROUP_CONCAT(options.l2op_option) AS l2op_option, GROUP_CONCAT(options.l2op_fraction) AS l2op_fraction, mi.mit_name , interest.it_name , personality.pt_name, apptitude.apt_name')
-                              ->whereRaw($whereStr)
-                              ->groupBy('activity.id')
-                              ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
-
-          
+        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity")
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'activity.id', '=', 'options.l2op_activity')
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_APPTITUDE') . " AS apptitude", 'apptitude.id', '=', 'activity.l2ac_apptitude_type')
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_MI') . " AS mi", 'mi.id', '=', 'activity.l2ac_mi_type')
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_INTEREST') . " AS interest", 'interest.id', '=', 'activity.l2ac_interest')
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_PERSONALITY') . " AS personality", 'personality.id', '=', 'activity.l2ac_personality_type')
+                          ->selectRaw('activity.* , GROUP_CONCAT(options.l2op_option) AS l2op_option, GROUP_CONCAT(options.l2op_fraction) AS l2op_fraction , mi.mit_name , interest.it_name , personality.pt_name, apptitude.apt_name')
+                          ->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                          ->groupBy('activity.id')
+                          ->get();
         return $level2activities;
-
     }
 
     public function saveLevel2ActivityDetail($activityDetail, $option,$radioval)
@@ -309,19 +277,19 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
     {
         $activities = DB::select(DB::raw("SELECT tmp.*
                                             FROM (SELECT
-                                            	L2AC.id AS activityID,
-                                            	l2ac_text,
-                                            	l2ac_points,
-                                            	l2ac_image,
-                                            	GROUP_CONCAT(L2OP.id) AS optionIds,
-                                            	GROUP_CONCAT(l2op_option) AS options,
+                                                L2AC.id AS activityID,
+                                                l2ac_text,
+                                                l2ac_points,
+                                                l2ac_image,
+                                                GROUP_CONCAT(L2OP.id) AS optionIds,
+                                                GROUP_CONCAT(l2op_option) AS options,
                                                 L2AC.deleted,
                                                 count(*) as 'NoOfTotalQuestions'
                                                 FROM
-                                            	" . config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS L2AC
+                                                " . config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS L2AC
                                             INNER JOIN " . config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS L2OP ON L2OP.l2op_activity = L2AC.id
                                             GROUP BY
-                                            	L2AC.id) AS tmp
+                                                L2AC.id) AS tmp
                                             LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL2_ANSWERS') . " AS L2ANS ON L2ANS.l2ans_activity = tmp.activityID AND L2ANS.l2ans_teenager = $teenagerId
                                             WHERE tmp.deleted=1 and L2ANS.id IS NULL AND L2ANS.l2ans_teenager IS NULL AND L2ANS.l2ans_activity IS NULL AND L2ANS.l2ans_answer IS NULL"), array());
 
@@ -374,9 +342,9 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
     
     public function getLevel2ActivityWithAnswer($id)
     {
-        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'). " AS answer")
+        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'). " AS answer ")
                               ->join(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity", 'answer.l2ans_activity', '=', 'activity.id')
-                              ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'answer.l2ans_answer', '=', 'options.id')
+                              ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options ", 'answer.l2ans_answer', '=', 'options.id')
                               ->selectRaw('activity.* , answer.*, options.*')
                               ->where('answer.l2ans_teenager', '=', $id)
                               ->get();
@@ -392,5 +360,5 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
             $result = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'))->where("deleted", 1)->get();
             return $result;  
     }
-
+    
 }

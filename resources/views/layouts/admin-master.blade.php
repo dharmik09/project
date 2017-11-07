@@ -166,6 +166,18 @@
                                     </li>
                                 </ul>
                             </li>
+                             <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/level2Activity') }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.level2')}}</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/level2Activity') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.activity')}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="{{ (Request::is('admin/coins') ||  Request::is('admin/addCoins') || Request::is('admin/editCoins/*') || Request::is('admin/saveCoins') || Request::is('admin/deleteCoins/*')) ? 'active': '' }}">
                                 <a href="{{ url('admin/coins') }}">
                                     <i class="fa fa-circle-o"></i>ProCoins Packages

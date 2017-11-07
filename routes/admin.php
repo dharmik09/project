@@ -138,4 +138,14 @@ Route::post('/deleteHumanIcon', 'Admin\Level1HumanIconManagementController@delet
 Route::get('/uploadHumanIcons', 'Admin\Level1HumanIconManagementController@uploadView');
 Route::post('/saveHumanIcons', 'Admin\Level1HumanIconManagementController@uploadHumanIcons');
 
+//Level 2 Section
+
+//Activities
+Route::get('/level2Activity', 'Admin\Level2ActivityManagementController@index')->name('level2Activity');
+Route::post('/level2Activity', 'Admin\Level2ActivityManagementController@index')->name('level2Activity');
+Route::get('/deleteLevel2Activity/{id}', 'Admin\Level2ActivityManagementController@delete')->name('deleteLevel2Activity');
+Route::get('/addLevel2Activity', 'Admin\Level2ActivityManagementController@add')->name('addLevel2Activity');
+Route::get('/editLevel2Activity/{id}', 'Admin\Level2ActivityManagementController@edit')->name('editLevel2Activity');
+Route::post('/saveLevel2Activity', 'Admin\Level2ActivityManagementController@save')->name('saveLevel2Activity');
+
 

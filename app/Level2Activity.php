@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Level2Activity extends Model
 {
-    protected $table = 'pro_l1ac_level2_activities';
+    protected $table = 'pro_l2ac_level2_activities';
     protected $guarded = [];
     
     public function getActiveLevel2Activity($id)
