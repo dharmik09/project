@@ -330,11 +330,6 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
         return $result;
     }
     
-    
-    
-    
-    
-    
     public function  deleteAnswerbyTeenagerId($userid)
     {
         DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'))->where('l2ans_teenager', $userid)->delete(); 
@@ -342,10 +337,10 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
     
     public function getLevel2ActivityWithAnswer($id)
     {
-        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'). " AS answer ")
+        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'). " AS answer")
                               ->join(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity", 'answer.l2ans_activity', '=', 'activity.id')
-                              ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options ", 'answer.l2ans_answer', '=', 'options.id')
-                              ->selectRaw('activity.* , answer.*, options.*')
+                              ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'answer.l2ans_answer', '=', 'options.id')
+                              ->selectRaw('activity.*, answer.*, options.*')
                               ->where('answer.l2ans_teenager', '=', $id)
                               ->get();
         return $level2activities;

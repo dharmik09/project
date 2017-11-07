@@ -125,9 +125,9 @@ class TeenagerManagementController extends Controller {
         if (!empty($records["data"])) {
             foreach ($records["data"] as $key => $_records) {
                 $records["data"][$key]->t_name = "<a target='_blank' href='".url('/admin/view-teenager')."/".$_records->id."'>".$_records->t_name."</a>";
-                $records["data"][$key]->action = "<a href='".url('/admin/edit-teenager')."/".$_records->id."/".$sid."'><i class='fa fa-edit'></i> &nbsp;&nbsp;</a>
-                                                    <a onclick='return confirm('".trans('labels.confirmdelete')."')' href='".url('/admin/delete-teenager')."/".$_records->id."'><i class='i_delete fa fa-trash'></i>&nbsp;&nbsp;</a>
-                                                    <a href='' onClick='add_details('".$_records->id."');' data-toggle='modal' id='#userCoinsData' data-target='#userCoinsData'><i class='fa fa-database' aria-hidden='true'></i></a>";
+                $records["data"][$key]->action = '<a href="'.url('/admin/edit-teenager').'/'.$_records->id.'/'.$sid.'"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
+                                                    <a onClick="return confirm(\'Are you sure want to delete?\')" href="'.url('/admin/delete-teenager').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i> &nbsp;&nbsp;</a>
+                                                    <a href="#" onClick="add_details(\''.$_records->id.'\');" data-toggle="modal" id="#userCoinsData" data-target="#userCoinsData"><i class="fa fa-database" aria-hidden="true"></i></a>';
                 $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";
                 $records["data"][$key]->importData = "<a href='".url('/admin/export-l4-data')."/".$_records->id."'><i class='fa fa-file-excel-o' aria-hidden='true'></i></a>";
                 $records["data"][$key]->t_name = trim($_records->t_name);
@@ -623,7 +623,6 @@ class TeenagerManagementController extends Controller {
                     //FOR COMPARE LOGIC RESULT, L ='nomatch', M = 'moderate', H ='match'
                     $compareLogicResult = array('L', 'M', 'H', 'L', 'H', 'H', 'H', 'H', 'H');
                     $value = Helpers::getSpecificCareerMappingFromSystem($getProfessionIdFromProfessionName);
-                    
                     if (!empty($value)) {
                         $value->tcm_scientific_reasoning = (isset($value->tcm_scientific_reasoning) && $value->tcm_scientific_reasoning != '') ? $value->tcm_scientific_reasoning : 'L';
                         $value->tcm_verbal_reasoning = (isset($value->tcm_verbal_reasoning) && $value->tcm_verbal_reasoning != '') ? $value->tcm_verbal_reasoning : 'L';
@@ -652,7 +651,7 @@ class TeenagerManagementController extends Controller {
 
                         $variable0 = array_keys($compareLogic, $value->tcm_scientific_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Scientific Reasoning']);
                         
-                        //echo "<pre/>"; print_r($variable0); die();
+                        //echo "<pre/>"; print_r($getLevel2AssessmentResult); die();
         
                         $variable1 = array_keys($compareLogic, $value->tcm_verbal_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Verbal Reasoning']);
                         $variable2 = array_keys($compareLogic, $value->tcm_numerical_ability . $getLevel2AssessmentResult['APIscale']['aptitude']['Numerical Ability']);
@@ -1158,13 +1157,13 @@ class TeenagerManagementController extends Controller {
         $teenager_Id = $_REQUEST['teenid'];
         $data = [];
         $data['teenager_Id'] = $teenager_Id;
-        $data['searchBy'] = $_REQUEST['searchBy'];
-        $data['searchText'] = $_REQUEST['searchText'];
-        $data['orderBy'] = $_REQUEST['orderBy'];
-        $data['sortOrder'] = $_REQUEST['sortOrder'];
-        $data['page'] = $_REQUEST['page'];
+        // $data['searchBy'] = $_REQUEST['searchBy'];
+        // $data['searchText'] = $_REQUEST['searchText'];
+        // $data['orderBy'] = $_REQUEST['orderBy'];
+        // $data['sortOrder'] = $_REQUEST['sortOrder'];
+        //$data['page'] = $_REQUEST['page'];
         $teenagerDetail = $this->teenagersRepository->getTeenagerById($teenager_Id);
-        return view('admin.AddCoinsDataForTeenager',compact('teenagerDetail','data'));
+        return view('admin.AddCoinsDataForTeenager', compact('teenagerDetail','data'));
     }
 
     public function saveCoinsDataForTeen() {
@@ -1174,12 +1173,11 @@ class TeenagerManagementController extends Controller {
         $giftCoins = e(Input::get('t_coins'));
 
         $searchParamArray = [];
-        $searchParamArray['searchBy'] = e(Input::get('searchBy'));
-        $searchParamArray['searchText'] = Input::get('searchText');
-        $searchParamArray['orderBy'] = e(Input::get('orderBy'));
-        $searchParamArray['sortOrder'] = e(Input::get('sortOrder'));
-        $page = e(Input::get('page'));
-        $postData['pageRank'] = '?page='.$page;
+        //$searchParamArray['searchBy'] = e(Input::get('searchBy'));
+        // $searchParamArray['searchText'] = Input::get('searchText');
+        // $searchParamArray['orderBy'] = e(Input::get('orderBy'));
+        // $searchParamArray['sortOrder'] = e(Input::get('sortOrder'));
+        
         if (!empty($searchParamArray)) {
             Cache::forever('searchArray', $searchParamArray);
         } else {
@@ -1193,7 +1191,7 @@ class TeenagerManagementController extends Controller {
                 if ($userData['t_coins'] > 0 && $coins <= $userData['t_coins']) {
                     $coins = $userData['t_coins']-$coins;
                 } else {
-                    return Redirect::to("admin/teenagers".$postData['pageRank'])->with('error', trans('labels.commonerrormessage'));
+                    return Redirect::to("admin/teenagers")->with('error', trans('labels.commonerrormessage'));
                 }
             } else if (is_numeric($coins)) {
                 $coins += $userData['t_coins'];
@@ -1216,7 +1214,7 @@ class TeenagerManagementController extends Controller {
             $replaceArray = array();
             $replaceArray['TEEN_NAME'] = $userArray['t_name'];
             $replaceArray['COINS'] = $giftCoins;
-            $replaceArray['FROM_USER'] = Auth::admin()->get()->name;
+            $replaceArray['FROM_USER'] = $this->loggedInUser->user()->name;
             $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
             $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
@@ -1233,7 +1231,7 @@ class TeenagerManagementController extends Controller {
             });
         }
 
-        return Redirect::to("admin/teenagers".$postData['pageRank'])->with('success', trans('labels.coinsaddsuccess'));
+        return Redirect::to("admin/teenagers")->with('success', trans('labels.coinsaddsuccess'));
     }
 
     public function addCoinsForAllTeenager(){

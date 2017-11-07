@@ -10,6 +10,7 @@ return [
     'TBL_CITIES' => 'pro_city',
     'TBL_TEENAGERS' => 'pro_t_teenagers',
     'TBL_TEENAGERS_SPONSERS' => 'pro_ts_teenager_sponsors',
+    'TBL_TEENAGER_GIFT_COINS' => 'pro_tcg_teenager_coins_gift',
     'TBL_SPONSORS' => 'pro_sp_sponsor',
     'TBL_PARENTS' => 'pro_p_parent',
     'TBL_SCHOOLS' => 'pro_sc_school',

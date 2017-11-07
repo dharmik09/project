@@ -28,6 +28,8 @@ Route::get('/download-excel', 'Admin\TeenagerManagementController@downloadExcel'
 Route::get('/export-teenager', 'Admin\TeenagerManagementController@exportData');
 Route::get('/clear-cache-teenager','Admin\TeenagerManagementController@clearCache');
 Route::get('/export-l4-data/{id}', 'Admin\TeenagerManagementController@exportl4data');
+Route::post('/add-coins-data-for-teenager','Admin\TeenagerManagementController@addCoinsDataForTeenager');
+Route::post('/save-coins-data-for-teenager','Admin\TeenagerManagementController@saveCoinsDataForTeen');
 
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');

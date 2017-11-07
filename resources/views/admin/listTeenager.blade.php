@@ -115,27 +115,28 @@
         dateFormat: 'yy-mm-dd',
     })
     $( "#searchBy" ).change(function() {
-    var val = $(this).val();
-    if (val == 'teenager.created_at') {
-        $('.serach_box').hide();
-        $('.cst_serach_box').show();
-        $("#fromText").datepicker({
-            dateFormat: 'yy-mm-dd',
-        })
-        $("#toText").datepicker({
-            dateFormat: 'yy-mm-dd',
-        })
-    } else {
-      $("#searchText").datepicker("destroy");
-      $('.serach_box').show();
-      $('.cst_serach_box').hide();
-    }
-  });
+        var val = $(this).val();
+        if (val == 'teenager.created_at') {
+            $('.serach_box').hide();
+            $('.cst_serach_box').show();
+            $("#fromText").datepicker({
+                dateFormat: 'yy-mm-dd',
+            })
+            $("#toText").datepicker({
+                dateFormat: 'yy-mm-dd',
+            })
+        } else {
+          $("#searchText").datepicker("destroy");
+          $('.serach_box').show();
+          $('.cst_serach_box').hide();
+        }
+    });
+    
     function add_details($id)
     {
         $.ajax({
          type: 'post',
-         url: '{{ url("admin/addCoinsDataForTeenager") }}',
+         url: '{{ url("admin/add-coins-data-for-teenager") }}',
          headers: { 
             'X-CSRF-TOKEN': "{{ csrf_token() }} "
          },
@@ -163,6 +164,7 @@
             required: true
         }
     };
+    
     $("#addCoinsTeenager").validate({
         rules: Rules,
         messages: {
