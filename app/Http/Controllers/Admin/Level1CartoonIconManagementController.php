@@ -86,7 +86,7 @@ class Level1CartoonIconManagementController extends Controller
                 $validationPass = Helpers::checkValidImageExtension($file);
                 if($validationPass)
                 {
-                    $fileName = 'cartoon_' . time() . '.' . $file->getClientOriginalExtension();
+                    echo $fileName = 'cartoon_' . time() . '.' . $file->getClientOriginalExtension();
                     $pathOriginal = public_path($this->cartoonOriginalImageUploadPath . $fileName);
                     $pathThumb = public_path($this->cartoonThumbImageUploadPath . $fileName);
 
@@ -95,17 +95,19 @@ class Level1CartoonIconManagementController extends Controller
 
                     if ($hiddenLogo != '')
                     {
-                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenProfile, $this->cartoonOriginalImageUploadPath, "s3");
-                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenProfile, $this->cartoonThumbImageWidth, "s3");
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonThumbImageWidth, "s3");
                     }
 
                     //Uploading on AWS
                     $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->cartoonOriginalImageUploadPath, $pathOriginal, "s3");
-                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->cartoonThumbImageWidth, $pathThumb, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->cartoonThumbImageUploadPath, $pathThumb, "s3");
                     
                     \File::delete($this->cartoonOriginalImageUploadPath . $fileName);
-                    \File::delete($this->cartoonThumbImageWidth . $fileName);
+                    \File::delete($this->cartoonThumbImageUploadPath . $fileName);
                     $cartoonIconDetail['ci_image'] = $fileName;
+
+
                 }
             }
         }

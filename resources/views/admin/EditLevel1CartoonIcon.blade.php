@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 <!-- Content Wrapper. Contains page content -->
 
 <!-- Content Header (Page header) -->
@@ -52,6 +50,7 @@
                     $deleted = '';
                     $cpm_profession_id = '';
                 }
+
                 $profession_id = explode(",", $cpm_profession_id);
                 ?>
                 <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
@@ -70,22 +69,17 @@
                                 <input type="text" class="form-control" id="l1ci_name" name="l1ci_name" placeholder="{{trans('labels.cartooniconheadname')}}" value="{{$ci_name}}" />
                             </div>
                         </div>
-
+                        <?php //echo $cartoonIconDetail[0]->ci_image; exit; ?>
                         <div class="form-group">
                             <label for="l1ac_points" class="col-sm-2 control-label">{{trans('labels.cartooniconheadimage')}}</label>
                             <div class="col-sm-2">
                                 <input type="file" id="l1ci_image" name="l1ci_image" onchange="readURL(this);"/>
-<?php
-if (isset($id) && $id != '0' && (isset($cartoonThumbPath))) {
-    if (File::exists(public_path($cartoonThumbPath . $ci_image)) && $ci_image != '') {
-        ?><br>
-                                        <img src="{{ url($cartoonThumbPath.$ci_image) }}" alt="{{$ci_image}}" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                @if(isset($cartoonIconDetail[0]->id) && $cartoonIconDetail[0]->id != '0')
                                     <?php
-                                    }
-                                }
-                                ?>
+                                        $image = ($cartoonIconDetail[0]->ci_image != "" && Storage::disk('s3')->exists($cartoonThumbPath.$cartoonIconDetail[0]->ci_image)) ? Config::get('constant.DEFAULT_AWS').$cartoonThumbPath.$cartoonIconDetail[0]->ci_image : asset('/backend/images/proteen_logo.png');
+                                    ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                @endif
                             </div>
                             <label for="image_format" class="col-sm-3 control-label">{{trans('labels.pictureformat')}}</label>
                         </div>
