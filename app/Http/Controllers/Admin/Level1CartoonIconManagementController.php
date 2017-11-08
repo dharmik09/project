@@ -20,15 +20,17 @@ use App\Templates;
 use App\Services\Template\Contracts\TemplatesRepository;
 use Mail;
 use Cache;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level1CartoonIconManagementController extends Controller
 {
 
-    public function __construct(Level1CartoonIconRepository $Level1CartoonIconRepository, TemplatesRepository $TemplatesRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, Level1CartoonIconRepository $Level1CartoonIconRepository, TemplatesRepository $TemplatesRepository)
     {
         //$this->middleware('auth.admin');
         $this->objLevel1CartoonActivity = new Level1CartoonIcon();
         $this->Level1CartoonIconRepository = $Level1CartoonIconRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->objTemplates = new Templates();
         $this->TemplateRepository = $TemplatesRepository;
         $this->controller = 'Level1CartoonIconManagementController';
@@ -84,7 +86,7 @@ class Level1CartoonIconManagementController extends Controller
                 $validationPass = Helpers::checkValidImageExtension($file);
                 if($validationPass)
                 {
-                    $fileName = 'cartoon_' . time() . '.' . $file->getClientOriginalExtension();
+                    echo $fileName = 'cartoon_' . time() . '.' . $file->getClientOriginalExtension();
                     $pathOriginal = public_path($this->cartoonOriginalImageUploadPath . $fileName);
                     $pathThumb = public_path($this->cartoonThumbImageUploadPath . $fileName);
 
@@ -93,11 +95,19 @@ class Level1CartoonIconManagementController extends Controller
 
                     if ($hiddenLogo != '')
                     {
-                        $imageOriginal = public_path($this->cartoonOriginalImageUploadPath . $hiddenLogo);
-                        $imageThumb = public_path($this->cartoonThumbImageUploadPath . $hiddenLogo);
-                        File::delete($imageOriginal, $imageThumb);
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonThumbImageWidth, "s3");
                     }
+
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->cartoonOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->cartoonThumbImageUploadPath, $pathThumb, "s3");
+                    
+                    \File::delete($this->cartoonOriginalImageUploadPath . $fileName);
+                    \File::delete($this->cartoonThumbImageUploadPath . $fileName);
                     $cartoonIconDetail['ci_image'] = $fileName;
+
+
                 }
             }
         }
