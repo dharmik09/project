@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
+use Config;
 
 class Parents extends Model {
 
@@ -20,8 +22,8 @@ class Parents extends Model {
   
   public function getUniqueId($id)
   {
-      $result = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS pair ")
-              ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ", 'pair.ptp_teenager', '=', 'teenager.id')
+      $result = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS pair")
+              ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'pair.ptp_teenager', '=', 'teenager.id')
               ->selectRaw('teenager.t_uniqueid, pair.*')
               ->where('pair.ptp_parent_id', $id)
               ->get();

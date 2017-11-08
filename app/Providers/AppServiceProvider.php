@@ -29,6 +29,10 @@ use App\Services\Sponsors\Contracts\SponsorsRepository;
 use App\Sponsors;
 use App\Services\Sponsors\Repositories\EloquentSponsorsRepository;
 
+use App\Services\Parents\Contracts\ParentsRepository;
+use App\Parents;
+use App\Services\Parents\Repositories\EloquentParentsRepository;
+
 use App\Services\Template\Contracts\TemplatesRepository;
 use App\Templates;
 use App\Services\Template\Repositories\EloquentTemplatesRepository;
@@ -120,6 +124,10 @@ class AppServiceProvider extends ServiceProvider
             return new EloquentSponsorsRepository(new Sponsors());
         });
 
+        $this->app->bind(ParentsRepository::class, function () {
+            return new EloquentParentsRepository(new Parents());
+        });
+        
         $this->app->bind(TemplatesRepository::class, function () {
             return new EloquentTemplatesRepository(new Templates());
         });

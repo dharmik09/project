@@ -11,7 +11,8 @@ Route::post('saveVideo', 'Admin\VideoManagementController@save')->name('saveVide
 Route::get('/editVideo/{id}', 'Admin\VideoManagementController@edit')->name('editVideo');
 Route::get('/deleteVideo/{id}', 'Admin\VideoManagementController@delete')->name('deleteVideo');
 
-//All Users section
+//All Users Section
+//Teenager
 Route::get('/teenagers', 'Admin\TeenagerManagementController@index');
 Route::post('/get-teenager', 'Admin\TeenagerManagementController@getIndex');
 Route::get('/add-teenager', 'Admin\TeenagerManagementController@add');
@@ -30,6 +31,20 @@ Route::get('/clear-cache-teenager','Admin\TeenagerManagementController@clearCach
 Route::get('/export-l4-data/{id}', 'Admin\TeenagerManagementController@exportl4data');
 Route::post('/add-coins-data-for-teenager','Admin\TeenagerManagementController@addCoinsDataForTeenager');
 Route::post('/save-coins-data-for-teenager','Admin\TeenagerManagementController@saveCoinsDataForTeen');
+
+//Parents
+Route::get('/parents/{type}', 'Admin\ParentManagementController@index');
+Route::post('/parents/{type}', 'Admin\ParentManagementController@index');
+Route::get('/delete-parent/{id}/{type}', 'Admin\ParentManagementController@delete');
+Route::get('/add-parent', 'Admin\ParentManagementController@add');
+Route::post('/save-parent', 'Admin\ParentManagementController@save');
+Route::get('/edit-parent/{id}', 'Admin\ParentManagementController@edit');
+Route::get('/counselors/{type}', 'Admin\ParentManagementController@index');
+Route::post('/counselors/{type}', 'Admin\ParentManagementController@index');
+Route::get('/view-parentteen/{id}', 'Admin\ParentManagementController@viewparentteen');
+Route::get('/export-parent/{type}', 'Admin\ParentManagementController@exportparent');
+Route::post('/add-coins-data-for-parent','Admin\ParentManagementController@addCoinsDataForParent');
+Route::post('/save-coins-data-for-parent','Admin\ParentManagementController@saveCoinsDataForParent');
 
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');

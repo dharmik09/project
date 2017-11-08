@@ -32,7 +32,7 @@
             @if (Auth::guard('admin')->check())
             <?php             
             $userMenuItems = array('admin/home','admin/sponsors','admin/addsponsor','admin/editsponsor','admin/coupons','admin/addcoupon','admin/editcoupon','admin/teenagers',
-                'admin/add-teenager', 'admin/edit-teenager/{id}/{sid}','admin/parents/{type}','admin/counselors/{type}','admin/sponsoractivity/{id}','admin/schools','admin/editparent/{id}','admin/editschool/{id}','admin/editsponsor/{id}');           
+                'admin/add-teenager', 'admin/edit-teenager/{id}/{sid}','admin/parents/{type}','admin/counselors/{type}','admin/sponsoractivity/{id}','admin/schools','admin/edit-parent/{id}','admin/editschool/{id}','admin/editsponsor/{id}');           
             ?>
             <header class="main-header">
                 <a href="{{ url('/admin')}}" class="logo">
@@ -95,9 +95,14 @@
                                     <i class="fa fa-dashboard"></i> <span>All Users</span><i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/teenagers','admin/addteenager','admin/editteenager']) ? 'active' : '' }} treeview">
+                                    <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/teenagers','admin/add-teenager','admin/edit-teenager']) ? 'active' : '' }} treeview">
                                         <a href="{{ url('admin/teenagers') }}">
                                             <i class="fa fa-circle-o"></i> <span>{{trans('labels.teenagers')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/parents','admin/add-parent','admin/edit-parent']) ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/parents/1') }}">
+                                            <i class="fa fa-circle-o"></i> <span>{{trans('labels.parents')}}</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -285,8 +290,8 @@
         <script src="{{ asset('backend/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('backend/js/chosen.jquery.js')}}"></script>
         <script src="{{ asset('backend/js/common_admin.js')}}"></script>
-        <script src="{{ asset('backend/js/dataTables.bootstrap.min.js')}}"></script>
         <script src="{{ asset('backend/js/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('backend/js/dataTables.bootstrap.min.js')}}"></script>
         <script>
             $('div.alert').not('.alert-important').delay(5000).fadeOut(350);
             $('div.alert.alert-important').delay(5000).fadeOut(350);
