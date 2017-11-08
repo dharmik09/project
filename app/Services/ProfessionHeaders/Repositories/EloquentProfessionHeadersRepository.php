@@ -19,8 +19,8 @@ implements ProfessionHeadersRepository
 
     public function getAllProfessionHeaders()
     {
-        $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER'). " AS header ")
-                  ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'header.pfic_profession', '=', 'profession.id')
+        $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER'). " AS header")
+                  ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'header.pfic_profession', '=', 'profession.id')
                   ->selectRaw('header.* ,profession.pf_name, GROUP_CONCAT(header.pfic_title) AS pfic_title')
                   ->groupBy('header.pfic_profession')
                   ->get();

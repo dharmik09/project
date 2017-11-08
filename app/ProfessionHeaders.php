@@ -13,7 +13,7 @@ class ProfessionHeaders extends Model
 
     public function getActiveProfessionHeader($id)
     {   
-        $result = ProfessionHeaders::where('pfic_profession', $id)->first();
+        $result = ProfessionHeaders::where('pfic_profession', $id)->get();
         return $result;
     }
 

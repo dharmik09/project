@@ -189,6 +189,8 @@ Route::post('/careerMapping', 'Admin\CareerMappingManagementController@index')->
 Route::get('/addCareerMapping', 'Admin\CareerMappingManagementController@add')->name('addCareerMapping');
 Route::post('/saveAddCareerMapping', 'Admin\CareerMappingManagementController@save')->name('saveAddCareerMapping');
 Route::get('/editCareerMapping/{id}','Admin\CareerMappingManagementController@edit')->name('editCareerMapping');
+Route::get('/importExcel','Admin\CareerMappingManagementController@importExcel');
+Route::post('/addImportExcel', 'Admin\CareerMappingManagementController@addimportExcel');
 
 
 

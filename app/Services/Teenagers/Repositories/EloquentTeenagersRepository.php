@@ -727,32 +727,12 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     /**
      * @ get all detail of teenager career mapping
      */
-    public function getAllTeenagerCareerMap($searchParamArray = array()) {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'profession.deleted IN (1,2)';
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
-
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-        
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-        
-        
-        $detail = DB::table(config::get('databaseconstants.TBL_TEENAGER_CAREER_MAPPING') . " AS mapping ")
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'mapping.tcm_profession', '=', 'profession.id')
+    public function getAllTeenagerCareerMap() {
+        $detail = DB::table(config::get('databaseconstants.TBL_TEENAGER_CAREER_MAPPING') . " AS mapping")
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'mapping.tcm_profession', '=', 'profession.id')
                 ->selectRaw('mapping.*,profession.pf_name')
-                ->whereRaw($whereStr . $orderStr)
-                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                ->get();
 
         return $detail;
     }
