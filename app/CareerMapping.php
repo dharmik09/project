@@ -30,5 +30,4 @@ class CareerMapping extends Model implements AuthenticatableContract, Authorizab
      * @var array
      */
     protected $guarded = [];
-
 }

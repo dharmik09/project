@@ -30,17 +30,19 @@ use Cache;
 use App\LearningStyle;
 use App\Professions;
 use App\TeenagerCoinsGift;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class TeenagerManagementController extends Controller {
 
-    public function __construct(TeenagersRepository $teenagersRepository, SponsorsRepository $sponsorsRepository, ProfessionsRepository $professionsRepository, Level1ActivitiesRepository $level1ActivitiesRepository, Level2ActivitiesRepository $level2ActivitiesRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
-        $this->objTeenagers = new Teenagers();
+    public function __construct(FileStorageRepository $fileStorageRepository, TeenagersRepository $teenagersRepository, SponsorsRepository $sponsorsRepository, ProfessionsRepository $professionsRepository, Level1ActivitiesRepository $level1ActivitiesRepository, Level2ActivitiesRepository $level2ActivitiesRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
+        //$this->objTeenagers = new Teenagers();
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
         $this->professionsRepository = $professionsRepository;
         $this->level1ActivitiesRepository = $level1ActivitiesRepository;
         $this->level2ActivitiesRepository = $level2ActivitiesRepository;
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionThumbImageUploadPath = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
@@ -65,47 +67,86 @@ class TeenagerManagementController extends Controller {
     }
 
     public function index() {
-        $searchParamArray = Input::all();
-        
-        $currentPage = (isset($searchParamArray['gotopage']) && $searchParamArray['gotopage'] > 0 )?$searchParamArray['gotopage']:0;
-        if (isset($searchParamArray['clearSearch'])) {
-            unset($searchParamArray);
-            Cache::forget('searchArray');
-            Cache::forget('teenagerDetail');
-            $searchParamArray = array();
-        }
-        if (!empty($searchParamArray)) {
-            Cache::forget('teenagerDetail');
-            if (isset($searchParamArray['page'])) {
-                if (Cache::has('searchArray')) {
-                    $searchParamArray = Cache::get('searchArray');
-                } else {
-                    Cache::forget('searchArray');
-                }
-            } else {
-                Cache::forget('searchArray');
-            }
-            $teenagers = $this->teenagersRepository->getAllTeenagersData();
-        } else {
-            if (Cache::has('searchArray')) {
-                $searchParamArray = Cache::get('searchArray');
-            }
-            if (Cache::has('teenagerDetail')) {
-                $teenagers = Cache::get('teenagerDetail');
-            } else {
-                $teenagers = $this->teenagersRepository->getAllTeenagersData();
-                Cache::forever('teenagerDetail', $teenagers);
-            }
-        }
-        
-        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        $teenagers = $this->teenagersRepository->getAllTeenagersData();
+        return view('admin.ListTeenager');
+    }
 
-        return view('admin.listTeenager', compact('teenagers', 'searchParamArray','currentPage'));
+    public function getIndex(){
+        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        $teenagers = $this->teenagersRepository->getAllTeenagersData()->count();
+        $records = array();
+        $columns = array(
+            0 => 'id',
+            1 => 't_name',
+            2 => 't_email',
+            3 => 't_coins',
+            4 => 't_phone',
+            6 => 'deleted',
+            8 => 'created_at',
+        );
+        
+        $order = Input::get('order');
+        $search = Input::get('search');
+        $records["data"] = array();
+        $iTotalRecords = $teenagers;
+        $iTotalFiltered = $iTotalRecords;
+        $iDisplayLength = intval(Input::get('length')) <= 0 ? $iTotalRecords : intval(Input::get('length'));
+        $iDisplayStart = intval(Input::get('start'));
+        $sEcho = intval(Input::get('draw'));
+
+        $records["data"] = $this->teenagersRepository->getAllTeenagersData();
+        if (!empty($search['value'])) {
+            $val = $search['value'];
+            $records["data"]->where(function($query) use ($val) {
+                $query->where('teenager.t_name', "Like", "%$val%");
+                $query->orWhere('teenager.created_at', "Like", "%$val%");
+                $query->orWhere('teenager.t_nickname', "Like", "%$val%");
+                $query->orWhere('teenager.t_email', "Like", "%$val%");
+            });
+
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
+                    $query->where('teenager.t_name', "Like", "%$val%");
+                    $query->orWhere('teenager.created_at', "Like", "%$val%");
+                    $query->orWhere('teenager.t_nickname', "Like", "%$val%");
+                    $query->orWhere('teenager.t_email', "Like", "%$val%");
+                })->count();
+        }
+        
+        //order by
+        foreach ($order as $o) {
+            $records["data"] = $records["data"]->orderBy($columns[$o['column']], $o['dir']);
+        }
+
+        //limit
+        $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
+        // this $sid use for school edit teenager and admin edit teenager
+        $sid = 0;
+        if (!empty($records["data"])) {
+            foreach ($records["data"] as $key => $_records) {
+                $records["data"][$key]->t_name = "<a target='_blank' href='".url('/admin/view-teenager')."/".$_records->id."'>".$_records->t_name."</a>";
+                $records["data"][$key]->action = '<a href="'.url('/admin/edit-teenager').'/'.$_records->id.'/'.$sid.'"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
+                                                    <a onClick="return confirm(\'Are you sure want to delete?\')" href="'.url('/admin/delete-teenager').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i> &nbsp;&nbsp;</a>
+                                                    <a href="#" onClick="add_details(\''.$_records->id.'\');" data-toggle="modal" id="#userCoinsData" data-target="#userCoinsData"><i class="fa fa-database" aria-hidden="true"></i></a>';
+                $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";
+                $records["data"][$key]->importData = "<a href='".url('/admin/export-l4-data')."/".$_records->id."'><i class='fa fa-file-excel-o' aria-hidden='true'></i></a>";
+                $records["data"][$key]->t_name = trim($_records->t_name);
+                $records["data"][$key]->t_birthdate = date('d/m/Y',strtotime($_records->t_birthdate));
+                $records["data"][$key]->created_at = date('d/m/Y',strtotime($_records->created_at));
+            }
+        }
+
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalFiltered;
+
+        return \Response::json($records);
+        exit;
     }
 
     public function add() {
         $teenagerDetail = [];
-        Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
         return view('admin.EditTeenager', compact('teenagerDetail', 'sponsorDetail'));
     }
@@ -114,7 +155,7 @@ class TeenagerManagementController extends Controller {
         $uploadTeenagerThumbPath = $this->teenThumbImageUploadPath;
         //$teenagerDetail = $this->objTeenagers->find($id);
         $teenagerDetail = $this->teenagersRepository->getTeenagerById($id);
-        Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $selectedSponsors = array();
         if (isset($teenagerDetail->t_sponsors) && !empty($teenagerDetail->t_sponsors)) {
             foreach ($teenagerDetail->t_sponsors as $key => $val) {
@@ -126,7 +167,7 @@ class TeenagerManagementController extends Controller {
     }
 
     public function save(TeenagerRequest $TeenagerRequest) {
-
+        
         $teenagerDetail = [];
 
         $teenagerDetail['id'] = e(Input::get('id'));
@@ -150,10 +191,10 @@ class TeenagerManagementController extends Controller {
         $teenagerDetail['t_pincode'] = e(Input::get('t_pincode'));
         $teenagerDetail['t_location'] = e(Input::get('t_location'));
         $teenagerDetail['t_level'] = e(Input::get('t_level'));
-        $teenagerDetail['t_credit'] = e(Input::get('fu_address'));
-        $teenagerDetail['t_boosterpoints'] = e(Input::get('t_boosterpoints'));
-        $teenagerDetail['t_isfirstlogin'] = e(Input::get('t_isfirstlogin'));
-        $teenagerDetail['t_sponsor_choice'] = e(Input::get('t_sponsor_choice'));
+        //$teenagerDetail['t_credit'] = e(Input::get('fu_address'));
+        $teenagerDetail['t_boosterpoints'] = (Input::get('t_boosterpoints') != "") ? Input::get('t_boosterpoints') : 0;
+        $teenagerDetail['t_isfirstlogin'] = (Input::get('t_isfirstlogin') != "") ? Input::get('t_isfirstlogin') : 1;
+        $teenagerDetail['t_sponsor_choice'] = (Input::get('t_sponsor_choice') != 0) ? Input::get('t_sponsor_choice') : 0;
         $teenagerDetail['t_isverified'] = e(Input::get('t_isverified'));
         $teenagerDetail['t_device_token'] = e(Input::get('t_device_token'));
         $teenagerDetail['t_device_type'] = e(Input::get('t_device_type'));
@@ -176,7 +217,9 @@ class TeenagerManagementController extends Controller {
         if (Input::file()) {
             $file = Input::file('t_photo');
             if (!empty($file)) {
+                
                 $validationPass = Helpers::checkValidImageExtension($file);
+                
                 if($validationPass)
                 {
                     $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
@@ -187,12 +230,16 @@ class TeenagerManagementController extends Controller {
                     Image::make($file->getRealPath())->resize($this->teenThumbImageWidth, $this->teenThumbImageHeight)->save($pathThumb);
 
                     if ($hiddenProfile != '' && $hiddenProfile != "proteen-logo.png") {
-                        $imageOriginal = public_path($this->teenOriginalImageUploadPath . $hiddenProfile);
-                        $imageThumb = public_path($this->teenThumbImageUploadPath . $hiddenProfile);
-                        if(file_exists($imageOriginal) && $hiddenProfile != ''){File::delete($imageOriginal);}
-                        if(file_exists($imageThumb) && $hiddenProfile != ''){File::delete($imageThumb);}
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenProfile, $this->teenOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenProfile, $this->teenThumbImageUploadPath, "s3");
                     }
 
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                    \File::delete($this->teenOriginalImageUploadPath . $fileName);
+                    \File::delete($this->teenThumbImageUploadPath . $fileName);
+                    
                     $teenagerDetail['t_photo'] = $fileName;
                 }
             }
@@ -214,7 +261,7 @@ class TeenagerManagementController extends Controller {
             if (isset($sponsors) && !empty($sponsors) && Input::get('t_sponsor_choice') == 2) {
                 $sponsorDetail = $this->teenagersRepository->saveTeenagerSponserId($response->id, implode(',', $sponsors));
             }
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teenupdatesuccess'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
+            //Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teenupdatesuccess'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
             if(isset($sid) && !empty($sid) && $sid > 0)
             {
                 return Redirect::to("/admin/viewstudentlist/$sid")->with('success', trans('labels.teenupdatesuccess'));
@@ -224,7 +271,7 @@ class TeenagerManagementController extends Controller {
                 return Redirect::to("admin/teenagers".$postData['pageRank'])->with('success', trans('labels.teenupdatesuccess'));
             }
         } else {
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
+            //Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
             if(isset($sid) && !empty($sid) && $sid > 0)
             {
                 return Redirect::to("/admin/viewstudentlist/$sid")->with('success', trans('labels.teenagererrormessage'));
@@ -239,11 +286,11 @@ class TeenagerManagementController extends Controller {
     public function delete($id) {
         $return = $this->teenagersRepository->deleteTeenager($id);
         if ($return) {
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_TEENAGERS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teendeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_TEENAGERS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teendeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
 
             return Redirect::to("admin/teenagers")->with('success', trans('labels.teendeletesuccess'));
         } else {
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_TEENAGERS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), '', $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_TEENAGERS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), '', $_SERVER['REMOTE_ADDR']);
 
             return Redirect::to("admin/teenagers")->with('error', trans('labels.commonerrormessage'));
         }
@@ -366,11 +413,11 @@ class TeenagerManagementController extends Controller {
             $response = $this->teenagersRepository->saveTeenagerDetail($data);
         }
         if ($response) {
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teenupdatesuccess'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teenupdatesuccess'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
 
             return Redirect::to("admin/teenagers")->with('success', trans('labels.teenaddsuccess'));
         } else {
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
 
             return Redirect::to("admin/teenagers")->with('error', trans('labels.commonerrormessage'));
         }
@@ -396,7 +443,6 @@ class TeenagerManagementController extends Controller {
     public function exportData() {
         ob_start();
         $teenagerData = $this->teenagersRepository->getAllTeenagersExport();
-
 
         $filename = trans('labels.teenagerdata');
         $fp = fopen('php://output', 'w');
@@ -554,11 +600,12 @@ class TeenagerManagementController extends Controller {
         $l3Activity = $this->professionsRepository->getLevel3ActivityWithAnswer($id);
         $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($id);
         $teenagerAPIData = Helpers::getTeenAPIScore($id);
-
         $totalQuestion = $this->level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($id);
+        
         if (isset($totalQuestion[0]->NoOfAttemptedQuestions) && $totalQuestion[0]->NoOfAttemptedQuestions > 0) {
         $response['NoOfAttemptedQuestionsLevel2'] = $totalQuestion[0]->NoOfAttemptedQuestions;
         $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession($id);
+        
         if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
             $response['teenagerAttemptedProfession'] = $getTeenagerAttemptedProfession;
         } else {
@@ -570,12 +617,14 @@ class TeenagerManagementController extends Controller {
         if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
             foreach ($getTeenagerAttemptedProfession as $keyProfession => $professionName) {
                 $getProfessionIdFromProfessionName = $this->professionsRepository->getProfessionIdByName($professionName->pf_name);
+                
                 if (isset($getProfessionIdFromProfessionName) && $getProfessionIdFromProfessionName > 0) {
                     $compareLogic = array('HL', 'HM', 'HH', 'ML', 'MM', 'MH', 'LL', 'LM', 'LH');
                     //FOR COMPARE LOGIC RESULT, L ='nomatch', M = 'moderate', H ='match'
                     $compareLogicResult = array('L', 'M', 'H', 'L', 'H', 'H', 'H', 'H', 'H');
                     $value = Helpers::getSpecificCareerMappingFromSystem($getProfessionIdFromProfessionName);
                     if (!empty($value)) {
+
                         $value->tcm_scientific_reasoning = (isset($value->tcm_scientific_reasoning) && $value->tcm_scientific_reasoning != '') ? $value->tcm_scientific_reasoning : 'L';
                         $value->tcm_verbal_reasoning = (isset($value->tcm_verbal_reasoning) && $value->tcm_verbal_reasoning != '') ? $value->tcm_verbal_reasoning : 'L';
                         $value->tcm_numerical_ability = (isset($value->tcm_numerical_ability) && $value->tcm_numerical_ability != '') ? $value->tcm_numerical_ability : 'L';
@@ -993,7 +1042,7 @@ class TeenagerManagementController extends Controller {
 
         $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
         $professionOriginalImageUploadPath = $this->professionOriginalImageUploadPath;
-        return view('admin.viewTeenagerDetail', compact('viewTeenDetail','uploadTeenagerThumbPath','l1Activity','l2Activity','l3Activity','boosterPoints','uploadProfessionThumbPath','finalMIParameters','professionOriginalImageUploadPath','level4Data','teenagerMyIcons','response','userLearningData'));
+        return view('admin.ViewTeenagerDetail', compact('viewTeenDetail','uploadTeenagerThumbPath','l1Activity','l2Activity','l3Activity','boosterPoints','uploadProfessionThumbPath','finalMIParameters','professionOriginalImageUploadPath','level4Data','teenagerMyIcons','response','userLearningData'));
     }
 
     public function editUserPaymentApproved($id)
@@ -1106,13 +1155,13 @@ class TeenagerManagementController extends Controller {
         $teenager_Id = $_REQUEST['teenid'];
         $data = [];
         $data['teenager_Id'] = $teenager_Id;
-        $data['searchBy'] = $_REQUEST['searchBy'];
-        $data['searchText'] = $_REQUEST['searchText'];
-        $data['orderBy'] = $_REQUEST['orderBy'];
-        $data['sortOrder'] = $_REQUEST['sortOrder'];
-        $data['page'] = $_REQUEST['page'];
+        // $data['searchBy'] = $_REQUEST['searchBy'];
+        // $data['searchText'] = $_REQUEST['searchText'];
+        // $data['orderBy'] = $_REQUEST['orderBy'];
+        // $data['sortOrder'] = $_REQUEST['sortOrder'];
+        //$data['page'] = $_REQUEST['page'];
         $teenagerDetail = $this->teenagersRepository->getTeenagerById($teenager_Id);
-        return view('admin.AddCoinsDataForTeenager',compact('teenagerDetail','data'));
+        return view('admin.AddCoinsDataForTeenager', compact('teenagerDetail','data'));
     }
 
     public function saveCoinsDataForTeen() {
@@ -1122,12 +1171,11 @@ class TeenagerManagementController extends Controller {
         $giftCoins = e(Input::get('t_coins'));
 
         $searchParamArray = [];
-        $searchParamArray['searchBy'] = e(Input::get('searchBy'));
-        $searchParamArray['searchText'] = Input::get('searchText');
-        $searchParamArray['orderBy'] = e(Input::get('orderBy'));
-        $searchParamArray['sortOrder'] = e(Input::get('sortOrder'));
-        $page = e(Input::get('page'));
-        $postData['pageRank'] = '?page='.$page;
+        //$searchParamArray['searchBy'] = e(Input::get('searchBy'));
+        // $searchParamArray['searchText'] = Input::get('searchText');
+        // $searchParamArray['orderBy'] = e(Input::get('orderBy'));
+        // $searchParamArray['sortOrder'] = e(Input::get('sortOrder'));
+        
         if (!empty($searchParamArray)) {
             Cache::forever('searchArray', $searchParamArray);
         } else {
@@ -1141,7 +1189,7 @@ class TeenagerManagementController extends Controller {
                 if ($userData['t_coins'] > 0 && $coins <= $userData['t_coins']) {
                     $coins = $userData['t_coins']-$coins;
                 } else {
-                    return Redirect::to("admin/teenagers".$postData['pageRank'])->with('error', trans('labels.commonerrormessage'));
+                    return Redirect::to("admin/teenagers")->with('error', trans('labels.commonerrormessage'));
                 }
             } else if (is_numeric($coins)) {
                 $coins += $userData['t_coins'];
@@ -1164,7 +1212,7 @@ class TeenagerManagementController extends Controller {
             $replaceArray = array();
             $replaceArray['TEEN_NAME'] = $userArray['t_name'];
             $replaceArray['COINS'] = $giftCoins;
-            $replaceArray['FROM_USER'] = Auth::admin()->get()->name;
+            $replaceArray['FROM_USER'] = $this->loggedInUser->user()->name;
             $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
             $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
@@ -1181,7 +1229,7 @@ class TeenagerManagementController extends Controller {
             });
         }
 
-        return Redirect::to("admin/teenagers".$postData['pageRank'])->with('success', trans('labels.coinsaddsuccess'));
+        return Redirect::to("admin/teenagers")->with('success', trans('labels.coinsaddsuccess'));
     }
 
     public function addCoinsForAllTeenager(){

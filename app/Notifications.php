@@ -19,7 +19,9 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
         CanResetPassword;
 
     protected $table = 'pro_n_notifications';
-    protected $fillable = ['id', 'n_user_id', 'n_notification_text', 'n_status', 'created_at', 'updated_at', 'deleted'];
+    //protected $fillable = ['id', 'n_user_id', 'n_notification_text', 'n_status', 'created_at', 'updated_at', 'deleted'];
+    protected $guarded = [];
+
 
     public function saveTeenagerDetailForSendNotification($userId, $message) {
         foreach ($userId AS $key => $Id) {

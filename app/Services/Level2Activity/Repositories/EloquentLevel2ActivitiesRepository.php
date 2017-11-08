@@ -277,19 +277,19 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
     {
         $activities = DB::select(DB::raw("SELECT tmp.*
                                             FROM (SELECT
-                                            	L2AC.id AS activityID,
-                                            	l2ac_text,
-                                            	l2ac_points,
-                                            	l2ac_image,
-                                            	GROUP_CONCAT(L2OP.id) AS optionIds,
-                                            	GROUP_CONCAT(l2op_option) AS options,
+                                                L2AC.id AS activityID,
+                                                l2ac_text,
+                                                l2ac_points,
+                                                l2ac_image,
+                                                GROUP_CONCAT(L2OP.id) AS optionIds,
+                                                GROUP_CONCAT(l2op_option) AS options,
                                                 L2AC.deleted,
                                                 count(*) as 'NoOfTotalQuestions'
                                                 FROM
-                                            	" . config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS L2AC
+                                                " . config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS L2AC
                                             INNER JOIN " . config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS L2OP ON L2OP.l2op_activity = L2AC.id
                                             GROUP BY
-                                            	L2AC.id) AS tmp
+                                                L2AC.id) AS tmp
                                             LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL2_ANSWERS') . " AS L2ANS ON L2ANS.l2ans_activity = tmp.activityID AND L2ANS.l2ans_teenager = $teenagerId
                                             WHERE tmp.deleted=1 and L2ANS.id IS NULL AND L2ANS.l2ans_teenager IS NULL AND L2ANS.l2ans_activity IS NULL AND L2ANS.l2ans_answer IS NULL"), array());
 
@@ -330,11 +330,6 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
         return $result;
     }
     
-    
-    
-    
-    
-    
     public function  deleteAnswerbyTeenagerId($userid)
     {
         DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'))->where('l2ans_teenager', $userid)->delete(); 
@@ -342,10 +337,10 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
     
     public function getLevel2ActivityWithAnswer($id)
     {
-        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'). " AS answer ")
+        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'). " AS answer")
                               ->join(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity", 'answer.l2ans_activity', '=', 'activity.id')
-                              ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options ", 'answer.l2ans_answer', '=', 'options.id')
-                              ->selectRaw('activity.* , answer.*, options.*')
+                              ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'answer.l2ans_answer', '=', 'options.id')
+                              ->selectRaw('activity.*, answer.*, options.*')
                               ->where('answer.l2ans_teenager', '=', $id)
                               ->get();
         return $level2activities;

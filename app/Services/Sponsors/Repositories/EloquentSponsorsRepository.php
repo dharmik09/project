@@ -98,11 +98,11 @@ class EloquentSponsorsRepository extends EloquentBaseRepository
      /**
      * Get Sponsor
      */
-     public function getApprovedSponsors()
-     {
+    public function getApprovedSponsors()
+    {
         $sponsor = $this->model->where('deleted', '1')->where('sp_isapproved','1')->select('id as sponsor_id','sp_email', 'sp_company_name','sp_admin_name','sp_address1','sp_address2','sp_pincode','sp_city','sp_state','sp_country','password','sp_logo','sp_photo','sp_first_name','sp_last_name','sp_title','sp_phone')->get();
         return $sponsor;
-     }
+    }
 
      /*
      return : array of Sponsor detail by email id
