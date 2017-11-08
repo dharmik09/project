@@ -793,7 +793,6 @@ class TeenagerManagementController extends Controller {
             $response['systemMatchedProfession'] = [];
         }
 
-
         //get teen parent/counsellor data
         $parentCounsellor = $this->teenagersRepository->getTeenParents($id);
         $viewTeenDetail->parentcounsellor = $parentCounsellor;
@@ -809,33 +808,20 @@ class TeenagerManagementController extends Controller {
         if (isset($teenagerIcons) && !empty($teenagerIcons)) {
             foreach ($teenagerIcons as $key => $icon) {
                 if ($icon->ti_icon_type == 1) {
-                    if ($icon->fiction_image != '' && file_exists($this->cartoonOriginalImageUploadPath . $icon->fiction_image)) {
-                        $fictionIcon[$key]['image'] = asset($this->cartoonOriginalImageUploadPath . $icon->fiction_image);
-                    } else {
-                        $fictionIcon[$key]['image'] = asset($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
-                    }
+                    $fictionIcon[$key]['image'] = ( $icon->fiction_image != '' ) ? Config::get('constant.DEFAULT_AWS').$this->cartoonOriginalImageUploadPath . $icon->fiction_image : asset($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
                     $fictionIcon[$key]['iconname'] = $icon->ci_name;
                     $fictionIcon[$key]['category'] = $icon->cic_name;
                 } elseif ($icon->ti_icon_type == 2) {
-                    if ($icon->nonfiction_image != '' && file_exists($this->humanOriginalImageUploadPath . $icon->nonfiction_image)) {
-                        $nonFiction[$key]['image'] = asset($this->humanOriginalImageUploadPath . $icon->nonfiction_image);
-                    } else {
-                        $nonFiction[$key]['image'] = asset($this->humanOriginalImageUploadPath . 'proteen-logo.png');
-                    }
+                    $nonFiction[$key]['image'] = ( $icon->nonfiction_image != '' ) ? Config::get('constant.DEFAULT_AWS').$this->humanOriginalImageUploadPath . $icon->nonfiction_image : asset($this->humanOriginalImageUploadPath . 'proteen-logo.png');
                     $nonFiction[$key]['iconname'] = $icon->hi_name;
                     $nonFiction[$key]['category'] = $icon->hic_name;
                 } else {
-                    if ($icon->ti_icon_image != '' && file_exists($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image)) {
-                        $relationIcon[$key]['image'] = asset($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image);
-                    }else{
-                        $relationIcon[$key]['image'] = asset($this->relationIconOriginalImageUploadPath . 'proteen-logo.png');
-                    }
+                    $relationIcon[$key]['image'] = ($icon->ti_icon_image != '') ? Config::get('constant.DEFAULT_AWS') . $this->relationIconOriginalImageUploadPath . $icon->ti_icon_image : asset($this->relationIconOriginalImageUploadPath . 'proteen-logo.png');
                     $relationIcon[$key]['iconname'] = $icon->ti_icon_name;
                     $relationIcon[$key]['category'] = $icon->rel_name;
                 }
             }
             $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
-            //$response['data']['fiction'] = $fictionIcon;
         }
 
         //Teenager API Data
@@ -853,13 +839,7 @@ class TeenagerManagementController extends Controller {
             foreach ($teenagerAPIData['APIscore']['interest'] as $interest => $val) {
                 if ($val == 1) {
                     $interestImage = Helpers::getInterestData($interest);
-                    if (!empty($interestImage)) {
-                        if ($interestImage->it_logo != '' && file_exists($this->interestOriginalImageUploadPath . $interestImage->it_logo)) {
-                            $image = asset($this->interestOriginalImageUploadPath . $interestImage->it_logo);
-                        } else {
-                            $image = asset($this->interestOriginalImageUploadPath . 'proteen-logo.png');
-                        }
-                    }
+                    $image = (isset($interestImage->it_logo) && $interestImage->it_logo != '') ? Config::get('constant.DEFAULT_AWS'). $this->interestOriginalImageUploadPath . $interestImage->it_logo : asset($this->interestOriginalImageUploadPath . 'proteen-logo.png');
                     $teenagerInterest[] = array('image' => $image, 'interest' => $interest);
                 }
                 $i++;
@@ -869,14 +849,7 @@ class TeenagerManagementController extends Controller {
             $k = 1;
             foreach ($teenagerAPIData['APIscore']['aptitude'] as $aptitude => $val) {
                  $aptitudemage = Helpers::getApptitudeData($aptitude);
-                    if (!empty($aptitudemage)) {
-                        if ($aptitudemage->apt_logo != '' && file_exists($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo)) {
-                            $image = asset($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo);
-                        } else {
-                            $image = asset($this->apptitudeOriginalImageUploadPath . 'proteen-logo.png');
-                        }
-                    }
-
+                    $image = (isset($aptitudemage->apt_logo) && $aptitudemage->apt_logo != '') ? Config::get('constant.DEFAULT_AWS'). $this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo : asset($this->apptitudeOriginalImageUploadPath . 'proteen-logo.png');
                     $aptitudescale = $teenagerAPIData['APIscale']['aptitude'][$aptitude];
                     $teenagerApptitude[] = array('image' => $image, 'aptitude' => $aptitude, 'scale' => $aptitudescale, 'score' => $val);
                 $k++;
@@ -885,26 +858,16 @@ class TeenagerManagementController extends Controller {
             // Teenager MI Data
             foreach ($teenagerAPIData['APIscore']['MI'] as $mi => $val) {
                     $miimage = Helpers::getMIData($mi);
-                    if (!empty($miimage)) {
-                        if ($miimage->mit_logo != '' && file_exists($this->miOriginalImageUploadPath . $miimage->mit_logo)) {
-                            $image = asset($this->miOriginalImageUploadPath . $miimage->mit_logo);
-                        } else {
-                            $image = asset($this->miOriginalImageUploadPath . 'proteen-logo.png');
-                        }
-                    }
+                    
+                    $image = ( isset($miimage->mit_logo) && $miimage->mit_logo != ''  ) ? Config::get('constant.DEFAULT_AWS'). $this->miOriginalImageUploadPath . $miimage->mit_logo : asset($this->miOriginalImageUploadPath . 'proteen-logo.png');
                     $miscale = $teenagerAPIData['APIscale']['MI'][$mi];
                     $teenagerMI[] = array('image' => $image, 'aptitude' => $mi, 'scale' => $miscale, 'score' => $val);
             }
             // Teenager personality Data
             foreach ($teenagerAPIData['APIscore']['personality'] as $personality => $val) {
                     $personalityimage = Helpers::getPersonalityData($personality);
-                    if (!empty($personalityimage)) {
-                        if ($personalityimage->pt_logo != '' && file_exists($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo)) {
-                            $image = asset($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo);
-                        } else {
-                            $image = asset($this->personalityOriginalImageUploadPath . 'proteen-logo.png');
-                        }
-                    }
+                    
+                    $image = ( isset($personalityimage->pt_logo) && $personalityimage->pt_logo != '' ) ? Config::get('constant.DEFAULT_AWS'). $this->personalityOriginalImageUploadPath . $personalityimage->pt_logo : asset($this->personalityOriginalImageUploadPath . 'proteen-logo.png');
                     $personalityscale = $teenagerAPIData['APIscale']['personality'][$personality];
                     $teenagerPersonality[] = array('image' => $image, 'aptitude' => $personality, 'scale' => $personalityscale, 'score' => $val);
             }
@@ -941,11 +904,7 @@ class TeenagerManagementController extends Controller {
                 $userLearningData[$k]->interpretationrange = '';
                 $userLearningData[$k]->totalAttemptedP = round($TotalAttemptedP);
                 $photo = $value->ls_image;
-                if ($photo != '' && file_exists($this->learningStyleThumbImageUploadPath . $photo)) {
-                    $value->ls_image = asset($this->learningStyleThumbImageUploadPath . $photo);
-                } else {
-                    $value->ls_image = asset("/frontend/images/proteen-logo.png");
-                }
+                $value->ls_image = ($value->ls_image != "") ? Config::get('constant.DEFAULT_AWS') . $this->learningStyleThumbImageUploadPath . $photo : asset("/frontend/images/proteen-logo.png");
             }
 
             if (isset($professionArray) && !empty($professionArray)) {

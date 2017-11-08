@@ -78,17 +78,12 @@
                         <div class="form-group clearfix">
                             <label for="cat_name" class="col-sm-6 control-label">{{trans('labels.formlblphoto')}}</label>
                             <div class="col-sm-6">
-                                <?php
-                                if (isset($viewTeenDetail->id) && $viewTeenDetail->id != '0') {
-                                    if (File::exists(public_path($uploadTeenagerThumbPath . $viewTeenDetail->t_photo)) && $viewTeenDetail->t_photo != '') {
-                                        ?>
-                                        <img src="{{ url($uploadTeenagerThumbPath.$viewTeenDetail->t_photo) }}" alt="{{$viewTeenDetail->t_photo}}" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                        <?php
-                                    }
-                                }
-                                ?>
+                                @if(isset($viewTeenDetail->id) && $viewTeenDetail->id != '0')
+                                    <?php
+                                        $image_user = ($viewTeenDetail->t_photo != "" && Storage::disk('s3')->exists(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$viewTeenDetail->t_photo)) ? Config::get('constant.DEFAULT_AWS').Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$viewTeenDetail->t_photo : asset('/backend/images/proteen_logo.png');
+                                    ?>
+                                    <img src="{{$image_user}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                @endif
                             </div>
                         </div>
                         <?php
@@ -385,11 +380,10 @@
                               @forelse($response['systemMatchedProfession'] as $l3)
 
                               <div class="interest">
-                                        <?php if(File::exists(public_path($professionOriginalImageUploadPath.$l3['pf_logo'])) && $l3['pf_logo'] != '') { ?>
-                                                        <img src="{{ url($professionOriginalImageUploadPath.$l3['pf_logo']) }}" alt="{{$l3['pf_logo']}}" style="width: 80px; height: 80px;" >
-                                            <?php } else{ ?>
-                                                        <img src="{{ url($professionOriginalImageUploadPath.'proteen-logo.png') }}" class="user-image" alt="Default Image" style="width: 80px; height: 80px;">
-                                            <?php  } ?>
+                                        <?php
+                                            $professionImage = ($l3['pf_logo'] != '' && Storage::disk('s3')->exists($professionOriginalImageUploadPath . $l3['pf_logo'])) ? Config::get('constant.DEFAULT_AWS').$professionOriginalImageUploadPath . $l3['pf_logo'] : asset('/backend/images/proteen_logo.png');
+                                        ?>
+                                        <img src="{{$professionImage}}" class="user-image" alt="Default Image" style="width: 80px; height: 80px;">
                                         <div class="detail_container">
                                             <span class="title">{{$l3['professionName']}}</span><br/>
                                             <span class="title">
@@ -439,11 +433,10 @@
                               </div>
                               @forelse($level4Data as $level4)
                               <div class="interest">
-                                        <?php if(File::exists(public_path($professionOriginalImageUploadPath.$level4['pf_logo'])) && $level4['pf_logo'] != '') { ?>
-                                                        <img src="{{ url($professionOriginalImageUploadPath.$level4['pf_logo']) }}" alt="{{$level4['pf_logo']}}" style="width: 80px; height: 80px;" >
-                                            <?php } else{ ?>
-                                                        <img src="{{ url($professionOriginalImageUploadPath.'proteen-logo.png') }}" class="user-image" alt="Default Image" style="width: 80px; height: 80px;">
-                                            <?php  } ?>
+                                        <?php
+                                            $level4_image = ($level4['pf_logo'] != "" && Storage::disk('s3')->exists($professionOriginalImageUploadPath.$level4['pf_logo'])) ? Config::get('constant.DEFAULT_AWS').$professionOriginalImageUploadPath.$level4['pf_logo'] : asset('/backend/images/proteen_logo.png');
+                                        ?>
+                                        <img src="{{$level4_image}}" class="user-image" style="width: 80px; height: 80px;" />
                                         <div class="detail_container">
                                             <span class="title" style="font-weight: bold;">{{$level4['pf_name']}}</span>
                                             <div class="" style="border-top: 1px solid #dddddd;">
