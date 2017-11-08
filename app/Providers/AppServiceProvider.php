@@ -73,6 +73,10 @@ use App\Services\ProfessionHeaders\Contracts\ProfessionHeadersRepository;
 use App\ProfessionHeaders;
 use App\Services\ProfessionHeaders\Repositories\EloquentProfessionHeadersRepository;
 
+use App\Services\CareerMapping\Contracts\CareerMappingRepository;
+use App\CareerMapping;
+use App\Services\CareerMapping\Repositories\EloquentCareerMappingRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -158,6 +162,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ProfessionHeadersRepository::class, function () {
             return new EloquentProfessionHeadersRepository(new ProfessionHeaders());
+        });
+
+        $this->app->bind(CareerMappingRepository::class, function () {
+            return new EloquentCareerMappingRepository(new CareerMapping());
         });
     }
 }

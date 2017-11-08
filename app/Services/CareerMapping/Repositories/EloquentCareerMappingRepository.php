@@ -12,7 +12,7 @@ class EloquentCareerMappingRepository extends EloquentBaseRepository implements 
 
     public function saveCareerMapping($carrerMappingDetail) {
         $pf_id = $carrerMappingDetail['tcm_profession'];
-        $checkForprofession = DB::table(config::get('databaseconstants.TBL_TEENAGER_CAREER_MAPPING'))->where('tcm_profession', $pf_id)->get();
+        $checkForprofession = DB::table(config::get('databaseconstants.TBL_TEENAGER_CAREER_MAPPING'))->where('tcm_profession', $pf_id)->get()->toArray();
         if (!empty($checkForprofession) && isset($checkForprofession)) {
             $id = $checkForprofession[0]->id;
             $return = $this->model->where('tcm_profession', $pf_id)->where('id', $id)->update($carrerMappingDetail);
@@ -23,13 +23,13 @@ class EloquentCareerMappingRepository extends EloquentBaseRepository implements 
     }
 
     public function getCareerMappingDetailsById($id) {
-        $careerMappingDetails = DB::table(config::get('databaseconstants.TBL_TEENAGER_CAREER_MAPPING') . " AS mapping ")
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'mapping.tcm_profession', '=', 'profession.id')
+        $careerMappingDetails = DB::table(config::get('databaseconstants.TBL_TEENAGER_CAREER_MAPPING') . " AS mapping")
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'mapping.tcm_profession', '=', 'profession.id')
                 ->selectRaw('mapping.*,profession.pf_name')
                 ->where('mapping.id', $id)
-                ->get();
+                ->first();
 
-        return $careerMappingDetails[0];
+        return $careerMappingDetails;
     }
 
 }

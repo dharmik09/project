@@ -146,7 +146,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="{{ (Request::is('admin/baskets') || Request::is('admin/editprofession/*') || Request::is('admin/editcareermapping/*') || Request::is('admin/editheader/*') || Request::is('admin/editbasket/*') || Request::is('admin/careermapping') || Request::is('admin/addbasket') || Request::is('admin/editbasket/*') || Request::is('admin/professions') || Request::is('admin/addprofession') || Request::is('admin/editprofession/*') || Request::is('admin/headers') || Request::is('admin/addheader') || Request::is('admin/editheader')) ? 'active' : '' }} treeview">
+                            <li class="{{ (Request::is('admin/baskets') || Request::is('admin/addBasket') || Request::is('admin/editBasket/*') || Request::is('admin/saveBaskets') ||Request::is('admin/deleteBaskets') || Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*') || Request::is('admin/addProfessionBulk') || Request::is('admin/saveProfessionBulk') || Request::is('admin/exportProfessoin') || Request::is('admin/exportCompetitors') || Request::is('admin/headers') || Request::is('admin/addHeader') || Request::is('admin/editHeader/*') || Request::is('admin/deleteHeader') || Request::is('admin/deleteHeader/*') || Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*') || Request::is('admin/importExcel') || Request::is('admin/addImportExcel') ) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/baskets') }}">
                                     <i class="fa fa-dashboard"></i> <span>{{trans('labels.level3')}}</span><i class="fa fa-angle-left pull-right"></i>
                                 </a>
@@ -166,7 +166,7 @@
                                             <i class="fa fa-circle-o"></i>{{trans('labels.headers')}}
                                         </a>
                                     </li>
-                                    <li class="{{ (Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*')) ? 'active' : '' }} treeview">
+                                    <li class="{{ (Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*') || Request::is('admin/importExcel') || Request::is('admin/addImportExcel')) ? 'active' : '' }} treeview">
                                         <a href="{{ url('admin/careerMapping') }}">
                                             <i class="fa fa-circle-o"></i> <span>Career HML Mapping</span>
                                         </a>
