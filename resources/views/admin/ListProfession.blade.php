@@ -60,8 +60,10 @@
                                     {{(isset($basketsNames) && $basketsNames != '')?$profession->b_name.', '.$basketsNames:$profession->b_name}}
                                 </td>
                                 <td>
-                                    <?php $professionMainImage = Helpers::getProfessionThumbImageUrl($profession->pf_logo); ?>
-                                        <img src="{{$professionMainImage}}" alt="{{$profession->pf_logo}}" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                    <?php
+                                        $image = ($profession->pf_logo != "" && Storage::disk('s3')->exists($uploadProfessionThumbPath.$profession->pf_logo)) ? Config::get('constant.DEFAULT_AWS').$uploadProfessionThumbPath.$profession->pf_logo : asset('/backend/images/proteen_logo.png');
+                                    ?>
+                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                    </td>
                                 <td>
                                     @if ($profession->deleted == 1)

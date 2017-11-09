@@ -148,14 +148,10 @@
                             <div class="col-sm-2">
                                 <input type="file" id="pf_logo" name="pf_logo" onchange="readURL(this);"/>
                                 <?php
-                                if(isset($professionDetail->id) && $professionDetail->id != '0'){
-                                    if(File::exists(public_path($uploadProfessionThumbPath.$professionDetail->pf_logo)) && $professionDetail->pf_logo != '') { ?><br>
-                                        <img src="{{ url($uploadProfessionThumbPath.$professionDetail->pf_logo) }}" alt="{{$professionDetail->pf_logo}}" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php }else{ ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                <?php   }
-                                    }
-                                ?>
+                                    if(isset($professionDetail->id) && $professionDetail->id != '0'){
+                                        $image = ($professionDetail->pf_logo != "" && Storage::disk('s3')->exists($uploadProfessionThumbPath.$professionDetail->pf_logo)) ? Config::get('constant.DEFAULT_AWS').$uploadProfessionThumbPath.$professionDetail->pf_logo : asset('/backend/images/proteen_logo.png'); ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                <?php } ?>
                             </div>
                             <label for="image_format" class="col-sm-3 control-label">{{trans('labels.pictureformat')}}</label>
                         </div>

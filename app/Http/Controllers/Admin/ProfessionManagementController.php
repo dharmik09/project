@@ -20,15 +20,17 @@ use App\Services\Baskets\Contracts\BasketsRepository;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Cache;
 use App\Notifications;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class ProfessionManagementController extends Controller {
 
-    public function __construct(ProfessionHeadersRepository $ProfessionsHeadersRepository, ProfessionsRepository $ProfessionsRepository, BasketsRepository $BasketsRepository,TeenagersRepository $TeenagersRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, ProfessionHeadersRepository $ProfessionsHeadersRepository, ProfessionsRepository $ProfessionsRepository, BasketsRepository $BasketsRepository,TeenagersRepository $TeenagersRepository) {
         $this->objProfession = new Professions();
         $this->ProfessionsRepository = $ProfessionsRepository;
         $this->ProfessionHeadersRepository = $ProfessionsHeadersRepository;
         $this->BasketsRepository = $BasketsRepository;
         $this->TeenagersRepository = $TeenagersRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->professionOriginalImageUploadPath = Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->professionThumbImageUploadPath = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionThumbImageHeight = Config::get('constant.PROFESSION_THUMB_IMAGE_HEIGHT');
@@ -46,6 +48,7 @@ class ProfessionManagementController extends Controller {
 
     public function index() {
         $professions = $this->ProfessionsRepository->getAllProfessions();
+        $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.ListProfession', compact('professions', 'uploadProfessionThumbPath'));
     }
@@ -108,10 +111,16 @@ class ProfessionManagementController extends Controller {
                 Image::make($file->getRealPath())->resize($this->professionThumbImageWidth, $this->professionThumbImageHeight)->save($pathThumb);
 
                 if ($hiddenLogo != '') {
-                    $imageOriginal = public_path($this->professionOriginalImageUploadPath . $hiddenLogo);
-                    $imageThumb = public_path($this->professionThumbImageUploadPath . $hiddenLogo);
-                    File::delete($imageOriginal, $imageThumb);
+                    $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->professionThumbImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonThumbImageUploadPath, "s3");
                 }
+
+                //Uploading on AWS
+                $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->professionOriginalImageUploadPath, $pathOriginal, "s3");
+                $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->professionThumbImageUploadPath, $pathThumb, "s3");
+                
+                \File::delete($this->professionOriginalImageUploadPath . $fileName);
+                \File::delete($this->professionThumbImageUploadPath . $fileName);
 
                 $professionDetail['pf_logo'] = $fileName;
             }
