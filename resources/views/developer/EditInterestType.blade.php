@@ -57,14 +57,10 @@
                         <div class="col-sm-6">
                             <input type="file" id="it_logo" name="it_logo" />
                             <?php  
-                                if(isset($interestThumbPath)){ 
-                                    if(File::exists(public_path($interestThumbPath.$interestDetail->it_logo)) && $interestDetail->it_logo != '') { ?><br>
-                                        <img src="{{ url($interestThumbPath.$interestDetail->it_logo) }}" alt="{{$interestDetail->it_logo}}" >
-                                    <?php }else{ ?>
-                                        <img src="{{ asset('/backend/images/avatar5.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_HEIGHT');?>" width="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_WIDTH');?>">
-                                <?php   }
-                                    }
-                                ?>
+                                if(isset($interestThumbPath)) {
+                                    $image = ($interestDetail->it_logo != "" && Storage::disk('s3')->exists($interestThumbPath.$interestDetail->it_logo)) ? Config::get('constant.DEFAULT_AWS').$interestThumbPath.$interestDetail->it_logo : asset('/backend/images/proteen_logo.png'); ?>        
+                                <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                            <?php } ?>
                         </div>
                     </div>
 

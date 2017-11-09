@@ -12,12 +12,14 @@ use Redirect;
 use App\Interest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InterestTypeRequest;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class InterestTypeManagementController extends Controller
 {
-    public function __construct() {
+    public function __construct(FileStorageRepository $fileStorageRepository) {
         //$this->middleware('auth.developer');
         $this->objInterest = new Interest();
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->interestOriginalImageUploadPath = Config::get('constant.INTEREST_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->interestThumbImageUploadPath = Config::get('constant.INTEREST_THUMB_IMAGE_UPLOAD_PATH');
         $this->interestThumbImageHeight = Config::get('constant.INTEREST_THUMB_IMAGE_HEIGHT');
@@ -69,10 +71,16 @@ class InterestTypeManagementController extends Controller
                 
                 if ($hiddenLogo != '')
                 {
-                    $imageOriginal = public_path($this->interestOriginalImageUploadPath . $hiddenLogo);
-                    $imageThumb = public_path($this->interestThumbImageUploadPath . $hiddenLogo);
-                    File::delete($imageOriginal, $imageThumb);
+                    $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->interestOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->interestThumbImageUploadPath, "s3");
                 }
+
+                //Uploading on AWS
+                $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->interestOriginalImageUploadPath, $pathOriginal, "s3");
+                $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->interestThumbImageUploadPath, $pathThumb, "s3");
+                
+                \File::delete($this->interestOriginalImageUploadPath . $fileName);
+                \File::delete($this->interestThumbImageUploadPath . $fileName);
                 $interestDetail['it_logo'] = $fileName;
             } 
         }

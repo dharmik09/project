@@ -12,12 +12,14 @@ use Redirect;
 use App\Apptitude;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApptitudeTypeRequest;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class ApptitudeTypeManagementController extends Controller
 {
-    public function __construct() {
+    public function __construct(FileStorageRepository $fileStorageRepository) {
         //$this->middleware('auth.developer');
         $this->objApptitude = new Apptitude();
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->apptitudeOriginalImageUploadPath = Config::get('constant.APPTITUDE_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->apptitudeThumbImageUploadPath = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
         $this->apptitudeThumbImageHeight = Config::get('constant.APPTITUDE_THUMB_IMAGE_HEIGHT');
@@ -72,11 +74,16 @@ class ApptitudeTypeManagementController extends Controller
                 
                 if ($hiddenLogo != '')
                 {
-                    $imageOriginal = public_path($this->apptitudeOriginalImageUploadPath . $hiddenLogo);
-                    $imageThumb = public_path($this->apptitudeThumbImageUploadPath . $hiddenLogo);
-                    File::delete($imageOriginal, $imageThumb);
+                    $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->apptitudeOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->apptitudeThumbImageUploadPath, "s3");
                 }
                 
+                //Uploading on AWS
+                $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->apptitudeOriginalImageUploadPath, $pathOriginal, "s3");
+                $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->apptitudeThumbImageUploadPath, $pathThumb, "s3");
+                
+                \File::delete($this->apptitudeOriginalImageUploadPath . $fileName);
+                \File::delete($this->apptitudeThumbImageUploadPath . $fileName);
                 $apptitudeDetail['apt_logo'] = $fileName;
             }
         }

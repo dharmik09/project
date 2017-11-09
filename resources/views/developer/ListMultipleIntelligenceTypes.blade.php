@@ -21,7 +21,7 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
-                      <table class="table table-striped">
+                    <table id="listMiType" class="table table-striped display" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>{{trans('labels.multipleintelligenceblheadname')}}</th>
@@ -38,17 +38,13 @@
                                 </td>
                                 <td>
                                     <?php  
-                                    if(isset($miThumbPath)){ 
-                                        if(File::exists(public_path($miThumbPath.$multipleintelligence->mit_logo)) && $multipleintelligence->mit_logo != '') { ?>
-                                            <img src="{{ url($miThumbPath.$multipleintelligence->mit_logo) }}" alt="{{$multipleintelligence->mit_logo}}" >
-                                        <?php }else{ ?>
-                                            <img src="{{ asset('/backend/images/avatar5.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_HEIGHT');?>" width="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_WIDTH');?>">
-                                    <?php   }
-                                        }
-                                    ?>
+                                        if(isset($miThumbPath)) {
+                                            $image = ($multipleintelligence->mit_logo != "" && Storage::disk('s3')->exists($miThumbPath.$multipleintelligence->mit_logo)) ? Config::get('constant.DEFAULT_AWS').$miThumbPath.$multipleintelligence->mit_logo : asset('/backend/images/proteen_logo.png'); ?>
+                                            <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
+                                        <?php } ?>
                                 </td>
                                 <td>
-                                     @if ($multipleintelligence->deleted == 1)
+                                    @if ($multipleintelligence->deleted == 1)
                                     <i class="s_active fa fa-square"></i>
                                     @else
                                         <i class="s_inactive fa fa-square"></i>
@@ -61,7 +57,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6"><center>{{trans('labels.norecordfound')}}</center></td>
+                                <td><center>{{trans('labels.norecordfound')}}</center></td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -71,4 +67,12 @@
         </div>
     </div>
 </section>
+@stop
+
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#listMiType').DataTable();
+    });
+</script>
 @stop
