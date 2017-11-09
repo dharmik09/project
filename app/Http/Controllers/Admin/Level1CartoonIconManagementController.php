@@ -86,7 +86,7 @@ class Level1CartoonIconManagementController extends Controller
                 $validationPass = Helpers::checkValidImageExtension($file);
                 if($validationPass)
                 {
-                    echo $fileName = 'cartoon_' . time() . '.' . $file->getClientOriginalExtension();
+                    $fileName = 'cartoon_' . time() . '.' . $file->getClientOriginalExtension();
                     $pathOriginal = public_path($this->cartoonOriginalImageUploadPath . $fileName);
                     $pathThumb = public_path($this->cartoonThumbImageUploadPath . $fileName);
 

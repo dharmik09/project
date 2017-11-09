@@ -39,13 +39,9 @@
                                 <td>
                                     <?php  
                                     if(isset($interestThumbPath)){ 
-                                        if(File::exists(public_path($interestThumbPath.$interest->it_logo)) && $interest->it_logo != '') { ?>
-                                            <img src="{{ url($interestThumbPath.$interest->it_logo) }}" alt="{{$interest->it_logo}}" >
-                                        <?php }else{ ?>
-                                            <img src="{{ asset('/backend/images/avatar5.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_HEIGHT');?>" width="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_WIDTH');?>">
-                                    <?php   }
-                                        }
-                                    ?>
+                                        $image = ($interest->it_logo != "" && Storage::disk('s3')->exists($interestThumbPath.$interest->it_logo)) ? Config::get('constant.DEFAULT_AWS').$interestThumbPath.$interest->it_logo : asset('/backend/images/proteen_logo.png'); ?>
+                                        <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
+                                    <?php } ?>
                                 </td>
                                 <td>
                                      @if ($interest->deleted == 1)
