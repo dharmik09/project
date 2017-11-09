@@ -96,7 +96,7 @@ class Level1CartoonIconManagementController extends Controller
                     if ($hiddenLogo != '')
                     {
                         $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonOriginalImageUploadPath, "s3");
-                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonThumbImageWidth, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonThumbImageUploadPath, "s3");
                     }
 
                     //Uploading on AWS

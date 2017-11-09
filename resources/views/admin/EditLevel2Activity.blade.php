@@ -112,12 +112,10 @@
                         <div class="col-sm-6">
                             <input type="file" id="l2ac_image" name="l2ac_image" onchange="readURL(this);"/>
                             <?php
-                                if(isset($id) && $id != '0'){
-                                    if(File::exists(public_path($uploadLevel2ActivityThumbPath.$l2ac_image)) && $l2ac_image !='') { ?> <br>
-                                        <img src="{{ url($uploadLevel2ActivityThumbPath.$l2ac_image) }}" alt="{{$l2ac_image}}" >
-                                    <?php }
-                                }
-                            ?>
+                                if(isset($id) && $id != '0' && isset($uploadLevel2ActivityThumbPath)) {
+                                    $image = ($l2ac_image != "" && Storage::disk('s3')->exists($uploadLevel2ActivityThumbPath.$l2ac_image)) ? Config::get('constant.DEFAULT_AWS').$uploadLevel2ActivityThumbPath.$l2ac_image : asset('/backend/images/proteen_logo.png'); ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                            <?php } ?>
                         </div>
                     </div>
                         

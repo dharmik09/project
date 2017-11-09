@@ -15,13 +15,15 @@ use App\Level2Activity;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Level2ActivityRequest;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level2ActivityManagementController extends Controller
 {
 
-    public function __construct(Level2ActivitiesRepository $Level2ActivitiesRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, Level2ActivitiesRepository $Level2ActivitiesRepository) {
         $this->objLevel2Activities = new Level2Activity();
         $this->Level2ActivitiesRepository = $Level2ActivitiesRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->loggedInUser = Auth::guard('admin');
         $this->Level2ActivityOriginalImageUploadPath = Config::get('constant.LEVEL2_ACTIVITY_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->Level2ActivityThumbImageUploadPath = Config::get('constant.LEVEL2_ACTIVITY_THUMB_IMAGE_UPLOAD_PATH'); 
@@ -40,10 +42,10 @@ class Level2ActivityManagementController extends Controller
     public function add()
     {
         $activityDetail = [];
-        $uploadLevel2ActivityThumbPath = $this->Level2ActivityThumbImageUploadPath;
+        //$uploadLevel2ActivityThumbPath = $this->Level2ActivityThumbImageUploadPath;
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
 
-        return view('admin.EditLevel2Activity', compact('activityDetail','uploadLevel2ActivityThumbPath'));
+        return view('admin.EditLevel2Activity', compact('activityDetail'));
     }
 
     public function edit($id)
@@ -99,10 +101,15 @@ class Level2ActivityManagementController extends Controller
                     Image::make($file->getRealPath())->resize($this->Level2ActivityThumbImageWidth, $this->Level2ActivityThumbImageHeight)->save($pathThumb);
                     if($hiddenLogo != '')
                     {
-                        $imageOriginal = public_path($this->Level2ActivityOriginalImageUploadPath . $hiddenLogo);
-                        $imageThumb = public_path($this->Level2ActivityThumbImageUploadPath . $hiddenLogo);
-                        File::delete($imageOriginal, $imageThumb);
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->Level2ActivityOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->Level2ActivityThumbImageUploadPath, "s3");
                     }
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->Level2ActivityOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->Level2ActivityThumbImageUploadPath, $pathThumb, "s3");
+
+                    \File::delete($this->Level2ActivityOriginalImageUploadPath . $fileName);
+                    \File::delete($this->Level2ActivityThumbImageUploadPath . $fileName);
                     $activityDetail['l2ac_image'] = $fileName;
                 }
             }
