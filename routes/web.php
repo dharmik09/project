@@ -42,3 +42,6 @@ Route::group(['prefix' => 'developer'], function () {
 	Route::post('/logout', 'Developer\LoginController@logout')->name('logout');
 	
 });
+
+Route::get('/get-state/{id}', 'StateCityController@getState');
+Route::get('/get-city/{id}', 'StateCityController@getCity');
