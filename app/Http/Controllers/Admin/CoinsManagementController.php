@@ -20,12 +20,14 @@ use App\Transactions;
 use App\Invoice;
 use PDF;
 use Mail;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class CoinsManagementController extends Controller {
 
-    public function __construct(CoinRepository $CoinRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, CoinRepository $CoinRepository) {
         $this->objCoins = new Coins();
         $this->CoinRepository =  $CoinRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->invoiceUploadedPath = Config::get('constant.INVOICE_UPLOAD_PATH');
         $this->coinsOriginalImageUploadPath = Config::get('constant.COINS_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->coinsThumbImageUploadPath = Config::get('constant.COINS_THUMB_IMAGE_UPLOAD_PATH');
@@ -80,12 +82,16 @@ class CoinsManagementController extends Controller {
                     Image::make($file->getRealPath())->resize($this->coinsThumbImageWidth, $this->coinsThumbImageHeight)->save($pathThumb);
 
                     if ($hiddenProfile != '' && $hiddenProfile != "proteen-logo.png") {
-                        $imageOriginal = public_path($this->coinsOriginalImageUploadPath . $hiddenProfile);
-                        $imageThumb = public_path($this->coinsThumbImageUploadPath . $hiddenProfile);
-                        if(file_exists($imageOriginal) && $hiddenProfile != ''){File::delete($imageOriginal);}
-                        if(file_exists($imageThumb) && $hiddenProfile != ''){File::delete($imageThumb);}
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenProfile, $this->coinsOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenProfile, $this->coinsThumbImageUploadPath, "s3");
                     }
 
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->coinsOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->coinsThumbImageUploadPath, $pathThumb, "s3");
+                    
+                    \File::delete($this->coinsOriginalImageUploadPath . $fileName);
+                    \File::delete($this->coinsThumbImageUploadPath . $fileName);
                     $coinData['c_image'] = $fileName;
                 }
             }

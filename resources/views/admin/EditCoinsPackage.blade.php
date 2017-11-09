@@ -151,15 +151,10 @@
                                 <input type="file" id="c_image" name="c_image"/>
                                 <?php
                                 if (isset($coinsDetail->id) && $coinsDetail->id != '0') {
-                                    if (File::exists(public_path($uploadCoinsThumbPath . $coinsDetail->c_image)) && $coinsDetail->c_image != '') {
-                                        ?><br>
-                                        <img src="{{ url($uploadCoinsThumbPath.$coinsDetail->c_image) }}" alt="{{$coinsDetail->c_image}}" >
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.COINS_THUMB_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.COINS_THUMB_IMAGE_WIDTH'); ?>">
-                                        <?php
-                                    }
-                                }
-                                ?>
+                                    $image = ($coinsDetail->c_image != "" && Storage::disk('s3')->exists($uploadCoinsThumbPath.$coinsDetail->c_image)) ? Config::get('constant.DEFAULT_AWS').$uploadCoinsThumbPath.$coinsDetail->c_image : asset('/backend/images/proteen_logo.png');
+                                    ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                <?php } ?>
                             </div>
                         </div>
 
