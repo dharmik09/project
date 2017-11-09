@@ -58,15 +58,10 @@
                                 <input type="file" id="pt_logo" name="pt_logo" />
                                 <?php
                                 if (isset($personalityThumbPath)) {
-                                    if (File::exists(public_path($personalityThumbPath . $personalityDetail->pt_logo)) && $personalityDetail->pt_logo != '') {
-                                        ?><br>
-                                        <img src="{{ url($personalityThumbPath.$personalityDetail->pt_logo) }}" alt="{{$personalityDetail->pt_logo}}" >
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/avatar5.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_WIDTH'); ?>">
-                                    <?php
-                                    }
-                                }
-                                ?>
+                                    $image = ($personalityDetail->pt_logo != "" && Storage::disk('s3')->exists($personalityThumbPath.$personalityDetail->pt_logo)) ? Config::get('constant.DEFAULT_AWS').$personalityThumbPath.$personalityDetail->pt_logo : asset('/backend/images/proteen_logo.png');
+                                    ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                <?php } ?>
                             </div>
                         </div>
 
