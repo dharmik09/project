@@ -46,6 +46,10 @@ Route::get('/export-parent/{type}', 'Admin\ParentManagementController@exportpare
 Route::post('/add-coins-data-for-parent','Admin\ParentManagementController@addCoinsDataForParent');
 Route::post('/save-coins-data-for-parent','Admin\ParentManagementController@saveCoinsDataForParent');
 
+//Mentors
+Route::get('admin/counselors/{type}', 'Admin\ParentManagementController@index');
+Route::post('admin/counselors/{type}', 'Admin\ParentManagementController@index');
+
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');
 Route::post('/faq', 'Admin\FAQManagementController@index')->name('faq');
