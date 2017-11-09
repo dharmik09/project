@@ -43,13 +43,10 @@
                                     {{$basket->b_name}}
                                 </td>
                                 <td>                                
-                                    <?php if($basket->b_logo != '' && file_exists($uploadBasketThumbPath . $basket->b_logo)) { 
-                                      $image = asset($uploadBasketThumbPath . $basket->b_logo);   
-                                    }else{
-                                      $image = asset($uploadBasketThumbPath . 'proteen-logo.png');  
-                                    }
+                                    <?php 
+                                        $image = ($basket->b_logo != "" && Storage::disk('s3')->exists($uploadBasketThumbPath.$basket->b_logo)) ? Config::get('constant.DEFAULT_AWS').$uploadBasketThumbPath.$basket->b_logo : asset('/backend/images/proteen_logo.png'); 
                                     ?>
-                                    <img src="{{ $image }}" alt="" >
+                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                    
                                 </td>
                                 <td>

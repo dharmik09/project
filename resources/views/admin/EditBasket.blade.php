@@ -83,14 +83,10 @@
                         <div class="col-sm-2">
                             <input type="file" id="b_logo" name="b_logo" onchange="readURL(this);"/>
                             <?php
-                                if(isset($basketDetail->id) && $basketDetail->id != '0'){
-                                    if(File::exists(public_path($uploadBasketThumbPath.$basketDetail->b_logo)) && $basketDetail->b_logo != '') { ?><br>
-                                        <img src="{{ url($uploadBasketThumbPath.$basketDetail->b_logo) }}" alt="{{$basketDetail->b_logo}}" >
-                                    <?php }else{ ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.BASKET_THUMB_IMAGE_HEIGHT');?>" width="<?php echo Config::get('constant.BASKET_THUMB_IMAGE_WIDTH');?>">
-                                <?php   }
-                                }
-                            ?>
+                                if(isset($basketDetail->id) && $basketDetail->id != '0') {
+                                    $image = ($basketDetail->b_logo != "" && Storage::disk('s3')->exists($uploadBasketThumbPath.$basketDetail->b_logo)) ? Config::get('constant.DEFAULT_AWS').$uploadBasketThumbPath.$basketDetail->b_logo : asset('/backend/images/proteen_logo.png'); ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                <?php } ?>
                         </div>
                         <label for="image_format" class="col-sm-3 control-label">{{trans('labels.pictureformat')}}</label>
                     </div>

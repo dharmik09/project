@@ -16,15 +16,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BasketRequest;
 use App\Services\Baskets\Contracts\BasketsRepository;
 use App\Services\Professions\Contracts\ProfessionsRepository;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class BasketManagementController extends Controller
 {
 
-    public function __construct(BasketsRepository $BasketsRepository, ProfessionsRepository $ProfessionsRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, BasketsRepository $BasketsRepository, ProfessionsRepository $ProfessionsRepository)
     {
         $this->objBaskets = new Baskets();
         $this->BasketsRepository = $BasketsRepository;
         $this->ProfessionsRepository = $ProfessionsRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->basketOriginalImageUploadPath = Config::get('constant.BASKET_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->basketThumbImageUploadPath = Config::get('constant.BASKET_THUMB_IMAGE_UPLOAD_PATH');
         $this->basketThumbImageHeight = Config::get('constant.BASKET_THUMB_IMAGE_HEIGHT');
@@ -113,10 +115,16 @@ class BasketManagementController extends Controller
 
                     if ($hiddenLogo != '')
                     {
-                        $imageOriginal = public_path($this->basketOriginalImageUploadPath . $hiddenLogo);
-                        $imageThumb = public_path($this->basketThumbImageUploadPath . $hiddenLogo);
-                        File::delete($imageOriginal, $imageThumb);
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->basketOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->basketThumbImageUploadPath, "s3");
                     }
+
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->basketOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->basketThumbImageUploadPath, $pathThumb, "s3");
+                    
+                    \File::delete($this->basketOriginalImageUploadPath . $fileName);
+                    \File::delete($this->basketThumbImageUploadPath . $fileName);
                     $basketDetail['b_logo'] = $fileName;
                 }                
             }
