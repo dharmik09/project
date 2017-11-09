@@ -67,13 +67,13 @@ class TeenagerManagementController extends Controller {
     }
 
     public function index() {
-        $teenagers = $this->teenagersRepository->getAllTeenagersData();
+        //$teenagers = $this->teenagersRepository->getAllTeenagersData();
         return view('admin.ListTeenager');
     }
 
     public function getIndex(){
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        $teenagers = $this->teenagersRepository->getAllTeenagersData()->count();
+        $teenagers = $this->teenagersRepository->getAllTeenagersData()->get()->count();
         $records = array();
         $columns = array(
             0 => 'id',

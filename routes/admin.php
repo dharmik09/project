@@ -50,6 +50,18 @@ Route::post('/save-coins-data-for-parent','Admin\ParentManagementController@save
 Route::get('admin/counselors/{type}', 'Admin\ParentManagementController@index');
 Route::post('admin/counselors/{type}', 'Admin\ParentManagementController@index');
 
+//Schools
+Route::get('/schools', 'Admin\SchoolManagementController@index');
+Route::post('/get-school', 'Admin\SchoolManagementController@getIndex');
+Route::post('/schools', 'Admin\SchoolManagementController@index');
+Route::get('/delete-school/{id}', 'Admin\SchoolManagementController@delete');
+Route::get('/add-school', 'Admin\SchoolManagementController@add');
+Route::post('/save-school', 'Admin\SchoolManagementController@save');
+Route::get('/edit-school/{id}', 'Admin\SchoolManagementController@edit');
+Route::get('/view-student-list/{id}', 'Admin\SchoolManagementController@getStudentDetail');
+Route::post('/view-student-list/{id}', 'Admin\SchoolManagementController@getStudentDetail');
+Route::get('/edit-school-approved/{id}', 'Admin\SchoolManagementController@editToApproved');
+
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');
 Route::post('/faq', 'Admin\FAQManagementController@index')->name('faq');

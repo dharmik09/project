@@ -17,6 +17,10 @@ use App\Level4Activity;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\Services\Level4Activity\Repositories\EloquentLevel4ActivitiesRepository;
 
+use App\Services\Schools\Contracts\SchoolsRepository;
+use App\Schools;
+use App\Services\Schools\Repositories\EloquentSchoolsRepository;
+
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Teenagers;
 use App\Services\Teenagers\Repositories\EloquentTeenagersRepository;
@@ -112,6 +116,10 @@ class AppServiceProvider extends ServiceProvider
             return new EloquentLevel4ActivitiesRepository(new Level4Activity());
         });
 
+        $this->app->bind(SchoolsRepository::class, function () {
+            return new EloquentSchoolsRepository(new Schools());
+        });
+        
         $this->app->bind(TeenagersRepository::class, function () {
             return new EloquentTeenagersRepository(new Teenagers());
         });
