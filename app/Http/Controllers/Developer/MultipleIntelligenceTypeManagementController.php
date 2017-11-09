@@ -12,12 +12,14 @@ use Redirect;
 use App\MultipleIntelligent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MultipleIntelligenceTypeRequest;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class MultipleIntelligenceTypeManagementController extends Controller
 {
-    public function __construct() {
+    public function __construct(FileStorageRepository $fileStorageRepository) {
         //$this->middleware('auth.developer');
         $this->objMultipleIntelligent = new MultipleIntelligent();
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->miOriginalImageUploadPath = Config::get('constant.MI_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->miThumbImageUploadPath = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
         $this->miThumbImageHeight = Config::get('constant.MI_THUMB_IMAGE_HEIGHT');
@@ -71,10 +73,16 @@ class MultipleIntelligenceTypeManagementController extends Controller
                 
                 if ($hiddenLogo != '')
                 {
-                    $imageOriginal = public_path($this->miOriginalImageUploadPath . $hiddenLogo);
-                    $imageThumb = public_path($this->miThumbImageUploadPath . $hiddenLogo);
-                    File::delete($imageOriginal, $imageThumb);
+                    $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->miOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->miThumbImageUploadPath, "s3");
                 }
+
+                //Uploading on AWS
+                $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->miOriginalImageUploadPath, $pathOriginal, "s3");
+                $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->miThumbImageUploadPath, $pathThumb, "s3");
+                
+                \File::delete($this->miOriginalImageUploadPath . $fileName);
+                \File::delete($this->miThumbImageUploadPath . $fileName);
                 $multipleintelligenceDetail['mit_logo'] = $fileName;
                 
             }

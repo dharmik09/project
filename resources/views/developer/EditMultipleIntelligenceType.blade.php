@@ -57,14 +57,10 @@
                         <div class="col-sm-6">
                             <input type="file" id="mit_logo" name="mit_logo" />
                             <?php  
-                                if(isset($miThumbPath)){ 
-                                    if(File::exists(public_path($miThumbPath.$multipleintelligenceDetail->mit_logo)) && $multipleintelligenceDetail->mit_logo != '') { ?><br>
-                                        <img src="{{ url($miThumbPath.$multipleintelligenceDetail->mit_logo) }}" alt="{{$multipleintelligenceDetail->mit_logo}}" >
-                                    <?php }else{ ?>
-                                        <img src="{{ asset('/backend/images/avatar5.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_HEIGHT');?>" width="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_WIDTH');?>">
-                                <?php   }
-                                    }
-                                ?>
+                                if(isset($miThumbPath)) { 
+                                    $image = ($multipleintelligenceDetail->mit_logo != "" && Storage::disk('s3')->exists($miThumbPath.$multipleintelligenceDetail->mit_logo)) ? Config::get('constant.DEFAULT_AWS').$miThumbPath.$multipleintelligenceDetail->mit_logo : asset('/backend/images/proteen_logo.png'); ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                            <?php } ?>
                         </div>
                     </div>
 
