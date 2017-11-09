@@ -15,12 +15,14 @@ use Illuminate\Pagination\Paginator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FAQRequest;
 use App\FAQ;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class FAQManagementController extends Controller {
 
-    public function __construct() {
+    public function __construct(FileStorageRepository $fileStorageRepository) {
         //$this->middleware('auth.admin');
         $this->objFAQ = new FAQ();
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->faqOriginalImageUploadPath = Config::get('constant.FAQ_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->faqThumbImageUploadPath = Config::get('constant.FAQ_THUMB_IMAGE_UPLOAD_PATH');
         $this->faqThumbImageHeight = Config::get('constant.FAQ_THUMB_IMAGE_HEIGHT');
@@ -65,12 +67,16 @@ class FAQManagementController extends Controller {
                 Image::make($file->getRealPath())->resize($this->faqThumbImageWidth, $this->faqThumbImageHeight)->save($pathThumb);
 
                 if ($hiddenPhoto != '' && $hiddenPhoto != "proteen-logo.png") {
-                    $imageOriginal = public_path($this->faqOriginalImageUploadPath . $hiddenPhoto);
-                    $imageThumb = public_path($this->faqThumbImageUploadPath . $hiddenPhoto);
-                    if(file_exists($imageOriginal) && $hiddenPhoto != ''){File::delete($imageOriginal);}
-                    if(file_exists($imageThumb) && $hiddenPhoto != ''){File::delete($imageThumb);}
+                    $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenPhoto, $this->faqOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenPhoto, $this->faqThumbImageUploadPath, "s3");
                 }
 
+                //Uploading on AWS
+                $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->faqOriginalImageUploadPath, $pathOriginal, "s3");
+                $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->faqThumbImageUploadPath, $pathThumb, "s3");
+                
+                \File::delete($this->faqOriginalImageUploadPath . $fileName);
+                \File::delete($this->faqThumbImageUploadPath . $fileName);
                 $faqData['f_photo'] = $fileName;
             }
         }

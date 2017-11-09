@@ -91,15 +91,10 @@
                                 <input type="file" id="f_photo" name="f_photo" onchange="readURL(this);"/>
                                 <?php
                                 if (isset($faqDetail->id) && $faqDetail->id != '0') {
-                                    if (File::exists(public_path($uploadFAQThumbPath . $faqDetail->f_photo)) && $faqDetail->f_photo != '') {
-                                        ?><br>
-                                        <img src="{{ url($uploadFAQThumbPath.$faqDetail->f_photo) }}" alt="{{$faqDetail->f_photo}}"  height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                        <?php
-                                    }
-                                }
-                                ?>
+                                    $image = ($faqDetail->f_photo != "" && Storage::disk('s3')->exists($uploadFAQThumbPath.$faqDetail->f_photo)) ? Config::get('constant.DEFAULT_AWS').$uploadFAQThumbPath.$faqDetail->f_photo : asset('/backend/images/proteen_logo.png');
+                                    ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                <?php } ?>
                             </div>
                         </div>
 
