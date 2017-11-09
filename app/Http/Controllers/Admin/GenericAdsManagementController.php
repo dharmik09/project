@@ -13,14 +13,16 @@ use Illuminate\Pagination\Paginator;
 use App\GenericAds;
 use App\Http\Controllers\Controller;
 use App\Services\Genericads\Contracts\GenericadsRepository;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class GenericAdsManagementController extends Controller
 {
-    public function __construct(GenericadsRepository $GenericadsRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, GenericadsRepository $GenericadsRepository)
     {
         //$this->middleware('auth.admin');
         $this->objGeneric = new GenericAds();
         $this->GenericadsRepository = $GenericadsRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->genericOrigionalImagePath = Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->genericThumbImagePath = Config::get('constant.GENERIC_ADS_THUMB_IMAGE_UPLOAD_PATH');
         $this->genericThumbImageHeight = Config::get('constant.GENERIC_THUMB_IMAGE_HEIGHT');
@@ -87,10 +89,16 @@ class GenericAdsManagementController extends Controller
 
                     if ($hiddenLogo != '')
                     {
-                        $imageOriginal = public_path($this->genericOrigionalImagePath . $hiddenLogo);
-                        $imageThumb = public_path($this->genericThumbImagePath . $hiddenLogo);
-                        File::delete($imageOriginal, $imageThumb);
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->genericOrigionalImagePath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->genericThumbImagePath, "s3");
                     }
+
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->genericOrigionalImagePath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->genericThumbImagePath, $pathThumb, "s3");
+                    
+                    \File::delete($this->genericOrigionalImagePath . $fileName);
+                    \File::delete($this->genericThumbImagePath . $fileName);
                     $genericDetail['ga_image'] = $fileName;
                 }
             }

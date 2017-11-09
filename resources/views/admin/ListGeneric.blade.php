@@ -39,11 +39,8 @@
                                     {{$generic->ga_name}}
                                 </td>
                                 <td>
-                                     <?php if(File::exists(public_path($genericThumbImagePath.$generic->ga_image)) && $generic->ga_image!='') { ?>
-                                    <img src="{{asset($genericThumbImagePath.$generic->ga_image)}}" width="45px" height="45px" />
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" width="45px" height="45px">
-                                    <?php } ?>
+                                    <?php $image = ($generic->ga_image != "" && Storage::disk('s3')->exists($genericThumbImagePath.$generic->ga_image)) ? Config::get('constant.DEFAULT_AWS').$genericThumbImagePath.$generic->ga_image : asset('/backend/images/proteen_logo.png'); ?>
+                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                 </td>
                                 <td>
                                     {{date('d/m/Y', strtotime($generic->ga_start_date))}}
