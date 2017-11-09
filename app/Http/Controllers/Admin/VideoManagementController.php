@@ -15,12 +15,14 @@ use Illuminate\Pagination\Paginator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoRequest;
 use App\Video;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class VideoManagementController extends Controller {
 
-    public function __construct() {
+    public function __construct(FileStorageRepository $fileStorageRepository) {
         //$this->middleware('auth.admin');
         $this->objVideo = new Video();
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->videoOriginalImageUploadPath = Config::get('constant.VIDEO_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->videoThumbImageUploadPath = Config::get('constant.VIDEO_THUMB_IMAGE_UPLOAD_PATH');
         $this->videoThumbImageHeight = Config::get('constant.VIDEO_THUMB_IMAGE_HEIGHT');
@@ -67,12 +69,16 @@ class VideoManagementController extends Controller {
                     Image::make($file->getRealPath())->resize($this->videoThumbImageWidth, $this->videoThumbImageHeight)->save($pathThumb);
 
                     if ($hiddenPhoto != '' && $hiddenPhoto != "proteen-logo.png") {
-                        $imageOriginal = public_path($this->videoOriginalImageUploadPath . $hiddenPhoto);
-                        $imageThumb = public_path($this->videoThumbImageUploadPath . $hiddenPhoto);
-                        if(file_exists($imageOriginal) && $hiddenPhoto != ''){File::delete($imageOriginal);}
-                        if(file_exists($imageThumb) && $hiddenPhoto != ''){File::delete($imageThumb);}
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenPhoto, $this->videoOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenPhoto, $this->videoThumbImageUploadPath, "s3");
                     }
 
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->videoOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->videoThumbImageUploadPath, $pathThumb, "s3");
+                    
+                    \File::delete($this->videoOriginalImageUploadPath . $fileName);
+                    \File::delete($this->videoThumbImageUploadPath . $fileName);
                     $videoData['v_photo'] = $fileName;
                 }
             }

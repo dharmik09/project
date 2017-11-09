@@ -37,11 +37,10 @@
                                     {{$value->v_link}}
                                 </td>
                                 <td>
-                                    <?php if(File::exists(public_path($uploadVideoThumbPath.$value->v_photo)) && $value->v_photo != '') { ?>
-                                        <img src="{{ url($uploadVideoThumbPath.$value->v_photo) }}" alt="{{$value->v_photo}}" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php }else{ ?>
-                                        <img src="{{ asset('/backend/images/favicon-32x32.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php }?>
+                                    <?php
+                                        $image = ($value->v_photo != "" && Storage::disk('s3')->exists($uploadVideoThumbPath.$value->v_photo)) ? Config::get('constant.DEFAULT_AWS').$uploadVideoThumbPath.$value->v_photo : asset('/backend/images/proteen_logo.png'); 
+                                    ?>
+                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                 </td>
                                 <td>
                                     @if ($value->deleted == 1)

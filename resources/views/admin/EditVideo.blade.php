@@ -75,15 +75,10 @@
                                 <input type="file" id="v_photo" name="v_photo" onchange="readURL(this);"/>
                                 <?php
                                 if (isset($videoDetail->id) && $videoDetail->id != '0') {
-                                    if (File::exists(public_path($uploadVideoThumbPath . $videoDetail->v_photo)) && $videoDetail->v_photo != '') {
-                                        ?><br>
-                                        <img src="{{ url($uploadVideoThumbPath.$videoDetail->v_photo) }}" alt="{{$videoDetail->v_photo}}" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                        <?php
-                                    }
-                                }
-                                ?>
+                                    $image = ($videoDetail->v_photo != "" && Storage::disk('s3')->exists($uploadVideoThumbPath.$videoDetail->v_photo)) ? Config::get('constant.DEFAULT_AWS').$uploadVideoThumbPath.$videoDetail->v_photo : asset('/backend/images/proteen_logo.png');
+                                    ?>
+                                    <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                                <?php } ?>
                             </div>
                             <label for="image_format" class="col-sm-3 control-label">{{trans('labels.pictureformat')}}</label>
                         </div>
