@@ -50,12 +50,10 @@
                                     {{$level1icon->hic_name}}
                                 </td>
                                 <td>
-
-                                    <?php if ($level1icon->hi_image != '' && File::exists(public_path($humanThumbPath . $level1icon->hi_image))) { ?>
-                                        <img src="{{asset($humanThumbPath.$level1icon->hi_image)}}" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>" />
-                                    <?php } else { ?>
-                                        <img src="{{ asset('/backend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
-                                    <?php } ?>
+                                    <?php 
+                                        $image = ($level1icon->hi_image != "" && Storage::disk('s3')->exists($humanThumbPath.$level1icon->hi_image)) ? Config::get('constant.DEFAULT_AWS').$humanThumbPath.$level1icon->hi_image : asset('/backend/images/proteen_logo.png'); 
+                                    ?>
+                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                 </td>
                                 <td>
                                     <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>

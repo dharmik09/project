@@ -61,15 +61,12 @@
                     <input type="hidden" name="pageRank" value="<?php echo $page ?>">
 
                     <div class="box-body">
-
-
                         <div class="form-group">
                             <label for="l1ac_text" class="col-sm-2 control-label">{{trans('labels.cartooniconheadname')}}</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="l1ci_name" name="l1ci_name" placeholder="{{trans('labels.cartooniconheadname')}}" value="{{$ci_name}}" />
                             </div>
                         </div>
-                        <?php //echo $cartoonIconDetail[0]->ci_image; exit; ?>
                         <div class="form-group">
                             <label for="l1ac_points" class="col-sm-2 control-label">{{trans('labels.cartooniconheadimage')}}</label>
                             <div class="col-sm-2">
@@ -88,7 +85,7 @@
                         <div class="form-group">
                             <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblcategory')}}</label>
                             <div class="col-sm-6">
-<?php $category = Helpers::getActiveCartoonCategory(); ?>
+                                <?php $category = Helpers::getActiveCartoonCategory(); ?>
                                 <select class="form-control" id="ci_category" name="ci_category">
                                     <option value="" >{{trans('labels.formlblselectcategory')}}</option>
                                 <?php
@@ -103,10 +100,6 @@
                                 </select>
                             </div>
                         </div>
-
-
-                        
-
                         <div class="form-group">
                             <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblstatus')}}</label>
                             <div class="col-sm-6">

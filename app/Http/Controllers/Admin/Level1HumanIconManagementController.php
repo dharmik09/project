@@ -19,14 +19,16 @@ use App\Templates;
 use App\Services\Template\Contracts\TemplatesRepository;
 use Mail;
 use Cache;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level1HumanIconManagementController extends Controller
 {
 
-    public function __construct(Level1HumanIconRepository $Level1HumanIconRepository, TemplatesRepository $TemplatesRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, Level1HumanIconRepository $Level1HumanIconRepository, TemplatesRepository $TemplatesRepository)
     {
         $this->objLevel1HumanActivity = new Level1HumanIcon();
         $this->Level1HumanIconRepository = $Level1HumanIconRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->objTemplates = new Templates();
         $this->TemplateRepository = $TemplatesRepository;
         $this->humanOriginalImageUploadPath = Config::get('constant.HUMAN_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -46,6 +48,7 @@ class Level1HumanIconManagementController extends Controller
     public function add()
     {
         $humanIconDetail = [];
+        //$humanThumbPath = $this->humanThumbImageUploadPath;
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
 
         return view('admin.EditLevel1HumanIcon', compact('humanIconDetail'));
@@ -92,10 +95,16 @@ class Level1HumanIconManagementController extends Controller
 
                     if ($hiddenLogo != '')
                     {
-                        $imageOriginal = public_path($this->humanOriginalImageUploadPath . $hiddenLogo);
-                        $imageThumb = public_path($this->humanThumbImageUploadPath . $hiddenLogo);
-                        File::delete($imageOriginal, $imageThumb);
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->humanOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->humanThumbImageUploadPath, "s3");
                     }
+
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->humanOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->humanThumbImageUploadPath, $pathThumb, "s3");
+                    
+                    \File::delete($this->humanOriginalImageUploadPath . $fileName);
+                    \File::delete($this->humanThumbImageUploadPath . $fileName);
                     $humanIconDetail['hi_image'] = $fileName;
                 }
             }
