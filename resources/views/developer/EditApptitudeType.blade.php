@@ -58,13 +58,10 @@
                             <input type="file" id="apt_logo" name="apt_logo" />
                             <?php  
                                 if(isset($apptitudeThumbPath)){ 
-                                    if(File::exists(public_path($apptitudeThumbPath.$apptitudeDetail->apt_logo)) && $apptitudeDetail->apt_logo != '') { ?><br>
-                                        <img src="{{ url($apptitudeThumbPath.$apptitudeDetail->apt_logo) }}" alt="{{$apptitudeDetail->apt_logo}}" >
-                                    <?php }else{ ?>
-                                        <img src="{{ asset('/backend/images/avatar5.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_HEIGHT');?>" width="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_WIDTH');?>">
-                                <?php   }
-                                    }
+                                    $image = ($apptitudeDetail->apt_logo != "" && Storage::disk('s3')->exists($apptitudeThumbPath.$apptitudeDetail->apt_logo)) ? Config::get('constant.DEFAULT_AWS').$apptitudeThumbPath.$apptitudeDetail->apt_logo : asset('/backend/images/proteen_logo.png');  
                                 ?>
+                                <img src="{{$image}}" class="user-image" height="<?php echo Config::get('constant.DEFAULT_IMAGE_HEIGHT'); ?>" width="<?php echo Config::get('constant.DEFAULT_IMAGE_WIDTH'); ?>">
+                            <?php } ?>
                         </div>
                     </div>
 

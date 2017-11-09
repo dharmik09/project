@@ -36,14 +36,11 @@
                                 </td>
                                 <td>
                                     <?php  
-                                    if(isset($apptitudeThumbPath)){ 
-                                        if(File::exists(public_path($apptitudeThumbPath.$apptitude->apt_logo)) && $apptitude->apt_logo != '') { ?>
-                                            <img src="{{ url($apptitudeThumbPath.$apptitude->apt_logo) }}" alt="{{$apptitude->apt_logo}}" >
-                                        <?php }else{ ?>
-                                            <img src="{{ asset('/backend/images/avatar5.png')}}" class="user-image" alt="Default Image" height="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_HEIGHT');?>" width="<?php echo Config::get('constant.CARTOON_THUMB_IMAGE_WIDTH');?>">
-                                    <?php   }
+                                        if(isset($apptitudeThumbPath)) { 
+                                            $image = ($apptitude->apt_logo != "" && Storage::disk('s3')->exists($apptitudeThumbPath.$apptitude->apt_logo)) ? Config::get('constant.DEFAULT_AWS').$apptitudeThumbPath.$apptitude->apt_logo : asset('/backend/images/proteen_logo.png');  
                                         }
                                     ?>
+                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                 </td>
                                 <td>
                                      @if ($apptitude->deleted == 1)
