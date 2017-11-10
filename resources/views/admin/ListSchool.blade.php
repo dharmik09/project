@@ -6,10 +6,10 @@
 			{{trans('labels.schools')}}
 		</div>
 		<div class="col-md-1">
-			<a href="{{ url('admin/addschool') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
+			<a href="{{ url('admin/add-school') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
 		</div>
 		<div class="col-md-2">
-			<a href="{{ url('admin/exportschool') }}" class="btn btn-block btn-primary">{{trans('labels.exportdata')}}</a>            
+			<a href="{{ url('admin/export-school') }}" class="btn btn-block btn-primary">{{trans('labels.exportdata')}}</a>            
 		</div>
 	</h1>
 </section>
@@ -97,16 +97,11 @@
             }
         });
     };
-	$.ajaxSetup({
-	  	headers: {
-			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	  	}
-	});
 	function add_coins_details($id)
 	{
 	   	$.ajax({
 		 	type: 'post',
-		 	url: '{{ url("admin/addCoinsDataForSchool") }}',
+		 	url: '{{ url("admin/add-coins-data-for-school") }}',
 		 	data: {
 		   		schoolid:$id
 		 	},

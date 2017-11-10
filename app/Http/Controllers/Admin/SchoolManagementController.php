@@ -16,17 +16,20 @@ use App\Http\Requests\SchoolRequest;
 use App\Services\Template\Contracts\TemplatesRepository;
 use App\Services\Schools\Contracts\SchoolsRepository;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Mail;
 use App\TeenagerCoinsGift;
+use Illuminate\Support\Facades\Storage;
 
 class SchoolManagementController extends Controller
 {
-    public function __construct(SchoolsRepository $schoolsRepository, TemplatesRepository $templatesRepository, TeenagersRepository $teenagersRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, SchoolsRepository $schoolsRepository, TemplatesRepository $templatesRepository, TeenagersRepository $teenagersRepository)
     {
         $this->objSchools                = new Schools();
         $this->schoolsRepository         = $schoolsRepository;
         $this->teenagersRepository       = $teenagersRepository;
         $this->templateRepository = $templatesRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->schoolOriginalImageUploadPath = Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->schoolThumbImageUploadPath = Config::get('constant.SCHOOL_THUMB_IMAGE_UPLOAD_PATH');
         $this->schoolThumbImageHeight = Config::get('constant.SCHOOL_THUMB_IMAGE_HEIGHT');
@@ -41,21 +44,7 @@ class SchoolManagementController extends Controller
 
     public function index()
     {
-        $searchParamArray = Input::all();
-        if (isset($searchParamArray['clearSearch'])) {
-            unset($searchParamArray);
-            $searchParamArray = array();
-        }
-        $uploadSchoolThumbPath = $this->schoolThumbImageUploadPath;
-        $uploadSchoolPhotoThumbPath = $this->schoolThumbPhotoImageUploadPath;
-        $schools = $this->schoolsRepository->getAllSchools($searchParamArray);
-        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-
-        //echo "<pre/>"; print_r($this->schoolsRepository->getAllSchoolsDataObj()->get()); die();
-
-        return view('admin.ListSchool', compact('schools', 'searchParamArray', 'uploadSchoolThumbPath','uploadSchoolPhotoThumbPath','searchParamArray'));
-
-        //return view('admin.ListSchool');
+        return view('admin.ListSchool');
     }
 
     public function getIndex() {
@@ -103,10 +92,10 @@ class SchoolManagementController extends Controller
         
         if (!empty($records["data"])) {
             foreach ($records["data"] as $key => $_records) {
-                $records["data"][$key]->action = '<a href="'.url('/admin/edit-school').'/'.$_records->id.'"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a><a onclick="return confirm(\'Are you sure you want to delete ?\');" href="'.url('/admin/delete-school').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i> &nbsp;&nbsp;</a><a target="_blank" href="'.url('/admin/view-studentlist').'/'.$_records->id.'"><i class="fa fa-eye"></i>&nbsp;&nbsp;</a><a href="" onClick="add_coins_details('.$_records->id.');" data-toggle="modal" id="#schoolCoinsData" data-target="#schoolCoinsData"><i class="fa fa-database" aria-hidden="true"></i></a>';
+                $records["data"][$key]->action = '<a href="'.url('/admin/edit-school').'/'.$_records->id.'"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a><a onclick="return confirm(\'Are you sure you want to delete ?\');" href="'.url('/admin/delete-school').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i> &nbsp;&nbsp;</a><a target="_blank" href="'.url('/admin/view-student-list').'/'.$_records->id.'"><i class="fa fa-eye"></i>&nbsp;&nbsp;</a><a href="" onClick="add_coins_details('.$_records->id.');" data-toggle="modal" id="#schoolCoinsData" data-target="#schoolCoinsData"><i class="fa fa-database" aria-hidden="true"></i></a>';
                 $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";
                 $records["data"][$key]->sc_isapproved = ($_records->sc_isapproved == 1) ? "Yes" : '<a onclick="return confirm(\'Are you sure you want to Approve  ?\')" href="'.url('/admin/editschoolapproved').'/'.$_records->id.'" class="btn btn-primary btn-xs">Approve</a>';
-                $records["data"][$key]->sc_logo = ($_records->sc_logo != '' && File::exists(public_path($this->schoolThumbImageUploadPath.$_records->sc_logo))) ? '<img src="'.url($this->schoolThumbImageUploadPath.$_records->sc_logo).'" height="'.Config::get('constant.DEFAULT_IMAGE_HEIGHT').'" width="'.Config::get('constant.DEFAULT_IMAGE_WIDTH').'">' : '<img src="'.asset('/backend/images/proteen_logo.png').'" class="user-image" alt="Default Image" height="'.Config::get('constant.DEFAULT_IMAGE_HEIGHT').'" width="'.Config::get('constant.DEFAULT_IMAGE_WIDTH').'">';
+                $records["data"][$key]->sc_logo = ($_records->sc_logo != '' && Storage::disk('s3')->exists($this->schoolThumbImageUploadPath . $_records->sc_logo) ) ? '<img src="'.Config::get('constant.DEFAULT_AWS').$this->schoolThumbImageUploadPath.$_records->sc_logo.'" height="'.Config::get('constant.DEFAULT_IMAGE_HEIGHT').'" width="'.Config::get('constant.DEFAULT_IMAGE_WIDTH').'">' : '<img src="'.asset('/backend/images/proteen_logo.png').'" class="user-image" alt="Default Image" height="'.Config::get('constant.DEFAULT_IMAGE_HEIGHT').'" width="'.Config::get('constant.DEFAULT_IMAGE_WIDTH').'">';
                 $records["data"][$key]->created_at = date('d/m/Y',strtotime($_records->created_at));
             }
         }
@@ -121,7 +110,7 @@ class SchoolManagementController extends Controller
     public function add()
     {
         $schoolDetail =[];
-        Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $states = [];
         $cities = [];
         return view('admin.EditSchool', compact('schoolDetail','cities','states'));
@@ -132,7 +121,7 @@ class SchoolManagementController extends Controller
         $schoolDetail = $this->objSchools->find($id);
         $uploadSchoolThumbPath = $this->schoolThumbImageUploadPath;
         $uploadSchoolPhotoThumbPath = $this->schoolThumbPhotoImageUploadPath;
-        Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $states =  Helpers::getStates($schoolDetail->sc_country);
         $cities = Helpers::getCities($schoolDetail->sc_state);
         return view('admin.EditSchool', compact('schoolDetail', 'uploadSchoolThumbPath','uploadSchoolPhotoThumbPath','cities','states'));
@@ -175,70 +164,77 @@ class SchoolManagementController extends Controller
         }
         if (Input::file())
         {
-            $file = Input::file('sc_logo');
-            if(!empty($file))
+            $file_logo = Input::file('sc_logo');
+            if(!empty($file_logo))
             {
                 //Check image valid extension
-                $validationPass = Helpers::checkValidImageExtension($file);
+                $validationPass = Helpers::checkValidImageExtension($file_logo);
                 if($validationPass)
                 {
-                    $fileName = 'school_' . time() . '.' . $file->getClientOriginalExtension();
+                    $fileName = 'school_' . time() . '.' . $file_logo->getClientOriginalExtension();
                     $pathOriginal = public_path($this->schoolOriginalImageUploadPath . $fileName);
                     $pathThumb = public_path($this->schoolThumbImageUploadPath . $fileName);
-
-                    Image::make($file->getRealPath())->save($pathOriginal);
-                    Image::make($file->getRealPath())->resize($this->schoolThumbImageWidth, $this->schoolThumbImageHeight)->save($pathThumb);
+                    Image::make($file_logo->getRealPath())->save($pathOriginal);
+                    Image::make($file_logo->getRealPath())->resize($this->schoolThumbImageWidth, $this->schoolThumbImageHeight)->save($pathThumb);
 
                     if ($hiddenLogo != '')
                     {
-                        $imageOriginal = public_path($this->schoolOriginalImageUploadPath . $hiddenLogo);
-                        $imageThumb = public_path($this->schoolThumbImageUploadPath . $hiddenLogo);
-                        File::delete($imageOriginal, $imageThumb);
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->schoolOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->schoolThumbImageUploadPath, "s3");
                     }
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->schoolOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->schoolThumbImageUploadPath, $pathThumb, "s3");
+                    //Deleting Local Files
+                    \File::delete($this->schoolOriginalImageUploadPath . $fileName);
+                    \File::delete($this->schoolThumbImageUploadPath . $fileName);
+
                     $schoolDetail['sc_logo'] = $fileName;
                 }
             }
         }
 
-         if (Input::file())
+        if (Input::file())
         {
-            $file = Input::file('sc_photo');
-            if(!empty($file))
+            $file_photo = Input::file('sc_photo');
+            if(!empty($file_photo))
             {
                 //Check image valid extension
-                $validationPass = Helpers::checkValidImageExtension($file);
+                $validationPass = Helpers::checkValidImageExtension($file_photo);
                 if($validationPass)
                 {
-                    $fileName = 'school_' . time() . '.' . $file->getClientOriginalExtension();
+                    $fileName = 'school_' . time() . '.' . $file_photo->getClientOriginalExtension();
                     $pathOriginal = public_path($this->schoolOriginalPhotoImageUploadPath . $fileName);
                     $pathThumb = public_path($this->schoolThumbPhotoImageUploadPath . $fileName);
 
-                    Image::make($file->getRealPath())->save($pathOriginal);
-                    Image::make($file->getRealPath())->resize($this->schoolThumbPhotoImageWidth, $this->schoolThumbPhotoImageHeight)->save($pathThumb);
+                    Image::make($file_photo->getRealPath())->save($pathOriginal);
+                    Image::make($file_photo->getRealPath())->resize($this->schoolThumbPhotoImageWidth, $this->schoolThumbPhotoImageHeight)->save($pathThumb);
 
                     if ($hiddenPhoto != '')
                     {
-                        $imageOriginal = public_path($this->schoolOriginalPhotoImageUploadPath . $hiddenPhoto);
-                        $imageThumb = public_path($this->schoolThumbImageUploadPath . $hiddenPhoto);
-                        File::delete($imageOriginal, $imageThumb);
+                        $imageOriginalDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenPhoto, $this->schoolOriginalPhotoImageUploadPath, "s3");
+                        $imageThumbDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenPhoto, $this->schoolThumbPhotoImageUploadPath, "s3");
                     }
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->schoolOriginalPhotoImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->schoolThumbPhotoImageUploadPath, $pathThumb, "s3");
+                    //Deleting Local Files
+                    \File::delete($this->schoolOriginalPhotoImageUploadPath . $fileName);
+                    \File::delete($this->schoolThumbPhotoImageUploadPath . $fileName);
+
                     $schoolDetail['sc_photo'] = $fileName;
                 }
             }
         }
-
-
-
         $response = $this->schoolsRepository->saveSchoolDetail($schoolDetail);
         if($response)
         {
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_SCHOOLS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.schoolupdatesuccess'), serialize($schoolDetail), $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_SCHOOLS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.schoolupdatesuccess'), serialize($schoolDetail), $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/schools")->with('success',trans('labels.schoolupdatesuccess'));
         }
         else
         {
-
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_SCHOOLS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.somethingwrong'), serialize($schoolDetail), $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_SCHOOLS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.somethingwrong'), serialize($schoolDetail), $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/schools")->with('error', trans('labels.commonerrormessage'));
         }
     }
@@ -248,13 +244,13 @@ class SchoolManagementController extends Controller
         $return = $this->schoolsRepository->deleteSchool($id);
         if($return)
         {
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.schooldeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.schooldeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/schools")->with('success', trans('labels.schooldeletesuccess'));
         }
         else
         {
 
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'),trans('labels.somethingwrong'), '', $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'),trans('labels.somethingwrong'), '', $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/schools")->with('error', trans('labels.commonerrormessage'));
         }
     }
@@ -264,7 +260,7 @@ class SchoolManagementController extends Controller
         $return = $this->schoolsRepository->editToApprovedSchool($id);
         if($return)
         {
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.schoolapprovesuccess'), '', $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.schoolapprovesuccess'), '', $_SERVER['REMOTE_ADDR']);
             $SchoolDetailbyId = $this->schoolsRepository->getSchoolById($id);
             /*$teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
             foreach ($teenagers AS $key => $value) {
@@ -292,7 +288,7 @@ class SchoolManagementController extends Controller
         else
         {
 
-            Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'),trans('labels.somethingwrong'), '', $_SERVER['REMOTE_ADDR']);
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'),trans('labels.somethingwrong'), '', $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/schools")->with('error', trans('labels.commonerrormessage'));
         }
     }
@@ -440,7 +436,7 @@ class SchoolManagementController extends Controller
             $replaceArray = array();
             $replaceArray['TEEN_NAME'] = $userArray[0]['sc_name'];
             $replaceArray['COINS'] = $giftCoins;
-            $replaceArray['FROM_USER'] = Auth::admin()->get()->name;
+            $replaceArray['FROM_USER'] = $this->loggedInUser->user()->name;
             $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
             $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
