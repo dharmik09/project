@@ -65,6 +65,23 @@ Route::post('/add-coins-data-for-school','Admin\SchoolManagementController@addCo
 Route::post('/save-coins-data-for-school','Admin\SchoolManagementController@saveCoinsDataForSchool');
 Route::get('/export-school', 'Admin\SchoolManagementController@exportschool');
 
+//Enterprise section
+Route::get('/sponsors', 'Admin\SponsorManagementController@index');
+Route::post('/sponsors', 'Admin\SponsorManagementController@index');
+Route::get('/delete-sponsor/{id}', 'Admin\SponsorManagementController@delete');
+Route::get('/add-sponsor', 'Admin\SponsorManagementController@add');
+Route::post('/save-sponsor', 'Admin\SponsorManagementController@save');
+Route::get('/edit-sponsor/{id}', 'Admin\SponsorManagementController@edit');
+Route::get('/edit-approved/{id}', 'Admin\SponsorManagementController@editToApproved');
+Route::get('/sponsor-activity/{id}', 'Admin\SponsorManagementController@viewSponsorActivity');
+Route::post('/sponsor-activity/{id}', 'Admin\SponsorManagementController@viewSponsorActivity');
+Route::get('/view-sponsor-activity/{id}', 'Admin\SponsorManagementController@sponsorActivity');
+Route::get('/edit-sponsor-activity/{id}', 'Admin\SponsorManagementController@editSponsorActivity');
+Route::post('/save-sponsor-activity', 'Admin\SponsorManagementController@saveSponsorActivity');
+Route::post('/add-coins-data-for-sponsor','Admin\SponsorManagementController@addCoinsDataForSponsor');
+Route::post('/save-coins-data-for-sponsor','Admin\SponsorManagementController@saveCoinsDataForSponsor');
+Route::get('/export-sponsor', 'Admin\SponsorManagementController@exportsponsor');
+
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');
 Route::post('/faq', 'Admin\FAQManagementController@index')->name('faq');

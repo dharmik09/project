@@ -236,6 +236,7 @@ class TeenagerManagementController extends Controller {
                     //Uploading on AWS
                     $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
                     $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                    //Deleting Local Files
                     \File::delete($this->teenOriginalImageUploadPath . $fileName);
                     \File::delete($this->teenThumbImageUploadPath . $fileName);
                     
