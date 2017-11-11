@@ -13,7 +13,7 @@ use Illuminate\Pagination\Paginator;
 class EloquentTeenagersRepository extends EloquentBaseRepository implements TeenagersRepository {
 
     public function getAllActiveTeenagers(){
-        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ")
+        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager")
                     ->where('teenager.deleted', 1)->where('teenager.t_name', '!=', '')->get();
         return $teenagers;
     }
@@ -1269,14 +1269,25 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         return $teenagers;
     }
 
+    public function getAllActiveTeenagersForNotificationObj(){
+        $teenagers = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager")
+                    ->leftjoin(config::get('databaseconstants.TBL_COUNTRIES') . " AS country", 'country.id', '=', 'teenager.t_country')
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS device_token", 'teenager.id', '=', 'device_token.tdt_user_id')
+                    ->select('teenager.*' , 'country.c_name',DB::raw('GROUP_CONCAT(device_token.tdt_device_type) AS tdt_device_type'))
+                    ->where('teenager.deleted', '=', 1)
+                    ->where('teenager.t_name', '!=', '')
+                    ->groupBy('teenager.id');
+        return $teenagers;
+    }
+
     public function saveTeenagerActivityDetail($userId) {
         $response = $this->model->where('id', $userId)->update(['t_last_activity' => strtotime(date('Y-m-d H:i:s'))]);
         return $response;
     }
 
     public function getInactiveTeenDetailForNotification() {
-        $teenagersDetail = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ")
-                        ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS device_token ", 'teenager.id', '=', 'device_token.tdt_user_id')
+        $teenagersDetail = DB::table(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager")
+                        ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS device_token", 'teenager.id', '=', 'device_token.tdt_user_id')
                         ->selectRaw('teenager.t_last_activity,device_token.tdt_device_type,device_token.tdt_device_token,teenager.id,teenager.is_notify')
                         ->where('teenager.deleted' , '=', 1)
                         ->where('teenager.t_name' , '!=', '')
@@ -1825,8 +1836,8 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     }
 
     public function getParentListByTeenagerId($teenId,$type) {
-        $result = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS parent_teen ")
-                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent ", 'parent.id', '=', 'parent_teen.ptp_parent_id')
+        $result = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS parent_teen")
+                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'parent.id', '=', 'parent_teen.ptp_parent_id')
                 ->select(DB::raw('parent_teen.*,parent.p_first_name,parent.p_last_name,parent.p_photo'))
                 ->where('parent_teen.ptp_teenager', $teenId)
                 ->where('parent_teen.ptp_is_verified', 1)

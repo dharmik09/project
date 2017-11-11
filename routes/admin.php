@@ -93,6 +93,10 @@ Route::get('/add-coupon-bulk', 'Admin\CouponManagementController@addbulk');
 Route::post('/save-coupon-bulk', 'Admin\CouponManagementController@savebulkdata');
 Route::get('/coupon-usage/{id}', 'Admin\CouponManagementController@couponUsage');
 
+//Notification Section
+Route::get('/notification', 'Admin\NotificationController@index');
+Route::post('/get-notification', 'Admin\NotificationController@getIndex');
+
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');
 Route::post('/faq', 'Admin\FAQManagementController@index')->name('faq');
