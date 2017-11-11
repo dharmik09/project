@@ -85,6 +85,18 @@ use App\Services\CareerMapping\Contracts\CareerMappingRepository;
 use App\CareerMapping;
 use App\Services\CareerMapping\Repositories\EloquentCareerMappingRepository;
 
+use App\Services\Coupons\Contracts\CouponsRepository;
+use App\Coupons;
+use App\Services\Coupons\Repositories\EloquentCouponsRepository;
+
+use App\Services\LearningStyle\Contracts\LearningStyleRepository;
+use App\LearningStyle;
+use App\Services\LearningStyle\Repositories\EloquentLearningStyleRepository;
+
+use App\Services\Reports\Contracts\ReportsRepository;
+use App\Reports;
+use App\Services\Reports\Repositories\EloquentReportsRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -182,6 +194,18 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(CareerMappingRepository::class, function () {
             return new EloquentCareerMappingRepository(new CareerMapping());
+        });
+
+        $this->app->bind(CouponsRepository::class, function () {
+            return new EloquentCouponsRepository(new Coupons());
+        });
+
+        $this->app->bind(LearningStyleRepository::class, function () {
+            return new EloquentLearningStyleRepository(new LearningStyle());
+        });
+
+        $this->app->bind(ReportsRepository::class, function () {
+            return new EloquentReportsRepository(new Reports());
         });
     }
 }

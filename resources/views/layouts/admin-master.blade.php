@@ -120,6 +120,11 @@
                                             <i class="fa fa-circle-o"></i> <span>Enterprise</span>
                                         </a>
                                     </li>
+                                    <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/coupons', 'admin/add-coupon', 'admin/edit-coupon']) ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/coupons') }}">
+                                            <i class="fa fa-circle-o"></i> <span>Enterprise's {{trans('labels.coupons')}}</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="{{ (Request::is('admin/level1Activity') || Request::is('admin/editHumanIcon/*') || Request::is('admin/editHumanIconCategory/*') || Request::is('admin/editCartoon/*') || Request::is('admin/editCartoonIconCategory/*') || Request::is('admin/editLevel1Activity/*') || Request::is('admin/addLevel1Activity') || Request::is('admin/editLevel1Activity') || Request::is('admin/cartoons') || Request::is('admin/addCartoon') || Request::is('admin/editCartoon') || Request::is('admin/humanIcons') || Request::is('admin/addHumanIcon') || Request::is('admin/editHumanIcon') || Request::is('admin/humanIconsCategory') || Request::is('admin/addHumanIconsCategory') || Request::is('admin/editHumanIconsCategory') || Request::is('admin/cartoonIconsCategory') || Request::is('admin/addCartoonIconsCategory') || Request::is('admin/editCartoonIconsCategory') || Request::is('admin/viewUserImage') || Request::is('admin/uploadCartoons') || Request::is('admin/viewHumanUserImage')) ? 'active' : '' }} treeview">

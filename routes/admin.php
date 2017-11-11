@@ -82,6 +82,17 @@ Route::post('/add-coins-data-for-sponsor','Admin\SponsorManagementController@add
 Route::post('/save-coins-data-for-sponsor','Admin\SponsorManagementController@saveCoinsDataForSponsor');
 Route::get('/export-sponsor', 'Admin\SponsorManagementController@exportsponsor');
 
+//Enterprise Coupons //Coupons
+Route::get('/coupons', 'Admin\CouponManagementController@index');
+Route::post('/coupons', 'Admin\CouponManagementController@index');
+Route::get('/delete-coupon/{id}', 'Admin\CouponManagementController@delete');
+Route::get('/add-coupon', 'Admin\CouponManagementController@add');
+Route::get('/edit-coupon/{id}', 'Admin\CouponManagementController@edit');
+Route::post('/save-coupon', 'Admin\CouponManagementController@save');
+Route::get('/add-coupon-bulk', 'Admin\CouponManagementController@addbulk');
+Route::post('/save-coupon-bulk', 'Admin\CouponManagementController@savebulkdata');
+Route::get('/coupon-usage/{id}', 'Admin\CouponManagementController@couponUsage');
+
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');
 Route::post('/faq', 'Admin\FAQManagementController@index')->name('faq');
