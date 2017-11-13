@@ -129,7 +129,7 @@ class NotificationController extends Controller
                                $certificatePath = public_path($this->userCerfificatePath);                            
                                $return = Helpers::pushNotificationForiPhone($singleToken,$data,$certificatePath);
                             } elseif ($tData->tdt_device_type == 2) {
-                               $tokenArr[] = $tData->tdt_device_token;
+                               $tokenArr[] = $tData->tdt_device_token;                               
                             }
                         }
                     }
@@ -138,20 +138,19 @@ class NotificationController extends Controller
             if(isset($tokenArr) && count($tokenArr) > 0)
             {
                $return = Helpers::pushNotificationForAndroid($tokenArr,$data); 
-            }
-            
+            }           
             return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendsuccess'));
-         } 
-         else 
-         {
-             $message = input::get('notification_message');
-             $objNotifications = new Notifications();
-             $return = $objNotifications->saveTeenagerDetailForSendNotification($getId, $message);
-             if ($return) {
-                 return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendaftersuccess'));
-             } else {
-                 return Redirect::to("admin/notification")->with('error', trans('labels.commonerrormessage'));
-             }
-         }
+        } 
+        else 
+        {
+            $message = input::get('notification_message');
+            $objNotifications = new Notifications();
+            $return = $objNotifications->saveTeenagerDetailForSendNotification($getId, $message);
+            if ($return) {
+                return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendaftersuccess'));
+            } else {
+                return Redirect::to("admin/notification")->with('error', trans('labels.commonerrormessage'));
+            }
+        }
     }
 }
