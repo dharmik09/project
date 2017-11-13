@@ -235,7 +235,25 @@
                                     </li>
                                 </ul>
                             </li>
-                            
+                            <li class="{{ (Request::is('admin/paidComponents') || Request::is('admin/addPaidComponents') || Request::is('admin/editPaidComponents/*') || Request::is('admin/savePaidComponents') || Request::is('admin/deletePaidComponents/*') || Request::is('admin/invoice') || Request::is('admin/addInvoice') || Request::is('admin/editInvoice/*') || Request::is('admin/saveInvoice') || Request::is('admin/deleteInvoice/*')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/paidComponents') }}">
+                                    <i class="fa fa-dashboard"></i>
+                                        <span>Paid Components</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="">
+                                        <a href="{{ url('admin/paidComponents') }}">
+                                            <i class="fa fa-circle-o"></i>Paid Components
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="{{ url('admin/invoice') }}">
+                                            <i class="fa fa-circle-o"></i>Invoice
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="{{ (Request::is('admin/coins') ||  Request::is('admin/addCoins') || Request::is('admin/editCoins/*') || Request::is('admin/saveCoins') || Request::is('admin/deleteCoins/*')) ? 'active': '' }}">
                                 <a href="{{ url('admin/coins') }}">
                                     <i class="fa fa-circle-o"></i>ProCoins Packages

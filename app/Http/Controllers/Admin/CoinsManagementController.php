@@ -180,7 +180,11 @@ class CoinsManagementController extends Controller {
         }
         if ($fileName != '') {
             header('Content-type: application/pdf');
-            readfile($this->invoiceUploadedPath.$fileName);
+            if (File::exists(public_path($this->invoiceUploadedPath.$fileName))) {
+                readfile(public_path($this->invoiceUploadedPath.$fileName));
+            } else {
+                return Redirect::to("admin/invoice")->with('error', trans('labels.invoicenotavailable'));
+            }
         } else {
             return Redirect::to("admin/invoice")->with('error', trans('labels.commonerrormessage'));
         }
@@ -219,6 +223,12 @@ class CoinsManagementController extends Controller {
         $fileName = '';
         if (!empty($invoice_name)) {
             $fileName = $invoice_name[0]->i_invoice_name;
+            $checkExists = File::exists(public_path($this->invoiceUploadedPath.$fileName));
+            if (isset($checkExists) && !empty($checkExists)) {
+                $fileName = $invoice_name[0]->i_invoice_name;
+            } else {
+                $fileName = '';
+            }
         }
         return $fileName;
         exit;
