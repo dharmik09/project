@@ -19,10 +19,11 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use Cache;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level4TemplateManagementController extends Controller {
 
-    public function __construct(ProfessionsRepository $ProfessionsRepository, Level4ActivitiesRepository $Level4ActivitiesRepository,TeenagersRepository $TeenagersRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, ProfessionsRepository $ProfessionsRepository, Level4ActivitiesRepository $Level4ActivitiesRepository,TeenagersRepository $TeenagersRepository) {
         $this->ProfessionsRepository = $ProfessionsRepository;
         $this->objLevel4Activities = new Level4Activity();
         $this->Level4ActivitiesRepository = $Level4ActivitiesRepository;
@@ -37,40 +38,70 @@ class Level4TemplateManagementController extends Controller {
         $this->responseThumbImageUploadPath = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH');
         $this->questionDescriptionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->TeenagersRepository       = $TeenagersRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
     }
 
     public function index() {
-        $searchParamArray = Input::all();
-        if (isset($searchParamArray['clearSearch'])) {
-            unset($searchParamArray);
-            Cache::forget('L4searchArray');
-            Cache::forget('gamificationTemplate');
-            $searchParamArray = array();
+        return view('admin.ListGamificationTemplate');
+    }
+
+    public function getIndex(){
+        $templates = $this->Level4ActivitiesRepository->getAllGamificationTemplateObj()->get()->count();
+        $records = array();
+        $columns = array(
+            0 => 'id',
+            1 => 'pf_name',
+            2 => 'gt_template_title',
+            3 => 'gt_coins',
+            4 => 'tat_type',
+            5 => 'deleted'
+        );
+        
+        $order = Input::get('order');
+        $search = Input::get('search');
+        $records["data"] = array();
+        $iTotalRecords = $templates;
+        $iTotalFiltered = $iTotalRecords;
+        $iDisplayLength = intval(Input::get('length')) <= 0 ? $iTotalRecords : intval(Input::get('length'));
+        $iDisplayStart = intval(Input::get('start'));
+        $sEcho = intval(Input::get('draw'));
+
+        $records["data"] = $this->Level4ActivitiesRepository->getAllGamificationTemplateObj();
+        if (!empty($search['value'])) {
+            $val = $search['value'];
+            $records["data"]->where(function($query) use ($val) {
+                $query->where('profession.pf_name', "Like", "%$val%");
+                $query->orWhere('concepttemplate.gt_template_title', "Like", "%$val%");
+            });
+
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
+                    $query->where('profession.pf_name', "Like", "%$val%");
+                    $query->orWhere('concepttemplate.gt_template_title', "Like", "%$val%");
+                })->count();
         }
-        if (!empty($searchParamArray)) {
-            Cache::forget('gamificationTemplate');
-            if (isset($searchParamArray['page'])) {
-                if (Cache::has('L4searchArray')) {
-                    $searchParamArray = Cache::get('L4searchArray');
-                } else {
-                    Cache::forget('L4searchArray');
-                }
-            } else {
-                Cache::forget('L4searchArray');
-            }
-            $gamificationTemplate = $this->Level4ActivitiesRepository->getAllGamificationTemplate($searchParamArray);
-        } else {
-            if (Cache::has('L4searchArray')) {
-                $searchParamArray = Cache::get('L4searchArray');
-            }
-            if (Cache::has('gamificationTemplate')) {
-                $gamificationTemplate = Cache::get('gamificationTemplate');
-            } else {
-                $gamificationTemplate = $this->Level4ActivitiesRepository->getAllGamificationTemplate($searchParamArray);
-                Cache::forever('gamificationTemplate', $gamificationTemplate);
+        
+        //order by
+        foreach ($order as $o) {
+            $records["data"] = $records["data"]->orderBy($columns[$o['column']], $o['dir']);
+        }
+
+        //limit
+        $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
+        
+        if (!empty($records["data"])) {
+            foreach ($records["data"] as $key => $_records) {
+                $records["data"][$key]->deleted = ($_records->deleted == 1) ? '<i class="s_active fa fa-square"></i>' : '<i class="s_inactive fa fa-square"></i>';
+                $records["data"][$key]->action = '<a href="'.url('/admin/editGamificationTemplate').'/'.$_records->id.'"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a><a onclick="return confirm(\'Are you sure you want to delete ?\')" href="'.url('/admin/deleteGamificationTemplate').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i> &nbsp;&nbsp;</a><a href="" onClick="add_coins_details('.$_records->id.');" data-toggle="modal" id="#templateCoinsData" data-target="#templateCoinsData"><i class="fa fa-database" aria-hidden="true"></i></a>'; 
             }
         }
-        return view('admin.ListGamificationTemplate',compact('gamificationTemplate', 'searchParamArray'));
+
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalFiltered;
+
+        return \Response::json($records);
+        exit;
     }
 
     public function add()
@@ -136,9 +167,14 @@ class Level4TemplateManagementController extends Controller {
 
                         if($allPostdata['hidden_logo'] != '')
                         {
-                            $imageOriginal = public_path($this->conceptOriginalImageUploadPath.$allPostdata['hidden_logo']);
-                            File::delete($imageOriginal);
+                            // $imageOriginal = public_path($this->conceptOriginalImageUploadPath.$allPostdata['hidden_logo']);
+                            // File::delete($imageOriginal);
+                            $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($allPostdata['hidden_logo'], $this->conceptOriginalImageUploadPath, "s3");
                         }
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->conceptOriginalImageUploadPath, $pathOriginal, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->conceptOriginalImageUploadPath . $fileName);
                         $saveData['gt_template_image'] = $fileName;
                     }
                 }
@@ -153,7 +189,12 @@ class Level4TemplateManagementController extends Controller {
                     $popupFileName = 'popup_' . str_random(10) . '.' . $PopUpfile->getClientOriginalExtension();
                     $pathOriginal = public_path($this->conceptOriginalImageUploadPath.$popupFileName);
                     Image::make($PopUpfile->getRealPath())->save($pathOriginal);
-
+                    
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($popupFileName, $this->conceptOriginalImageUploadPath, $pathOriginal, "s3");
+                    //Deleting Local Files
+                    \File::delete($this->conceptOriginalImageUploadPath . $popupFileName);
+                    
                     $saveData['gt_template_descritpion_popup_imge'] = $popupFileName;
                 }
             }

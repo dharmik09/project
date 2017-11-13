@@ -99,8 +99,32 @@ Route::post('/send-notification', 'Admin\NotificationController@sendNotification
 Route::post('/get-notification', 'Admin\NotificationController@getIndex');
 
 //Level 4 Section
-Route::get('/level4activity', 'Admin\Level4ActivityManagementController@index');
-Route::post('/level4activity', 'Admin\Level4ActivityManagementController@index');
+Route::get('/level4Activity', 'Admin\Level4ActivityManagementController@index');
+Route::post('/level4Activity', 'Admin\Level4ActivityManagementController@index');
+Route::post('/get-level4-activity', 'Admin\Level4ActivityManagementController@getIndex');
+Route::get('/addLevel4Activity', 'Admin\Level4ActivityManagementController@add');
+Route::get('/deleteLevel4Activity/{id}', 'Admin\Level4ActivityManagementController@delete');
+Route::get('/editLeve4Activity/{id}', 'Admin\Level4ActivityManagementController@edit');
+Route::post('/saveLevel4Activity', 'Admin\Level4ActivityManagementController@save');
+Route::get('/addLevel4QuestionBulk', 'Admin\Level4ActivityManagementController@addbulk');
+Route::post('/saveLevel4QuestionBulk', 'Admin\Level4ActivityManagementController@saveLevel4QuestionBulk');
+Route::get('/saveLevel4QuestionBulk', 'Admin\Level4ActivityManagementController@addbulk');
+
+Route::post('/saveGamificationTemplate/', 'Admin\Level4TemplateManagementController@save');
+Route::get('/listGamificationTemplate/', 'Admin\Level4TemplateManagementController@index');
+Route::post('/listGamificationTemplate/', 'Admin\Level4TemplateManagementController@index');
+Route::post('/getGamificationTemplateList/', 'Admin\Level4TemplateManagementController@getIndex');
+Route::get('/editGamificationTemplate/{id}', 'Admin\Level4TemplateManagementController@edit');
+Route::get('/deleteGamificationTemplate/{id}', 'Admin\Level4TemplateManagementController@delete');
+Route::post('/getGamificationTemplateAnswerBox/', 'Admin\Level4TemplateManagementController@getGamificationTemplateAnswerBox');
+Route::post('/addCoinsDataForTemplate','Admin\Level4TemplateManagementController@addCoinsDataForTemplate');
+Route::post('/saveCoinsDataForTemplate','Admin\Level4TemplateManagementController@saveCoinsDataForTemplate');
+Route::get('/addLevel4Template', 'Admin\Level4TemplateManagementController@add');
+
+//PRO-VERSION
+Route::get('/copyConcept', 'Admin\Level4TemplateManagementController@copyConcept');
+Route::post('/saveCopyConcept', 'Admin\Level4TemplateManagementController@saveCopyConcept');
+Route::post('/getProfessionConcepts', 'Admin\ReportController@getProfessionConcepts');
 
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');

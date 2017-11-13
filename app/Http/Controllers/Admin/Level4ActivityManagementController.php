@@ -50,6 +50,63 @@ class Level4ActivityManagementController extends Controller {
         return view('admin.ListLevel4Activity',compact('leve4activities','searchParamArray'));
     }
 
+    public function getIndex()
+    {
+        $leve4activities = $this->Level4ActivitiesRepository->getLevel4DetailsDataObj()->get()->count();
+        $records = array();
+        $columns = array(
+            0 => 'id',
+            1 => 'pf_name',
+            2 => 'question_text'
+        );
+        
+        $order = Input::get('order');
+        $search = Input::get('search');
+        $records["data"] = array();
+        $iTotalRecords = $leve4activities;
+        $iTotalFiltered = $iTotalRecords;
+        $iDisplayLength = intval(Input::get('length')) <= 0 ? $iTotalRecords : intval(Input::get('length'));
+        $iDisplayStart = intval(Input::get('start'));
+        $sEcho = intval(Input::get('draw'));
+
+        $records["data"] = $this->Level4ActivitiesRepository->getLevel4DetailsDataObj();
+        if (!empty($search['value'])) {
+            $val = $search['value'];
+            $records["data"]->where(function($query) use ($val) {
+                $query->where('profession.pf_name', "Like", "%$val%");
+                $query->where('activity.question_text', "Like", "%$val%");
+            });
+
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
+                    $query->where('profession.pf_name', "Like", "%$val%");
+                    $query->where('activity.question_text', "Like", "%$val%");
+                })->count();
+        }
+        
+        //order by
+        foreach ($order as $o) {
+            $records["data"] = $records["data"]->orderBy($columns[$o['column']], $o['dir']);
+        }
+
+        //limit
+        $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
+        // this $sid use for school edit teenager and admin edit teenager
+        $sid = 0;
+        if (!empty($records["data"])) {
+            foreach ($records["data"] as $key => $_records) {
+                $records["data"][$key]->action = "yes";
+                //$records["data"][$key]->created_at = date('d/m/Y',strtotime($_records->created_at));
+            }
+        }
+
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalFiltered;
+
+        return \Response::json($records);
+        exit;
+    }
     public function add()
     {
         $activity4Detail = [];
@@ -96,12 +153,12 @@ class Level4ActivityManagementController extends Controller {
       Cache::forget('l4BasicActivity');
       if($response)
       {
-        return Redirect::to("admin/level4activity".$pageRank)->with('success', trans('labels.level4activityupdatesuccess'));
+        return Redirect::to("admin/level4Activity".$pageRank)->with('success', trans('labels.level4activityupdatesuccess'));
       }
       else
       {
         Helpers::createAudit($this->loggedInUser->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.somethingwrong'), serialize($activityDetail), $_SERVER['REMOTE_ADDR']);
-        return Redirect::to("admin/level4activity".$pageRank)->with('error', trans('labels.commonerrormessage'));
+        return Redirect::to("admin/level4Activity".$pageRank)->with('error', trans('labels.commonerrormessage'));
       }
     }
 
@@ -111,11 +168,11 @@ class Level4ActivityManagementController extends Controller {
         if ($return)
         {
 
-            return Redirect::to("admin/level4activity")->with('success', trans('labels.level4activitydeletesuccess'));
+            return Redirect::to("admin/level4Activity")->with('success', trans('labels.level4activitydeletesuccess'));
         }
         else
         {
-            return Redirect::to("admin/level4activity")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("admin/level4Activity")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
@@ -175,10 +232,10 @@ class Level4ActivityManagementController extends Controller {
                         }
                         Cache::forget('l4BasicActivity');
                     });
-            return Redirect::to("admin/level4activity")->with('success', 'Level4 Basic Activity uploaded successfully...');
+            return Redirect::to("admin/level4Activity")->with('success', 'Level4 Basic Activity uploaded successfully...');
             exit;
         }else{
-            return Redirect::to("admin/level4activity")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("admin/level4Activity")->with('error', trans('labels.commonerrormessage'));
         }
     }
 }

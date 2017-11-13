@@ -8,10 +8,10 @@
             {{trans('labels.level4activities')}}
         </div>
         <div class="col-md-1">
-            <a href="{{ url('admin/addlevel4activity') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
+            <a href="{{ url('admin/addLevel4Activity') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
         </div>
         <div class="col-md-2">
-            <a href="{{ url('admin/addlevel4questionbulk') }}" class="btn btn-block btn-primary">{{trans('labels.bulkupload')}}</a>
+            <a href="{{ url('admin/addLevel4QuestionBulk') }}" class="btn btn-block btn-primary">{{trans('labels.bulkupload')}}</a>
         </div>
     </h1>
 </section>
@@ -25,7 +25,7 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header">
-                    <form id="formSearchActivity" class="form-horizontal" method="post" action="{{ url('/admin/level4activity') }}">
+                    <form id="formSearchActivity" class="form-horizontal" method="post" action="{{ url('/admin/level4Activity') }}">
                         <div class="col-md-3">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <select id="searchBy" name="searchBy" class="form-control">
@@ -48,31 +48,6 @@
                             }
                             ?>" class="form-control" />
                         </div>
-<!--                        <div class="col-md-2">
-                            <select id="orderBy" name="orderBy" class="form-control">
-                                <option value="">{{trans('labels.formlblorderby')}}</option>
-                                <option value="question_text" <?php
-                                //if (isset($searchParamArray['orderBy']) && $searchParamArray['orderBy'] == 'question_text') {
-                                 //   echo 'selected = "selected"';
-                                //}
-                                ?> >{{trans('labels.formlbltext')}}</option>
-                            </select>
-                        </div>-->
-<!--                        <div class="col-md-2">
-                            <select id="sortOrder" name="sortOrder" class="form-control">
-                                <option value="">{{trans('labels.lblorder')}}</option>
-                                <option value="ASC" <?php
-                                //if (isset($searchParamArray['sortOrder']) && $searchParamArray['sortOrder'] == 'ASC') {
-                                  //  echo 'selected = "selected"';
-                               // }
-                                ?> >Ascending</option>
-                                <option value="DESC" <?php
-                               // if (isset($searchParamArray['sortOrder']) && $searchParamArray['sortOrder'] == 'DESC') {
-                                 //   echo 'selected = "selected"';
-                               // }
-                                ?> >Descending</option>
-                            </select>
-                        </div>-->
                         <div class="col-md-1">
                             <input type="submit" class="btn btn-primary btn-flat" name="searchLevel4AdvanceActivity" id="searchLevel4AdvanceActivity" value="{{trans('labels.lblsearch')}}"/>
                         </div>
@@ -126,8 +101,8 @@
                             </td>
                             <td>
                                 <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
-                                <a href="{{ url('/admin/editleve4activity') }}/{{$leve4activitie->id}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
-                                <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deletelevel4activity') }}/{{$leve4activitie->id}}"><i class="i_delete fa fa-trash"></i></a>
+                                <a href="{{ url('/admin/editLeve4Activity') }}/{{$leve4activitie->id}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
+                                <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteLevel4Activity') }}/{{$leve4activitie->id}}"><i class="i_delete fa fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php  $serialno++; ?>

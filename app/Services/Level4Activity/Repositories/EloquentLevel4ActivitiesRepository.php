@@ -36,14 +36,24 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             $whereStr = implode(" AND ", $whereArray);
         }
 
-        $leve4activities = DB::table(config::get('databaseconstants.TBL_LEVEL4_BASIC_ACTIVITY') . " AS activity ")
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'activity.profession_id', '=', 'profession.id')
-                ->leftjoin(config::get('databaseconstants.TBL_LEVEL4_OPTIONS') . " AS options ", 'activity.id', '=', 'options.activity_id')
+        $leve4activities = DB::table(config::get('databaseconstants.TBL_LEVEL4_BASIC_ACTIVITY') . " AS activity")
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'activity.profession_id', '=', 'profession.id')
+                ->leftjoin(config::get('databaseconstants.TBL_LEVEL4_OPTIONS') . " AS options", 'activity.id', '=', 'options.activity_id')
                 ->selectRaw('activity.* , GROUP_CONCAT(options.options_text SEPARATOR "#") AS options_text, GROUP_CONCAT(options.correct_option) AS correct_option, profession.pf_name')
                 ->whereRaw($whereStr)
                 ->groupBy('activity.id')
                 ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
 
+        return $leve4activities;
+    }
+
+    public function getLevel4DetailsDataObj() {
+        $leve4activities = DB::table(config::get('databaseconstants.TBL_LEVEL4_BASIC_ACTIVITY') . " AS activity")
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'activity.profession_id', '=', 'profession.id')
+                ->leftjoin(config::get('databaseconstants.TBL_LEVEL4_OPTIONS') . " AS options", 'activity.id', '=', 'options.activity_id')
+                ->selectRaw('activity.* , GROUP_CONCAT(options.options_text SEPARATOR "#") AS options_text, GROUP_CONCAT(options.correct_option) AS correct_option, profession.pf_name')
+                ->whereIn('activity.deleted', [1,2])
+                ->groupBy('activity.id');
         return $leve4activities;
     }
 
@@ -241,9 +251,9 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
      */
 
     public function getQuestionTemplateForProfession($professionId) {
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS activity ")
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS activity")
                 ->distinct()
-                ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template ", 'activity.l4ia_question_template', '=', 'template.id')
+                ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template", 'activity.l4ia_question_template', '=', 'template.id')
                 ->selectRaw('activity.l4ia_profession_id , template.gt_temlpate_answer_type, template.gt_template_title, template.gt_template_image as gt_template_image,template.id as gt_template_id, template.gt_template_title, template.gt_template_descritpion, template.gt_template_descritpion_popup_imge,template.gt_coins')
                 ->where('activity.l4ia_profession_id', $professionId)
                 ->where('template.deleted', 1)
@@ -561,8 +571,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
     public function getAllIntermediateQuestionRelatedDataFromQuestionId($questionID) {
         if ($questionID != '' && $questionID > 0) {
-            $data = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS activity ")
-                    ->leftjoin(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_OPTIONS') . " AS options ", 'activity.id', '=', 'options.l4iao_question_id')
+            $data = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS activity")
+                    ->leftjoin(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_OPTIONS') . " AS options", 'activity.id', '=', 'options.l4iao_question_id')
                     ->selectRaw('activity.* , GROUP_CONCAT(options.id) AS options_id, GROUP_CONCAT(options.l4iao_answer_order) AS option_order, GROUP_CONCAT(options.l4iao_correct_answer) AS correct_option, GROUP_CONCAT(options.l4iao_answer_image SEPARATOR "##") AS option_image,  GROUP_CONCAT(options.l4iao_answer_image_description SEPARATOR "##") AS option_image_description')
                     ->where('activity.id', $questionID)
                     ->groupBy('activity.id')
@@ -579,8 +589,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
     }
 
     public function getQuestionOPtionFromQuestionId($questionID) {
-        $leve4activities = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS activity ")
-                ->leftjoin(config::get('databaseconstants.TBL_LEVEL4_OPTIONS') . " AS options ", 'activity.id', '=', 'options.activity_id')
+        $leve4activities = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS activity")
+                ->leftjoin(config::get('databaseconstants.TBL_LEVEL4_OPTIONS') . " AS options", 'activity.id', '=', 'options.activity_id')
                 ->selectRaw('activity.* , GROUP_CONCAT(options.id) AS options_id,GROUP_CONCAT(options.correct_option) AS correct_option')
                 ->where('activity.id', $questionID)
                 ->groupBy('activity.id')
@@ -630,10 +640,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
     }
 
     public function saveLevel4ActivityDetail($activity4Detail, $options, $radioval) {
-
-
         $objOption = new Level4Options();
-
 
         if ($activity4Detail['id'] != '' && $activity4Detail['id'] > 0) {
             $return = $this->model->where('id', $activity4Detail['id'])->update($activity4Detail);
@@ -827,13 +834,24 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
         if (!empty($whereArray)) {
             $whereStr = implode(" AND ", $whereArray);
         }
-        $result = DB::table(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS concepttemplate ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'concepttemplate.gt_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_LEVEL4_TEMPLATE_ANSWER_TYPE') . " AS answertemplate ", 'concepttemplate.gt_template_id', '=', 'answertemplate.id')
+        $result = DB::table(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS concepttemplate")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'concepttemplate.gt_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_LEVEL4_TEMPLATE_ANSWER_TYPE') . " AS answertemplate", 'concepttemplate.gt_template_id', '=', 'answertemplate.id')
                 ->selectRaw('concepttemplate.*,profession.pf_name,answertemplate.tat_type')
                 ->whereRaw($whereStr)
                 ->groupBy('concepttemplate.id')
                 ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+        return $result;
+    }
+
+    public function getAllGamificationTemplateObj() {
+        $result = DB::table(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS concepttemplate")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'concepttemplate.gt_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_LEVEL4_TEMPLATE_ANSWER_TYPE') . " AS answertemplate", 'concepttemplate.gt_template_id', '=', 'answertemplate.id')
+                ->selectRaw('concepttemplate.*, profession.pf_name, answertemplate.tat_type')
+                ->whereIn('concepttemplate.deleted', [1,2])
+                ->groupBy('concepttemplate.id');
+
         return $result;
     }
 
@@ -930,9 +948,9 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             $whereStr = implode(" AND ", $whereArray);
         }
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS intermediateactivity ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'intermediateactivity.l4ia_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS gamification ", 'intermediateactivity.l4ia_question_template', '=', 'gamification.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS intermediateactivity")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'intermediateactivity.l4ia_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS gamification", 'intermediateactivity.l4ia_question_template', '=', 'gamification.id')
                 ->selectRaw('intermediateactivity.*,profession.pf_name,gamification.gt_template_title')
                 ->whereRaw($whereStr . $orderStr)
                 ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
@@ -961,9 +979,9 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
     public function getLevel4IntermediateActivityById($id) {
 
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS intermediateactivity ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'intermediateactivity.l4ia_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS gamification ", 'intermediateactivity.l4ia_question_template', '=', 'gamification.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS intermediateactivity")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'intermediateactivity.l4ia_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS gamification", 'intermediateactivity.l4ia_question_template', '=', 'gamification.id')
                 ->selectRaw('intermediateactivity.*,profession.pf_name,gamification.gt_template_title,gamification.gt_temlpate_answer_type')
                 ->where('intermediateactivity.id', $id)
                 ->first();
@@ -1059,8 +1077,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
     public function getLevel4AdvanceActivityTaskByUser($teengager,$professionId,$mediaType) {
 
         //$result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA'))->where('deleted', 1)->where('l4aaua_teenager', $teengager)->where('l4aaua_profession_id', $professionId)->where('l4aaua_media_type',$mediaType)->get();
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS activity ")
-                ->leftjoin(config::get('databaseconstants.TBL_ADMIN_USERS') . " AS admin ", 'activity.l4aaua_verified_by', '=', 'admin.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS activity")
+                ->leftjoin(config::get('databaseconstants.TBL_ADMIN_USERS') . " AS admin", 'activity.l4aaua_verified_by', '=', 'admin.id')
                 ->selectRaw('activity.* , admin.id as adminid, admin.name as adminname')
                 ->where('activity.deleted', 1)
                 ->where('activity.l4aaua_teenager', $teengager)
@@ -1102,9 +1120,9 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             $whereStr = implode(" AND ", $whereArray);
         }
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'usertask.l4aaua_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ", 'usertask.l4aaua_teenager', '=', 'teenager.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aaua_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'usertask.l4aaua_teenager', '=', 'teenager.id')
                 ->selectRaw('usertask.*,profession.pf_name,teenager.t_name')
                 ->groupBy('usertask.l4aaua_profession_id')
                 ->groupBy('usertask.l4aaua_teenager')
@@ -1120,10 +1138,10 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
     public function getUserAllTasksForAdvanceLevel($teenager,$profession,$type) {
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'usertask.l4aaua_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ", 'usertask.l4aaua_teenager', '=', 'teenager.id')
-                ->leftjoin(config::get('databaseconstants.TBL_ADMIN_USERS') . " AS admin ", 'usertask.l4aaua_verified_by', '=', 'admin.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aaua_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'usertask.l4aaua_teenager', '=', 'teenager.id')
+                ->leftjoin(config::get('databaseconstants.TBL_ADMIN_USERS') . " AS admin", 'usertask.l4aaua_verified_by', '=', 'admin.id')
                 ->selectRaw('usertask.*,profession.pf_name,teenager.t_name,admin.id as adminid, admin.name as adminname')
                 ->where('usertask.l4aaua_teenager','=',$teenager)
                 ->where('usertask.l4aaua_profession_id','=',$profession)
@@ -1174,9 +1192,9 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
     public function getUserAllVerifiedTasks($teenager,$profession)
     {
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'usertask.l4aaua_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager ", 'usertask.l4aaua_teenager', '=', 'teenager.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aaua_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'usertask.l4aaua_teenager', '=', 'teenager.id')
                 ->selectRaw('usertask.*,profession.pf_name,teenager.t_name')
                 ->where('usertask.l4aaua_teenager','=',$teenager)
                 ->where('usertask.l4aaua_profession_id','=',$profession)
@@ -1189,8 +1207,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
     /*Get level4 advance user tasks*/
     public function getUserAdvanceTaskById($id) {
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'usertask.l4aaua_profession_id', '=', 'profession.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aaua_profession_id', '=', 'profession.id')
                 ->selectRaw('usertask.*,profession.pf_name')
                 ->where('usertask.id','=',$id)
                 ->where('usertask.deleted','!=',3)
@@ -1480,7 +1498,6 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             $row['lbac_earned_points'] = $response['earned_points'];
             $objLevel4Answers = new Level4ParentAnswers();
 
-
             foreach ($answerArray as $ansId) {
                 $row['lbac_answer_id'] = $ansId;
                 $answered = $objLevel4Answers->where("lbac_parent_id", $parentId)->where("lbac_activity_id", $response['questionID'])->where("lbac_answer_id", $row['lbac_answer_id'])->first();
@@ -1739,9 +1756,9 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
     public function getParentAllVerifiedTasks($parent,$profession)
     {
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'usertask.l4aapa_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent ", 'usertask.l4aapa_parent_id', '=', 'parent.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aapa_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'usertask.l4aapa_parent_id', '=', 'parent.id')
                 ->selectRaw('usertask.*,profession.pf_name,parent.p_first_name')
                 ->where('usertask.l4aapa_parent_id','=',$parent)
                 ->where('usertask.l4aapa_profession_id','=',$profession)
@@ -1754,8 +1771,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
      public function getLevel4AdvanceActivityTaskByParent($parent,$professionId,$mediaType) {
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS activity ")
-                ->leftjoin(config::get('databaseconstants.TBL_ADMIN_USERS') . " AS admin ", 'activity.l4aapa_verified_by', '=', 'admin.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS activity")
+                ->leftjoin(config::get('databaseconstants.TBL_ADMIN_USERS') . " AS admin", 'activity.l4aapa_verified_by', '=', 'admin.id')
                 ->selectRaw('activity.* , admin.id as adminid, admin.name as adminname')
                 ->where('activity.deleted', 1)
                 ->where('activity.l4aapa_parent_id', $parent)
@@ -1783,8 +1800,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
     public function getUserAdvanceTaskByIdForParent($id) {
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'usertask.l4aapa_profession_id', '=', 'profession.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aapa_profession_id', '=', 'profession.id')
                 ->selectRaw('usertask.*,profession.pf_name')
                 ->where('usertask.id','=',$id)
                 ->where('usertask.deleted','!=',3)
@@ -1824,9 +1841,9 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             $whereStr = implode(" AND ", $whereArray);
         }
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'usertask.l4aapa_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent ", 'usertask.l4aapa_parent_id', '=', 'parent.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aapa_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'usertask.l4aapa_parent_id', '=', 'parent.id')
                 ->selectRaw('usertask.*,profession.pf_name,parent.p_first_name')
                 ->groupBy('usertask.l4aapa_profession_id')
                 ->groupBy('usertask.l4aapa_parent_id')
@@ -1840,10 +1857,10 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
     public function getParentAllTasksForAdvanceLevel($parent,$profession,$type) {
 
-        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask ")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'usertask.l4aapa_profession_id', '=', 'profession.id')
-                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent ", 'usertask.l4aapa_parent_id', '=', 'parent.id')
-                ->leftjoin(config::get('databaseconstants.TBL_ADMIN_USERS') . " AS admin ", 'usertask.l4aapa_verified_by', '=', 'admin.id')
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aapa_profession_id', '=', 'profession.id')
+                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'usertask.l4aapa_parent_id', '=', 'parent.id')
+                ->leftjoin(config::get('databaseconstants.TBL_ADMIN_USERS') . " AS admin", 'usertask.l4aapa_verified_by', '=', 'admin.id')
                 ->selectRaw('usertask.*,profession.pf_name,parent.p_first_name,admin.id as adminid, admin.name as adminname')
                 ->where('usertask.l4aapa_parent_id','=',$parent)
                 ->where('usertask.l4aapa_profession_id','=',$profession)
