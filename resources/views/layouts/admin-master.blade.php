@@ -203,6 +203,23 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/level4Activity', 'admin/viewUserAllAdvanceActivities/{teenager}/{profession}', 'admin/level4Activity', 'admin/level4AdvanceActivityUserTask', 'admin/editlevel4advanceactivity/{id}', 'admin/listlevel4advanceactivity', 'admin/editlevel4IntermediateActivity/{id}', 'admin/listLevel4IntermediateActivity', 'admin/editGamificationTemplate/{id}', 'admin/listGamificationTemplate', 'admin/editLeve4Activity/{id}', 'admin/addLevel4Activity', 'admin/editLevel4Activity', 'admin/level4LearningStyle', 'admin/level4AdvanceActivityParentTask']) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/level4activity') }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.level4')}}</span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    @if(Auth::guard('admin')->user()->email != trans('labels.adminemailid'))
+                                        <li class=" {{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/level4Activity', 'admin/addLevel4Activity', 'admin/editLevel4Activity']) ? 'active' : ''}} treeview">
+                                            <a href="{{ url('admin/level4Activity') }}"><i class="fa fa-circle-o"></i>Basic Activities</a>
+                                        </li>
+                                    @endif
+                                    <li class=" {{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/listGamificationTemplate']) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/listGamificationTemplate') }}">
+                                            <i class="fa fa-circle-o"></i> <span>Questions Concepts</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li> 
                             <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
                                 <a href="{{ url('admin/listHint') }}">
                                     <i class="fa fa-dashboard"></i> <span>Settings</span><i class="fa fa-angle-left pull-right"></i>
@@ -210,27 +227,27 @@
                                 <ul class="treeview-menu">
                                     <li class="treeview">
                                         <a href="{{ url('admin/listHint') }}">
-                                            <i class="fa fa-dashboard"></i> <span>Hint Management</span>
+                                            <i class="fa fa-circle-o"></i> <span>Hint Management</span>
                                         </a>
                                     </li>
-                                    <li class="">
+                                    <li class="treeview">
                                         <a href="{{ url('admin/cms') }}">
                                             <i class="fa fa-circle-o"></i>{{trans('labels.cms')}}
                                         </a>
                                     </li>
-                                    <li class="">
+                                    <li class="treeview">
                                         <a href="{{ url('admin/templates') }}">
                                             <i class="fa fa-circle-o"></i>{{trans('labels.emailtemplates')}}
                                         </a>
                                     </li>
                                     <li class="treeview">
                                         <a href="{{ url('admin/configurations') }}">
-                                            <i class="fa fa-dashboard"></i> <span>Configuration</span>
+                                            <i class="fa fa-circle-o"></i> <span>Configuration</span>
                                         </a>
                                     </li>
                                     <li class="treeview">
                                         <a href="{{ url('admin/genericAds') }}">
-                                            <i class="fa fa-dashboard"></i> <span>Generic Ads</span>
+                                            <i class="fa fa-circle-o"></i> <span>Generic Ads</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -242,31 +259,31 @@
                                         <i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li class="">
+                                    <li class="treeview">
                                         <a href="{{ url('admin/paidComponents') }}">
-                                            <i class="fa fa-circle-o"></i>Paid Components
+                                            <i class="fa fa-circle-o"></i><span>Paid Components</span>
                                         </a>
                                     </li>
-                                    <li class="">
+                                    <li class="treeview">
                                         <a href="{{ url('admin/invoice') }}">
-                                            <i class="fa fa-circle-o"></i>Invoice
+                                            <i class="fa fa-circle-o"></i><span>Invoice</span>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="{{ (Request::is('admin/coins') ||  Request::is('admin/addCoins') || Request::is('admin/editCoins/*') || Request::is('admin/saveCoins') || Request::is('admin/deleteCoins/*')) ? 'active': '' }}">
                                 <a href="{{ url('admin/coins') }}">
-                                    <i class="fa fa-circle-o"></i>ProCoins Packages
+                                    <i class="fa fa-dashboard"></i><span>ProCoins Packages</span>
                                 </a>
                             </li>
                             <li class="{{ (Request::is('admin/video') || Request::is('admin/addVideo') || Request::is('admin/editVideo/*') || Request::is('admin/saveVideo') || Request::is('admin/deleteVideo/*')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/video') }}">
-                                    <i class="fa fa-circle-o"></i> <span>{{trans('labels.video')}}</span>
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.video')}}</span>
                                 </a>
                             </li>
                             <li class="{{ (Request::is('admin/faq') || Request::is('admin/addFaq') || Request::is('admin/editFaq/*') || Request::is('admin/saveFaq') || Request::is('admin/deleteFaq/*')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/faq') }}">
-                                    <i class="fa fa-circle-o"></i> <span>{{trans('labels.faq')}}</span>
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.faq')}}</span>
                                 </a>
                             </li>
                         @endif                        
