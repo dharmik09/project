@@ -1243,9 +1243,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     /*Get teenager icon with qualities*/
     public function getTeenSelectedIconWithQualities($teenagerId,$iconType)
     {      
-        $query = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON') . " AS tc ");
-        $query->join(config::get('databaseconstants.TBL_TEENAGER_ICON_QUALITIES') . " AS tcq ", 'tcq.tiqa_ti_id', '=', 'tc.id');
-        $query->join(config::get('databaseconstants.TBL_LEVEL1_QUALITY') . " AS q ", 'tcq.tiqa_quality_id', '=', 'q.id');
+        $query = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON') . " AS tc");
+        $query->join(config::get('databaseconstants.TBL_TEENAGER_ICON_QUALITIES') . " AS tcq", 'tcq.tiqa_ti_id', '=', 'tc.id');
+        $query->join(config::get('databaseconstants.TBL_LEVEL1_QUALITY') . " AS q", 'tcq.tiqa_quality_id', '=', 'q.id');
         $query->selectRaw('count(tcq.id) as sum,q.l1qa_name,q.id as qualityid');        
         $query->groupBy('tcq.tiqa_quality_id');
         if(isset($teenagerId) && $teenagerId != ''){

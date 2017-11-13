@@ -280,9 +280,30 @@ Route::get('/viewInvoice/{transId}', 'Admin\CoinsManagementController@viewInvoic
 Route::get('/sendEmailForInvoice/{transId}', 'Admin\CoinsManagementController@sendEmailForInvoice');
 Route::post('/printInvoice', 'Admin\CoinsManagementController@printInvoice');
 
-//Reports
+//Reports Section
+
+//Teens
 Route::get('/userReport/', 'Admin\ReportController@userReport');
 Route::post('/userReport/', 'Admin\ReportController@userReport');
+
+//School
+Route::get('/schoolReport/', 'Admin\ReportController@schoolReport');
+Route::post('/schoolReport/', 'Admin\ReportController@schoolReport');
+Route::post('/getClass/', 'Admin\ReportController@getClass');
+
+//Level1 Survey
+Route::get('/level1Chart/', 'Admin\ReportController@level1');
+Route::post('/level1Chart/', 'Admin\ReportController@level1');
+
+//Level1 Icon Report
+Route::get('/iconReport/', 'Admin\ReportController@iconReport');
+Route::post('/iconReport/', 'Admin\ReportController@iconReport');
+
+//Level1 Quality Report
+Route::get('/iconQualityReport/', 'Admin\ReportController@iconQualityReport');
+Route::post('/iconQualityReport/', 'Admin\ReportController@iconQualityReport');
+
+
 
 
 

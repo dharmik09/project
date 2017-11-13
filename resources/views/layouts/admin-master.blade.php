@@ -235,65 +235,65 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="{{ (Request::is('admin/school-report') || Request::is('admin/report') || Request::is('admin/level4AdvanceReport') || Request::is('admin/level4IntermediateReport') || Request::is('admin/iconReport') || Request::is('admin/level4BasicReport') || Request::is('admin/level3Report') || Request::is('admin/iconQualityReport') || Request::is('admin/level1chart') || Request::is('admin/level2chart') || Request::is('admin/level2chart') || Request::is('admin/userapi') || Request::is('admin/userReport')) ? 'active' : '' }} treeview">
+                            <li class="{{ (Request::is('admin/userReport') || Request::is('admin/schoolReport') || Request::is('admin/level1Chart') || Request::is('admin/report') || Request::is('admin/level4AdvanceReport') || Request::is('admin/level4IntermediateReport') || Request::is('admin/iconReport') || Request::is('admin/level4BasicReport') || Request::is('admin/level3Report') || Request::is('admin/iconQualityReport') || Request::is('admin/level1chart') || Request::is('admin/level2chart') || Request::is('admin/level2chart') || Request::is('admin/userapi')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/level1chart') }}">
                                     <i class="fa fa-dashboard"></i> 
                                     <span>{{trans('labels.report')}}</span>
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li class=" 'admin/userReport'">
+                                    <li>
                                         <a href="{{ url('admin/userReport') }}">
                                             <i class="fa fa-circle-o"></i>Teens
                                         </a>
                                     </li>
-                                    <li class=" 'admin/school-report' ">
-                                        <a href="{{ url('admin/school-report') }}">
+                                    <li>
+                                        <a href="{{ url('admin/schoolReport') }}">
                                             <i class="fa fa-circle-o"></i>School Report
                                         </a>
                                     </li>
-                                    <li class=" 'admin/level1chart' ">
-                                        <a href="{{ url('admin/level1chart') }}">
+                                    <li>
+                                        <a href="{{ url('admin/level1Chart') }}">
                                             <i class="fa fa-circle-o"></i>{{trans('labels.level1')}} Survey
                                         </a>
                                     </li>
-                                    <li class=" 'admin/iconReport' ">
+                                    <li>
                                         <a href="{{ url('admin/iconReport') }}">
                                             <i class="fa fa-circle-o"></i>Level 1 Icon
                                         </a>
                                     </li>
-                                    <li class=" 'admin/iconQualityReport' ">
+                                    <li>
                                         <a href="{{ url('admin/iconQualityReport') }}">
                                             <i class="fa fa-circle-o"></i>Level 1 Quality
                                         </a>
                                     </li>
 
-                                    <li class=" 'admin/level2chart' ">
-                                        <a href="{{ url('admin/level2chart') }}">
+                                    <li>
+                                        <a href="{{ url('admin/level2Chart') }}">
                                             <i class="fa fa-circle-o"></i>{{trans('labels.level2')}}
                                         </a>
                                     </li>
-                                    <li class=" 'admin/userapi' ">
-                                        <a href="{{ url('admin/userapi') }}">
+                                    <li>
+                                        <a href="{{ url('admin/userApi') }}">
                                             <i class="fa fa-circle-o"></i>Teen PROMISE
                                         </a>
                                     </li>
-                                    <li class=" 'admin/level3Report' ">
+                                    <li>
                                         <a href="{{ url('admin/level3Report') }}">
                                             <i class="fa fa-circle-o"></i>{{trans('labels.level3')}}
                                         </a>
                                     </li>
-                                    <li class=" 'admin/level4BasicReport' ">
+                                    <li>
                                         <a href="{{ url('admin/level4BasicReport') }}">
                                             <i class="fa fa-circle-o"></i>Level 4 Basic
                                         </a>
                                     </li>
-                                    <li class=" 'admin/level4AdvanceReport' ">
+                                    <li>
                                         <a href="{{ url('admin/level4IntermediateReport') }}">
                                             <i class="fa fa-circle-o"></i>Level 4 Intermediate
                                         </a>
                                     </li>
-                                    <li class=" 'admin/level4IntermediateReport' ">
+                                    <li>
                                         <a href="{{ url('admin/level4AdvanceReport') }}">
                                             <i class="fa fa-circle-o"></i>Level 4 Advance
                                         </a>

@@ -717,6 +717,6 @@ class ReportController extends Controller {
     {
         $school_id = Input::get("school_id");
         $result = $this->SchoolsRepository->getClassDetail($school_id);
-        return view('admin.ajaxSchoolClass', compact('result'));
+        return view('admin.AjaxSchoolClass', compact('result'));
     }    
 }
