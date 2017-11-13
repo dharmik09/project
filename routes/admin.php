@@ -276,5 +276,9 @@ Route::get('/viewInvoice/{transId}', 'Admin\CoinsManagementController@viewInvoic
 Route::get('/sendEmailForInvoice/{transId}', 'Admin\CoinsManagementController@sendEmailForInvoice');
 Route::post('/printInvoice', 'Admin\CoinsManagementController@printInvoice');
 
+//Reports
+Route::get('/userReport/', 'Admin\ReportController@userReport');
+Route::post('/userReport/', 'Admin\ReportController@userReport');
+
 
 

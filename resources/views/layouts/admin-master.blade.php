@@ -203,7 +203,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
+                            <li class="{{ (Request::is('admin/listHint') || Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">
                                 <a href="{{ url('admin/listHint') }}">
                                     <i class="fa fa-dashboard"></i> <span>Settings</span><i class="fa fa-angle-left pull-right"></i>
                                 </a>
@@ -235,6 +235,76 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="{{ (Request::is('admin/school-report') || Request::is('admin/report') || Request::is('admin/level4AdvanceReport') || Request::is('admin/level4IntermediateReport') || Request::is('admin/iconReport') || Request::is('admin/level4BasicReport') || Request::is('admin/level3Report') || Request::is('admin/iconQualityReport') || Request::is('admin/level1chart') || Request::is('admin/level2chart') || Request::is('admin/level2chart') || Request::is('admin/userapi') || Request::is('admin/userReport')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/level1chart') }}">
+                                    <i class="fa fa-dashboard"></i> 
+                                    <span>{{trans('labels.report')}}</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class=" 'admin/userReport'">
+                                        <a href="{{ url('admin/userReport') }}">
+                                            <i class="fa fa-circle-o"></i>Teens
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/school-report' ">
+                                        <a href="{{ url('admin/school-report') }}">
+                                            <i class="fa fa-circle-o"></i>School Report
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/level1chart' ">
+                                        <a href="{{ url('admin/level1chart') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.level1')}} Survey
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/iconReport' ">
+                                        <a href="{{ url('admin/iconReport') }}">
+                                            <i class="fa fa-circle-o"></i>Level 1 Icon
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/iconQualityReport' ">
+                                        <a href="{{ url('admin/iconQualityReport') }}">
+                                            <i class="fa fa-circle-o"></i>Level 1 Quality
+                                        </a>
+                                    </li>
+
+                                    <li class=" 'admin/level2chart' ">
+                                        <a href="{{ url('admin/level2chart') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.level2')}}
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/userapi' ">
+                                        <a href="{{ url('admin/userapi') }}">
+                                            <i class="fa fa-circle-o"></i>Teen PROMISE
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/level3Report' ">
+                                        <a href="{{ url('admin/level3Report') }}">
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.level3')}}
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/level4BasicReport' ">
+                                        <a href="{{ url('admin/level4BasicReport') }}">
+                                            <i class="fa fa-circle-o"></i>Level 4 Basic
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/level4AdvanceReport' ">
+                                        <a href="{{ url('admin/level4IntermediateReport') }}">
+                                            <i class="fa fa-circle-o"></i>Level 4 Intermediate
+                                        </a>
+                                    </li>
+                                    <li class=" 'admin/level4IntermediateReport' ">
+                                        <a href="{{ url('admin/level4AdvanceReport') }}">
+                                            <i class="fa fa-circle-o"></i>Level 4 Advance
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>   
+                            <li class="{{ (Request::is('admin/coins') ||  Request::is('admin/addCoins') || Request::is('admin/editCoins/*') || Request::is('admin/saveCoins') || Request::is('admin/deleteCoins/*')) ? 'active': '' }}">
+                                <a href="{{ url('admin/coins') }}">
+                                    <i class="fa fa-circle-o"></i>ProCoins Packages
+                                </a>
+                            </li>
                             <li class="{{ (Request::is('admin/paidComponents') || Request::is('admin/addPaidComponents') || Request::is('admin/editPaidComponents/*') || Request::is('admin/savePaidComponents') || Request::is('admin/deletePaidComponents/*') || Request::is('admin/invoice') || Request::is('admin/addInvoice') || Request::is('admin/editInvoice/*') || Request::is('admin/saveInvoice') || Request::is('admin/deleteInvoice/*')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/paidComponents') }}">
                                     <i class="fa fa-dashboard"></i>
@@ -253,11 +323,6 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
-                            <li class="{{ (Request::is('admin/coins') ||  Request::is('admin/addCoins') || Request::is('admin/editCoins/*') || Request::is('admin/saveCoins') || Request::is('admin/deleteCoins/*')) ? 'active': '' }}">
-                                <a href="{{ url('admin/coins') }}">
-                                    <i class="fa fa-circle-o"></i>ProCoins Packages
-                                </a>
                             </li>
                             <li class="{{ (Request::is('admin/video') || Request::is('admin/addVideo') || Request::is('admin/editVideo/*') || Request::is('admin/saveVideo') || Request::is('admin/deleteVideo/*')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/video') }}">
