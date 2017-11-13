@@ -634,4 +634,5 @@ return [
     'sponsor_not_exist' => 'Enterprise is not exit.',
     'aftercoinspurchasemsg' => 'You will be able to login once admin approve your account',
     'editrollsuccess' => 'Student roll no updated successfully',
+    'invoicenotavailable' => 'Invoice not available',
 ];

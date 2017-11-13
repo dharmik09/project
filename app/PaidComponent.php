@@ -9,34 +9,11 @@ use Config;
 class PaidComponent extends Model
 {
     protected $table = 'pro_pc_paid_components';
-//    protected $fillable = ['id', 'pc_element_name', 'pc_required_coins', 'pc_is_paid', 'pc_valid_upto','created_at','updated_at','deleted'];
+
     protected $guarded = [];
     
-    public function getAllPaidComponents($searchParamArray) {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'deleted IN (1,2)';
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
-
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-
-        $painComponents = DB::table(config::get('databaseconstants.TBL_PAID_COMPONENTS'))
-                        ->selectRaw('*')
-                        ->whereRaw($whereStr . $orderStr)
-                        ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
-
+    public function getAllPaidComponents() {
+        $painComponents = PaidComponent::selectRaw('*')->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
         return $painComponents;
     }
 

@@ -211,5 +211,22 @@ Route::get('/editCareerMapping/{id}','Admin\CareerMappingManagementController@ed
 Route::get('/importExcel','Admin\CareerMappingManagementController@importExcel');
 Route::post('/addImportExcel', 'Admin\CareerMappingManagementController@addimportExcel');
 
+//Paid Components Section
+
+//Paid Components
+Route::get('/paidComponents', 'Admin\PaidComponentsManagementController@index')->name('paidComponents');
+Route::post('/paidComponents', 'Admin\PaidComponentsManagementController@index')->name('paidComponents');
+Route::get('/addPaidComponenets', 'Admin\PaidComponentsManagementController@add')->name('addPainComponenets');
+Route::post('/savePaidComponents', 'Admin\PaidComponentsManagementController@save')->name('savePaidComponents');
+Route::get('/editPaidComponents/{id}', 'Admin\PaidComponentsManagementController@edit')->name('editPaidComponents');
+Route::get('/deletePaidComponents/{id}', 'Admin\PaidComponentsManagementController@delete')->name('deletePaidComponents');
+
+//Invoice
+Route::get('/invoice', 'Admin\InvoiceManagementController@index');
+Route::post('/invoice', 'Admin\InvoiceManagementController@index');
+Route::get('/viewInvoice/{transId}', 'Admin\CoinsManagementController@viewInvoiceData');
+Route::get('/sendEmailForInvoice/{transId}', 'Admin\CoinsManagementController@sendEmailForInvoice');
+Route::post('/printInvoice', 'Admin\CoinsManagementController@printInvoice');
+
 
 

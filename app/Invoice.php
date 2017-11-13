@@ -10,7 +10,7 @@ class Invoice extends Model
 {
 
     protected $table = 'pro_i_invoice';
-//    protected $fillable = ['id', 'i_invoice_id', 'i_transaction_id', 'i_invoice_name','created_at'];
+    
     protected $guarded = [];
     
     public function saveInvoice($invoiceDetail) {
@@ -90,9 +90,9 @@ class Invoice extends Model
     }
 
     public function getInvoiceData($transId) {
-        $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE'). " AS invoice ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans ", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'trans.tn_userid')
+        $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE'). " AS invoice")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'trans.tn_userid')
                 ->selectRaw('invoice.* , tn_email, t_name,trans.tn_amount,trans.tn_coins')
                 ->where('i_transaction_id',$transId)
                 ->get();
@@ -101,22 +101,22 @@ class Invoice extends Model
 
     public function getAllInvoiceTeenager() {
 
-        $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans ", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'trans.tn_userid')
+        $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'trans.tn_userid')
                 ->selectRaw('invoice.* , trans.tn_email,trans.tn_billing_name,trans.tn_amount,trans.tn_coins,teen.t_name')
-                ->where('trans.tn_user_type',1)
+                ->where('trans.tn_user_type', 1)
                 ->groupBy('invoice.i_invoice_id')
-                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                ->get();
 
         return $invoice;
     }
 
     public function getAllInvoiceForParent() {
 
-        $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans ", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
-                ->leftjoin(config::get('databaseconstants.TBL_PARENTS') . " AS parent ", 'parent.id', '=', 'trans.tn_userid')
+        $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
+                ->leftjoin(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'parent.id', '=', 'trans.tn_userid')
                 ->selectRaw('invoice.* , trans.tn_email,trans.tn_billing_name,trans.tn_amount,trans.tn_coins,parent.p_first_name')
                 ->where('trans.tn_user_type',2)
                 ->groupBy('invoice.i_invoice_id')
@@ -127,9 +127,9 @@ class Invoice extends Model
 
     public function getAllInvoiceForSponsor() {
 
-        $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans ", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
-                ->leftjoin(config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor ", 'sponsor.id', '=', 'trans.tn_userid')
+        $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
+                ->leftjoin(config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor", 'sponsor.id', '=', 'trans.tn_userid')
                 ->selectRaw('invoice.* , trans.tn_email,trans.tn_billing_name,trans.tn_amount,trans.tn_coins,sponsor.sp_admin_name')
                 ->where('trans.tn_user_type',4)
                 ->groupBy('invoice.i_invoice_id')
