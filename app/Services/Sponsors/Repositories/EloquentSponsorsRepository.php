@@ -300,10 +300,10 @@ class EloquentSponsorsRepository extends EloquentBaseRepository
     
     public function getActiveSponsorActivityDetail($sponsorId)
     {
-        $activityDetail = DB::table(config::get('databaseconstants.TBL_SPONSOR_ACTIVITY'). " AS activity ")
-                                  ->leftjoin(config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor ", 'activity.sa_sponsor_id', '=', 'sponsor.id')
-                                  ->leftjoin(config::get('databaseconstants.TBL_SYSTEM_LEVELS') . " AS level ", 'activity.sa_apply_level', '=', 'level.id')
-                                  ->leftjoin(config::get('databaseconstants.TBL_CONFIGURATION') . " AS type ", 'activity.sa_type', '=', 'type.id')
+        $activityDetail = DB::table(config::get('databaseconstants.TBL_SPONSOR_ACTIVITY'). " AS activity")
+                                  ->leftjoin(config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor", 'activity.sa_sponsor_id', '=', 'sponsor.id')
+                                  ->leftjoin(config::get('databaseconstants.TBL_SYSTEM_LEVELS') . " AS level", 'activity.sa_apply_level', '=', 'level.id')
+                                  ->leftjoin(config::get('databaseconstants.TBL_CONFIGURATION') . " AS type", 'activity.sa_type', '=', 'type.id')
                                   ->selectRaw('activity.*,level.sl_name,type.cfg_key')
                                   ->whereRaw('activity.deleted != 3')                                  
                                   ->whereRaw('activity.sa_sponsor_id = '.$sponsorId)

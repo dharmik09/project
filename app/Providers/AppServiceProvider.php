@@ -17,6 +17,10 @@ use App\Level4Activity;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\Services\Level4Activity\Repositories\EloquentLevel4ActivitiesRepository;
 
+use App\Services\Schools\Contracts\SchoolsRepository;
+use App\Schools;
+use App\Services\Schools\Repositories\EloquentSchoolsRepository;
+
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Teenagers;
 use App\Services\Teenagers\Repositories\EloquentTeenagersRepository;
@@ -81,6 +85,18 @@ use App\Services\CareerMapping\Contracts\CareerMappingRepository;
 use App\CareerMapping;
 use App\Services\CareerMapping\Repositories\EloquentCareerMappingRepository;
 
+use App\Services\Coupons\Contracts\CouponsRepository;
+use App\Coupons;
+use App\Services\Coupons\Repositories\EloquentCouponsRepository;
+
+use App\Services\LearningStyle\Contracts\LearningStyleRepository;
+use App\LearningStyle;
+use App\Services\LearningStyle\Repositories\EloquentLearningStyleRepository;
+
+use App\Services\Reports\Contracts\ReportsRepository;
+use App\Reports;
+use App\Services\Reports\Repositories\EloquentReportsRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -112,6 +128,10 @@ class AppServiceProvider extends ServiceProvider
             return new EloquentLevel4ActivitiesRepository(new Level4Activity());
         });
 
+        $this->app->bind(SchoolsRepository::class, function () {
+            return new EloquentSchoolsRepository(new Schools());
+        });
+        
         $this->app->bind(TeenagersRepository::class, function () {
             return new EloquentTeenagersRepository(new Teenagers());
         });
@@ -174,6 +194,18 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(CareerMappingRepository::class, function () {
             return new EloquentCareerMappingRepository(new CareerMapping());
+        });
+
+        $this->app->bind(CouponsRepository::class, function () {
+            return new EloquentCouponsRepository(new Coupons());
+        });
+
+        $this->app->bind(LearningStyleRepository::class, function () {
+            return new EloquentLearningStyleRepository(new LearningStyle());
+        });
+
+        $this->app->bind(ReportsRepository::class, function () {
+            return new EloquentReportsRepository(new Reports());
         });
     }
 }

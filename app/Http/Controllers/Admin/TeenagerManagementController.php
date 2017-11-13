@@ -67,13 +67,13 @@ class TeenagerManagementController extends Controller {
     }
 
     public function index() {
-        $teenagers = $this->teenagersRepository->getAllTeenagersData();
+        //$teenagers = $this->teenagersRepository->getAllTeenagersData();
         return view('admin.ListTeenager');
     }
 
     public function getIndex(){
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        $teenagers = $this->teenagersRepository->getAllTeenagersData()->count();
+        $teenagers = $this->teenagersRepository->getAllTeenagersData()->get()->count();
         $records = array();
         $columns = array(
             0 => 'id',
@@ -233,10 +233,10 @@ class TeenagerManagementController extends Controller {
                         $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenProfile, $this->teenOriginalImageUploadPath, "s3");
                         $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenProfile, $this->teenThumbImageUploadPath, "s3");
                     }
-
                     //Uploading on AWS
                     $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
                     $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                    //Deleting Local Files
                     \File::delete($this->teenOriginalImageUploadPath . $fileName);
                     \File::delete($this->teenThumbImageUploadPath . $fileName);
                     
@@ -264,7 +264,7 @@ class TeenagerManagementController extends Controller {
             //Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teenupdatesuccess'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
             if(isset($sid) && !empty($sid) && $sid > 0)
             {
-                return Redirect::to("/admin/viewstudentlist/$sid")->with('success', trans('labels.teenupdatesuccess'));
+                return Redirect::to("/admin/view-student-list/$sid")->with('success', trans('labels.teenupdatesuccess'));
             }
             else
             {
@@ -274,7 +274,7 @@ class TeenagerManagementController extends Controller {
             //Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
             if(isset($sid) && !empty($sid) && $sid > 0)
             {
-                return Redirect::to("/admin/viewstudentlist/$sid")->with('success', trans('labels.teenagererrormessage'));
+                return Redirect::to("/admin/view-student-list/$sid")->with('success', trans('labels.teenagererrormessage'));
             }
             else
             {

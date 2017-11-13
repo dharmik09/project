@@ -31,8 +31,8 @@
         <div class="wrapper">
             @if (Auth::guard('admin')->check())
             <?php             
-            $userMenuItems = array('admin/home','admin/sponsors','admin/addsponsor','admin/editsponsor','admin/coupons','admin/addcoupon','admin/editcoupon','admin/teenagers',
-                'admin/add-teenager', 'admin/edit-teenager/{id}/{sid}','admin/parents/{type}','admin/counselors/{type}','admin/sponsoractivity/{id}','admin/schools','admin/edit-parent/{id}','admin/editschool/{id}','admin/editsponsor/{id}');           
+            $userMenuItems = array('admin/home','admin/sponsors','admin/add-sponsor','admin/edit-sponsor','admin/coupons','admin/addcoupon','admin/editcoupon','admin/teenagers',
+                'admin/add-teenager', 'admin/notification', 'admin/edit-teenager/{id}/{sid}','admin/parents/{type}','admin/counselors/{type}','admin/sponsor-activity/{id}','admin/schools','admin/edit-parent/{id}','admin/edit-school/{id}','admin/edit-sponsor/{id}');           
             ?>
             <header class="main-header">
                 <a href="{{ url('/admin')}}" class="logo">
@@ -108,6 +108,26 @@
                                     <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/counselors']) ? 'active' : '' }} treeview">
                                         <a href="{{ url('admin/counselors/2') }}">
                                             <i class="fa fa-circle-o"></i> <span>Mentors</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/schools', 'admin/add-school', 'admin/edit-school']) ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/schools') }}">
+                                            <i class="fa fa-circle-o"></i> <span>{{trans('labels.schools')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/sponsors', 'admin/add-sponsor', 'admin/edit-sponsor']) ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/sponsors') }}">
+                                            <i class="fa fa-circle-o"></i> <span>Enterprise</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/coupons', 'admin/add-coupon', 'admin/edit-coupon']) ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/coupons') }}">
+                                            <i class="fa fa-circle-o"></i> <span>Enterprise's {{trans('labels.coupons')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class=" treeview">
+                                        <a href="{{ url('admin/notification') }}">
+                                            <i class="fa fa-circle-o"></i> <span>{{trans('labels.notification')}}</span>
                                         </a>
                                     </li>
                                 </ul>
