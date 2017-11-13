@@ -98,6 +98,10 @@ Route::get('/notification', 'Admin\NotificationController@index');
 Route::post('/send-notification', 'Admin\NotificationController@sendNotification');
 Route::post('/get-notification', 'Admin\NotificationController@getIndex');
 
+//Level 4 Section
+Route::get('/level4activity', 'Admin\Level4ActivityManagementController@index');
+Route::post('/level4activity', 'Admin\Level4ActivityManagementController@index');
+
 //Faq Section
 Route::get('/faq', 'Admin\FAQManagementController@index')->name('faq');
 Route::post('/faq', 'Admin\FAQManagementController@index')->name('faq');
