@@ -32,7 +32,7 @@
             @if (Auth::guard('admin')->check())
             <?php             
             $userMenuItems = array('admin/home','admin/sponsors','admin/add-sponsor','admin/edit-sponsor','admin/coupons','admin/addcoupon','admin/editcoupon','admin/teenagers',
-                'admin/add-teenager', 'admin/edit-teenager/{id}/{sid}','admin/parents/{type}','admin/counselors/{type}','admin/sponsor-activity/{id}','admin/schools','admin/edit-parent/{id}','admin/edit-school/{id}','admin/edit-sponsor/{id}');           
+                'admin/add-teenager', 'admin/notification', 'admin/edit-teenager/{id}/{sid}','admin/parents/{type}','admin/counselors/{type}','admin/sponsor-activity/{id}','admin/schools','admin/edit-parent/{id}','admin/edit-school/{id}','admin/edit-sponsor/{id}');           
             ?>
             <header class="main-header">
                 <a href="{{ url('/admin')}}" class="logo">
@@ -123,6 +123,11 @@
                                     <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/coupons', 'admin/add-coupon', 'admin/edit-coupon']) ? 'active' : '' }} treeview">
                                         <a href="{{ url('admin/coupons') }}">
                                             <i class="fa fa-circle-o"></i> <span>Enterprise's {{trans('labels.coupons')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class=" treeview">
+                                        <a href="{{ url('admin/notification') }}">
+                                            <i class="fa fa-circle-o"></i> <span>{{trans('labels.notification')}}</span>
                                         </a>
                                     </li>
                                 </ul>

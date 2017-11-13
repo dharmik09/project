@@ -130,7 +130,6 @@ class NotificationController extends Controller
                                $return = Helpers::pushNotificationForiPhone($singleToken,$data,$certificatePath);
                             } elseif ($tData->tdt_device_type == 2) {
                                $tokenArr[] = $tData->tdt_device_token;
-                               
                             }
                         }
                     }
@@ -140,7 +139,7 @@ class NotificationController extends Controller
             {
                $return = Helpers::pushNotificationForAndroid($tokenArr,$data); 
             }
-           
+            
             return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendsuccess'));
          } 
          else 
