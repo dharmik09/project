@@ -22,8 +22,8 @@ class TeenagerCoinsGift extends Model {
         return $return;
     }
     public function getTeenagerCoinsGiftDetail($id,$type) {
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'g_coins.tcg_reciver_id', '=', 'teen.id')
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
                 ->selectRaw('g_coins.* , teen.t_name, teen.t_email')
                 ->where('g_coins.tcg_sender_id',$id)
                 ->where('g_coins.tcg_user_type',$type)
@@ -32,7 +32,7 @@ class TeenagerCoinsGift extends Model {
 
         return $coinsDetail;
     }
-    public function getTeenagerCoinsGiftDetailName($id,$type,$searchData) {
+    public function getTeenagerCoinsGiftDetailName($id, $type, $searchData) {
         $whereArray = [];
         foreach ($searchData AS $key => $value) {
             $whereArray[] = " teen.t_name LIKE '%" . $value . "%'";
@@ -40,8 +40,8 @@ class TeenagerCoinsGift extends Model {
          if (!empty($whereArray)) {
             $whereStr = implode(" OR ", $whereArray);
         }
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'g_coins.tcg_reciver_id', '=', 'teen.id')
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
                 ->selectRaw('g_coins.* , teen.t_name, teen.t_email')
                 ->where('g_coins.tcg_sender_id',$id)
                 ->where('g_coins.tcg_user_type',$type)
@@ -58,8 +58,8 @@ class TeenagerCoinsGift extends Model {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'g_coins.tcg_reciver_id', '=', 'teen.id')
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
                 ->selectRaw('g_coins.* , teen.t_name, teen.t_email')
                 ->where('g_coins.tcg_sender_id',$id)
                 ->where('g_coins.tcg_user_type',$type)
@@ -83,8 +83,8 @@ class TeenagerCoinsGift extends Model {
          if (!empty($whereArray)) {
             $whereStr = implode(" OR ", $whereArray);
         }
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'g_coins.tcg_reciver_id', '=', 'teen.id')
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
                 ->selectRaw('g_coins.* , teen.t_name, teen.t_email')
                 ->where('g_coins.tcg_sender_id',$id)
                 ->where('g_coins.tcg_user_type',$type)
@@ -101,9 +101,9 @@ class TeenagerCoinsGift extends Model {
     }
 
     public function getTeenagerCoinsGiftDetailForParent($id,$type) {
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS parent ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'parent.ptp_teenager', '=', 'teen.id')
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ", function($join) use ($id)
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS parent")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'parent.ptp_teenager', '=', 'teen.id')
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins", function($join) use ($id)
                 {
                     $join->on('g_coins.tcg_reciver_id', '=', 'teen.id')
                          ->where('g_coins.tcg_user_type','=', 2)
@@ -126,9 +126,9 @@ class TeenagerCoinsGift extends Model {
          if (!empty($whereArray)) {
             $whereStr = implode(" OR ", $whereArray);
         }
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS parent ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'parent.ptp_teenager', '=', 'teen.id')
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ", function($join) use ($id)
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS parent")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'parent.ptp_teenager', '=', 'teen.id')
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins", function($join) use ($id)
                 {
                     $join->on('g_coins.tcg_reciver_id', '=', 'teen.id')
                          ->where('g_coins.tcg_user_type','=', 2)
@@ -147,8 +147,8 @@ class TeenagerCoinsGift extends Model {
     }
 
     public function getAllTeenagerCoinsGiftDetail($id,$type) {
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'g_coins.tcg_reciver_id', '=', 'teen.id')
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
                 ->selectRaw('g_coins.* , teen.t_name, teen.t_email')
                 ->where('g_coins.tcg_sender_id',$id)
                 ->where('g_coins.tcg_user_type',$type)
@@ -165,8 +165,8 @@ class TeenagerCoinsGift extends Model {
 
     public function getAllTeenagerCoinsGiftDetailByAdmin($userId,$id,$type)
     {
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'g_coins.tcg_reciver_id', '=', 'teen.id')
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
                 ->selectRaw('g_coins.* , teen.t_name, teen.t_email')
                 ->where('g_coins.tcg_reciver_id',$userId)
                 ->where('g_coins.tcg_sender_id',$id)
@@ -179,8 +179,8 @@ class TeenagerCoinsGift extends Model {
     }
 
     public function getAllTeenagerCoinsGiftDetailByAdminGifted($id,$type) {
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'g_coins.tcg_reciver_id', '=', 'teen.id')
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
                 ->selectRaw('g_coins.* , teen.t_name, teen.t_email')
                 ->where('g_coins.tcg_sender_id',$id)
                 ->where('g_coins.tcg_user_type',$type)

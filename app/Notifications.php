@@ -39,9 +39,9 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
     }
 
     public function getTeenDetailForNotification() {
-        $teenagers = DB::table(config::get('databaseconstants.TBL_NOTIFICATIONS') . " AS notification ")
-                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS token ", 'token.tdt_user_id', '=', 'notification.n_user_id')
-                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'notification.n_user_id')
+        $teenagers = DB::table(config::get('databaseconstants.TBL_NOTIFICATIONS') . " AS notification")
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS token", 'token.tdt_user_id', '=', 'notification.n_user_id')
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'notification.n_user_id')
                     ->selectRaw('token.tdt_device_token, token.tdt_device_type, notification.n_notification_text,notification.n_user_id,notification.id,teen.is_notify')
                     ->where('notification.n_status' , '=', 0)
                     ->where('notification.deleted' , '=', 1)

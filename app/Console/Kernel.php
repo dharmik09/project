@@ -14,6 +14,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        'App\Console\Commands\SendNotification',
+        'App\Console\Commands\RemoveNotificationData',
+        'App\Console\Commands\InactiveUserNotification',
+        'App\Console\Commands\expiredProCoinsForTeenager',
+        'App\Console\Commands\resetAdminGiftedProCoins'
     ];
 
     /**
@@ -26,6 +31,20 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('sendNotification')
+                 ->everyTenMinutes();
+
+        $schedule->command('RemoveNotificationData')
+                 ->weekly();
+
+        $schedule->command('InactiveUserNotification')
+                 ->weekly();
+
+        $schedule->command('expiredProCoinsForTeenager')
+                 ->weekly();
+
+        $schedule->command('resetAdminGiftedProCoins')
+                 ->weekly();
     }
 
     /**
