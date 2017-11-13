@@ -109,7 +109,7 @@ class ReportController extends Controller {
 
 
         $final = [];
-        $level2g = '';
+        $level2g = [];
         $total = 0;
         $allQuestion = [];
         $finalLevel2 = [];
@@ -180,7 +180,7 @@ class ReportController extends Controller {
             $finalMI = json_encode($MIL);
             $finalMIMax = json_encode($MIMax);
         }
-
+        
         //Get name and value for Aptitude
         if (!empty($final['APIscore']['aptitude'])) {
             foreach ($final['APIscore']['aptitude'] as $key => $value) {

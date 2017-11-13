@@ -303,6 +303,14 @@ Route::post('/iconReport/', 'Admin\ReportController@iconReport');
 Route::get('/iconQualityReport/', 'Admin\ReportController@iconQualityReport');
 Route::post('/iconQualityReport/', 'Admin\ReportController@iconQualityReport');
 
+//Level2 Chart
+Route::get('/level2Chart/', 'Admin\ReportController@level2');
+Route::post('/level2Chart/', 'Admin\ReportController@level2');
+
+//Teen Promise
+Route::get('/userApi/', 'Admin\ReportController@getuserapiscore');
+Route::post('/userApi/', 'Admin\ReportController@getuserapiscore');
+
 
 
 
