@@ -47,7 +47,7 @@ class CMSManagementController extends Controller
         return view('admin.EditCMS', compact('cmsDetail'));
     }
 
-    public function save(CMSRequest $CMSRequest)
+    public function save(CMSRequest $cmsRequest)
     {
         $cmsDetail = [];
 

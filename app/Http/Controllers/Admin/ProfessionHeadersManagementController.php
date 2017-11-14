@@ -50,7 +50,7 @@ class ProfessionHeadersManagementController extends Controller
         return view('admin.EditProfessionHeader', compact('headerDetail','id'));
     }
 
-    public function save(ProfessionHeadersRequest $ProfessionHeadersRequest)
+    public function save(ProfessionHeadersRequest $professionHeadersRequest)
     {
         $headerData = Input::All();
         

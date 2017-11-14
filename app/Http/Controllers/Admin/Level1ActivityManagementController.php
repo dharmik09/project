@@ -57,7 +57,7 @@ class Level1ActivityManagementController extends Controller
         return view('admin.EditLevel1Activity', compact('activityDetail', 'uploadLevel1ActivityThumbPath'));
     }
 
-    public function save(Level1ActivityRequest $Level1ActivityRequest)
+    public function save(Level1ActivityRequest $level1ActivityRequest)
     {
         $activityDetail = [];
         $optionDetail = [];

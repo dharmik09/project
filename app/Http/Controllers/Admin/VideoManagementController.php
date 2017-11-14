@@ -46,7 +46,7 @@ class VideoManagementController extends Controller {
         return view('admin.EditVideo', compact('videoDetail','uploadVideoThumbPath'));
     }
 
-    public function save(VideoRequest $VideoRequest) {
+    public function save(VideoRequest $videoRequest) {
         $videoData = [];
         $videoData['id'] = e(Input::get('id'));
         $videoData['v_title'] = Input::get('v_title');

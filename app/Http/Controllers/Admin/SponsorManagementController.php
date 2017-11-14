@@ -82,7 +82,7 @@ class SponsorManagementController extends Controller
         return view('admin.EditSponsor', compact('sponsorDetail', 'uploadSponsorThumbPath','uploadSponsorPhotoThumbPath','states','cities'));
     }
 
-    public function save(SponsorRequest $SponsorRequest)
+    public function save(SponsorRequest $sponsorRequest)
     {
         $sponsorDetail = [];
 

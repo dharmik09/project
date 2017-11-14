@@ -62,7 +62,7 @@ class ParentManagementController extends Controller {
         return view('admin.EditParent', compact('parentDetail', 'uploadParentThumbPath', 'tokenDetail','states','cities'));
     }
 
-    public function save(ParentRequest $ParentRequest) {
+    public function save(ParentRequest $parentRequest) {
         $parentDetail = [];
         $parentDetail['id'] = e(input::get('id'));
         $parentDetail['p_uniqueid'] = e(input::get('p_uniqueid'));

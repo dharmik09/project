@@ -109,7 +109,7 @@ class CareerMappingManagementController extends Controller {
         return view('admin.EditCareerMapping', compact('cmDetails'));
     }
 
-    public function save(CareerMappingRequest $CareerMappingRequest) {
+    public function save(CareerMappingRequest $careerMappingRequest) {
         $cmDetails = [];
         //$cmDetails['id'] = Input::get('id');
         $cmDetails['tcm_profession'] = e(Input::get('tcm_profession_id'));

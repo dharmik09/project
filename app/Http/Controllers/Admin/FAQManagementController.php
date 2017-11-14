@@ -46,7 +46,7 @@ class FAQManagementController extends Controller {
         return view('admin.EditFAQ', compact('faqDetail','uploadFAQThumbPath'));
     }
 
-    public function save(FAQRequest $FAQRequest) {
+    public function save(FAQRequest $faqRequest) {
         $faqData = [];
         $faqData['id'] = e(Input::get('id'));
         $faqData['f_question_text'] = Input::get('f_question_text');

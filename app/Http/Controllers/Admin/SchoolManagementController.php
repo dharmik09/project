@@ -127,7 +127,7 @@ class SchoolManagementController extends Controller
         return view('admin.EditSchool', compact('schoolDetail', 'uploadSchoolThumbPath','uploadSchoolPhotoThumbPath','cities','states'));
     }
 
-    public function save(SchoolRequest $SchoolRequest)
+    public function save(SchoolRequest $schoolRequest)
     {
         $schoolDetail = [];
 
