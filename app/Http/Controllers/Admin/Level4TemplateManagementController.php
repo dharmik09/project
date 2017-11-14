@@ -23,10 +23,10 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level4TemplateManagementController extends Controller {
 
-    public function __construct(FileStorageRepository $fileStorageRepository, ProfessionsRepository $ProfessionsRepository, Level4ActivitiesRepository $Level4ActivitiesRepository,TeenagersRepository $TeenagersRepository) {
-        $this->ProfessionsRepository = $ProfessionsRepository;
+    public function __construct(FileStorageRepository $fileStorageRepository, ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository,TeenagersRepository $teenagersRepository) {
+        $this->professionsRepository = $professionsRepository;
         $this->objLevel4Activities = new Level4Activity();
-        $this->Level4ActivitiesRepository = $Level4ActivitiesRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->level4PointsForQuestions = Config::get('constant.LEVEL4_POINTS_FOR_QUESTION');
         $this->level4TimerForQuestions = Config::get('constant.LEVEL4_TIMER_FOR_QUESTION');
         $this->conceptOriginalImageUploadPath = Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -37,7 +37,7 @@ class Level4TemplateManagementController extends Controller {
         $this->responseOriginalImageUploadPath = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->responseThumbImageUploadPath = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH');
         $this->questionDescriptionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $this->TeenagersRepository       = $TeenagersRepository;
+        $this->teenagersRepository       = $teenagersRepository;
         $this->fileStorageRepository = $fileStorageRepository;
     }
 
@@ -46,7 +46,7 @@ class Level4TemplateManagementController extends Controller {
     }
 
     public function getIndex(){
-        $templates = $this->Level4ActivitiesRepository->getAllGamificationTemplateObj()->get()->count();
+        $templates = $this->level4ActivitiesRepository->getAllGamificationTemplateObj()->get()->count();
         $records = array();
         $columns = array(
             0 => 'id',
@@ -66,7 +66,7 @@ class Level4TemplateManagementController extends Controller {
         $iDisplayStart = intval(Input::get('start'));
         $sEcho = intval(Input::get('draw'));
 
-        $records["data"] = $this->Level4ActivitiesRepository->getAllGamificationTemplateObj();
+        $records["data"] = $this->level4ActivitiesRepository->getAllGamificationTemplateObj();
         if (!empty($search['value'])) {
             $val = $search['value'];
             $records["data"]->where(function($query) use ($val) {
@@ -107,16 +107,16 @@ class Level4TemplateManagementController extends Controller {
     public function add()
     {
         $level4TemplateDetail = array();
-        $allActiveProfessions = $this->ProfessionsRepository->getAllActiveProfession();
-        $leve4TemplateAnswrTypes = $this->Level4ActivitiesRepository->getLevel4TemplateAnswerTypes();
+        $allActiveProfessions = $this->professionsRepository->getAllActiveProfession();
+        $leve4TemplateAnswrTypes = $this->level4ActivitiesRepository->getLevel4TemplateAnswerTypes();
         return view('admin.EditLevel4Template',compact('leve4TemplateAnswrTypes','level4TemplateDetail','allActiveProfessions'));
     }
 
     public function edit($id)
     {
-        $level4TemplateDetail = $this->Level4ActivitiesRepository->getGamificationTemplateById($id);
-        $leve4TemplateAnswrTypes = $this->Level4ActivitiesRepository->getLevel4TemplateAnswerTypes();
-        $allActiveProfessions = $this->ProfessionsRepository->getAllActiveProfession();
+        $level4TemplateDetail = $this->level4ActivitiesRepository->getGamificationTemplateById($id);
+        $leve4TemplateAnswrTypes = $this->level4ActivitiesRepository->getLevel4TemplateAnswerTypes();
+        $allActiveProfessions = $this->professionsRepository->getAllActiveProfession();
         $conceptOriginalImageUploadPath = $this->conceptOriginalImageUploadPath;
         return view('admin.EditLevel4Template', compact('level4TemplateDetail','leve4TemplateAnswrTypes','allActiveProfessions','conceptOriginalImageUploadPath'));
     }
@@ -146,7 +146,7 @@ class Level4TemplateManagementController extends Controller {
             }
             $professionName = '';
             //Get Profession name 
-            $professionData = $this->ProfessionsRepository->getProfessionsDataFromId($allPostdata['question_profession']);
+            $professionData = $this->professionsRepository->getProfessionsDataFromId($allPostdata['question_profession']);
             if(isset($professionData) && !empty($professionData))
             {
                $professionName = $professionData[0]->pf_name; 
@@ -199,8 +199,8 @@ class Level4TemplateManagementController extends Controller {
                 }
             }
         }
-        $response = $this->Level4ActivitiesRepository->saveGamificationTemplate($saveData);
-//        $teenagers = $this->TeenagersRepository->getAllActiveTeenagersForNotification();
+        $response = $this->level4ActivitiesRepository->saveGamificationTemplate($saveData);
+//        $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
 //        foreach ($teenagers AS $key => $value) {
 //            $message = 'Role play "' .$saveData['gt_template_title'].'" as a "'.$professionName.'" in ProTeen now!';
 //            $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
@@ -211,7 +211,7 @@ class Level4TemplateManagementController extends Controller {
 
     public function delete($id)
     {
-        $return = $this->Level4ActivitiesRepository->deleteGamificationTemplate($id);
+        $return = $this->level4ActivitiesRepository->deleteGamificationTemplate($id);
         if($return)
         {
             return Redirect::to("admin/listGamificationTemplate")->with('success', trans('labels.level4activitydeletesuccess'));
@@ -277,7 +277,7 @@ class Level4TemplateManagementController extends Controller {
 
     public function copyConcept()
     {
-        $professions = $this->ProfessionsRepository->getAllActiveProfession();
+        $professions = $this->professionsRepository->getAllActiveProfession();
         $concept = 0;
         return view('admin.CopyConcept',compact('professions','concept'));
     }
@@ -292,7 +292,7 @@ class Level4TemplateManagementController extends Controller {
             foreach ($postData['concept'] as $key => $conceptId) {
                 if ($conceptId != 0) {
                     //copy existing image of concept
-                    $conceptDetail = $this->Level4ActivitiesRepository->getGamificationTemplateById($conceptId);
+                    $conceptDetail = $this->level4ActivitiesRepository->getGamificationTemplateById($conceptId);
                         
                     $newconceptImage = '';
                     $file = public_path($conceptOriginalImageUploadPath.$conceptDetail->gt_template_image);
@@ -304,7 +304,7 @@ class Level4TemplateManagementController extends Controller {
                             exit;
                         }
                     }
-                    $return = $this->Level4ActivitiesRepository->copyConcept($conceptId,$postData['to_profession_id'],$newconceptImage);
+                    $return = $this->level4ActivitiesRepository->copyConcept($conceptId,$postData['to_profession_id'],$newconceptImage);
                     $new_templateID[] = $return;
                     $conceptNames[] = $conceptDetail->gt_template_title;
                 }
@@ -312,7 +312,7 @@ class Level4TemplateManagementController extends Controller {
            
             $professionName = '';
             //Get Profession name 
-            $professionData = $this->ProfessionsRepository->getProfessionsDataFromId($postData['to_profession_id']);
+            $professionData = $this->professionsRepository->getProfessionsDataFromId($postData['to_profession_id']);
             if(isset($professionData) && !empty($professionData))
             {
                $professionName = $professionData[0]->pf_name; 
@@ -324,12 +324,12 @@ class Level4TemplateManagementController extends Controller {
             for ($i = 0; $i < $countConcept; $i++) {
                 $conceptId = $postData['concept'][$i];
                 if ($conceptId != 0) {
-                    $oldConceptId = $this->Level4ActivitiesRepository->getLevel4ActivityData($conceptId);                    
+                    $oldConceptId = $this->level4ActivitiesRepository->getLevel4ActivityData($conceptId);                    
                     $id = $oldConceptId[0]->oldId;
                     $oldId = explode(",",$id);
                    
                     for ($k = 0; $k < count($oldId); $k++) {
-                        $level4Detail = $this->Level4ActivitiesRepository->getLevel4ActivityDataById($oldId[$k]);
+                        $level4Detail = $this->level4ActivitiesRepository->getLevel4ActivityDataById($oldId[$k]);
                         
                         if (!empty($level4Detail)) {
                             $newImage = $newAudio = $newAudioFileName= '';
@@ -367,17 +367,17 @@ class Level4TemplateManagementController extends Controller {
                                 }
                             }
                             
-                            $activityData = $this->Level4ActivitiesRepository->copyLevel4ActivityData($oldId[$k],$postData['to_profession_id'],$new_templateID[$i],$newImage, $newAudioFileName);
+                            $activityData = $this->level4ActivitiesRepository->copyLevel4ActivityData($oldId[$k],$postData['to_profession_id'],$new_templateID[$i],$newImage, $newAudioFileName);
                         }
                     }
                    
                     $count = count($oldId);
                     
-                    $newConceptId = $this->Level4ActivitiesRepository->getLevel4ActivityData($new_templateID[$i]);
+                    $newConceptId = $this->level4ActivitiesRepository->getLevel4ActivityData($new_templateID[$i]);
                     $newId = $newConceptId[0]->oldId;                    
                     $newId = explode(",",$newId);
                     for ($j = 0; $j < $count; $j++) {
-                        $optionDetail = $this->Level4ActivitiesRepository->getLevel4ActivityOptionsData($oldId[$j]);
+                        $optionDetail = $this->level4ActivitiesRepository->getLevel4ActivityOptionsData($oldId[$j]);
                         if (!empty($optionDetail)) 
                         {
                             $newanswerImageArray = [];
@@ -427,11 +427,11 @@ class Level4TemplateManagementController extends Controller {
                                 $newresponseImageArray[$optionValue->optionsId] = $newresponseImage;
                             }
                             
-                            $activityOptionData = $this->Level4ActivitiesRepository->copyLevel4ActivityOptionsData(
+                            $activityOptionData = $this->level4ActivitiesRepository->copyLevel4ActivityOptionsData(
                             $oldId[$j],$newId[$j],$newanswerImageArray,$newresponseImageArray);
                         }
 
-                        $questionData = $this->Level4ActivitiesRepository->getQuestionMediaById($oldId[$j]);
+                        $questionData = $this->level4ActivitiesRepository->getQuestionMediaById($oldId[$j]);
                         if (!empty($questionData)) 
                         {
                             $newquestionImageArray = [];
@@ -465,7 +465,7 @@ class Level4TemplateManagementController extends Controller {
                                 $newquestionImageArray[$valueQuestion->mediaId] = $newquestionImage;
                             }    
                             
-                            $activityMediaData = $this->Level4ActivitiesRepository->copyLevel4ActivityMediaData($oldId[$j],$newId[$j],$newquestionImageArray);
+                            $activityMediaData = $this->level4ActivitiesRepository->copyLevel4ActivityMediaData($oldId[$j],$newId[$j],$newquestionImageArray);
                         }
                     }                   
                 }
@@ -473,7 +473,7 @@ class Level4TemplateManagementController extends Controller {
         }
         //If valid concepts ids then copy the those concepts
         if ($return) {
-//            $teenagers = $this->TeenagersRepository->getAllActiveTeenagersForNotification();
+//            $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
 //            if(isset($conceptNames) && !empty($conceptNames))
 //            {
 //                foreach($conceptNames as $key=>$conceptname)
@@ -522,11 +522,11 @@ class Level4TemplateManagementController extends Controller {
         } else {
             Cache::forget('L4searchArray');
         }
-        $templateData = $this->Level4ActivitiesRepository->getTemplateDataForCoinsDetail($id);
+        $templateData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($id);
         if (!empty($templateData)) {
             $coins += $templateData['gt_coins'];
         }
-        $result = $this->Level4ActivitiesRepository->updateTemplateCoinsDetail($id, $coins);
+        $result = $this->level4ActivitiesRepository->updateTemplateCoinsDetail($id, $coins);
 
         return Redirect::to("admin/listGamificationTemplate".$postData['pageRank'])->with('success', trans('labels.coinsaddsuccess'));
     }

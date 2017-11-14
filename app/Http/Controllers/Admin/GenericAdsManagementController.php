@@ -17,11 +17,11 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class GenericAdsManagementController extends Controller
 {
-    public function __construct(FileStorageRepository $fileStorageRepository, GenericadsRepository $GenericadsRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, GenericadsRepository $genericadsRepository)
     {
         //$this->middleware('auth.admin');
         $this->objGeneric = new GenericAds();
-        $this->GenericadsRepository = $GenericadsRepository;
+        $this->genericadsRepository = $genericadsRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->genericOrigionalImagePath = Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->genericThumbImagePath = Config::get('constant.GENERIC_ADS_THUMB_IMAGE_UPLOAD_PATH');
@@ -34,7 +34,7 @@ class GenericAdsManagementController extends Controller
     public function index()
     {
         $genericThumbImagePath = $this->genericThumbImagePath;
-        $generics = $this->GenericadsRepository->getAllGeneric();
+        $generics = $this->genericadsRepository->getAllGeneric();
         return view('admin.ListGeneric', compact('generics', 'genericThumbImagePath'));
     }
 
@@ -103,7 +103,7 @@ class GenericAdsManagementController extends Controller
                 }
             }
         }
-        $response = $this->GenericadsRepository->saveGenericDetail($genericDetail);
+        $response = $this->genericadsRepository->saveGenericDetail($genericDetail);
         if($response)
         {
             return Redirect::to("admin/genericAds")->with('success',trans('labels.genericupdatesuccess'));
@@ -116,7 +116,7 @@ class GenericAdsManagementController extends Controller
 
     public function delete($id)
     {
-        $return = $this->GenericadsRepository->deleteGeneric($id);
+        $return = $this->genericadsRepository->deleteGeneric($id);
         if($return)
         {
             return Redirect::to("admin/genericAds")->with('success', trans('labels.genericdeletesuccess'));

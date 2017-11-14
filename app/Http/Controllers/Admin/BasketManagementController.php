@@ -21,11 +21,11 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 class BasketManagementController extends Controller
 {
 
-    public function __construct(FileStorageRepository $fileStorageRepository, BasketsRepository $BasketsRepository, ProfessionsRepository $ProfessionsRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, BasketsRepository $basketsRepository, ProfessionsRepository $professionsRepository)
     {
         $this->objBaskets = new Baskets();
-        $this->BasketsRepository = $BasketsRepository;
-        $this->ProfessionsRepository = $ProfessionsRepository;
+        $this->basketsRepository = $basketsRepository;
+        $this->professionsRepository = $professionsRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->basketOriginalImageUploadPath = Config::get('constant.BASKET_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->basketThumbImageUploadPath = Config::get('constant.BASKET_THUMB_IMAGE_UPLOAD_PATH');
@@ -38,7 +38,7 @@ class BasketManagementController extends Controller
     public function index()
     {
         $uploadBasketThumbPath = $this->basketThumbImageUploadPath;
-        $baskets = $this->BasketsRepository->getAllBaskets();
+        $baskets = $this->basketsRepository->getAllBaskets();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.ListBasket', compact('baskets', 'uploadBasketThumbPath'));
     }
@@ -143,7 +143,7 @@ class BasketManagementController extends Controller
                 $basketDetail['b_video'] = $fileName;
             }
         }
-        $response = $this->BasketsRepository->saveBasketDetail($basketDetail);
+        $response = $this->basketsRepository->saveBasketDetail($basketDetail);
         if($response)
         {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_BASKETS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.basketupdatesuccess'), serialize($basketDetail), $_SERVER['REMOTE_ADDR']);
@@ -158,14 +158,14 @@ class BasketManagementController extends Controller
 
     public function delete($id)
     {
-        $checkBasketExist = $this->ProfessionsRepository->checkForBasket($id);
+        $checkBasketExist = $this->professionsRepository->checkForBasket($id);
         if(isset($checkBasketExist) && !empty($checkBasketExist))
         {
             return Redirect::to("admin/baskets")->with('error', trans('labels.basketassociatedwithprofession'));
         }
         else if(empty($checkBasketExist))
         {
-            $return = $this->BasketsRepository->deleteBasket($id);
+            $return = $this->basketsRepository->deleteBasket($id);
             if ($return)
             {
                 Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_BASKETS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.basketdeletesuccess'), '', $_SERVER['REMOTE_ADDR']);

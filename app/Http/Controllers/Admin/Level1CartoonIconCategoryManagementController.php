@@ -21,11 +21,11 @@ use App\Services\Level1CartoonIcon\Contracts\Level1CartoonIconRepository;
 class Level1CartoonIconCategoryManagementController  extends Controller
 {
 
-    public function __construct(Level1CartoonIconRepository $Level1CartoonIconRepository)
+    public function __construct(Level1CartoonIconRepository $level1CartoonIconRepository)
     {
         $this->objLevel1CartoonActivity = new Level1CartoonIcon();
         $this->objLevel1CartoonIconCategory = new Level1CartoonIconCategory();
-        $this->Level1CartoonIconRepository = $Level1CartoonIconRepository;
+        $this->level1CartoonIconRepository = $level1CartoonIconRepository;
         $this->controller = 'Level1CartoonIconCategoryManagementController ';
         $this->loggedInUser = Auth::guard('admin');
     }
@@ -36,7 +36,7 @@ class Level1CartoonIconCategoryManagementController  extends Controller
             unset($searchParamArray);
             $searchParamArray = array();
         }
-        $categorys = $this->Level1CartoonIconRepository->getLeve1CartoonIconCategory($searchParamArray);
+        $categorys = $this->level1CartoonIconRepository->getLeve1CartoonIconCategory($searchParamArray);
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.ListLevel1CartoonIconCategory',compact('categorys','searchParamArray'));
     }
@@ -63,7 +63,7 @@ class Level1CartoonIconCategoryManagementController  extends Controller
         $cartoonIconCategoryDetail['cic_name'] = e(input::get('cic_name'));
         $cartoonIconCategoryDetail['deleted'] = e(input::get('deleted'));
 
-        $response = $this->Level1CartoonIconRepository->saveLevel1CartoonIconCategoryDetail($cartoonIconCategoryDetail);
+        $response = $this->level1CartoonIconRepository->saveLevel1CartoonIconCategoryDetail($cartoonIconCategoryDetail);
         if($response)
         {
           Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_CARTOON_ICON_CATEGORY'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.level1cartooniconcategoryupdatesuccess'), serialize($cartoonIconCategoryDetail), $_SERVER['REMOTE_ADDR']);
@@ -80,7 +80,7 @@ class Level1CartoonIconCategoryManagementController  extends Controller
 
     public function delete($id)
     {
-        $return = $this->Level1CartoonIconRepository->deleteLevel1CartoonIconCategory($id);
+        $return = $this->level1CartoonIconRepository->deleteLevel1CartoonIconCategory($id);
         if ($return)
         {
              Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_CARTOON_ICON_CATEGORY'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.level1cartooniconcategorydeletesuccess'), '', $_SERVER['REMOTE_ADDR']);

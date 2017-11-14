@@ -27,10 +27,10 @@ use App\Services\FeedbackQuestions\Contracts\FeedbackQuestionsRepository;
 
 class HintManagementController extends Controller {
 
-    public function __construct(TeenagersRepository $TeenagersRepository,ProfessionsRepository $ProfessionsRepository,Level1ActivitiesRepository $Level1ActivitiesRepository, Level2ActivitiesRepository $Level2ActivitiesRepository, FeedbackQuestionsRepository $FeedbackQuestionsRepository) { 
+    public function __construct(TeenagersRepository $teenagersRepository,ProfessionsRepository $professionsRepository,Level1ActivitiesRepository $Level1ActivitiesRepository, Level2ActivitiesRepository $Level2ActivitiesRepository, FeedbackQuestionsRepository $FeedbackQuestionsRepository) { 
         $this->objTeenagers = new Teenagers();
-        $this->TeenagersRepository = $TeenagersRepository;
-        $this->ProfessionsRepository = $ProfessionsRepository;
+        $this->teenagersRepository = $teenagersRepository;
+        $this->professionsRepository = $professionsRepository;
         $this->hintOriginalImageUploadPath = Config::get('constant.HINT_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->hintThumbImageUploadPath = Config::get('constant.HINT_THUMB_IMAGE_UPLOAD_PATH');
         $this->hintThumbImageHeight = Config::get('constant.HINT_THUMB_IMAGE_HEIGHT');

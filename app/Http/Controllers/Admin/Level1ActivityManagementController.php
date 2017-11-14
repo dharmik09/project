@@ -21,20 +21,20 @@ use Validator;
 class Level1ActivityManagementController extends Controller
 {
 
-    public function __construct(Level1ActivitiesRepository $Level1ActivitiesRepository)
+    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository)
     {
         $this->objLevel1Activities = new Level1Activity();
-        $this->Level1ActivitiesRepository = $Level1ActivitiesRepository;
-        $this->Level1ActivityOriginalImageUploadPath = Config::get('constant.LEVEL1_ACTIVITY_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $this->Level1ActivityThumbImageUploadPath = Config::get('constant.LEVEL1_ACTIVITY_THUMB_IMAGE_UPLOAD_PATH');
-        $this->Level1ActivityThumbImageHeight = Config::get('constant.LEVEL1_ACTIVITY_THUMB_IMAGE_HEIGHT');
-        $this->Level1ActivityThumbImageWidth = Config::get('constant.LEVEL1_ACTIVITY_THUMB_IMAGE_WIDTH');
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->level1ActivityOriginalImageUploadPath = Config::get('constant.LEVEL1_ACTIVITY_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->level1ActivityThumbImageUploadPath = Config::get('constant.LEVEL1_ACTIVITY_THUMB_IMAGE_UPLOAD_PATH');
+        $this->level1ActivityThumbImageHeight = Config::get('constant.LEVEL1_ACTIVITY_THUMB_IMAGE_HEIGHT');
+        $this->level1ActivityThumbImageWidth = Config::get('constant.LEVEL1_ACTIVITY_THUMB_IMAGE_WIDTH');
         $this->controller = 'Level1ActivityManagementController';
         $this->loggedInUser = Auth::guard('admin');
     }
     public function index()
     {
-        $level1activities = $this->Level1ActivitiesRepository->getAllLeve1Activities();
+        $level1activities = $this->level1ActivitiesRepository->getAllLeve1Activities();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.ListLevel1Activity',compact('level1activities'));
     }
@@ -42,7 +42,7 @@ class Level1ActivityManagementController extends Controller
     public function add()
     {
         $activityDetail = [];
-        $uploadLevel1ActivityThumbPath = $this->Level1ActivityThumbImageUploadPath;
+        $uploadLevel1ActivityThumbPath = $this->level1ActivityThumbImageUploadPath;
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
 
         return view('admin.EditLevel1Activity', compact('activityDetail', 'uploadLevel1ActivityThumbPath'));
@@ -51,7 +51,7 @@ class Level1ActivityManagementController extends Controller
     public function edit($id)
     {
         $activityDetail = $this->objLevel1Activities->getActiveLevel1Activity($id);
-        $uploadLevel1ActivityThumbPath = $this->Level1ActivityThumbImageUploadPath;
+        $uploadLevel1ActivityThumbPath = $this->level1ActivityThumbImageUploadPath;
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
 
         return view('admin.EditLevel1Activity', compact('activityDetail', 'uploadLevel1ActivityThumbPath'));
@@ -101,23 +101,23 @@ class Level1ActivityManagementController extends Controller
                 if($validationPass)
                 {
                     $fileName = 'level1_Activity_' . time() . '.' . $file->getClientOriginalExtension();
-                    $pathOriginal = public_path($this->Level1ActivityOriginalImageUploadPath . $fileName);
-                    $pathThumb = public_path($this->Level1ActivityThumbImageUploadPath . $fileName);
+                    $pathOriginal = public_path($this->level1ActivityOriginalImageUploadPath . $fileName);
+                    $pathThumb = public_path($this->level1ActivityThumbImageUploadPath . $fileName);
 
                     Image::make($file->getRealPath())->save($pathOriginal);
-                    Image::make($file->getRealPath())->resize($this->Level1ActivityThumbImageWidth, $this->Level1ActivityThumbImageHeight)->save($pathThumb);
+                    Image::make($file->getRealPath())->resize($this->level1ActivityThumbImageWidth, $this->level1ActivityThumbImageHeight)->save($pathThumb);
 
                     if ($hiddenLogo != '')
                     {
-                        $imageOriginal = public_path($this->Level1ActivityOriginalImageUploadPath . $hiddenLogo);
-                        $imageThumb = public_path($this->Level1ActivityThumbImageUploadPath . $hiddenLogo);
+                        $imageOriginal = public_path($this->level1ActivityOriginalImageUploadPath . $hiddenLogo);
+                        $imageThumb = public_path($this->level1ActivityThumbImageUploadPath . $hiddenLogo);
                         File::delete($imageOriginal, $imageThumb);
                     }
                     $activityDetail['l1ac_image'] = $fileName;
                 }                
             }
         }
-        $response = $this->Level1ActivitiesRepository->saveLevel1ActivityDetail($activityDetail,$optionDetail);
+        $response = $this->level1ActivitiesRepository->saveLevel1ActivityDetail($activityDetail,$optionDetail);
         if($response)
         {
           Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_LEVEL1_ACTIVITY'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.level1activityupdatesuccess'), serialize($activityDetail), $_SERVER['REMOTE_ADDR']);
@@ -135,7 +135,7 @@ class Level1ActivityManagementController extends Controller
 
     public function delete($id)
     {
-        $return = $this->Level1ActivitiesRepository->deleteLevel1Activity($id);
+        $return = $this->level1ActivitiesRepository->deleteLevel1Activity($id);
         if ($return)
         {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_LEVEL1_ACTIVITY'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.level1activitydeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
