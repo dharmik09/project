@@ -55,7 +55,7 @@ class CouponManagementController extends Controller {
         return view('admin.EditCoupon', compact('couponDetail', 'uploadCouponThumbPath'));
     }
 
-    public function save(CouponRequest $CouponRequest) {
+    public function save(CouponRequest $couponRequest) {
         $couponDetail = [];
 
         $couponDetail['id'] = e(input::get('id'));

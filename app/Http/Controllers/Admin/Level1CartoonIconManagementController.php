@@ -64,7 +64,7 @@ class Level1CartoonIconManagementController extends Controller
         return view('admin.EditLevel1CartoonIcon', compact('cartoonIconDetail', 'cartoonThumbPath'));
     }
 
-    public function save(Level1CartoonIconRequest $Level1CartoonIconRequest)
+    public function save(Level1CartoonIconRequest $level1CartoonIconRequest)
     {
         $cartoonIconDetail = [];
 

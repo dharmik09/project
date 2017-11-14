@@ -50,7 +50,7 @@ class Level1HumanIconCategoryManagementController  extends Controller
         return view('admin.EditLevel1HumanIconCategory', compact('humanIconCategoryDetail'));
     }
 
-    public function save(Level1HumanIconCategoryRequest $Level1HumanIconCategoryRequest)
+    public function save(Level1HumanIconCategoryRequest $level1HumanIconCategoryRequest)
     {
         $humanIconCategoryDetail = [];
 

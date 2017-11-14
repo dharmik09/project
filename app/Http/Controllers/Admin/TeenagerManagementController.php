@@ -166,7 +166,7 @@ class TeenagerManagementController extends Controller {
         return view('admin.EditTeenager', compact('teenagerDetail', 'sid', 'uploadTeenagerThumbPath','sponsorDetail', 'selectedSponsors'));
     }
 
-    public function save(TeenagerRequest $TeenagerRequest) {
+    public function save(TeenagerRequest $teenagerRequest) {
         
         $teenagerDetail = [];
 

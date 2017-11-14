@@ -45,7 +45,7 @@ class ConfigurationManagementController extends Controller {
         return view('admin.EditConfiguration', compact('configurationDetail'));
     }
 
-    public function save(ConfigurationRequest $ConfigurationRequest) {
+    public function save(ConfigurationRequest $configurationRequest) {
         $configurationDetail = [];
         $configurationDetail['id'] = e(Input::get('id'));
         $configurationDetail['cfg_key'] = e(Input::get('cfg_key'));

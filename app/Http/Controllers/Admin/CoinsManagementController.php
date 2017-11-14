@@ -51,7 +51,7 @@ class CoinsManagementController extends Controller {
         return view('admin.EditCoinsPackage', compact('coinsDetail','uploadCoinsThumbPath'));
     }
 
-    public function save(CoinsRequest $CoinsRequest) {
+    public function save(CoinsRequest $coinsRequest) {
         $coinData = [];
         $coinData['id'] = e(Input::get('id'));
         $coinData['c_package_name'] = e(Input::get('c_package_name'));

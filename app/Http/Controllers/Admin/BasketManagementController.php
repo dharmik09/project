@@ -59,7 +59,7 @@ class BasketManagementController extends Controller
         return view('admin.EditBasket',compact('basketDetail' , 'uploadBasketThumbPath', 'uploadVideoPath'));
     }
 
-    public function save(BasketRequest $BasketRequest)
+    public function save(BasketRequest $basketRequest)
     {
         $basketDetail = [];
 

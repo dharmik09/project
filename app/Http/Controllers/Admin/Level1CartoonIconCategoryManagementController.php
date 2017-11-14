@@ -55,7 +55,7 @@ class Level1CartoonIconCategoryManagementController  extends Controller
         return view('admin.EditLevel1CartoonIconCategory', compact('cartoonIconCategoryDetail'));
     }
 
-    public function save(Level1CartoonIconCategoryRequest $Level1CartoonIconCategoryRequest)
+    public function save(Level1CartoonIconCategoryRequest $level1CartoonIconCategoryRequest)
     {
         $cartoonIconCategoryDetail = [];
 

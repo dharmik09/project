@@ -62,7 +62,7 @@ class Level1HumanIconManagementController extends Controller
         return view('admin.EditLevel1HumanIcon', compact('humanIconDetail','humanThumbPath'));
     }
 
-    public function save(Level1HumanIconRequest $Level1HumanIconRequest)
+    public function save(Level1HumanIconRequest $level1HumanIconRequest)
     {
         $humanIconDetail = [];
 

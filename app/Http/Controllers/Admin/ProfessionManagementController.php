@@ -67,7 +67,7 @@ class ProfessionManagementController extends Controller {
         return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath'));
     }
 
-    public function save(ProfessionRequest $ProfessionRequest) {
+    public function save(ProfessionRequest $professionRequest) {
         $professionDetail = [];
 
         $professionDetail['id'] = e(input::get('id'));

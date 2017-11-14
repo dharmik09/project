@@ -36,7 +36,7 @@ class PaidComponentsManagementController extends Controller
         return view('admin.EditPaidComponents', compact('paidComponentsDetail'));
     }
 
-    public function save(PaidComponentsRequest $PaidComponentsRequest) {
+    public function save(PaidComponentsRequest $paidComponentsRequest) {
         $componentsDetail = [];
 
         $componentsDetail['id'] = e(Input::get('id'));
