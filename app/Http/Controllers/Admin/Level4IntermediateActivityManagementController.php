@@ -18,10 +18,11 @@ use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use Cache;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level4IntermediateActivityManagementController extends Controller {
 
-    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
         $this->professionsRepository = $professionsRepository;
         $this->objLevel4Activities = new Level4Activity();
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;
@@ -39,19 +40,18 @@ class Level4IntermediateActivityManagementController extends Controller {
         $this->intermediateResponseThumbImageUploadPath = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH');
         $this->intermediateResponseOriginalImageHeight = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_HEIGHT');
         $this->intermediateResponseOriginalImageWidth = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_WIDTH');
+        $this->fileStorageRepository = $fileStorageRepository;
     }
 
     public function index()
     {
         $searchParamArray = Input::all();
-
         if (isset($searchParamArray['clearSearch'])) {
             unset($searchParamArray);
             Cache::forget('searchArrayLevel4');
             Cache::forget('l4intermediateActivites');
             $searchParamArray = array();
         }
-
         if (!empty($searchParamArray)) {
             Cache::forget('l4intermediateActivites');
             if (isset($searchParamArray['searchText'])) {
@@ -73,8 +73,6 @@ class Level4IntermediateActivityManagementController extends Controller {
                 Cache::forever('l4intermediateActivites', $leve4intermediateActivites);
             }
         }
-
-
         return view('admin.ListLevel4IntermediateActivity',compact('leve4intermediateActivites','searchParamArray'));
     }
 
@@ -131,11 +129,11 @@ class Level4IntermediateActivityManagementController extends Controller {
             $point = e(input::get('hidden_points'));
             if(isset($allPostdata['quetion_point']) && $allPostdata['quetion_point'] != '')
             {
-                 $questionData['l4ia_question_point'] = $allPostdata['quetion_point'];
+                $questionData['l4ia_question_point'] = $allPostdata['quetion_point'];
             }
             else
             {
-                 $questionData['l4ia_question_point'] = $point;
+                $questionData['l4ia_question_point'] = $point;
             }
             //Add question popup image
             $popUpfile = Input::file('question_popup_image');
@@ -148,16 +146,27 @@ class Level4IntermediateActivityManagementController extends Controller {
                     $fileName = 'questionPop_' . time() . '.' . $popUpfile->getClientOriginalExtension();
                     if ($popUpfile->getClientOriginalExtension() == 'gif') {
                         copy($popUpfile->getRealPath(), $this->intermediateQuestionOriginalImageUploadPath.$fileName);
-                    }else{
+                        //Upload on AWS
+                        $gifPathOriginal = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                        $uploadGifImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionOriginalImageUploadPath, $gifPathOriginal, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                    } else {
                         $pathOriginal = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
                         $pathThumb = public_path($this->intermediateQuestionThumbImageUploadPath . $fileName);
                         Image::make($popUpfile->getRealPath())->save($pathOriginal);
                         Image::make($popUpfile->getRealPath())->resize($this->intermediateQuestionOriginalImageWidth, $this->intermediateQuestionOriginalImageHeight)->save($pathThumb);
+
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionThumbImageUploadPath, $pathThumb, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                        \File::delete($this->intermediateQuestionThumbImageUploadPath . $fileName);
                     }
                     $questionData['l4ia_question_popup_image'] = $fileName;
                 }
             }
-
             //Add question audio file
             $audiofile = Input::file('question_audio');
             if(!empty($audiofile))
@@ -167,16 +176,17 @@ class Level4IntermediateActivityManagementController extends Controller {
                 if (in_array($ext, $validImageExtArr)) {
                     $fileName = 'audio_' . time() . '.' . $audiofile->getClientOriginalExtension();
                     Input::file('question_audio')->move($this->intermediateQuestionOriginalImageUploadPath, $fileName); // uploading file to given path
+                    $audioPath = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                    //Uploading on AWS
+                    $originalFile = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionOriginalImageUploadPath, $audioPath, "s3");
+                    //Deleting Local Files
+                    \File::delete($this->intermediateQuestionOriginalImageUploadPath . $fileName);
                     $questionData['l4ia_question_audio'] = $fileName;
                 }
             }
-
-
             $lastInsertId = $this->level4ActivitiesRepository->saveLevel4IntermediateActivity($questionData);
-
             //Handle Question Media save...Image or Video
             $files = Input::file('question_image');
-
             if (isset($files) && !empty($files))
             {
                 $questionMedia = array();
@@ -185,18 +195,27 @@ class Level4IntermediateActivityManagementController extends Controller {
                     if(!empty($file))
                     {
                         $originalName =  $file->getClientOriginalName();
-
                         $new_filename = substr($originalName, 0, strrpos($originalName, "."));
                         $fileName = time().'_'.str_random(10). '.' .$file->getClientOriginalExtension();
-
                         if ($file->getClientOriginalExtension() == 'gif') {
                             copy($file->getRealPath(), $this->intermediateQuestionOriginalImageUploadPath.$fileName);
-                        }else{
-                        $pathOriginal = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
-                        $pathThumb = public_path($this->intermediateQuestionThumbImageUploadPath . $fileName);
+                            $imagePath = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                            //Uploading on AWS
+                            $originalFile = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionOriginalImageUploadPath, $imagePath, "s3");
+                            //Deleting Local Files
+                            \File::delete($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                        } else {
+                            $pathOriginal = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                            $pathThumb = public_path($this->intermediateQuestionThumbImageUploadPath . $fileName);
+                            Image::make($file->getRealPath())->save($pathOriginal);
+                            Image::make($file->getRealPath())->resize($this->intermediateQuestionOriginalImageWidth, $this->intermediateQuestionOriginalImageHeight)->save($pathThumb);
 
-                        Image::make($file->getRealPath())->save($pathOriginal);
-                        Image::make($file->getRealPath())->resize($this->intermediateQuestionOriginalImageWidth, $this->intermediateQuestionOriginalImageHeight)->save($pathThumb);
+                            //Uploading on AWS
+                            $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionOriginalImageUploadPath, $pathOriginal, "s3");
+                            $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionThumbImageUploadPath, $pathThumb, "s3");
+                            //Deleting Local Files
+                            \File::delete($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                            \File::delete($this->intermediateQuestionThumbImageUploadPath . $fileName);
                         }
                         $questionMedia['id'] = 0;
                         $questionMedia['l4iam_question_id'] = $lastInsertId;
@@ -207,7 +226,6 @@ class Level4IntermediateActivityManagementController extends Controller {
                     }
                 }
             }
-
             if(isset($allPostdata['question_video']) && $allPostdata['question_video'] != '')
             {
                 $questionMedia['id'] = 0;
@@ -216,22 +234,16 @@ class Level4IntermediateActivityManagementController extends Controller {
                 $questionMedia['l4iam_media_type'] = 'V';
                 $this->level4ActivitiesRepository->saveLevel4IntermediateActivityMedia($questionMedia);
             }
-
             //Now its time to handle question options
             $questionOptionData = array();
-
             if(isset($allPostdata['edit_template_id']) && $allPostdata['edit_template_id'] > 0){
                 $questionTemplate = $allPostdata['edit_template_id'];
             }else{
                 $questionTemplate = $allPostdata['gamification_template'];
             }
-
-
             $questionTemplateAnsType = $allPostdata['questionTemplateAnsType'];
-
             $questionOptionData['id'] = 0;
             $questionOptionData['l4iao_question_id'] = $lastInsertId;
-
             if(isset($allPostdata['edit_template_id']) && $allPostdata['edit_template_id'] == 0){
                 switch ($questionTemplateAnsType) {
                     case "filling_blank":
@@ -267,11 +279,23 @@ class Level4IntermediateActivityManagementController extends Controller {
                                         $fileName = time().'_'.str_random(10). '.' .$file->getClientOriginalExtension();
                                         if ($file->getClientOriginalExtension() == 'gif') {
                                             copy($file->getRealPath(), $this->intermediateAnswerOriginalImageUploadPath.$fileName);
+                                            $gifImagePath = public_path($this->intermediateAnswerOriginalImageUploadPath.$fileName);
+                                            //Uploading on AWS
+                                            $originalFile = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerOriginalImageUploadPath, $gifImagePath, "s3");
+                                            //Deleting Local Files
+                                            \File::delete($this->intermediateAnswerOriginalImageUploadPath . $fileName);
                                         }else{
                                             $pathOriginal = public_path($this->intermediateAnswerOriginalImageUploadPath . $fileName);
                                             $pathThumb = public_path($this->intermediateAnswerThumbImageUploadPath . $fileName);
                                             Image::make($file->getRealPath())->save($pathOriginal);
                                             Image::make($file->getRealPath())->resize($this->intermediateAnswerOriginalImageWidth, $this->intermediateAnswerOriginalImageHeight)->save($pathThumb);
+
+                                            //Uploading on AWS
+                                            $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerOriginalImageUploadPath, $pathOriginal, "s3");
+                                            $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerThumbImageUploadPath, $pathThumb, "s3");
+                                            //Deleting Local Files
+                                            \File::delete($this->intermediateAnswerOriginalImageUploadPath . $fileName);
+                                            \File::delete($this->intermediateAnswerThumbImageUploadPath . $fileName);
                                         }
                                     }
                                     $questionOptionData['l4iao_answer_image'] = $fileName;
@@ -330,18 +354,33 @@ class Level4IntermediateActivityManagementController extends Controller {
                                         $fileName = time().'_'.str_random(10). '.' .$file->getClientOriginalExtension();
                                         $pathOriginal = public_path($this->intermediateAnswerOriginalImageUploadPath . $fileName);
                                         $pathThumb = public_path($this->intermediateAnswerThumbImageUploadPath . $fileName);
+                                        
                                         Image::make($file->getRealPath())->save($pathOriginal);
                                         Image::make($file->getRealPath())->resize($this->intermediateAnswerOriginalImageWidth, $this->intermediateAnswerOriginalImageHeight)->save($pathThumb);
 
+                                        //Uploading on AWS
+                                        $originalImageUpload = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerOriginalImageUploadPath, $pathOriginal, "s3");
+                                        $thumbImageUpload = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerThumbImageUploadPath, $pathThumb, "s3");
+                                        //Deleting Local Files
+                                        \File::delete($this->intermediateAnswerOriginalImageUploadPath . $fileName);
+                                        \File::delete($this->intermediateAnswerThumbImageUploadPath . $fileName);
+
                                         //Response Image
                                         if(!empty($answerResponseImages[$key])){
-                                        $responseOriginalName = $answerResponseImages[$key]->getClientOriginalName();
-                                        $new_response_filename = substr($responseOriginalName, 0, strrpos($responseOriginalName, "."));
-                                        $responsefileName = time().'_'.str_random(10). '.' .$answerResponseImages[$key]->getClientOriginalExtension();
-                                        $pathOriginal = public_path($this->intermediateResponseOriginalImageUploadPath . $responsefileName);
-                                        $pathThumb = public_path($this->intermediateResponseThumbImageUploadPath . $responsefileName);
-                                        Image::make($answerResponseImages[$key]->getRealPath())->save($pathOriginal);
-                                        Image::make($answerResponseImages[$key]->getRealPath())->resize($this->intermediateResponseOriginalImageWidth, $this->intermediateResponseOriginalImageHeight)->save($pathThumb);
+                                            $responseOriginalName = $answerResponseImages[$key]->getClientOriginalName();
+                                            $new_response_filename = substr($responseOriginalName, 0, strrpos($responseOriginalName, "."));
+                                            $responsefileName = time().'_'.str_random(10). '.' .$answerResponseImages[$key]->getClientOriginalExtension();
+                                            $pathOriginal = public_path($this->intermediateResponseOriginalImageUploadPath . $responsefileName);
+                                            $pathThumb = public_path($this->intermediateResponseThumbImageUploadPath . $responsefileName);
+                                            Image::make($answerResponseImages[$key]->getRealPath())->save($pathOriginal);
+                                            Image::make($answerResponseImages[$key]->getRealPath())->resize($this->intermediateResponseOriginalImageWidth, $this->intermediateResponseOriginalImageHeight)->save($pathThumb);
+
+                                            //Uploading on AWS
+                                            $originalImageData = $this->fileStorageRepository->addFileToStorage($responsefileName, $this->intermediateResponseOriginalImageUploadPath, $pathOriginal, "s3");
+                                            $thumbImageData = $this->fileStorageRepository->addFileToStorage($responsefileName, $this->intermediateResponseThumbImageUploadPath, $pathThumb, "s3");
+                                            //Deleting Local Files
+                                            \File::delete($this->intermediateResponseOriginalImageUploadPath . $responsefileName);
+                                            \File::delete($this->intermediateResponseThumbImageUploadPath . $responsefileName);
                                         }
                                     }
                                     $questionOptionData['l4iao_answer_image'] = $fileName;
@@ -377,7 +416,6 @@ class Level4IntermediateActivityManagementController extends Controller {
                         echo "Something went wrong...";
                 }
             }
-
             //if($lastInsertId)
             //{
               $pageRank = (isset($allPostdata['pageRank']) && $allPostdata['pageRank'] != '')? $allPostdata['pageRank'] : '';
@@ -515,7 +553,6 @@ class Level4IntermediateActivityManagementController extends Controller {
         
         $intermediateResponseOriginalImageUploadPath = $this->intermediateResponseOriginalImageUploadPath;
         $intermediateResponseThumbImageUploadPath = $this->intermediateResponseThumbImageUploadPath;
-        
         
         $level4IntermediateActivityAnswerDetail = $this->level4ActivitiesRepository->getIntermediateActivityAnswerByQuestionId($id);
         
@@ -682,18 +719,19 @@ class Level4IntermediateActivityManagementController extends Controller {
     /*
      * Delete media by media id
      */
-    public function deleteAudioPopupImage($id,$file,$type)
+    public function deleteAudioPopupImage($id, $file, $type)
     {
         if(isset($id) && $id>0)
         {           
-            if($type == 2){
+            if($type == 2) {
                 $deleteData=array('l4ia_question_audio'=>'');
-            }else{
+            } else {
                 $deleteData=array('l4ia_question_popup_image'=>'');
             }
-            $result = $this->level4ActivitiesRepository->deleteAudioPopupImage($deleteData,$id);
-            if($result){                
-                unlink($this->intermediateQuestionOriginalImageUploadPath.$file);  
+            $result = $this->level4ActivitiesRepository->deleteAudioPopupImage($deleteData, $id);
+            if($result && $file != ""){                
+                @unlink($this->intermediateQuestionOriginalImageUploadPath.$file);  
+                $deleteFile = $this->fileStorageRepository->deleteFileToStorage($file, $this->intermediateQuestionOriginalImageUploadPath, "s3");
                 return Redirect::to("admin/editlevel4IntermediateActivity/".$id)->with('success', 'File has been deleted successfully');
             }
         }
