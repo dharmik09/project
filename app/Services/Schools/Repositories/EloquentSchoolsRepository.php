@@ -449,7 +449,7 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
     public function getStudentForLevel2($schoolid, $cid)
     {
         $return = DB::table(config::get('databaseconstants.TBL_TEENAGERS') ." AS teenager")
-                  ->join(config::get('databaseconstants.TBL_LEVEL2_ANSWERS') ." AS level2answer ", 'teenager.id', '=', 'level2answer.l2ans_teenager')
+                  ->join(config::get('databaseconstants.TBL_LEVEL2_ANSWERS') ." AS level2answer", 'teenager.id', '=', 'level2answer.l2ans_teenager')
                   ->selectRaw('teenager.*, level2answer.l2ans_teenager')
                   ->where('teenager.t_school', $schoolid)
                   ->where('teenager.t_class', $cid)
@@ -462,7 +462,7 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
     public function getStudentForLevel3($schoolid, $cid)
     {
         $return = DB::table(config::get('databaseconstants.TBL_TEENAGERS') ." AS teenager")
-                  ->join(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') ." AS attempted ", 'teenager.id', '=', 'attempted.tpa_teenager')
+                  ->join(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') ." AS attempted", 'teenager.id', '=', 'attempted.tpa_teenager')
                   ->selectRaw('teenager.*, attempted.tpa_teenager')
                   ->where('teenager.t_school', $schoolid)
                   ->where('teenager.t_class', $cid)
@@ -475,7 +475,7 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
     public function getStudentForLevel4($schoolid, $cid)
     {
         $return = DB::table(config::get('databaseconstants.TBL_TEENAGERS') ." AS teenager")
-                  ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') ." AS level4answer ", 'teenager.id', '=', 'level4answer.teenager_id')
+                  ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') ." AS level4answer", 'teenager.id', '=', 'level4answer.teenager_id')
                   ->selectRaw('teenager.*, level4answer.teenager_id')
                   ->where('teenager.t_school', $schoolid)
                   ->where('teenager.t_class', $cid)
@@ -488,8 +488,8 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
     public function getAttemptedProfession($schoolid, $cid)
     {
         $return['profession'] = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') ." AS attempted")
-                  ->join(config::get('databaseconstants.TBL_PROFESSIONS') ." AS profession ", 'profession.id', '=', 'attempted.tpa_peofession_id')
-                  ->join(config::get('databaseconstants.TBL_TEENAGERS') ." AS teenager ", 'teenager.id', '=', 'attempted.tpa_teenager')
+                  ->join(config::get('databaseconstants.TBL_PROFESSIONS') ." AS profession", 'profession.id', '=', 'attempted.tpa_peofession_id')
+                  ->join(config::get('databaseconstants.TBL_TEENAGERS') ." AS teenager", 'teenager.id', '=', 'attempted.tpa_teenager')
                   ->selectRaw('profession.*, attempted.tpa_peofession_id, teenager.t_class, teenager.t_school')
                   ->where('teenager.t_school', $schoolid)
                   ->where('teenager.t_class', $cid)
