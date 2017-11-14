@@ -228,6 +228,12 @@
                                             <i class="fa fa-circle-o"></i><span>Advance Activities</span>
                                         </a>
                                     </li>
+                                    <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/level4AdvanceActivityUserTask') ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/level4AdvanceActivityUserTask') }}">
+                                            <i class="fa fa-circle-o"></i><span>Advance User Tasks</span>
+                                        </a>
+                                    </li>
+                                    
                                     @endif
                                 </ul>
                             </li> 

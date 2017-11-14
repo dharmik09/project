@@ -1107,37 +1107,15 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
     /*Get Users all tasks for AdvanceLevel which are submitted for review*/
     public function getUserTaskForAdmin($searchParamArray = array()) {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'usertask.deleted IN (1,2)';
-        $whereArray[] = 'l4aaua_is_verified IN (1,2,3)';
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
-
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-
         $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask")
                 ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aaua_profession_id', '=', 'profession.id')
                 ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'usertask.l4aaua_teenager', '=', 'teenager.id')
                 ->selectRaw('usertask.*,profession.pf_name,teenager.t_name')
                 ->groupBy('usertask.l4aaua_profession_id')
                 ->groupBy('usertask.l4aaua_teenager')
-                ->whereRaw($whereStr . $orderStr)
-
-                //->where('usertask.deleted','!=',3)
-                //->where('l4aaua_is_verified','!=',0)
-                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                ->whereIn('usertask.deleted', [1,2])
+                ->whereIn('l4aaua_is_verified', [1,2,3])
+                ->get();
         return $result;
     }
 

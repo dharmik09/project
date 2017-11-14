@@ -26,10 +26,11 @@ use App\ProfessionLearningStyle;
 use App\UserLearningStyle;
 use App\DeviceToken;
 use Cache;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level4AdvanceActivityManagementController extends Controller {
 
-    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository) {
         $this->professionsRepository = $professionsRepository;
         $this->teenagersRepository = $teenagersRepository;
         $this->parentsRepository = $parentsRepository;
@@ -43,6 +44,7 @@ class Level4AdvanceActivityManagementController extends Controller {
         $this->level4AdvanceThumbImageHeight = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_HEIGHT');
         $this->level4AdvanceThumbImageWidth = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_WIDTH');
         $this->userCerfificatePath = Config::get('constant.CERTIFICATE_PATH');
+        $this->fileStorageRepository = $fileStorageRepository;
     }
 
     public function index() {
@@ -93,12 +95,7 @@ class Level4AdvanceActivityManagementController extends Controller {
      */
 
     public function level4AdvanceActivityUserTask() {
-        $searchParamArray = Input::all();
-        if (isset($searchParamArray['clearSearch'])) {
-            unset($searchParamArray);
-            $searchParamArray = array();
-        }
-        $userTasks = $this->level4ActivitiesRepository->getUserTaskForAdmin($searchParamArray);
+        $userTasks = $this->level4ActivitiesRepository->getUserTaskForAdmin();
         return view('admin.ListLevel4AdvanceActivityUser', compact('userTasks','searchParamArray'));
     }
 
@@ -124,11 +121,9 @@ class Level4AdvanceActivityManagementController extends Controller {
         }
         return view('admin.Level4AdvanceUserTasks', compact('teenagerDetail', 'typeId', 'professionDetail', 'userAllImageTasks', 'userAllDocumentTasks', 'userAllVideoTasks', 'level4AdvanceThumbImageUploadPath', 'level4AdvanceOriginalImageUploadPath'));
     }
-
     /*
      * Verify User task
      */
-
     public function verifyUserAdvanceTask() {
         $postData = Input::all();
         $image = [];
@@ -138,7 +133,8 @@ class Level4AdvanceActivityManagementController extends Controller {
                 $data = $this->level4ActivitiesRepository->getImageNameById($key);
                 $photo = $data[0]->l4aaua_media_name;
                 if ($photo != '' && file_exists($this->level4AdvanceThumbImageUploadPath . $photo)) {
-                    $image[] = asset($this->level4AdvanceThumbImageUploadPath . $photo);
+                    //$image[] = asset($this->level4AdvanceThumbImageUploadPath . $photo);
+                    $image[] = Config::get('constant.DEFAULT_AWS') . $this->level4AdvanceThumbImageUploadPath . $photo;
                 } else {
                     $image[] = asset("/backend/images/logo.png");
                 }
@@ -147,7 +143,7 @@ class Level4AdvanceActivityManagementController extends Controller {
         }
         $saveUserData = array();
         $earnedPoints = '';
-        if (isset($postData) && !empty($postData)) {
+        if (isset($postData['boosterPoint']) && !empty($postData)) {
             foreach ($postData['boosterPoint'] as $key => $val) {
                 if (isset($postData['status'][$key]) && $postData['status'][$key] != '' && $postData['verified_status'][$key] != 2 && $postData['verified_status'][$key] != 3) {
                     $earnedPoints = $earnedPoints+$val;
@@ -265,10 +261,13 @@ class Level4AdvanceActivityManagementController extends Controller {
             $result = $this->level4ActivitiesRepository->deleteUserAdvanceTask($id);
             if ($result) {
                 if ($postData['media_type'] == 3) {
-                    unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
-                    unlink($this->level4AdvanceThumbImageUploadPath . $postData['media_name']);
+                    @unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
+                    @unlink($this->level4AdvanceThumbImageUploadPath . $postData['media_name']);
+                    $deleteFile = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceOriginalImageUploadPath, "s3");
+                    $deleteFile = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceThumbImageUploadPath, "s3");
                 } else {
-                    unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
+                    @unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
+                    $deleteFile = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceOriginalImageUploadPath, "s3");
                 }
             }
         }
