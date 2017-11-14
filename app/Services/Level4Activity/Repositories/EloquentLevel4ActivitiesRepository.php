@@ -957,6 +957,15 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
         return $result;
     }
+    public function getLevel4IntermediateActivitiesObj() {
+        $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS intermediateactivity")
+                    ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'intermediateactivity.l4ia_profession_id', '=', 'profession.id')
+                    ->join(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS gamification", 'intermediateactivity.l4ia_question_template', '=', 'gamification.id')
+                    ->selectRaw('intermediateactivity.*, profession.pf_name, gamification.gt_template_title')
+                    ->whereIn('intermediateactivity.deleted', [1,2]);
+
+        return $result;
+    }
 
     /*
      * Delete level 4 intermediate activity

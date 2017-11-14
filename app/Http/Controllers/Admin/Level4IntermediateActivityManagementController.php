@@ -45,35 +45,68 @@ class Level4IntermediateActivityManagementController extends Controller {
 
     public function index()
     {
-        $searchParamArray = Input::all();
-        if (isset($searchParamArray['clearSearch'])) {
-            unset($searchParamArray);
-            Cache::forget('searchArrayLevel4');
-            Cache::forget('l4intermediateActivites');
-            $searchParamArray = array();
+        return view('admin.ListLevel4IntermediateActivity');
+    }
+
+    public function getIndex()
+    {
+        $leve4intermediateActivites = $this->level4ActivitiesRepository->getLevel4IntermediateActivitiesObj()->get()->count();
+        $records = array();
+        $columns = array(
+            0 => 'id',
+            1 => 'pf_name',
+            2 => 'gt_template_title',
+            3 => 'l4ia_question_text',
+            4 => 'l4ia_question_time',
+            5 => 'l4ia_question_point',
+            6 => 'deleted',
+        );
+        $order = Input::get('order');
+        $search = Input::get('search');
+        $records["data"] = array();
+        $iTotalRecords = $leve4intermediateActivites;
+        $iTotalFiltered = $iTotalRecords;
+        $iDisplayLength = intval(Input::get('length')) <= 0 ? $iTotalRecords : intval(Input::get('length'));
+        $iDisplayStart = intval(Input::get('start'));
+        $sEcho = intval(Input::get('draw'));
+
+        $records["data"] = $this->level4ActivitiesRepository->getLevel4IntermediateActivitiesObj();
+        if (!empty($search['value'])) {
+            $val = $search['value'];
+            $records["data"]->where(function($query) use ($val) {
+                $query->orWhere('profession.pf_name', "Like", "%$val%");
+                $query->orWhere('gamification.gt_template_title', "Like", "%$val%");
+                $query->orWhere('intermediateactivity.l4ia_question_text', "Like", "%$val%");
+                $query->orWhere('intermediateactivity.l4ia_question_point', "Like", "%$val%");
+            });
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
+                $query->orWhere('profession.pf_name', "Like", "%$val%");
+                $query->orWhere('gamification.gt_template_title', "Like", "%$val%");
+                $query->orWhere('intermediateactivity.l4ia_question_text', "Like", "%$val%");
+                $query->orWhere('intermediateactivity.l4ia_question_point', "Like", "%$val%");
+            })->count();
         }
-        if (!empty($searchParamArray)) {
-            Cache::forget('l4intermediateActivites');
-            if (isset($searchParamArray['searchText'])) {
-                Cache::forever('searchArrayLevel4', $searchParamArray);
-            } else {
-                $searchParamArray = Cache::get('searchArrayLevel4');
-            }
-            $leve4intermediateActivites = $this->level4ActivitiesRepository->getLevel4IntermediateActivities($searchParamArray);
-        } else {
-            if (Cache::has('searchArrayLevel4')) {
-                $searchParamArray = Cache::get('searchArrayLevel4');
-            } else {
-                Cache::forget('searchArrayLevel4');
-            }
-            if (Cache::has('l4intermediateActivites')) {
-                $leve4intermediateActivites = Cache::get('l4intermediateActivites');
-            } else {
-                $leve4intermediateActivites = $this->level4ActivitiesRepository->getLevel4IntermediateActivities($searchParamArray);
-                Cache::forever('l4intermediateActivites', $leve4intermediateActivites);
+        //order by
+        foreach ($order as $o) {
+            $records["data"] = $records["data"]->orderBy($columns[$o['column']], $o['dir']);
+        }
+        //limit
+        $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
+        if (!empty($records["data"])) {
+            foreach ($records["data"] as $key => $_records) {
+                $records["data"][$key]->deleted = ($_records->deleted) ? '<i class="s_active fa fa-square"></i>' : '<i class="s_inactive fa fa-square"></i>';
+                $records["data"][$key]->l4ia_question_text = str_limit(strip_tags($_records->l4ia_question_text), $limit = 100, $end = '...');
+                $records["data"][$key]->action = '<a href="'.url('/admin/editlevel4IntermediateActivity').'/'.$_records->id.'" title="Edit Question"><i class="fa fa-edit"></i> &nbsp;&nbsp;&nbsp;&nbsp;</a><a onclick="return confirm(\'Are you sure you want to delete ?\')" href="'.url('/admin/deletelevel4IntermediateActivity').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i></a>';
             }
         }
-        return view('admin.ListLevel4IntermediateActivity',compact('leve4intermediateActivites','searchParamArray'));
+
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalFiltered;
+
+        return \Response::json($records);
+        exit;
     }
 
     public function add()
@@ -467,9 +500,11 @@ class Level4IntermediateActivityManagementController extends Controller {
             $id = $postData['media_id'];
             $result = $this->level4ActivitiesRepository->deleteLeve4IntermediateMedia($id);
             if($result){
-                if($postData['media_type'] == 'I'){
-                    unlink($this->intermediateQuestionOriginalImageUploadPath.$postData['media_name']);
-                    unlink($this->intermediateQuestionThumbImageUploadPath.$postData['media_name']);
+                if($postData['media_type'] == 'I' && $postData['media_name'] != ""){
+                    @unlink($this->intermediateQuestionOriginalImageUploadPath.$postData['media_name']);
+                    @unlink($this->intermediateQuestionThumbImageUploadPath.$postData['media_name']);
+                    $deleteFile = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->intermediateQuestionOriginalImageUploadPath, "s3");
+                    $deleteFile = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->intermediateQuestionThumbImageUploadPath, "s3");
                 }
             }
         }
@@ -497,12 +532,24 @@ class Level4IntermediateActivityManagementController extends Controller {
                     $fileName = time().'_'.str_random(10). '.' . $file->getClientOriginalExtension();
                     if ($file->getClientOriginalExtension() == 'gif') {
                         copy($file->getRealPath(), $this->intermediateQuestionOriginalImageUploadPath.$fileName);
-                    }else{
-                    $pathOriginal = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
-                    $pathThumb = public_path($this->intermediateQuestionThumbImageUploadPath . $fileName);
+                        $imagePath = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                        //Uploading on AWS
+                        $originalFile = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionOriginalImageUploadPath, $imagePath, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->intermediateQuestionOriginalImageUploadPath . $fileName);                        
+                    } else {
+                        $pathOriginal = public_path($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                        $pathThumb = public_path($this->intermediateQuestionThumbImageUploadPath . $fileName);
 
-                    Image::make($file->getRealPath())->save($pathOriginal);
-                    Image::make($file->getRealPath())->resize($this->intermediateQuestionOriginalImageWidth, $this->intermediateQuestionOriginalImageHeight)->save($pathThumb);
+                        Image::make($file->getRealPath())->save($pathOriginal);
+                        Image::make($file->getRealPath())->resize($this->intermediateQuestionOriginalImageWidth, $this->intermediateQuestionOriginalImageHeight)->save($pathThumb);
+
+                        //Uploading on AWS
+                        $originalImageUpload = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImageUpload = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateQuestionThumbImageUploadPath, $pathThumb, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->intermediateQuestionOriginalImageUploadPath . $fileName);
+                        \File::delete($this->intermediateQuestionThumbImageUploadPath . $fileName);
                     }
                     $questionMedia['l4iam_media_name'] = $fileName;
                     $questionMedia['l4iam_media_type'] = 'I';
@@ -593,11 +640,23 @@ class Level4IntermediateActivityManagementController extends Controller {
                             $fileName = time().'_'.str_random(10). '.' .$file->getClientOriginalExtension();
                             if ($file->getClientOriginalExtension() == 'gif') {
                                 copy($file->getRealPath(), $this->intermediateAnswerOriginalImageUploadPath.$fileName);
+                                $gifImagePath = public_path($this->intermediateAnswerOriginalImageUploadPath.$fileName);
+                                //Uploading on AWS
+                                $originalFile = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerOriginalImageUploadPath, $gifImagePath, "s3");
+                                //Deleting Local Files
+                                \File::delete($this->intermediateAnswerOriginalImageUploadPath . $fileName);
                             }else{
                                 $pathOriginal = public_path($this->intermediateAnswerOriginalImageUploadPath . $fileName);
                                 $pathThumb = public_path($this->intermediateAnswerThumbImageUploadPath . $fileName);
                                 Image::make($file->getRealPath())->save($pathOriginal);
-                                Image::make($file->getRealPath())->resize($this->intermediateAnswerOriginalImageWidth, $this->intermediateAnswerOriginalImageHeight)->save($pathThumb);                                 
+                                Image::make($file->getRealPath())->resize($this->intermediateAnswerOriginalImageWidth, $this->intermediateAnswerOriginalImageHeight)->save($pathThumb);
+
+                                //Uploading on AWS
+                                $originalImageData = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerOriginalImageUploadPath, $pathOriginal, "s3");
+                                $thumbImageData = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerThumbImageUploadPath, $pathThumb, "s3");
+                                //Deleting Local Files
+                                \File::delete($this->intermediateAnswerOriginalImageUploadPath . $fileName);
+                                \File::delete($this->intermediateAnswerThumbImageUploadPath . $fileName);
                             }
                         }
                         $questionOptionData['l4iao_answer_image'] = $fileName;                            
@@ -669,6 +728,12 @@ class Level4IntermediateActivityManagementController extends Controller {
                         Image::make($file->getRealPath())->save($pathOriginal);
                         Image::make($file->getRealPath())->resize($this->intermediateAnswerOriginalImageWidth, $this->intermediateAnswerOriginalImageHeight)->save($pathThumb);                                 
 
+                        //Uploading on AWS
+                        $originalImageData = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImageData = $this->fileStorageRepository->addFileToStorage($fileName, $this->intermediateAnswerThumbImageUploadPath, $pathThumb, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->intermediateAnswerOriginalImageUploadPath . $fileName);
+                        \File::delete($this->intermediateAnswerThumbImageUploadPath . $fileName);
                     } 
                     $questionOptionData['l4iao_answer_image'] = $fileName;  
                     //$questionOptionData['l4iao_answer_response_image'] = $responsefileName; 
@@ -698,6 +763,12 @@ class Level4IntermediateActivityManagementController extends Controller {
                         $pathThumb = public_path($this->intermediateResponseThumbImageUploadPath . $responsefileName);
                         Image::make($file2->getRealPath())->save($pathOriginal);
                         Image::make($file2->getRealPath())->resize($this->intermediateResponseOriginalImageWidth, $this->intermediateResponseOriginalImageHeight)->save($pathThumb);                                        
+                        //Uploading on AWS
+                        $originalImageData = $this->fileStorageRepository->addFileToStorage($responsefileName, $this->intermediateResponseOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImageData = $this->fileStorageRepository->addFileToStorage($responsefileName, $this->intermediateResponseThumbImageUploadPath, $pathThumb, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->intermediateResponseOriginalImageUploadPath . $responsefileName);
+                        \File::delete($this->intermediateResponseThumbImageUploadPath . $responsefileName);
                     } 
                     //$questionOptionData['l4iao_answer_image'] = $fileName;  
                     $questionOptionData['l4iao_answer_response_image'] = $responsefileName; 

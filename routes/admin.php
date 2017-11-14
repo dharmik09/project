@@ -122,6 +122,7 @@ Route::post('/saveCoinsDataForTemplate','Admin\Level4TemplateManagementControlle
 Route::get('/addLevel4Template', 'Admin\Level4TemplateManagementController@add');
 
 Route::get('/listLevel4IntermediateActivity/', 'Admin\Level4IntermediateActivityManagementController@index');
+Route::post('/getListLevel4IntermediateActivity/', 'Admin\Level4IntermediateActivityManagementController@getIndex');
 Route::post('/listLevel4IntermediateActivity/', 'Admin\Level4IntermediateActivityManagementController@index');
 Route::get('/addIntermediateActivity/', 'Admin\Level4IntermediateActivityManagementController@add');
 Route::get('/editlevel4IntermediateActivity/{id}', 'Admin\Level4IntermediateActivityManagementController@edit');
@@ -129,6 +130,10 @@ Route::post('/savelevel4Intermediateactivity/', 'Admin\Level4IntermediateActivit
 Route::get('/deleteAudioPopupImage/{id}/{filename}/{type}', 'Admin\Level4IntermediateActivityManagementController@deleteAudioPopupImage');
 Route::get('/manageIntermediateActivityAnswer/{id}', 'Admin\Level4IntermediateActivityManagementController@manageIntermediateActivityAnswer');
 Route::post('/updatelevel4IntermediateOption/', 'Admin\Level4IntermediateActivityManagementController@updatelevel4IntermediateOption');
+Route::get('/manageIntermediateActivityMedia/{id}', 'Admin\Level4IntermediateActivityManagementController@manageActivityMedia');
+Route::post('/savelevel4IntermediateMedia/', 'Admin\Level4IntermediateActivityManagementController@savelevel4IntermediateMedia');
+Route::post('/deleteLevel4IntermediateMediaById/', 'Admin\Level4IntermediateActivityManagementController@deleteLevel4IntermediateMediaById');
+Route::get('/deletelevel4IntermediateActivity/{id}', 'Admin\Level4IntermediateActivityManagementController@delete');
 
 //PRO-VERSION
 Route::get('/copyConcept', 'Admin\Level4TemplateManagementController@copyConcept');
