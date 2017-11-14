@@ -23,7 +23,7 @@ class PersonalityTypeScaleManagementController extends Controller
     public function index()
     {
         $personalitytypescales = $this->objPersonalityscale->getAllPersonalityTypes();
-        return view('developer.ListPersonalityTypeScale' , compact('personalitytypescales'));
+        return view('developer.ListPersonalityTypeScale', compact('personalitytypescales'));
     }
 
     public function add()
@@ -40,7 +40,7 @@ class PersonalityTypeScaleManagementController extends Controller
         return view('developer.EditPersonalityTypeScale', compact('personalityDetail'));
     }
 
-    public function save(PersonalityTypeScaleRequest $PersonalityTypeScaleRequest)
+    public function save(PersonalityTypeScaleRequest $personalityTypeScaleRequest)
     {
         $personalityDetail = [];
 

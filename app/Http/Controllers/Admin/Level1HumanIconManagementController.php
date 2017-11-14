@@ -24,13 +24,13 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 class Level1HumanIconManagementController extends Controller
 {
 
-    public function __construct(FileStorageRepository $fileStorageRepository, Level1HumanIconRepository $Level1HumanIconRepository, TemplatesRepository $TemplatesRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, Level1HumanIconRepository $level1HumanIconRepository, TemplatesRepository $templatesRepository)
     {
         $this->objLevel1HumanActivity = new Level1HumanIcon();
-        $this->Level1HumanIconRepository = $Level1HumanIconRepository;
+        $this->level1HumanIconRepository = $level1HumanIconRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->objTemplates = new Templates();
-        $this->TemplateRepository = $TemplatesRepository;
+        $this->templateRepository = $templatesRepository;
         $this->humanOriginalImageUploadPath = Config::get('constant.HUMAN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageHeight = Config::get('constant.HUMAN_THUMB_IMAGE_HEIGHT');
@@ -41,7 +41,7 @@ class Level1HumanIconManagementController extends Controller
     public function index()
     {
         $humanThumbPath = $this->humanThumbImageUploadPath;
-        $level1humanicon = $this->Level1HumanIconRepository->getLeve1HumanIcon();
+        $level1humanicon = $this->level1HumanIconRepository->getLeve1HumanIcon();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.ListLevel1HumanIcon', compact('level1humanicon','humanThumbPath'));
     }
@@ -110,7 +110,7 @@ class Level1HumanIconManagementController extends Controller
             }
         }
         /* stop upload image of human icons */
-        $response = $this->Level1HumanIconRepository->saveLevel1HumanIconDetail($humanIconDetail,$profession);
+        $response = $this->level1HumanIconRepository->saveLevel1HumanIconDetail($humanIconDetail,$profession);
         Cache::forget('l1humanicon');
         if($response)
         {
@@ -128,7 +128,7 @@ class Level1HumanIconManagementController extends Controller
 
     public function delete($id)
     {
-        $return = $this->Level1HumanIconRepository->deleteLevel1HumanIcon($id);
+        $return = $this->level1HumanIconRepository->deleteLevel1HumanIcon($id);
         if ($return)
         {
              Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_LEVEL1_HUMAN_ICON'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.level1humandeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
@@ -219,7 +219,7 @@ class Level1HumanIconManagementController extends Controller
                     $humanIconDetail['hi_added_by'] = 0;
                     $humanIconDetail['deleted'] = 1;
                 
-                    $this->Level1HumanIconRepository->saveLevel1HumanIconDetail($humanIconDetail);
+                    $this->level1HumanIconRepository->saveLevel1HumanIconDetail($humanIconDetail);
 
                     $uploadCount ++;
                     
@@ -241,7 +241,7 @@ class Level1HumanIconManagementController extends Controller
     public function displayimage()
     {
         $searchParamArray = Input::all();
-        $level1Humanicon = $this->Level1HumanIconRepository->getLeve1HumanIconfromUsers($searchParamArray);
+        $level1Humanicon = $this->level1HumanIconRepository->getLeve1HumanIconfromUsers($searchParamArray);
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $humanThumbPath = $this->humanThumbImageUploadPath;
         return view('admin.ViewUserHumanIcon',compact('level1Humanicon','humanThumbPath'));
@@ -250,17 +250,17 @@ class Level1HumanIconManagementController extends Controller
     public function deletehumaniconuploadedbyuser($id)
     {
         $teenid = $_GET['tid'];
-        $return = $this->Level1HumanIconRepository->deleteLevel1HumanIconuploadedbyUser($id);
+        $return = $this->level1HumanIconRepository->deleteLevel1HumanIconuploadedbyUser($id);
         if ($return)
         {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_LEVEL1_CARTOON_ICON'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.cartoondeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
             $teenDetail = Helpers::getEmailaddress($teenid);
-            $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.DELETE_IMAGE'));
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.DELETE_IMAGE'));
                         $data = array();
                         $replaceArray = array();
                         $replaceArray['toName'] = $teenDetail[0]->t_name;
                         
-                        $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
                         $data['subject'] = $emailTemplateContent->et_subject;
                         $data['toEmail'] = $teenDetail[0]->t_email;
                         $data['toName'] = $teenDetail[0]->t_name;
@@ -284,7 +284,7 @@ class Level1HumanIconManagementController extends Controller
         $selectedIcons = Input::get('deleteIcons');
         if(isset($selectedIcons) && !empty($selectedIcons)){
             foreach($selectedIcons as $key=>$val){
-                $return = $this->Level1HumanIconRepository->deleteLevel1HumanIconuploadedbyUser($key);
+                $return = $this->level1HumanIconRepository->deleteLevel1HumanIconuploadedbyUser($key);
             }
             return Redirect::to("admin/viewHumanUserImage")->with('success', trans('labels.level1cartoondeletesuccess'));                      
         }else{

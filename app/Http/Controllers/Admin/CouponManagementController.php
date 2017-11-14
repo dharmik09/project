@@ -19,11 +19,11 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class CouponManagementController extends Controller {
 
-    public function __construct(FileStorageRepository $fileStorageRepository, CouponsRepository $CouponsRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, CouponsRepository $couponsRepository) {
         //$this->middleware('auth.admin');
         $this->fileStorageRepository = $fileStorageRepository;
         $this->objCoupons = new Coupons();
-        $this->CouponsRepository = $CouponsRepository;
+        $this->couponsRepository = $couponsRepository;
         $this->couponOriginalImageUploadPath = Config::get('constant.COUPON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->couponThumbImageUploadPath = Config::get('constant.COUPON_THUMB_IMAGE_UPLOAD_PATH');
         $this->couponThumbImageHeight = Config::get('constant.COUPON_THUMB_IMAGE_HEIGHT');
@@ -34,7 +34,7 @@ class CouponManagementController extends Controller {
 
     public function index() {
         $uploadCouponThumbPath = $this->couponThumbImageUploadPath;
-        $coupons = $this->CouponsRepository->getAllCoupons();
+        $coupons = $this->couponsRepository->getAllCoupons();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
 
         return view('admin.ListCoupons', compact('coupons', 'uploadCouponThumbPath'));
@@ -117,7 +117,7 @@ class CouponManagementController extends Controller {
             }
         }
 
-        $response = $this->CouponsRepository->saveCouponDetail($couponDetail);
+        $response = $this->couponsRepository->saveCouponDetail($couponDetail);
         if ($response) {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_COUPONS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.couponupdatesuccess'), serialize($couponDetail), $_SERVER['REMOTE_ADDR']);
 
@@ -130,7 +130,7 @@ class CouponManagementController extends Controller {
     }
 
     public function delete($id) {
-        $return = $this->CouponsRepository->deleteCoupon($id);
+        $return = $this->couponsRepository->deleteCoupon($id);
         if ($return) {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_COUPONS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.coupondeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
 
@@ -164,7 +164,7 @@ class CouponManagementController extends Controller {
                 $couponDetail['cp_sponsor'] = $result[5];
                 $couponDetail['cp_validfrom'] = $result[6];
                 $couponDetail['cp_validto'] = $result[7];
-                $response = $this->CouponsRepository->saveCouponBulkDetail($couponDetail);
+                $response = $this->couponsRepository->saveCouponBulkDetail($couponDetail);
             }
             $i++;
         }
@@ -178,8 +178,8 @@ class CouponManagementController extends Controller {
     
     public function couponUsage($couponId)
     {
-        $couponUsage =  $this->CouponsRepository->checkConsumeCouponByTeen($couponId);
-        $couponName = $this->CouponsRepository->getCouponsById($couponId);
+        $couponUsage =  $this->couponsRepository->checkConsumeCouponByTeen($couponId);
+        $couponName = $this->couponsRepository->getCouponsById($couponId);
         return view('admin.ListCouponUsage', compact('couponUsage', 'couponName'));
         
     }

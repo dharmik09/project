@@ -25,14 +25,14 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 class Level1CartoonIconManagementController extends Controller
 {
 
-    public function __construct(FileStorageRepository $fileStorageRepository, Level1CartoonIconRepository $Level1CartoonIconRepository, TemplatesRepository $TemplatesRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, Level1CartoonIconRepository $level1CartoonIconRepository, TemplatesRepository $templatesRepository)
     {
         //$this->middleware('auth.admin');
         $this->objLevel1CartoonActivity = new Level1CartoonIcon();
-        $this->Level1CartoonIconRepository = $Level1CartoonIconRepository;
+        $this->level1CartoonIconRepository = $level1CartoonIconRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->objTemplates = new Templates();
-        $this->TemplateRepository = $TemplatesRepository;
+        $this->templateRepository = $templatesRepository;
         $this->controller = 'Level1CartoonIconManagementController';
         $this->loggedInUser = Auth::guard('admin');
         $this->cartoonOriginalImageUploadPath = Config::get('constant.CARTOON_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -42,7 +42,7 @@ class Level1CartoonIconManagementController extends Controller
     }
     public function index()
     {
-        $level1cartoonicon = $this->Level1CartoonIconRepository->getLeve1CartoonIcon();
+        $level1cartoonicon = $this->level1CartoonIconRepository->getLeve1CartoonIcon();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $cartoonThumbPath = $this->cartoonThumbImageUploadPath;
         return view('admin.ListLevel1CartoonIcon',compact('level1cartoonicon','cartoonThumbPath'));
@@ -113,7 +113,7 @@ class Level1CartoonIconManagementController extends Controller
         }
 
         /* stop upload image of cartoons */
-        $response = $this->Level1CartoonIconRepository->saveLevel1CartoonIconDetail($cartoonIconDetail,$professions);
+        $response = $this->level1CartoonIconRepository->saveLevel1CartoonIconDetail($cartoonIconDetail,$professions);
         Cache::forget('l1cartoonicon');
         if($response)
         {
@@ -136,7 +136,7 @@ class Level1CartoonIconManagementController extends Controller
     {
         //echo asset($this->cartoonOriginalImageUploadPath.'cartoon_1459421710.jpg'); exit;
         // @unlink(asset($this->$cartoonOriginalImageUploadPath.'cartoon_1459421710.jpg'));
-        $return = $this->Level1CartoonIconRepository->deleteLevel1Cartoon($id);
+        $return = $this->level1CartoonIconRepository->deleteLevel1Cartoon($id);
         if ($return)
         {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_LEVEL1_CARTOON_ICON'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.cartoondeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
@@ -227,7 +227,7 @@ class Level1CartoonIconManagementController extends Controller
                     $cartoonIconDetail['ci_category'] = $cartooniconCategoryId;
                     $cartoonIconDetail['ci_image'] = $fileName;
                     $cartoonIconDetail['deleted'] = 1;
-                    $this->Level1CartoonIconRepository->saveLevel1CartoonIconDetail($cartoonIconDetail);
+                    $this->level1CartoonIconRepository->saveLevel1CartoonIconDetail($cartoonIconDetail);
 
                     $uploadCount = $uploadCount + 1;
                     }
@@ -247,7 +247,7 @@ class Level1CartoonIconManagementController extends Controller
     public function displayimage()
     {
         //$searchParamArray = Input::all();
-        $level1cartoonicon = $this->Level1CartoonIconRepository->getLeve1CartoonIconfromUsers();
+        $level1cartoonicon = $this->level1CartoonIconRepository->getLeve1CartoonIconfromUsers();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $cartoonThumbPath = $this->cartoonThumbImageUploadPath;
         //return view('admin.viewLevel1CartoonIcon',compact('level1cartoonicon','cartoonThumbPath'));
@@ -257,18 +257,18 @@ class Level1CartoonIconManagementController extends Controller
     public function deleteusericon($id)
     {
         $teenid = $_GET['tid'];
-        $return = $this->Level1CartoonIconRepository->deleteLevel1CartoonuploadedbyUser($id);
+        $return = $this->level1CartoonIconRepository->deleteLevel1CartoonuploadedbyUser($id);
         if ($return)
         {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_LEVEL1_CARTOON_ICON'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.cartoondeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
             $teenDetail = Helpers::getEmailaddress($teenid);
-            $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.DELETE_IMAGE'));
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.DELETE_IMAGE'));
                         //die($emailTemplateContent);
                         $data = array();
                         $replaceArray = array();
                         $replaceArray['toName'] = $teenDetail[0]->t_name;
                         
-                        $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
                         $data['subject'] = $emailTemplateContent->et_subject;
                         $data['toEmail'] = $teenDetail[0]->t_email;
                         $data['toName'] = $teenDetail[0]->t_name;
@@ -292,7 +292,7 @@ class Level1CartoonIconManagementController extends Controller
         $selectedIcons = Input::get('deleteIcons');
         if(isset($selectedIcons) && !empty($selectedIcons)){
             foreach($selectedIcons as $key=>$val){
-                $return = $this->Level1CartoonIconRepository->deleteLevel1CartoonuploadedbyUser($key);
+                $return = $this->level1CartoonIconRepository->deleteLevel1CartoonuploadedbyUser($key);
             }
             return Redirect::to("admin/viewUserImage")->with('success', trans('labels.level1cartoondeletesuccess'));                      
         }else{

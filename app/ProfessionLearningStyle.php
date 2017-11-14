@@ -43,8 +43,8 @@ class ProfessionLearningStyle extends Model{
             $whereStr = implode(" AND ", $whereArray);
         }
 
-        $learningStyle = DB::table(config::get('databaseconstants.TBL_PROFESSION_LEARNING_STYLE'). " AS LearningStyle ")
-                        ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'profession.id', '=', 'LearningStyle.pls_profession_id')
+        $learningStyle = DB::table(config::get('databaseconstants.TBL_PROFESSION_LEARNING_STYLE'). " AS LearningStyle")
+                        ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'profession.id', '=', 'LearningStyle.pls_profession_id')
                         ->selectRaw('LearningStyle.*, profession.pf_name, GROUP_CONCAT(LearningStyle.pls_activity_name ORDER BY LearningStyle.id ASC SEPARATOR "##") AS activity_name')
                         ->whereRaw($whereStr . $orderStr)
                         ->groupBy('LearningStyle.pls_profession_id')
@@ -54,9 +54,9 @@ class ProfessionLearningStyle extends Model{
     }
 
     public function getLearningStyleDetailsById($id) {
-        $learningStyle = DB::table(config::get('databaseconstants.TBL_PROFESSION_LEARNING_STYLE'). " AS LearningStyle ")
-                        ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'profession.id', '=', 'LearningStyle.pls_profession_id')
-                        ->leftjoin(config::get('databaseconstants.TBL_LEARNING_STYLE') . " AS LS ", 'LS.id', '=', 'LearningStyle.pls_parameter_id')
+        $learningStyle = DB::table(config::get('databaseconstants.TBL_PROFESSION_LEARNING_STYLE'). " AS LearningStyle")
+                        ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'profession.id', '=', 'LearningStyle.pls_profession_id')
+                        ->leftjoin(config::get('databaseconstants.TBL_LEARNING_STYLE') . " AS LS", 'LS.id', '=', 'LearningStyle.pls_parameter_id')
                         ->selectRaw('LearningStyle.*, profession.pf_name, LS.ls_name')
                         ->where('LearningStyle.pls_profession_id', $id)
                         ->where('LearningStyle.deleted','=',1)

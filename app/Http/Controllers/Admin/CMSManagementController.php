@@ -15,18 +15,18 @@ use App\Services\CMS\Contracts\CMSRepository;
 
 class CMSManagementController extends Controller
 {
-    public function __construct(CMSRepository $CMSRepository)
+    public function __construct(CMSRepository $cmsRepository)
     {
         //$this->middleware('auth.admin');
         $this->objCMS                = new CMS();
-        $this->CMSRepository         = $CMSRepository;
+        $this->cmsRepository         = $cmsRepository;
         $this->controller = 'CMSManagementController';
         $this->loggedInUser = Auth::guard('admin');
     }
 
     public function index()
     {
-        $cms = $this->CMSRepository->getAllCMS();
+        $cms = $this->cmsRepository->getAllCMS();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.ListCMS', compact('cms'));
     }
@@ -57,7 +57,7 @@ class CMSManagementController extends Controller
         $cmsDetail['cms_body']  = input::get('cms_body');
         $cmsDetail['deleted']  = e(input::get('deleted'));
 
-        $response = $this->CMSRepository->saveCMSDetail($cmsDetail);
+        $response = $this->cmsRepository->saveCMSDetail($cmsDetail);
         if($response)
         {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_CMS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.cmsupdatesuccess'),serialize($cmsDetail), $_SERVER['REMOTE_ADDR']);
@@ -72,7 +72,7 @@ class CMSManagementController extends Controller
     }
     public function delete($id)
     {
-        $return = $this->CMSRepository->deleteCMS($id);
+        $return = $this->cmsRepository->deleteCMS($id);
         if($return)
         {
              Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_CMS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.cmsdeletesuccess'), '', $_SERVER['REMOTE_ADDR']);

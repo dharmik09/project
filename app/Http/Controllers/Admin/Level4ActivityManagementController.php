@@ -21,10 +21,10 @@ use Cache;
 
 class Level4ActivityManagementController extends Controller {
 
-    public function __construct(ProfessionsRepository $ProfessionsRepository, Level4ActivitiesRepository $Level4ActivitiesRepository) {
-        $this->ProfessionsRepository = $ProfessionsRepository;
+    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
+        $this->professionsRepository = $professionsRepository;
         $this->objLevel4Activities = new Level4Activity();
-        $this->Level4ActivitiesRepository = $Level4ActivitiesRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->level4PointsForQuestions = Config::get('constant.LEVEL4_POINTS_FOR_QUESTION');
         $this->level4TimerForQuestions = Config::get('constant.LEVEL4_TIMER_FOR_QUESTION');
     }
@@ -37,12 +37,12 @@ class Level4ActivityManagementController extends Controller {
         }
         if (!empty($searchParamArray)) {
             Cache::forget('l4BasicActivity');
-            $leve4activities = $this->Level4ActivitiesRepository->getLevel4Details($searchParamArray);
+            $leve4activities = $this->level4ActivitiesRepository->getLevel4Details($searchParamArray);
         } else {
             if (Cache::has('l4BasicActivity')) {
                 $leve4activities = Cache::get('l4BasicActivity');
             }else{
-                $leve4activities = $this->Level4ActivitiesRepository->getLevel4Details($searchParamArray);
+                $leve4activities = $this->level4ActivitiesRepository->getLevel4Details($searchParamArray);
                 //Cache::add('l4basic', $leve4activities, 60);
                 Cache::forever('l4BasicActivity', $leve4activities);
             }
@@ -52,7 +52,7 @@ class Level4ActivityManagementController extends Controller {
 
     public function getIndex()
     {
-        $leve4activities = $this->Level4ActivitiesRepository->getLevel4DetailsDataObj()->get()->count();
+        $leve4activities = $this->level4ActivitiesRepository->getLevel4DetailsDataObj()->get()->count();
         $records = array();
         $columns = array(
             0 => 'id',
@@ -69,7 +69,7 @@ class Level4ActivityManagementController extends Controller {
         $iDisplayStart = intval(Input::get('start'));
         $sEcho = intval(Input::get('draw'));
 
-        $records["data"] = $this->Level4ActivitiesRepository->getLevel4DetailsDataObj();
+        $records["data"] = $this->level4ActivitiesRepository->getLevel4DetailsDataObj();
         if (!empty($search['value'])) {
             $val = $search['value'];
             $records["data"]->where(function($query) use ($val) {
@@ -110,7 +110,7 @@ class Level4ActivityManagementController extends Controller {
     public function add()
     {
         $activity4Detail = [];
-        $allActiveProfessions = $this->ProfessionsRepository->getAllActiveProfession();
+        $allActiveProfessions = $this->professionsRepository->getAllActiveProfession();
         
         return view('admin.EditLevel4Activity', compact('activity4Detail','allActiveProfessions'));
     }
@@ -118,7 +118,7 @@ class Level4ActivityManagementController extends Controller {
     public function edit($id)
     {
         $activity4Detail = $this->objLevel4Activities->getActiveLevel4Activity($id);
-        $allActiveProfessions = $this->ProfessionsRepository->getAllActiveProfession();
+        $allActiveProfessions = $this->professionsRepository->getAllActiveProfession();
         
         return view('admin.EditLevel4Activity', compact('activity4Detail','allActiveProfessions'));
     }
@@ -149,7 +149,7 @@ class Level4ActivityManagementController extends Controller {
       }
 
       $radio_val = input::get('correct_option');
-      $response = $this->Level4ActivitiesRepository->saveLevel4ActivityDetail($activity4Detail,$options,$radio_val);
+      $response = $this->level4ActivitiesRepository->saveLevel4ActivityDetail($activity4Detail,$options,$radio_val);
       Cache::forget('l4BasicActivity');
       if($response)
       {
@@ -164,7 +164,7 @@ class Level4ActivityManagementController extends Controller {
 
     public function delete($id)
     {
-        $return = $this->Level4ActivitiesRepository->deleteLevel4Activity($id);
+        $return = $this->level4ActivitiesRepository->deleteLevel4Activity($id);
         if ($return)
         {
 
@@ -191,7 +191,7 @@ class Level4ActivityManagementController extends Controller {
                             if ($flag5 < 5) {
                                 if ($flag5 == 0) {
                                     if (isset($row['profession_name']) && $row['profession_name'] != '') {
-                                        $getProfessionId = $this->ProfessionsRepository->getProfessionsData(trim($row['profession_name']));
+                                        $getProfessionId = $this->professionsRepository->getProfessionsData(trim($row['profession_name']));
                                     }
                                 }
                                 $flag5++;
@@ -204,7 +204,7 @@ class Level4ActivityManagementController extends Controller {
                                     $dataQuestionTable['type'] = (isset($row['truefalse_qnaidentified']) && $row['truefalse_qnaidentified'] != '') ? $row['truefalse_qnaidentified'] : 0;
                                     $dataQuestionTable['deleted'] = 1;
                                     //save level 4 question in question table
-                                    $saveLevel4Question = $this->Level4ActivitiesRepository->saveLevel4Question($dataQuestionTable);
+                                    $saveLevel4Question = $this->level4ActivitiesRepository->saveLevel4Question($dataQuestionTable);
 
                                     if (isset($saveLevel4Question) && $saveLevel4Question != '') {
                                         $questionOptions[1] = (isset($row['answer_choice_1']) && $row['answer_choice_1'] != '')? $row['answer_choice_1'] : '' ;
@@ -219,7 +219,7 @@ class Level4ActivityManagementController extends Controller {
                                         $dataQuestionOptionTable['correct_option'] = $checkCorrectAns;
 
                                         //save level 4 question options in option table
-                                        $saveLevel4Options = $this->Level4ActivitiesRepository->saveLevel4Options($dataQuestionOptionTable);
+                                        $saveLevel4Options = $this->level4ActivitiesRepository->saveLevel4Options($dataQuestionOptionTable);
                                     }
                                 }
                             }

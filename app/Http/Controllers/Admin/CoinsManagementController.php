@@ -24,9 +24,9 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class CoinsManagementController extends Controller {
 
-    public function __construct(FileStorageRepository $fileStorageRepository, CoinRepository $CoinRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, CoinRepository $coinRepository) {
         $this->objCoins = new Coins();
-        $this->CoinRepository =  $CoinRepository;
+        $this->coinRepository =  $coinRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->invoiceUploadedPath = Config::get('constant.INVOICE_UPLOAD_PATH');
         $this->coinsOriginalImageUploadPath = Config::get('constant.COINS_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -36,7 +36,7 @@ class CoinsManagementController extends Controller {
     }
 
     public function index() {
-        $coinsDetail = $this->CoinRepository->getAllCoins();
+        $coinsDetail = $this->coinRepository->getAllCoins();
         return view('admin.ListCoinsPackage', compact('coinsDetail'));
     }
 
@@ -97,7 +97,7 @@ class CoinsManagementController extends Controller {
             }
         }
 
-        $response = $this->CoinRepository->saveCoinDetail($coinData);
+        $response = $this->coinRepository->saveCoinDetail($coinData);
         if ($response) {
             return Redirect::to("admin/coins")->with('success', trans('labels.coinupdatesuccess'));
         } else {
@@ -105,7 +105,7 @@ class CoinsManagementController extends Controller {
         }
     }
     public function delete($id) {
-        $return = $this->CoinRepository->deleteCoins($id);
+        $return = $this->coinRepository->deleteCoins($id);
         if ($return) {
            return Redirect::to("admin/coins")->with('success', trans('labels.coindeletesuccess'));
         } else {

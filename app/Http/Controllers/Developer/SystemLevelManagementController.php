@@ -39,7 +39,7 @@ class SystemLevelManagementController extends Controller
         return view('developer.EditSystemLevel' , compact('systemlevelDetail'));
     }
 
-    public function save(SystemLevelRequest $SystemLevelRequest)
+    public function save(SystemLevelRequest $systemLevelRequest)
     {
         $systemlevelDetail = [];
 

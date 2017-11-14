@@ -40,7 +40,7 @@ class MultipleIntelligenceTypeScaleManagementController extends Controller
         return view('developer.EditMultipleIntelligenceTypeScale', compact('miDetail'));
     }
 
-    public function save(MultipleIntelligenceTypeScaleRequest $MultipleIntelligenceTypeScaleRequest)
+    public function save(MultipleIntelligenceTypeScaleRequest $multipleIntelligenceTypeScaleRequest)
     {
         $multipleintelligenceDetail = [];
 

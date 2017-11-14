@@ -21,8 +21,7 @@ class Level1QualityManagementController  extends Controller
 
     public function index()
     {
-        $searchParamArray = Input::all();
-        $level1qualities = $this->objLevel1Quality->getAllLevel1Qualities($searchParamArray);
+        $level1qualities = $this->objLevel1Quality->getAllLevel1Qualities();
         return view('developer.ListLevel1Qualities' , compact('level1qualities'));
     }
 
@@ -40,7 +39,7 @@ class Level1QualityManagementController  extends Controller
         return view('developer.EditLevel1Quality', compact('qualityDetail'));
     }
 
-    public function save(Level1QualitiesRequest $Level1QualitiesRequest)
+    public function save(Level1QualitiesRequest $level1QualitiesRequest)
     {
         $qualityDetail = [];
 

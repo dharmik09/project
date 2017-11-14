@@ -16,7 +16,7 @@ class Level1Qualities extends Model
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getAllLevel1Qualities($searchParamArray = array())
+    public function getAllLevel1Qualities()
     {
         $level1qualities = $this->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
 

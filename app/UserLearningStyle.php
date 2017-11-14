@@ -23,8 +23,8 @@ class UserLearningStyle extends Model {
     }
 
     public function getUserLearningDetailById($id,$pid,$lid) {
-        $learningStyle = DB::table(config::get('databaseconstants.TBL_USER_LEARNING_STYLE'). " AS LearningStyle ")
-                        ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession ", 'profession.id', '=', 'LearningStyle.uls_profession_id')
+        $learningStyle = DB::table(config::get('databaseconstants.TBL_USER_LEARNING_STYLE'). " AS LearningStyle")
+                        ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'profession.id', '=', 'LearningStyle.uls_profession_id')
                         ->selectRaw('LearningStyle.*, profession.pf_name')
                         ->where('LearningStyle.uls_teenager_id', $id)
                         ->where('LearningStyle.uls_profession_id', $pid)

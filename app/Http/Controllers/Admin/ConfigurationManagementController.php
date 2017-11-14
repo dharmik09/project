@@ -22,16 +22,16 @@ use App\Services\Configurations\Contracts\ConfigurationsRepository;
 
 class ConfigurationManagementController extends Controller {
 
-    public function __construct(ConfigurationsRepository $ConfigurationsRepository) {
+    public function __construct(ConfigurationsRepository $configurationsRepository) {
         //$this->middleware('auth.admin');
         $this->objConfigurations = new Configurations();
-        $this->ConfigurationsRepository = $ConfigurationsRepository;
+        $this->configurationsRepository = $configurationsRepository;
         $this->controller = 'ConfigurationManagementController';
         $this->loggedInUser = Auth::guard('admin');
     }
 
     public function index() {
-        $configurations = $this->ConfigurationsRepository->getAllConfigurations();
+        $configurations = $this->configurationsRepository->getAllConfigurations();
         return view('admin.ListConfiguration', compact('configurations'));
     }
 
@@ -50,7 +50,7 @@ class ConfigurationManagementController extends Controller {
         $configurationDetail['id'] = e(Input::get('id'));
         $configurationDetail['cfg_key'] = e(Input::get('cfg_key'));
         $configurationDetail['cfg_value'] = e(Input::get('cfg_value'));
-        $configurationDetail = $this->ConfigurationsRepository->saveConfigurationDetail($configurationDetail);
+        $configurationDetail = $this->configurationsRepository->saveConfigurationDetail($configurationDetail);
         return Redirect::to("admin/configurations")->with('success', trans('labels.configurationupdatesuccess'));
     }
 }

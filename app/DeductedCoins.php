@@ -19,9 +19,9 @@ class DeductedCoins extends Model  {
     }
 
     public function getDeductedCoinsDetail($id,$type) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid ", 'paid.id', '=', 'd_coins.dc_component_name')
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.dc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
                 ->where('d_coins.dc_user_id',$id)
                 ->where('d_coins.dc_total_coins','!=',0)
@@ -33,7 +33,7 @@ class DeductedCoins extends Model  {
     }
 
     public function getDeductedCoinsDetailById($teenId, $proId, $type,$comType) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
                     ->selectRaw('d_coins.*')
                     ->where('d_coins.dc_user_id',$teenId)
                     ->where('d_coins.dc_user_type',$type)
@@ -46,7 +46,7 @@ class DeductedCoins extends Model  {
     }
 
     public function getDeductedCoinsDetailByIdForLS($teenId, $comType, $type) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
                     ->selectRaw('d_coins.*')
                     ->where('d_coins.dc_user_id',$teenId)
                     ->where('d_coins.dc_user_type',$type)
@@ -58,9 +58,9 @@ class DeductedCoins extends Model  {
     }
 
     public function getDeductedCoinsDetailByProfession($id,$type,$profession) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid ", 'paid.id', '=', 'd_coins.dc_component_name')
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.dc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
                 ->where('d_coins.dc_user_id',$id)
                 ->where('d_coins.dc_user_type',$type)
@@ -76,9 +76,9 @@ class DeductedCoins extends Model  {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid ", 'paid.id', '=', 'd_coins.dc_component_name')
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.dc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
                 ->where('d_coins.dc_user_id',$id)
                 ->where('d_coins.dc_user_type',$type)
@@ -93,9 +93,9 @@ class DeductedCoins extends Model  {
     }
 
     public function getDeductedCoinsDetailForPS($id,$type) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid ", 'paid.id', '=', 'd_coins.dc_component_name')
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.dc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
                 ->where('d_coins.dc_user_id',$id)
                 ->where('d_coins.dc_total_coins','!=',0)
@@ -108,9 +108,9 @@ class DeductedCoins extends Model  {
     }
 
     public function getDeductedCoinsDetailForLS($id,$type) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid ", 'paid.id', '=', 'd_coins.dc_component_name')
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.dc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
                 ->where('d_coins.dc_user_id',$id)
                 ->where('d_coins.dc_total_coins','!=',0)
@@ -126,9 +126,9 @@ class DeductedCoins extends Model  {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid ", 'paid.id', '=', 'd_coins.dc_component_name')
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.dc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
                 ->where('d_coins.dc_user_id',$id)
                 ->where('d_coins.dc_user_type',$type)
@@ -144,9 +144,9 @@ class DeductedCoins extends Model  {
     }
 
     public function getAllDeductedCoinsDetail($id,$type) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins ")
-                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid ", 'paid.id', '=', 'd_coins.dc_component_name')
-                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.dc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
+                ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
+                ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
                 ->where('d_coins.dc_user_id',$id)
                 ->where('d_coins.dc_total_coins','!=',0)

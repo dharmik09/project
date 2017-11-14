@@ -26,11 +26,11 @@ use Cache;
 
 class CareerMappingManagementController extends Controller {
 
-    public function __construct(TeenagersRepository $TeenagersRepository, ProfessionsRepository $ProfessionsRepository, CareerMappingRepository $CareerMappingRepository) {
+    public function __construct(TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, CareerMappingRepository $careerMappingRepository) {
         $this->objTeenagers = new Teenagers();
-        $this->TeenagersRepository = $TeenagersRepository;
-        $this->ProfessionsRepository = $ProfessionsRepository;
-        $this->CareerMappingRepository = $CareerMappingRepository;
+        $this->teenagersRepository = $teenagersRepository;
+        $this->professionsRepository = $professionsRepository;
+        $this->careerMappingRepository = $careerMappingRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
@@ -40,7 +40,7 @@ class CareerMappingManagementController extends Controller {
     }
 
     public function index() {
-        $careerdetail = $this->TeenagersRepository->getAllTeenagerCareerMap();
+        $careerdetail = $this->teenagersRepository->getAllTeenagerCareerMap();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
 
         return view('admin.ListCareerMapping', compact('careerdetail'));
@@ -64,7 +64,7 @@ class CareerMappingManagementController extends Controller {
             //echo "<pre>"; print_r($results); exit;
             foreach ($results as $result) {
                 $tcm_profession = 0;
-                $professionid = $this->ProfessionsRepository->getProfessionIdByName($result['profession_name']);
+                $professionid = $this->professionsRepository->getProfessionIdByName($result['profession_name']);
                 $mainArray['tcm_profession'] = $professionid;
                 $mainArray['tcm_scientific_reasoning'] = $result['scientific_reasoning'];
                 $mainArray['tcm_verbal_reasoning'] = $result['verbal_reasoning'];
@@ -91,12 +91,12 @@ class CareerMappingManagementController extends Controller {
                 $mainArray['tcm_intrapersonal'] = $result['intrapersonal'];
                 $mainArray['tcm_existential'] = $result['existential'];
                 if ($professionid > 0) {
-                    $checkprofessionid = $this->TeenagersRepository->checkTeenCareerMappingProfessionId($professionid);
+                    $checkprofessionid = $this->teenagersRepository->checkTeenCareerMappingProfessionId($professionid);
                     if (count($checkprofessionid) > 0) {
-                        $this->TeenagersRepository->UpdateTeenCareerMapping($mainArray, $professionid);
+                        $this->teenagersRepository->UpdateTeenCareerMapping($mainArray, $professionid);
                     } else {
                         $mainArray['tcm_profession'] = $professionid;
-                        $this->TeenagersRepository->addTeenCareerMapping($mainArray);
+                        $this->teenagersRepository->addTeenCareerMapping($mainArray);
                     }
                 }
             }
@@ -139,7 +139,7 @@ class CareerMappingManagementController extends Controller {
         $cmDetails['tcm_existential'] = e(Input::get('tcm_existential'));
         $cmDetails['deleted'] = 1;
         $postData['pageRank'] = Input::get('pageRank');
-        $result = $this->CareerMappingRepository->saveCareerMapping($cmDetails);
+        $result = $this->careerMappingRepository->saveCareerMapping($cmDetails);
         Cache::forget('careerdetail');
         if ($result) {
             return Redirect::to("admin/careerMapping".$postData['pageRank'])->with('success', trans('labels.careearmappingaddsuccess'));
@@ -149,7 +149,7 @@ class CareerMappingManagementController extends Controller {
     }
     
     public function edit($id){
-        $cmDetails = $this->CareerMappingRepository->getCareerMappingDetailsById($id);
+        $cmDetails = $this->careerMappingRepository->getCareerMappingDetailsById($id);
         
         return view('admin.EditCareerMapping', compact('cmDetails'));
     }

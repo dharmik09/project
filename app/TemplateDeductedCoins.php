@@ -31,9 +31,9 @@ class TemplateDeductedCoins extends Model {
     }
 
     public function getDeductedCoinsDetail($userid,$type) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins ")
-                    ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template ", 'template.id', '=', 'd_coins.tdc_template_id')
-                    ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.tdc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins")
+                    ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template", 'template.id', '=', 'd_coins.tdc_template_id')
+                    ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.tdc_profession_id')
                     ->selectRaw('d_coins.* , template.gt_template_title, pro.pf_name')
                     ->where('d_coins.tdc_user_id',$userid)
                     ->where('d_coins.tdc_user_type',$type)
@@ -45,9 +45,9 @@ class TemplateDeductedCoins extends Model {
     }
 
     public function getDeductedCoinsDetailByProfession($id,$profession, $type) {
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins ")
-                    ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template ", 'template.id', '=', 'd_coins.tdc_template_id')
-                    ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.tdc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins")
+                    ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template", 'template.id', '=', 'd_coins.tdc_template_id')
+                    ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.tdc_profession_id')
                     ->selectRaw('d_coins.* , template.gt_template_title, pro.pf_name')
                     ->where('d_coins.tdc_user_id',$id)
                     ->where('d_coins.tdc_user_type',$type)
@@ -62,9 +62,9 @@ class TemplateDeductedCoins extends Model {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins ")
-                    ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template ", 'template.id', '=', 'd_coins.tdc_template_id')
-                    ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.tdc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins")
+                    ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template", 'template.id', '=', 'd_coins.tdc_template_id')
+                    ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.tdc_profession_id')
                     ->selectRaw('d_coins.* , template.gt_template_title, pro.pf_name')
                     ->where('d_coins.tdc_user_id',$id)
                     ->where('d_coins.tdc_user_type',$type)
@@ -81,9 +81,9 @@ class TemplateDeductedCoins extends Model {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins ")
-                    ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template ", 'template.id', '=', 'd_coins.tdc_template_id')
-                    ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro ", 'pro.id', '=', 'd_coins.tdc_profession_id')
+        $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins")
+                    ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template", 'template.id', '=', 'd_coins.tdc_template_id')
+                    ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.tdc_profession_id')
                     ->selectRaw('d_coins.* , template.gt_template_title, pro.pf_name')
                     ->where('d_coins.tdc_user_id',$id)
                     ->where('d_coins.tdc_user_type',$type)

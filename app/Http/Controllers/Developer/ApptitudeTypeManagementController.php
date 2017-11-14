@@ -48,7 +48,7 @@ class ApptitudeTypeManagementController extends Controller
         return view('developer.EditApptitudeType', compact('apptitudeDetail','apptitudeThumbPath'));
     }
 
-    public function save(ApptitudeTypeRequest $ApptitudeTypeRequest)
+    public function save(ApptitudeTypeRequest $apptitudeTypeRequest)
     {
         $apptitudeDetail = [];
         

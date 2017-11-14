@@ -29,13 +29,13 @@ use Cache;
 
 class Level4AdvanceActivityManagementController extends Controller {
 
-    public function __construct(ProfessionsRepository $ProfessionsRepository, Level4ActivitiesRepository $Level4ActivitiesRepository, TeenagersRepository $TeenagersRepository, TemplatesRepository $TemplatesRepository, ParentsRepository $ParentsRepository) {
-        $this->ProfessionsRepository = $ProfessionsRepository;
-        $this->TeenagersRepository = $TeenagersRepository;
-        $this->ParentsRepository = $ParentsRepository;
+    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository) {
+        $this->professionsRepository = $professionsRepository;
+        $this->teenagersRepository = $teenagersRepository;
+        $this->parentsRepository = $parentsRepository;
         $this->objLevel4Activities = new Level4Activity();
-        $this->TemplateRepository = $TemplatesRepository;
-        $this->Level4ActivitiesRepository = $Level4ActivitiesRepository;
+        $this->templateRepository = $templatesRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->level4PointsForQuestions = Config::get('constant.LEVEL4_POINTS_FOR_QUESTION');
         $this->level4TimerForQuestions = Config::get('constant.LEVEL4_TIMER_FOR_QUESTION');
         $this->level4AdvanceOriginalImageUploadPath = Config::get('constant.LEVEL4_ADVANCE_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -53,12 +53,12 @@ class Level4AdvanceActivityManagementController extends Controller {
         }
          if (!empty($searchParamArray)) {
             Cache::forget('l4advanceactivities');
-            $leve4advanceactivities = $this->Level4ActivitiesRepository->getAllLevel4AdvanceActivity($searchParamArray);
+            $leve4advanceactivities = $this->level4ActivitiesRepository->getAllLevel4AdvanceActivity($searchParamArray);
         } else {
             if (Cache::has('l4advanceactivities')) {
                 $leve4advanceactivities = Cache::get('l4advanceactivities');
             } else {
-                $leve4advanceactivities = $this->Level4ActivitiesRepository->getAllLevel4AdvanceActivity($searchParamArray);
+                $leve4advanceactivities = $this->level4ActivitiesRepository->getAllLevel4AdvanceActivity($searchParamArray);
                 Cache::forever('l4advanceactivities', $leve4advanceactivities);
             }
         }
@@ -71,7 +71,7 @@ class Level4AdvanceActivityManagementController extends Controller {
     }
 
     public function edit($id) {
-        $level4advacneactvityDetail = $this->Level4ActivitiesRepository->getLevel4AdvanceActivityById($id);
+        $level4advacneactvityDetail = $this->level4ActivitiesRepository->getLevel4AdvanceActivityById($id);
         return view('admin.EditLevel4AdavanceActivity', compact('level4advacneactvityDetail'));
     }
 
@@ -86,7 +86,7 @@ class Level4AdvanceActivityManagementController extends Controller {
             $saveData['l4aa_description'] = $allPostdata['description'];
             $saveData['deleted'] = $allPostdata['deleted'];
         }
-        $response = $this->Level4ActivitiesRepository->saveLevel4AdvanceActivityDetail($saveData);
+        $response = $this->level4ActivitiesRepository->saveLevel4AdvanceActivityDetail($saveData);
         Cache::forget('l4advanceactivities');
         if ($response) {
             return Redirect::to("admin/listlevel4advanceactivity")->with('success', trans('labels.level4activityupdatesuccess'));
@@ -96,7 +96,7 @@ class Level4AdvanceActivityManagementController extends Controller {
     }
 
     public function delete($id) {
-        $return = $this->Level4ActivitiesRepository->deleteLevel4AdvanceActivity($id);
+        $return = $this->level4ActivitiesRepository->deleteLevel4AdvanceActivity($id);
         if ($return) {
             return Redirect::to("admin/listlevel4advanceactivity")->with('success', trans('labels.level4activitydeletesuccess'));
         } else {
@@ -114,7 +114,7 @@ class Level4AdvanceActivityManagementController extends Controller {
             unset($searchParamArray);
             $searchParamArray = array();
         }
-        $userTasks = $this->Level4ActivitiesRepository->getUserTaskForAdmin($searchParamArray);
+        $userTasks = $this->level4ActivitiesRepository->getUserTaskForAdmin($searchParamArray);
         return view('admin.ListLevel4AdvanceActivityUser', compact('userTasks','searchParamArray'));
     }
 
@@ -125,12 +125,12 @@ class Level4AdvanceActivityManagementController extends Controller {
     public function viewUserAllAdvanceActivities($teenager, $profession, $typeId = 3) {
         $level4AdvanceThumbImageUploadPath = $this->level4AdvanceThumbImageUploadPath;
         $level4AdvanceOriginalImageUploadPath = $this->level4AdvanceOriginalImageUploadPath;
-        $professionDetail = $this->ProfessionsRepository->getProfessionsDataFromId($profession);
-        $teenagerDetail = $this->TeenagersRepository->getTeenagerById($teenager);
+        $professionDetail = $this->professionsRepository->getProfessionsDataFromId($profession);
+        $teenagerDetail = $this->teenagersRepository->getTeenagerById($teenager);
 
-        $userAllImageTasks = $this->Level4ActivitiesRepository->getUserAllTasksForAdvanceLevel($teenager, $profession, Config::get('constant.ADVANCE_IMAGE_TYPE'));
-        $userAllDocumentTasks = $this->Level4ActivitiesRepository->getUserAllTasksForAdvanceLevel($teenager, $profession, Config::get('constant.ADVANCE_DOCUMENT_TYPE'));
-        $userAllVideoTasks = $this->Level4ActivitiesRepository->getUserAllTasksForAdvanceLevel($teenager, $profession, Config::get('constant.ADVANCE_VIDEO_TYPE'));
+        $userAllImageTasks = $this->level4ActivitiesRepository->getUserAllTasksForAdvanceLevel($teenager, $profession, Config::get('constant.ADVANCE_IMAGE_TYPE'));
+        $userAllDocumentTasks = $this->level4ActivitiesRepository->getUserAllTasksForAdvanceLevel($teenager, $profession, Config::get('constant.ADVANCE_DOCUMENT_TYPE'));
+        $userAllVideoTasks = $this->level4ActivitiesRepository->getUserAllTasksForAdvanceLevel($teenager, $profession, Config::get('constant.ADVANCE_VIDEO_TYPE'));
         $validTypeArr = array(Config::get('constant.ADVANCE_IMAGE_TYPE'), Config::get('constant.ADVANCE_DOCUMENT_TYPE'), Config::get('constant.ADVANCE_VIDEO_TYPE'));
         $typeId = intval($typeId);
         if (in_array($typeId, $validTypeArr)) {
@@ -151,7 +151,7 @@ class Level4AdvanceActivityManagementController extends Controller {
         $photos = [];
         if ($postData['typeId'] == 3) {
             foreach ($postData['note'] as $key => $value) {
-                $data = $this->Level4ActivitiesRepository->getImageNameById($key);
+                $data = $this->level4ActivitiesRepository->getImageNameById($key);
                 $photo = $data[0]->l4aaua_media_name;
                 if ($photo != '' && file_exists($this->level4AdvanceThumbImageUploadPath . $photo)) {
                     $image[] = asset($this->level4AdvanceThumbImageUploadPath . $photo);
@@ -172,7 +172,7 @@ class Level4AdvanceActivityManagementController extends Controller {
                     $saveUserData['l4aaua_note'] = isset($postData['note'][$key]) ? $postData['note'][$key] : '';
                     $saveUserData['l4aaua_verified_by'] = Auth::guard('admin')->user()->id;
                     $saveUserData['l4aaua_verified_date'] = date('Y-m-d');
-                    $this->Level4ActivitiesRepository->updateUserTaskStatusByAdmin($key, $saveUserData);
+                    $this->level4ActivitiesRepository->updateUserTaskStatusByAdmin($key, $saveUserData);
 
                     $teenagerLevel4PointsRow = [];
                     $teenagerLevel4PointsRow['tlb_teenager'] = $postData['teenager'];
@@ -217,8 +217,8 @@ class Level4AdvanceActivityManagementController extends Controller {
                 $userData['uls_earned_points'] = $earnedPoints;
                 $result = $objUserLearningStyle->saveUserLearningStyle($userData);
             }
-            $ProfessionName = $this->ProfessionsRepository->getProfessionNameById($professionId);
-            $result = $this->TeenagersRepository->getTeenagerByTeenagerId($teenId);
+            $ProfessionName = $this->professionsRepository->getProfessionNameById($professionId);
+            $result = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
 
             $objDeviceToken = new DeviceToken();
             $tokenResult = $objDeviceToken->getDeviceTokenDetail($result['id']);
@@ -235,7 +235,7 @@ class Level4AdvanceActivityManagementController extends Controller {
                     }
                 }
             }
-            /*$getTeenagerBoosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($result['id']);
+            /*$getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($result['id']);
             if (!empty($getTeenagerBoosterPoints)) {
                 $return = Helpers::sendMilestoneNotification($result['id'],$getTeenagerBoosterPoints['total']);
             }*/
@@ -252,8 +252,8 @@ class Level4AdvanceActivityManagementController extends Controller {
             $replaceArray['TEEN_NAME'] = $result['t_name'];
             $replaceArray['PROFESSION_NAME'] = $ProfessionName;
             $replaceArray['TASK_TYPE'] = $type;
-            $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.USER_TASK_REVIEW_TEMPLATE'));
-            $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.USER_TASK_REVIEW_TEMPLATE'));
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
             $data = array();
             $data['subject'] = 'User Advances Task Approved';
@@ -278,7 +278,7 @@ class Level4AdvanceActivityManagementController extends Controller {
         $postData = Input::all();
         if (isset($postData) && !empty($postData)) {
             $id = $postData['task_id'];
-            $result = $this->Level4ActivitiesRepository->deleteUserAdvanceTask($id);
+            $result = $this->level4ActivitiesRepository->deleteUserAdvanceTask($id);
             if ($result) {
                 if ($postData['media_type'] == 3) {
                     unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
@@ -300,7 +300,7 @@ class Level4AdvanceActivityManagementController extends Controller {
             unset($searchParamArray);
             $searchParamArray = array();
         }
-        $userTasks = $this->Level4ActivitiesRepository->getParentTaskForAdmin($searchParamArray);
+        $userTasks = $this->level4ActivitiesRepository->getParentTaskForAdmin($searchParamArray);
         return view('admin.ListLevel4AdvanceActivityParent', compact('userTasks','searchParamArray'));
     }
 
@@ -311,12 +311,12 @@ class Level4AdvanceActivityManagementController extends Controller {
     public function viewParentAllAdvanceActivities($parent, $profession, $typeId = 3) {
         $level4AdvanceThumbImageUploadPath = $this->level4AdvanceThumbImageUploadPath;
         $level4AdvanceOriginalImageUploadPath = $this->level4AdvanceOriginalImageUploadPath;
-        $professionDetail = $this->ProfessionsRepository->getProfessionsDataFromId($profession);
-        $parentDetail = $this->ParentsRepository->getParentById($parent);
+        $professionDetail = $this->professionsRepository->getProfessionsDataFromId($profession);
+        $parentDetail = $this->parentsRepository->getParentById($parent);
 
-        $userAllImageTasks = $this->Level4ActivitiesRepository->getParentAllTasksForAdvanceLevel($parent, $profession, Config::get('constant.ADVANCE_IMAGE_TYPE'));
-        $userAllDocumentTasks = $this->Level4ActivitiesRepository->getParentAllTasksForAdvanceLevel($parent, $profession, Config::get('constant.ADVANCE_DOCUMENT_TYPE'));
-        $userAllVideoTasks = $this->Level4ActivitiesRepository->getParentAllTasksForAdvanceLevel($parent, $profession, Config::get('constant.ADVANCE_VIDEO_TYPE'));
+        $userAllImageTasks = $this->level4ActivitiesRepository->getParentAllTasksForAdvanceLevel($parent, $profession, Config::get('constant.ADVANCE_IMAGE_TYPE'));
+        $userAllDocumentTasks = $this->level4ActivitiesRepository->getParentAllTasksForAdvanceLevel($parent, $profession, Config::get('constant.ADVANCE_DOCUMENT_TYPE'));
+        $userAllVideoTasks = $this->level4ActivitiesRepository->getParentAllTasksForAdvanceLevel($parent, $profession, Config::get('constant.ADVANCE_VIDEO_TYPE'));
         $validTypeArr = array(Config::get('constant.ADVANCE_IMAGE_TYPE'), Config::get('constant.ADVANCE_DOCUMENT_TYPE'), Config::get('constant.ADVANCE_VIDEO_TYPE'));
         $typeId = intval($typeId);
         if (in_array($typeId, $validTypeArr)) {
@@ -337,7 +337,7 @@ class Level4AdvanceActivityManagementController extends Controller {
         $photos = [];
         if ($postData['typeId'] == 3) {
             foreach ($postData['note'] as $key => $value) {
-                $data = $this->Level4ActivitiesRepository->getImageNameByIdForParent($key);
+                $data = $this->level4ActivitiesRepository->getImageNameByIdForParent($key);
                 $photo = $data[0]->l4aapa_media_name;
                 if ($photo != '' && file_exists($this->level4AdvanceThumbImageUploadPath . $photo)) {
                     $image[] = asset($this->level4AdvanceThumbImageUploadPath . $photo);
@@ -358,7 +358,7 @@ class Level4AdvanceActivityManagementController extends Controller {
                     $saveUserData['l4aapa_note'] = isset($postData['note'][$key]) ? $postData['note'][$key] : '';
                     $saveUserData['l4aapa_verified_by'] = Auth::guard('admin')->user()->id;
                     $saveUserData['l4aapa_verified_date'] = date('Y-m-d');
-                    $this->Level4ActivitiesRepository->updateParentTaskStatusByAdmin($key, $saveUserData);
+                    $this->level4ActivitiesRepository->updateParentTaskStatusByAdmin($key, $saveUserData);
 
                     $parentLevel4PointsRow = [];
                     $parentLevel4PointsRow['plb_parent_id'] = $postData['parent'];
@@ -387,15 +387,15 @@ class Level4AdvanceActivityManagementController extends Controller {
               $type = 'Video';
             }
 
-            $parentDetail = $this->ParentsRepository->getParentById($postData['parent']);
-            $ProfessionName = $this->ProfessionsRepository->getProfessionNameById($postData['profession_id']);
+            $parentDetail = $this->parentsRepository->getParentById($postData['parent']);
+            $ProfessionName = $this->professionsRepository->getProfessionNameById($postData['profession_id']);
 
             $replaceArray = array();
             $replaceArray['TEEN_NAME'] = $parentDetail->p_first_name;
             $replaceArray['PROFESSION_NAME'] = $ProfessionName;
             $replaceArray['TASK_TYPE'] = $type;
-            $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.USER_TASK_REVIEW_TEMPLATE'));
-            $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.USER_TASK_REVIEW_TEMPLATE'));
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
             $data = array();
             $data['subject'] = 'User Advances Task Approved';
@@ -421,7 +421,7 @@ class Level4AdvanceActivityManagementController extends Controller {
         $postData = Input::all();
         if (isset($postData) && !empty($postData)) {
             $id = $postData['task_id'];
-            $result = $this->Level4ActivitiesRepository->deleteParentAdvanceTask($id);
+            $result = $this->level4ActivitiesRepository->deleteParentAdvanceTask($id);
             if ($result) {
                 if ($postData['media_type'] == 3) {
                     unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
