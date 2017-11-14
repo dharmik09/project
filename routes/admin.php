@@ -135,6 +135,13 @@ Route::post('/savelevel4IntermediateMedia/', 'Admin\Level4IntermediateActivityMa
 Route::post('/deleteLevel4IntermediateMediaById/', 'Admin\Level4IntermediateActivityManagementController@deleteLevel4IntermediateMediaById');
 Route::get('/deletelevel4IntermediateActivity/{id}', 'Admin\Level4IntermediateActivityManagementController@delete');
 
+Route::get('/listlevel4advanceactivity', 'Admin\Level4AdvanceActivityManagementController@index');
+Route::post('/listlevel4advanceactivity', 'Admin\Level4AdvanceActivityManagementController@index');
+Route::get('/editlevel4advanceactivity/{id}', 'Admin\Level4AdvanceActivityManagementController@edit');
+Route::get('/deletelevel4advanceactivity/{id}', 'Admin\Level4AdvanceActivityManagementController@delete');
+Route::post('/savelevel4advanceactivity', 'Admin\Level4AdvanceActivityManagementController@savelevel4advanceactivity');
+Route::get('/level4advanceactivity', 'Admin\Level4AdvanceActivityManagementController@add');
+
 //PRO-VERSION
 Route::get('/copyConcept', 'Admin\Level4TemplateManagementController@copyConcept');
 Route::post('/saveCopyConcept', 'Admin\Level4TemplateManagementController@saveCopyConcept');

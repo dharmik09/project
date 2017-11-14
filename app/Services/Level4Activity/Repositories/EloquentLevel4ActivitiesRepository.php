@@ -749,7 +749,6 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
         } else {
             $return = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY'))->insert($saveData);
         }
-
         return $return;
     }
 
@@ -761,9 +760,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
     public function getAllLevel4AdvanceActivity() {
         $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY'))
                 ->select('*')
-                ->whereIn('deleted', ['1' , '2'])
+                ->whereIn('deleted', ['1', '2'])
                 ->get();
-
         return $result;
     }
 

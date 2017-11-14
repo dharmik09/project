@@ -46,23 +46,8 @@ class Level4AdvanceActivityManagementController extends Controller {
     }
 
     public function index() {
-        $searchParamArray = Input::all();
-        if (isset($searchParamArray['clearSearch'])) {
-            unset($searchParamArray);
-            $searchParamArray = array();
-        }
-         if (!empty($searchParamArray)) {
-            Cache::forget('l4advanceactivities');
-            $leve4advanceactivities = $this->level4ActivitiesRepository->getAllLevel4AdvanceActivity($searchParamArray);
-        } else {
-            if (Cache::has('l4advanceactivities')) {
-                $leve4advanceactivities = Cache::get('l4advanceactivities');
-            } else {
-                $leve4advanceactivities = $this->level4ActivitiesRepository->getAllLevel4AdvanceActivity($searchParamArray);
-                Cache::forever('l4advanceactivities', $leve4advanceactivities);
-            }
-        }
-        return view('admin.ListLevel4AdvanceActivity', compact('leve4advanceactivities', 'searchParamArray'));
+        $leve4advanceactivities = $this->level4ActivitiesRepository->getAllLevel4AdvanceActivity();
+        return view('admin.ListLevel4AdvanceActivity', compact('leve4advanceactivities'));
     }
 
     public function add() {
@@ -87,7 +72,6 @@ class Level4AdvanceActivityManagementController extends Controller {
             $saveData['deleted'] = $allPostdata['deleted'];
         }
         $response = $this->level4ActivitiesRepository->saveLevel4AdvanceActivityDetail($saveData);
-        Cache::forget('l4advanceactivities');
         if ($response) {
             return Redirect::to("admin/listlevel4advanceactivity")->with('success', trans('labels.level4activityupdatesuccess'));
         } else {
