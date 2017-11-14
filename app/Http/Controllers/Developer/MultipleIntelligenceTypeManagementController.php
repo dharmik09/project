@@ -47,7 +47,7 @@ class MultipleIntelligenceTypeManagementController extends Controller
         return view('developer.EditMultipleIntelligenceType', compact('multipleintelligenceDetail','miThumbPath'));
     }
 
-    public function save(MultipleIntelligenceTypeRequest $MultipleIntelligenceTypeRequest)
+    public function save(MultipleIntelligenceTypeRequest $multipleIntelligenceTypeRequest)
     {
         $multipleintelligenceDetail = [];
 

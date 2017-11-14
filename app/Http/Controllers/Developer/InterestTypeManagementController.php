@@ -47,7 +47,7 @@ class InterestTypeManagementController extends Controller
         return view('developer.EditInterestType', compact('interestDetail','interestThumbPath'));
     }
 
-    public function save(InterestTypeRequest $InterestTypeRequest)
+    public function save(InterestTypeRequest $interestTypeRequest)
     {
         $interestDetail = [];
 

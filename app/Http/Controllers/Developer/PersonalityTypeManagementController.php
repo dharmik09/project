@@ -46,7 +46,7 @@ class PersonalityTypeManagementController extends Controller
         return view('developer.EditPersonalityType', compact('personalityDetail','personalityThumbPath'));
     }
 
-    public function save(PersonalityTypeRequest $PersonalityTypeRequest)
+    public function save(PersonalityTypeRequest $personalityTypeRequest)
     {
         $personalityDetail = [];
 

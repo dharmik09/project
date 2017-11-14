@@ -65,7 +65,7 @@ Route::get('/apptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementControl
 Route::post('/apptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@index')->name('apptitudeTypeScale');
 Route::get('/addApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@add')->name('addApptitudeTypeScale');
 Route::get('/editApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@edit')->name('editApptitudeTypeScale');
-// Route::post('/saveApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@save')->name('saveApptitudeTypeScale');
+Route::post('/saveApptitudeTypeScale', 'Developer\ApptitudeTypeScaleManagementController@save')->name('saveApptitudeTypeScale');
 
 /* Level1 Qualities Module Routes */
 Route::get('/level1Qualities', 'Developer\Level1QualityManagementController@index')->name('level1Qualities');
