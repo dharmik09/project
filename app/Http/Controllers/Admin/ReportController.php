@@ -20,23 +20,23 @@ use Config;
 
 class ReportController extends Controller {
 
-    public function __construct(SchoolsRepository $SchoolsRepository, TeenagersRepository $TeenagersRepository, Level1ActivitiesRepository $Level1ActivitiesRepository, Level2ActivitiesRepository $Level2ActivitiesRepository, BasketsRepository $BasketsRepository, ProfessionsRepository $ProfessionsRepository, Level4ActivitiesRepository $Level4ActivitiesRepository) {
-        $this->Level1ActivitiesRepository = $Level1ActivitiesRepository;
-        $this->Level2ActivitiesRepository = $Level2ActivitiesRepository;
-        $this->TeenagersRepository = $TeenagersRepository;
-        $this->BasketsRepository = $BasketsRepository;
-        $this->ProfessionsRepository = $ProfessionsRepository;
-        $this->SchoolsRepository         = $SchoolsRepository;
+    public function __construct(SchoolsRepository $schoolsRepository, TeenagersRepository $teenagersRepository, Level1ActivitiesRepository $level1ActivitiesRepository, Level2ActivitiesRepository $level2ActivitiesRepository, BasketsRepository $basketsRepository, ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->level2ActivitiesRepository = $level2ActivitiesRepository;
+        $this->teenagersRepository = $teenagersRepository;
+        $this->basketsRepository = $basketsRepository;
+        $this->professionsRepository = $professionsRepository;
+        $this->schoolsRepository         = $schoolsRepository;
         $this->controller = 'ReportController';
         $this->loggedInUser = Auth::guard('admin');
-        $this->Level4ActivitiesRepository = $Level4ActivitiesRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
     }
 
     public function level1() {
-        $level1Questions = $this->Level1ActivitiesRepository->getLevel1AllActiveQuestion();  // Get level1 Activity(question)
-        $teenDetails = $this->TeenagersRepository->getAllTeenagers();
+        $level1Questions = $this->level1ActivitiesRepository->getLevel1AllActiveQuestion();  // Get level1 Activity(question)
+        $teenDetails = $this->teenagersRepository->getAllTeenagers();
         $id = Input::get('questionId');
         $gender = Input::get('gen');
         $age = Input::get('age');
@@ -91,7 +91,7 @@ class ReportController extends Controller {
 
         $id = Input::get('questionId');
 
-        $level2 = $this->Level2ActivitiesRepository->getLevel2AllActiveQuestion(); // Get Level2 Questions
+        $level2 = $this->level2ActivitiesRepository->getLevel2AllActiveQuestion(); // Get Level2 Questions
         $gender = Input::get('gen');
         $age = Input::get('age');
         if (isset($id) && $id != '') {
@@ -339,11 +339,11 @@ class ReportController extends Controller {
        $topAllSelectedIcons = array();
        if(isset($category_type) && $category_type!= ''){
            $category = $category_type;
-           $topAllSelectedIcons = $this->Level1ActivitiesRepository->getAllSelectedIcons($category,$gender);
+           $topAllSelectedIcons = $this->level1ActivitiesRepository->getAllSelectedIcons($category,$gender);
        }
 
 
-       $topSelectedIcons = $this->Level1ActivitiesRepository->getTopSelectedIcons($gender);
+       $topSelectedIcons = $this->level1ActivitiesRepository->getTopSelectedIcons($gender);
        if(isset($topSelectedIcons) && !empty($topSelectedIcons))
        {
            foreach($topSelectedIcons['human'] as $icon=>$data){
@@ -383,7 +383,7 @@ class ReportController extends Controller {
     public function level3Report()
     {
        //get basket list
-       $baskets = $this->BasketsRepository->getBasketsList();
+       $baskets = $this->basketsRepository->getBasketsList();
        $postData = Input::all();
 
        $chart = 'column';
@@ -398,14 +398,14 @@ class ReportController extends Controller {
            $topList = $postData['top'];
            $gender = $postData['gen'];
        }
-       $professions = $this->ProfessionsRepository->getProfessionsByBasketId($basketId);
+       $professions = $this->professionsRepository->getProfessionsByBasketId($basketId);
        if(isset($professions) && !empty($professions)){
             foreach($professions as $profession){
                 $professionIds[] = $profession->id;
             }
        }
        $notAttemptedProfessions = array();
-       $professionCount = $this->ProfessionsRepository->getProfessionAttemptedCount($professionIds,$topList,$gender);
+       $professionCount = $this->professionsRepository->getProfessionAttemptedCount($professionIds,$topList,$gender);
 
        if(isset($professionCount) && !empty($professionCount)){
             foreach($professionCount as $key=>$val){
@@ -420,7 +420,7 @@ class ReportController extends Controller {
        }
 
        $result=array_diff($professionIds,$notAttemptedProfessions);
-       $notattempeted = $this->ProfessionsRepository->getNotAttemptedProfession($result);
+       $notattempeted = $this->professionsRepository->getNotAttemptedProfession($result);
 
        if(isset($topList) && $topList == 'not')
        {
@@ -464,7 +464,7 @@ class ReportController extends Controller {
             $iconType = array(1,2,3);
             $displayMsg = "Reason\'s They Liked Their ICON's";
         }
-        $teenSelectedIcons = $this->TeenagersRepository->getTeenSelectedIconWithQualities($id,$iconType);
+        $teenSelectedIcons = $this->teenagersRepository->getTeenSelectedIconWithQualities($id,$iconType);
 
         $iconQuality = $iconQualityData = array();
         $totalSelectedQualities = 0;
@@ -475,7 +475,7 @@ class ReportController extends Controller {
         }
 
         //Get total active qualities
-        $totalActiveQualities = $this->Level1ActivitiesRepository->getLevel1qualities();
+        $totalActiveQualities = $this->level1ActivitiesRepository->getLevel1qualities();
         $totalActiveQualitiesCount = count($totalActiveQualities);
 
         if(isset($teenSelectedIcons) && !empty($teenSelectedIcons)){
@@ -492,7 +492,7 @@ class ReportController extends Controller {
     {
         $teenDetails = Helpers::getActiveTeenagers();
         //Get active profession lists
-        $professions = $this->ProfessionsRepository->getAllActiveProfession();
+        $professions = $this->professionsRepository->getAllActiveProfession();
 
         $postData = Input::All();
         $gender = Input::get('gen');
@@ -505,7 +505,7 @@ class ReportController extends Controller {
             $teenagerid = (isset($teenDetails) && count($teenDetails)>0)?$teenDetails[0]->id:'0';
             $chart = 'column';
         }
-        $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfessionForReport($teenagerid,$professionid);
+        $professionArray = $this->professionsRepository->getTeenagerAttemptedProfessionForReport($teenagerid,$professionid);
 
         $teenArray = [];
         if ($gender != '') {
@@ -521,9 +521,9 @@ class ReportController extends Controller {
 
         $basicDataJson = $basicData = array();
         if ($teenagerid == 0) {
-            $basicData = $this->TeenagersRepository->getTeenagerAllTypeBadgesForReport($teenagerid, $professionid,$gender);
+            $basicData = $this->teenagersRepository->getTeenagerAllTypeBadgesForReport($teenagerid, $professionid,$gender);
         } else {
-            $basicData = $this->TeenagersRepository->getTeenagerAllTypeBadges($teenagerid, $professionid);
+            $basicData = $this->teenagersRepository->getTeenagerAllTypeBadges($teenagerid, $professionid);
         }
 
         if($teenagerid == 0){
@@ -549,7 +549,7 @@ class ReportController extends Controller {
     {
         $teenDetails = Helpers::getActiveTeenagers();
         //Get active profession lists
-        $professions = $this->ProfessionsRepository->getAllActiveProfession();
+        $professions = $this->professionsRepository->getAllActiveProfession();
 
         $postData = Input::All();
         $gender = Input::get('gen');
@@ -563,7 +563,7 @@ class ReportController extends Controller {
             $teenagerid = $teenDetails[0]->id;
             $chart = 'column';
         }
-        $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfessionForReport($teenagerid,$professionid);
+        $professionArray = $this->professionsRepository->getTeenagerAttemptedProfessionForReport($teenagerid,$professionid);
         $teenArray = [];
         if ($gender != '') {
             foreach($professionArray AS $k => $val) {
@@ -583,10 +583,10 @@ class ReportController extends Controller {
 
         $advanceDataJson = $advanceData = array();
          if ($teenagerid == 0) {
-             $advanceData = $this->TeenagersRepository->getTeenagerAllTypeBadgesForReport($teenagerid, $professionid,$gender);
+             $advanceData = $this->teenagersRepository->getTeenagerAllTypeBadgesForReport($teenagerid, $professionid,$gender);
              $advanceData = array('Earned Points' => $advanceData['level4Advance']['earnedPoints'], 'Verified Images'=>$advanceData['level4Advance']['snap'],'Verified Document'=>$advanceData['level4Advance']['report'],'Verified Video'=>$advanceData['level4Advance']['shoot']);
         } else {
-            $advanceData = $this->TeenagersRepository->getTeenagerAllTypeBadges($teenagerid, $professionid);
+            $advanceData = $this->teenagersRepository->getTeenagerAllTypeBadges($teenagerid, $professionid);
              $advanceData = array('Earned Points' => $advanceData['level4Advance']['earnedPoints'], 'Badge Star'=>$advanceData['level4Advance']['advanceBadgeStar'],'Verified Images'=>$advanceData['level4Advance']['snap'],'Verified Document'=>$advanceData['level4Advance']['report'],'Verified Video'=>$advanceData['level4Advance']['shoot']);
         }
 
@@ -603,7 +603,7 @@ class ReportController extends Controller {
     {
         $teenDetails = Helpers::getActiveTeenagers();
         //Get active profession lists
-        $professions = $this->ProfessionsRepository->getAllActiveProfession();
+        $professions = $this->professionsRepository->getAllActiveProfession();
 
         $postData = Input::All();
         $gender = Input::get('gen');
@@ -618,7 +618,7 @@ class ReportController extends Controller {
             $chart = 'column';
             $concept = 0;
         }
-        $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfessionForReport($teenagerid,$professionid);
+        $professionArray = $this->professionsRepository->getTeenagerAttemptedProfessionForReport($teenagerid,$professionid);
         $teenArray = [];
         if ($gender != '') {
             foreach($professionArray AS $k => $val) {
@@ -633,9 +633,9 @@ class ReportController extends Controller {
 
         $intermediateDataJson = $intermediateData = array();
         if ($teenagerid == 0) {
-            $intermediateData = $this->TeenagersRepository->getTeenagerAllTypeBadgesForReport($teenagerid, $professionid,$gender);
+            $intermediateData = $this->teenagersRepository->getTeenagerAllTypeBadgesForReport($teenagerid, $professionid,$gender);
         } else {
-            $intermediateData = $this->TeenagersRepository->getTeenagerAllTypeBadges($teenagerid, $professionid);
+            $intermediateData = $this->teenagersRepository->getTeenagerAllTypeBadges($teenagerid, $professionid);
         }
 
         if(isset($postData['concept']) && $postData['concept'] > 0){
@@ -672,7 +672,7 @@ class ReportController extends Controller {
         $selectedconcept = Input::get('concept');
         $all = Input::get('all');
         //Get concept for the profession
-        $getQuestionTemplateForProfession = $this->Level4ActivitiesRepository->getQuestionTemplateForProfession($professionId);
+        $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionId);
         return view('admin.ajaxProfessionConcepts',compact('getQuestionTemplateForProfession','selectedconcept','all'));
         exit;
     }
@@ -681,16 +681,16 @@ class ReportController extends Controller {
     {
         $school_id = Input::get("school_id");
         $class_id = Input::get("class_id");
-        $schools = $this->SchoolsRepository->getAllSchoolsData();
-        $schoolClass = ($school_id > 0) ? $this->SchoolsRepository->getClassDetail($school_id) : [];
-        $studentData = ($school_id > 0 && $class_id != "") ? $this->SchoolsRepository->getClassStudentList($school_id, $class_id) : [];
+        $schools = $this->schoolsRepository->getAllSchoolsData();
+        $schoolClass = ($school_id > 0) ? $this->schoolsRepository->getClassDetail($school_id) : [];
+        $studentData = ($school_id > 0 && $class_id != "") ? $this->schoolsRepository->getClassStudentList($school_id, $class_id) : [];
         //echo "<pre/>"; print_r($studentData); die();
         $level1Students = $level2Students = $level3Students = $level4Students = $schoolValidate = $varifiedStudent = 0;
         if(isset($studentData[0]) && !empty($studentData[0]))
         {
             foreach($studentData as $key => $value)
             {
-                $getTeenagerBoosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($value->id);
+                $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($value->id);
                 $studentData[$key]->level_1 = (isset($getTeenagerBoosterPoints['Level1'])) ? $getTeenagerBoosterPoints['Level1'] : 0;
                 $studentData[$key]->level_2 = (isset($getTeenagerBoosterPoints['Level2'])) ? $getTeenagerBoosterPoints['Level2'] : 0;
                 $studentData[$key]->level_3 = (isset($getTeenagerBoosterPoints['Level3'])) ? $getTeenagerBoosterPoints['Level3'] : 0;
@@ -716,7 +716,7 @@ class ReportController extends Controller {
     public function getClass(Request $request)
     {
         $school_id = Input::get("school_id");
-        $result = $this->SchoolsRepository->getClassDetail($school_id);
+        $result = $this->schoolsRepository->getClassDetail($school_id);
         return view('admin.AjaxSchoolClass', compact('result'));
     }    
 }

@@ -25,12 +25,12 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class SponsorManagementController extends Controller
 {
-    public function __construct(FileStorageRepository $fileStorageRepository, SponsorsRepository $SponsorsRepository,TemplatesRepository $TemplatesRepository,TeenagersRepository $TeenagersRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, SponsorsRepository $sponsorsRepository,TemplatesRepository $templatesRepository,TeenagersRepository $teenagersRepository)
     {
         $this->objSponsors                = new Sponsors();
-        $this->SponsorsRepository         = $SponsorsRepository;
-        $this->TeenagersRepository        = $TeenagersRepository;
-        $this->TemplateRepository = $TemplatesRepository;
+        $this->sponsorsRepository         = $sponsorsRepository;
+        $this->teenagersRepository        = $teenagersRepository;
+        $this->templateRepository = $templatesRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->sponsorOriginalImageUploadPath = Config::get('constant.SPONSOR_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->sponsorThumbImageUploadPath = Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH');
@@ -52,7 +52,7 @@ class SponsorManagementController extends Controller
     {
         $uploadSponsorThumbPath = $this->sponsorThumbImageUploadPath;
         $uploadSponsorPhotoThumbPath = $this->contactThumbImageUploadPath;
-        $sponsors = $this->SponsorsRepository->getAllSponsors();
+        $sponsors = $this->sponsorsRepository->getAllSponsors();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.ListSponsor',compact('sponsors', 'uploadSponsorThumbPath','uploadSponsorPhotoThumbPath'));
     }
@@ -181,7 +181,7 @@ class SponsorManagementController extends Controller
             }
         }
 
-        $response = $this->SponsorsRepository->saveSponsorDetail($sponsorDetail);
+        $response = $this->sponsorsRepository->saveSponsorDetail($sponsorDetail);
         if($response)
         {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_SPONSORS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.sponsorupdatesuccess'), serialize($sponsorDetail), $_SERVER['REMOTE_ADDR']);
@@ -197,13 +197,13 @@ class SponsorManagementController extends Controller
 
     public function delete($id)
     {
-        $teen = $this->SponsorsRepository->checkForSponsorToTeen($id);
-        $coupon = $this->SponsorsRepository->checkForSponsorToCoupon($id);
-        $sponsoractivity = $this->SponsorsRepository->checkForSponsorToSponsorActivity($id);
+        $teen = $this->sponsorsRepository->checkForSponsorToTeen($id);
+        $coupon = $this->sponsorsRepository->checkForSponsorToCoupon($id);
+        $sponsoractivity = $this->sponsorsRepository->checkForSponsorToSponsorActivity($id);
        
         if(empty($teen) && empty($coupon) && empty($sponsoractivity))
         {
-            $return = $this->SponsorsRepository->deleteSponsor($id);
+            $return = $this->sponsorsRepository->deleteSponsor($id);
             if($return)
             {
                 return Redirect::to("admin/sponsors")->with('success', trans('labels.sponsordeletesuccess'));
@@ -247,13 +247,13 @@ class SponsorManagementController extends Controller
 
     public function editToApproved($id)
     {
-        $return = $this->SponsorsRepository->editToApprovedSponser($id);
+        $return = $this->sponsorsRepository->editToApprovedSponser($id);
         if($return)
         {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SPONSORS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.sponsorapprovesuccess'), '', $_SERVER['REMOTE_ADDR']);
-            $SponsorDetailbyId = $this->SponsorsRepository->getSponsorById($id);
+            $SponsorDetailbyId = $this->sponsorsRepository->getSponsorById($id);
 
-//            $teenagers = $this->TeenagersRepository->getAllActiveTeenagersForNotification();
+//            $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
 //            foreach ($teenagers AS $key => $value) {
 //                $message = 'New enterprise "' .$SponsorDetailbyId->sp_company_name.'" has been added into ProTeen!';
 //                $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
@@ -263,8 +263,8 @@ class SponsorManagementController extends Controller
                         $replaceArray['SPONSOR_NAME'] = $SponsorDetailbyId->sp_first_name;
                         $replaceArray['SPONSOR_LOGIN_URL'] = url('sponsor/login');
 
-                        $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.SPONSOR_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
-                        $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                        $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.SPONSOR_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
+                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
                         $data = array();
                         $data['subject'] = $emailTemplateContent->et_subject;
                         $data['toEmail'] = $SponsorDetailbyId->sp_email;
@@ -286,21 +286,21 @@ class SponsorManagementController extends Controller
     
     public function viewSponsorActivity($id)
     {
-        $sponsorsActivities = $this->SponsorsRepository->getActiveSponsorActivityDetail($id);
+        $sponsorsActivities = $this->sponsorsRepository->getActiveSponsorActivityDetail($id);
         $sponsorActivityThumbImageUploadPath = $this->sponsorActivityThumbImageUploadPath;
         return view('admin.ListSponsorActivity', compact('sponsorsActivities','sponsorActivityThumbImageUploadPath'));
     }
     
     public function sponsorActivity($id)
     {
-        $sponsorsActivities = $this->SponsorsRepository->getActivityById($id);
+        $sponsorsActivities = $this->sponsorsRepository->getActivityById($id);
         $sponsorActivityThumbImageUploadPath = $this->sponsorActivityThumbImageUploadPath;
         return view('admin.ViewSponsorActivity', compact('sponsorsActivities','sponsorActivityThumbImageUploadPath'));
     }
     
     public function editSponsorActivity($id)
     {
-        $sponsorsActivities = $this->SponsorsRepository->getActivityById($id);
+        $sponsorsActivities = $this->sponsorsRepository->getActivityById($id);
         $uploadSAThumbPath = $this->sponsorActivityThumbImageUploadPath;
         return view('admin.EditSponsorActivity',compact('sponsorsActivities','uploadSAThumbPath'));
     }
@@ -368,7 +368,7 @@ class SponsorManagementController extends Controller
                 $activityDetail['sa_image'] = $fileName;  
             }
         }
-        $response = $this->SponsorsRepository->saveSponsorActivityDetail($activityDetail);
+        $response = $this->sponsorsRepository->saveSponsorActivityDetail($activityDetail);
         //print_r($response);
         if($response)
         {
@@ -385,7 +385,7 @@ class SponsorManagementController extends Controller
     public function exportsponsor() 
     {
         $searchParamArray = Input::all();
-        $sponsors = $this->SponsorsRepository->getAllSponsors($searchParamArray);
+        $sponsors = $this->sponsorsRepository->getAllSponsors($searchParamArray);
         ob_start();
         
         $filename = 'Sponsor_Data.csv';
@@ -410,7 +410,7 @@ class SponsorManagementController extends Controller
         
         fputcsv($fp, $FieldArray);
         foreach ($sponsors as $key => $sponsor) {  
-            $sponsorDetail = $this->SponsorsRepository->getSponsorById($sponsor->id);
+            $sponsorDetail = $this->sponsorsRepository->getSponsorById($sponsor->id);
             
             $FieldArray = [];
             $FieldArray['sp_email'] = $sponsor->sp_email;
@@ -459,7 +459,7 @@ class SponsorManagementController extends Controller
         $coins = e(Input::get('sp_credit'));
         $giftCoins = e(Input::get('sp_credit'));
         $flag = 0;
-        $sponsorData = $this->SponsorsRepository->getSponsorDataForCoinsDetail($id);
+        $sponsorData = $this->sponsorsRepository->getSponsorDataForCoinsDetail($id);
         if (!empty($sponsorData)) {
             if (substr($coins, 0, 1) === '-') {
                 $coins = preg_replace('/[-?]/', '', $coins);
@@ -473,8 +473,8 @@ class SponsorManagementController extends Controller
                 $flag++;
             }
         }
-        $result = $this->SponsorsRepository->updateSponsorCoinsDetail($id, $coins);
-        $userArray = $this->SponsorsRepository->getSponsorBySponsorId($id);
+        $result = $this->sponsorsRepository->updateSponsorCoinsDetail($id, $coins);
+        $userArray = $this->sponsorsRepository->getSponsorBySponsorId($id);
         $objGiftUser = new TeenagerCoinsGift();
         if($flag) {
             $saveData = [];
@@ -490,8 +490,8 @@ class SponsorManagementController extends Controller
             $replaceArray['TEEN_NAME'] = $userArray[0]['sp_admin_name'];
             $replaceArray['COINS'] = $giftCoins;
             $replaceArray['FROM_USER'] = $this->loggedInUser->user()->name;
-            $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
-            $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
             $data = array();
             $data['subject'] = $emailTemplateContent->et_subject;

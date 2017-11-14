@@ -24,12 +24,12 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class ProfessionManagementController extends Controller {
 
-    public function __construct(FileStorageRepository $fileStorageRepository, ProfessionHeadersRepository $ProfessionsHeadersRepository, ProfessionsRepository $ProfessionsRepository, BasketsRepository $BasketsRepository,TeenagersRepository $TeenagersRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, ProfessionHeadersRepository $professionsHeadersRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository,TeenagersRepository $teenagersRepository) {
         $this->objProfession = new Professions();
-        $this->ProfessionsRepository = $ProfessionsRepository;
-        $this->ProfessionHeadersRepository = $ProfessionsHeadersRepository;
-        $this->BasketsRepository = $BasketsRepository;
-        $this->TeenagersRepository = $TeenagersRepository;
+        $this->professionsRepository = $professionsRepository;
+        $this->professionHeadersRepository = $professionsHeadersRepository;
+        $this->basketsRepository = $basketsRepository;
+        $this->teenagersRepository = $teenagersRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->professionOriginalImageUploadPath = Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->professionThumbImageUploadPath = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
@@ -47,7 +47,7 @@ class ProfessionManagementController extends Controller {
     }
 
     public function index() {
-        $professions = $this->ProfessionsRepository->getAllProfessions();
+        $professions = $this->professionsRepository->getAllProfessions();
         $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.ListProfession', compact('professions', 'uploadProfessionThumbPath'));
@@ -145,10 +145,10 @@ class ProfessionManagementController extends Controller {
         }else{
             $professionDetail['pf_related_basket'] = '0';
         }
-        $response = $this->ProfessionsRepository->saveProfessionDetail($professionDetail); 
+        $response = $this->professionsRepository->saveProfessionDetail($professionDetail); 
         Cache::forget('professions');
         if ($response) {
-            // $teenagers = $this->TeenagersRepository->getAllActiveTeenagersForNotification();
+            // $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
             // foreach ($teenagers AS $key => $value) {
             //     $message = 'Profession "' .$professionDetail['pf_name'].'" has been added/updated in ProTeen!';
             //     $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
@@ -162,8 +162,8 @@ class ProfessionManagementController extends Controller {
     }
 
     public function delete($id) {
-        $return = $this->ProfessionsRepository->deleteProfession($id);
-        $return2 = $this->ProfessionHeadersRepository->deleteProfessionHeader($id);
+        $return = $this->professionsRepository->deleteProfession($id);
+        $return2 = $this->professionHeadersRepository->deleteProfessionHeader($id);
         if ($return && $return2) {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_PROFESSIONS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.professiondeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
 
@@ -201,7 +201,7 @@ class ProfessionManagementController extends Controller {
                     $headerDetail[2] = $row['path_growth'];
                     $headerDetail[3] = $row['trends_infolinks'];
 
-                    $response = $this->ProfessionsRepository->saveProfessionBulkDetail($professtionDetail, $basketDetail, $headerDetail);
+                    $response = $this->professionsRepository->saveProfessionBulkDetail($professtionDetail, $basketDetail, $headerDetail);
                 }
             }
         });
@@ -235,7 +235,7 @@ class ProfessionManagementController extends Controller {
     }
 
     public function exportData() {
-        $result = $this->ProfessionsRepository->getExportProfession();
+        $result = $this->professionsRepository->getExportProfession();
         Excel::create('profession', function($excel) use($result) {
             $excel->sheet('Sheet 1', function($sheet) use($result) {
                 $sheet->fromArray($result);
@@ -245,7 +245,7 @@ class ProfessionManagementController extends Controller {
 
     public function getUserCompetitorsData() {
         $profession_Id = $_REQUEST['Professionid'];
-        $pf_name = $this->ProfessionsRepository->getProfessionNameById($profession_Id);
+        $pf_name = $this->professionsRepository->getProfessionNameById($profession_Id);
         $data = Helpers::getCompetingUserList($profession_Id);
 
         return view('admin.UserCompetitorspopupDetail',compact('data','pf_name'));

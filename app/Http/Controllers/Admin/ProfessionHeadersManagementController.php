@@ -19,16 +19,16 @@ use Cache;
 class ProfessionHeadersManagementController extends Controller
 {
 
-    public function __construct(ProfessionHeadersRepository $ProfessionHeadersRepository)
+    public function __construct(ProfessionHeadersRepository $professionHeadersRepository)
     {
         $this->objProfessionHeaders                = new ProfessionHeaders();
-        $this->ProfessionHeadersRepository         = $ProfessionHeadersRepository;
+        $this->professionHeadersRepository         = $professionHeadersRepository;
         $this->controller = 'ProfessionHeadersManagementController';
         $this->loggedInUser = Auth::guard('admin');
     }
     public function index()
     {
-        $headers = $this->ProfessionHeadersRepository->getAllProfessionHeaders();
+        $headers = $this->professionHeadersRepository->getAllProfessionHeaders();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
 
         return view('admin.ListProfessionHeaders',compact('headers'));
@@ -54,7 +54,7 @@ class ProfessionHeadersManagementController extends Controller
     {
         $headerData = Input::All();
         
-        $response = $this->ProfessionHeadersRepository->saveProfessionHeaderFromAdmin($headerData);
+        $response = $this->professionHeadersRepository->saveProfessionHeaderFromAdmin($headerData);
         Cache::forget('professionHeaders');
         if($response)
         {
@@ -71,7 +71,7 @@ class ProfessionHeadersManagementController extends Controller
     }
     public function delete($id)
     {
-        $return = $this->ProfessionHeadersRepository->deleteProfessionHeader($id);
+        $return = $this->professionHeadersRepository->deleteProfessionHeader($id);
         if($return)
         {
            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_PROFESSION_HEADER'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.headerdeletesuccess'), '', $_SERVER['REMOTE_ADDR']);

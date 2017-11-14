@@ -18,10 +18,10 @@ use Config;
 
 class NotificationController extends Controller
 {
-    public function __construct(TeenagersRepository $TeenagersRepository)
+    public function __construct(TeenagersRepository $teenagersRepository)
     {
         //$this->middleware('auth.admin');
-        $this->TeenagersRepository = $TeenagersRepository;
+        $this->teenagersRepository = $teenagersRepository;
         $this->userCerfificatePath = Config::get('constant.CERTIFICATE_PATH');
     }
 
@@ -32,12 +32,12 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $teenagers = $this->TeenagersRepository->getAllActiveTeenagersForNotification();
+        $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
         return view('admin/Notification', compact('teenagers'));
     }
 
     public function getIndex(){
-        $teenagers = $this->TeenagersRepository->getAllActiveTeenagersForNotificationObj()->get()->count();
+        $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotificationObj()->get()->count();
         echo "<pre/>"; print_r($teenagers); die();
         $records = array();
         $columns = array(
@@ -118,7 +118,7 @@ class NotificationController extends Controller
         {
             $objDeviceToken = new DeviceToken();
             foreach ($getId AS $key => $value) {
-                $teenData = $this->TeenagersRepository->getTeenagerByTeenagerId($value);
+                $teenData = $this->teenagersRepository->getTeenagerByTeenagerId($value);
                 if ($teenData['is_notify'] == 1) {
                     $result = $objDeviceToken->getDeviceTokenDetail($value);
                     if (!empty($result)) {
