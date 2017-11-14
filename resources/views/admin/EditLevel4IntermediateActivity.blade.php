@@ -1,19 +1,15 @@
 @extends('layouts.admin-master')
 
 @section('content')
-
 <link rel="stylesheet" href="{{ URL::asset('backend/css/slider.css') }}">
 <script src="{{ URL::asset('backend/js/bootstrap-slider.js') }}"></script>    
-
 <section class="content-header">
     <h1>
         Level4 Intermediate Activity
     </h1>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
     <div class="row">
         <!-- right column -->
         <div class="col-md-12">
@@ -38,7 +34,6 @@
                     <input type="hidden" name="id" value="<?php echo (isset($level4IntermediateActivityDetail) && !empty($level4IntermediateActivityDetail)) ? $level4IntermediateActivityDetail->id : '0' ?>">
                     <input type="hidden" name="pageRank" value="<?php echo $page ?>">
                     <div class="box-body">
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Select Profession</label>
                         <div class="col-sm-9">
@@ -71,44 +66,37 @@
                         </div>
                     </div>
                     <input type="hidden" name="hidden_points" value="{{$questionPoint or '25'}}">
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question Text</label>
                         <div class="col-sm-9">
                             <textarea name="question_text" rows="5" class="form-control" id="question_text">{{$level4IntermediateActivityDetail->l4ia_question_text or ''}}</textarea>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question Time</label>
                         <div class="col-sm-3">
                             <input type="number" value="{{$questionTime or '60'}}" name="quetion_time" class="form-control" id="quetion_time">(Second...)
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question Point</label>
                         <div class="col-sm-6">
                             <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="200" data-slider-step="5" data-slider-value="{{$questionPoint or '25'}}"  name="quetion_point" class="boot_slider"/>
                             <span class="badge bg-green" id="label_point"> {{$questionPoint or '25'}} </span>
-<!--                            <input type="number" value="{{$level4IntermediateActivityDetail->l4ia_question_point or '50'}}" name="quetion_point" class="form-control" id="quetion_point">-->
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question Description</label>
                         <div class="col-sm-10">
                             <textarea name="question_description" id="question_description">{{$level4IntermediateActivityDetail->l4ia_question_description or ''}}</textarea>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question Answer Description</label>
                         <div class="col-sm-10">
                             <textarea name="question_answer_description" id="question_answer_description">{{$level4IntermediateActivityDetail->l4ia_question_answer_description or ''}}</textarea>
                         </div>
                     </div>
-
                     <!--For edit time don't show media as they are managed separately-->
                     @if(empty($level4IntermediateActivityDetail))
                     @for ($i = 0; $i < 2; $i++)
@@ -122,8 +110,6 @@
                         </div>
                     </div>
                     @endfor
-
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question YouTube Video URL</label>
                         <div class="col-sm-10">
@@ -131,45 +117,34 @@
                         </div>
                     </div>
                     @endif
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question PopUp Image</label>
                         <div class="col-sm-3">
                             <input type="file" id="question_popup_image" name="question_popup_image" onchange="readURL(this);"/>
-                            <?php
-                                if(isset($level4IntermediateActivityDetail->id) && $level4IntermediateActivityDetail->id != '0'){
-                                    if(File::exists(public_path($intermediateQuestionOriginalImageUploadPath.$level4IntermediateActivityDetail->l4ia_question_popup_image)) && $level4IntermediateActivityDetail->l4ia_question_popup_image != '') { ?><br>
-                                    <img src="{{ url($intermediateQuestionOriginalImageUploadPath.$level4IntermediateActivityDetail->l4ia_question_popup_image) }}" alt="{{$level4IntermediateActivityDetail->l4ia_question_popup_image}}" width="100px" height="100px">
-                                        &nbsp;&nbsp;<a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteAudioPopupImage') }}/{{$level4IntermediateActivityDetail->id}}/{{$level4IntermediateActivityDetail->l4ia_question_popup_image}}/1" title="Delete image"><i class="fa fa-times" aria-hidden="true"></i></a>
-                                    <?php } ?>
-
-                                <?php
-                                }
-                            ?>
+                            @if(isset($level4IntermediateActivityDetail->id) && $level4IntermediateActivityDetail->id != '0' && $level4IntermediateActivityDetail->l4ia_question_popup_image != "" && Storage::disk('s3')->exists($intermediateQuestionOriginalImageUploadPath.$level4IntermediateActivityDetail->l4ia_question_popup_image) )
+                                <img src="{{ Config::get('constant.DEFAULT_AWS').$intermediateQuestionOriginalImageUploadPath.$level4IntermediateActivityDetail->l4ia_question_popup_image }}" width="100px" height="100px" />
+                                &nbsp;&nbsp;<a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteAudioPopupImage') }}/{{$level4IntermediateActivityDetail->id}}/{{$level4IntermediateActivityDetail->l4ia_question_popup_image}}/1" title="Delete image"><i class="fa fa-times" aria-hidden="true"></i></a>
+                            @endif
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question PopUp Description</label>
                         <div class="col-sm-10">
                             <textarea name="l4ia_question_popup_description" id="l4ia_question_popup_description">{{$level4IntermediateActivityDetail->	l4ia_question_popup_description or ''}}</textarea>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Question Audio Upload</label>
                         <div class="col-sm-3">
                             <input type="file" id="question_audio" name="question_audio"/>
-                            <?php
-                                if(isset($level4IntermediateActivityDetail->id) && $level4IntermediateActivityDetail->id != '0'){
-                                    if(File::exists(public_path($intermediateQuestionOriginalImageUploadPath.$level4IntermediateActivityDetail->l4ia_question_audio)) && $level4IntermediateActivityDetail->l4ia_question_audio != '') { ?><br>
-                                    <span><?php echo $level4IntermediateActivityDetail->l4ia_question_audio;?></span>
+                            @if(isset($level4IntermediateActivityDetail->id) && $level4IntermediateActivityDetail->id != '0')
+                                @if($level4IntermediateActivityDetail->l4ia_question_audio != "" && Storage::disk('s3')->exists($intermediateQuestionOriginalImageUploadPath.$level4IntermediateActivityDetail->l4ia_question_audio) )
+                                    <span>{{$level4IntermediateActivityDetail->l4ia_question_audio}}</span>
                                     &nbsp;&nbsp;<a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteAudioPopupImage') }}/{{$level4IntermediateActivityDetail->id}}/{{$level4IntermediateActivityDetail->l4ia_question_audio}}/2" title="Delete audio file"><i class="fa fa-times" aria-hidden="true"></i></a>
-                                <?php } }?>
+                                @endif
+                            @endif
                         </div>
                     </div>
-
-
                     <input type="hidden" name="edit_template_id" value="{{(isset($level4IntermediateActivityDetail) && !empty($level4IntermediateActivityDetail)) ? $level4IntermediateActivityDetail->l4ia_question_template : '0'}}">
                     <div class="form-group">
                         <label for="l2ac_text" class="col-sm-2 control-label">Select Question Concept</label>
@@ -196,9 +171,7 @@
                                  }
 
                             ?>
-
                             <?php $disabled = (isset($level4IntermediateActivityDetail) && !empty($level4IntermediateActivityDetail)) ? 'disabled' : '' ?>
-
                             <select class="form-control" id="gamification_template" {{$disabled}} name="gamification_template" onchange="getTemplateAnswerBox()">
                                 <option value="">Select</option>
                                 @if(isset($gamificationTemplate)&&!empty($gamificationTemplate))
@@ -218,7 +191,6 @@
                             </div>
                         </div>
                     @endif
-
                     <div id="option_matrix" style="display: none;">
                         <div class="form-group">
                             <label for="category_type" class="col-sm-2 control-label">Matrix</label>
@@ -230,7 +202,6 @@
                                 </select>
                                 Column
                             </div>
-
                             <div class="col-sm-2">
                                 <select class="form-control" name="grid_row">
                                     @for($i=1;$i<5;$i++)
@@ -242,44 +213,35 @@
                         </div>
                     </div>
                     <div id="answer_box">
-
                     </div>
-
-
-
                     <div class="form-group" id="shuffle_option_checkbox" style="display: none;">
                         <label for="category_type" class="col-sm-2 control-label">Shuffle Options while display</label>
                         <div class="col-sm-3">
                             <input type="checkbox" name="shuffle_options" value="1" title="Check if you want to shuffle the options at display time" style="cursor:pointer;">
                         </div>
                     </div>
-
                     <div class="form-group" id="multiple_attempt_checkbox" style="display: none;">
                         <label for="category_type" class="col-sm-2 control-label">Multiple attempt allowed</label>
                         <div class="col-sm-3">
                             <input type="checkbox" name="multiple_attempt" value="1" title="Check if you want to allow multiple attempt for this question" style="cursor:pointer;">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="category_type" class="col-sm-2 control-label">Right Question Message</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="right_question_message" id="right_question_message" value="{{$level4IntermediateActivityDetail->l4ia_question_right_message or 'Congratulations! That\'s the right answer!'}}">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="category_type" class="col-sm-2 control-label">Wrong Question Message</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="wrong_question_message" id="wrong_question_message" value="{{$level4IntermediateActivityDetail->l4ia_question_wrong_message or 'Oh no! That\'s not the right answer'}}">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblstatus')}}</label>
                         <div class="col-sm-6">
                             <?php $staus = Helpers::status(); $deleted = (isset($level4IntermediateActivityDetail) && !empty($level4IntermediateActivityDetail)) ? $level4IntermediateActivityDetail->deleted : '' ?>
-
                             <select class="form-control" id="deleted" name="deleted">
                                 <?php foreach ($staus as $key => $value) { ?>
                                     <option value="{{$key}}" <?php if($deleted == $key) echo 'selected'; ?>>{{$value}}</option>
@@ -298,15 +260,11 @@
         </div>
     </div>
 </section><!-- /.content -->
-
-
 @stop
  <script type = "text/javascript" src = "//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" ></script>
 @section('script')
-
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('backend/js/jquery-ui.js') }}"></script>
-
 <script type="text/javascript">
     jQuery(document).ready(function() {
         var isShowLastConcept = '<?php echo $isShowLastConcept?>';
@@ -319,33 +277,27 @@
          }else{
             $('#option_matrix').hide();
          }
-
         $validate=jQuery.noConflict();
         $('#ex1').slider({
             formatter: function(value)
             {
                return 'Current value: ' + value;
             },
-
         });
         var originalVal;
-
         $('#ex1').slider().on('slideStart', function(ev){
             originalVal = $('#ex1').data('slider').getValue();
         });
-
         $('#ex1').slider().on('slideStop', function(ev){
             var newVal = $('#ex1').data('slider').getValue();
             if(originalVal != newVal) {
                 $('#label_point').text(newVal);
             }
         });
-
         $('.slider-track').click(function(){
             var sliderval = $('.tooltip-inner').html();
             $("#dSAnalysisSliderValue").text(sliderval);
          });
-
         var validationRules = {
                 gamification_template : {
                     required : true
@@ -360,7 +312,6 @@
                     required : true
                 }
             }
-
         $validate("#intermediateActivity").validate({
             ignore : "",
             rules : validationRules,
@@ -379,10 +330,7 @@
                 }
             }
         });
-
-
     });
-
     CKEDITOR.replace( 'question_description', {
         toolbar: [
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline'] },
@@ -393,7 +341,6 @@
             { name: 'others', items: [ '-' ] },
         ]
     });
-
     CKEDITOR.replace( 'question_answer_description', {
         toolbar: [
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline'] },
@@ -404,7 +351,6 @@
             { name: 'others', items: [ '-' ] },
         ]
     });
-
     CKEDITOR.replace( 'l4ia_question_popup_description', {
         toolbar: [
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline'] },
@@ -415,8 +361,6 @@
             { name: 'others', items: [ '-' ] },
         ]
     });
-
-
     var config = {
       '.chosen-select'           : {},
       '.chosen-select-deselect'  : {allow_single_deselect:true},
@@ -427,8 +371,6 @@
     for (var selector in config) {
       $(selector).chosen(config[selector]);
     }
-
-
     function getTemplateAnswerBox()
     {
        var selectedTemplate = $('#gamification_template option:selected').attr('data-capacity');
@@ -454,7 +396,6 @@
                }else{
                   $('#option_matrix').hide();
                }
-
             }
         });
         $( "#save" ).click(function() {
@@ -469,7 +410,6 @@
             }
             }
         });
-
     }
 </script>
 @stop
