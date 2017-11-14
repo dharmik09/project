@@ -335,6 +335,23 @@ Route::post('/level2Chart/', 'Admin\ReportController@level2');
 Route::get('/userApi/', 'Admin\ReportController@getuserapiscore');
 Route::post('/userApi/', 'Admin\ReportController@getuserapiscore');
 
+//Level3
+Route::get('/level3Report/', 'Admin\ReportController@level3Report');
+Route::post('/level3Report/', 'Admin\ReportController@level3Report');
+
+//Level4 Basic Report
+Route::get('/level4BasicReport/', 'Admin\ReportController@level4BasicReport');
+Route::post('/level4BasicReport/', 'Admin\ReportController@level4BasicReport');
+
+//Level4 Intermediate Report
+Route::get('/level4IntermediateReport/', 'Admin\ReportController@level4IntermediateReport');
+Route::post('/level4IntermediateReport/', 'Admin\ReportController@level4IntermediateReport');
+Route::post('/getProfessionConcepts/', 'Admin\ReportController@getProfessionConcepts');
+
+//Level4 Advance Report
+Route::get('/level4AdvanceReport/', 'Admin\ReportController@level4AdvanceReport');
+Route::post('/level4AdvanceReport/', 'Admin\ReportController@level4AdvanceReport');
+
 
 
 
