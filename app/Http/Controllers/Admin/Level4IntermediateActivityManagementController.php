@@ -21,10 +21,10 @@ use Cache;
 
 class Level4IntermediateActivityManagementController extends Controller {
 
-    public function __construct(ProfessionsRepository $ProfessionsRepository, Level4ActivitiesRepository $Level4ActivitiesRepository) {
-        $this->ProfessionsRepository = $ProfessionsRepository;
+    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
+        $this->professionsRepository = $professionsRepository;
         $this->objLevel4Activities = new Level4Activity();
-        $this->Level4ActivitiesRepository = $Level4ActivitiesRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->level4PointsForQuestions = Config::get('constant.LEVEL4_POINTS_FOR_QUESTION');
         $this->level4TimerForQuestions = Config::get('constant.LEVEL4_TIMER_FOR_QUESTION');
         $this->intermediateQuestionOriginalImageUploadPath = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -59,7 +59,7 @@ class Level4IntermediateActivityManagementController extends Controller {
             } else {
                 $searchParamArray = Cache::get('searchArrayLevel4');
             }
-            $leve4intermediateActivites = $this->Level4ActivitiesRepository->getLevel4IntermediateActivities($searchParamArray);
+            $leve4intermediateActivites = $this->level4ActivitiesRepository->getLevel4IntermediateActivities($searchParamArray);
         } else {
             if (Cache::has('searchArrayLevel4')) {
                 $searchParamArray = Cache::get('searchArrayLevel4');
@@ -69,7 +69,7 @@ class Level4IntermediateActivityManagementController extends Controller {
             if (Cache::has('l4intermediateActivites')) {
                 $leve4intermediateActivites = Cache::get('l4intermediateActivites');
             } else {
-                $leve4intermediateActivites = $this->Level4ActivitiesRepository->getLevel4IntermediateActivities($searchParamArray);
+                $leve4intermediateActivites = $this->level4ActivitiesRepository->getLevel4IntermediateActivities($searchParamArray);
                 Cache::forever('l4intermediateActivites', $leve4intermediateActivites);
             }
         }
@@ -81,10 +81,10 @@ class Level4IntermediateActivityManagementController extends Controller {
     public function add()
     {
         //Get active gamification templates
-        $gamificationTemplate = $this->Level4ActivitiesRepository->getActiveGamificationTemplate();
-        $allActiveProfessions = $this->ProfessionsRepository->getAllActiveProfession();
+        $gamificationTemplate = $this->level4ActivitiesRepository->getActiveGamificationTemplate();
+        $allActiveProfessions = $this->professionsRepository->getAllActiveProfession();
         //Get last added activity to predefine data
-        $lastAddedL4IActivity = $this->Level4ActivitiesRepository->getLastAddedIntermediateActivity();
+        $lastAddedL4IActivity = $this->level4ActivitiesRepository->getLastAddedIntermediateActivity();
         return view('admin.EditLevel4IntermediateActivity',compact('gamificationTemplate','allActiveProfessions','lastAddedL4IActivity'));
     }
 
@@ -93,9 +93,9 @@ class Level4IntermediateActivityManagementController extends Controller {
         $intermediateQuestionOriginalImageUploadPath = $this->intermediateQuestionOriginalImageUploadPath;
         $intermediateQuestionThumbImageUploadPath = $this->intermediateQuestionThumbImageUploadPath;
 
-        $gamificationTemplate = $this->Level4ActivitiesRepository->getActiveGamificationTemplate();
-        $level4IntermediateActivityDetail = $this->Level4ActivitiesRepository->getLevel4IntermediateActivityById($id);
-        $allActiveProfessions = $this->ProfessionsRepository->getAllActiveProfession();
+        $gamificationTemplate = $this->level4ActivitiesRepository->getActiveGamificationTemplate();
+        $level4IntermediateActivityDetail = $this->level4ActivitiesRepository->getLevel4IntermediateActivityById($id);
+        $allActiveProfessions = $this->professionsRepository->getAllActiveProfession();
 
         return view('admin.EditLevel4IntermediateActivity', compact('level4IntermediateActivityDetail','allActiveProfessions','gamificationTemplate','intermediateQuestionOriginalImageUploadPath','intermediateQuestionThumbImageUploadPath'));
     }
@@ -172,7 +172,7 @@ class Level4IntermediateActivityManagementController extends Controller {
             }
 
 
-            $lastInsertId = $this->Level4ActivitiesRepository->saveLevel4IntermediateActivity($questionData);
+            $lastInsertId = $this->level4ActivitiesRepository->saveLevel4IntermediateActivity($questionData);
 
             //Handle Question Media save...Image or Video
             $files = Input::file('question_image');
@@ -203,7 +203,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                         $questionMedia['l4iam_media_name'] = $fileName;
                         $questionMedia['l4iam_media_type'] = 'I';
                         $questionMedia['l4iam_media_desc'] = isset($allPostdata['question_image_description'][$key])?$allPostdata['question_image_description'][$key]:'';
-                        $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityMedia($questionMedia);
+                        $this->level4ActivitiesRepository->saveLevel4IntermediateActivityMedia($questionMedia);
                     }
                 }
             }
@@ -214,7 +214,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                 $questionMedia['l4iam_question_id'] = $lastInsertId;
                 $questionMedia['l4iam_media_name'] = $allPostdata['question_video'];
                 $questionMedia['l4iam_media_type'] = 'V';
-                $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityMedia($questionMedia);
+                $this->level4ActivitiesRepository->saveLevel4IntermediateActivityMedia($questionMedia);
             }
 
             //Now its time to handle question options
@@ -241,7 +241,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                                     $questionOptionData['answer_option_text'] = $data;
                                     $questionOptionData['correct_answer'] = (isset($allPostdata['correct_answer'][$key]))? 1 : 0 ;
                                     $finalQuestionData = array('id'=>$questionOptionData['id'],'l4iao_question_id'=>$lastInsertId,'l4iao_correct_answer'=>$questionOptionData['correct_answer'],'l4iao_answer_text'=>$questionOptionData['answer_option_text'] );
-                                    $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
+                                    $this->level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
                                 }
                             }
                         }
@@ -281,7 +281,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                                     $questionOptionData['l4iao_answer_group'] = isset($allPostdata['answer_group'][$key])?$allPostdata['answer_group'][$key]:0;
                                     $questionOptionData['l4iao_answer_image_description'] = isset($allPostdata['answer_image_description'][$key])?$allPostdata['answer_image_description'][$key]:'';
                                     $finalQuestionData = array('id'=>$questionOptionData['id'],'l4iao_question_id'=>$lastInsertId,'l4iao_answer_text'=>$questionOptionData['l4iao_answer_text'],'l4iao_answer_image'=>$questionOptionData['l4iao_answer_image'],'l4iao_answer_image_description'=>$questionOptionData['l4iao_answer_image_description'],'l4iao_correct_answer'=>$questionOptionData['l4iao_correct_answer'],'l4iao_answer_order'=>$questionOptionData['l4iao_answer_order'],'l4iao_answer_group'=>$questionOptionData['l4iao_answer_group']);
-                                    $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
+                                    $this->level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
                                     $key++;
                                 }
                             }
@@ -294,7 +294,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                                     $questionOptionData['answer_option_text'] = $data;
                                     $questionOptionData['answer_order'] = (isset($allPostdata['answer_order'][$key]))? $allPostdata['answer_order'][$key] : 0 ;
                                     $finalQuestionData = array('id'=>$questionOptionData['id'],'l4iao_question_id'=>$lastInsertId,'l4iao_answer_order'=>$questionOptionData['answer_order'],'l4iao_answer_text'=>$questionOptionData['answer_option_text'] );
-                                    $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
+                                    $this->level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
                                 }
                             }
                         }
@@ -305,7 +305,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                                 if($data != ''){
                                     $questionOptionData['correct_answer'] = $data;
                                     $finalQuestionData = array('id'=>$questionOptionData['id'],'l4iao_question_id'=>$lastInsertId,'l4iao_correct_answer'=>$questionOptionData['correct_answer']);
-                                    $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
+                                    $this->level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
                                 }
                             }
                         }
@@ -353,7 +353,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                                     $questionOptionData['l4iao_answer_group'] = isset($allPostdata['answer_group'][$key])?$allPostdata['answer_group'][$key]:0;
                                     $questionOptionData['l4iao_answer_image_description'] = isset($allPostdata['answer_image_description'][$key])?$allPostdata['answer_image_description'][$key]:'';
                                     $finalQuestionData = array('id'=>$questionOptionData['id'],'l4iao_question_id'=>$lastInsertId,'l4iao_answer_text'=>$questionOptionData['l4iao_answer_text'],'l4iao_answer_image'=>$questionOptionData['l4iao_answer_image'],'l4iao_answer_image_description'=>$questionOptionData['l4iao_answer_image_description'],'l4iao_correct_answer'=>$questionOptionData['l4iao_correct_answer'],'l4iao_answer_order'=>$questionOptionData['l4iao_answer_order'],'l4iao_answer_group'=>$questionOptionData['l4iao_answer_group'],'l4iao_answer_response_text'=>$questionOptionData['l4iao_answer_response_text'],'l4iao_answer_response_image'=>$questionOptionData['l4iao_answer_response_image']);
-                                    $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
+                                    $this->level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
                                 }
                                 //$key++;
                             }
@@ -368,7 +368,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                                     $questionOptionData['l4iao_correct_answer'] = isset($allPostdata['correct_answer'][$key])?$allPostdata['correct_answer'][$key]:'0';
                                     $questionOptionData['l4iao_answer_order'] = isset($allPostdata['answer_order'][$key])?$allPostdata['answer_order'][$key]:'';
                                     $finalQuestionData = array('id'=>$questionOptionData['id'],'l4iao_question_id'=>$lastInsertId,'l4iao_answer_text'=>$questionOptionData['l4iao_answer_text'],'l4iao_correct_answer'=>$questionOptionData['l4iao_correct_answer'],'l4iao_answer_order'=>$questionOptionData['l4iao_answer_order']);
-                                    $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
+                                    $this->level4ActivitiesRepository->saveLevel4IntermediateActivityOptions($finalQuestionData);
                                 }
                             }
                         }
@@ -389,7 +389,7 @@ class Level4IntermediateActivityManagementController extends Controller {
 
     public function delete($id)
     {
-        $return = $this->Level4ActivitiesRepository->deleteLevel4IntermediateActivity($id);
+        $return = $this->level4ActivitiesRepository->deleteLevel4IntermediateActivity($id);
         if($return)
         {
             return Redirect::to("admin/listLevel4IntermediateActivity")->with('success', trans('labels.level4activitydeletesuccess'));
@@ -407,9 +407,9 @@ class Level4IntermediateActivityManagementController extends Controller {
         //get media of questions        
         $questionOriginalImagePath =  $this->intermediateQuestionOriginalImageUploadPath;
         $questionThumbImagePath = $this->intermediateQuestionThumbImageUploadPath;
-        $level4IntermediateActivityDetail = $this->Level4ActivitiesRepository->getLevel4IntermediateActivityById($activityid);                
-        $questionMedia =  $this->Level4ActivitiesRepository->getIntermediateActivityMediaByQuestionId($activityid);
-        $lastMedia = $this->Level4ActivitiesRepository->getIntermediateActivityMediaLastId();
+        $level4IntermediateActivityDetail = $this->level4ActivitiesRepository->getLevel4IntermediateActivityById($activityid);                
+        $questionMedia =  $this->level4ActivitiesRepository->getIntermediateActivityMediaByQuestionId($activityid);
+        $lastMedia = $this->level4ActivitiesRepository->getIntermediateActivityMediaLastId();
         if(!empty($lastMedia)){
             $lastMediaId = $lastMedia->id+1;
         }else{
@@ -427,7 +427,7 @@ class Level4IntermediateActivityManagementController extends Controller {
         if(isset($postData) && !empty($postData))
         {
             $id = $postData['media_id'];
-            $result = $this->Level4ActivitiesRepository->deleteLeve4IntermediateMedia($id);
+            $result = $this->level4ActivitiesRepository->deleteLeve4IntermediateMedia($id);
             if($result){
                 if($postData['media_type'] == 'I'){
                     unlink($this->intermediateQuestionOriginalImageUploadPath.$postData['media_name']);
@@ -477,14 +477,14 @@ class Level4IntermediateActivityManagementController extends Controller {
                 $questionMedia['l4iam_question_id'] = $allPostdata['question_id'];
                 
                 //Check if record exist for key
-                $recordExist = $this->Level4ActivitiesRepository->getIntermediateActivityMediaByMediaId($key);
+                $recordExist = $this->level4ActivitiesRepository->getIntermediateActivityMediaByMediaId($key);
                 if(isset($recordExist) && !empty($recordExist)){
-                    $this->Level4ActivitiesRepository->updateLevel4IntermediateActivityMedia($questionMedia,$key);
+                    $this->level4ActivitiesRepository->updateLevel4IntermediateActivityMedia($questionMedia,$key);
                 }
                 else{     
                     if($fileName != ''){
                         //$questionMedia['id'] = 0;
-                        $this->Level4ActivitiesRepository->saveLevel4IntermediateActivityMedia($questionMedia);   
+                        $this->level4ActivitiesRepository->saveLevel4IntermediateActivityMedia($questionMedia);   
                     }
                 }
             }    
@@ -499,7 +499,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                 $questionMedia['l4iam_question_id'] = $allPostdata['question_id'];
                 $questionMedia['l4iam_media_name'] = $val;
                 $questionMedia['l4iam_media_type'] = 'V';
-                $this->Level4ActivitiesRepository->updateLevel4IntermediateActivityMedia($questionMedia,$key);
+                $this->level4ActivitiesRepository->updateLevel4IntermediateActivityMedia($questionMedia,$key);
             }
         }
         
@@ -508,7 +508,7 @@ class Level4IntermediateActivityManagementController extends Controller {
     
     public function manageIntermediateActivityAnswer($id)
     {
-        $level4IntermediateActivityDetail = $this->Level4ActivitiesRepository->getLevel4IntermediateActivityById($id);    
+        $level4IntermediateActivityDetail = $this->level4ActivitiesRepository->getLevel4IntermediateActivityById($id);    
         
         $intermediateAnswerOriginalImageUploadPath = $this->intermediateAnswerOriginalImageUploadPath;
         $intermediateAnswerThumbImageUploadPath = $this->intermediateAnswerThumbImageUploadPath;
@@ -517,7 +517,7 @@ class Level4IntermediateActivityManagementController extends Controller {
         $intermediateResponseThumbImageUploadPath = $this->intermediateResponseThumbImageUploadPath;
         
         
-        $level4IntermediateActivityAnswerDetail = $this->Level4ActivitiesRepository->getIntermediateActivityAnswerByQuestionId($id);
+        $level4IntermediateActivityAnswerDetail = $this->level4ActivitiesRepository->getIntermediateActivityAnswerByQuestionId($id);
         
         return view('admin.Level4IntermediateActivityAnswer',compact('level4IntermediateActivityAnswerDetail','level4IntermediateActivityDetail','intermediateAnswerOriginalImageUploadPath','level4IntermediateActivityAnswerDetail','intermediateResponseOriginalImageUploadPath'));                  
     }
@@ -532,7 +532,7 @@ class Level4IntermediateActivityManagementController extends Controller {
         $questionData = array();
         $questionData['id'] = (isset($allPostdata['question_id']) && $allPostdata['question_id'] != '') ? e($allPostdata['question_id']) : 0;
         $questionData['l4ia_shuffle_options'] = (isset($allPostdata['shuffle_options']) && $allPostdata['shuffle_options'] != '') ? $allPostdata['shuffle_options'] : 0;
-        $lastInsertId = $this->Level4ActivitiesRepository->saveLevel4IntermediateActivity($questionData);        
+        $lastInsertId = $this->level4ActivitiesRepository->saveLevel4IntermediateActivity($questionData);        
         switch ($questionTemplateAnsType) {
             case "option_choice":
             case "true_false":    
@@ -570,7 +570,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                         $questionOptionData['l4iao_answer_group'] = isset($allPostdata['answer_group'][$key])?$allPostdata['answer_group'][$key]:0;   
                         $questionOptionData['l4iao_answer_image_description'] = isset($allPostdata['answer_image_description'][$key])?$allPostdata['answer_image_description'][$key]:'';   
                         $finalQuestionData = array('id'=>$key,'l4iao_question_id'=>$allPostdata['question_id'],'l4iao_answer_text'=>$questionOptionData['l4iao_answer_text'],'l4iao_answer_image'=>$questionOptionData['l4iao_answer_image'],'l4iao_answer_image_description'=>$questionOptionData['l4iao_answer_image_description'],'l4iao_correct_answer'=>$questionOptionData['l4iao_correct_answer'],'l4iao_answer_order'=>$questionOptionData['l4iao_answer_order'],'l4iao_answer_group'=>$questionOptionData['l4iao_answer_group']);
-                        $this->Level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key);                                                                    
+                        $this->level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key);                                                                    
                     }
                 }
             }
@@ -582,7 +582,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                         $questionOptionData['answer_option_text'] = $data;
                         $questionOptionData['answer_order'] = (isset($allPostdata['answer_order'][$key]))? $allPostdata['answer_order'][$key] : 0 ;
                         $finalQuestionData = array('id'=>$key,'l4iao_question_id'=>$allPostdata['question_id'],'l4iao_answer_order'=>$questionOptionData['answer_order'],'l4iao_answer_text'=>$questionOptionData['answer_option_text'] );
-                        $this->Level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key);
+                        $this->level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key);
                     }
                 }
             }
@@ -593,7 +593,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                     if($data != ''){
                         $questionOptionData['correct_answer'] = $data;                            
                         $finalQuestionData = array('id'=>$key,'l4iao_question_id'=>$allPostdata['question_id'],'l4iao_correct_answer'=>$questionOptionData['correct_answer']);                            
-                        $this->Level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key); 
+                        $this->level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key); 
                     }
                 }
             }                    
@@ -607,7 +607,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                         $questionOptionData['l4iao_correct_answer'] = isset($allPostdata['correct_answer'][$key])?$allPostdata['correct_answer'][$key]:'0'; 
                         $questionOptionData['l4iao_answer_order'] = isset($allPostdata['answer_order'][$key])?$allPostdata['answer_order'][$key]:'';   
                         $finalQuestionData = array('id'=>$key,'l4iao_question_id'=>$allPostdata['question_id'],'l4iao_answer_text'=>$questionOptionData['l4iao_answer_text'],'l4iao_correct_answer'=>$questionOptionData['l4iao_correct_answer'],'l4iao_answer_order'=>$questionOptionData['l4iao_answer_order']);
-                        $this->Level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key);                                                                    
+                        $this->level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key);                                                                    
                     }
                 }
             }
@@ -642,7 +642,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                     $questionOptionData['l4iao_answer_group'] = isset($allPostdata['answer_group'][$key])?$allPostdata['answer_group'][$key]:0;   
                     $questionOptionData['l4iao_answer_image_description'] = isset($allPostdata['answer_image_description'][$key])?$allPostdata['answer_image_description'][$key]:'';   
                     $finalQuestionData = array('id'=>$key,'l4iao_question_id'=>$allPostdata['question_id'],'l4iao_answer_text'=>$questionOptionData['l4iao_answer_text'],'l4iao_answer_image'=>$questionOptionData['l4iao_answer_image'],'l4iao_answer_image_description'=>$questionOptionData['l4iao_answer_image_description'],'l4iao_correct_answer'=>$questionOptionData['l4iao_correct_answer'],'l4iao_answer_order'=>$questionOptionData['l4iao_answer_order'],'l4iao_answer_group'=>$questionOptionData['l4iao_answer_group'],'l4iao_answer_response_text'=>$questionOptionData['l4iao_answer_response_text']);
-                    $this->Level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key);   
+                    $this->level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key);   
                     
                     //$key++;
                 }
@@ -671,7 +671,7 @@ class Level4IntermediateActivityManagementController extends Controller {
                     $questionOptionData['l4iao_answer_group'] = isset($allPostdata['answer_group'][$key2])?$allPostdata['answer_group'][$key2]:0;   
                     $questionOptionData['l4iao_answer_image_description'] = isset($allPostdata['answer_image_description'][$key2])?$allPostdata['answer_image_description'][$key2]:'';   
                     $finalQuestionData = array('id'=>$key2,'l4iao_question_id'=>$allPostdata['question_id'],'l4iao_answer_text'=>$questionOptionData['l4iao_answer_text'],'l4iao_answer_image_description'=>$questionOptionData['l4iao_answer_image_description'],'l4iao_correct_answer'=>$questionOptionData['l4iao_correct_answer'],'l4iao_answer_order'=>$questionOptionData['l4iao_answer_order'],'l4iao_answer_group'=>$questionOptionData['l4iao_answer_group'],'l4iao_answer_response_text'=>$questionOptionData['l4iao_answer_response_text'],'l4iao_answer_response_image'=>$questionOptionData['l4iao_answer_response_image']);
-                    $this->Level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key2);   
+                    $this->level4ActivitiesRepository->updateLevel4IntermediateActivityOptions($finalQuestionData,$key2);   
                 }
             }
             break;                
@@ -691,7 +691,7 @@ class Level4IntermediateActivityManagementController extends Controller {
             }else{
                 $deleteData=array('l4ia_question_popup_image'=>'');
             }
-            $result = $this->Level4ActivitiesRepository->deleteAudioPopupImage($deleteData,$id);
+            $result = $this->level4ActivitiesRepository->deleteAudioPopupImage($deleteData,$id);
             if($result){                
                 unlink($this->intermediateQuestionOriginalImageUploadPath.$file);  
                 return Redirect::to("admin/editlevel4IntermediateActivity/".$id)->with('success', 'File has been deleted successfully');

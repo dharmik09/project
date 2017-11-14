@@ -121,6 +121,9 @@ Route::post('/addCoinsDataForTemplate','Admin\Level4TemplateManagementController
 Route::post('/saveCoinsDataForTemplate','Admin\Level4TemplateManagementController@saveCoinsDataForTemplate');
 Route::get('/addLevel4Template', 'Admin\Level4TemplateManagementController@add');
 
+Route::get('/listLevel4IntermediateActivity/', 'Admin\Level4IntermediateActivityManagementController@index');
+Route::post('/listLevel4IntermediateActivity/', 'Admin\Level4IntermediateActivityManagementController@index');
+
 //PRO-VERSION
 Route::get('/copyConcept', 'Admin\Level4TemplateManagementController@copyConcept');
 Route::post('/saveCopyConcept', 'Admin\Level4TemplateManagementController@saveCopyConcept');
