@@ -16,8 +16,8 @@ class TeenParentRequest extends Model {
         return $return;
     }
     public function getTeenParentRequestDetail($id) {
-        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEEN_PARENT_REQUEST') . " AS teen_parent ")
-                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen_parent.tpr_teen_id', '=', 'teen.id')
+        $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEEN_PARENT_REQUEST') . " AS teen_parent")
+                ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen_parent.tpr_teen_id', '=', 'teen.id')
                 ->selectRaw('teen_parent.* , teen.t_name, teen.t_email')
                 ->where('teen_parent.tpr_parent_id',$id)
                 ->get();

@@ -45,32 +45,32 @@ class Invoice extends Model
         }
 
         if ($searchParamArray['type'] == 1){
-            $invoice =DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice ")
-                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans ", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
-                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen ", 'teen.id', '=', 'trans.tn_userid')
+            $invoice =DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice")
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'trans.tn_userid')
                     ->selectRaw('invoice.* , trans.tn_email,trans.tn_billing_name,trans.tn_amount,trans.tn_coins,teen.t_name')
                     ->whereRaw($whereStr)
                     ->groupBy('invoice.i_invoice_id')
                     ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
         } elseif($searchParamArray['type'] == 2) {
-            $invoice =DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice ")
-                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans ", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
-                    ->leftjoin(config::get('databaseconstants.TBL_PARENTS') . " AS parent ", 'parent.id', '=', 'trans.tn_userid')
+            $invoice =DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice")
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
+                    ->leftjoin(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'parent.id', '=', 'trans.tn_userid')
                     ->selectRaw('invoice.* , trans.tn_email,trans.tn_billing_name,trans.tn_amount,trans.tn_coins,parent.p_first_name')
                     ->whereRaw($whereStr)
                     ->groupBy('invoice.i_invoice_id')
                     ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
         } elseif($searchParamArray['type'] == 4) {
-            $invoice =DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice ")
-                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans ", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
-                    ->leftjoin(config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor ", 'sponsor.id', '=', 'trans.tn_userid')
+            $invoice =DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice")
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
+                    ->leftjoin(config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor", 'sponsor.id', '=', 'trans.tn_userid')
                     ->selectRaw('invoice.* , trans.tn_email,trans.tn_billing_name,trans.tn_amount,trans.tn_coins,sponsor.sp_admin_name')
                     ->whereRaw($whereStr)
                     ->groupBy('invoice.i_invoice_id')
                     ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
         } else {
-            $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice ")
-                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans ", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
+            $invoice = DB::table(config::get('databaseconstants.TBL_INVOICE') . " AS invoice")
+                    ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans", 'trans.tn_transaction_id', '=', 'invoice.i_transaction_id')
                     ->selectRaw('invoice.* , trans.tn_email,trans.tn_billing_name,trans.tn_amount,trans.tn_coins')
                     ->whereRaw($whereStr)
                     ->groupBy('invoice.i_invoice_id')

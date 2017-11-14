@@ -23,10 +23,10 @@ class Schools extends Model {
    */
   public function getActiveSchools()
   {
-      $result = $this->select('*')
+        $result = $this->select('*')
                       ->where('deleted', '1')
                       ->get();
-      return $result;
+        return $result;
   }
   /**
    * The get active school by @id.

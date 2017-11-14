@@ -13,7 +13,7 @@ class Level4Answers extends Model
     public function getLevel4BasicDetailById($id, $proId)
     {
          $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ANSWERS') ." AS answer")
-                        ->join(config::get('databaseconstants.TBL_LEVEL4_BASIC_ACTIVITY') . " AS activity ", 'activity.id', '=', 'answer.activity_id')
+                        ->join(config::get('databaseconstants.TBL_LEVEL4_BASIC_ACTIVITY') . " AS activity", 'activity.id', '=', 'answer.activity_id')
                         ->select(DB::raw('SUM(answer.earned_points) AS earned_points'))
                         ->where('answer.deleted', '=', 1)
                         ->where('answer.teenager_id', '=', $id)
