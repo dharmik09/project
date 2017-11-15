@@ -161,6 +161,16 @@ Route::get('/addLearningStyle', 'Admin\LearningStyleManagementController@add')->
 Route::post('/saveLearningStyle', 'Admin\LearningStyleManagementController@saveLearningStyle')->name('saveLearningStyle');
 Route::get('/editLearningStyle/{id}', 'Admin\LearningStyleManagementController@editLearningStyle')->name('editLearningStyle');
 
+//Profession Learning Guidance
+Route::get('/professionLearningStyle', 'Admin\ProfessionLearningStyleManagementController@index');
+Route::post('/professionLearningStyle', 'Admin\ProfessionLearningStyleManagementController@index');
+Route::get('/addProfessionLeaningStyle', 'Admin\ProfessionLearningStyleManagementController@add');
+Route::get('/editProfessionLearningStyle/{id}', 'Admin\ProfessionLearningStyleManagementController@edit');
+Route::post('/saveProfessionLearningStyle', 'Admin\ProfessionLearningStyleManagementController@save');
+Route::get('/importLearningStyle','Admin\ProfessionLearningStyleManagementController@importExcel');
+Route::post('/addLeaningStyleImportExcel','Admin\ProfessionLearningStyleManagementController@addimportExcel');
+
+
 //PRO-VERSION
 Route::get('/copyConcept', 'Admin\Level4TemplateManagementController@copyConcept');
 Route::post('/saveCopyConcept', 'Admin\Level4TemplateManagementController@saveCopyConcept');

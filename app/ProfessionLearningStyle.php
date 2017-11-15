@@ -23,32 +23,13 @@ class ProfessionLearningStyle extends Model{
         return $return;
     }
 
-    public function getAllProfessionLearningStyle($searchParamArray) {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'LearningStyle.deleted IN (1,2)';
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
-
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-
+    public function getAllProfessionLearningStyle() {
         $learningStyle = DB::table(config::get('databaseconstants.TBL_PROFESSION_LEARNING_STYLE'). " AS LearningStyle")
                         ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'profession.id', '=', 'LearningStyle.pls_profession_id')
                         ->selectRaw('LearningStyle.*, profession.pf_name, GROUP_CONCAT(LearningStyle.pls_activity_name ORDER BY LearningStyle.id ASC SEPARATOR "##") AS activity_name')
-                        ->whereRaw($whereStr . $orderStr)
+                        ->where('LearningStyle.deleted', '<>', Config::get('constant.DELETED_FLAG'))
                         ->groupBy('LearningStyle.pls_profession_id')
-                        ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                        ->get();
 
         return $learningStyle;
     }

@@ -243,7 +243,11 @@
                                             <i class="fa fa-circle-o"></i><span>Learning Guidance</span>
                                         </a>
                                     </li>
-                                    
+                                    <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/professionLearningStyle') ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/professionLearningStyle') }}">
+                                            <i class="fa fa-circle-o"></i><span>Profession Learning Guidance</span>
+                                        </a>
+                                    </li>
                                     @endif
                                 </ul>
                             </li> 
