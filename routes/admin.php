@@ -147,8 +147,12 @@ Route::get('/viewUserAllAdvanceActivities/{teenager}/{profession}/{type}', 'Admi
 Route::post('/verifyUserAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@verifyUserAdvanceTask');
 Route::post('/deleteUserAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@deleteUserAdvanceTask');
 
+//Advance Parent Task
 Route::get('/level4AdvanceActivityParentTask', 'Admin\Level4AdvanceActivityManagementController@level4AdvanceActivityParentTask');
 Route::post('/level4AdvanceActivityParentTask', 'Admin\Level4AdvanceActivityManagementController@level4AdvanceActivityParentTask');
+Route::get('/viewParentAllAdvanceActivities/{parent}/{profession}/{type}', 'Admin\Level4AdvanceActivityManagementController@viewParentAllAdvanceActivities');
+Route::post('/verifyParentAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@verifyParentAdvanceTask');
+Route::post('/deleteParentAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@deleteParentAdvanceTask');
 
 //PRO-VERSION
 Route::get('/copyConcept', 'Admin\Level4TemplateManagementController@copyConcept');

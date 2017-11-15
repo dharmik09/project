@@ -12,7 +12,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-3">
-            <?php $pointTable =  url($level4AdvanceOriginalImageUploadPath.'point_table.png'); ?>
+            <?php $pointTable =  Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.'point_table.png'; ?>
             <span class="read_more" onclick="viewLargeImage('{{$pointTable}}')">Click to view reference point table</span>
         </div>
         <div class="col-md-9">
@@ -32,7 +32,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" id="image_tab" class="tab-pane fade {{(isset($typeId) && $typeId == 3)?'in active':''}}">
                         <div class="box-body">
-                            @if(isset($userAllImageTasks) && !empty($userAllImageTasks))
+                            @if(isset($userAllImageTasks) && !empty($userAllImageTasks->toArray()))
                             <form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/admin/verifyParentAdvanceTask') }}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="parent" value="{{(isset($parentDetail) && !empty($parentDetail)) ? $parentDetail->id : 0}}">
@@ -40,12 +40,12 @@
                             <input type="hidden" name="typeId" value="{{(isset($typeId) && !empty($typeId)) ? $typeId : 3}}">
                             @foreach($userAllImageTasks as $task)
                              <?php
-                                if(File::exists(public_path($level4AdvanceThumbImageUploadPath.$task->l4aapa_media_name)) && $task->l4aapa_media_name != '') {
-                                    $Originalimage =  url($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name);
-                                    $image =  url($level4AdvanceThumbImageUploadPath.$task->l4aapa_media_name);
+                                if(Storage::disk('s3')->exists($level4AdvanceThumbImageUploadPath.$task->l4aapa_media_name) && $task->l4aapa_media_name != '') {
+                                    $Originalimage =  Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name;
+                                    $image =  Config::get('constant.DEFAULT_AWS').$level4AdvanceThumbImageUploadPath.$task->l4aapa_media_name;
                                 }else{
-                                    $image =  url($level4AdvanceThumbImageUploadPath.'proteen-logo.png');
-                                    $Originalimage =  url($level4AdvanceThumbImageUploadPath.'proteen-logo.png');
+                                    $image =  asset($level4AdvanceThumbImageUploadPath.'proteen-logo.png');
+                                    $Originalimage =  asset($level4AdvanceThumbImageUploadPath.'proteen-logo.png');
                                 }
                              ?>
                             <div class='cst_tbl'>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <div role="tabpanel" id="document_tab" class="tab-pane fade {{(isset($typeId) && $typeId == 2)?'in active':''}}">
-                        @if(isset($userAllDocumentTasks) && !empty($userAllDocumentTasks))
+                        @if(isset($userAllDocumentTasks) && !empty($userAllDocumentTasks->toArray()))
                             <form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/admin/verifyParentAdvanceTask') }}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="parent" value="{{(isset($parentDetail) && !empty($parentDetail)) ? $parentDetail->id : 0}}">
@@ -118,11 +118,11 @@
                             <input type="hidden" name="typeId" value="{{(isset($typeId) && !empty($typeId)) ? $typeId : 3}}">
                             @forelse($userAllDocumentTasks as $task)
                              <?php
-                                if(File::exists(public_path($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name)) && $task->l4aapa_media_name != '') {
-                                    $image =  url($level4AdvanceOriginalImageUploadPath.'document.png');
-                                    $documentPath = url($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name);
-                                }else{
-                                    $image =  url($level4AdvanceOriginalImageUploadPath.'no_document.png');
+                                if($task->l4aapa_media_name != '' && Storage::disk('s3')->exists($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name)) {
+                                    $image =  Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.'document.png';
+                                    $documentPath = Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name;
+                                } else{
+                                    $image =  asset($level4AdvanceOriginalImageUploadPath.'no_document.png');
                                     $documentPath = 'javascript:void(0)';
                                 }
                              ?>
@@ -189,7 +189,7 @@
 
                     </div>
                     <div role="tabpanel" id="video_tab" class="tab-pane fade {{(isset($typeId) && $typeId == 1)?'in active':''}}">
-                       @if(isset($userAllVideoTasks) && !empty($userAllVideoTasks))
+                       @if(isset($userAllVideoTasks) && !empty($userAllVideoTasks->toArray()))
                             <form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/admin/verifyParentAdvanceTask') }}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="parent" value="{{(isset($parentDetail) && !empty($parentDetail)) ? $parentDetail->id : 0}}">
@@ -197,11 +197,12 @@
                             <input type="hidden" name="typeId" value="{{(isset($typeId) && !empty($typeId)) ? $typeId : 3}}">
                             @forelse($userAllVideoTasks as $task)
                             <?php
-                                if(File::exists(public_path($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name)) && $task->l4aapa_media_name != '') {
-                                    $image =  url($level4AdvanceOriginalImageUploadPath.'video.png');
-                                    $videoPath = url($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name);
+                                if($task->l4aapa_media_name != '' && Storage::disk('s3')->exists($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name)) {
+                                    $image =  Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.'video.png';
+                                    $videoPath = Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name;
+
                                 }else{
-                                    $image =  url($level4AdvanceOriginalImageUploadPath.'no-video.jpg');
+                                    $image =  asset($level4AdvanceOriginalImageUploadPath.'no-video.jpg');
                                     $videoPath = 'javascript:void(0)';
                                 }
                              ?>
@@ -250,7 +251,7 @@
                                   </td>
 
                                   <td class="button_delete" style="vertical-align: bottom;">
-                                      <input type="button" style="margin-bottom: 14px;" value="Delete" onclick="deleteLevel4AdvanceTaskUser({{$task->id}},'{{$task->l4aapa_media_name}}','{{$task->l4aapa_media_type}}');">
+                                      <input type="button" style="margin-bottom: 14px;" value="Delete" onclick="deleteLevel4AdvanceTaskParent({{$task->id}},'{{$task->l4aapa_media_name}}','{{$task->l4aapa_media_type}}');">
                                   </td>
                                 </tr>
                               </table>
