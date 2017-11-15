@@ -1,7 +1,12 @@
 @extends('layouts.admin-master')
 
 @section('content')
-
+<style type="text/css">
+    .highlighted{
+        color: #fff !important;
+        background-color:#3875d7 !important;
+    }
+</style>
 <section class="content-header">
     <h1>
         Teen PROMISE Report
@@ -20,10 +25,14 @@
                             <select name="teenagerId"  class="form-control chosen-select-width">           
                                 <?php
                                 foreach ($teenager as $key => $teen) {
-                                    //$photo = $teen->t_photo;
-                                    //$profilePicUrl = asset(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo);
+                                    if ($teen->t_photo != '') {
+                                        $profilePicUrl = Config::get('constant.DEFAULT_AWS').Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teen->t_photo;
+                                    } else {
+                                        $profilePicUrl = asset('/backend/images/proteen_logo.png');
+                                    }
                                     ?>                    
-                                    <option value="{{$teen->id}}" <?php
+                                    <option value="{{$teen->id}}" style="background: url({{$profilePicUrl}}); background-size: 20px 20px;
+                                        background-repeat: no-repeat; padding-left: 25px;" <?php
                                     if (isset($id) && $id == $teen->id) {
                                         echo "selected='selected'";
                                     }
