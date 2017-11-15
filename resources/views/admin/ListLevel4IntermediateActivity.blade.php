@@ -16,129 +16,66 @@
         </div>
         <div class="col-md-12">
             <div class="box box-primary">
-                <div class="box-header">
-                <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
-                <form id="formSearchActivity" class="form-horizontal" method="post" action="{{ url('/admin/listLevel4IntermediateActivity') }}">
-                        <div class="col-md-3">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <select id="searchBy" name="searchBy" class="form-control">
-                                <option value="gt_template_title" <?php if(isset($searchParamArray['searchBy']) && $searchParamArray['searchBy'] == 'gt_template_title'){ echo 'selected = "selected"';}?> >{{trans('labels.formlblquestionconcept')}}</option>
-                                <option value="l4ia_question_text" <?php if(isset($searchParamArray['searchBy']) && $searchParamArray['searchBy'] == 'l4ia_question_text'){ echo 'selected = "selected"';}?> >{{trans('labels.formlblquestiontext')}}</option>
-                                <option value="pf_name" <?php if(isset($searchParamArray['searchBy']) && $searchParamArray['searchBy'] == 'pf_name'){ echo 'selected = "selected"';}?> >{{trans('labels.formlblprofession')}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" id="searchText" name="searchText" placeholder="{{trans('labels.lblsearch')}}" value="<?php if(isset($searchParamArray['searchText']) && $searchParamArray['searchText'] != ''){ echo $searchParamArray['searchText'];}?>" class="form-control" />
-                        </div>
-                        <div class="col-md-2">
-                            <select id="orderBy" name="orderBy" class="form-control">
-                                <option value="">{{trans('labels.formlblorderby')}}</option>
-                                <option value="l4ia_question_text" <?php if(isset($searchParamArray['orderBy']) && $searchParamArray['orderBy'] == 'l4ia_question_text'){ echo 'selected = "selected"';}?> >{{trans('labels.formlblquestiontext')}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <select id="sortOrder" name="sortOrder" class="form-control">
-                                <option value="">{{trans('labels.lblorder')}}</option>
-                                <option value="ASC" <?php if(isset($searchParamArray['sortOrder']) && $searchParamArray['sortOrder'] == 'ASC'){ echo 'selected = "selected"';}?> >Ascending</option>
-                                <option value="DESC" <?php if(isset($searchParamArray['sortOrder']) && $searchParamArray['sortOrder'] == 'DESC'){ echo 'selected = "selected"';}?> >Descending</option>
-                            </select>
-                        </div>
-                        <div class="col-md-1">
-                            <input type="submit" class="btn btn-primary btn-flat" name="searchLevel4IntermediateActivity" id="searchLevel4IntermediateActivity" value="{{trans('labels.lblsearch')}}"/>
-                        </div>
-                        <div class="col-md-1">
-                            <input type="submit" class="btn btn-primary btn-flat" name="clearSearch" id="clearSearch" value="{{trans('labels.lblclear')}}"/>
-                        </div>
-                    </form>
-                </div>
                 <div class="box-body">
-                    <table class="table table-striped">
-                        <tr>
-                           <th>{{trans('labels.serialnumber')}}</th>
-                           <th>Profession</th>
-                           <th>Question Concept</th>
-                           <th>Question</th>
-                           <th>Time</th>
-                           <th>Point</th>
-                           <th>Status</th>
-                           <th>{{trans('labels.basketblheadaction')}}</th>
-                        </tr>
-                        <?php $serialno = 0; ?>
-                        @forelse($leve4intermediateActivites as $activity)
-                        <?php $serialno++; ?>
-                        <tr>
-                            <td>
-                                <?php echo $serialno; ?>
-                            </td>
-                            <td>
-                                {{$activity->pf_name}}                      
-                            </td>
-                            <td style="width: 20%;">
-                                {{$activity->gt_template_title}}
-                            </td>
-                            <td title="{{strip_tags($activity->l4ia_question_text)}}">
-                                {!! str_limit(strip_tags($activity->l4ia_question_text),$limit = 100, $end = '...') !!}
-                            </td>
-                            <td>
-                                {{$activity->l4ia_question_time}}
-                            </td>
-                            <td>
-                                {{$activity->l4ia_question_point}}
-                            </td>
-                            <td>
-                                @if ($activity->deleted == 1)
-                                    <i class="s_active fa fa-square"></i>
-                                @else
-                                    <i class="s_inactive fa fa-square"></i>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ url('/admin/editlevel4IntermediateActivity') }}/{{$activity->id}}{{$page}}" title="Edit Question"><i class="fa fa-edit"></i> &nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deletelevel4IntermediateActivity') }}/{{$activity->id}}"><i class="i_delete fa fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="7"><center>{{trans('labels.norecordfound')}}</center></td>
-                        </tr>
-                        @endforelse
+                    <table class="table table-striped" id="list_table" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                               <th>{{trans('labels.serialnumber')}}</th>
+                               <th>Profession</th>
+                               <th>Question Concept</th>
+                               <th>Question</th>
+                               <th>Time</th>
+                               <th>Point</th>
+                               <th>Status</th>
+                               <th>{{trans('labels.basketblheadaction')}}</th>
+                            </tr>
+                        </thead>
                     </table>
-                    @if (isset($leve4intermediateActivites) && !empty($leve4intermediateActivites))
-                        <div class="pull-right">
-                            @if(isset($searchParamArray['searchText']))
-                                <?php
-                                    $text = $searchParamArray['searchText'];
-                                ?>
-                           @else
-                                <?php $text = ''; ?>
-                           @endif
-                           @if(isset($searchParamArray['searchBy']))
-                                <?php
-                                    $searchBy = $searchParamArray['searchBy'];
-                                ?>
-                           @else
-                                <?php $searchBy = ''; ?>
-                           @endif
-                           @if(isset($searchParamArray['orderBy']))
-                                <?php
-                                    $orderBy = $searchParamArray['orderBy'];
-                                ?>
-                           @else
-                                <?php $orderBy = ''; ?>
-                           @endif
-                           @if(isset($searchParamArray['sortOrder']))
-                                <?php
-                                    $sortOrder = $searchParamArray['sortOrder'];
-                                ?>
-                           @else
-                                <?php $sortOrder = ''; ?>
-                           @endif
-                            <?php echo $leve4intermediateActivites->appends(['searchText' => $text, 'searchBy' => $searchBy, 'orderBy' => $orderBy, 'sortOrder' => $sortOrder ])->render(); ?>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>
     </div>
 </section>
+@stop
+@section('script')
+    <script type="text/javascript">
+        var getAllList = function(ajaxParams){
+            $('#list_table').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "destroy": true,
+                "ajax":{
+                    "url": "{{ url('admin/getListLevel4IntermediateActivity') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    headers: { 
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    "data" : function(data) {
+                        if (ajaxParams) {
+                            $.each(ajaxParams, function(key, value) {
+                                data[key] = value;
+                            });
+                            ajaxParams = {};
+                        }
+                    }
+                },
+                "columns": [
+                    { "data": "id" },
+                    { "data": "pf_name" },
+                    { "data": "gt_template_title" },
+                    { "data": "l4ia_question_text" },
+                    { "data": "l4ia_question_time"},
+                    { "data": "l4ia_question_point"},
+                    { "data": "deleted"},
+                    { "data": "action", "orderable": false }
+                ]
+            });
+        };
+
+        $(document).ready(function() {
+            var ajaxParams = {};
+            getAllList(ajaxParams);
+        });
+    </script>
 @stop

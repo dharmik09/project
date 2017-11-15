@@ -1,13 +1,11 @@
 @extends('layouts.admin-master')
 
 @section('content')
-
 <section class="content-header">
     <h1>
         Media of :{!!$level4IntermediateActivityDetail->l4ia_question_text!!}
     </h1>
 </section>
-
 <section class="content">
     <div class="row">
         <div class="col-md-12">
@@ -19,21 +17,15 @@
         </div>
         <div class="col-md-12">
             <div class="box box-primary">
-
                 <form id="intermediateActivity" class="form-horizontal" method="post" action="{{ url('/admin/savelevel4IntermediateMedia') }}" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="question_id" value="{{$level4IntermediateActivityDetail->id}}">
-
                 <div class="box-body">
                     <?php $videoCount = 0;?>
                     @forelse($questionMedia as $media)
                     <?php
-                        if(File::exists(public_path($questionOriginalImagePath.$media->l4iam_media_name)) && $media->l4iam_media_name != '') {
-                            $image =  url($questionOriginalImagePath.$media->l4iam_media_name);
-                        }else{
-                            $image =  url($questionOriginalImagePath.'proteen-logo.png');
-                        }
-                     ?>
+                      $image = ($media->l4iam_media_name != '' && Storage::disk('s3')->exists($questionThumbImagePath.$media->l4iam_media_name)) ? Config::get('constant.DEFAULT_AWS').$questionThumbImagePath.$media->l4iam_media_name : asset($questionThumbImagePath.'proteen-logo.png');
+                    ?> 
                     @if($media->l4iam_media_type == 'I')
                     <div>
                       <table class='l4-intermediate-media'>
@@ -42,11 +34,7 @@
                               <span class="multi_image_setup">
                                 <input type='file' name="question_image[{{$media->id}}]" data-imgsel="#{{$media->id}}" class="img_select" />
                                 <span class="img_replace">
-                                    <?php if (!empty($image)) { ?>
                                     <img class="img_view" src="{{$image}}" id="{{$media->id}}"/>
-                                    <?php } else { ?>
-                                    <img class="img_view" src="" id="{{$media->id}}" alt="Add Question image" />
-                                    <?php } ?>
                                 </span>
                              </span>
                           </td>
@@ -109,14 +97,11 @@
                       </table>
                     </div>
                     @endfor
-
                 </div>
-
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary btn-flat">{{trans('labels.savebtn')}}</button>
                 </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -124,7 +109,6 @@
 @stop
 
 @section('script')
-
 <script type="text/javascript">
     function deleteLevel4Media(media_id,media_name,media_type)
     {

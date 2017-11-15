@@ -88,7 +88,6 @@
                         </div>
                     </div>
                     <ul class="sidebar-menu">
-                                              
                         @if(Auth::guard('admin')->user()->email != trans('labels.adminemailid'))
                             <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), $userMenuItems) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/teenagers') }}">
@@ -223,7 +222,19 @@
                                             <i class="fa fa-circle-o"></i><span>InterMediate Activities</span>
                                         </a>
                                     </li>
+                                    @if(Auth::guard('admin')->user()->email != trans('labels.adminemailid'))
+                                    <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/listlevel4advanceactivity') ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/listlevel4advanceactivity') }}">
+                                            <i class="fa fa-circle-o"></i><span>Advance Activities</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/level4AdvanceActivityUserTask') ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/level4AdvanceActivityUserTask') }}">
+                                            <i class="fa fa-circle-o"></i><span>Advance User Tasks</span>
+                                        </a>
+                                    </li>
                                     
+                                    @endif
                                 </ul>
                             </li> 
                             <li class="{{ (Request::is('admin/listHint') ||  Request::is('admin/genericAds') || Request::is('admin/editConfiguration/*') || Request::is('admin/configurations') || Request::is('admin/editTemplate/*') || Request::is('admin/templates') || Request::is('admin/editCms/*') || Request::is('admin/cms') || Request::is('admin/editHintLogic/*')) ? 'active': '' }} treeview">

@@ -93,13 +93,7 @@
                 { "data": "importData" , "orderable": false},
                 { "data": "created_at" },
                 { "data": "action", "orderable": false }
-            ], 
-            "initComplete": function(settings, json) {
-                if(typeof(json.customMessage) != "undefined" && json.customMessage !== '') {
-                    $('.customMessage').removeClass('hidden');
-                    $('#customMessage').html(json.customMessage);
-                }
-            }
+            ]
         });
     };
 
