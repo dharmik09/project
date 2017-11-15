@@ -1,0 +1,468 @@
+.bg-offwhite {
+    background: $bg-offwhite;
+}
+
+.sec-banner {
+    background-image: url(../img/interest-banner.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    background-repeat: no-repeat;
+    min-height: 686px;
+    @include maxlg {
+        min-height: 600px;
+    }
+    @include maxmd {
+        min-height: 520px;
+    }
+    @include maxsm {
+        min-height: 400px;
+    }
+    @include maxms {
+        min-height: 340px;
+    }
+}
+
+.introduction-text {
+    padding: 60px 0;
+    max-width: 1116px;
+    margin: 0 auto;
+    color: $r-cl;
+    font-family: hl;
+    font-size: 16px;
+    @include maxmd {
+        padding: 45px 0;
+    }
+    @include maxms {
+        padding: 30px 0;
+    }
+    h1 {
+        font-size: 54px;
+        color: $p-cl;
+        float: left;
+        margin-bottom: 30px;
+        width: 80%;
+        @include maxlg {
+            font-size: 48px
+        }
+        @include maxsm {
+            font-size: 36px;
+            width: 70%;
+        }
+        @include maxms {
+            font-size: 26px;
+        }
+    }
+    .sec-popup {
+        float: right;
+        width: 20%;
+        text-align: right;
+        @include maxsm {
+            width: 30%;
+        }
+
+        a {
+            display: inline-block;
+            color: $lightgrey;
+            font-size: 35px;
+            text-decoration: none;
+            margin-right: 15px;
+            @include maxms {
+                font-size: 25px;
+            }
+        }
+        .popover {
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 0;
+        }
+        .popover-title {
+            display: none;
+        }
+        .popover-content {
+            padding: 40px 20px;
+        }
+    }
+    p {
+        color: $r-cl;
+        font-size: 16px;
+    }
+}
+
+.bg-white {
+    background: $white;
+    padding: 42px;
+    @include maxmd {
+        padding: 32px;
+    }
+    @include maxms {
+        padding: 20px 15px;
+    }
+    h4 {
+        font-size: 26px;
+        color: $r-cl;
+        font-family: hb;
+        font-weight: 700;
+        @include maxsm {
+            font-size: 22px;
+        }
+        @include maxms {
+            font-size: 20px;
+        }
+    }
+}
+
+.sec-popup {
+    float: right;
+    a {
+        display: inline-block;
+        color: $lightgrey;
+        font-size: 35px;
+        text-decoration: none;
+        @include maxms {
+            font-size: 25px;
+        }
+    }
+    .popover-content {
+        padding: 35px 10px
+    }
+}
+
+.match-strong {
+    background: $strong;
+    color: $white;
+}
+
+.match-potential {
+    background: $potential;
+    color: $white;
+}
+
+.match-unlikely {
+    background: $unlikely;
+    color: $white;
+}
+
+.match-list {
+    float: right;
+    padding: 0;
+    @include maxsm {
+        float: none;
+    }
+    li {
+        display: inline-block;
+        list-style-type: none;
+        font-family: hn-b;
+        font-weight: 700;
+        font-size: 18px;
+        color: $r-cl;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        @include maxms {
+            font-size: 14px;
+        }
+        .number {
+            font-family: hn-b;
+            font-size: 18px;
+            text-align: center;
+            width: 30px;
+            height: 29px;
+            line-height: 29px;
+            display: inline-block;
+            margin-right: 3px;
+            vertical-align: middle;
+            @include maxms {
+                line-height: 20px;
+                width: 20px;
+                height: 20px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.related-careers {
+    padding-bottom: 30px;
+    .career-heading {
+        margin-bottom: 13px;
+        h4 {
+            float: left;
+            color: $r-cl;
+            font-family: hb;
+            font-weight: 700;
+            @include maxmd {
+                margin-bottom: 25px;
+            }
+        }
+        .pull-right {
+            @include maxmd {
+                float: left !important;
+            }
+        }
+    }
+    .sec-popup {
+        float: right;
+        a {
+            display: inline-block;
+            color: $lightgrey;
+            font-size: 35px;
+            text-decoration: none;
+            @include maxms {
+                font-size: 25px;
+            }
+        }
+    }
+
+    .career-list {
+        padding: 0;
+        list-style-type: none;
+        margin-bottom: 32px;
+        li {
+            margin-bottom: 5px;
+            position: relative;
+            a {
+                font-family: hl;
+                font-size: 28px;
+                width: 100%;
+                display: block;
+                padding: 10px 30px;
+                color: $white;
+                text-decoration: none;
+                text-transform: inherit;
+                @include maxlg {
+                    font-size: 24px;
+                }
+                @include maxmd {
+                    font-size: 20px;
+                }
+                @include maxsm {
+                    font-size: 16px;
+                    padding: 10px 15px;
+                }
+                @include maxms {
+                    font-size: 13px;
+                }
+                &:hover {
+                    text-decoration: none;
+                    background: $i-cl;
+                }
+            }
+
+            &.complete-feild {
+                padding: 0;
+                display: table;
+                width: 100%;
+                a {
+                    width: 80%;
+                    display: table-cell;
+                    vertical-align: middle;
+                    box-sizing: border-box;
+                }
+                .complete {
+                    background: $cl-complete;
+                    width: 20%;
+                    display: table-cell;
+                    padding: 10px 15px;
+                    vertical-align: middle;
+                    text-align: center;
+                    span {
+                        font-family: hl;
+                        font-size: 28px;
+                        text-transform: capitalize;
+                        @include maxlg {
+                            font-size: 24px;
+                        }
+                        @include maxmd {
+                            font-size: 20px;
+                        }
+                        @include maxsm {
+                            font-size: 16px;
+                        }
+                        @include maxms {
+                            font-size: 13px
+                        }
+                    }
+                }
+            }
+        }
+    }
+    p {
+        margin-bottom: 0;
+    }
+    a {
+        color: $p-cl;
+        text-decoration: underline;
+        font-size: 18px;
+        text-transform: uppercase;
+        font-family: h;
+        @include maxms {
+            font-size: 14px;
+        }
+        &:hover {
+            color: $dark;
+        }
+    }
+}
+
+.flex-item {
+    display: inline-flex;
+}
+
+.sec-team {
+    padding-bottom: 130px;
+    @include maxlg {
+        padding-bottom: 100px;
+    }
+    @include maxsm {
+        padding-bottom: 50px;
+    }
+    h4 {
+        margin-bottom: 30px;
+    }
+    .team-list {
+        max-width: 670px;
+        margin: 0 auto 30px;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 21px;
+        color: $r-cl;
+        &:last-child {
+            margin-bottom: 40px;
+        }
+        @include maxsm {
+            max-width: 100%;
+        }
+        .flex-item {
+            flex-basis: 50%;
+            align-items: center;
+            padding: 0 15px;
+            @include maxsm {
+                flex-basis: 100%;
+            }
+            @include maxms {
+                padding: 0;
+            }
+        }
+        .team-detail {
+            font-family: hl;
+            font-size: 21px;
+            color: $r-cl;
+            position: relative;
+            width: 100%;
+            &:before {
+                position: absolute;
+                content: '';
+                height: 40px;
+                width: 1px;
+                background: $r-cl;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+                @include maxsm {
+                    display: none;
+                }
+            }
+            .team-img {
+                max-width: 83px;
+                max-height: 83px;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 10%;
+                @include maxsm {
+                    margin-right: 40px;
+                }
+                @include maxms {
+                    max-width: 63px;
+                    max-height: 63px;
+                    margin-right: 20px;
+                }
+            }
+        }
+        .team-point {
+            font-family: hn-b;
+            @include maxsm {
+                width: 100%;
+                margin-left: 128px;
+                margin-top: -30px;
+            }
+            @include maxms {
+                margin-left: 88px;
+                margin-top: -25px;
+                font-size: 14px;
+            }
+            i {
+                font-size: 40px;
+                color: $w-cl;
+                font-weight: 700;
+                margin-left: 60px;
+                display: inline-block;
+                vertical-align: middle;
+                @include maxsm {
+                    font-size: 30px;
+                    margin-left: 30px;
+                }
+                @include maxms {
+                    font-size: 20px;
+                    margin-left: 20px;
+                }
+            }
+        }
+        a {
+            color: $r-cl;
+            text-decoration: none;
+            &:hover {
+                text-decoration: none;
+                color: $p-cl;
+            }
+        }
+    }
+    a {
+        color: $p-cl;
+        text-decoration: underline;
+        font-size: 18px;
+        text-transform: uppercase;
+        font-family: h;
+        @include maxms {
+            font-size: 14px;
+        }
+        &:hover {
+            color: $dark;
+        }
+    }
+}
+.popover{padding: 0;}
+.social-icon {
+    padding: 0;
+    list-style-type: none;
+    margin: -40px -20px;
+    width: 100px;
+    li {
+        background: $dark;
+        color: $white;
+        font-size: 20px;
+        width: 50%;
+        height: 100%;
+        float: left;
+        a {
+            color: $white;
+            display: block;
+            width: 100%;
+            text-align: center;
+            i {
+                font-size: 20px;
+                color: $white;
+            }
+            &.facebook {
+                background: #3b5998;
+                &:hover{
+                    background: #597dc7;
+                }
+            }
+            &.twitter{
+                background: #00bef6;
+                &:hover{
+                    background: #4bd1f9;
+                }
+            }
+        }
+    }
+}

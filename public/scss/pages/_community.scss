@@ -1,0 +1,27 @@
+.sec-connection{
+    .my-progress{
+        @include maxms{
+            padding-bottom: 15px;
+        }
+    }
+    .progress-tab{
+        li{
+            width: 50%;
+            a{
+                @include maxms{
+                    padding: 15px 8px;
+                }
+            }
+        }
+    }
+    .load-more{
+        font-family: hn-b;
+        font-size: 18px;
+        text-transform: uppercase;
+        color: $w-cl;
+        text-decoration: underline;
+        &:hover, &:focus{
+            color: $cl-complete;
+        }
+    }
+}

@@ -1,0 +1,319 @@
+.procoin-heading {
+    padding: 81px 0 50px;
+    text-align: center;
+    @include maxlg{
+        padding: 55px 0 ;
+    }
+    @include maxmd{
+        padding: 35px 0;
+    }
+    h1 {
+        font-size: 75px;
+        font-family: al;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+        @include maxmd{
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        @include maxsm{
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+    }
+    p {
+        font-family: h;
+        font-size: 24px;
+        color: $r-cl;
+        @include maxsm{
+            font-size: 18px;
+        }
+    }
+    .procoin-form {
+        padding-top: 45px;
+        margin: 0 auto;
+        @include maxmd{
+            padding-top: 35px;
+        }
+        @include maxms{
+            padding-top: 20px;
+        }
+        .form-group {
+            max-width: 476px;
+            margin: 0 auto 35px;
+            .form-control {
+                border: 1px solid #7f8286;
+                height: 57px;
+                padding: 6px 29px;
+                @include maxms{
+                    height: 42px;
+                    padding: 6px 15px;
+                }
+                &::-webkit-input-placeholder {
+                    color: $lightgrey;
+                }
+                &:-ms-input-placeholder {
+                    color: $lightgrey;
+                }
+                &::-moz-placeholder {
+                    color: $lightgrey;
+                }
+            }
+            .btn-submit {
+                text-transform: uppercase;
+                border: 2px solid $cl-complete;
+                color: $cl-complete;
+                padding: 8px 70px;
+                background: transparent;
+                display: inline-block;
+                margin-top: 38px;
+                font-family: hn-b;
+                font-size: 20px;
+                @include maxms{
+                    font-size: 17px;
+                    margin-top: 30px;
+                    padding: 8px 50px;
+                }
+            }
+        }
+    }
+}
+
+.procoins {
+    margin-bottom: 90px;
+    position: relative;
+    .icon_arrow {
+        position: absolute;
+        top: -46px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 87px;
+        color: $h-cl;
+        @include maxmd{
+            font-size: 67px;
+        }
+        @include maxms{
+            font-size: 55px;
+        }
+        i {
+            transform: scaleX(-1);
+            display: inline-block;
+            &:before {
+                display: block;
+                transform: rotate(-149deg);
+            }
+        }
+    }
+}
+
+.sec-procoins {
+    text-align: center;
+    padding: 94px 0 40px;
+    @include maxlg{
+        padding: 60px 0;
+    }
+    @include maxmd{
+        padding: 45px 0;
+    }
+    @include maxsm{
+        padding: 35px 0;
+    }
+    h2 {
+        font-size: 39px;
+        text-transform: capitalize;
+        color: $h-cl;
+        margin-bottom: 24px;
+        @include maxms{
+            font-size: 32px;
+        }
+    }
+    p {
+        font-family: h;
+        font-size: 19px;
+        color: $r-cl;
+        max-width: 50%;
+        margin: 0 auto;
+        line-height: 1.6;
+        @include maxlg{
+            max-width: 60%;
+        }
+        @include maxmd{
+            max-width: 75%;
+        }
+        @include maxsm{
+            max-width: 100%;
+                font-size: 17px;
+            line-height: 1.3;
+        }
+    }
+    .list-procoins {
+        max-width: 900px;
+        margin: 100px auto 0;
+        @include maxlg{
+            margin-top: 70px;
+        }
+        @include maxmd{
+            margin-top: 45px;
+        }
+        .flex-items{
+            margin-bottom: 50px;
+        }
+        .block-procoins {
+            border: 1px solid #dfdfdf;
+            padding: 50px 20px;
+            position: relative;
+            height: 100%;
+            @include maxmd{
+                padding: 40px 20px;
+            }
+            @include maxsm{
+                padding: 30px 20px;
+            }
+            .coin-info {
+                margin-bottom: 50px;
+                @include maxmd{
+                    margin-bottom: 30px;
+                }
+                .icon {
+                    font-size: 140px;
+                    color: $h-cl;
+                    line-height: 1.35;
+                    @include maxmd{
+                        font-size: 110px;
+                    }
+                    @include maxsm{
+                        font-size: 90px;
+                    }
+                }
+                h4 {
+                    font-family: am;
+                    font-size: 29px;
+                    text-transform: capitalize;
+                    color: $r-cl;
+                    position: relative;
+                    padding-bottom: 27px;
+                    margin-bottom: 33px;
+                    @include maxmd{
+                        font-size: 24px;
+                        margin-bottom: 15px;
+                    }
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        height: 2px;
+                        width: 175px;
+                        background: #dfdfdf;
+                        bottom: 0;
+                        margin: 0 auto;
+                        left: 50%;
+                        transform: translatex(-50%);
+                    }
+                }
+                .price {
+                    font-size: 89px;
+                    font-weight: 700;
+                    color: $cl-complete;
+                    font-style: italic;
+                    @include maxlg{
+                        font-size:80px;
+                    }
+                    @include maxmd{
+                        font-size: 70px;
+                        margin-bottom: 15px;
+                    }
+                    span {
+                        font-size: 30px;
+                        font-style: normal;
+                        margin-left: 10px;
+                    }
+                }
+                .procoins-value {
+                    font-size: 53px;
+                    color: $h-cl;
+                    font-weight: 700;
+                    font-style: italic;
+                    font-family: am;
+                    position: relative;
+                    padding-bottom: 27px;
+                    margin-bottom: 35px;
+                    @include maxmd{
+                        font-size: 40px;
+                        padding-bottom: 20px;
+                        margin-bottom: 20px;
+                    }
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        height: 2px;
+                        width: 70%;
+                        background: #dfdfdf;
+                        bottom: 0;
+                        margin: 0 auto;
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
+                    span {
+                        font-weight: 500;
+                        font-size: 29px;
+                        margin-left: 10px;
+                        @include maxmd{
+                            font-size: 24px;
+                            margin-left: 5px;
+                        }
+                    }
+                }
+                p {
+                    font-size: 16px;
+                    color: $r-cl;
+                    max-width: 75%;
+                    @include maxlg{
+                        max-width: 100%;
+                    }
+                    @include maxsm{
+                        font-size: 15px;
+                    }
+                }
+            }
+            .btn-primary {
+                position: absolute;
+                bottom: -25px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: hl;
+                font-size: 24px;
+                color: $white;
+                text-transform: capitalize;
+                background: $cl-complete;
+                padding: 13px 89px;
+                border: 1px solid $cl-complete;
+                @include maxmd{
+                    font-size: 20px;
+                    padding: 12px 79px;
+                }
+                    @include maxms{
+                        font-size: 17px;
+                        padding: 8px 60px;
+                    }
+                &:hover,
+                &:focus {
+                    background: $dark;
+                    border-color: $dark;
+                }
+            }
+        }
+    }
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    .flex-items {
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+.row.flex-container:before,
+.row.flex-container:after {
+    display: block;
+}

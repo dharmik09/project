@@ -1,0 +1,276 @@
+
+nav{
+    background-color: $dark;
+    .logo{
+    	padding:18px 0;
+    	@include maxsm {padding:10px 0;
+			img{max-width:80%;}
+    	}
+    }
+    .menu-toggle{
+    	@include maxsm {
+			padding: 10px 0;
+    	}
+    }
+}
+.menu-toggle{
+	color:#fff;
+	font-size:28px;
+}
+
+.main-menu{
+    position: fixed;
+    z-index:99;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    height:100%;
+    width:100%;
+    background-color: $white;
+    display:block;
+    visibility:hidden;
+    opacity:0;
+    transition:all 0.5s ease-out;
+    transform:translateY(-100%);
+    &.active{
+        transform:translateY(0);
+        visibility:visible;
+        opacity:1;
+    }
+
+    .menu-container{
+        display:table;
+        width:100%;
+        height:100%;
+        text-align: center;
+        position:relative;
+    }
+    ul{
+        display:table-cell;
+        vertical-align: middle;
+        width:100%;
+        height:100%;
+        margin:0;
+        padding:0;
+        list-style-type: none;
+        li{
+            display:block;
+        }
+        a{
+            color:$s-cl;
+            font-size:43px;
+            font-family:'ab';
+            text-decoration:none;
+            line-height:85px;
+            &:focus,
+            &:active,
+            &:hover{
+                color:$p-cl;
+            }
+            &.active{
+                color:$p-cl;
+                font-weight: bold;
+            }
+
+            @include maxms{
+                font-size:18px;
+                line-height:3;
+            }
+
+            @include maxsm{
+                font-size:22px;
+                line-height:2;
+            }
+        }
+    }
+    .menu-rocket{
+        position: absolute;
+        transition:all 0.5s;
+        @include maxsm {
+            max-width:100px;
+        }
+    }
+    .menu-close{
+        font-size:40px;
+        position: absolute;
+        right:50px;
+        top:50px;
+        text-decoration:none;
+        color:$r-cl;
+        @include maxms{
+            top:20px;
+            right:20px;
+        }
+    }
+}
+
+.nav-bar{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    li > a{
+        text-decoration:none;
+        color:#fff;
+        font-size:30px;
+        position: relative;
+        padding: 27px 0 27px 25px;
+        display:block
+    }
+    li{
+        float: left;
+        &.n-coin{
+            &>a{
+                font-family:'hb';
+                font-size:23px;
+            }
+            span{
+                margin-right: 5px;
+                display:inline-block
+            }
+        }
+        &.n-user{
+            &>a{
+                display:block;
+                margin-top:-5px;
+                font-size:40px;
+                .badge{
+                    position:absolute;
+                    top:16px;
+                    right:-8px;
+                    height:20px;
+                    width:20px;
+                    display:block;
+                    background-color:$p-cl;
+                    border-radius: 50%;
+                    color:#fff;
+                    text-align:center;
+                    font-family:'hnb';
+                    font-size:13px;
+                    padding: 0;
+                    line-height:20px;
+                }
+            }
+        }
+    }
+}
+
+
+.coins,
+.n-user,
+.n-coin,
+.n-window,
+.n-menu{
+    &>a{
+        line-height:30px;
+    }
+}
+
+.coins{
+    @extend .i-coin;
+    display:inline-block;
+    width:20px;
+    height:20px;
+}
+
+.n-user{}
+
+.n-window{
+    a{
+
+    }
+}
+.n-menu{}
+
+
+
+
+
+// Here goes submenu functionality
+.submenu-container{
+    position: relative;
+    .submenu{
+        width:400px;
+        background-color: $lightgrey;
+        padding:20px;
+        position: absolute;
+        visibility:hidden;
+        top:0;
+        right:0;
+        opacity:0;
+        transition:all 0.5s ease-out;
+        &:before{
+            content:'';
+            position: absolute;
+            top:0;
+            right:0;
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 20px solid $lightgrey;
+        }
+    }
+    &:hover{
+        .submenu{
+            top:100%;
+            opacity:1;
+            visibility:visible;
+        }
+    }
+
+    .btns{
+        text-align: center;
+        padding-top: 15px;
+        .btn{
+            font-weight:900;
+        }
+    }
+    h2{
+        color:$white;
+        padding:0;
+        margin:0;
+        font-size:33px;
+        font-family: 'am';
+        display:block;
+    }
+    p{
+        color:$white;
+        padding:0;
+        margin:0;
+        font-family:'ht';
+        display:block;
+        font-size:14px;
+    }
+    .user-avatar{
+        width:100px;
+        height:100px;
+        overflow: hidden;
+        border-radius:50%;
+        display:inline-block;
+        vertical-align: middle;
+        img{
+            width:100%;
+            height:100%;
+        }
+    }
+    .user-name{
+        display:inline-block;
+        vertical-align: middle;
+    }
+
+
+
+    // For procoins
+    &.n-coin {
+        .submenu{
+            width:260px;
+        }
+        h2{
+            padding-top:30px;
+        }
+        .btns{
+            text-align:left;
+        }
+    }
+}

@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +13,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', 'Home\HomeController@index');
 
 Route::group(['prefix' => 'admin'], function () {
 	Route::get('/', 'Admin\LoginController@login');
