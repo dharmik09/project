@@ -142,7 +142,7 @@ class Level4AdvanceActivityManagementController extends Controller {
             }
         }
         $saveUserData = array();
-        $earnedPoints = '';
+        $earnedPoints = 0;
         if (isset($postData['boosterPoint']) && !empty($postData)) {
             foreach ($postData['boosterPoint'] as $key => $val) {
                 if (isset($postData['status'][$key]) && $postData['status'][$key] != '' && $postData['verified_status'][$key] != 2 && $postData['verified_status'][$key] != 3) {
@@ -183,7 +183,9 @@ class Level4AdvanceActivityManagementController extends Controller {
                 $templateId = "L4AV";
             }
 
+
             $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId,$templateId);
+
             if ($learningId != '') {
                 $objUserLearningStyle = new UserLearningStyle();
                 $learningData = $objUserLearningStyle->getUserLearningStyle($learningId);
