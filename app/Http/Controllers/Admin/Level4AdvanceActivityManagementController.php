@@ -272,11 +272,9 @@ class Level4AdvanceActivityManagementController extends Controller {
             }
         }
     }
-
     /*
      * Get Parent Task
      */
-
     public function level4AdvanceActivityParentTask() {
         $searchParamArray = Input::all();
         if (isset($searchParamArray['clearSearch'])) {
