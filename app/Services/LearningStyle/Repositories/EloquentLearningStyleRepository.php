@@ -15,31 +15,11 @@ class EloquentLearningStyleRepository extends EloquentBaseRepository implements 
       Parameters
       @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getAllLearningStyle($searchParamArray = array()) {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'deleted IN (1,2)';
-        $whereArray[] = 'ls_name != "" ';
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
-
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-
+    public function getAllLearningStyle() {
         $learningStyle = DB::table(config::get('databaseconstants.TBL_LEARNING_STYLE'))
                     ->selectRaw('*')
-                    ->whereRaw($whereStr . $orderStr)
-                    ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                    ->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->get();
 
         return $learningStyle;
     }

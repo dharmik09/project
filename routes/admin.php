@@ -154,6 +154,13 @@ Route::get('/viewParentAllAdvanceActivities/{parent}/{profession}/{type}', 'Admi
 Route::post('/verifyParentAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@verifyParentAdvanceTask');
 Route::post('/deleteParentAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@deleteParentAdvanceTask');
 
+//Learning Guidance
+Route::get('/level4LearningStyle', 'Admin\LearningStyleManagementController@index')->name('level4LearningStyle');
+Route::post('/level4LearningStyle', 'Admin\LearningStyleManagementController@index')->name('level4LearningStyle');
+Route::get('/addLearningStyle', 'Admin\LearningStyleManagementController@add')->name('addLearningStyle');
+Route::post('/saveLearningStyle', 'Admin\LearningStyleManagementController@saveLearningStyle')->name('saveLearningStyle');
+Route::get('/editLearningStyle/{id}', 'Admin\LearningStyleManagementController@editLearningStyle')->name('editLearningStyle');
+
 //PRO-VERSION
 Route::get('/copyConcept', 'Admin\Level4TemplateManagementController@copyConcept');
 Route::post('/saveCopyConcept', 'Admin\Level4TemplateManagementController@saveCopyConcept');
