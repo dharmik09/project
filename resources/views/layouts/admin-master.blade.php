@@ -203,7 +203,7 @@
                                 </ul>
                             </li>
                             <li class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/level4Activity', 'admin/viewUserAllAdvanceActivities/{teenager}/{profession}', 'admin/level4Activity', 'admin/level4AdvanceActivityUserTask', 'admin/editlevel4advanceactivity/{id}', 'admin/listlevel4advanceactivity', 'admin/editlevel4IntermediateActivity/{id}', 'admin/listLevel4IntermediateActivity', 'admin/editGamificationTemplate/{id}', 'admin/listGamificationTemplate', 'admin/editLeve4Activity/{id}', 'admin/addLevel4Activity', 'admin/editLevel4Activity', 'admin/level4LearningStyle', 'admin/level4AdvanceActivityParentTask']) ? 'active' : '' }} treeview">
-                                <a href="{{ url('admin/level4activity') }}">
+                                <a href="{{ url('admin/level4Activity') }}">
                                     <i class="fa fa-dashboard"></i> <span>{{trans('labels.level4')}}</span><i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
