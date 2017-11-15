@@ -1805,35 +1805,16 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
 
     /*Get Parents all tasks for AdvanceLevel which are submitted for review*/
-    public function getParentTaskForAdmin($searchParamArray = array()) {
-        $whereStr = '';
-        $orderStr = '';
-
-        $whereArray = [];
-        $whereArray[] = 'usertask.deleted IN (1,2)';
-        $whereArray[] = 'l4aapa_is_verified IN (1,2,3)';
-        if (isset($searchParamArray) && !empty($searchParamArray)) {
-            if (isset($searchParamArray['searchBy']) && isset($searchParamArray['searchText']) && $searchParamArray['searchBy'] != '' && $searchParamArray['searchText'] != '') {
-                $whereArray[] = $searchParamArray['searchBy'] . " LIKE '%" . $searchParamArray['searchText'] . "%'";
-            }
-
-            if (isset($searchParamArray['orderBy']) && isset($searchParamArray['sortOrder']) && $searchParamArray['orderBy'] != '' && $searchParamArray['sortOrder'] != '') {
-                $orderStr = " ORDER BY " . $searchParamArray['orderBy'] . " " . $searchParamArray['sortOrder'];
-            }
-        }
-
-        if (!empty($whereArray)) {
-            $whereStr = implode(" AND ", $whereArray);
-        }
-
+    public function getParentTaskForAdmin() {
         $result = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask")
                 ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'usertask.l4aapa_profession_id', '=', 'profession.id')
                 ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'usertask.l4aapa_parent_id', '=', 'parent.id')
                 ->selectRaw('usertask.*,profession.pf_name,parent.p_first_name')
                 ->groupBy('usertask.l4aapa_profession_id')
                 ->groupBy('usertask.l4aapa_parent_id')
-                ->whereRaw($whereStr . $orderStr)
-                ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                ->where('usertask.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                ->where('l4aapa_is_verified', '<>', 0)
+                ->get();
         return $result;
     }
 

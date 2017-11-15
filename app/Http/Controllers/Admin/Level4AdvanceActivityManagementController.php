@@ -142,7 +142,7 @@ class Level4AdvanceActivityManagementController extends Controller {
             }
         }
         $saveUserData = array();
-        $earnedPoints = '';
+        $earnedPoints = 0;
         if (isset($postData['boosterPoint']) && !empty($postData)) {
             foreach ($postData['boosterPoint'] as $key => $val) {
                 if (isset($postData['status'][$key]) && $postData['status'][$key] != '' && $postData['verified_status'][$key] != 2 && $postData['verified_status'][$key] != 3) {
@@ -183,7 +183,9 @@ class Level4AdvanceActivityManagementController extends Controller {
                 $templateId = "L4AV";
             }
 
+
             $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId,$templateId);
+
             if ($learningId != '') {
                 $objUserLearningStyle = new UserLearningStyle();
                 $learningData = $objUserLearningStyle->getUserLearningStyle($learningId);
@@ -276,12 +278,7 @@ class Level4AdvanceActivityManagementController extends Controller {
      * Get Parent Task
      */
     public function level4AdvanceActivityParentTask() {
-        $searchParamArray = Input::all();
-        if (isset($searchParamArray['clearSearch'])) {
-            unset($searchParamArray);
-            $searchParamArray = array();
-        }
-        $userTasks = $this->level4ActivitiesRepository->getParentTaskForAdmin($searchParamArray);
+        $userTasks = $this->level4ActivitiesRepository->getParentTaskForAdmin();
         return view('admin.ListLevel4AdvanceActivityParent', compact('userTasks','searchParamArray'));
     }
 
@@ -329,7 +326,7 @@ class Level4AdvanceActivityManagementController extends Controller {
             }
         }
         $saveUserData = array();
-        $earnedPoints = '';
+        $earnedPoints = 0;
         if (isset($postData) && !empty($postData)) {
             foreach ($postData['boosterPoint'] as $key => $val) {
                 if (isset($postData['status'][$key]) && $postData['status'][$key] != '' && $postData['verified_status'][$key] != 2 && $postData['verified_status'][$key] != 3) {
@@ -384,11 +381,11 @@ class Level4AdvanceActivityManagementController extends Controller {
             $data['toName'] = $parentDetail->p_first_name;
             $data['content'] = $content;
 
-            Mail::send(['html' => 'emails.Template'], $data , function ($m) use ($data) {
-                $m->from(Config::get('constant.FROM_MAIL_ID'), 'Advance Task Approved');
-                $m->subject($data['subject']);
-                $m->to($data['toEmail'], $data['toName']);
-            });
+            // Mail::send(['html' => 'emails.Template'], $data , function ($m) use ($data) {
+            //     $m->from(Config::get('constant.FROM_MAIL_ID'), 'Advance Task Approved');
+            //     $m->subject($data['subject']);
+            //     $m->to($data['toEmail'], $data['toName']);
+            // });
         }
         return Redirect::to("admin/viewParentAllAdvanceActivities/" . $postData['parent'] . '/' . $postData['profession_id']. '/' .$postData['typeId'])->with('success', 'Task has been updated successfully');
     }
@@ -405,10 +402,13 @@ class Level4AdvanceActivityManagementController extends Controller {
             $result = $this->level4ActivitiesRepository->deleteParentAdvanceTask($id);
             if ($result) {
                 if ($postData['media_type'] == 3) {
-                    unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
-                    unlink($this->level4AdvanceThumbImageUploadPath . $postData['media_name']);
+                    @unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
+                    @unlink($this->level4AdvanceThumbImageUploadPath . $postData['media_name']);
+                    $deleteFile = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceOriginalImageUploadPath, "s3");
+                    $deleteFile = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceThumbImageUploadPath, "s3");
                 } else {
-                    unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
+                    @unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
+                    $deleteFile = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceOriginalImageUploadPath, "s3");
                 }
             }
         }

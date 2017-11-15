@@ -147,8 +147,29 @@ Route::get('/viewUserAllAdvanceActivities/{teenager}/{profession}/{type}', 'Admi
 Route::post('/verifyUserAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@verifyUserAdvanceTask');
 Route::post('/deleteUserAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@deleteUserAdvanceTask');
 
+//Advance Parent Task
 Route::get('/level4AdvanceActivityParentTask', 'Admin\Level4AdvanceActivityManagementController@level4AdvanceActivityParentTask');
 Route::post('/level4AdvanceActivityParentTask', 'Admin\Level4AdvanceActivityManagementController@level4AdvanceActivityParentTask');
+Route::get('/viewParentAllAdvanceActivities/{parent}/{profession}/{type}', 'Admin\Level4AdvanceActivityManagementController@viewParentAllAdvanceActivities');
+Route::post('/verifyParentAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@verifyParentAdvanceTask');
+Route::post('/deleteParentAdvanceTask/', 'Admin\Level4AdvanceActivityManagementController@deleteParentAdvanceTask');
+
+//Learning Guidance
+Route::get('/level4LearningStyle', 'Admin\LearningStyleManagementController@index')->name('level4LearningStyle');
+Route::post('/level4LearningStyle', 'Admin\LearningStyleManagementController@index')->name('level4LearningStyle');
+Route::get('/addLearningStyle', 'Admin\LearningStyleManagementController@add')->name('addLearningStyle');
+Route::post('/saveLearningStyle', 'Admin\LearningStyleManagementController@saveLearningStyle')->name('saveLearningStyle');
+Route::get('/editLearningStyle/{id}', 'Admin\LearningStyleManagementController@editLearningStyle')->name('editLearningStyle');
+
+//Profession Learning Guidance
+Route::get('/professionLearningStyle', 'Admin\ProfessionLearningStyleManagementController@index');
+Route::post('/professionLearningStyle', 'Admin\ProfessionLearningStyleManagementController@index');
+Route::get('/addProfessionLeaningStyle', 'Admin\ProfessionLearningStyleManagementController@add');
+Route::get('/editProfessionLearningStyle/{id}', 'Admin\ProfessionLearningStyleManagementController@edit');
+Route::post('/saveProfessionLearningStyle', 'Admin\ProfessionLearningStyleManagementController@save');
+Route::get('/importLearningStyle','Admin\ProfessionLearningStyleManagementController@importExcel');
+Route::post('/addLeaningStyleImportExcel','Admin\ProfessionLearningStyleManagementController@addimportExcel');
+
 
 //PRO-VERSION
 Route::get('/copyConcept', 'Admin\Level4TemplateManagementController@copyConcept');

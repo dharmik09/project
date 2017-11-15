@@ -12,7 +12,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-3">
-            <?php $pointTable =  url($level4AdvanceOriginalImageUploadPath.'point_table.png'); ?>
+            <?php $pointTable = Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.'point_table.png'; ?>
             <span class="read_more" onclick="viewLargeImage('{{$pointTable}}')">Click to view reference point table</span>
         </div>
         <div class="col-md-9">
@@ -33,7 +33,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" id="image_tab" class="tab-pane fade {{(isset($typeId) && $typeId == 3)?'in active':''}}">
                         <div class="box-body">
-                            @if(isset($userAllImageTasks) && !empty($userAllImageTasks))
+                            @if(isset($userAllImageTasks) && !empty($userAllImageTasks->toArray()))
                                 <form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/admin/verifyUserAdvanceTask') }}" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="teenager" value="{{(isset($teenagerDetail) && !empty($teenagerDetail)) ? $teenagerDetail->id : 0}}">
@@ -99,10 +99,10 @@
                                         </tr>
                                       </table>
                                     </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary btn-flat">{{trans('labels.savebtn')}}</button>
+                                    </div>
                                 @endforeach
-                                <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary btn-flat">{{trans('labels.savebtn')}}</button>
-                                </div>
                                 </form>
                             @else
                                 <div>No Images found for this profession</div>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <div role="tabpanel" id="document_tab" class="tab-pane fade {{(isset($typeId) && $typeId == 2)?'in active':''}}">
-                        @if(isset($userAllDocumentTasks) && !empty($userAllDocumentTasks))
+                        @if(isset($userAllDocumentTasks) && !empty($userAllDocumentTasks->toArray()))
                             <form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/admin/verifyUserAdvanceTask') }}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="teenager" value="{{(isset($teenagerDetail) && !empty($teenagerDetail)) ? $teenagerDetail->id : 0}}">
@@ -186,12 +186,12 @@
                             </div>
                             </form>
                             @else
-                            <div>No Document found for this profession</div>
+                                <div>No Document found for this profession</div>
                             @endif
 
                     </div>
                     <div role="tabpanel" id="video_tab" class="tab-pane fade {{(isset($typeId) && $typeId == 1)?'in active':''}}">
-                       @if(isset($userAllVideoTasks) && !empty($userAllVideoTasks))
+                       @if(isset($userAllVideoTasks) && !empty($userAllVideoTasks->toArray()))
                             <form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/admin/verifyUserAdvanceTask') }}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="teenager" value="{{(isset($teenagerDetail) && !empty($teenagerDetail)) ? $teenagerDetail->id : 0}}">

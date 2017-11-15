@@ -9,7 +9,7 @@ interface LearningStyleRepository extends BaseRepository
     /**
      * @return array of all active learing style in the application
      */
-    public function getAllLearningStyle($searchParamArray = array());
+    public function getAllLearningStyle();
 
     /**
      * Save Learning Style detail passed in $learningStyleDetail array

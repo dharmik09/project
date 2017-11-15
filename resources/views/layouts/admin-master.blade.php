@@ -233,7 +233,21 @@
                                             <i class="fa fa-circle-o"></i><span>Advance User Tasks</span>
                                         </a>
                                     </li>
-                                    
+                                    <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/level4AdvanceActivityParentTask') ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/level4AdvanceActivityParentTask') }}">
+                                            <i class="fa fa-circle-o"></i><span>Advance Parent Tasks</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/level4LearningStyle') ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/level4LearningStyle') }}">
+                                            <i class="fa fa-circle-o"></i><span>Learning Guidance</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/professionLearningStyle') ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/professionLearningStyle') }}">
+                                            <i class="fa fa-circle-o"></i><span>Profession Learning Guidance</span>
+                                        </a>
+                                    </li>
                                     @endif
                                 </ul>
                             </li> 
