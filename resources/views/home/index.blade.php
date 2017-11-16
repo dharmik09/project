@@ -156,7 +156,7 @@
 @stop
 
 @section('script')
-    <script src="{{ asset('js/home/general.js') }}"></script>
+    <script src="{{ asset('js/general.js') }}"></script>
     <script>
         jQuery(document).ready(function($) {
             $('.intro-slider').owlCarousel({
