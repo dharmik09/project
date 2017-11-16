@@ -32,22 +32,23 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
-        return view('admin/Notification', compact('teenagers'));
+        //$teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
+        $teenagersName = $this->teenagersRepository->getAllActiveTeenagersForNotificationObj()->get();
+        return view('admin.Notification', compact('teenagersName'));
     }
 
     public function getIndex(){
         $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotificationObj()->get()->count();
-        echo "<pre/>"; print_r($teenagers); die();
         $records = array();
         $columns = array(
             0 => 'id',
             1 => 't_name',
             2 => 't_email',
-            3 => 't_coins',
-            4 => 't_phone',
-            6 => 'deleted',
-            8 => 'created_at',
+            3 => 't_gender',
+            4 => 't_sponsor_choice',
+            5 => 'c_name',
+            6 => 't_social_provider',
+            7 => 'deleted'
         );
         $order = Input::get('order');
         $search = Input::get('search');
@@ -58,22 +59,28 @@ class NotificationController extends Controller
         $iDisplayStart = intval(Input::get('start'));
         $sEcho = intval(Input::get('draw'));
 
-        $records["data"] = $this->teenagersRepository->getAllTeenagersData();
+        $records["data"] = $this->teenagersRepository->getAllActiveTeenagersForNotificationObj();
+        if (!empty($searchName)) {
+            $records["data"]->where('teenager.t_name', "Like", $searchName);
+
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where('teenager.t_name', "Like", $searchName)->count();
+        }
         if (!empty($search['value'])) {
             $val = $search['value'];
             $records["data"]->where(function($query) use ($val) {
                 $query->where('teenager.t_name', "Like", "%$val%");
-                $query->orWhere('teenager.created_at', "Like", "%$val%");
-                $query->orWhere('teenager.t_nickname', "Like", "%$val%");
                 $query->orWhere('teenager.t_email', "Like", "%$val%");
+                $query->orWhere('country.c_name', "Like", "%$val%");
+                $query->orWhere('teenager.t_social_provider', "Like", "%$val%");
             });
 
             // No of record after filtering
             $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
                     $query->where('teenager.t_name', "Like", "%$val%");
-                    $query->orWhere('teenager.created_at', "Like", "%$val%");
-                    $query->orWhere('teenager.t_nickname', "Like", "%$val%");
                     $query->orWhere('teenager.t_email', "Like", "%$val%");
+                    $query->orWhere('country.c_name', "Like", "%$val%");
+                    $query->orWhere('teenager.t_social_provider', "Like", "%$val%");
                 })->count();
         }
         
@@ -88,15 +95,20 @@ class NotificationController extends Controller
         $sid = 0;
         if (!empty($records["data"])) {
             foreach ($records["data"] as $key => $_records) {
-                $records["data"][$key]->t_name = "<a target='_blank' href='".url('/admin/view-teenager')."/".$_records->id."'>".$_records->t_name."</a>";
-                $records["data"][$key]->action = '<a href="'.url('/admin/edit-teenager').'/'.$_records->id.'/'.$sid.'"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
-                                                    <a onClick="return confirm(\'Are you sure want to delete?\')" href="'.url('/admin/delete-teenager').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i> &nbsp;&nbsp;</a>
-                                                    <a href="#" onClick="add_details(\''.$_records->id.'\');" data-toggle="modal" id="#userCoinsData" data-target="#userCoinsData"><i class="fa fa-database" aria-hidden="true"></i></a>';
-                $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";
-                $records["data"][$key]->importData = "<a href='".url('/admin/export-l4-data')."/".$_records->id."'><i class='fa fa-file-excel-o' aria-hidden='true'></i></a>";
                 $records["data"][$key]->t_name = trim($_records->t_name);
-                $records["data"][$key]->t_birthdate = date('d/m/Y',strtotime($_records->t_birthdate));
-                $records["data"][$key]->created_at = date('d/m/Y',strtotime($_records->created_at));
+                $records["data"][$key]->t_gender = ($_records->t_gender == 1)? 'Male' : 'Female';
+                switch ($_records->t_sponsor_choice) {
+                    case "1":
+                        $records["data"][$key]->t_sponsor_choice = trans('labels.formblself');
+                        break;
+                    case "2":
+                        $records["data"][$key]->t_sponsor_choice = trans('labels.formblsponsor');
+                        break;
+                    default:
+                        $records["data"][$key]->t_sponsor_choice = trans('labels.formblnone');
+                    };
+                $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";
+                
             }
         }
 
@@ -150,6 +162,64 @@ class NotificationController extends Controller
                 return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendaftersuccess'));
             } else {
                 return Redirect::to("admin/notification")->with('error', trans('labels.commonerrormessage'));
+            }
+        }
+    }
+
+    public function sendNotificationToTeen() {
+        $data = [];
+        $data['message'] = input::get('notification_message');
+        $objNotifications = new Notifications();
+        $sendToAll = Input::get('sendtoall');
+        if (isset($sendToAll) && !empty($sendToAll)) {
+            $teenDetails = $this->teenagersRepository->getAllActiveTeenagersForNotificationObj()->get();
+            foreach($teenDetails as $teenDetail) {
+                $teenIds[] = $teenDetail->id; 
+            }
+            $return = $objNotifications->saveTeenagerDetailForSendNotification($teenIds, $$data['message']);
+            if ($return) {
+                return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendaftersuccess'));
+            } else {
+                return Redirect::to("admin/notification")->with('error', trans('labels.commonerrormessage'));
+            }
+        } else {
+            $getId = Input::get('teenName');
+            $andyToken = [];
+            if(count($getId) <= 10) 
+            {
+                $objDeviceToken = new DeviceToken();
+                foreach ($getId AS $key => $value) {
+                    $teenData = $this->teenagersRepository->getTeenagerByTeenagerId($value);
+                    if ($teenData['is_notify'] == 1) {
+                        $result = $objDeviceToken->getDeviceTokenDetail($value);
+                        if (!empty($result)) {
+                            foreach ($result AS $k => $tData) {                            
+                                if ($tData->tdt_device_type == 1) 
+                                {
+                                   $singleToken = $tData->tdt_device_token;
+                                   $certificatePath = public_path($this->userCerfificatePath);                            
+                                   //$return = Helpers::pushNotificationForiPhone($singleToken,$data,$certificatePath);
+                                } elseif ($tData->tdt_device_type == 2) {
+                                   $tokenArr[] = $tData->tdt_device_token;                               
+                                }
+                            }
+                        }
+                    }
+                }
+                if(isset($tokenArr) && count($tokenArr) > 0)
+                {
+                   $return = Helpers::pushNotificationForAndroid($tokenArr,$data); 
+                }           
+                return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendsuccess'));
+            } 
+            else 
+            {
+                $return = $objNotifications->saveTeenagerDetailForSendNotification($getId, $data['message']);
+                if ($return) {
+                    return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendaftersuccess'));
+                } else {
+                    return Redirect::to("admin/notification")->with('error', trans('labels.commonerrormessage'));
+                }
             }
         }
     }

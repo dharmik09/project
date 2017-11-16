@@ -284,7 +284,7 @@
                                 </ul>
                             </li>
                             <li class="{{ (Request::is('admin/userReport') || Request::is('admin/schoolReport') || Request::is('admin/level1Chart') || Request::is('admin/iconReport') || Request::is('admin/iconQualityReport') || Request::is('admin/level2Chart') || Request::is('admin/userApi') || Request::is('admin/level3Report') || Request::is('admin/level4BasicReport') || Request::is('admin/level4IntermediateReport') || Request::is('admin/level4AdvanceReport')) ? 'active' : '' }} treeview">
-                                <a href="{{ url('admin/level1chart') }}">
+                                <a href="{{ url('admin/level1Chart') }}">
                                     <i class="fa fa-dashboard"></i> 
                                     <span>{{trans('labels.report')}}</span>
                                     <i class="fa fa-angle-left pull-right"></i>
