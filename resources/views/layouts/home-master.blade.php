@@ -10,15 +10,36 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>{{trans('labels.appname')}}</title>
         <!-- Bootstrap -->
-        <link href="{{asset('css/home/bootstrap.css')}}" rel="stylesheet">
-        <link href="{{asset('css/home/owl.css')}}" rel="stylesheet">
-        <link href="{{asset('css/home/style.css')}}" rel="stylesheet">
+        <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
+        <link href="{{asset('css/owl.css')}}" rel="stylesheet">
+        <link href="{{asset('css/style.css')}}" rel="stylesheet">
         @stack('script-header')
         @yield('header')
 
     </head>
     <body>
-    @yield('content')
+        <nav>
+            <div class="container">
+                <div class="logo pull-left"><a href="#"><img src="img/logo.png" alt=""></a></div>
+                <div class="menu-toggle pull-right">
+                    <ul class="nav-bar clearfix">
+                        <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="main-menu">
+                <div class="menu-container">
+                    <ul>
+                        <li><a href="#" class="active">About</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                    <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">
+                    <a href="#" class="menu-close"><i class="icon-close"></i></a>
+                </div>
+            </div>
+        </nav>
+        @yield('content')
         <footer>
             <div class="container">
                 <div class="left">
@@ -49,10 +70,10 @@
             </div>
         </footer>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="{{ asset('js/home/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/home/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
         
         @stack('script-footer')
         @yield('script')
