@@ -1,0 +1,285 @@
+
+
+.sec-register {
+    padding: 100px 0;
+    @include maxmd {
+        padding: 70px 0;
+    }
+    @include maxsm {
+        padding: 40px 0;
+    }
+    .form-register {
+        max-width: 800px;
+        margin: 0 auto;
+        .reg-heading {
+            @include maxsm {
+                display: flex;
+                flex-wrap: wrap;
+                margin-bottom: 22px;
+            }
+            [class*=col-] {
+                &:last-child {
+                    padding-left: 50px;
+                    @include maxsm {
+                        padding-left: 30px;
+                    }
+                }
+                .full-width {
+                    width: 100%;
+                    @include maxsm {
+                        text-align: center;
+                    }
+                    @include maxms {
+                        text-align: center;
+                        display: flex;
+                        flex-wrap: wrap;
+                    }
+                    h1 {
+                        @include maxms {
+                            order: 1;
+                            width: 100%;
+                            margin: 0 auto 15px;
+                            text-align: center;
+                            display: block;
+                        }
+                    }
+                }
+                @include maxsm {
+                    display: inline-flex;
+                    width: 100%;
+                }
+                &.order-2 {
+                    order: 2;
+                    margin-top: 30px;
+                }
+            }
+            margin-bottom: 50px;
+            .upload-img {
+                min-height: 273px;
+                border: 1px solid $p-cl;
+                position: relative;
+                text-align: center;
+                background-size: auto;
+                background-position:center;
+                background-repeat:no-repeat;
+                @include maxsm {
+                    width: 100%;
+                    min-height: 250px;
+                }
+                span {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-family: h;
+                    font-size: 30px;
+                    color: $lightgrey;
+                }
+                &.activated{
+                    span{
+                        display:none;
+                    }
+                }
+                input[type=file] {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0;
+                }
+            }
+            .icon {
+                font-size: 130px;
+                color: $p-cl;
+                transform: rotate(90deg);
+                display: inline-block;
+                line-height: 1.35;
+                @include maxms {
+                    font-size: 100px;
+                    order: 3;
+                    margin: -30px auto;
+                }
+            }
+            p {
+                font-family: hl;
+                font-size: 16px;
+                color: $lightgrey;
+                @include maxms {
+                    order: 2;
+                }
+            }
+        }
+        .form-group {
+            margin-bottom: 22px;
+            .form-control {
+                height: 42px;
+                background: transparent;
+                border-color: $dark;
+                font-size: 17px;
+                color: $lightgrey;
+                -webkit-appearance: none;
+                appearance: none;
+                option {
+                    color: $lightgrey;
+                }
+                select {
+                    cursor: pointer;
+                }
+            }
+
+            label {
+                color: $lightgrey;
+                a {
+                    color: $lightgrey;
+                    text-decoration: underline;
+                    &:hover {
+                        color: $p-cl;
+                    }
+                }
+            }
+            &.date-sec {
+                label {
+                    width: 20%;
+                    display: inline-block;
+                    @include maxms {
+                        width: 24%;
+                    }
+                }
+                .date-feild {
+                    display: inline-block;
+                    width: 80%;
+                    margin-left: -4px;
+                    vertical-align: middle;
+                    @include maxms {
+                        width: 76%;
+                    }
+                    .date-block {
+                        width: 31.56%;
+                        margin-left: 5px;
+                        float: left;
+                        @include maxms {
+                            width: 30.56%;
+                        }
+                    }
+                }
+            }
+        }
+        .frgtpwd-sec {
+            @include maxsm {
+                text-align: center;
+            }
+        }
+        .btn-submit {
+            margin: 50px 0;
+            font-family: hb;
+            font-size: 17px;
+            text-transform: uppercase;
+            color: $white;
+            background: $p-cl;
+            border-color: $p-cl;
+            padding: 8px 160px;
+            line-height: 1.4;
+            &:hover {
+                border-color: $dark;
+                background: $dark;
+            }
+            &:focus {
+                border-color: $dark;
+                background: $dark;
+            }
+            @include maxsm {
+                padding: 8px 100px;
+                margin: 30px 0;
+            }
+        }
+        .custom-select {
+            position: relative;
+            &:before {
+                display: inline-block;
+                content: "<";
+                color: $lightgrey;
+                font-size: 20px;
+                position: absolute;
+                right: 15px;
+                top: 8px;
+                text-decoration: inherit;
+                transform: rotate(-90deg);
+                cursor: pointer;
+                z-index: -1;
+            }
+            select {
+                cursor: pointer;
+            }
+        }
+        label {
+            color: $lightgrey;
+            a {
+                color: $lightgrey;
+                text-decoration: underline;
+                &:hover {
+                    color: $p-cl;
+                }
+            }
+        }
+        p {
+            color: $lightgrey;
+            font-size: 16px;
+            a {
+                color: $lightgrey;
+                text-decoration: underline;
+                &:hover {
+                    color: $p-cl;
+                }
+            }
+
+        }
+    }
+    .sponsor-sec {
+        background: $offwhite;
+        padding: 50px 0;
+        position: relative;
+        margin: 50px 0 20px;
+        &:before {
+            position: absolute;
+            top: -6px;
+            left: 27%;
+            display: inline-block;
+            border-right: 40px solid transparent;
+            border-top: 40px solid $white;
+            border-left: 40px solid transparent;
+            content: '';
+        }
+        label {
+            color: $lightgrey;
+        }
+        .checkbox {
+            color: $lightgrey;
+            margin: 30px 0 40px;
+            &:last-child{
+                margin-bottom: 15px;
+            }
+            label {
+                color: $lightgrey;
+            }
+            .checker:before {
+                top: auto;
+                bottom: 0;
+                @include maxms {
+                    bottom: auto;
+                    top: 30px;
+                }
+            }
+        }
+        .logo-icon {
+            display: inline-block;
+            vertical-align: bottom;
+            margin: 0 12px;
+            @include maxsm {
+                width: 80px;
+            }
+        }
+        .sponsor-list{
+            height: 120px;
+            overflow-y: scroll;
+        }
+    }
+}

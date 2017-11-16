@@ -1,0 +1,283 @@
+.learning-heading {
+    text-align: center;
+    padding: 74px 0 79px;
+    font-family: hl;
+    font-size: 24px;
+    color: $r-cl;
+    @include maxlg {
+        padding: 60px 0;
+    }
+    @include maxsm {
+        padding: 30px 0;
+    }
+    h1 {
+        color: $h-cl;
+        font-size: 75px;
+        font-family: al;
+        text-transform: uppercase;
+        @include maxlg {
+            font-size: 65px;
+        }
+        @include maxmd {
+            font-size: 56px;
+        }
+        @include maxsm {
+            font-size: 40px;
+        }
+        @include maxms {
+            font-size: 36px;
+        }
+    }
+    .head-sec {
+        width: 60%;
+        margin: 0 auto 15px;
+        @include maxmd {
+            width: 100%;
+        }
+        @include maxms {
+            margin-bottom: 0;
+        }
+        .head-content {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 75px;
+            text-transform: uppercase;
+            width: 66%;
+            color: $h-cl;
+            @include maxmd {
+                width: 52%;
+            }
+            @include maxms {
+                width: 100%;
+            }
+
+        }
+        .head-icon {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 170px;
+            color: $cl-complete;
+            line-height: 1;
+            @include maxmd {
+                font-size: 140px;
+            }
+            @include maxsm {
+                font-size: 80px;
+            }
+            @include maxms {
+                display: none;
+            }
+        }
+    }
+    p {
+        width: 80%;
+        margin: 0 auto;
+        font-size: 24px;
+        color: $r-cl;
+        @include maxlg {
+            font-size: 20px;
+        }
+        @include maxsm {
+            font-size: 17px;
+            width: 100%;
+        }
+    }
+}
+
+.sec-accordian {
+    padding-bottom: 50px;
+    @include maxsm {
+        padding-bottom: 30px;
+    }
+    .match-list {
+        float: left;
+        li {
+            margin-right: 18px;
+            @include maxms {
+                margin-right: 12px;
+            }
+            span {
+                margin-right: 11px;
+                @include maxms {
+                    margin-right: 6px;
+                }
+            }
+        }
+    }
+    .learning-guidance {
+        clear: both;
+        .panel {
+            border: none;
+            &.factual {
+                .panel-body {
+                    border: 1px solid $cl-complete;
+                }
+            }
+            &.conceptual-cl {
+                .panel-body {
+                    border: 1px solid $h-cl;
+                }
+            }
+            &.procedural-cl {
+                .panel-body {
+                    border: 1px solid $cl-procedural;
+                }
+            }
+            &.meta-cl {
+                .panel-body {
+                    border: 1px solid $w-cl;
+                }
+            }
+        }
+        .panel-body {
+            padding: 45px 50px;
+            @include maxmd {
+                padding: 25px 30px;
+            }
+            @include maxsm {
+                padding: 20px;
+            }
+        }
+        .panel-heading {
+            padding: 0;
+            .panel-title {
+                .icon {
+                    display: inline-block;
+                    margin-right: 42px;
+                    font-size: 100px;
+                    vertical-align: middle;
+                    @include maxlg {
+                        font-size: 85px;
+                    }
+                    @include maxmd {
+                        font-size: 60px;
+                    }
+                    @include maxsm {
+                        font-size: 50px;
+                        margin-right: 25px;
+                    }
+                    @include maxms {
+                        font-size: 36px;
+                        margin-right: 15px;
+                    }
+                }
+                a {
+                    display: block;
+                    font-size: 54px;
+                    font-family: ab;
+                    text-transform: capitalize;
+                    padding: 18px 48px;
+                    color: $white;
+                    position: relative;
+                    background: $dark;
+                    &:hover {
+                        background: $strong !important;
+                        text-decoration: none;
+                    }
+                    @include maxlg {
+                        font-size: 46px;
+                    }
+                    @include maxmd {
+                        font-size: 36px;
+                    }
+                    @include maxsm {
+                        font-size: 30px;
+                        padding: 13px 30px;
+                    }
+                    @include maxms {
+                        font-size: 24px;
+                        padding: 10px 20px;
+                    }
+                    &:before {
+                        position: absolute;
+                        content: ">";
+                        top: 35%;
+                        right: 25px;
+                        transform: rotate(90deg);
+                        font-size: 50px;
+                        @include maxsm {
+                            top: 17%;
+                        }
+                        @include maxms {
+                            top: 20%;
+                            font-size: 35px;
+                            right: 10px;
+                        }
+                    }
+                    &.factual-cl {
+                        background: $cl-complete;
+                    }
+                    &.conceptual {
+                        background: $h-cl;
+                    }
+                    &.procedural {
+                        background: $cl-procedural;
+                    }
+                    &.meta {
+                        background: $w-cl;
+                    }
+                }
+            }
+        }
+        .factual-list {
+            padding: 0;
+            list-style-type: none;
+            li {
+                position: relative;
+                padding-left: 35px;
+                font-size: 24px;
+                font-family: hl;
+                margin-bottom: 44px;
+                &:before {
+                    position: absolute;
+                    content: '';
+                    width: 17px;
+                    height: 17px;
+                    background: $remember-cl;
+                    top: 5px;
+                    left: 0;
+                }
+                h5 {
+                    font-family: hn-b;
+                    font-size: 24px;
+                    text-transform: capitalize;
+                    margin-bottom: 8px;
+                }
+                p {
+                    font-size: 24px;
+                    margin-bottom: 3px;
+                    @include maxlg {
+                        font-size: 20px;
+                    }
+                    @include maxsm {
+                        font-size: 17px;
+                    }
+                }
+                strong {
+                    font-family: hn-b;
+                }
+                &.remember {
+                    h5 {
+                        color: $remember-cl;
+                    }
+                }
+                &.understanding {
+                    &:before {
+                        background: $m-cl;
+                    }
+                    h5 {
+                        color: $m-cl;
+                    }
+                }
+                &.analyzing {
+                    &:before {
+                        background: $cl-analyzing;
+                    }
+                    h5 {
+                        color: $cl-analyzing;
+                    }
+                }
+            }
+        }
+    }
+}

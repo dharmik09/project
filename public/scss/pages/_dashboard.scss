@@ -1,0 +1,180 @@
+h1, h2, h3, h4, h5, h6{margin:0;}
+.dashbord_view{
+	padding-top: 90px;
+	background: $bg-offwhite;
+}
+.dashbord_view_left{
+	.das_title{
+		font-family: 'ab';
+		font-size: 45px;
+		line-height: 30px;
+		color: $p-cl;
+		margin-bottom: 30px;
+	}
+	.das_your_profile{
+		border:1px solid $p-cl;
+		padding:35px 35px 30px 35px; 
+		margin-bottom: 20px;
+		.your_profile_img{
+			width: 60%;
+			display: inline-block;
+			margin:0 -2px; 
+			img{
+				width: 100%;
+				display: block;
+			}
+			h6{
+				font-family: 'hl';
+				color: $r-cl;
+				font-size: 26px;
+				line-height: 30px;
+				text-align: center;
+				margin: 30px 0 0 0;
+			}
+		}
+		.your_profile_view{
+			display: inline-block;
+			width: 40%;
+			vertical-align: top;
+			h4{
+				font-size: 18px;
+				line-height: 24px;
+				text-align: right;
+				margin:0;
+				a{
+					display: inline-block;
+					color: $p-cl;
+					font-family: 'hb';
+					text-transform: uppercase;
+					border-bottom: 1px solid $p-cl;
+				}
+			}
+			.your_progress{
+				padding-left: 41px;
+				padding-top: 58PX;
+				h6{
+					font-size: 25px;
+					line-height: 30px;
+					color: $r-cl;
+					font-family: 'hl';
+				}
+				h2{
+					font-family: 'ht';
+					font-size: 83px;
+					color: $p-cl;
+					font-family: 'ht';
+				}
+				h5{
+					font-size: 24px;
+					line-height: 30px;
+					color: $r-cl;
+					font-family: 'hb';
+				}
+				p{
+					font-size: 16px;
+					line-height: 22px;
+					color: $r-cl;
+					font-family: 'hb';
+					padding-top: 50px;
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+	.my_interests{
+		h2{
+			font-size: 26px;
+			line-height: 30px;
+			font-family: 'hb';
+			color: $p-cl;
+			margin-bottom: 45px;
+			a{
+				text-decoration: none;
+				font-size: 40px;
+				color: $p-cl;
+			}
+		}
+		.my_chart{
+			text-align: center;
+			h4{
+				font-size: 26px;
+				color: $r-cl;
+				line-height: 30px;
+				font-family: 'ht';
+				margin-top: 15px;
+			}
+		}
+		p{
+			display: block;
+			text-align: right;
+			margin-top: 40px;
+			margin-bottom: 0;
+			a{
+				color:$p-cl;
+				display: inline-block;
+				text-decoration: none;
+				font-size: 18px;
+				line-height: 30px;
+				text-transform: uppercase;
+				font-family: 'hb';
+				border-bottom: 1px solid $p-cl;
+			}
+		}
+	}
+	.my_career_tab{
+		.panel-heading{
+			padding: 0;
+			border:0px;
+			background-color: transparent;
+			a{
+				padding: 25px 45px;
+				font-size: 26px;
+				color: $white;
+				text-decoration: none; 
+				font-family: 'hb';
+				letter-spacing: 1px;
+				position: relative;
+				&:before{
+				    position: absolute;
+				    content: ">";
+				    top: 33%;
+				    right: 25px;
+				    font-size: 25px;
+				}
+			}
+			.career-cl{
+				background: #07c9a7;
+				display:block;
+			}
+			.career-lc{
+				background: #f1c246;
+				display:block;
+			}
+		}	
+	}
+	.my_network_cont{
+		p{
+			margin-top: 0;
+		}
+		.my_net_view{
+			text-align: center;
+			margin-bottom: 20px;
+			img{
+				width: 100%;
+			}
+			h4{
+				font-size: 16px;
+				color: $r-cl;
+				font-family: 'hb';
+				margin-top: 10px;
+			}
+		}
+	}
+}
+.my_career_tab .panel-title a.collapsed:before {
+    transform: rotate(4deg) !important;
+}
+
+.my_career_tab .panel-title a:before {
+    transform: rotate(90deg) !important;
+}

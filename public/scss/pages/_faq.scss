@@ -1,0 +1,109 @@
+.faq {
+    padding: 84px 0 57px;
+    h1 {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 12px;
+        &:before {
+            position: absolute;
+            content: "\e908";
+            bottom: -55px;
+            right: -108px;
+            font-family: 'proteen' !important;
+            font-size: 58px;
+            color: $cl-complete;
+            transform: rotate(24deg);
+            @include maxmd {
+                bottom: -45px;
+                right: -90px;
+                font-size: 46px;
+            }
+            @include maxsm {
+                bottom: -35px;
+                right: -100px;
+            }
+            @include maxms{
+                bottom: -25px;
+                right: -80px;
+                font-size: 30px;
+            }
+        }
+    }
+    p {
+        font-family: hn-b;
+        width: 100%;
+    }
+}
+
+.sec-faq {
+    .faq-accordian {
+        .panel-heading {
+            .panel-title {
+                a {
+                    font-family: hl;
+                    font-size: 24px;
+                    color: $r-cl;
+                    background: $white;
+                    text-transform: inherit;
+                    padding: 26px 50px 26px 40px;
+                    @include maxlg {
+                        font-size: 22px;
+                    }
+                    @include maxmd {
+                        padding: 18px 50px 18px 30px;
+                        font-size: 22px;
+                    }
+                    @include maxsm{
+                        font-size: 20px;
+                          padding: 15px 45px 15px 20px;
+                    }
+                    @include maxms{
+                        font-size: 17px;
+                        padding: 15px 45px 15px 20px;
+                    }
+                    span {
+                        font-family: hn-b;
+                        color: $cl-complete;
+                    }
+                    &.collapsed {
+                        :before {
+                            transform: rotate(-90deg);
+                        }
+                    }
+                    &:before {
+                        font-size: 24px;
+                        transform: rotate(90deg);
+                        @include maxms{
+                            font-size: 20px;
+                        }
+                    }
+                    &:hover {
+                        background: transparent !important;
+                    }
+                    &:focus{
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        .panel-body {
+            padding: 12px 42px;
+            border-top: none !important;
+            p {
+                font-family: hn-b;
+                font-size: 16px;
+                span {
+                    color: $h-cl;
+                }
+            }
+        }
+    }
+}
+
+.faq-accordian .panel-title a.collapsed:before {
+    transform: rotate(90deg) !important;
+}
+
+.faq-accordian .panel-title a:before {
+    transform: rotate(-90deg) !important;
+}

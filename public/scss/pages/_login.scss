@@ -1,0 +1,205 @@
+h1 {
+    font-size: 44px;
+    color: rgba(22, 28, 34, 0.9);
+}
+
+.form-sec.form-group input ::-webkit-input-placeholder {
+    color: $lightgrey !important;
+}
+
+.form-sec.form-group input ::-moz-placeholder {
+    color: $lightgrey !important;
+}
+
+.form-sec.form-group input :-ms-input-placeholder {
+    color: $lightgrey !important;
+}
+
+.form-sec .form-group input :-moz-placeholder {
+    color: $lightgrey !important;
+}
+
+/*p {
+    color: $lightgrey;
+    font-size: 16px;
+    text-align: center;
+    font-family: h;
+}*/
+
+.sec-login {
+    text-align: center;
+    padding: 140px 0;
+    @include maxlg {
+        padding: 90px 0;
+    }
+    @include maxmd {
+        padding: 50px 0;
+    }
+    @include maxsm {
+        padding: 35px 0;
+    }
+    p {
+        font-size: 16px;
+        font-family: h;
+        text-align: center;
+        color: $lightgrey;
+    }
+    .login-form {
+        max-width: 385px;
+        margin: 0 auto;
+        .icon {
+            font-size: 130px;
+            color: $p-cl;
+            transform: rotate(90deg);
+            display: inline-block;
+        }
+        .form-sec {
+            text-align: left;
+            form {
+                color: $lightgrey;
+                .form-control {
+                    height: 42px;
+                    background: transparent;
+                    border-color: $dark;
+                    font-size: 17px;
+                    margin-bottom: 23px;
+                    color: $dark;
+                    &.error {
+                        border: 2px solid #f05;
+                        margin-bottom: 3px;
+                    }
+                }
+                .error {
+                    color: #f05;
+                    font-size: 13px;
+                }
+                .checkbox {
+                    margin-bottom: 23px;
+                    text-transform: lowercase;
+                }
+                .btn {
+                    width: 100%;
+                    background: $p-cl;
+                    color: $white;
+                    font-family: hb;
+                    font-size: 17px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    line-height: 1.5;
+                    padding: 7px 15px;
+                    border: 1px solid $p-cl;
+                    margin-bottom: 18px;
+                    &:hover {
+                        background: $dark;
+                        border-color: $dark;
+                    }
+                }
+                p {
+                    font-size: 17px;
+                    margin-bottom: 15px;
+                }
+            }
+            .btn-list {
+                padding-left: 0;
+                list-style-type: none;
+                margin-bottom: 36px;
+                @include maxms {
+                    margin-bottom: 25px;
+                }
+                li {
+                    display: inline-block;
+                    width: 50%;
+                    margin-left: -4px;
+
+                    &:last-child {
+                        a {
+                            margin-right: 0;
+                        }
+                    }
+                    a {
+                        background: $dark;
+                        color: $white;
+                        display: block;
+                        padding: 9px 10px;
+                        text-align: center;
+                        margin-right: 4px;
+                        @include maxms {
+                            font-size: 13px;
+                            padding: 9px 8px;
+                        }
+                        i {
+                            width: 19px;
+                            height: 19px;
+                            color: $dark;
+                            margin-right: 8px;
+                            padding: 2px;
+                            @include maxms {
+                                margin-right: 4px;
+                            }
+                            &.icon-facebook {
+                                background: #5885d1;
+                            }
+                            &.icon-google {
+                                background: #d63535
+                            }
+                            &.icon-fido {
+                                background: url(../img/fido-icon.png);
+                                background-size: contain;
+                                background-position: center;
+                                width: 43px;
+                                height: 15px;
+                                background-repeat: no-repeat;
+                                display: inline-block;
+                                margin-right: 0;
+                                @include maxms {
+                                    width: 30px;
+                                    margin-right: 3px;
+                                }
+                            }
+                        }
+                        &:hover {
+                            text-decoration: none;
+                            background: $p-cl;
+                        }
+                    }
+                }
+            }
+            p {
+                font-size: 14px;
+                color: $lightgrey;
+                text-align: center;
+                margin-bottom: 5px;
+                a {
+                    color: $lightgrey;
+                    &:hover {
+                        color: $p-cl;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.form-control.error {
+    border: 2px solid red;
+    margin: 0 0 3px;
+    border-color: red !important;
+}
+.form-group .error{
+    margin-top: 0;
+}
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: -18px;
+    display: none;
+}
+.successmsg{
+    display: block;
+    font-size: 18px;
+    color: #4ba82e;
+    font-weight: 700;
+    font-family: h;
+    margin: -15px 0 30px;
+    display: none;
+}

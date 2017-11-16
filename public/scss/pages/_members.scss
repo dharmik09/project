@@ -1,0 +1,177 @@
+.profile-detail {
+    .add-icon {
+        right: 142px;
+        @include maxlg {
+            right: 100px;
+        }
+        @include maxsm {
+            right: 70px;
+        }
+    }
+}
+
+.sec-member {
+    &:before {
+        display: none;
+    }
+}
+
+.member-detail {
+    padding-bottom: 82px;
+    @include maxms {
+        padding-bottom: 30px;
+    }
+    .chat-icon {
+        font-size: 74px;
+        
+        @include maxsm {
+            font-size: 30px;
+        }
+        i {
+            font-weight: 700;
+        }
+    }
+    p {
+        margin-top: 53px;
+    }
+}
+
+.sec-traits {
+    margin-top: 54px;
+    @include maxsm {
+        margin-top: 35px;
+    }
+    li {
+        margin-right: 15px;
+        @include maxsm {
+            margin: 0 0 15px;
+            width: 100%;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+        .ck-button {
+            padding: 11px 15px;
+            background: $cl-complete;
+            border: 1px solid $cl-complete;
+            color: $white;
+            font-size: 24px;
+            font-family: hl;
+            text-transform: capitalize;
+            min-width: 222px;
+            @include maxms {
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+.describe-traits {
+    padding: 76px 0 34px;
+    background: $white;
+    .survey-list {
+        margin-bottom: 0;
+        @include maxsm {
+            margin-bottom: 0;
+        }
+    }
+    .form-btn {
+        .icon {
+            margin-left: 116px;
+            line-height: 1.25;
+        }
+    }
+}
+
+.sec-progress {
+    .tab-content {
+        .tab-pane {
+            .sec-popup {
+                margin-top: -70px;
+                @include maxmd {
+                    margin-top: -55px;
+                }
+            }
+        }
+    }
+    &.sec-tab {
+        background: $white;
+        .my-progress {
+            border: 2px solid #e0e6eb;
+            border-top: 0;
+            @include maxsm {
+                margin-top: 30px;
+            }
+            @include maxms {
+                margin-top: 20px;
+                border: none;
+            }
+            li {
+                &:before {
+                    border-top: 30px solid #e0e6eb;
+                }
+                a {
+                    position: relative;
+                    &:before {
+                        position: absolute;
+                        content: ' ';
+                        border-left: 18px solid transparent;
+                        border-right: 18px solid transparent;
+                        border-top: 30px solid #fff;
+                        top: -3px;
+                        right: -19px;
+                        z-index: 99;
+                        @include maxsm {
+                            display: none;
+                        }
+                    }
+                }
+                &.active {
+                    border-top: 2px solid #e0e6eb;
+                    @include maxms {
+                        border: 1px solid #e0e6eb;
+                    }
+                }
+                &:last-child {
+                    a {
+                        &:before {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.sec-tab {
+    .sec-popup {
+        display: none;
+    }
+}
+
+.interest-list {
+
+    li {
+        text-align: center;
+        figure {
+            @include maxsm {
+                max-width: 85%;
+                margin: 0 auto;
+            }
+            @include maxms {
+                max-width: 100%;
+            }
+            figcaption {
+                font-size: 26px;
+                font-family: ht;
+                color: $lightgrey;
+                margin-top: 23px;
+                @include maxsm {
+                    font-size: 22px;
+                    margin-top: 18px;
+                }
+            }
+        }
+    }
+}
