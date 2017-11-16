@@ -72,13 +72,14 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6"><center>{{trans('labels.norecordfound')}}</center></td>
+                                <td><center>{{trans('labels.norecordfound')}}</center></td>
                             </tr>
                             @endforelse
                             <tr>
                                 <th>Total</th>
                                 <th>{{$total}}</th>
-                                <th colspan="2">&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
                             </tr>
                         </tbody>    
                     </table>
