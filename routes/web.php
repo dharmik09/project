@@ -24,7 +24,6 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::post('/loginCheck', 'Admin\LoginController@loginCheck')->name('loginCheck');
 	Route::get('/loginCheck', 'Admin\LoginController@login');
 	Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
-
   	Route::get('/register', 'Admin\RegisterController@showRegistrationForm')->name('register');
   	Route::post('/register', 'Admin\RegisterController@register');
 });
@@ -33,9 +32,8 @@ Route::group(['prefix' => 'teenager'], function () {
 	Route::get('/', 'Teenager\HomeController@index');
 	Route::get('/home', 'Teenager\HomeController@index');
 	Route::get('/login', 'Teenager\LoginController@login')->name('login');
-	Route::post('/loginCheck', 'Teenager\LoginController@loginCheck')->name('loginCheck');
+	Route::post('/login-check', 'Teenager\LoginController@loginCheck')->name('loginCheck');
 	Route::post('/logout', 'Teenager\LoginController@logout')->name('logout');
-
 	Route::get('/register', 'Teenager\RegisterController@showRegistrationForm')->name('register');
 	Route::post('/register', 'Teenager\RegisterController@register');
 });

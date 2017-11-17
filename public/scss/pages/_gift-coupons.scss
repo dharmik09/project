@@ -1,0 +1,137 @@
+.gift-heading {
+    .coupon-form {
+        padding: 87px 0 33px;
+        @include maxlg {
+            padding: 67px 0 0;
+        }
+        .form-group {
+            max-width: 77%;
+            @include maxsm{
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+
+.sec-gift-coupon {
+    padding-bottom: 90px;
+    @include maxsm{
+        padding-bottom: 60px;
+    }
+    .bg-white {
+        @include maxsm {
+            padding: 15px;
+        }
+    }
+    .member-list {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 70px 0 40px;
+        @include maxmd {
+            padding: 30px 0 20px;
+        }
+        .member-block {
+            margin-bottom: 30px;
+            .img {
+                background-size: contain;
+                background-position: center;
+                width: 83px;
+                height: 82px;
+                background-repeat: no-repeat;
+                display: inline-block;
+                vertical-align: middle;
+                @include maxsm {
+                    height: 62px;
+                    width: 62px;
+                }
+            }
+            .name {
+                display: inline-block;
+                font-size: 21px;
+                font-family: hl;
+                color: $r-cl;
+                vertical-align: middle;
+                margin-left: 70px;
+                width: 14%;
+                @include maxlg {
+                    margin-left: 30px;
+                    font-size: 20px;
+                }
+                @include maxmd {
+                    margin-left: 20px;
+                    font-size: 17px;
+                    width: 17%;
+                }
+                @include maxsm {
+                    margin-left: 10px;
+                    font-size: 15px;
+                    width: 22%;
+                }
+                @include maxms{
+                    width: auto;
+                }
+            }
+            .brdr {
+                width: 40%;
+                display: inline-block;
+                vertical-align: middle;
+                height: 2px;
+                background: #f4f4f4;
+                margin: 0 41px;
+                text-align: center;
+                @include maxmd {
+                    width: 35%;
+                    margin: 0 20px;
+                }
+                @include maxsm {
+                    width: 30%;
+                    margin: 0 5px;
+                }
+                @include maxms{
+                    display: none;
+                }
+            }
+            .btn {
+                float: right;
+                border: 2px solid $cl-complete;
+                color: $cl-complete;
+                background: transparent;
+                font-family: hn-b;
+                font-size: 22px;
+                padding: 12px 59px;
+                text-transform: uppercase;
+                line-height: 1.4;
+                @include maxmd {
+                    font-size: 19px;
+                    padding: 8px 49px;
+                    margin-top: 15px;
+                }
+                @include maxsm {
+                    font-size: 15px;
+                    padding: 6px 25px;
+                }
+                @include maxms{
+                    padding: 6px 15px;
+                    font-size: 14px;
+                }
+                &:hover,
+                &:focus {
+                    background: $cl-complete;
+                    color: $white;
+                }
+            }
+        }
+        p {
+            a {
+                font-size: 18px;
+                text-decoration: underline;
+                text-transform: uppercase;
+                font-family: hn-b;
+                @include maxms{
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}

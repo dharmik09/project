@@ -20,6 +20,9 @@
             font-size: 50px;
             margin-bottom: 15px;
         }
+        @include maxms{
+            font-size: 40px;
+        }
     }
     p {
         font-family: h;

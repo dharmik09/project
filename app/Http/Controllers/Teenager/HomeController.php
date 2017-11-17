@@ -33,6 +33,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(Auth::guard('teenager')->check()) {
+            return redirect()->to(route('teenager.home'));
+        }
         return view('teenager.index');
     }
    

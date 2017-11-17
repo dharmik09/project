@@ -1,147 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.home-master')
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@push('script-header')
+    <title>{{ trans('labels.appname') }} : Teenager Login</title>
+    <link href="{{asset('css/aos.css')}}" rel="stylesheet">
+@endpush
 
-    <title>{{ config('app.name', 'Laravel Multi Auth Guard') }}</title>
+@section('content')
 
-    <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <section class="sec-login">
+        <div class="container-small">
+            <div class="login-form">
+                <h1>teen login</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+                <span class="icon" ><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
 
-    <!-- Scripts -->
-    <script>
-        window.Laravel = <?php echo json_encode([
-            'csrfToken' => csrf_token(),
-        ]); ?>
-    </script>
-</head>
-<body>
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/teenager') }}">
-                    {{ config('app.name', 'Laravel Multi Auth Guard') }}: Teenager
-                </a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    &nbsp;
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/teenager/login') }}">Login</a></li>
-                        <li><a href="{{ url('/teenager/register') }}">Register</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ url('/teenager/logout') }}"
-                                        onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-
-                                    <form id="logout-form" action="{{ url('/teenager/logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    @endif
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Login {{$data or ""}}</div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/teenager/loginCheck') }}">
-                            {{ csrf_field() }}
-
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" autofocus>
-
-                                    @if ($errors->has('email'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">Password</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password">
-
-                                    @if ($errors->has('password'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="remember"> Remember Me
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-8 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Login
-                                    </button>
-
-                                    <a class="btn btn-link" href="{{ url('/teenager/password/reset') }}">
-                                        Forgot Your Password?
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="form-sec">
+                    <form id="login_form" method="POST" action="{{ url('/teenager/login-check') }}" autocomplete="off">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group">
+                            <input type="text" class="form-control {eitherEmailPhone:true}" id="email" maxlength="50" name="email" placeholder="Email or Mobile" value="" autocomplete="off" tabindex="1">
+                            <span class="invalid" id="email_mobile_invalid" style="display: none;">Valid email or mobile required</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" maxlength="20" minlength="6" name="password" placeholder="password" tabindex="2">
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
+                        </div>
+                        <button type="button" id="loginSubmit" value="Login" class="btn btn-default" title="Login" tabindex="4">Login</button>
+                        <div class="error">Please enter proper credentials</div>
+                        <p class="text-center">or</p>
+                        <ul class="btn-list">
+                            <li><a href="#" title="Facebook" target="_blank"><i class="icon-facebook"><!-- --></i>Facebook</a></li>
+                            <li><a href="#" title="Google" target="_blank"><i class="icon-google"><!-- --></i>Google</a></li>
+                        </ul>
+                    </form>
+                    <p><a href="#" title="Forgot username/password?">Forgot username/password?</a></p>
+                    <p>Not enrolled? <a href="#" title="Sign up now.">Sign up now.</a></p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+@stop
 
-    <script src="/js/app.js"></script>
-    </body>
-</html>
+@section('script')
+    <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
+    <script src="{{ asset('js/aos.js') }}"></script>
+    <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/general.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var loginRules = {
+                password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                }
+            };
+            $("#login_form").validate({
+                rules: loginRules,
+                messages: {
+                    password: {required: '{{trans("validation.passwordrequired")}}',
+                        maxlength: 'Password maximum range is 20',
+                        minlength: 'Password minimum length is 6'
+                    }
+                }
+            });
+        });
+        //masonary
+        $('.masonary-grid').masonry({
+            // options
+            itemSelector: '.item',
+            columnWidth: 1
+        });
+        //video popup
+        $('.play-video').magnificPopup({
+            disableOn: 0,
+            type: 'iframe',
+            mainClass: 'mfp-fade',
+            removalDelay: 160,
+            preloader: false,
+            overflowY: 'auto',
+            removalDelay: 300,
+            midClick: true,
+            fixedBgPos: true,
+            fixedContentPos: true
+        });
+        //testimonial slider
+        $('.testimonial-slider').owlCarousel({
+            loop: true,
+            margin: 10,
+            items: 1,
+            nav: true,
+            dots: false,
+        });
+        $('.play-icon').click(function () {
+            $(this).hide();
+            $('iframe').show();
+        })
+        $("#loginSubmit").click(function() {
+            var form = $("#login_form");
+            form.validate();
+            var validEmailOrMobile = false;
+            $('#email_mobile_invalid').show();
+            var emailOrMobile = $.trim($("#email").val());
+            if (emailOrMobile.length > 0 && emailOrMobile.match(/[a-zA-Z]/i)) {
+                if (validateEmail(emailOrMobile)) {
+                    var validEmailOrMobile = true;
+                }
+            }
+            if ($.isNumeric(emailOrMobile) && emailOrMobile.length > 9) {
+                var validEmailOrMobile = true;
+            }
+            if (validEmailOrMobile) {
+                $('#email_mobile_invalid').hide();
+                if (form.valid()) {
+                    form.submit();
+                    $("#loginSubmit").attr("disabled", 'disabled');
+                } else {
+                    $("#loginSubmit").removeAttr("disabled", 'disabled');
+                }
+                return true;
+            } else {
+                $('#email_mobile_invalid').show();
+                return false;
+            }
+        });
+        function validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+        AOS.init({
+            duration: 1200,
+        });
+    </script>
+@stop

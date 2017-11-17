@@ -18,7 +18,7 @@
     <body>
         <nav>
             <div class="container">
-                <div class="logo pull-left"><a href="{{ url('/') }}"><img src="{{ Storage::url('img/logo.png') }}" alt=""></a></div>
+                <div class="logo pull-left"><a href="{{ url('/') }}"><img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}"></a></div>
                 <div class="menu-toggle pull-right">
                     <ul class="nav-bar clearfix">
                         <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
