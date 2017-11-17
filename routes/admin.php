@@ -95,8 +95,8 @@ Route::get('/coupon-usage/{id}', 'Admin\CouponManagementController@couponUsage')
 
 //Notification Section
 Route::get('/notification', 'Admin\NotificationController@index');
-Route::post('/send-notification', 'Admin\NotificationController@sendNotification');
-Route::post('/get-notification', 'Admin\NotificationController@getIndex');
+Route::post('/sendNotification', 'Admin\NotificationController@sendNotificationToTeen');
+Route::post('/getNotification', 'Admin\NotificationController@getIndex');
 
 //Level 4 Section
 Route::get('/level4Activity', 'Admin\Level4ActivityManagementController@index');

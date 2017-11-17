@@ -1940,6 +1940,49 @@ Class Helpers {
         $downstreamResponse->tokensToRetry();
     }
 
+    public static function pushNotificationForAndroidSetUp($tokens,$title,$message)
+    {        
+        $url = "https://fcm.googleapis.com/fcm/send";
+
+//        //Title of the Notification.
+   //     $title = "Message from PHP";
+   //     $message = "Message from PHP";
+//
+//        //Body of the Notification.
+//        $body = "Rupin Luhar";
+
+        //Creating the notification array.
+        $notification = array('title' =>$title , 'body' => $message);
+
+        //This array contains, the token and the notification. The 'to' attribute stores the token.
+        $arrayToSend = array('registration_ids'  => $tokens, 'notification' => $notification);
+    
+        $fields = array(
+                 'registration_ids' => $tokens,
+                 'body' => 'hey'
+                );
+
+        $headers = array(
+            'Authorization:key = AIzaSyC8mPS-6RvU3d7Z68rLjYbjsUY3t1NQrN4',
+            'Content-Type: application/json'
+            );
+
+       $ch = curl_init();
+       curl_setopt($ch, CURLOPT_URL, $url);
+       curl_setopt($ch, CURLOPT_POST, true);
+       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+       curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);  
+       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrayToSend));
+       $result = curl_exec($ch);           
+       if ($result === FALSE) {
+           die('Curl failed: ' . curl_error($ch));
+       }
+       curl_close($ch);
+       return $result; 
+    }
+    
     public static function pushNotificationForiPhone($token,$message,$pathForCertificate) {
 
         $payload['aps'] = array('alert' => $message['message'],'action-loc-key' => 'View', 'data' => $message);

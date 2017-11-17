@@ -33,7 +33,7 @@
                         <thead>
                             <tr>
                                 <th>{{trans('labels.serialnumber')}}</th>
-                                <th>{{trans('labels.teentblheadname')}}</th>                            
+                                <th>{{trans('labels.teentblheadname')}}</th>
                                 <th>{{trans('labels.teentblheademail')}}</th>
                                 <th>{{trans('labels.formlblcoins')}}</th>
                                 <th>{{trans('labels.teentblheadphone')}}</th>
