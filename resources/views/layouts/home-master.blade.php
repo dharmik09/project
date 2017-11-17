@@ -8,19 +8,17 @@
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-32x32.png')}}" sizes="32x32" />
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-16x16.png')}}" sizes="16x16" />
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>{{trans('labels.appname')}}</title>
         <!-- Bootstrap -->
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
         <link href="{{asset('css/owl.css')}}" rel="stylesheet">
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
         @stack('script-header')
         @yield('header')
-
     </head>
     <body>
         <nav>
             <div class="container">
-                <div class="logo pull-left"><a href="#"><img src="img/logo.png" alt=""></a></div>
+                <div class="logo pull-left"><a href="{{ url('/') }}"><img src="{{ Storage::url('img/logo.png') }}" alt=""></a></div>
                 <div class="menu-toggle pull-right">
                     <ul class="nav-bar clearfix">
                         <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>

@@ -1,5 +1,9 @@
 @extends('layouts.home-master')
 
+@push('script-header')
+    <title>{{trans('labels.appname')}}</title>
+@endpush
+
 @section('content')
 
     <div class="section">

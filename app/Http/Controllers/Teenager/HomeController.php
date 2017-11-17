@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Teenager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -14,7 +14,7 @@ class HomeController extends Controller
      *
      * @var string
      */
-    public $redirectTo = '/';
+    public $redirectTo = '/teenager';
 
     /**
      * Create a new controller instance.
@@ -27,22 +27,13 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application's home page.
+     * Show the teenager's home page.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('home.index');
-    }
-    /**
-     * Show the application's faq page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function faq()
-    {
-        return view('home.faq');
+        return view('teenager.index');
     }
    
 }
