@@ -64,7 +64,7 @@
                             <span class="promiseplus">Report<i class="fa fa-download" style="padding-left: 10px;" aria-hidden="true"></i></span>
                             <span class="coinouter">
                                 <span class="coinsnum">{{$coins}}</span>
-                                <span class="coinsimg"><img src="{{asset('/frontend/images/coin-stack.png')}}">
+                                <span class="coinsimg"><img src="{{Storage::url('frontend/images/coin-stack.png')}}">
                                 </span>
                             </span>
                           </a>
@@ -77,7 +77,7 @@
                             <div class="clearfix"><a href="{{url('/sponsor/dataAdd')}}" class="btn primary_btn invite_teen_btn">Add Advertisements</a></div>
                         </div>
                         <div class="left col-md-6 col-sm-4 col-xs-12">
-                            <span class="coin_img"><img src="{{asset('/frontend/images/available_coin.png')}}" alt=""></span>
+                            <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
                             <span>{{trans('labels.availablecoins')}}</span>
                             <span class="coin_count_ttl"><?php echo number_format($loggedInUser->user()->sp_credit);?></span>
                         </div>
@@ -136,11 +136,8 @@
                             </td>
 
                             <td>
-                                <?php if (File::exists(public_path($saThumbImagePath . $acDetails->sa_image)) && $acDetails->sa_image != '') { ?>
-                                    <img src="{{asset($saThumbImagePath.$acDetails->sa_image)}}" height="50px" width="50px"/>
-                                <?php } else { ?>
-                                    <img src="{{ asset($saThumbImagePath.'proteen-logo.png')}}" class="user-image" alt="Default Image" height="50px" width="50px">
-                                <?php } ?>
+                                <?php $saImage = ($acDetails->sa_image != '') ? Storage::url($saThumbImagePath.$acDetails->sa_image) : Storage::url($saThumbImagePath.'proteen-logo.png'); ?>
+                                <img src="{{ $saImage }}" alt="Default Image" height="50px" width="50px"/>
                             </td>
 
                             <td>{{($acDetails->sl_name == '')?'All Level':$acDetails->sl_name}}</td>
@@ -200,11 +197,8 @@
                         <td>{{$coupon->cp_code}}</td>
                         <td>{{$coupon->cp_description}}</td>
                         <td>
-                            <?php if (File::exists(public_path($couponThumbImagePath . $coupon->cp_image)) && $coupon->cp_image != '') { ?>
-                                <img src="{{asset($couponThumbImagePath.$coupon->cp_image)}}" height="50px" width="50px" />
-                            <?php } else { ?>
-                                <img src="{{ asset($couponThumbImagePath.'proteen-logo.png')}}" class="user-image" alt="Default Image" height="50px" width="50px">
-                            <?php } ?>
+                            <?php $cpImage = ($coupon->cp_image != '') ? Storage::url($couponThumbImagePath . $coupon->cp_image) : Storage::url($couponThumbImagePath.'proteen-logo.png'); ?>
+                            <img src="{{ $cpImage }}" class="user-image" alt="Default Image" height="50px" width="50px">
                         </td>
                         <td>{{$coupon->cp_limit}}</td>
                         <td>{{$coupon->cp_credit_used}}</td>

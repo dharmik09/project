@@ -34,7 +34,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                 </button>
-                <a class="navbar-brand" href="/"><img src="{{ asset('frontend/images/proteen_logo.png')}}" alt=""></a>
+                <a class="navbar-brand" href="/"><img src="{{ Storage::url('frontend/images/proteen_logo.png') }}" alt=""></a>
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav nav_basic navbar-nav navbar-right home_page_navigation non_teen">
@@ -45,16 +45,10 @@
                         <a href="#" class="drop_down_menu">
                            <span class="user_detail_name">{{Auth::guard('sponsor')->user()->sp_first_name}}</span>
                             <?php
-                             $photo = Auth::guard('sponsor')->user()->sp_photo;
-
-                             if ($photo != '' && file_exists(Config::get('constant.CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo)) {
-                                $profilePicUrl = asset(Config::get('constant.CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo);
-                               } else {
-                                $profilePicUrl = asset(Config::get('constant.CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
-                               }
+                                $photo = Auth::guard('sponsor')->user()->sp_photo;
+                                $profilePicUrl = ($photo != '') ? Storage::url(Config::get('constant.CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo) : Storage::url(Config::get('constant.CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
                             ?>
-                            <img class="user_detail_image" src="{{$profilePicUrl}}" alt="">
-
+                            <img class="user_detail_image" src="{{ $profilePicUrl }}" alt="">
                         </a>
                         <ul class="navigation_prime menu_dropdown" style="display: none;">
                             <form id="logout-form" action="{{ url('/sponsor/logout') }}" method="POST" style="display: none;">
