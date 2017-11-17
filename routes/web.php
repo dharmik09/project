@@ -50,3 +50,13 @@ Route::group(['prefix' => 'developer'], function () {
 
 Route::get('/get-state/{id}', 'StateCityController@getState');
 Route::get('/get-city/{id}', 'StateCityController@getCity');
+
+Route::group(['prefix' => 'sponsor'], function () {
+	Route::get('/', 'Sponsor\LoginController@login');
+	Route::get('/login', 'Sponsor\LoginController@login')->name('sponsor.login');
+	Route::post('/login-check', 'Sponsor\LoginController@loginCheck')->name('sponsor.loginCheck');
+	Route::post('/logout', 'Sponsor\LoginController@logout')->name('sponsor.logout');
+
+	Route::get('/register', 'Sponsor\RegisterController@showRegistrationForm')->name('sponsor.register');
+	Route::post('/register', 'Sponsor\RegisterController@register')->name('sponsor.register');
+});

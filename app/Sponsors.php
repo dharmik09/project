@@ -1,9 +1,13 @@
 <?php
 
 namespace App;
-use Illuminate\Database\Eloquent\Model;
 
-class Sponsors extends Model {
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Sponsors extends Authenticatable {
+
+
   /**
    * The database table used by the model.
    *
