@@ -62,20 +62,20 @@
             <ul class="testimonial-slider owl-carousel clearfix">
                 <li class="clearfix">
                     <div class="testimonial-img">
-                        <img src="img/user.jpg" alt="user">
+                        <img src="{{Storage::url('img/user.jpg')}}" alt="user">
                     </div>
                     <div class="testimonial-content">
-                        <span><img src="img/quote.png" alt="quote"></span>
+                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
                         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
                         <h5><a href="#" title="Lorem ipsum">Lorem ipsum</a> </h5>
                     </div>
                 </li>
                 <li class="clearfix">
                     <div class="testimonial-img">
-                        <img src="img/user.jpg" alt="user">
+                        <img src="{{Storage::url('img/user.jpg')}}" alt="user">
                     </div>
                     <div class="testimonial-content">
-                        <span><img src="img/quote.png" alt="quote"></span>
+                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
                         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
                         <h5><a href="#" title="Lorem ipsum">Lorem ipsum </a></h5>
                     </div>
@@ -109,7 +109,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="img/grid-1.png" alt="grid img">
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-1.png')}}" alt="grid img">
                                    <div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt </figcaption>
                                 </figure>
@@ -118,7 +118,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="img/grid-2.png" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-2.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </figcaption>
                                 </figure>
                             </div>
@@ -126,7 +126,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="img/grid-3.png" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-3.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur malesuada tortor vel egestas consequat. Nam et rutrum dolor.</figcaption>
                                 </figure>
                             </div>
@@ -134,7 +134,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="img/grid-4.png" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-4.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur malesuada tortor vel egestas consequat. Nam et rutrum dolor. </figcaption>
                                 </figure>
                             </div>
@@ -142,7 +142,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="img/grid-5.png" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-5.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
                                 </figure>
                             </div>
@@ -150,7 +150,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="img/grid-6.png" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-6.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur malesuada tortor vel egestas consequat.</figcaption>
                                 </figure>
                             </div>
@@ -158,7 +158,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="img/grid-7.png" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-7.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </figcaption>
                                 </figure>
                             </div>
@@ -166,7 +166,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="img/grid-8.png" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-8.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur</figcaption>
                                 </figure>
                             </div>
