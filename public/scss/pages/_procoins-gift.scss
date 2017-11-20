@@ -49,8 +49,9 @@ padding: 81px 0 10px;
     margin-bottom: 70px;
     .gift-table {
         position: relative;
+        margin-bottom: 0;
+        min-height: 387px;
         .table {
-            min-height: 387px;
             th {
                 width: 33.33%;
                 text-align: center;
@@ -65,10 +66,16 @@ padding: 81px 0 10px;
                     font-size: 16px;
                     padding: 12px 15px;
                 }
+                @include maxsm{
+                    padding: 10px;
+                }
             }
             tr {
                 td {
                     padding: 10px 15px;
+                    @include maxsm{
+                        padding: 6px 10px;
+                    }
                 }
             }
         }
@@ -82,17 +89,22 @@ padding: 81px 0 10px;
             text-align: center;
             background: #fff;
             @include maxsm{
-                height: 81.5%;
+                height: 88.4%;
             }
             i {
                 font-size: 70px;
-
+                @include maxsm{
+                    font-size: 50px;
+                }
             }
             p {
                 font-size: 21px;
                 font-family: hn-b;
                 color: $r-cl;
                 margin-top: 13px;
+                @include maxsm{
+                    font-size: 17px;
+                }
             }
             .data-content {
                 position: absolute;
@@ -104,7 +116,10 @@ padding: 81px 0 10px;
     }
     .sec-bttm {
         height: 72px;
-        border-top: 1px solid $r-cl;
+        border-top: 1px solid $bg-offwhite;
         background: $white;
+        @include maxsm{
+            height: 50px;
+        }
     }
 }

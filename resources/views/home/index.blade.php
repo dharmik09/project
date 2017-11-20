@@ -84,7 +84,7 @@
                         <div class="box">
                             <h1>teen</h1>
                             <p>Are you confused about which subjects to choose in senior school or which major to choose in college? <br /><br />Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics and understand how to match your skills </p>
-                            <a href="#" class="btn-base">Explore</a>
+                            <a href="{{url('/teenager/')}}" class="btn-base">Explore</a>
                         </div>
                     </div>
                 </div>

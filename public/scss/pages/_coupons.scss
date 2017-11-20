@@ -1,0 +1,118 @@
+.coupons-heading {
+    h1 {
+        margin-bottom: 11px;
+        @include maxlg {
+            font-size: 60px;
+        }
+    }
+    p {
+        font-family: h;
+        max-width: 55%;
+        margin: 0 auto;
+        @include maxlg {
+            max-width: 70%;
+            font-size: 20px;
+        }
+        @include maxmd {
+            max-width: 85%;
+        }
+        @include maxsm {
+            max-width: 100%;
+            font-size: 17px;
+        }
+    }
+}
+
+.sec-coupons {
+    padding: 53px 0 40px;
+    @include maxlg {
+        padding-top: 20px;
+    }
+    @include maxsm{
+        padding: 10px 0;
+    }
+    .row {
+        margin: 0 -20px;
+        @include maxmd {
+            margin: 0 -15px;
+        }
+        [class*=col-] {
+            padding: 0 20px;
+            @include maxmd {
+                padding: 0 15px;
+                margin-bottom: 30px;
+            }
+        }
+
+    }
+    .list-procoins {
+        max-width: 100%;
+        margin: 0;
+        @include maxlg {
+            margin-top: 0 !important;
+        }
+        .block-procoins {
+            background: $white;
+            padding: 30px 20px;
+            @include maxmd{
+                padding: 20px;
+            }
+            .coin-info {
+                margin-bottom: 35px;
+                .icon {
+                    margin-bottom: 31px;
+                    @include maxmd {
+                        width: 80%;
+                        margin: 0 auto 31px;
+                    }
+                }
+                h4 {
+                    padding-bottom: 47px;
+                    margin-bottom: 26px;
+                    @include maxlg {
+                        padding-bottom: 30px;
+                    }
+                    @include maxmd {
+                        padding-bottom: 20px;
+                    }
+                    &:before {
+                        width: 83%;
+                    }
+                }
+                p {
+                    margin-bottom: 47px;
+                    line-height: 1.5;
+                    max-width: 73%;
+                    @include maxmd {
+                        font-size: 15px;
+                        margin-bottom: 30px;
+                    }
+                }
+                .btn {
+                    display: block;
+                    margin: 0 auto 30px;
+                    border: 2px solid $cl-complete;
+                    color: $cl-complete;
+                    font-size: 24px;
+                    font-family: hl;
+                    max-width: 222px;
+                    padding: 10px 15px;
+                    &.btn-consume {
+                        background: $cl-complete;
+                        color: $white;
+                    }
+                    @include maxmd {
+                        font-size: 20px;
+                        max-width: 162px;
+                        padding: 6px 15px;
+                    }
+                    &:hover {
+                        background: $i-cl;
+                        border-color: $i-cl;
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+}

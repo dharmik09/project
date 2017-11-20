@@ -1,7 +1,7 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>{{trans('labels.appname')}} : Teenager</title>
+    <title>{{ trans('labels.appname') }} : Teenager</title>
 @endpush
 
 @section('content')
@@ -36,17 +36,19 @@
                 <div class="col-sm-6">
                     <div class="form-sec">
                         <h2>welcome back</h2>
-                        <form>
+                        <form id="login_form" method="POST" action="{{ url('/teenager/login-check') }}" autocomplete="off">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="name" placeholder="username" tabindex="1">
+                                <input type="text" class="form-control {eitherEmailPhone:true}" id="email" maxlength="50" name="email" placeholder="Email or Mobile" value="" autocomplete="off" tabindex="1">
+                                <span class="invalid" id="email_mobile_invalid" style="display: none;">Valid email or mobile required</span>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="pwd" placeholder="password" tabindex="2">
+                                <input type="password" class="form-control" id="password" maxlength="20" minlength="6" name="password" placeholder="password" tabindex="2">
                             </div>
                             <div class="checkbox">
-                                <label><input type="checkbox"><span class="checker"></span> Remember me</label>
+                                <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
                             </div>
-                            <button type="submit" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
+                            <button type="button" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
                         </form>
                         <p><a href="#" title="Forgot username/password?">Forgot username/password?</a></p>
                         <p>Not enrolled? <a href="#" title="Sign up now.">Sign up now.</a></p>
@@ -118,7 +120,7 @@
                         <div class="item clearfix">
                             <div class="grid-box">
                                 <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-2.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
+                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{ Storage::url('img/grid-2.png') }}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
                                     <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </figcaption>
                                 </figure>
                             </div>
@@ -183,8 +185,27 @@
 @section('script')
     <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/general.js') }}"></script>
     <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var loginRules = {
+                password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                }
+            };
+            $("#login_form").validate({
+                rules: loginRules,
+                messages: {
+                    password: {required: '{{trans("validation.passwordrequired")}}',
+                        maxlength: 'Password maximum range is 20',
+                        minlength: 'Password minimum length is 6'
+                    }
+                }
+            });
+        });
         //masonary
         $('.masonary-grid').masonry({
             // options
@@ -216,5 +237,38 @@
             $(this).hide();
             $('iframe').show();
         })
+
+        $("#loginSubmit").click(function() {
+            var form = $("#login_form");
+            form.validate();
+            var validEmailOrMobile = false;
+            $('#email_mobile_invalid').show();
+            var emailOrMobile = $.trim($("#email").val());
+            if (emailOrMobile.length > 0 && emailOrMobile.match(/[a-zA-Z]/i)) {
+                if (validateEmail(emailOrMobile)) {
+                    var validEmailOrMobile = true;
+                }
+            }
+            if ($.isNumeric(emailOrMobile) && emailOrMobile.length > 9) {
+                var validEmailOrMobile = true;
+            }
+            if (validEmailOrMobile) {
+                $('#email_mobile_invalid').hide();
+                if (form.valid()) {
+                    form.submit();
+                    $("#loginSubmit").attr("disabled", 'disabled');
+                } else {
+                    $("#loginSubmit").removeAttr("disabled", 'disabled');
+                }
+                return true;
+            } else {
+                $('#email_mobile_invalid').show();
+                return false;
+            }
+        });
+        function validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
     </script>
 @stop
