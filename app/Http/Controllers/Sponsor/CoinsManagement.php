@@ -84,7 +84,7 @@ class CoinsManagement extends Controller {
 
             return view('sponsor.ShowGiftedCoins', compact('sponsorCoinsDetail'));
         }
-        return view('sponsor.Login'); exit;
+        return view('sponsor.login'); exit;
     }
 
     public function getConsumption() {
@@ -127,7 +127,7 @@ class CoinsManagement extends Controller {
             return $days;
             exit;
         }
-        return view('sponsor.Login'); exit;
+        return view('sponsor.login'); exit;
     }
 
      public function getAvailableCoinsForSponsor() {
@@ -140,7 +140,7 @@ class CoinsManagement extends Controller {
             return $componentsData[0]->pc_required_coins;
             exit;
         }
-        return view('sponsor.Login'); exit;
+        return view('sponsor.login'); exit;
     }
 
     function getCoinsForSponsor() {
@@ -160,7 +160,7 @@ class CoinsManagement extends Controller {
             return $sponsorData['sp_credit'];
             exit;
         }
-        return view('sponsor.Login'); exit;
+        return view('sponsor.login'); exit;
     }
 
     public function getremainigdaysForSponsor() {
@@ -180,7 +180,7 @@ class CoinsManagement extends Controller {
             return $data;*/
             exit;
         }
-        return view('sponsor.Login'); exit;
+        return view('sponsor.login'); exit;
     }
 
      public function giftcoinstoSchool() {
@@ -188,10 +188,10 @@ class CoinsManagement extends Controller {
             $sponsorid = $this->loggedInUser->user()->id;
             $userDetail = $this->sponsorsRepository->getSponsorById($sponsorid);
 
-            return view('sponsor.GiftCoinsToSchool', compact('userDetail'));
+            return view('sponsor.giftCoinsToSchool', compact('userDetail'));
             exit;
         }
-        return view('sponsor.Login'); exit;
+        return view('sponsor.login'); exit;
     }
 
      public function saveGiftedCoinsDetail() {
@@ -206,11 +206,11 @@ class CoinsManagement extends Controller {
                 $r_coins = $sponsorData['sp_credit'];
             }
             if ($giftcoins > $r_coins) {
-                return Redirect::to("sponsor/viewdashboard")->with('error', trans('labels.validcoinsparent'));
+                return Redirect::to("sponsor/home")->with('error', trans('labels.validcoinsparent'));
             } else {
                 $schoolExist = $this->schoolsRepository->checkActiveSchoolExist($school_uniqueid);
                  if (isset($schoolExist) && $schoolExist) {
-                    return Redirect::to("sponsor/viewdashboard")->with('error', trans('appmessages.schoolnotexist'));
+                    return Redirect::to("sponsor/home")->with('error', trans('appmessages.schoolnotexist'));
                  }
                 $saveData = [];
                 $saveData['tcg_sender_id'] = $sponsorId;
@@ -277,9 +277,9 @@ class CoinsManagement extends Controller {
                     $m->subject($data['subject']);
                     $m->to($data['toEmail'], $data['toName']);
                 });
-                return Redirect::to("sponsor/viewdashboard")->with('success', trans('labels.coinsgiftsuccess'));
+                return Redirect::to("sponsor/home")->with('success', trans('labels.coinsgiftsuccess'));
             }
         }
-        return view('sponsor.Login'); exit;
+        return view('sponsor.login'); exit;
      }
 }

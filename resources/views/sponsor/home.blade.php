@@ -227,7 +227,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <button type="button" class="close close_next" data-dismiss="modal">Close</button>
-            <div class="default_logo"><img src="{{asset('/frontend/images/proteen_logo.png')}}" alt=""></div>
+            <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
             <div id="userData">
 
@@ -443,7 +443,7 @@ function giftCoins(coins)
     }
     $('.ajax-loader').show();
     $.ajax({
-        url: "{{ url('sponsor/giftcoins') }}",
+        url: "{{ url('sponsor/gift-coins') }}",
         type: 'post',
         data: {
             "_token": '{{ csrf_token() }}'
