@@ -40,7 +40,7 @@
                 <ul class="nav nav_basic navbar-nav navbar-right home_page_navigation non_teen">
                     <li class="{{ (Request::is('sponsor/update-profile')) ? 'active' : '' }}"><a href="{{url('/sponsor/update-profile')}}">My Profile</a></li>
                     <li class="{{ (Request::is('sponsor/home')) ? 'active' : '' }}"><a href="{{url('/sponsor/home')}}">Progress</a></li>
-                    <li class="{{ (Request::is('sponsor/mycoins')) ? 'active' : '' }}"><a href="{{url('/sponsor/mycoins')}}">My ProCoins</a></li>
+                    <li class="{{ (Request::is('sponsor/my-coins')) ? 'active' : '' }}"><a href="{{url('/sponsor/my-coins')}}">My ProCoins</a></li>
                     <li class="user_avatar">
                         <a href="#" class="drop_down_menu">
                            <span class="user_detail_name">{{Auth::guard('sponsor')->user()->sp_first_name}}</span>
