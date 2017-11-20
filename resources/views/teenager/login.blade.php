@@ -6,7 +6,39 @@
 @endpush
 
 @section('content')
-
+    <div class="col-xs-12">
+        @if ($message = Session::get('error'))
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 invalid_pass_error">
+                <div class="box-body">
+                    <div class="alert alert-error alert-dismissable danger">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                        <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
+                        {{ $message }}
+                    </div>
+                    <div class="resend_verification">
+                        <?php $id = Session::get('id'); ?>
+                        @if(isset($id) && $id>0)
+                            <div class="resend_verification">Didn't receive verification mail? Click to <a href="{{ url('/teenager/varify') }}/{{$id}}" class="rlink">Resend Verification</a></div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+        @if (count($errors) > 0)
+        <div class="alert alert-danger danger">
+            <strong>{{trans('validation.whoops')}}</strong>
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+            {{trans('validation.someproblems')}}<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+    </div>
     <section class="sec-login">
         <div class="container-small">
             <div class="login-form">
@@ -27,7 +59,7 @@
                         <div class="checkbox">
                             <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
                         </div>
-                        <button type="button" id="loginSubmit" value="Login" class="btn btn-default" title="Login" tabindex="4">Login</button>
+                        <button type="submit" id="loginSubmit" value="Login" class="btn btn-default" title="Login" tabindex="4">Login</button>
                         <div class="error">Please enter proper credentials</div>
                         <p class="text-center">or</p>
                         <ul class="btn-list">
@@ -56,7 +88,7 @@
                     required: true,
                     minlength: 6,
                     maxlength: 20
-                }
+                },
             };
             $("#login_form").validate({
                 rules: loginRules,
@@ -65,7 +97,7 @@
                         maxlength: 'Password maximum range is 20',
                         minlength: 'Password minimum length is 6'
                     }
-                }
+                },
             });
         });
         //masonary
@@ -99,7 +131,7 @@
             $(this).hide();
             $('iframe').show();
         })
-        $("#loginSubmit").click(function() {
+        $("#login_form").submit(function() {
             var form = $("#login_form");
             form.validate();
             var validEmailOrMobile = false;
@@ -116,7 +148,8 @@
             if (validEmailOrMobile) {
                 $('#email_mobile_invalid').hide();
                 if (form.valid()) {
-                    form.submit();
+                    return true;
+                    //form.submit();
                     $("#loginSubmit").attr("disabled", 'disabled');
                 } else {
                     $("#loginSubmit").removeAttr("disabled", 'disabled');
@@ -127,6 +160,7 @@
                 return false;
             }
         });
+
         function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
