@@ -38,15 +38,15 @@
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav nav_basic navbar-nav navbar-right home_page_navigation non_teen">
-                    <li class="{{ (Request::is('sponsor/updateprofile')) ? 'active' : '' }}"><a href="{{url('/sponsor/updateprofile')}}">My Profile</a></li>
-                    <li class="{{ (Request::is('sponsor/viewdashboard')) ? 'active' : '' }}"><a href="{{url('/sponsor/viewdashboard')}}">Progress</a></li>
+                    <li class="{{ (Request::is('sponsor/update-profile')) ? 'active' : '' }}"><a href="{{url('/sponsor/update-profile')}}">My Profile</a></li>
+                    <li class="{{ (Request::is('sponsor/home')) ? 'active' : '' }}"><a href="{{url('/sponsor/home')}}">Progress</a></li>
                     <li class="{{ (Request::is('sponsor/mycoins')) ? 'active' : '' }}"><a href="{{url('/sponsor/mycoins')}}">My ProCoins</a></li>
                     <li class="user_avatar">
                         <a href="#" class="drop_down_menu">
                            <span class="user_detail_name">{{Auth::guard('sponsor')->user()->sp_first_name}}</span>
                             <?php
                                 $photo = Auth::guard('sponsor')->user()->sp_photo;
-                                $profilePicUrl = ($photo != '') ? Storage::url(Config::get('constant.CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo) : Storage::url(Config::get('constant.CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                $profilePicUrl = ($photo != '') ? Storage::url(Config::get('constant.CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo) : Storage::url('frontend/images/proteen_logo.png');
                             ?>
                             <img class="user_detail_image" src="{{ $profilePicUrl }}" alt="">
                         </a>
