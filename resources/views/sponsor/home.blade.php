@@ -168,7 +168,7 @@
                     <span style="font-size: 20px;">Coupons</span>
                 </div>     
                 <div class="button_container">
-                    <a href="{{url('/sponsor/addCoupon')}}" class="btn primary_btn small_btn space_btm">Add Coupons</a>
+                    <a href="{{url('/sponsor/add-coupon')}}" class="btn primary_btn small_btn space_btm">Add Coupons</a>
                 </div>                
             </div>
 
@@ -209,7 +209,7 @@
                             {{$active == 1?'Active':'Inactive'}}
                         </td>
                         <td>
-                            <a href="{{ url('sponsor/editCoupon') }}/{{$coupon->id}}" class="btn_edit" title="Edit"><i class="fa fa-edit"></i></a>
+                            <a href="{{ url('sponsor/edit-coupon') }}/{{$coupon->id}}" class="btn_edit" title="Edit"><i class="fa fa-edit"></i></a>
                             | <a onclick="getCouponCompeting(<?php echo $coupon->id; ?>)" class="btn_edit" style="cursor:pointer;" title="Coupon usage"><i class="fa fa-users" aria-hidden="true"></i></a>
                         </td>
                     </tr>
@@ -267,7 +267,7 @@
                                             type: 'get',
                                             data: form_data,
                                             dataType: 'html',
-                                            url: "{{ url('/sponsor/getCouponCompeting')}}",
+                                            url: "{{ url('/sponsor/get-coupon-competing')}}",
                                             headers: {
                                                 'X-CSRF-TOKEN': CSRF_TOKEN
                                             },

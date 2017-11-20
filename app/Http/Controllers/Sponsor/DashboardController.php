@@ -248,7 +248,7 @@ class DashboardController extends Controller
         if($sponsorAvailableCredit == 0){
             return Redirect::to("sponsor/home")->with('error', 'You don\'t have sufficient credit to add the activity. Please contact administrator for more detail.');
         }
-        return view('sponsor.AddCouponBulk',compact('couponOriginalImageUploadPath'));
+        return view('sponsor.addCouponBulk',compact('couponOriginalImageUploadPath'));
     }
     
     public function couponBulkSave()
@@ -317,12 +317,12 @@ class DashboardController extends Controller
                return Redirect::to("sponsor/home")->with('success', 'Coupons imported successfully...');
                exit;
             }else{
-               return Redirect::to("sponsor/addCoupon")->with('error','Invalid data in excel file...');
+               return Redirect::to("sponsor/add-coupon")->with('error','Invalid data in excel file...');
                exit; 
             }          
         } 
         else{
-            return Redirect::to("sponsor/addCoupon")->with('error','Invalid file type...');
+            return Redirect::to("sponsor/add-coupon")->with('error','Invalid file type...');
             exit;
         }
     }
@@ -332,7 +332,7 @@ class DashboardController extends Controller
         $couponThumbImagePath = $this->couponThumbImageUploadPath;  
         $couponOriginalImagePath = $this->couponOriginalImageUploadPath;
         $coupon = $this->couponsRepository->getCouponsById($id);        
-        return view('sponsor.CouponEdit', compact('coupon','couponThumbImagePath','couponOriginalImagePath'));
+        return view('sponsor.couponEdit', compact('coupon','couponThumbImagePath','couponOriginalImagePath'));
     }
     
     public function saveCoupon()
@@ -371,20 +371,25 @@ class DashboardController extends Controller
             $height = Image::make($file->getRealPath())->height();
             if($width != 255 && $height != 150)
             {
-                return Redirect::to("sponsor/editCoupon/".$couponDetail['id'])->withErrors('Image width must be 255px and Height 150px')->withInput();
+                return Redirect::to("sponsor/edit-coupon/".$couponDetail['id'])->withErrors('Image width must be 255px and Height 150px')->withInput();
                 exit;
-            }
-            else{
+            } else {
                 $pathOriginal = public_path($this->couponOriginalImageUploadPath . $fileName);
                 $pathThumb = public_path($this->couponThumbImageUploadPath . $fileName);
                 Image::make($file->getRealPath())->save($pathOriginal);
                 Image::make($file->getRealPath())->resize($this->couponThumbImageWidth, $this->couponThumbImageHeight)->save($pathThumb);
 
                 if ($hiddenLogo != '') {
-                    $imageOriginal = public_path($this->couponOriginalImageUploadPath . $hiddenLogo);
-                    $imageThumb = public_path($this->couponThumbImageUploadPath . $hiddenLogo);
-                    File::delete($imageOriginal, $imageThumb);
+                    $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->couponOriginalImageUploadPath, "s3");
+                    $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->couponThumbImageUploadPath, "s3");
                 }
+
+                //Uploading on AWS
+                $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->couponOriginalImageUploadPath, $pathOriginal, "s3");
+                $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->couponThumbImageUploadPath, $pathThumb, "s3");
+                
+                \File::delete($this->couponOriginalImageUploadPath . $fileName);
+                \File::delete($this->couponThumbImageUploadPath . $fileName);
                 $couponDetail['cp_image'] = $fileName;
             }
         }
