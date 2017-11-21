@@ -54,7 +54,8 @@ Route::group(['prefix' => 'sponsor'], function () {
 	Route::get('/login', 'Sponsor\LoginController@login')->name('sponsor.login');
 	Route::post('/login-check', 'Sponsor\LoginController@loginCheck')->name('sponsor.loginCheck');
 	Route::post('/logout', 'Sponsor\LoginController@logout')->name('sponsor.logout');
-
-	Route::get('/register', 'Sponsor\RegisterController@showRegistrationForm')->name('sponsor.register');
-	Route::post('/register', 'Sponsor\RegisterController@register')->name('sponsor.register');
+	Route::get('/signup', 'Sponsor\SignupController@signup')->name('sponsor.signup');
+	Route::post('/do-signup', 'Sponsor\SignupController@doSignup')->name('sponsor.doSignup');
+	Route::get('/do-signup', 'Sponsor\SignupController@signup');
+	Route::get('/enterprise-request', 'Sponsor\SignupController@preLoginPackagePurchase')->name('sponsor.enterprise-request');
 });

@@ -11,6 +11,7 @@ Route::get('/edit/{id}', 'Sponsor\DashboardController@edit')->name('edit');
 //Gift ProCoins
 Route::post('/gift-coins/', 'Sponsor\CoinsManagement@giftcoinstoSchool')->name('gift-coins');
 Route::post('/save-coins-data-for-school','Sponsor\CoinsManagement@saveGiftedCoinsDetail')->name('save-coins-data-for-school');
+Route::get('/save-coin-package-purchased-data/{p_id}', 'Sponsor\SignupController@saveCoinPurchasedData')->name('save-coin-package');
 
 //Coupon
 Route::get('/add-coupon', 'Sponsor\DashboardController@addCoupon')->name('add-coupon');

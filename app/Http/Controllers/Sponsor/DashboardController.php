@@ -61,13 +61,14 @@ class DashboardController extends Controller
             if (!empty($componentsData)) {
                 $coins = $componentsData[0]->pc_required_coins;
             }
+            
 
             $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData[0]->id,4);
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if (!empty($deductedCoinsDetail->toArray())) {
                 $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
             }
-
+            
             return view('sponsor.home', compact('activityDetail', 'saThumbImagePath', 'coupons', 'couponThumbImagePath', 'usedCredits', 'coins', 'days', 'sponsorId', 'loggedInUser'));
         } else {
             return view('sponsor.login');
@@ -493,6 +494,6 @@ class DashboardController extends Controller
             return "1";
             exit;
         }
-        return view('sponsor.Login'); exit;
+        return view('sponsor.login'); exit;
     }
 }
