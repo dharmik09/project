@@ -30,3 +30,7 @@ Route::get('/get-transaction/', 'Sponsor\CoinsManagement@getTransaction')->name(
 Route::get('/get-consumption/', 'Sponsor\CoinsManagement@getConsumption')->name('get-consumption');
 Route::get('/save-coin-purchased-data/{id}', 'Sponsor\CoinsManagement@saveCoinPurchasedData')->name('save-coin-purchased-data');
 
+//Change Password
+Route::get('/change-password', 'Sponsor\PasswordController@changePassword')->name('change-password');
+Route::post('/update-password', 'Sponsor\PasswordController@updatePassword')->name('update-password');
+
