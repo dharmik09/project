@@ -25,15 +25,17 @@ class TeenagerSignupRequest extends Request {
                 'mobile' => 'min : 10 | max : 11',
                 //'photo' => 'mimes:jpeg,jpg,bmp,png',
                 'name' => 'required | min : 3',
-                'birth_date' => 'required',
+                //'birth_date' => 'required',
                 'gender' => 'required',
                 'country' => 'required',
                 'pincode' => 'required | min : 5 | max : 6',
-                'email' => 'required | email',
-                'password' => 'required | min : 6',
+                'email' => 'required | email | max : 100 | confirmed',
+                'password' => 'required | min : 6 | confirmed',
                 'sponsor_choice' => 'required',
-                'nickname' => 'min : 2'
+                'nickname' => 'min : 2',
+                'year' => 'required',
+                'month' => 'required',
+                'day' => 'required'
             ];
     }
-    
 }
