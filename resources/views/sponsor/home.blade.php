@@ -74,7 +74,7 @@
                 <div class="button_container coins_button_container">
                     <div class="coin_summary cst_cst_dsh cst_dsh clearfix">
                         <div class="right col-md-3 col-sm-4 col-xs-12">
-                            <div class="clearfix"><a href="{{url('/sponsor/dataAdd')}}" class="btn primary_btn invite_teen_btn">Add Advertisements</a></div>
+                            <div class="clearfix"><a href="{{url('/sponsor/data-add')}}" class="btn primary_btn invite_teen_btn">Add Advertisements</a></div>
                         </div>
                         <div class="left col-md-6 col-sm-4 col-xs-12">
                             <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
@@ -168,7 +168,7 @@
                     <span style="font-size: 20px;">Coupons</span>
                 </div>     
                 <div class="button_container">
-                    <a href="{{url('/sponsor/addCoupon')}}" class="btn primary_btn small_btn space_btm">Add Coupons</a>
+                    <a href="{{url('/sponsor/add-coupon')}}" class="btn primary_btn small_btn space_btm">Add Coupons</a>
                 </div>                
             </div>
 
@@ -209,7 +209,7 @@
                             {{$active == 1?'Active':'Inactive'}}
                         </td>
                         <td>
-                            <a href="{{ url('sponsor/editCoupon') }}/{{$coupon->id}}" class="btn_edit" title="Edit"><i class="fa fa-edit"></i></a>
+                            <a href="{{ url('sponsor/edit-coupon') }}/{{$coupon->id}}" class="btn_edit" title="Edit"><i class="fa fa-edit"></i></a>
                             | <a onclick="getCouponCompeting(<?php echo $coupon->id; ?>)" class="btn_edit" style="cursor:pointer;" title="Coupon usage"><i class="fa fa-users" aria-hidden="true"></i></a>
                         </td>
                     </tr>
@@ -227,7 +227,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <button type="button" class="close close_next" data-dismiss="modal">Close</button>
-            <div class="default_logo"><img src="{{asset('/frontend/images/proteen_logo.png')}}" alt=""></div>
+            <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
             <div id="userData">
 
@@ -267,7 +267,7 @@
                                             type: 'get',
                                             data: form_data,
                                             dataType: 'html',
-                                            url: "{{ url('/sponsor/getCouponCompeting')}}",
+                                            url: "{{ url('/sponsor/get-coupon-competing')}}",
                                             headers: {
                                                 'X-CSRF-TOKEN': CSRF_TOKEN
                                             },
@@ -443,7 +443,7 @@ function giftCoins(coins)
     }
     $('.ajax-loader').show();
     $.ajax({
-        url: "{{ url('sponsor/giftcoins') }}",
+        url: "{{ url('sponsor/gift-coins') }}",
         type: 'post',
         data: {
             "_token": '{{ csrf_token() }}'

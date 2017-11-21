@@ -61,7 +61,7 @@
                         </div>
                         <div class="clearfix">
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <a href="{{url('sponsor/forgotPassword')}}" class="link">Forgot Password?</a>
+                                <a href="{{url('sponsor/forgot-password')}}" class="link">Forgot Password?</a>
                             </div>
                         </div>
                         <div class="button_container social_btn">

@@ -55,7 +55,17 @@ Route::group(['prefix' => 'sponsor'], function () {
 	Route::get('/login', 'Sponsor\LoginController@login')->name('sponsor.login');
 	Route::post('/login-check', 'Sponsor\LoginController@loginCheck')->name('sponsor.loginCheck');
 	Route::post('/logout', 'Sponsor\LoginController@logout')->name('sponsor.logout');
+	Route::get('/signup', 'Sponsor\SignupController@signup')->name('sponsor.signup');
+	Route::post('/do-signup', 'Sponsor\SignupController@doSignup')->name('sponsor.doSignup');
+	Route::get('/do-signup', 'Sponsor\SignupController@signup');
+	Route::get('/enterprise-request', 'Sponsor\SignupController@preLoginPackagePurchase')->name('sponsor.enterprise-request');
+	Route::get('/forgot-password', 'Sponsor\PasswordController@forgotPassword')->name('sponsor.forgot-password');
+	Route::post('/forgot-password-OTP', 'Sponsor\PasswordController@forgotPasswordOTP')->name('forgot-password-OTP');
+	Route::post('/forgot-password-OTP-verify', 'Sponsor\PasswordController@forgotPasswordOTPVerify')->name('forgot-password-OTP-verify');
+	Route::post('/save-forgot-password', 'Sponsor\PasswordController@saveForgotPassword')->name('save-forgot-password');
 
-	Route::get('/register', 'Sponsor\RegisterController@showRegistrationForm')->name('sponsor.register');
-	Route::post('/register', 'Sponsor\RegisterController@register')->name('sponsor.register');
+	Route::get('/forgot-password-OTP', 'Sponsor\PasswordController@forgotPassword');
+	Route::get('/forgot-password-OTP-verify', 'Sponsor\PasswordController@forgotPassword');
+	Route::get('/save-forgot-password', 'Sponsor\PasswordController@forgotPassword');
+	Route::get('/set-forgot-password', 'Sponsor\PasswordController@forgotPassword');
 });

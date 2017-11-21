@@ -178,7 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
-        LaravelFCM\FCMServiceProvider::class
+        LaravelFCM\FCMServiceProvider::class,
+        Softon\Indipay\IndipayServiceProvider::class,
 
     ],
 
@@ -232,6 +233,7 @@ return [
         'Helpers' => App\Helpers\Helpers::class,
         'FCM' => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class,
+        'Indipay' => Softon\Indipay\Facades\Indipay::class,
 
     ],
 
