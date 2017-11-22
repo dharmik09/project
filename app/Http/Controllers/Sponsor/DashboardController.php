@@ -447,7 +447,7 @@ class DashboardController extends Controller
             $logo = $this->loggedInUser->user()->sp_logo;
             $image = '';
             if (!empty($logo)) {
-                if ($logo != '' && file_exists($this->sponsorThumbImageUploadPath . $logo)) {
+                if (isset($logo) && $logo != '') {
                     $image = $this->sponsorThumbImageUploadPath . $logo;
                 } else {
                     $image = $this->sponsorThumbImageUploadPath . 'proteen-logo.png';
@@ -462,7 +462,7 @@ class DashboardController extends Controller
             $response['transactionDetail'] = $transactionDetail;
 
 
-            $pdf=PDF::loadView('sponsor.ExportSponsorDetailPDF',$response);
+            $pdf=PDF::loadView('sponsor.exportSponsorDetailPDF',$response);
             return $pdf->stream('Sponsor.pdf');
         }else{
             return view('sponsor.login');
@@ -479,7 +479,7 @@ class DashboardController extends Controller
 
             $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData[0]->id,4);
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if (!empty($deductedCoinsDetail->toArray())) {
                 $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {

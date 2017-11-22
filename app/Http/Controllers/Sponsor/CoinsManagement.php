@@ -82,7 +82,7 @@ class CoinsManagement extends Controller {
             $objTeenagerCoinsGift = new TeenagerCoinsGift();
             $sponsorCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetail($sponsorid,4);
 
-            return view('sponsor.ShowGiftedCoins', compact('sponsorCoinsDetail'));
+            return view('sponsor.showGiftedCoins', compact('sponsorCoinsDetail'));
         }
         return view('sponsor.login'); exit;
     }
@@ -121,7 +121,7 @@ class CoinsManagement extends Controller {
                 $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData[0]->id,4);
             }
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if (!empty($deductedCoinsDetail->toArray())) {
                 $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
             }
             return $days;

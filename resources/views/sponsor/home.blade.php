@@ -287,7 +287,7 @@ $(document).on('click', '#report', function (e) {
 
     var sponsor_id = '{{ $loggedInUser->user()->id }}';
     $.ajax({
-        url: "{{ url('/sponsor/getAvailableCoins') }}",
+        url: "{{ url('/sponsor/get-available-coins') }}",
         type: 'POST',
         data: {
             "_token": '{{ csrf_token() }}',
@@ -296,7 +296,7 @@ $(document).on('click', '#report', function (e) {
         success: function(response) {
             days = response;
             $.ajax({
-                url: "{{ url('/sponsor/getAvailableCoinsForSponsor') }}",
+                url: "{{ url('/sponsor/get-available-coins-for-sponsor') }}",
                 type: 'POST',
                 data: {
                     "_token": '{{ csrf_token() }}',
@@ -305,7 +305,7 @@ $(document).on('click', '#report', function (e) {
                 success: function(response) {
                     coins = response;
                     $.ajax({
-                        url: "{{ url('/sponsor/getCoinsForSponsor') }}",
+                        url: "{{ url('/sponsor/get-coins-for-sponsor') }}",
                         type: 'POST',
                         data: {
                             "_token": '{{ csrf_token() }}',
@@ -395,14 +395,14 @@ $(document).on('click', '#report', function (e) {
 
 function showReport(days) {
     $.ajax({
-          url: "{{ url('/sponsor/purchasedCoinsToViewReport') }}",
+          url: "{{ url('/sponsor/purchased-coins-to-view-report') }}",
           type: 'POST',
           data: {
               "_token": '{{ csrf_token() }}',
               "sponsorId": '{{ $loggedInUser->user()->id }}'
           },
           success: function(response) {
-                var path = '<?php echo url('/sponsor/exportpdf/'); ?>';
+                var path = '<?php echo url('/sponsor/export-pdf/'); ?>';
                 var win = window.open(path, '_blank');
                 win.focus();
                 if (days == 0){
@@ -414,7 +414,7 @@ function showReport(days) {
 
 function getRemaningDaysForReport(parent_id) {
     $.ajax({
-        url: "{{ url('/sponsor/getremainigdaysForSponsor') }}",
+        url: "{{ url('/sponsor/get-remainig-days-for-sponsor') }}",
         type: 'POST',
         data: {
             "_token": '{{ csrf_token() }}',

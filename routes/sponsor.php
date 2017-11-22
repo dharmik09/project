@@ -1,6 +1,15 @@
 <?php
 
 Route::get('/home', 'Sponsor\DashboardController@index')->name('home');
+Route::get('/inactive/{id}', 'Sponsor\DashboardController@inactive');
+Route::get('/purchase-credit', 'Sponsor\DashboardController@purchaseCredit')->name('purchase-credit');
+Route::get('/export-pdf', 'Sponsor\DashboardController@exportPDF')->name('export-pdf');
+Route::post('/get-available-coins/', 'Sponsor\CoinsManagement@getAvailableCoins')->name('get-available-coins');
+Route::post('/get-available-coins-for-sponsor/', 'Sponsor\CoinsManagement@getAvailableCoinsForSponsor')->name('get-available-coins-for-sponsor');
+Route::post('/get-coins-for-sponsor/', 'Sponsor\CoinsManagement@getCoinsForSponsor')->name('get-coins-for-sponsor');
+Route::post('/get-remainig-days-for-sponsor/', 'Sponsor\CoinsManagement@getremainigdaysForSponsor')->name('get-remainig-days-for-sponsor');
+Route::post('/purchased-coins-to-view-report', 'Sponsor\DashboardController@purchasedCoinsToViewReport')->name('purchased-coins-to-view-report');
+
 
 //Advertisements
 Route::get('/data-add/', 'Sponsor\DashboardController@addForm')->name('data-add');
@@ -29,6 +38,7 @@ Route::any('/my-coins/', 'Sponsor\CoinsManagement@display')->name('my-coins');
 Route::get('/get-transaction/', 'Sponsor\CoinsManagement@getTransaction')->name('get-transaction');
 Route::get('/get-consumption/', 'Sponsor\CoinsManagement@getConsumption')->name('get-consumption');
 Route::get('/save-coin-purchased-data/{id}', 'Sponsor\CoinsManagement@saveCoinPurchasedData')->name('save-coin-purchased-data');
+Route::get('/get-gift-coins/', 'Sponsor\CoinsManagement@getGiftCoins')->name('get-gift-coins');
 
 //Change Password
 Route::get('/change-password', 'Sponsor\PasswordController@changePassword')->name('change-password');

@@ -54,7 +54,7 @@
                         <div class="col-md-6 col-sm-12 col-xs-12 right">
                             <div class="title">{{trans('labels.history')}}</div>
                             <div class="btn_cont">
-                                <!--<a href="{{ url('sponsor/getGiftCoins') }}" class="btn primary_btn">Gift Coins</a>-->
+                                <!--<a href="{{ url('sponsor/get-gift-coins') }}" class="btn primary_btn">Gift Coins</a>-->
                                 <a href="{{ url('sponsor/get-transaction') }}" class="btn primary_btn">{{trans('labels.transaction')}}</a>
                                 <a href="{{ url('sponsor/get-consumption') }}" class="btn primary_btn">{{trans('labels.consumption')}}</a>
                             </div>
