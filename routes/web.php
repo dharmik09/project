@@ -69,3 +69,10 @@ Route::group(['prefix' => 'sponsor'], function () {
 	Route::get('/save-forgot-password', 'Sponsor\PasswordController@forgotPassword');
 	Route::get('/set-forgot-password', 'Sponsor\PasswordController@forgotPassword');
 });
+
+Route::group(['prefix' => 'parent'], function () { 
+	Route::get('/', 'Parent\LoginController@login');
+	Route::get('/login', 'Parent\LoginController@login')->name('parent.login');
+	Route::post('/login-check', 'Parent\LoginController@loginCheck')->name('parent.loginCheck');
+	Route::post('/logout', 'Parent\LoginController@logout')->name('parent.logout');
+});

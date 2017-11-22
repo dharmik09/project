@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use DB;
 use Config;
 
-class Parents extends Model {
+class Parents extends Authenticatable {
 
   protected $table = 'pro_p_parent';
   protected $guarded = [];
