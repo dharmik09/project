@@ -93,4 +93,46 @@ class LoginController extends Controller
         return redirect()->to(route('parent.login'));
     }
     
+    public function verifyParent() {
+        $token = input::get('token');
+        $userType = '';
+        if ($token) {
+            $parentTokenVarify = $this->ParentsRepository->updateParentTeenStatusByToken($token);
+            if ($parentTokenVarify) {
+                $parent = $this->ParentsRepository->updateParentVerifyStatusById($parentTokenVarify[0]->ptp_parent_id);
+                $parentData = $this->ParentsRepository->getParentById($parentTokenVarify[0]->ptp_parent_id);
+                $userType = $parentData->p_user_type;
+                if ($parent) {
+                    $varifymessage = 'Your pair has been verified';
+                } else {
+                    $varifymessage = trans('appmessages.default_error_msg');
+                }
+            } else {
+                $varifymessage = trans('appmessages.already_email_verify_msg');
+            }
+        }
+        return view('parent.verifyParent', compact('varifymessage', 'userType'));
+    }
+
+    public function verifyParentRegistration() {
+        $token = input::get('token');
+        $userType = '';
+
+        if ($token) {
+            $parentTokenVarify = $this->ParentsRepository->updateParentTokenStatusByToken($token);
+            if ($parentTokenVarify) {
+                $parent = $this->ParentsRepository->updateParentVerifyStatusById($parentTokenVarify[0]->tev_parent);
+                $parentData = $this->ParentsRepository->getParentById($parentTokenVarify[0]->tev_parent);
+                $userType = $parentData->p_user_type;
+                if ($parent) {
+                    $varifymessage = trans('appmessages.email_verify_msg');
+                } else {
+                    $varifymessage = trans('appmessages.default_error_msg');
+                }
+            } else {
+                $varifymessage = trans('appmessages.already_email_verify_msg');
+            }
+        }
+        return view('parent.verifyParent', compact('varifymessage', 'userType'));
+    }
 }

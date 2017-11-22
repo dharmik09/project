@@ -75,4 +75,10 @@ Route::group(['prefix' => 'parent'], function () {
 	Route::get('/login', 'Parent\LoginController@login')->name('parent.login');
 	Route::post('/login-check', 'Parent\LoginController@loginCheck')->name('parent.loginCheck');
 	Route::post('/logout', 'Parent\LoginController@logout')->name('parent.logout');
+	Route::get('/signup', 'Parent\ParentSignupController@signup')->name('parent.signup');
+	Route::post('/do-signup', 'Parent\ParentSignupController@doSignup')->name('parent.do-signup');
+	Route::get('/do-signup', 'Parent\ParentSignupController@signup');
+	Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('verify-parent-teen-pair');
+	Route::get('/verify-parent-registration', 'Parent\LoginController@verifyParentRegistration')->name('verify-parent-registration');
+
 });
