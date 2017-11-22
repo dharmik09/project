@@ -34,8 +34,9 @@ Route::group(['prefix' => 'teenager'], function () {
 	Route::get('/login', 'Teenager\LoginController@login')->name('login');
 	Route::post('/login-check', 'Teenager\LoginController@loginCheck')->name('loginCheck');
 	Route::post('/logout', 'Teenager\LoginController@logout')->name('logout');
-	Route::get('/register', 'Teenager\RegisterController@showRegistrationForm')->name('register');
-	Route::post('/register', 'Teenager\RegisterController@register');
+	Route::get('/signup', 'Teenager\SignupController@signup')->name('signup');
+	Route::post('/do-signup', 'Teenager\SignupController@doSignup');
+	Route::post('/get-phone-code-by-country', 'Teenager\SignupController@getPhoneCodeByCountry');
 });
 
 Route::group(['prefix' => 'developer'], function () {

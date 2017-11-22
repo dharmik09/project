@@ -68,7 +68,7 @@
                         </ul>
                     </form>
                     <p><a href="#" title="Forgot username/password?">Forgot username/password?</a></p>
-                    <p>Not enrolled? <a href="#" title="Sign up now.">Sign up now.</a></p>
+                    <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
                 </div>
             </div>
         </div>

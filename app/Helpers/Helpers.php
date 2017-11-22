@@ -329,9 +329,7 @@ Class Helpers {
      */
 
     public static function getTeenagerUniqueId() {
-        $uniqueId = uniqid("", TRUE);
-
-        return $uniqueId;
+        return uniqid("", TRUE);
     }
 
     /*
