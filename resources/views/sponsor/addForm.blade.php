@@ -98,7 +98,7 @@
                                             <div class="placeholder_image sponsor update_profile full_width">
                                                 <span>
                                                     <?php if (!empty($image)) { ?>
-                                                        <img src="{{asset($image)}}"/>
+                                                        <img src="{{$image}}"/>
                                                     <?php } else { ?>
                                                         <span> <p>Upload Your Photo</p> </span>
                                                     <?php } ?>

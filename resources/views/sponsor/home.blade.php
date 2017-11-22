@@ -87,12 +87,12 @@
                 </div>
                 <!--<div class="coin_summary row clearfix" style="margin-bottom:0;margin-top:10px;">
                   <div class="col-md-6 col-sm-12 col-xs-12 left">
-                      <span class="coin_img"><img src="{{asset('/frontend/images/available_coin.png')}}" alt=""></span>
+                      <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
                       <span>{{trans('labels.availablecoins')}}</span>
                       <span class="coin_count_ttl"><?php //echo number_format(Auth::sponsor()->get()->sp_credit);?></span>
                   </div>
                   <div class="col-md-6 col-sm-12 col-xs-12 left">
-                    <div class="clearfix"><a href="{{url('/sponsor/dataAdd')}}" class="btn primary_btn cst_pull_right invite_teen_btn">Add Advertisements</a></div>
+                    <div class="clearfix"><a href="{{url('/sponsor/data-add')}}" class="btn primary_btn cst_pull_right invite_teen_btn">Add Advertisements</a></div>
                   </div>
                 </div>-->
             </div>
@@ -155,7 +155,7 @@
                         </tr>
                         @empty 
                         <tr>
-                            <td colspan="10"><?php echo "No records found.."; ?></td>
+                            <td colspan="11"><?php echo "No records found.."; ?></td>
                         </tr>    
                         @endforelse
                     <?php } ?>

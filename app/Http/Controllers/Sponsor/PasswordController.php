@@ -41,7 +41,7 @@ class PasswordController extends Controller {
 
     public function changePassword() {
         if (Auth::guard('sponsor')->check()) {
-            return view('sponsor.ChangePassword');
+            return view('sponsor.changePassword');
         }
         return view('sponsor.login');
     }
@@ -170,7 +170,7 @@ class PasswordController extends Controller {
             else
             {
                 $response['message'] = trans('appmessages.invalidOTP');
-                return Redirect::to('/sponsor/forgotPasswordOTP')->with('error', trans('appmessages.invalidOTP'));
+                return Redirect::to('/sponsor/forgot-password-OTP')->with('error', trans('appmessages.invalidOTP'));
                 exit;
             }
         }
@@ -208,7 +208,7 @@ class PasswordController extends Controller {
             else
             {
                 $response['message'] = trans('appmessages.missing_data_msg');
-                return Redirect::to('/sponsor/setForgotPassword')->with('error', trans('appmessages.missing_data_msg'));
+                return Redirect::to('/sponsor/set-forgot-password')->with('error', trans('appmessages.missing_data_msg'));
                 exit;
             }
         }

@@ -37,7 +37,7 @@ class LoginController extends Controller
     public function login()
     {
         if (Auth::guard('sponsor')->check()) {
-            return Redirect::to("/sponsor/view-dashboard");
+            return Redirect::to("/sponsor/home");
         }
         $text = '';
         $loginInfo = $this->cmsObj->getCmsBySlug('sponsorlogininfotext');
