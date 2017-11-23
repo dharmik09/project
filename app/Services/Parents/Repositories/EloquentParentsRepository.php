@@ -300,8 +300,8 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
         $basicTotalPoints = (isset($totalBasicPoints[0]->total_points) && $totalBasicPoints[0]->total_points != '') ? $totalBasicPoints[0]->total_points : 0;
         $finalbasicAttemptedPoints = 0;
         //get total points for attempted questions
-        $basicAttemptedTotalPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
-                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS_PARENT') . " AS l4_ans ", 'l4_act.id', '=', 'l4_ans.lbac_activity_id')
+        $basicAttemptedTotalPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
+                ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS_PARENT') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.lbac_activity_id')
                 ->select(DB::raw('l4_act.points as attemptedpoint'))
                 ->where('l4_act.profession_id', $professionId)
                 ->where('l4_ans.lbac_parent_id', $parentId)
@@ -315,7 +315,7 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
             }
         }
 
-        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act ")
+        $totalEarnBasicPoints = DB::table(config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_act")
                 ->join(config::get('databaseconstants.TBL_LEVEL4_ANSWERS_PARENT') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.lbac_activity_id')
                 ->select(DB::raw('l4_ans.lbac_earned_points AS earned_points'),'l4_act.points as attemptedpoint')
                 ->where('l4_act.profession_id', $professionId)
@@ -354,7 +354,6 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
          $basicArray = [];
         $templateWiseEarnedPoint = $templateWiseTotalPoint = $templateWiseTotalAttemptedPoint = array();
         $basicAttemptedQuestion = DB::select(DB::raw("select (SELECT count(DISTINCT(l4_aa.id)) FROM " . config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS l4_aa join " . config::get('databaseconstants.TBL_LEVEL4_OPTIONS') . " AS l4_an on l4_aa.id = l4_an.activity_id where l4_aa.deleted=1 and l4_aa.profession_id = $professionId ) as 'NoOfTotalQuestions', (select count(DISTINCT(L4_ANS.lbac_activity_id)) from " . config::get('databaseconstants.TBL_LEVEL4_ACTIVITY') . " AS L4_AC join " . config::get('databaseconstants.TBL_LEVEL4_ANSWERS_PARENT') . " AS L4_ANS on L4_AC.id = L4_ANS.lbac_activity_id  where L4_ANS.lbac_parent_id=" . $parentId . " AND L4_AC.profession_id = " . $professionId . " ) as 'NoOfAttemptedQuestions' "), array());
-
         $basicArray['noOfTotalQuestion'] = (isset($basicAttemptedQuestion[0]->NoOfTotalQuestions) && $basicAttemptedQuestion[0]->NoOfTotalQuestions != '' ) ? $basicAttemptedQuestion[0]->NoOfTotalQuestions : '';
         $basicArray['noOfAttemptedQuestion'] = (isset($basicAttemptedQuestion[0]->NoOfAttemptedQuestions) && $basicAttemptedQuestion[0]->NoOfAttemptedQuestions != '' ) ? $basicAttemptedQuestion[0]->NoOfAttemptedQuestions : '';
         $basicArray['totalPoints'] = $basicTotalPoints;
@@ -373,7 +372,7 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
 
             foreach ($level4IntermediatePoint as $key => $templateId) {
                 $templateTotalPoints[$templateId->l4ia_question_template] = DB::select(DB::raw("select (SELECT SUM(l4ia_question_point) FROM " . config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " where deleted=1 and l4ia_profession_id = $professionId and l4ia_question_template = $templateId->l4ia_question_template) as 'total_points'"));
-                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act ")
+                $totalEarnIntermediatePoints[$templateId->l4ia_question_template] = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY') . " AS l4_act")
                         ->join(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_PARENT') . " AS l4_ans", 'l4_act.id', '=', 'l4_ans.l4iapa_activity_id')
                         ->select(DB::raw('l4_ans.l4iapa_earned_point AS earned_points'), 'l4_ans.l4iapa_parent_id', 'l4_act.l4ia_question_point')
                         ->where('l4_act.l4ia_profession_id', $professionId)

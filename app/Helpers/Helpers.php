@@ -2347,13 +2347,13 @@ Class Helpers {
                 $teendata = [];
                 if (isset($teenId->teenager_id)) {
                     if ($teenId->t_photo != '') {
-                        if (file_exists(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenId->t_photo)) {
-                            $teenPhoto = asset(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenId->t_photo);
+                        if (isset($teenId->t_photo) && !empty($teenId->t_photo)) {
+                            $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenId->t_photo;
                         } else {
-                            $teenPhoto = asset(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                            $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
                         }
                     } else {
-                        $teenPhoto = asset(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                        $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
                     }
                     $level4Competing[$teenId->teenager_id]['profile_pic'] = $teenPhoto;
                     $level4Competing[$teenId->teenager_id]['name'] = $teenId->t_name;
