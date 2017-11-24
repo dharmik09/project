@@ -382,11 +382,12 @@ class Level4ActivityController extends Controller {
                         $objTemplateDeductedCoins = new TemplateDeductedCoins();
 
                         if (!empty($getQuestionTemplateForProfession)) {
+                            
                             foreach ($getQuestionTemplateForProfession As $key => $value) {
                                 $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($parentid,$professionId,$value->gt_template_id,2);
                                 $days = 0;
 
-                                if (!empty($deductedCoinsDetail)) {
+                                if (!empty($deductedCoinsDetail->toArray())) {
                                     $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->tdc_end_date);
                                 }
                                 $getQuestionTemplateForProfession[$key]->remaningDays = $days;
@@ -493,6 +494,7 @@ class Level4ActivityController extends Controller {
                     if (isset($intermediateActivities) && !empty($intermediateActivities)) {
                         $intermediateActivitiesData = $intermediateActivities[0];
                         $intermediateActivitiesData->gt_temlpate_answer_type = Helpers::getAnsTypeFromGamificationTemplateId($intermediateActivitiesData->l4ia_question_template);
+                        
                         $intermediateActivitiesData->l4ia_extra_question_time = $this->extraQuestionDescriptionTime;
                         $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
                         //Set popup image

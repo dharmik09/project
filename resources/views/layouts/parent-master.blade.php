@@ -213,22 +213,23 @@
             });
             var FACEBOOK_CLIENT_ID = '<?php echo Config::get('constant.FACEBOOK_CLIENT_ID') ?>';
         </script>
-<script>
-$(window).bind("load", function() {
-    $('.init-loader').addClass("fadeLoader");
-    $('.container_padd').show();
-    $('.container_padd').addClass("active");
-    setTimeout(function(){
-        $('.init-loader').remove();
-    },2500);
-    setTimeout(function(){
-        $('body').removeClass("noScroll");
-    },2000);
+        <script>
+        $(window).bind("load", function() {
+            $('.init-loader').addClass("fadeLoader");
+            $('.container_padd').show();
+            $('.container_padd').addClass("active");
+            setTimeout(function(){
+                $('.init-loader').remove();
+            },2500);
+            setTimeout(function(){
+                $('body').removeClass("noScroll");
+            },2000);
 
-});
-</script>
+        });
+        </script>
 
-         @yield('script')
+
+        @yield('script')
     </body>
 
 </html>

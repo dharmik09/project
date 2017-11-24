@@ -401,7 +401,6 @@ Class Helpers {
     public static function getAnsTypeFromGamificationTemplateId($templateId) {
         $objProfession = new Professions();
         $gt_temlpate_answer_type = $objProfession->getTemlpateAnswerType($templateId);
-
         return $gt_temlpate_answer_type;
     }
 
