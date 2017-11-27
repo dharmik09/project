@@ -109,7 +109,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="pincode" id="pincode" placeholder="zip code *" tabindex="8" required value="{{old('pincode')}}" />
+                                <input type="text" class="form-control" name="pincode" id="pincode" placeholder="zip code *" tabindex="8" required value="{{old('pincode')}}" maxlength="6" />
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -141,9 +141,24 @@
                             <div class="form-group date-sec">
                                 <label>birth date *</label>
                                 <div class="date-feild">
-                                    <input type="text" class="form-control date-block" name="month" id="month" tabindex="12" placeholder="mm" maxlength="2">
-                                    <input type="text" class="form-control date-block" name="day" id="day" tabindex="12" placeholder="dd" maxlength="2">
-                                    <input type="text" class="form-control date-block" name="year" id="year" tabindex="12" placeholder="yyyy" maxlength="4">
+                                    <select name="month" class="form-control date-block" id="month" tabindex="13">
+                                        <option value="">Select Month</option>
+                                        @for($month=01; $month<=12; $month++)
+                                            <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}">{{ date('F', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
+                                        @endfor
+                                    </select>
+                                    <select name="day" class="form-control date-block" id="day" tabindex="14">
+                                        <option value="">Select Day</option>
+                                        @for($day=1; $day<=31; $day++)
+                                            <option value="{{date('d', mktime(0,0,0,0, $day, date('Y')))}}">{{ date('d', mktime(0,0,0,0, $day, date('Y'))) }}</option>
+                                        @endfor
+                                    </select>
+                                    <select name="year" class="form-control date-block" id="year" tabindex="15">
+                                        <option value="">Select Year</option>
+                                        @foreach(range(\Carbon\Carbon::now()->year, 1950) as $year)
+                                            <option value="{{$year}}">{{$year}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 
                             </div>
@@ -157,7 +172,7 @@
                                 @forelse($sponsorDetail as $key => $value)
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" tabindex="13" name="selected_sponsor[]" id="sponsor_{{$key}}" value="{{$value->sponsor_id}}" <?php (old('selected_sponsor') && in_array($value->sponsor_id, old('selected_sponsor')) ) ? "checked" : ""; ?> />
+                                            <input type="checkbox" name="selected_sponsor[]" id="sponsor_{{$key}}" value="{{$value->sponsor_id}}" <?php (old('selected_sponsor') && in_array($value->sponsor_id, old('selected_sponsor')) ) ? "checked" : ""; ?> />
                                             <span class="checker"></span>
                                             <span class="logo-icon">
                                                 <?php
@@ -170,7 +185,6 @@
                                 @empty
 
                                 @endforelse
-                                <input type="hidden" name="sponsor_choice" value="2" />
                                 <div class="error">Please select atleast one sponsor.</div>
                             </div>
                         </div>
@@ -179,11 +193,11 @@
                         <div class="form-register">
                             <div class="terms-sec">
                                 <div class="checkbox">
-                                    <label><input type="checkbox" name="terms_condition" id="terms_condition" tabindex="14"><span class="checker"></span> I agree to ProTeen's <a href="#" title="Terms and Conditions">Terms and Conditions</a> and <a href="#" title="Privacy Policy">Privacy Policy</a>.</label>
+                                    <label><input type="checkbox" name="terms_condition" id="terms_condition" tabindex="16"><span class="checker"></span> I agree to ProTeen's <a href="#" title="Terms and Conditions">Terms and Conditions</a> and <a href="#" title="Privacy Policy">Privacy Policy</a>.</label>
                                 </div>
                             </div>
                             <p class="text-center">
-                                <button type="submit" id="form_submit" class="btn btn-default btn-submit" title="Submit" tabindex="15">Submit</button>
+                                <button type="submit" id="form_submit" class="btn btn-default btn-submit" title="Submit" tabindex="17">Submit</button>
                                 <span class="successmsg">Thank You !</span>
                             </p>
                             <div class="frgtpwd-sec">

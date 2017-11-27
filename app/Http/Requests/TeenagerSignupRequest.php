@@ -31,7 +31,6 @@ class TeenagerSignupRequest extends Request {
                 'pincode' => 'required | min : 5 | max : 6',
                 'email' => 'required | email | max : 100 | confirmed',
                 'password' => 'required | min : 6 | confirmed',
-                'sponsor_choice' => 'required',
                 'nickname' => 'min : 2',
                 'year' => 'required',
                 'month' => 'required',
