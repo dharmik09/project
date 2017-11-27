@@ -535,8 +535,13 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
      */
 
     public function saveTeenagerPasswordResetRequest($resetRequest) {
-        DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->insert($resetRequest);
-
+        $find = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->where('trp_teenager', $resetRequest['trp_teenager'])->first();
+        if($find)
+        {
+            $requestData = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->where('trp_teenager', $resetRequest['trp_teenager'])->update(['trp_otp' => $resetRequest['trp_otp'], 'trp_status' => 1]);
+        } else {
+            $requestData = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->insert($resetRequest);
+        }
         return true;
     }
 
@@ -587,6 +592,16 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         } else {
             return false;
         }
+    }
+
+    public function isUserPasswordOTPMatch($teenagerId, $OTP)
+    {
+        $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->where("trp_teenager", $teenagerId)->where("trp_otp", $OTP)->first();
+        if($result)
+        {
+            return true;
+        }
+        return false;
     }
 
     public function checkCurrentPasswordAgainstTeenager($teenagerId, $currentPassword) {

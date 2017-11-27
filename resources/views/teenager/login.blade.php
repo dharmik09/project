@@ -67,7 +67,7 @@
                             <li><a href="#" title="Google" target="_blank"><i class="icon-google"><!-- --></i>Google</a></li>
                         </ul>
                     </form>
-                    <p><a href="#" title="Forgot username/password?">Forgot username/password?</a></p>
+                    <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a></p>
                     <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
                 </div>
             </div>

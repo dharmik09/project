@@ -39,6 +39,13 @@ Route::group(['prefix' => 'teenager'], function () {
 	Route::post('/get-phone-code-by-country', 'Teenager\SignupController@getPhoneCodeByCountry');
 	Route::get('/resend-verification/{t_uniqueid}', 'Teenager\VerifyTeenManagementController@resendVerification');
 	Route::get('/verify-teenager', 'Teenager\VerifyTeenManagementController@index');
+	Route::get('/forgot-password', 'Teenager\PasswordController@forgotPassword');
+	Route::get('/set-forgot-password', 'Teenager\PasswordController@forgotPassword');
+	Route::get('/forgot-password-OTP', 'Teenager\PasswordController@forgotPassword');
+	Route::post('/forgot-password-OTP', 'Teenager\PasswordController@forgotPasswordOTP');
+	Route::post('/forgot-password-OTP-verify', 'Teenager\PasswordController@forgotPasswordOTPVerify');
+	Route::post('/save-forgot-password', 'Teenager\PasswordController@saveForgotPassword');
+	Route::post('/resend-OTP', 'Teenager\PasswordController@resendOTP');
 });
 
 Route::group(['prefix' => 'developer'], function () {
