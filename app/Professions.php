@@ -28,7 +28,7 @@ class Professions extends Model {
 
     public function getTemlpateAnswerType($templateId) {
         $result = DB::table(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE'))->where('id', $templateId)->pluck('gt_temlpate_answer_type');
-        return $result;
+        return $result[0];
     }
 
     public function getProfessionsByBasketId($basketid) {
