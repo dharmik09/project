@@ -7,72 +7,74 @@
 @section('content')
 
     <div class="section">
-        <div class="slider-maper">
-            <div class="container">
-                <ul class="clearfix">
-                    <li class="hidden"><a href="#intro">intro</a></li>
-                    <li class="teen"><a href="#teen">Teen</a></li>
-                    <li class="parent"><a href="#parent">Parent</a></li>
-                    <li class="mentor"><a href="#mentor">Mentor</a></li>
-                    <li class="school"><a href="#school">School</a></li>
-                    <li class="enterprise"><a href="#enterprise">Enterprise</a></li>
-                </ul>
+        <div class="banner-slider">
+            <ul class="intro-slider owl-carousel" id="intro">
+                <div class="banner-0-1 banner item">
+                    <div class="container">
+                        <div class="left-section">
+                            <h1>
+                                <span class="tag-intro">Who</span>
+                                <span class="tag-image"><img class="i-arrow-1" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPwAAABtAQMAAAC/X57CAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwQEBAAAAgiD/r25IQAEAAHBnDg0AAQ/0vT4AAAAASUVORK5CYII="></span>
+                                <span class="tag-close">am I?</span>
+                            </h1>
+                        </div>
+                        <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
+                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
+                    </div>
+                </div>
+                <div class="banner-0-2 banner item">
+                    <div class="container">
+                        <div class="left-section">
+                            <h1>
+                                <span class="tag-intro">Who</span>
+                                <span class="tag-image"><img class="i-dream-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAACsAQMAAACn/kB+AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAODHABbYAAFfvr7GAAAAAElFTkSuQmCC"></span>
+                                <span class="tag-close">can i be?</span>
+                            </h1>
+                        </div>
+                        <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
+                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
+                    </div>
+                </div>
+                <div class="banner-0-3 banner item">
+                    <div class="container">
+                        <div class="left-section">
+                            <h1>
+                                <span class="tag-intro">Learn your</span>
+                                <span class="tag-image"><img class="i-brain-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAAC8AQMAAAAgi/LiAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABxJREFUeNrtwTEBAAAAwqD1T20LL6AAAAAAAD4GFJAAAXP7Mr4AAAAASUVORK5CYII="></span>
+                                <span class="tag-close">true potential</span>
+                            </h1>
+                        </div>
+                        <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
+                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
+                    </div>
+                </div>
+                <div class="banner-0-4 banner item">
+                    <div class="container">
+                        <div class="left-section">
+                            <h1>
+                                <span class="tag-intro">Unlock a</span>
+                                <span class="tag-image"><img class="i-rocket-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAADVAQMAAAD9zPnVAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABtJREFUeNrtwQEBAAAAgiD/r25IQAEAAADAtQETIwABIA/h6QAAAABJRU5ErkJggg=="></span>
+                                <span class="tag-close">brighter future</span>
+                            </h1>
+                        </div>
+                        <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
+                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
+                    </div>
+                </div>
+            </ul>
+            <div class="slider-maper">
+                <div class="container">
+                    <ul class="clearfix">
+                        <li class="hidden"><a href="#intro">intro</a></li>
+                        <li class="teen"><a href="#teen">Teen</a></li>
+                        <li class="parent"><a href="#parent">Parent</a></li>
+                        <li class="mentor"><a href="#mentor">Mentor</a></li>
+                        <li class="school"><a href="#school">School</a></li>
+                        <li class="enterprise"><a href="#enterprise">Enterprise</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <ul class="intro-slider owl-carousel" id="intro">
-            <div class="banner-0-1 banner item">
-                <div class="container">
-                    <div class="left-section">
-                        <h1>
-                            <span class="tag-intro">Who</span>
-                            <span class="tag-image"><img class="i-arrow-1" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPwAAABtAQMAAAC/X57CAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwQEBAAAAgiD/r25IQAEAAHBnDg0AAQ/0vT4AAAAASUVORK5CYII="></span>
-                            <span class="tag-close">am I?</span>
-                        </h1>
-                    </div>
-                    <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
-                    <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
-                </div>
-            </div>
-            <div class="banner-0-2 banner item">
-                <div class="container">
-                    <div class="left-section">
-                        <h1>
-                            <span class="tag-intro">Who</span>
-                            <span class="tag-image"><img class="i-dream-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAACsAQMAAACn/kB+AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAODHABbYAAFfvr7GAAAAAElFTkSuQmCC"></span>
-                            <span class="tag-close">can i be?</span>
-                        </h1>
-                    </div>
-                    <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
-                    <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
-                </div>
-            </div>
-            <div class="banner-0-3 banner item">
-                <div class="container">
-                    <div class="left-section">
-                        <h1>
-                            <span class="tag-intro">Learn your</span>
-                            <span class="tag-image"><img class="i-brain-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAAC8AQMAAAAgi/LiAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABxJREFUeNrtwTEBAAAAwqD1T20LL6AAAAAAAD4GFJAAAXP7Mr4AAAAASUVORK5CYII="></span>
-                            <span class="tag-close">true potential</span>
-                        </h1>
-                    </div>
-                    <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
-                    <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
-                </div>
-            </div>
-            <div class="banner-0-4 banner item">
-                <div class="container">
-                    <div class="left-section">
-                        <h1>
-                            <span class="tag-intro">Unlock a</span>
-                            <span class="tag-image"><img class="i-rocket-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAADVAQMAAAD9zPnVAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABtJREFUeNrtwQEBAAAAgiD/r25IQAEAAADAtQETIwABIA/h6QAAAABJRU5ErkJggg=="></span>
-                            <span class="tag-close">brighter future</span>
-                        </h1>
-                    </div>
-                    <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
-                    <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
-                </div>
-            </div>
-        </ul>
         <div class="banner-1 banner" id="teen">
             <div class="container">
                 <div class="row">
@@ -164,33 +166,15 @@
     <script>
         jQuery(document).ready(function($) {
             $('.intro-slider').owlCarousel({
-                loop:true,
-                margin:0,
-                items:1,
-                mouseDrag:false,
-                touchDrag:false,
-                autoplay:true,
-                autoplayTimeout:3000,
-                smartSpeed:1000,
-                onInitialized: resetSliderNav,
-                onTranslated: resetSliderNav,
-                onResized: resetSliderNav
-            });
-            function resetSliderNav() {
-                var k = $('.intro-slider').find('.owl-item.active p');
-                var m = k.outerHeight();
-                var x = k.offset();
-                $(".intro-slider").find('.owl-dots').css({"top": x.top - (m/2) , "left": x.left});
-            }
-            $(document).on('scroll', function() {
-                var distanceFromBottom = Math.floor($(document).height() - $(document).scrollTop() - $(window).height());
-                var h = $('footer').outerHeight();
-                if(distanceFromBottom < h) {
-                    var k = (distanceFromBottom - h)*(-1);
-                    $('.slider-maper').css('bottom',k+50);
-                }else{
-                    $('.slider-maper').css('bottom',50);
-                }
+                loop: true,
+                margin: 0,
+                items: 1,
+                mouseDrag: false,
+                touchDrag: false,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                smartSpeed: 1000,
+                dots:true,
             });
             $(window).scroll(function () {
                 var y = $(this).scrollTop();

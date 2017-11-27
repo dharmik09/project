@@ -15,8 +15,8 @@
         @stack('script-header')
         @yield('header')
     </head>
-    <body>
-        <nav>
+    <body class="fixed-nav">
+        <nav class="fixed-navigation">
             <div class="container">
                 <div class="logo pull-left"><a href="{{ url('/') }}"><img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}"></a></div>
                 <div class="menu-toggle pull-right">

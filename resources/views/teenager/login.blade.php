@@ -17,9 +17,9 @@
                         {{ $message }}
                     </div>
                     <div class="resend_verification">
-                        <?php $id = Session::get('id'); ?>
-                        @if(isset($id) && $id>0)
-                            <div class="resend_verification">Didn't receive verification mail? Click to <a href="{{ url('/teenager/varify') }}/{{$id}}" class="rlink">Resend Verification</a></div>
+                        <?php $t_uniqueid = Session::get('t_uniqueid'); ?>
+                        @if($t_uniqueid != "")
+                            <div class="resend_verification">Didn't receive verification mail? Click to <a href="{{ url('/teenager/resend-verification') }}/{{$t_uniqueid}}" class="rlink">Resend Verification</a></div>
                         @endif
                     </div>
                 </div>

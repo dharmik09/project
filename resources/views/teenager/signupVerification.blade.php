@@ -1,5 +1,9 @@
 @extends('layouts.home-master')
 
+@push('script-header')
+    <title>{{ trans('labels.appname') }} : Teenager Verification</title>
+@endpush
+
 @section('content')
 
 <div class="col-xs-12">

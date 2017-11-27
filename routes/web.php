@@ -37,6 +37,8 @@ Route::group(['prefix' => 'teenager'], function () {
 	Route::get('/signup', 'Teenager\SignupController@signup')->name('signup');
 	Route::post('/do-signup', 'Teenager\SignupController@doSignup');
 	Route::post('/get-phone-code-by-country', 'Teenager\SignupController@getPhoneCodeByCountry');
+	Route::get('/resend-verification/{t_uniqueid}', 'Teenager\VerifyTeenManagementController@resendVerification');
+	Route::get('/verify-teenager', 'Teenager\VerifyTeenManagementController@index');
 });
 
 Route::group(['prefix' => 'developer'], function () {

@@ -7,7 +7,12 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Requests\TeenagerLoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Helpers;
+use Config;
+use Mail;
+use Session;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
+use App\Services\Template\Contracts\TemplatesRepository;
 use Redirect;
 use Response;
 
@@ -25,10 +30,11 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct(TeenagersRepository $teenagersRepository)
+    public function __construct(TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->middleware('teenager.guest', ['except' => 'logout']);
+        $this->templateRepository = $templatesRepository;
     }
 
     /**
@@ -58,7 +64,7 @@ class LoginController extends Controller
                             return Redirect::to('/teenager/login')->with('error', trans('appmessages.invalid_user_pwd_msg'))->with('id', $teenager['id']);
                         }
                     } else {
-                        return Redirect::to('/teenager/login')->with('error', trans('appmessages.notvarified_user_msg'))->with('id', $teenager['id']);
+                        return Redirect::to('/teenager/login')->with('error', trans('appmessages.notvarified_user_msg'))->with('t_uniqueid', $teenager['t_uniqueid']);
                     }
                 } else {
                     return Redirect::to('/teenager/login')->with('error', trans('appmessages.invalid_email_msg'));
@@ -70,7 +76,7 @@ class LoginController extends Controller
                         return redirect()->to(route('teenager.home'));
                     } else {
                         Auth::guard('teenager')->logout();
-                        return Redirect::to('/teenager/login')->with('error', trans('appmessages.notvarified_user_msg'))->with('id', $teenager->id);
+                        return Redirect::to('/teenager/login')->with('error', trans('appmessages.notvarified_user_msg'))->with('t_uniqueid', $teenager->t_uniqueid);
                     }
                 } else {
                     return Redirect::to('/teenager/login')->with('error', trans('appmessages.invalid_user_pwd_msg'));
@@ -89,5 +95,5 @@ class LoginController extends Controller
         Auth::guard('teenager')->logout();
         return redirect()->to(route('login'));
     }
-    
+        
 }
