@@ -201,7 +201,7 @@
                                 <span class="successmsg">Thank You !</span>
                             </p>
                             <div class="frgtpwd-sec">
-                                <p><a href="#" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Login now">Login now</a>.</p>
+                                <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Login now">Login now</a>.</p>
                                 <p>* indicates a mandatory field</p>
                             </div>
                         </div>
