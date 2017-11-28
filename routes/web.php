@@ -18,6 +18,11 @@ Route::get('/', 'Home\HomeController@index');
 Route::get('/home', 'Home\HomeController@index');
 Route::get('/faq', 'Home\HomeController@faq');
 
+Route::get('teenager/facebook', 'Teenager\SocialLoginController@redirectToProviderFacebook');
+Route::get('facebook/callback', 'Teenager\SocialLoginController@handleProviderCallbackFacebook');
+Route::get('teenager/google', 'Teenager\SocialLoginController@redirectToProviderGooglePlus');
+Route::get('google/callback', 'Teenager\SocialLoginController@handleProviderCallbackGooglePlus');
+
 Route::group(['prefix' => 'admin'], function () {
 	Route::get('/', 'Admin\LoginController@login');
 	Route::get('/login', 'Admin\LoginController@login')->name('admin.login');

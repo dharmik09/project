@@ -154,9 +154,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
      */
     public function checkActiveEmailExist($email, $id = '') {
         if ($id != '') {
-            $user = $this->model->where('deleted', '1')->where('t_email', $email)->where('id', '!=', $id)->get();
+            $user = $this->model->where('deleted', '1')->where('t_email', $email)->where('id', '!=', $id)->first();
         } else {
-            $user = $this->model->where('deleted', '1')->where('t_email', $email)->get();
+            $user = $this->model->where('deleted', '1')->where('t_email', $email)->first();
         }
         if ($user->count() > 0) {
             return true;
