@@ -26,4 +26,5 @@ Route::post('/get-concept-data','Parent\CoinsManagement@saveConceptCoinsDetail')
 Route::get('/level4-intermediate-activity/{professionId}/{templateId}/{teenId}', 'Parent\Level4ActivityController@level4IntermediateActivity');
 Route::post('/level4-intermediate-activity/{professionId}/{templateId}/{teenId}', 'Parent\Level4ActivityController@level4IntermediateActivity')->name('level4-intermediate-activity');
 Route::post('/play-level4-intermediate-activity', 'Parent\Level4ActivityController@saveLevel4IntermediateAns')->name('play-level4-intermediate-activity');
+Route::post('/show-competitor-data/', 'Parent\ParentDashboardController@showCompetitorData')->name('show-competitor-data');
 

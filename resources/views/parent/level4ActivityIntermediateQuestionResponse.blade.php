@@ -22,11 +22,11 @@ if (!empty($response['data'])) {
                                         @foreach($response['data']->question_images as $key=>$image)
                                             @if($poCount%2 == 0)
                                                 <div class="second_image">
-                                                    <img title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" style="cursor: pointer;" class="pop_up_me" src="{{$image['l4ia_question_image']}}" id="option_choice_image"/>
+                                                    <img title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" style="cursor: pointer;" class="pop_up_me" src="{{ Storage::url($image['l4ia_question_image']) }}" id="option_choice_image"/>
                                                 </div>
                                             @else
                                                 <div class="first_image">
-                                                    <img title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" style="cursor: pointer;" class="pop_up_me" src="{{$image['l4ia_question_image']}}" id="option_choice_image"/>
+                                                    <img title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" style="cursor: pointer;" class="pop_up_me" src="{{ Storage::url($image['l4ia_question_image']) }}" id="option_choice_image"/>
                                                 </div>
                                             @endif
                                         <?php $poCount++ ; ?>    
@@ -36,7 +36,7 @@ if (!empty($response['data'])) {
                             @else
                                 @foreach($response['data']->question_images as $key=>$image)
                                 <div class="question_image_level_4">
-                                    <img title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" style="cursor: pointer;" class="pop_up_me" src="{{$image['l4ia_question_image']}}" id="option_choice_image"/>
+                                    <img title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" style="cursor: pointer;" class="pop_up_me" src="{{ Storage::url($image['l4ia_question_image']) }}" id="option_choice_image"/>
                                 </div>
                                 @endforeach
                             @endif
@@ -125,7 +125,7 @@ if (!empty($response['data'])) {
                                 if ($option['optionAsImage'] != '') {
                                     $optionAsImage = $option['optionAsImage'];
                                 } else {
-                                    $optionAsImage = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                    $optionAsImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
                                 }
                                 $option['optionText'] = "<span class='zoom_me'><i class='fa fa-search-plus' aria-hidden='true'></i></span><img src='$optionAsImage'/>";
                             } else {
@@ -196,7 +196,7 @@ if (!empty($response['data'])) {
                         $input .= "<div class='" . $RHSClass . " col-sm-7'>";
                         $input .= "<ul id='sortable' class='reorder_question_type'>";
                         shuffle($response['data']->options);
-                        $sorImage = asset('frontend/images/sorting.png');
+                        $sorImage = Storage::url('frontend/images/sorting.png');
                         foreach ($response['data']->options as $keyOption => $option) {
                             $input .= "<li class='ui-state-default' id='" . $option['optionId'] . "'><span class='sortable_outer_container'><span class='sortable_container'><span class='drag_me_text'>" . $option['optionText'] . "</span></span></span><span class='drag_me'><img src='" . $sorImage . "' alt=''></span></li>";
                         }
@@ -226,7 +226,7 @@ if (!empty($response['data'])) {
                                 if ($option['optionAsImage'] != '') {
                                     $optionAsImage = $option['optionAsImage'];
                                 } else {
-                                    $optionAsImage = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                    $optionAsImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
                                 }
                                 $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />";
                             } else {
@@ -257,7 +257,7 @@ if (!empty($response['data'])) {
                     }
                     if (isset($response['data']->question_images) && !empty($response['data']->question_images)) {
                         foreach ($response['data']->question_images as $key => $image) {
-                            $input .= "<div class='left_part_question mit0'><img src='" . $image['l4ia_question_image'] . "' alt='' class='pop_up_me'></div>";
+                            $input .= "<div class='left_part_question mit0'><img src='" . Storage::url($image['l4ia_question_image']) . "' alt='' class='pop_up_me'></div>";
                         }
                     }
                     if (isset($response['data']->options) && !empty($response['data']->options)) {
@@ -344,7 +344,7 @@ if (!empty($response['data'])) {
     ?>
     <div class="cong_container animation-element in-view">
         <canvas id="canvas">Canvas is not supported in your browser.</canvas>
-        <div class="cong cong_hero"><img src="{{asset('frontend/images/jumping.gif')}}" alt=""></div>
+        <div class="cong cong_hero"><img src="{{Storage::url('frontend/images/jumping.gif')}}" alt=""></div>
         <div class="cong cong_top"><p>Congratulations!</p></div>
 
         <div class="cong cong_bottom">

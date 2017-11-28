@@ -475,10 +475,8 @@ class Level4ActivityController extends Controller {
                     $response['teenDetail'] = $teenDetail;
                     $intermediateActivities = [];
                     $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivitiesForParent($parentid, $professionId, $templateId);
-
                     $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionForParent($parentid, $professionId);
                     $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestionForParent($parentid, $professionId, $templateId);
-
 
                     //If total no of question is 0 OR user trying to get invalid id than redirect to l4 Inlination page
                     if ($totalBasicQuestion[0]->NoOfTotalQuestions == 0) {
@@ -499,10 +497,10 @@ class Level4ActivityController extends Controller {
                         $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
                         //Set popup image
                         if ($intermediateActivitiesData->l4ia_question_popup_image != '') {
-                            if (file_exists($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image)) {
-                                $intermediateActivitiesData->l4ia_question_popup_image = asset($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image);
+                            if ($intermediateActivitiesData->l4ia_question_popup_image != '' && isset($intermediateActivitiesData->l4ia_question_popup_image)) {
+                                $intermediateActivitiesData->l4ia_question_popup_image = Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image);
                             } else {
-                                $intermediateActivitiesData->l4ia_question_popup_image = asset($this->questionDescriptionORIGINALImage . 'proteen-logo.png');
+                                $intermediateActivitiesData->l4ia_question_popup_image = Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png');
                             }
                         } else {
                             $intermediateActivitiesData->l4ia_question_popup_image = '';
@@ -538,11 +536,11 @@ class Level4ActivityController extends Controller {
                         $getQuestionImage = $this->level4ActivitiesRepository->getQuestionMultipleImages($intermediateActivitiesData->activityID);
                         if (isset($getQuestionImage) && !empty($getQuestionImage)) {
                             foreach ($getQuestionImage as $key => $image) {
-                                if (file_exists($this->questionDescriptionORIGINALImage . $image['image'])) {
-                                    $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = asset($this->questionDescriptionORIGINALImage . $image['image']);
+                                if (isset($image['image']) && $image['image'] != '') {
+                                    $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = $this->questionDescriptionORIGINALImage . $image['image'];
                                     $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
                                 } else {
-                                    $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = asset($this->questionDescriptionORIGINALImage . 'proteen-logo.png');
+                                    $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = $this->questionDescriptionORIGINALImage . 'proteen-logo.png';
                                     $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
                                 }
                             }
