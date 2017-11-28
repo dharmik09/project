@@ -28,3 +28,10 @@ Route::post('/level4-intermediate-activity/{professionId}/{templateId}/{teenId}'
 Route::post('/play-level4-intermediate-activity', 'Parent\Level4ActivityController@saveLevel4IntermediateAns')->name('play-level4-intermediate-activity');
 Route::post('/show-competitor-data/', 'Parent\ParentDashboardController@showCompetitorData')->name('show-competitor-data');
 
+Route::get('/level4-advance/{professionId}/{teenId}', 'Parent\Level4AdvanceActivityController@level4Advance')->name('level4-advance');
+Route::post('/get-question-data-advance-level', 'Parent\Level4AdvanceActivityController@getQuestionDataAdvanceLevel')->name('get-question-data-advance-level');
+Route::get('/level4-advance-step2/{professionId}/{typeid}/{teenId}', 'Parent\Level4AdvanceActivityController@level4AdvanceStep2')->name('level4-advance-step2');
+Route::post('/submit-level4-advance-activity', 'Parent\Level4AdvanceActivityController@submitLevel4AdvanceActivity')->name('submit-level4-advance-activity');
+Route::post('/delete-user-advance-task/', 'Parent\Level4AdvanceActivityController@deleteUserAdvanceTask')->name('delete-user-advance-task');
+
+
