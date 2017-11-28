@@ -10,6 +10,7 @@ use App\Level4Options;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
 use App\Level4ParentAnswers;
+use Illuminate\Support\Facades\Storage;
 
 class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implements Level4ActivitiesRepository {
 
@@ -1575,19 +1576,19 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
                         $temp['optionResponseText'] = (isset($optionResponseText[$key1])) ? $optionResponseText[$key1] : '';
 
                         if (isset($optionAsImage[$key1]) && $optionAsImage[$key1] != '') {
-                            if ($optionAsImage[$key1] != '' && file_exists(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1])) {
-                                $temp['optionAsImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1]);
+                            if ($optionAsImage[$key1] != '' && isset($optionAsImage[$key1])) {
+                                $temp['optionAsImage'] = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1]);
                             } else {
-                                $temp['optionAsImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                $temp['optionAsImage'] = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
                             }
                         } else {
                             $temp['optionAsImage'] = '';
                         }
                         if (isset($optionResponseImage[$key1]) && $optionResponseImage[$key1] != '') {
-                            if ($optionResponseImage[$key1] != '' && file_exists(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1])) {
-                                $temp['optionResponseImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1]);
+                            if ($optionResponseImage[$key1] != '' && isset($optionResponseImage[$key1])) {
+                                $temp['optionResponseImage'] = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1];
                             } else {
-                                $temp['optionResponseImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                $temp['optionResponseImage'] = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
                             }
                         } else {
                             $temp['optionResponseImage'] = '';

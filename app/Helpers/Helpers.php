@@ -42,6 +42,7 @@ use App\PaidComponent;
 use App\DeductedCoins;
 use App\ProfileViewDeductedCoins;
 use App\Notifications;
+use Illuminate\Support\Facades\Storage;
 
 Class Helpers {
     /*
@@ -690,12 +691,12 @@ Class Helpers {
         } else {
             $path = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         }
-        if ($image != '' && file_exists($path . $image)) {
+        if ($image != '' && isset($image)) {
             $teenagerImage = $image;
         } else {
             $teenagerImage = 'proteen-logo.png';
         }
-        return asset($path . $teenagerImage);
+        return Storage::url($path . $teenagerImage);
     }
 
     public static function getEmailaddress($email) {
