@@ -635,4 +635,8 @@ return [
     'aftercoinspurchasemsg' => 'You will be able to login once admin approve your account',
     'editrollsuccess' => 'Student roll no updated successfully',
     'invoicenotavailable' => 'Invoice not available',
+    'emailpermistionmustberequired' => "Email permission must be required",
+    'userisnolongeractive' => "User is no longer active",
+    'welcome_profile_message' => "Successfully logged in!",
+    'somethingwronginsocialsignin' => "Something went wrong while signing in"
 ];
