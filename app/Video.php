@@ -9,8 +9,7 @@ use Config;
 class Video extends Model
 {
     protected $table = 'pro_v_video';
-    protected $fillable = ['id', 'v_title','v_link','v_photo', 'deleted'];
-
+    protected $guarded = [];
 
     public function getAllVideo()
     {

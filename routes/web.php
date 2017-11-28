@@ -14,13 +14,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/get-state/{id}', 'StateCityController@getState');
+Route::get('/get-city/{id}', 'StateCityController@getCity');
+
 Route::get('/', 'Home\HomeController@index');
 Route::get('/home', 'Home\HomeController@index');
 Route::get('/faq', 'Home\HomeController@faq');
 
-Route::get('teenager/facebook', 'Teenager\SocialLoginController@redirectToProviderFacebook');
+//Get call back route
 Route::get('facebook/callback', 'Teenager\SocialLoginController@handleProviderCallbackFacebook');
-Route::get('teenager/google', 'Teenager\SocialLoginController@redirectToProviderGooglePlus');
 Route::get('google/callback', 'Teenager\SocialLoginController@handleProviderCallbackGooglePlus');
 
 Route::group(['prefix' => 'admin'], function () {
@@ -51,6 +53,8 @@ Route::group(['prefix' => 'teenager'], function () {
 	Route::post('/forgot-password-OTP-verify', 'Teenager\PasswordController@forgotPasswordOTPVerify');
 	Route::post('/save-forgot-password', 'Teenager\PasswordController@saveForgotPassword');
 	Route::post('/resend-OTP', 'Teenager\PasswordController@resendOTP');
+	Route::get('/facebook', 'Teenager\SocialLoginController@redirectToProviderFacebook');
+	Route::get('/google', 'Teenager\SocialLoginController@redirectToProviderGooglePlus');
 });
 
 Route::group(['prefix' => 'developer'], function () {
@@ -58,11 +62,7 @@ Route::group(['prefix' => 'developer'], function () {
 	Route::get('/login', 'Developer\LoginController@login')->name('developer.login');
 	Route::post('/loginCheck', 'Developer\LoginController@loginCheck')->name('loginCheck');
 	Route::post('/logout', 'Developer\LoginController@logout')->name('logout');
-	
 });
-
-Route::get('/get-state/{id}', 'StateCityController@getState');
-Route::get('/get-city/{id}', 'StateCityController@getCity');
 
 Route::group(['prefix' => 'sponsor'], function () {
 	Route::get('/', 'Sponsor\LoginController@login');
@@ -103,5 +103,4 @@ Route::group(['prefix' => 'parent'], function () {
 	Route::get('/forgot-password-OTP-verify', 'Parent\PasswordController@forgotPassword');
 	Route::get('/set-forgot-password', 'Parent\PasswordController@forgotPassword')->name('set-forgot-password');
 	Route::get('/save-forgot-password', 'Parent\PasswordController@forgotPassword');
-
 });

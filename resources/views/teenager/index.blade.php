@@ -108,77 +108,66 @@
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>
                     <div class="product-list clearfix">
-                        <div class="item clearfix">
-                            <div class="grid-box">
-                                <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-1.png')}}" alt="grid img">
-                                   <div class="overlay"><i class="icon-play"></i></div></a>
-                                    <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt </figcaption>
-                                </figure>
+                        @forelse($videoDetail as $video)
+                            <div class="item clearfix">
+                                <div class="grid-box">
+                                    <?php
+                                        $videoId = '';
+                                        $videoCode = Helpers::youtube_id_from_url($video->v_link);
+                                        if ($videoCode != '') {
+                                            if(strlen($video->v_link) > 50) {
+                                                preg_match('/=(.*?)\&/s', $video->v_link, $output);
+                                                $videoId = $output[1];
+                                            } else {
+                                                if (strpos($video->v_link, '=') !== false) {
+                                                    $output = explode('=',$video->v_link);
+                                                    $videoId = $output[1];
+                                                } else {
+                                                    $videoId = substr($video->v_link, strrpos($video->v_link, '/') + 1);
+                                                }
+                                            }
+                                        }
+                                    ?>
+                                    <figure>
+                                        <a href="javascript:void(0)" title="Play : {{ $video->v_title }}" @if($videoId != "") onClick="playVideo('{{$videoId}}');" @else onClick="playNotYoutubeVideo('{{$video->v_link}}');" @endif class="play-video">
+                                            <img src="{{ Storage::url(Config::get('constant.VIDEO_ORIGINAL_IMAGE_UPLOAD_PATH').$video->v_photo) }}" alt="{{ $video->v_title }}">
+                                            <div class="overlay">
+                                                <i class="icon-play"></i>
+                                            </div>
+                                        </a>
+                                        <h4 class="text-center">{{ $video->v_title }}</h4>
+                                        <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt </figcaption>
+                                    </figure>
+                                </div>
                             </div>
-                        </div>
-                        <div class="item clearfix">
-                            <div class="grid-box">
-                                <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{ Storage::url('img/grid-2.png') }}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
-                                    <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </figcaption>
-                                </figure>
+                        @empty
+                            <div class="col-sm-12 text-center">
+                                <h3>Video will coming soon! </h3>
                             </div>
-                        </div>
-                        <div class="item clearfix">
-                            <div class="grid-box">
-                                <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-3.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
-                                    <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur malesuada tortor vel egestas consequat. Nam et rutrum dolor.</figcaption>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="item clearfix">
-                            <div class="grid-box">
-                                <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-4.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
-                                    <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur malesuada tortor vel egestas consequat. Nam et rutrum dolor. </figcaption>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="item clearfix">
-                            <div class="grid-box">
-                                <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-5.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
-                                    <figcaption>Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="item clearfix">
-                            <div class="grid-box">
-                                <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-6.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
-                                    <figcaption>Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur malesuada tortor vel egestas consequat.</figcaption>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="item clearfix">
-                            <div class="grid-box">
-                                <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-7.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
-                                    <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </figcaption>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="item clearfix">
-                            <div class="grid-box">
-                                <figure>
-                                    <a href="https://www.youtube.com/embed/OCWj5xgu5Ng" title="Play" class="play-video"><img src="{{Storage::url('img/grid-8.png')}}" alt="grid img"><div class="overlay"><i class="icon-play"></i></div></a>
-                                    <figcaption>Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur</figcaption>
-                                </figure>
-                            </div>
-                        </div>
+                        @endforelse
                     </div>
                 </div>
-                <p class="text-center"><a href="#" title="load more" class="btn btn-primary">load more</a></p>
+                @if(count($videoDetail) > 12)
+                    <p class="text-center"><a href="#" title="load more" class="btn btn-primary">load more</a></p>
+                @endif
             </div>
         </div>
     </section>
+    <div class="intro_video_popup" style="display: none;">
+        <div class="video_cont">
+            <div class="outer_intro">
+                <div class="inner_intro">
+                    <div class="video_droper">
+                        <div class="video_wrapper">
+
+                        </div>
+                        <div class="intro_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+                    </div>
+                    <div class="intro_overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- masonary section end-->
 @stop
 
@@ -188,7 +177,12 @@
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/general.js') }}"></script>
     <script type="text/javascript">
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function($) {
+            $('.intro_overlay, .intro_close').click(function(event) {
+                $(".video_wrapper").html($("<iframe src='' frameborder='0' allowfullscreen ></iframe>"));
+                $('.intro_video_popup').slideUp();
+                $('body').css({"overflow": 'auto'});
+            });
             var loginRules = {
                 password: {
                     required: true,
@@ -269,6 +263,16 @@
         function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
+        }
+        function playVideo(videoId) {
+            $(".video_wrapper").html($("<iframe src='https://www.youtube.com/embed/"+videoId+"?rel=0&amp;showinfo=0&autoplay=1' id='modalHolderK2_iframe' frameborder='0' allowfullscreen ></iframe>"));
+            $('.intro_video_popup').slideDown();
+            $('body').css({"overflow": 'hidden'});
+        }
+        function playNotYoutubeVideo(videoURL) {
+            $(".video_wrapper").html($("<video class='non_youtube_video' controls autoplay><source src='"+videoURL+"'type='video/mp4'/></video>"));
+            $('.intro_video_popup').slideDown();
+            $('body').css({"overflow": 'hidden'});
         }
     </script>
 @stop

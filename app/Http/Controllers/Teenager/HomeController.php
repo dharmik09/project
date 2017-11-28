@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
+use App\Video;
 
 class HomeController extends Controller
 {
@@ -36,7 +37,9 @@ class HomeController extends Controller
         if(Auth::guard('teenager')->check()) {
             return redirect()->to(route('teenager.home'));
         }
-        return view('teenager.index');
+        $objVideo = new Video();
+        $videoDetail =  $objVideo->getAllVideoDetail();
+        return view('teenager.index', compact('videoDetail'));
     }
    
 }
