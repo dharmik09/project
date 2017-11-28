@@ -55,15 +55,13 @@ class LoginController extends Controller
             flash('Welcome to the sponsor panel')->success();
             return redirect()->to(route('sponsor.home'));
         }
-        flash('Invalid Credential')->error()->important();
-        return redirect()->to(route('sponsor.login'));
+        //flash('Invalid Credential')->error()->important();
+        return redirect()->to(route('sponsor.login'))->with('error', trans('appmessages.invalid_user_pwd_msg'))->withInput($request->only('email'));
     }
 
     public function logout(Request $request)
     {
         Auth::guard('sponsor')->logout();
-        //$request->session()->flush();
-        //$request->session()->regenerate();
         flash('Logout successfully!')->success();
         return redirect()->to(route('sponsor.login'));
     }

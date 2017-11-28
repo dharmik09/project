@@ -1,231 +1,272 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>{{trans('labels.appname')}}</title>
+    <title>{{ trans('labels.appname') }} : {{$type}}</title>
 @endpush
 
 @section('content')
 
-    <div class="section">
-        <div class="slider-maper">
-            <div class="container">
-                <ul class="clearfix">
-                    <li class="hidden"><a href="#intro">intro</a></li>
-                    <li class="teen"><a href="#teen">Teen</a></li>
-                    <li class="parent"><a href="#parent">Parent</a></li>
-                    <li class="mentor"><a href="#mentor">Mentor</a></li>
-                    <li class="school"><a href="#school">School</a></li>
-                    <li class="enterprise"><a href="#enterprise">Enterprise</a></li>
-                </ul>
+    <div class="banner-landing">
+        <div class="container">
+            <div class="play-icon">
+                <a href="javascript:void(0);" class="play-btn" id="iframe-video">
+                    <img src="{{ asset('img/play-icon.png') }}" alt="play icon">
+                </a>
             </div>
         </div>
-        <ul class="intro-slider owl-carousel" id="intro">
-            <div class="banner-0-1 banner item">
-                <div class="container">
-                    <div class="left-section">
-                        <h1>
-                            <span class="tag-intro">Who</span>
-                            <span class="tag-image"><img class="i-arrow-1" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPwAAABtAQMAAAC/X57CAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwQEBAAAAgiD/r25IQAEAAHBnDg0AAQ/0vT4AAAAASUVORK5CYII="></span>
-                            <span class="tag-close">am I?</span>
-                        </h1>
-                    </div>
-                    <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
-                    <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
-                </div>
-            </div>
-            <div class="banner-0-2 banner item">
-                <div class="container">
-                    <div class="left-section">
-                        <h1>
-                            <span class="tag-intro">Who</span>
-                            <span class="tag-image"><img class="i-dream-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAACsAQMAAACn/kB+AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAODHABbYAAFfvr7GAAAAAElFTkSuQmCC"></span>
-                            <span class="tag-close">can i be?</span>
-                        </h1>
-                    </div>
-                    <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
-                    <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
-                </div>
-            </div>
-            <div class="banner-0-3 banner item">
-                <div class="container">
-                    <div class="left-section">
-                        <h1>
-                            <span class="tag-intro">Learn your</span>
-                            <span class="tag-image"><img class="i-brain-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAAC8AQMAAAAgi/LiAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABxJREFUeNrtwTEBAAAAwqD1T20LL6AAAAAAAD4GFJAAAXP7Mr4AAAAASUVORK5CYII="></span>
-                            <span class="tag-close">true potential</span>
-                        </h1>
-                    </div>
-                    <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
-                    <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
-                </div>
-            </div>
-            <div class="banner-0-4 banner item">
-                <div class="container">
-                    <div class="left-section">
-                        <h1>
-                            <span class="tag-intro">Unlock a</span>
-                            <span class="tag-image"><img class="i-rocket-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAADVAQMAAAD9zPnVAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABtJREFUeNrtwQEBAAAAgiD/r25IQAEAAADAtQETIwABIA/h6QAAAABJRU5ErkJggg=="></span>
-                            <span class="tag-close">brighter future</span>
-                        </h1>
-                    </div>
-                    <p>Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics.</p>
-                    <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
-                </div>
-            </div>
-        </ul>
-        <div class="banner-1 banner" id="teen">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <img class="i-teen-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIEAAAB/AQMAAADy9jN6AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNpjYBgFo2AUjIJRMApGwSgYzgAACO4AASHaSoYAAAAASUVORK5CYII=">
-                        <img class="i-hand-teen decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKcAAACbAQMAAAA9YBl5AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwTEBAAAAwqD1T20Hb6AAAAD4DA1SAAGMYcmhAAAAAElFTkSuQmCC">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="box">
-                            <h1>teen</h1>
-                            <p>Are you confused about which subjects to choose in senior school or which major to choose in college? <br /><br />Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics and understand how to match your skills </p>
-                            <a href="#" class="btn-base">Explore</a>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NpEaa2P7qZI?autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+    </div>
+    <!-- teen bio-->
+    <section class="teen-bio">
+        <div class="container-small">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="sec-heading">
+                        <h1>Teen</h1>
+                        <span>Finally there’s a solution! </span>
+                        <div class="hand-img">
+                            <img src="{{Storage::url('img/hand-img.png')}}" alt="hand image">
                         </div>
                     </div>
+                    <div class="content">
+                        <p>ProTeen is a self-discovery game for teens and is based on their individual aptitude, personality, multiple intelligences and interests. It guides high school and college students through the maze of real world career options and helps them to achieve their future goals by making intelligent academic choices today. ProTeen is a gamified app and web platform.</p>
+                        <p>ProTeen supplements traditional school or counselor driven approaches currently in use globally. It encompasses all aspects of the educational ecosystem – students, parents, schools and career mentors such as teachers, counselors and professionals.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-sec">
+                        <h2>welcome back</h2>
+                        <form id="login_form" method="POST" action="{{ url('/parent/login-check') }}" autocomplete="off">
+                            {{csrf_field()}}
+                            <input type="hidden" name="user_type" id="user_type" value="{{ ($type == 'Parent') ? 1 : 2 }}">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="email" maxlength="50" name="email" placeholder="Email or Mobile" value="{{old('email')}}" autocomplete="off" tabindex="1">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="password" maxlength="20" minlength="6" name="password" placeholder="password" tabindex="2">
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
+                            </div>
+                            <button type="button" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
+                        </form>
+                        <?php 
+                            if($type == 'Parent')
+                            {
+                                $signUpRoute = url('parent/signup');
+                                $passwordRoute = url('parent/forgot-password');
+                            } else {
+                                $signUpRoute = url('counselor/signup');
+                                $passwordRoute = url('counselor/forgot-password');
+                            }
+                        ?>
+                        <p><a href="{{ $passwordRoute }}" title="Forgot username/password?">Forgot username/password?</a></p>
+                        <p>Not enrolled? <a href="{{ $signUpRoute }}" title="Sign up now.">Sign up now.</a></p>
+                    </div>
                 </div>
             </div>
-            <a href="#parent" class="bottom-show"><i class="icon-down-arrow"></i></a>
         </div>
-        <div class="banner-2 banner" id="parent">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="box">
-                            <h1>parent</h1>
-                            <p>Parenting is a challenging job and helping your teens make decisions about their future is a daunting task. There are hundreds of academic and career options available. PROTEEN brings hope and takes a fresh approach to the standard psychometric assessment of intelligence.</p>
-                            <a href="#" class="btn-base">Explore</a>
-                            <img class="i-parent-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALAAAABPAQMAAABxvd3RAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABdJREFUeNpjYBgFo2AUjIJRMApGARwAAAcZAAFZsHVlAAAAAElFTkSuQmCC">
-                            <img class="i-parent-hand decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAB+AQMAAABoPtO8AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwTEBAAAAwqD1T20Hb6AAAIDfAAtSAAH+RaQAAAAAAElFTkSuQmCC">
-                        </div>
+    </section>
+    <!-- teen bio end-->
+    <!-- testimonial section-->
+    <section class="sec-testimonial">
+        <div class="container-small clearfix">
+            <ul class="testimonial-slider owl-carousel clearfix">
+                <li class="clearfix">
+                    <div class="testimonial-img">
+                        <img src="{{Storage::url('img/user.jpg')}}" alt="user">
                     </div>
+                    <div class="testimonial-content">
+                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
+                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
+                        <h5><a href="#" title="Lorem ipsum">Lorem ipsum</a> </h5>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <div class="testimonial-img">
+                        <img src="{{Storage::url('img/user.jpg')}}" alt="user">
+                    </div>
+                    <div class="testimonial-content">
+                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
+                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
+                        <h5><a href="#" title="Lorem ipsum">Lorem ipsum </a></h5>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <!-- testimonial section end-->
+    <!-- content area-->
+    <section class="sec-content">
+        <div class="container-small">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur malesuada tortor vel egestas consequat. Nam et rutrum dolor. In consectetur ante in odio viverra, et posuere sapien mattis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque blandit ornare eros nec facilisis. Fusce varius odio sit amet ornare dictum. Nunc sed magna et quam suscipit porta. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed eros est, rutrum vitae augue id, placerat consequat velit. Sed magna leo, aliquam quis suscipit at, egestas vel nisl. Cras nec orci ac risus sagittis bibendum sit amet sit amet </p>
+                </div>
+                <div class="col-md-6">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus, pellentesque diam sed, vehicula lacus. Fusce sollicitudin arcu sit amet elit accumsan tristique. Curabitur malesuada tortor vel egestas consequat. Nam et rutrum dolor. In consectetur ante in odio viverra, et posuere sapien mattis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque blandit ornare eros nec facilisis. Fusce varius odio sit amet ornare dictum. Nunc sed magna et quam suscipit porta. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed eros est, rutrum vitae augue id, placerat consequat velit. Sed magna leo, aliquam quis suscipit at, egestas vel nisl. Cras nec orci ac risus sagittis bibendum sit amet sit amet </p>
                 </div>
             </div>
-            <a href="#mentor" class="bottom-show"><i class="icon-down-arrow"></i></a>
         </div>
-        <div class="banner-3 banner" id="mentor">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                        <div class="box">
-                            <img class="i-mentor-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAAAxAQMAAAA7sXOsAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABFJREFUeNpjYBgFo2AU0A8AAANyAAGw+IxhAAAAAElFTkSuQmCC">
-                            <img class="i-mentor-hand decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM8AAACcAQMAAADiVW1FAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABtJREFUeNrtwTEBAAAAwqD1T20JT6AAAAAA/gYQdAAB5WpmIgAAAABJRU5ErkJggg==">
-                            <h1>mentor</h1>
-                            <p>Education and career mentors face a daunting task – guiding students to make good academic and career choices is a challenge. <br />But now there's a new way – ProTeen brings hope and takes a fresh approach to the standard psychometric assessment of intelligence. </p>
-                            <a href="#" class="btn-base">Explore</a>
-                        </div>
+    </section>
+    <!-- content area end-->
+    <!-- masonary section-->
+    <section class="sec-masonary">
+        <div class="container-large">
+            <h2>lorem ipsum dolor sit amet</h2>
+            <div class="row">
+                <div class="masonary-grid">
+                    <div class="grid_sizer"></div>
+                    <div class="product-list clearfix">
+                        @forelse($videoDetail as $video)
+                            <div class="item clearfix">
+                                <div class="grid-box">
+                                    <?php
+                                        $videoId = '';
+                                        $videoCode = Helpers::youtube_id_from_url($video->v_link);
+                                        if ($videoCode != '') {
+                                            if(strlen($video->v_link) > 50) {
+                                                preg_match('/=(.*?)\&/s', $video->v_link, $output);
+                                                $videoId = $output[1];
+                                            } else {
+                                                if (strpos($video->v_link, '=') !== false) {
+                                                    $output = explode('=',$video->v_link);
+                                                    $videoId = $output[1];
+                                                } else {
+                                                    $videoId = substr($video->v_link, strrpos($video->v_link, '/') + 1);
+                                                }
+                                            }
+                                        }
+                                    ?>
+                                    <figure>
+                                        <a href="javascript:void(0)" title="Play : {{ $video->v_title }}" @if($videoId != "") onClick="playVideo('{{$videoId}}');" @else onClick="playNotYoutubeVideo('{{$video->v_link}}');" @endif class="play-video">
+                                            <img src="{{ Storage::url(Config::get('constant.VIDEO_ORIGINAL_IMAGE_UPLOAD_PATH').$video->v_photo) }}" alt="{{ $video->v_title }}">
+                                            <div class="overlay">
+                                                <i class="icon-play"></i>
+                                            </div>
+                                        </a>
+                                        <h4 class="text-center">{{ $video->v_title }}</h4>
+                                        <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-sm-12 text-center">
+                                <h3>Video will coming soon! </h3>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
+                @if(count($videoDetail) > 12)
+                    <p class="text-center"><a href="#" title="load more" class="btn btn-primary">load more</a></p>
+                @endif
             </div>
-            <a href="#school" class="bottom-show"><i class="icon-down-arrow"></i></a>
         </div>
-        <div class="banner-4 banner" id="school">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="box">
-                            <h1>school</h1>
-                            <p>Every school aspires to create generations of accomplished students who go to college, gain skills to eventually become productive members of society. ProTeen’s assessment and functionality is built as a unique web-based game that allows students to navigate the world of professions.</p>
-                            <a href="#" class="btn-base">Explore</a>
-                            <img class="i-school-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAACIAQMAAAB3DF2PAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwTEBAAAAwqD1T20Hb6AAAADgNw5YAAGqN+r4AAAAAElFTkSuQmCC">
-                            <img class="i-school-hand decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAB9AQMAAADuqqESAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwYEAAAAAw6D5U1/hAFUBAACHAQs7AAFxHAdOAAAAAElFTkSuQmCC">
+    </section>
+    <div class="intro_video_popup" style="display: none;">
+        <div class="video_cont">
+            <div class="outer_intro">
+                <div class="inner_intro">
+                    <div class="video_droper">
+                        <div class="video_wrapper">
+
                         </div>
+                        <div class="intro_close"><i class="fa fa-times" aria-hidden="true"></i></div>
                     </div>
-                </div>
-            </div>
-            <a href="#enterprise" class="bottom-show"><i class="icon-down-arrow"></i></a>
-        </div>
-        <div class="banner-5 banner" id="enterprise">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                        <div class="box">
-                            <img class="i-enterprise-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKsAAABRAQMAAACXL8QlAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABdJREFUeNpjYBgFo2AUjIJRMApGAZkAAAdHAAHlvLOKAAAAAElFTkSuQmCC">
-                            <img class="i-enterprise-hand decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACVAQMAAADltmNwAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwYEAAAAAw6D5Ux/hAlUBAAAcAww5AAEHz3YTAAAAAElFTkSuQmCC">
-                            <h1>enterprise</h1>
-                            <p>ProTeen is a sponsorship platform for corporates and academic institutions that aspire to get connected with very specific young adult communities in a socially responsible way. Promote your services, promote your Educational Program, access powerful analytics and more.</p>
-                            <a href="#" class="btn-base">Explore</a>
-                        </div>
-                    </div>
+                    <div class="intro_overlay"></div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- masonary section end-->
 @stop
 
 @section('script')
-    <script src="{{ asset('js/general.js') }}"></script>
-    <script>
+    <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
+    <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript">
         jQuery(document).ready(function($) {
-            $('.intro-slider').owlCarousel({
-                loop:true,
-                margin:0,
-                items:1,
-                mouseDrag:false,
-                touchDrag:false,
-                autoplay:true,
-                autoplayTimeout:3000,
-                smartSpeed:1000,
-                onInitialized: resetSliderNav,
-                onTranslated: resetSliderNav,
-                onResized: resetSliderNav
+            $('.intro_overlay, .intro_close').click(function(event) {
+                $(".video_wrapper").html($("<iframe src='' frameborder='0' allowfullscreen ></iframe>"));
+                $('.intro_video_popup').slideUp();
+                $('body').css({"overflow": 'auto'});
             });
-            function resetSliderNav() {
-                var k = $('.intro-slider').find('.owl-item.active p');
-                var m = k.outerHeight();
-                var x = k.offset();
-                $(".intro-slider").find('.owl-dots').css({"top": x.top - (m/2) , "left": x.left});
-            }
-            $(document).on('scroll', function() {
-                var distanceFromBottom = Math.floor($(document).height() - $(document).scrollTop() - $(window).height());
-                var h = $('footer').outerHeight();
-                if(distanceFromBottom < h) {
-                    var k = (distanceFromBottom - h)*(-1);
-                    $('.slider-maper').css('bottom',k+50);
-                }else{
-                    $('.slider-maper').css('bottom',50);
+            var loginRules = {
+                email : {
+                    required : true,
+                    email : true,
+                    maxlength : 50
+                },
+                password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
                 }
-            });
-            $(window).scroll(function () {
-                var y = $(this).scrollTop();
-                $('.slider-maper a').each(function (event) {
-                    if (y >= $($(this).attr('href')).offset().top - ($(window).height()/3)) {
-                        $('.slider-maper a').not(this).closest('li').removeClass('active');
-                        $(this).closest('li').addClass('active');
-                        $($(this).attr('href')).addClass('active');
-                    }
-                });
-            });
-            function goToByScroll(id){
-                id = id.replace("link", "");
-                $('html,body').animate({
-                    scrollTop: $(id).offset().top},'slow');
-            }
-            $("a.bottom-show").click(function(e) {
-                e.preventDefault();
-                goToByScroll($(this).attr("href"));
-            });
-        });
-        // SMOOTH SCROLLING (with negative scroll of 40 for header)
-        $(function () {
-            $('.slider-maper a').click(function () {
-                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-                    var target = $(this.hash);
-                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-                    if (target.length) {
-                        $('html,body').animate({
-                            scrollTop: (target.offset().top )
-                        }, 850);
-                        return false;
+            };
+            $("#login_form").validate({
+                rules: loginRules,
+                messages: {
+                    email: {required: '<?php echo trans('validation.emailrequired') ?>'},
+                    password: {required: '{{trans("validation.passwordrequired")}}',
+                        maxlength: 'Password maximum range is 20',
+                        minlength: 'Password minimum length is 6'
                     }
                 }
             });
         });
+        //masonary
+        $('.masonary-grid').masonry({
+            // options
+            itemSelector: '.item',
+            columnWidth: 1
+        });
+        //video popup
+        $('.play-video').magnificPopup({
+            disableOn: 0,
+            type: 'iframe',
+            mainClass: 'mfp-fade',
+            removalDelay: 160,
+            preloader: false,
+            overflowY: 'auto',
+            removalDelay: 300,
+            midClick: true,
+            fixedBgPos: true,
+            fixedContentPos: true
+        });
+        //testimonial slider
+        $('.testimonial-slider').owlCarousel({
+            loop: true,
+            margin: 10,
+            items: 1,
+            nav: true,
+            dots: false,
+        });
+        $('.play-icon').click(function () {
+            $(this).hide();
+            $('iframe').show();
+        });
+        $("#loginSubmit").click(function() {
+            var form = $("#login_form");
+            form.validate();
+            if (form.valid()) {
+                form.submit();
+                $('.ajax-loader').show();
+                $("#loginSubmit").attr("disabled", 'disabled');
+            } else {
+                $('.ajax-loader').hide();
+                $("#loginSubmit").removeAttr("disabled", 'disabled');
+            }
+        });
+        function playVideo(videoId) {
+            $(".video_wrapper").html($("<iframe src='https://www.youtube.com/embed/"+videoId+"?rel=0&amp;showinfo=0&autoplay=1' id='modalHolderK2_iframe' frameborder='0' allowfullscreen ></iframe>"));
+            $('.intro_video_popup').slideDown();
+            $('body').css({"overflow": 'hidden'});
+        }
+        function playNotYoutubeVideo(videoURL) {
+            $(".video_wrapper").html($("<video class='non_youtube_video' controls autoplay><source src='"+videoURL+"'type='video/mp4'/></video>"));
+            $('.intro_video_popup').slideDown();
+            $('body').css({"overflow": 'hidden'});
+        }
     </script>
 @stop

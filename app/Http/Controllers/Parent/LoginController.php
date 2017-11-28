@@ -78,19 +78,32 @@ class LoginController extends Controller
     public function loginCheck(ParentLoginRequest $request)
     {
         $data = $request->all();
-        if (Auth::guard('parent')->attempt(['p_email' => $data['email'], 'password' => $data['password'] ])) {
+        $user_type = $request->user_type;
+        if ($user_type == 1) {
+            $parCoun = 1;
+            $loginRoute = url('parent/login');
+        } else {
+            $parCoun = 2;
+            $loginRoute = url('counselor/login');
+        }
+        if (Auth::guard('parent')->attempt(['p_email' => $data['email'], 'password' => $data['password'], 'deleted' => 1, 'p_user_type' => $parCoun])) {
             flash('Welcome to the parent panel')->success();
             return redirect()->to(route('parent.home'));
         }
-        flash('Invalid Credential')->error()->important();
-        return redirect()->back()->withInput($request->only('email'));
+        return Redirect::to($loginRoute)->with('error', trans('appmessages.invalid_user_pwd_msg'))->withInput($request->only('email'));
     }
 
     public function logout(Request $request)
     {
+        $userType = Auth::guard('parent')->get()->p_user_type;
+        if ($userType == 1) {
+            $loginRoute = url('parent/login');
+        } else {
+            $loginRoute = url('counselor/login');
+        }
         Auth::guard('parent')->logout();
         flash('Logout successfully!')->success();
-        return redirect()->to(route('parent.login'));
+        return Redirect::to($loginRoute);
     }
     
     public function verifyParent() {

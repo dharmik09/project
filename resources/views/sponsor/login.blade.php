@@ -51,7 +51,7 @@
                     <div class="col-md-offset-1 col-sm-offset-1 col-md-10 col-sm-10">
                         <div class="clearfix">
                             <div class="col-md-12 col-sm-12 col-xs-12 input_icon email">
-                                <input type="text" class="cst_input_primary" id="email" maxlength="50" minlength="5" name="email" placeholder="{{trans('labels.emaillbl')}}" value="">
+                                <input type="text" class="cst_input_primary" id="email" maxlength="50" minlength="5" name="email" placeholder="{{trans('labels.emaillbl')}}" value="{{old('email')}}">
                             </div>
                         </div>
                         <div class="clearfix">

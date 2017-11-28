@@ -65,7 +65,7 @@ Route::group(['prefix' => 'developer'], function () {
 });
 
 Route::group(['prefix' => 'sponsor'], function () {
-	Route::get('/', 'Sponsor\LoginController@login');
+	Route::get('/', 'Sponsor\HomeController@index');
 	Route::get('/login', 'Sponsor\LoginController@login')->name('sponsor.login');
 	Route::post('/login-check', 'Sponsor\LoginController@loginCheck')->name('sponsor.loginCheck');
 	Route::post('/logout', 'Sponsor\LoginController@logout')->name('sponsor.logout');
@@ -84,8 +84,8 @@ Route::group(['prefix' => 'sponsor'], function () {
 	Route::get('/set-forgot-password', 'Sponsor\PasswordController@forgotPassword');
 });
 
-Route::group(['prefix' => 'parent'], function () { 
-	Route::get('/', 'Parent\LoginController@login');
+Route::group(['prefix' => 'parent'], function () {
+	Route::get('/', 'Parent\HomeController@index');
 	Route::get('/login', 'Parent\LoginController@login')->name('parent.login');
 	Route::post('/login-check', 'Parent\LoginController@loginCheck')->name('parent.loginCheck');
 	Route::post('/logout', 'Parent\LoginController@logout')->name('parent.logout');
@@ -103,4 +103,50 @@ Route::group(['prefix' => 'parent'], function () {
 	Route::get('/forgot-password-OTP-verify', 'Parent\PasswordController@forgotPassword');
 	Route::get('/set-forgot-password', 'Parent\PasswordController@forgotPassword')->name('set-forgot-password');
 	Route::get('/save-forgot-password', 'Parent\PasswordController@forgotPassword');
+});
+
+//Counselor
+Route::group(['prefix' => 'counselor'], function () {
+	Route::get('/', 'Parent\HomeController@loginCounselor');
+	Route::get('/login', 'Parent\CounselorController@login');
+	Route::get('/signup', 'Parent\CounselorController@signup');
+});
+
+//School Section
+Route::group(['prefix' => 'school'], function () {
+	Route::get('/', 'School\HomeController@index');
+	Route::get('/login', 'School\LoginController@login');
+	Route::get('/dashboard', 'School\DashboardController@index');
+	Route::get('/signup', 'School\SignupController@signup');
+	Route::post('/doSignup', 'School\SignupController@doSignup');
+	Route::get('/doSignup', 'School\SignupController@signup');
+	Route::post('/dashboard/', 'School\LoginController@loginCheck');
+	Route::get('/logout', 'School\LoginController@getLogout');
+	Route::get('/changepassword', 'School\PasswordController@changePassword');
+	Route::post('/updatePassword', 'School\PasswordController@updatePassword');
+	Route::post('/userSearchForSchoolData/', 'School\DashboardController@userSearchForSchoolData');
+
+	Route::get('/forgotPassword', 'School\PasswordController@forgotPassword');
+	Route::post('/forgotPasswordOTP', 'School\PasswordController@forgotPasswordOTP');
+	Route::post('/forgotPasswordOTPVerify', 'School\PasswordController@forgotPasswordOTPVerify');
+	Route::post('/saveForgotPassword', 'School\PasswordController@saveForgotPassword');
+
+	Route::get('/forgotPasswordOTP', 'School\PasswordController@forgotPassword');
+	Route::get('/forgotPasswordOTPVerify', 'School\PasswordController@forgotPassword');
+	Route::get('/setForgotPassword', 'School\PasswordController@forgotPassword');
+	Route::get('/saveForgotPassword', 'School\PasswordController@forgotPassword');
+	Route::get('/updateprofile', 'School\UpdateProfileController@updateProfile');
+	Route::post('/saveProfile', 'School\UpdateProfileController@saveProfile');
+	Route::get('/progress', 'School\UpdateProfileController@progress');
+	Route::get('/progress/{cid}', 'School\UpdateProfileController@progress');
+	//Route::get('/progress/getClassAsPerSchool/{cid}', 'School\UpdateProfileController@getTeenDataAsPerClass');
+
+	Route::get('/bulkimport', 'School\DashboardController@bulkImport');
+	Route::post('/saveschoolbulkimport', 'School\DashboardController@savebulkdata');
+	Route::get('/inactive/{id}/{status}', 'School\DashboardController@inactive');
+	Route::get('/sendemail', 'School\DashboardController@sendemail');
+	Route::post('/sendemail', 'School\DashboardController@sendemail');  
+	Route::get('verifyTeenfromSchool', 'Teenager\VerifyTeenManagementController@verifyTeenFromSchool');
+
+	Route::get('/school/exportpdf/{id}', 'School\DashboardController@exportPDF');
 });
