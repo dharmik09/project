@@ -6,16 +6,15 @@
 
 @section('content')
 
-<div class="centerlize">
-    <div class="container">
-        <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                    <p class="header_text">Great! We just reset your password</p>
-                    <center><a href="{{ url('/teenager/login') }}" class="btn primary_btn"><em>Login</em><span></span></a></center>
-            </div>
+<section class="sec-login">
+    <div class="container-small">
+        <div class="login-form">
+            <h1>password saved!</h1>
+            <h3>Great! We just reset your password. </h3>
+            <p>Already enrolled? <a href="{{ url('teenager/login') }}" title="Login now.">Login now.</a></p>
         </div>
     </div>
-</div>
+</section>
 @stop
 @section('script')
 

@@ -30,36 +30,29 @@
     </div>
     @endif
 </div>
-<div class="centerlize">
-    <div class="container">
-        <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+<section class="sec-login">
+    <div class="container-small">
+        <div class="login-form">
+            <h1>new password</h1>
+            <p>OTP(One Time Password) is sent successfully to your email. </p>
+            <span class="icon" ><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
+            <div class="form-sec">
                 <form class="registration_form" method="POST" id="forgot-password-OTP" action="{{url('teenager/forgot-password-OTP-verify')}}">
                     {{ csrf_field() }}
                     <input type="hidden" name="userid" value="{{$response['data']['userid']}}" />
                     <input type="hidden" name="u_token" value="{{$response['data']['u_token']}}" />
-                    <h1><span class="title_border">New Password</span></h1>
-                    <p class="header_text">OTP(One Time Password) is sent successfully to your email.</p>
-                    <div class="col-md-offset-1 col-sm-offset-1 col-md-10 col-sm-10">
-                        <div class="clearfix">
-                            <div class="col-md-12 col-sm-12 col-xs-12 input_icon security_pin">
-                                <input type="password" name="OTP" class="cst_input_primary" placeholder="Enter OTP">
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <a href="javascript:void(0)" onClick="resendOTP()" class="back_me left10">Resend OTP?</a>
-                                <span id="resetMSG"></span>
-                            </div>
-                        </div>
-                        
-                        <div class="button_container">
-                            <div class="submit_register"><input type="submit" class="btn primary_btn" value="Reset My Password"></div>
-                        </div>
+                    <div class="form-group">
+                        <input type="password" name="OTP" class="form-control" placeholder="Enter OTP" tabindex="1">
+                        <a href="javascript:void(0)" onClick="resendOTP()" class="back_me left10">Resend OTP?</a>
+                        <span id="resetMSG"></span>
                     </div>
+                    <input type="submit" class="btn primary_btn" value="Reset My Password" tabindex="2">
                 </form>
+                <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
             </div>
         </div>
     </div>
-</div>
+</section>
 @stop
 
 @section('script')

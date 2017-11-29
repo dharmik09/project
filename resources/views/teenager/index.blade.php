@@ -51,7 +51,7 @@
                             </div>
                             <button type="button" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
                         </form>
-                        <p><a href="#" title="Forgot username/password?">Forgot username/password?</a></p>
+                        <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a></p>
                         <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
                     </div>
                 </div>
