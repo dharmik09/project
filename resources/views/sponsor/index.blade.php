@@ -2,6 +2,7 @@
 
 @push('script-header')
     <title>{{ trans('labels.appname') }} : Enterprise</title>
+    <link href="{{asset('css/aos.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -24,7 +25,7 @@
                     <div class="sec-heading enterprise-heading">
                         <h1>Enterprise</h1>
                         <span>Finally there’s a solution! </span>
-                        <div class="hand-img">
+                        <div class="hand-img" data-aos="zoom-in">
                             <img src="{{Storage::url('img/hand-enterprise.png')}}" alt="Enterprise">
                         </div>
                     </div>
@@ -174,6 +175,8 @@
     <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/general.js') }}"></script>
+    <script src="{{ asset('js/aos.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
             $('.intro_overlay, .intro_close').click(function(event) {
@@ -203,6 +206,9 @@
                     }
                 }
             });
+        });
+        AOS.init({
+            duration: 1200,
         });
         //masonary
         $('.masonary-grid').masonry({
