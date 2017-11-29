@@ -2,6 +2,7 @@
 
 @push('script-header')
     <title>{{ trans('labels.appname') }} : {{$type}}</title>
+    <link href="{{asset('css/magnific-popup.css')}}" rel="stylesheet">
     <link href="{{asset('css/aos.css')}}" rel="stylesheet">
 @endpush
 
@@ -15,7 +16,7 @@
                 </a>
             </div>
         </div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NpEaa2P7qZI?autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0&amp;showinfo=0&autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
     <!-- teen bio-->
     <section class="teen-bio">
@@ -140,7 +141,7 @@
                                         }
                                     ?>
                                     <figure>
-                                        <a href="javascript:void(0)" title="Play : {{ $video->v_title }}" @if($videoId != "") onClick="playVideo('{{$videoId}}');" @else onClick="playNotYoutubeVideo('{{$video->v_link}}');" @endif class="play-video">
+                                        <a title="Play : {{ $video->v_title }}" @if($videoId != '') href="https://www.youtube.com/watch?v={{$videoId}}?rel=0&amp;showinfo=0&autoplay=1" @else href="{{$video->v_link}}" @endif class="play-video">
                                             <img src="{{ Storage::url(Config::get('constant.VIDEO_ORIGINAL_IMAGE_UPLOAD_PATH').$video->v_photo) }}" alt="{{ $video->v_title }}">
                                             <div class="overlay">
                                                 <i class="icon-play"></i>
@@ -190,11 +191,6 @@
     <script src="{{ asset('js/aos.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
-            $('.intro_overlay, .intro_close').click(function(event) {
-                $(".video_wrapper").html($("<iframe src='' frameborder='0' allowfullscreen ></iframe>"));
-                $('.intro_video_popup').slideUp();
-                $('body').css({"overflow": 'auto'});
-            });
             var loginRules = {
                 email : {
                     required : true,
@@ -264,15 +260,5 @@
                 $("#loginSubmit").removeAttr("disabled", 'disabled');
             }
         });
-        function playVideo(videoId) {
-            $(".video_wrapper").html($("<iframe src='https://www.youtube.com/embed/"+videoId+"?rel=0&amp;showinfo=0&autoplay=1' id='modalHolderK2_iframe' frameborder='0' allowfullscreen ></iframe>"));
-            $('.intro_video_popup').slideDown();
-            $('body').css({"overflow": 'hidden'});
-        }
-        function playNotYoutubeVideo(videoURL) {
-            $(".video_wrapper").html($("<video class='non_youtube_video' controls autoplay><source src='"+videoURL+"'type='video/mp4'/></video>"));
-            $('.intro_video_popup').slideDown();
-            $('body').css({"overflow": 'hidden'});
-        }
     </script>
 @stop

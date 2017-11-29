@@ -941,12 +941,18 @@ nav .logo {
   display: inline-block;
 }
 
+body {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+
 nav.fixed-navigation {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 99999;
+  z-index: 99;
 }
 
 body.fixed-nav {

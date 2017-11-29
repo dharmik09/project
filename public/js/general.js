@@ -45,9 +45,9 @@ $(document).ready(function () {
     $('.menu-close').click(function (event) {
         $('.main-menu').removeClass('active');
     });
-    $('.menu-close').click(function(e) {
-    e.preventDefault();
-});
+    $('.menu-close').click(function (e) {
+        e.preventDefault();
+    });
 
     $(".member-info .detail").each(function (i) {
         len = $(this).text().length;
@@ -64,7 +64,7 @@ $(document).ready(function () {
     $('.menu-toggler').click(function () {
         $('body').addClass('fixedPosition')
     })
-    $('.menu-close').click(function(){
+    $('.menu-close').click(function () {
         $('body').removeClass('fixedPosition');
     })
     // Popover section
@@ -92,63 +92,63 @@ $(document).ready(function () {
     $('body').on('click', '.popover-closer', function (event) {
         $('.custompop').popover('hide');
     });
-    // $('.popover-shareId').popover({
-    //     html: true,
-    //     content: function() {
-    //         return $('.shareContent').html();
-    //     }
-    // });
-    // var isVisible = false;
-    // var clickedAway = false;
+    /*// add iframe url for a map
+		function loadMap(iframeObject)
+		{
+			// if the iframe has no src or a blank src, and it has a data-src attribute
+			if ( !(iframeObject.attr("src") && iframeObject.attr("src").length) && iframeObject.attr("data-src") )
+			{
+				iframeObject.attr("src", iframeObject.attr("data-src"));
+			}
+		}
+		// scroll to a map
+		function scrollToDiv(divID)
+		{
+			$("html, body").animate({
+				scrollTop: $(divID).offset().top - ( $(".fixed-navigation").height() || 0 ) - 20
+			}, 300);
+		}
+		// if a location hash is on the url, add active to the div.
+		if ( location.hash && $(location.hash + ".sec-map").length )
+		{
+			$(location.hash + ".sec-map").addClass("active");
+		}
+		else
+		{
+			// otherwise, just make the first map active.
+			$(".sec-map:first").addClass("active");
+		}
+		loadMap($(".sec-map.active iframe"));
+		// contact page maps on click
+		$(".contact-map-link").click(function(e){
+			var myLink = $(this).attr("href")
+			var targetMap = $( myLink.substr(myLink.indexOf("#")) );
+			if ( targetMap.length )
+			{
+				e.preventDefault();
+				loadMap(targetMap.children("iframe"));
+				scrollToDiv(targetMap);
+				$(".sec-map").not(targetMap).removeClass("active");
+				targetMap.addClass("active");
+			}
+		});
+		// contact page stop scrolling until clicked.
+		$(".map-overlay").click(function(){
+			$(this).hide();
+		});
+*/
 
-    // $('.popoverThis').popover({
-    //     html: true,
-    //     trigger: 'manual'
-    // }).click(function(e) {
-    //     $(this).popover('show');
-    //     $('.popover-content').append('<a class="close" style="position: absolute; top: 10px; right: 0px;"><i class="icon-close"></i></a>');
-    //     clickedAway = false
-    //     isVisible = true
-    //     e.preventDefault()
-    // });
-    // //social share popover
-    // $('.popoverShare').popover({
-    //     html: true,
-    //     trigger: 'manual'
-    // }).click(function(e) {
-    //     $(this).popover('show');
-    //     $('.popover-content').addClass('socialmedia-icon');
-    //     clickedAway = false
-    //     isVisible = true
-    //     e.preventDefault()
-    // });
+    $('#loading-wrapper').remove();
+    $('body').removeClass('overflw-hide');
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        var but = $(this).find('[type="submit"]').toggleClass('sending').blur();
 
-    // $(document).click(function(e) {
-    //     if (isVisible & clickedAway) {
-    //         $('.popoverThis, .popoverShare').popover('hide')
-    //         isVisible = clickedAway = false
-    //     } else {
-    //         clickedAway = true
-    //     }
-    // });
-    // $('.shareId').popover({
-    //     html: true,
-    //     content: function() {
-    //         return $('.shareContent').html();
-    //     }
-    // });
-    // $('.popoverThis').popover();
-    // $('.popoverShare').popover();
+        setTimeout(function () {
+            but.removeClass('sending').blur();
+        }, 2500);
 
-    // $('.popoverThis').on('click', function(e) {
-    //     $('.popoverThis').not(this).popover('hide');
-    // });
-    // $('.popoverShare').on('click', function(e) {
-    //     $('.popoverShare').not(this).popover('hide');
-    // });
-    // var ProgressBar = require('progressbar.js')
-    // var line = new ProgressBar.Line('#container');
-
+    })
     //progressbar
     $(function () {
         $(window).scroll(function () {
