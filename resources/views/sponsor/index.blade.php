@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div class="banner-landing">
+    <div class="banner-landing banner-enterprise">
         <div class="container">
             <div class="play-icon">
                 <a href="javascript:void(0);" class="play-btn" id="iframe-video">
@@ -21,11 +21,11 @@
         <div class="container-small">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="sec-heading">
-                        <h1>Teen</h1>
+                    <div class="sec-heading enterprise-heading">
+                        <h1>Enterprise</h1>
                         <span>Finally there’s a solution! </span>
                         <div class="hand-img">
-                            <img src="{{Storage::url('img/hand-img.png')}}" alt="hand image">
+                            <img src="{{Storage::url('img/hand-enterprise.png')}}" alt="Enterprise">
                         </div>
                     </div>
                     <div class="content">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="form-sec">
+                    <div class="form-sec bg-enterprise">
                         <h2>welcome back</h2>
                         <form id="login_form" method="POST" action="{{ url('sponsor/login-check') }}" autocomplete="off">
                             {{csrf_field()}}

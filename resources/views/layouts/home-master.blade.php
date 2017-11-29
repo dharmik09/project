@@ -18,19 +18,31 @@
     <body class="fixed-nav">
         <nav class="fixed-navigation">
             <div class="container">
-                <div class="logo pull-left"><a href="{{ url('/') }}"><img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}"></a></div>
+                <div class="logo pull-left">
+                	<a href="{{ url('/') }}">
+                		<img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}">
+                	</a>
+                </div>
                 <div class="menu-toggle pull-right">
                     <ul class="nav-bar clearfix">
-                        <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
+                        <li class="n-menu">
+                        	<a href="javascript:void(0);" class="menu-toggler">
+                        		<i class="icon-menu"></i>
+                        	</a>
+                        </li>
                     </ul>
                 </div>
             </div>
             <div class="main-menu">
                 <div class="menu-container">
                     <ul>
-                        <li><a href="#" class="active">About</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{{ url('/teenager') }}" title="Teen">Teen</a></li>
+	                    <li><a href="{{ url('/parent') }}" title="Parent">Parent</a></li>
+	                    <li><a href="{{ url('/counselor') }}"  title="Mentor">Mentor</a></li>
+	                    <li><a href="{{ url('/school') }}" title="School">School</a></li>
+	                    <li><a href="{{ url('/sponsor') }}" title="Enterprise">Enterprise</a></li>
+	                    <li><a href="{{ url('/team') }}" title="Team">Team</a></li>
+	                    <li><a href="{{ url('/contact') }}" title="Contact">Contact</a></li>
                     </ul>
                     <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">
                     <a href="#" class="menu-close"><i class="icon-close"></i></a>

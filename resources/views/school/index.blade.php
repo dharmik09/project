@@ -1,12 +1,12 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>{{ trans('labels.appname') }} : Enterprise</title>
+    <title>{{ trans('labels.appname') }} : School</title>
 @endpush
 
 @section('content')
 
-    <div class="banner-landing">
+    <div class="banner-landing banner-school">
         <div class="container">
             <div class="play-icon">
                 <a href="javascript:void(0);" class="play-btn" id="iframe-video">
@@ -21,11 +21,11 @@
         <div class="container-small">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="sec-heading">
-                        <h1>Teen</h1>
+                    <div class="sec-heading school-heading">
+                        <h1>School</h1>
                         <span>Finally there’s a solution! </span>
                         <div class="hand-img">
-                            <img src="{{Storage::url('img/hand-img.png')}}" alt="hand image">
+                            <img src="{{Storage::url('img/hand-school.png')}}" alt="School">
                         </div>
                     </div>
                     <div class="content">
@@ -34,9 +34,9 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="form-sec">
+                    <div class="form-sec bg-school">
                         <h2>welcome back</h2>
-                        <form id="login_form" method="POST" action="{{ url('sponsor/login-check') }}" autocomplete="off">
+                        <form id="login_form" method="POST" action="{{ url('school/login-check') }}" autocomplete="off">
                             {{csrf_field()}}
                             <div class="form-group">
                                 <input type="text" class="form-control" id="email" maxlength="50" name="email" placeholder="Email or Mobile" value="{{old('email')}}" autocomplete="off" tabindex="1">

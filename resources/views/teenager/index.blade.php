@@ -25,7 +25,7 @@
                         <h1>Teen</h1>
                         <span>Finally there’s a solution! </span>
                         <div class="hand-img">
-                            <img src="{{Storage::url('img/hand-img.png')}}" alt="hand image">
+                            <img src="{{Storage::url('img/hand-img.png')}}" alt="Teenager">
                         </div>
                     </div>
                     <div class="content">

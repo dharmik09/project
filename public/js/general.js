@@ -45,6 +45,10 @@ $(document).ready(function () {
     $('.menu-close').click(function (event) {
         $('.main-menu').removeClass('active');
     });
+    $('.menu-close').click(function(e) {
+    e.preventDefault();
+});
+
     $(".member-info .detail").each(function (i) {
         len = $(this).text().length;
         if (len > 10) {
