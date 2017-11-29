@@ -132,6 +132,7 @@
             $('iframe').show();
         })
         $("#login_form").submit(function() {
+            $("#loginSubmit").toggleClass('sending').blur();
             var form = $("#login_form");
             form.validate();
             var validEmailOrMobile = false;
@@ -148,17 +149,18 @@
             if (validEmailOrMobile) {
                 $('#email_mobile_invalid').hide();
                 if (form.valid()) {
+                    $("#loginSubmit").removeClass('sending').blur();
                     return true;
-                    //form.submit();
-                    $("#loginSubmit").attr("disabled", 'disabled');
                 } else {
-                    $("#loginSubmit").removeAttr("disabled", 'disabled');
+                    $("#loginSubmit").removeClass('sending').blur();
                 }
                 return true;
             } else {
                 $('#email_mobile_invalid').show();
+                $("#loginSubmit").removeClass('sending').blur();
                 return false;
             }
+            $("#loginSubmit").removeClass('sending').blur();
         });
 
         function validateEmail(email) {

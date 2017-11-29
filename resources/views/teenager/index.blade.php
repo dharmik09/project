@@ -166,11 +166,6 @@
     <script src="{{ asset('js/aos.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
-            // $('.intro_overlay, .intro_close').click(function(event) {
-            //     $(".video_wrapper").html($("<iframe src='' frameborder='0' allowfullscreen ></iframe>"));
-            //     $('.intro_video_popup').slideUp();
-            //     $('body').css({"overflow": 'auto'});
-            // });
             var loginRules = {
                 password: {
                     required: true,
@@ -223,6 +218,7 @@
             $('iframe').show();
         })
         $("#loginSubmit").click(function() {
+            $(this).toggleClass('sending').blur();
             var form = $("#login_form");
             form.validate();
             var validEmailOrMobile = false;
@@ -240,12 +236,13 @@
                 $('#email_mobile_invalid').hide();
                 if (form.valid()) {
                     form.submit();
-                    $("#loginSubmit").attr("disabled", 'disabled');
                 } else {
-                    $("#loginSubmit").removeAttr("disabled", 'disabled');
+                    $(this).removeClass('sending').blur();
                 }
+                $(this).removeClass('sending').blur();
                 return true;
             } else {
+                $(this).removeClass('sending').blur();
                 $('#email_mobile_invalid').show();
                 return false;
             }

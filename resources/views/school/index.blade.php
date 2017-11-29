@@ -238,15 +238,14 @@
             $('iframe').show();
         });
         $("#loginSubmit").click(function() {
+            $("#loginSubmit").toggleClass('sending').blur();
             var form = $("#login_form");
             form.validate();
             if (form.valid()) {
                 form.submit();
-                $('.ajax-loader').show();
-                $("#loginSubmit").attr("disabled", 'disabled');
+                $("#loginSubmit").removeClass('sending').blur();
             } else {
-                $('.ajax-loader').hide();
-                $("#loginSubmit").removeAttr("disabled", 'disabled');
+                $("#loginSubmit").removeClass('sending').blur();
             }
         });
     </script>
