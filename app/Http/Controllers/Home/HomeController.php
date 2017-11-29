@@ -44,5 +44,14 @@ class HomeController extends Controller
     {
         return view('home.faq');
     }
-   
+    
+    public function team()
+    {
+        return view('home.team');
+    }
+
+    public function contactUs()
+    {
+        return view('home.contactUs');
+    }
 }

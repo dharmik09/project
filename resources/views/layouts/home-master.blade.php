@@ -36,13 +36,13 @@
             <div class="main-menu">
                 <div class="menu-container">
                     <ul>
-                        <li><a href="{{ url('/teenager') }}" title="Teen">Teen</a></li>
-	                    <li><a href="{{ url('/parent') }}" title="Parent">Parent</a></li>
-	                    <li><a href="{{ url('/counselor') }}"  title="Mentor">Mentor</a></li>
-	                    <li><a href="{{ url('/school') }}" title="School">School</a></li>
-	                    <li><a href="{{ url('/sponsor') }}" title="Enterprise">Enterprise</a></li>
-	                    <li><a href="{{ url('/team') }}" title="Team">Team</a></li>
-	                    <li><a href="{{ url('/contact') }}" title="Contact">Contact</a></li>
+                        <li><a href="{{ url('/teenager') }}" title="Teen" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager', 'teenager/login', 'teenager/signup']) ? 'active' : ''}}">Teen</a></li>
+	                    <li><a href="{{ url('/parent') }}" title="Parent" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['parent', 'parent/login', 'parent/signup']) ? 'active' : ''}}">Parent</a></li>
+	                    <li><a href="{{ url('/counselor') }}"  title="Mentor" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['counselor', 'counselor/login', 'counselor/signup']) ? 'active' : ''}}">Mentor</a></li>
+	                    <li><a href="{{ url('/school') }}" title="School" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['school', 'school/login', 'school/signup']) ? 'active' : ''}}">School</a></li>
+	                    <li><a href="{{ url('/sponsor') }}" title="Enterprise" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['sponsor', 'sponsor/login', 'sponsor/signup']) ? 'active' : ''}}">Enterprise</a></li>
+                        <li><a href="{{ url('/team') }}" title="Team" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['team']) ? 'active' : ''}}">Team</a></li>
+	                    <li><a href="{{ url('/contact-us') }}" title="Contact" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['contact-us']) ? 'active' : ''}}">Contact</a></li>
                     </ul>
                     <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">
                     <a href="#" class="menu-close"><i class="icon-close"></i></a>
@@ -54,7 +54,7 @@
             <div class="container">
                 <div class="left">
                     <ul class="links">
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
                         <li><a href="#">Careers</a></li>
                         <li><a href="#">Privacy</a></li>
                         <li><a href="#">Terms & Conditions</a></li>
@@ -79,6 +79,10 @@
                 </div>
             </div>
         </footer>
+        <div id="loading-wrapper">
+            <div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader"></div>
+            <div id="loading-content"></div>
+        </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->

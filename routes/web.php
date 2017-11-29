@@ -20,6 +20,8 @@ Route::get('/get-city/{id}', 'StateCityController@getCity');
 Route::get('/', 'Home\HomeController@index');
 Route::get('/home', 'Home\HomeController@index');
 Route::get('/faq', 'Home\HomeController@faq');
+Route::get('/team', 'Home\HomeController@team');
+Route::get('/contact-us', 'Home\HomeController@contactUs');
 
 //Get call back route
 Route::get('facebook/callback', 'Teenager\SocialLoginController@handleProviderCallbackFacebook');
