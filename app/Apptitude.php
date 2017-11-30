@@ -73,4 +73,17 @@ class Apptitude extends Model
         return $this->hasOne('App\ApptitudeTypeScale');
     }
 
+    public function getApptitudeDataIdByName($name)
+    {
+        $result = Apptitude::select('*')
+                        ->where('deleted' ,'1')
+                        ->where('apt_name',$name)
+                        ->get();
+        if (count($result) > 0) {
+            return $result[0]['id'];
+        } else {
+            return false;
+        }
+    }
+
 }

@@ -255,6 +255,7 @@ class ParentDashboardController extends Controller {
                         if (!empty($level2PActivityData) && count($level2PActivityData) > 0) {
                             $parentScale = $level2PActivityData[0]['l2pac_value'];
                         }
+
                         $teenagerPersonality[] = array('image' => $image, 'aptitude' => $personality, 'scale' => $personalityscale, 'video' => $video, 'info' => $info, 'type' => 'personality','parentScale' => $parentScale);
                         //}
                     }
@@ -353,11 +354,11 @@ class ParentDashboardController extends Controller {
                             $yourScore = $idAndRank = 0;
                             $professionAttempted[$key]['professionId'] = $val->id;
                             $professionAttempted[$key]['profession_name'] = $val->pf_name;
-                            if(isset($componentsData) && !empty($componentsData)){
+                            if(isset($componentsData[0]) && !empty($componentsData)){
                                 $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$val->id,2,$componentsData[0]->id);
                             }
                             $days = 0;
-                            if (!empty($deductedCoinsDetail)) {
+                            if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
                                 $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
                             }
                             $professionAttempted[$key]['remainingDays'] = $days;
@@ -368,17 +369,18 @@ class ParentDashboardController extends Controller {
                             break;
                         }
                     }
+
                 }
                 $objDeductedCoins = new DeductedCoins();
                 $objPaidComponent = new PaidComponent();
                 $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
                 $coins = 0;
-                if (!empty($componentsData)) {
+                if (isset($componentsData[0]) && !empty($componentsData)) {
                     $coins = $componentsData[0]->pc_required_coins;
                 }
                 $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
                 $days = 0;
-                if (!empty($deductedCoinsDetail)) {
+                if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
                     $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
                 }
                 $response['remainingDays'] = $days;
@@ -386,7 +388,7 @@ class ParentDashboardController extends Controller {
                 $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
                 $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
                 $days = 0;
-                if (!empty($deductedCoinsDetail)) {
+                if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
                     $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
                 }
                 $response['remainingDaysForLS'] = $days;
@@ -407,7 +409,7 @@ class ParentDashboardController extends Controller {
                 $response['coins'] = $coins;
                 $response['finalSortedData'] = $finalSortedData;
                 
-                return view('parent.Parentprogress', compact('response', 'teenDetail'));
+                return view('parent.parentProgress', compact('response', 'teenDetail'));
 
             } else {
                 Auth::guard('parent')->logout();

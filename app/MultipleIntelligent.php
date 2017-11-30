@@ -74,5 +74,18 @@ class MultipleIntelligent extends Model
         return $this->hasOne('App\MultipleIntelligentScale');
     }
 
+    public function getMultipleIntelligentIdByName($name)
+    {
+        $result = MultipleIntelligent::select('*')
+                        ->where('deleted' ,'1')
+                        ->where('mit_name',$name)
+                        ->get();
+        if (count($result) > 0) {
+            return $result[0]['id'];
+        } else {
+            return false;
+        }
+    }
+
 
 }
