@@ -31,17 +31,21 @@
                             <div class="submenu">
                                 <div class="user-snapshot">
                                     <div class="user-avatar">
-                                        <img src="img/alex.jpg" alt="">
+                                        <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : asset('uploads/teenager/thumb/proteen-logo.png'); ?>
+                                        <img src="{{ $user_profile_thumb_image }}" title="{{ Auth::guard('teenager')->user()->t_name }}">
                                     </div>
                                     <div class="user-name">
-                                        <h2>Alex Murphy</h2>
-                                        <p>Alexmurphy@gmail.com</p>
+                                        <h2>{{ Auth::guard('teenager')->user()->t_name }}</h2>
+                                        <p>{{ Auth::guard('teenager')->user()->t_email }}</p>
                                     </div>
                                 </div>
                                 <div class="btns">
-                                    <a href="#" class="btn btn-primary btn-small text-uppercase">My Profile</a>
+                                    <a href="{{ url('/teenager/my-profile') }}" title="Profile" class="btn btn-primary btn-small text-uppercase">My Profile</a>
                                     <a href="#" class="btn btn-primary btn-small text-uppercase">Messages</a>
-                                    <a href="#" class="btn btn-primary btn-small text-uppercase">Sign out</a>
+                                    <a href="{{ url('/teenager/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-small text-uppercase">Sign out</a>
+                                    <form id="logout-form" action="{{ url('/teenager/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
                                 </div>
                             </div>
                         </li>

@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/home', function () {
-    return view('teenager.home');
-})->name('home');
-
+Route::get('/home', 'Teenager\DashboardController@dashboard')->name('home');
+Route::get('/dashboard', 'Teenager\DashboardController@dashboard');
+Route::get('/edit-profile', 'Teenager\DashboardController@profile');
+Route::get('/my-profile', 'Teenager\DashboardController@profile');
