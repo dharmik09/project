@@ -35,4 +35,14 @@ Route::post('/submit-level4-advance-activity', 'Parent\Level4AdvanceActivityCont
 Route::post('/delete-user-advance-task/', 'Parent\Level4AdvanceActivityController@deleteUserAdvanceTask')->name('delete-user-advance-task');
 Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceActivityController@submitLevel4AdvanceActivityForReview')->name('submit-level4-advance-activity-for-review');
 
+//My Teen
+Route::get('/pair-with-teen', 'Parent\ParentDashboardController@pairWithTeen')->name('pair-with-teen');
+Route::post('/save-pair', 'Parent\ParentDashboardController@savePair')->name('save-pair');
+
+//Progress
+Route::get('/progress/{id}', 'Parent\ParentDashboardController@progress')->name('progress');
+Route::post('/get-profession-badges-and-rank/', 'Parent\ParentDashboardController@getProfessionBadgesAndRank')->name('get-profession-badges-and-rank');
+Route::post('/save-teen-promise-rate/', 'Parent\ParentDashboardController@saveTeenPromiseRate')->name('save-teen-promise-rate');
+Route::post('/get-teen-promise-rate-count/', 'Parent\ParentDashboardController@getTeenPromiseRateCount')->name('get-teen-promise-rate-count');
+
 

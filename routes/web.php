@@ -151,3 +151,5 @@ Route::group(['prefix' => 'school'], function () {
 
 	Route::get('/school/exportpdf/{id}', 'School\DashboardController@exportPDF');
 });
+
+Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('verify-parent-teen-pair');

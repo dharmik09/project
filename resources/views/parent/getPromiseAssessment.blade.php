@@ -1,0 +1,3 @@
+<span class="promise_rate" style="text-align:right;"><a href="javascript:void(0)" onclick="savePromiseRate('{{$name}}' , '{{$type}}' , '{{$key}}', 'L');" >L</a></span>
+<span class="promise_rate" style="text-align:right;"><a href="javascript:void(0)" onclick="savePromiseRate('{{$name}}' , '{{$type}}' , '{{$key}}', 'M');" >M</a></span>
+<span class="promise_rate" style="text-align:right;"><a href="javascript:void(0)" onclick="savePromiseRate('{{$name}}' , '{{$type}}' , '{{$key}}', 'H');" >H</a></span>

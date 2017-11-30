@@ -68,8 +68,22 @@ class Personality extends Model
         }
     }
 
-    public function personalityScale() {
+    public function personalityScale() 
+    {
         return $this->hasOne('App\PersonalityScale');
+    }
+
+    public function getPersonalityDataIdByName($name)
+    {
+        $result = Personality::select('*')
+                        ->where('deleted' ,'1')
+                        ->where('pt_name',$name)
+                        ->get();
+        if (count($result) > 0) {
+            return $result[0]['id'];
+        } else {
+            return false;
+        }
     }
 
 }

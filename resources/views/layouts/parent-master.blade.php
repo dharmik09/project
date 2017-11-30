@@ -69,7 +69,7 @@
                     <?php $inArrayRoute = ['parent/my-challengers', 'parent/my-challengers-research/{professionId}', 'parent/my-challengers-accept/{professionId}/{teenId}', 'parent/level4Activity/{professionId}/{teenId}', 'parent/level4PlayMore/{professionId}/{teenId}','parent/level4IntermediateActivity/{professionId}/{templateId}/{teenId}', 'parent/level4Advance/{professionId}/{teenId}', 'parent/level4AdvanceStep2/{professionId}/{typeid}/{teenId}']; ?>
                     <li class="{{(in_array(Route::getFacadeRoot()->current()->uri(), $inArrayRoute)) ? 'active':''}}"><a href="{{url('parent/my-challengers')}}" >My Challengers</a></li>
                     <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/update-profile')? 'active':''}}"><a href="{{url('/parent/update-profile')}}" >My Profile</a></li>
-                    <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/dashboard')? 'active':''}}"><a href="{{url('/parent/dashboard/')}}">My Teen</a></li>
+                    <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/dashboard')? 'active':''}}"><a href="{{url('/parent/home/')}}">My Teen</a></li>
                     <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/progress')? 'active':''}}"><a href="{{url('/parent/progress/')}}">Progress</a></li>
                     <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/pricing')? 'active':''}}"><a href="{{url('/parent/mycoins/')}}">My ProCoins</a></li>
                     <li class="user_avatar">
