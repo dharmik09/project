@@ -48,12 +48,12 @@
         <div class="my_teens_content clearfix">
             <div class="coin_summary clearfix">
               <div class="col-md-6 col-sm-12 col-xs-12 left">
-                  <span class="coin_img"><img src="{{asset('/frontend/images/available_coin.png')}}" alt=""></span>
+                  <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
                   <span>{{trans('labels.availablecoins')}}</span>
                   <span class="coin_count_ttl"><?php echo number_format($parentData['p_coins']);?></span>
               </div>
               <div class="col-md-6 col-sm-12 col-xs-12 left">
-                <div class="clearfix"><a href="{{ url('parent/pairwithteen') }}" class="btn primary_btn invite_teen_btn cst_pull_right">Invite Teen</a></div>
+                <div class="clearfix"><a href="{{ url('parent/pair-with-teen') }}" class="btn primary_btn invite_teen_btn cst_pull_right">Invite Teen</a></div>
               </div>
             </div>
             <div class="my_teens_inner">
@@ -132,7 +132,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <button type="button" class="close close_next" data-dismiss="modal">Close</button>
-            <div class="default_logo"><img src="{{asset('/frontend/images/proteen_logo.png')}}" alt=""></div>
+            <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
             <div id="userData">
 

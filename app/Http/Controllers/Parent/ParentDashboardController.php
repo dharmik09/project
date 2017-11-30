@@ -33,13 +33,13 @@ use App\TeenParentChallenge;
 
 class ParentDashboardController extends Controller {
 
-    public function __construct(ParentsRepository $ParentsRepository, TeenagersRepository $TeenagersRepository, Level1ActivitiesRepository $Level1ActivitiesRepository, ProfessionsRepository $ProfessionsRepository, TemplatesRepository $TemplatesRepository, Level4ActivitiesRepository $Level4ActivitiesRepository) {
-        $this->ParentsRepository = $ParentsRepository;
-        $this->TeenagersRepository = $TeenagersRepository;
-        $this->Level1ActivitiesRepository = $Level1ActivitiesRepository;
-        $this->ProfessionsRepository = $ProfessionsRepository;
-        $this->TemplateRepository = $TemplatesRepository;
-        $this->Level4ActivitiesRepository = $Level4ActivitiesRepository;
+    public function __construct(ParentsRepository $parentsRepository, TeenagersRepository $teenagersRepository, Level1ActivitiesRepository $level1ActivitiesRepository, ProfessionsRepository $professionsRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
+        $this->parentsRepository = $parentsRepository;
+        $this->teenagersRepository = $teenagersRepository;
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->professionsRepository = $professionsRepository;
+        $this->templateRepository = $templatesRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->interestOriginalImageUploadPath = Config::get('constant.INTEREST_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->apptitudeOriginalImageUploadPath = Config::get('constant.APPTITUDE_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->miOriginalImageUploadPath = Config::get('constant.MI_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -60,61 +60,61 @@ class ParentDashboardController extends Controller {
             $parentId = Auth::guard('parent')->user()->id;
             // Get All Verified Teenagers of parent
             $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
-            $teenagersIds = $this->ParentsRepository->getAllVerifiedTeenagers($parentId);
+            $teenagersIds = $this->parentsRepository->getAllVerifiedTeenagers($parentId);
             $final = array();
             if (isset($teenagersIds) && !empty($teenagersIds)) {
                 foreach ($teenagersIds as $key => $data) {
-                    $checkuserexist = $this->TeenagersRepository->checkActiveTeenager($data->ptp_teenager);
+                    $checkuserexist = $this->teenagersRepository->checkActiveTeenager($data->ptp_teenager);
                     if (isset($checkuserexist) && $checkuserexist) {
-                        $teengersDetail = $this->TeenagersRepository->getTeenagerById($data->ptp_teenager);
-                        $teengersBooster = $this->TeenagersRepository->getTeenagerBoosterPoints($data->ptp_teenager);
+                        $teengersDetail = $this->teenagersRepository->getTeenagerById($data->ptp_teenager);
+                        $teengersBooster = $this->teenagersRepository->getTeenagerBoosterPoints($data->ptp_teenager);
                         $final[] = array('detail' => $teengersDetail, 'booster' => $teengersBooster,'pairdata'=>$data);
                     }
                 }
             }
-            $parentData = $this->ParentsRepository->getParentDataForCoinsDetail($parentId);
-            $parents = $this->TeenagersRepository->getParentTeens($parentId);
+            $parentData = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
+            $parents = $this->teenagersRepository->getParentTeens($parentId);
             return view('parent.dashboard', compact('teenagersIds', 'final', 'parents', 'teenThumbImageUploadPath','parentData'));
     }
 
     public function progress($id = 0) {
         //get first teen
         if (empty($id) && $id == 0 && $id == '') {
-            $parent_Id = Auth::parent()->get()->id;
-            $teenDetails = $this->TeenagersRepository->getTeenDetailByParentId($parent_Id);
+            $parent_Id = Auth::guard('parent')->user()->id;
+            $teenDetails = $this->teenagersRepository->getTeenDetailByParentId($parent_Id);
             if (isset($teenDetails) && !empty($teenDetails)) {
-                $teenDetailById = $this->TeenagersRepository->getTeenagerById($teenDetails[0]->ptp_teenager);
+                $teenDetailById = $this->teenagersRepository->getTeenagerById($teenDetails[0]->ptp_teenager);
                 $teenUniqueId = $teenDetailById->t_uniqueid;
             }
         } else {
             $teenUniqueId = $id;
         }
         if (isset($teenUniqueId) && $teenUniqueId != '') {
-            $teenDetail = $this->TeenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+            $teenDetail = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
         } else {
-            return Redirect::to("parent/dashboard")->with('error', 'No data found');
+            return Redirect::to("parent/home")->with('error', 'No data found');
             exit;
         }
         if (isset($teenDetail) && !empty($teenDetail)) {
-            $checkuserexist = $this->TeenagersRepository->checkActiveTeenager($teenDetail->id);
+            $checkuserexist = $this->teenagersRepository->checkActiveTeenager($teenDetail->id);
             if (isset($checkuserexist) && $checkuserexist) {
                 //Get all teenager detail
-                $parentId = Auth::parent()->get()->id;
+                $parentId = Auth::guard('parent')->user()->id;
                 // Get All Verified Teenagers of parent
-                $teenagersIds = $this->ParentsRepository->getAllVerifiedTeenagers($parentId);
+                $teenagersIds = $this->parentsRepository->getAllVerifiedTeenagers($parentId);
                 $finalTeens = array();
                 if (isset($teenagersIds) && !empty($teenagersIds)) {
                     foreach ($teenagersIds as $key => $data) {
-                        $checkuserexist = $this->TeenagersRepository->checkActiveTeenager($data->ptp_teenager);
+                        $checkuserexist = $this->teenagersRepository->checkActiveTeenager($data->ptp_teenager);
                         if (isset($checkuserexist) && $checkuserexist) {
-                            $teengersDetail = $this->TeenagersRepository->getTeenagerById($data->ptp_teenager);
+                            $teengersDetail = $this->teenagersRepository->getTeenagerById($data->ptp_teenager);
                             $finalTeens[] = array('id' => $teengersDetail->id, 'name' => $teengersDetail->t_name, 'nickname' => $teengersDetail->t_nickname, 'unique_id' => $teengersDetail->t_uniqueid);
                         }
                     }
                 }
 
                 //get user attempted level 1 question
-                $level1Activity = $this->Level1ActivitiesRepository->getLevel1ActivityWithAnswer($teenDetail->id);
+                $level1Activity = $this->level1ActivitiesRepository->getLevel1ActivityWithAnswer($teenDetail->id);
 
                 if (isset($level1Activity) && !empty($level1Activity)) {
                     $level1Detail = array();
@@ -302,7 +302,7 @@ class ParentDashboardController extends Controller {
                 }
                 $teenagerMyIcons = array();
                 //Get teenager choosen Icon
-                $teenagerIcons = $this->TeenagersRepository->getTeenagerSelectedIcon($teenDetail->id);
+                $teenagerIcons = $this->teenagersRepository->getTeenagerSelectedIcon($teenDetail->id);
                 $relationIcon = array();
                 $fictionIcon = array();
                 $nonFiction = array();
@@ -333,7 +333,7 @@ class ParentDashboardController extends Controller {
 
                 //Get teenager attempted profession
 
-                $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfessionForDashboard($teenDetail->id);
+                $professionArray = $this->professionsRepository->getTeenagerAttemptedProfessionForDashboard($teenDetail->id);
                 $professionAttempted = array();
                 $setAttemptedProfessionIds = [];
                 $objDeductedCoins = new DeductedCoins();
@@ -410,12 +410,12 @@ class ParentDashboardController extends Controller {
                 return view('parent.Parentprogress', compact('response', 'teenDetail'));
 
             } else {
-                Auth::parent()->logout();
+                Auth::guard('parent')->logout();
                 return Redirect::to('/parent');
                 exit;
             }
         } else {
-            return Redirect::to("parent/dashboard")->with('error', 'No data found');
+            return Redirect::to("parent/home")->with('error', 'No data found');
             exit;
         }
     }
@@ -428,7 +428,7 @@ class ParentDashboardController extends Controller {
         $response = [];
 
         //get profession name and logo
-        $professionData = $this->ProfessionsRepository->getProfessionsById($professionId);
+        $professionData = $this->professionsRepository->getProfessionsById($professionId);
 
         $professionName = isset($professionData[0]->pf_name)?$professionData[0]->pf_name:'';
         if (isset($professionData[0]->pf_logo) && $professionData[0]->pf_logo != '' && file_exists($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo)) {
@@ -438,7 +438,7 @@ class ParentDashboardController extends Controller {
         }
 
         //Get badges
-        $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($teenagerId, $professionId);
+        $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($teenagerId, $professionId);
         $badgesCollection['newbie'] = (isset($getTeenagerAllTypeBadges['level4Basic']['badges'])) ? $getTeenagerAllTypeBadges['level4Basic']['badges'] : '';
         $badgesCollection['apprentice'] = (isset($getTeenagerAllTypeBadges['level4Intermediate']['badges'])) ? $getTeenagerAllTypeBadges['level4Intermediate']['badges'] : '';
         $badgesCollection['wizard'] = (isset($getTeenagerAllTypeBadges['level4Advance']['badges'])) ? $getTeenagerAllTypeBadges['level4Advance']['badges'] : '';
@@ -469,7 +469,7 @@ class ParentDashboardController extends Controller {
     {
         $professionId = (Input::get('professionId') != "") ? Input::get('professionId') : "";
         $teenagerId = (Input::get('teenagerId') != "") ? Input::get('teenagerId') : "";
-        $parentId = Auth::parent()->get()->id;
+        $parentId = Auth::guard('parent')->user()->id;
         $response = [];
         $response['professionId'] = $professionId;
         $response['teenagerId'] = $teenagerId;
@@ -481,7 +481,7 @@ class ParentDashboardController extends Controller {
             if($professionId != "")
             {
                 $setAttemptedProfessionIds = [];
-                $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfessionForDashboard($teenagerId);
+                $professionArray = $this->professionsRepository->getTeenagerAttemptedProfessionForDashboard($teenagerId);
                 if(isset($professionArray) && !empty($professionArray))
                 {
                     foreach($professionArray as $key=>$val)
@@ -505,7 +505,7 @@ class ParentDashboardController extends Controller {
                     $response['remainingDays'] = $days;
                     $response['required_coins'] = $componentsData[0]->pc_required_coins;
                     //get profession name and logo
-                    $professionData = $this->ProfessionsRepository->getProfessionsById($professionId);
+                    $professionData = $this->professionsRepository->getProfessionsById($professionId);
 
                     $professionName = isset($professionData[0]->pf_name)?$professionData[0]->pf_name:'';
                     if (isset($professionData[0]->pf_logo) && $professionData[0]->pf_logo != '' && file_exists($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo)) {
@@ -514,7 +514,7 @@ class ParentDashboardController extends Controller {
                         $profession_logo = asset($this->professionOriginalImageUploadPath . 'proteen-logo.png');
                     }
                     //Get badges
-                    $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($teenagerId, $professionId);
+                    $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($teenagerId, $professionId);
                     $badgesCollection['newbie'] = (isset($getTeenagerAllTypeBadges['level4Basic']['badges'])) ? $getTeenagerAllTypeBadges['level4Basic']['badges'] : '';
                     $badgesCollection['apprentice'] = (isset($getTeenagerAllTypeBadges['level4Intermediate']['badges'])) ? $getTeenagerAllTypeBadges['level4Intermediate']['badges'] : '';
                     $badgesCollection['wizard'] = (isset($getTeenagerAllTypeBadges['level4Advance']['badges'])) ? $getTeenagerAllTypeBadges['level4Advance']['badges'] : '';
@@ -565,7 +565,7 @@ class ParentDashboardController extends Controller {
     public function getProfessionEducationPath()
     {
         $professionId = Input::get('professionId');
-        $professionHeaderDetail = $this->ProfessionsRepository->getProfessionsHeaderByProfessionId($professionId);
+        $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($professionId);
         $professionName = '';
         if (isset($professionHeaderDetail) && !empty($professionHeaderDetail)) {
             $professionName = $professionHeaderDetail[0]->pf_name;
@@ -582,20 +582,20 @@ class ParentDashboardController extends Controller {
     }
 
     public function pairWithTeen() {
-        return view('parent.InviteTeen');
+        return view('parent.inviteTeen');
     }
 
     public function savePair() {
-        $parentFname = Auth::parent()->get()->p_first_name;
+        $parentFname = Auth::guard('parent')->user()->p_first_name;
         // $parentEmail = Auth::parent()->get()->p_email;
-        $parentId = Auth::parent()->get()->id;
+        $parentId = Auth::guard('parent')->user()->id;
         $teenUniqueId = Input::get('p_teenager_reference_id');
 
         // --------------------start sending mail to teen for pair-----------------------------//
-        $teenagerDetail = $this->TeenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+        $teenagerDetail = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
 
         if (isset($teenagerDetail) && !empty($teenagerDetail)) {
-            $checkPairAvailability = $this->ParentsRepository->checkPairAvailability($teenagerDetail->id, $parentId);
+            $checkPairAvailability = $this->parentsRepository->checkPairAvailability($teenagerDetail->id, $parentId);
             if (isset($checkPairAvailability) && !empty($checkPairAvailability) && count($checkPairAvailability) > 0) {
                 if ($checkPairAvailability->ptp_is_verified == 0) {
                     if ($checkPairAvailability->ptp_sent_by == "parent") {
@@ -603,25 +603,25 @@ class ParentDashboardController extends Controller {
                     } else {
                         $response['message'] = trans('Invitation already sent to you. Verification link emailed by respected Teen. Please, complete verification process.');
                     }
-                    return Redirect::to("/parent/pairwithteen")->with('error', $response['message']);
+                    return Redirect::to("/parent/pair-with-teen")->with('error', $response['message']);
                     exit;
                 } else {
                     $response['message'] = trans('You already paired with this user');
-                    return Redirect::to("/parent/pairwithteen")->with('error', $response['message']);
+                    return Redirect::to("/parent/pair-with-teen")->with('error', $response['message']);
                     exit;
                 }
             } else {
                 $replaceArray = array();
                 $replaceArray['TEEN_NAME'] = $teenagerDetail->t_name;
-                $replaceArray['PARENT_NAME'] = Auth::parent()->get()->p_first_name . ' ' . Auth::parent()->get()->p_last_name;
-                $replaceArray['USERTYPE'] = (Auth::parent()->get()->p_user_type == 1)?'Parent':'Counsellor';
-                $replaceArray['PARENT_EMAIL'] = Auth::parent()->get()->p_email;
+                $replaceArray['PARENT_NAME'] = Auth::guard('parent')->user()->p_first_name . ' ' . Auth::guard('parent')->user()->p_last_name;
+                $replaceArray['USERTYPE'] = (Auth::guard('parent')->user()->p_user_type == 1)?'Parent':'Counsellor';
+                $replaceArray['PARENT_EMAIL'] = Auth::guard('parent')->user()->p_email;
                 $replaceArray['PARENT_UNIQUEID'] = Helpers::getParentUniqueId();
-                $replaceArray['VERIFICATION_URL'] = url("verifyParentTeenPair?token=" . $replaceArray['PARENT_UNIQUEID']);
+                $replaceArray['VERIFICATION_URL'] = url("verify-parent-teen-pair?token=" . $replaceArray['PARENT_UNIQUEID']);
 
-                $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEEN_PAIR_FROM_PARENT_SECTION'));
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEEN_PAIR_FROM_PARENT_SECTION'));
 
-                $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
                 $data = array();
                 $data['subject'] = $emailTemplateContent->et_subject;
@@ -644,50 +644,50 @@ class ParentDashboardController extends Controller {
                             $parentTeenVerificationData['ptp_sent_by'] = 'parent';
                             $parentTeenVerificationData['ptp_token'] = $data['parent_token'];
 
-                            $this->TeenagersRepository->saveParentTeenVerification($parentTeenVerificationData);
+                            $this->teenagersRepository->saveParentTeenVerification($parentTeenVerificationData);
                         });
             }
         } else {
             $response['message'] = trans('appmessages.missing_data_msg');
-            return Redirect::to("/parent/pairwithteen")->with('error', 'Pair with teen doesn\'t happen as invalid teen reference id');
+            return Redirect::to("/parent/pair-with-teen")->with('error', 'Pair with teen doesn\'t happen as invalid teen reference id');
             exit;
         }
-        return Redirect::to("/parent/dashboard")->with('success', 'Your invitation has been sent successfully');
+        return Redirect::to("/parent/home")->with('success', 'Your invitation has been sent successfully');
         exit;
     }
 
     public function exportPDF($id = 0) {
 
         if (empty($id) && $id == 0 && $id == '') {
-            $parent_Id = Auth::parent()->get()->id;
-            $teenDetails = $this->TeenagersRepository->getTeenDetailByParentId($parent_Id);
+            $parent_Id = Auth::guard('parent')->user()->id;
+            $teenDetails = $this->teenagersRepository->getTeenDetailByParentId($parent_Id);
             if (isset($teenDetails) && !empty($teenDetails)) {
-                $teenDetailById = $this->TeenagersRepository->getTeenagerById($teenDetails[0]->ptp_teenager);
+                $teenDetailById = $this->teenagersRepository->getTeenagerById($teenDetails[0]->ptp_teenager);
                 $teenUniqueId = $teenDetailById->t_uniqueid;
             }
         } else {
             $teenUniqueId = $id;
         }
         if (isset($teenUniqueId) && $teenUniqueId != '') {
-            $teenDetail = $this->TeenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+            $teenDetail = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
         } else {
-            return Redirect::to("parent/dashboard")->with('error', 'No data found');
+            return Redirect::to("parent/home")->with('error', 'No data found');
             exit;
         }
 
         if (isset($teenDetail) && !empty($teenDetail)) {
-            $checkuserexist = $this->TeenagersRepository->checkActiveTeenager($teenDetail->id);
+            $checkuserexist = $this->teenagersRepository->checkActiveTeenager($teenDetail->id);
             if (isset($checkuserexist) && $checkuserexist) {
                 //Get all teenager detail
-                $parentId = Auth::parent()->get()->id;
+                $parentId = Auth::guard('parent')->user()->id;
                 // Get All Verified Teenagers of parent
-                $teenagersIds = $this->ParentsRepository->getAllVerifiedTeenagers($parentId);
+                $teenagersIds = $this->parentsRepository->getAllVerifiedTeenagers($parentId);
                 $finalTeens = array();
                 if (isset($teenagersIds) && !empty($teenagersIds)) {
                     foreach ($teenagersIds as $key => $data) {
-                        $checkuserexist = $this->TeenagersRepository->checkActiveTeenager($data->ptp_teenager);
+                        $checkuserexist = $this->teenagersRepository->checkActiveTeenager($data->ptp_teenager);
                         if (isset($checkuserexist) && $checkuserexist) {
-                            $teengersDetail = $this->TeenagersRepository->getTeenagerById($data->ptp_teenager);
+                            $teengersDetail = $this->teenagersRepository->getTeenagerById($data->ptp_teenager);
                             $finalTeens[] = array('id' => $teengersDetail->id, 'name' => $teengersDetail->t_name, 'nickname' => $teengersDetail->t_nickname, 'unique_id' => $teengersDetail->t_uniqueid);
                         }
                     }
@@ -712,12 +712,12 @@ class ParentDashboardController extends Controller {
 
                 $response['basicDetail'] = $teengerDetail;
 
-                $boosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($teenDetail->id);
+                $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($teenDetail->id);
 
                 $response['booster'] = $boosterPoints;
 
                 //get user attempted level 1 question
-                $level1Activity = $this->Level1ActivitiesRepository->getLevel1ActivityWithAnswer($teenDetail->id);
+                $level1Activity = $this->level1ActivitiesRepository->getLevel1ActivityWithAnswer($teenDetail->id);
 
                 if (isset($level1Activity) && !empty($level1Activity)) {
                     $level1Detail = array();
@@ -848,7 +848,7 @@ class ParentDashboardController extends Controller {
 
                 $teenagerMyIcons = array();
                 //Get teenager choosen Icon
-                $teenagerIcons = $this->TeenagersRepository->getTeenagerSelectedIcon($teenDetail->id);
+                $teenagerIcons = $this->teenagersRepository->getTeenagerSelectedIcon($teenDetail->id);
                 $relationIcon = array();
                 $fictionIcon = array();
                 $nonFiction = array();
@@ -878,11 +878,11 @@ class ParentDashboardController extends Controller {
 
                 //Get teenager attempted profession
 
-                $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfession($teenDetail->id);
+                $professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($teenDetail->id);
                 $professionAttempted = array();
                 if (isset($professionArray) && !empty($professionArray)) {
                     foreach ($professionArray as $key => $val) {
-                        $professionHeaderDetail = $this->ProfessionsRepository->getProfessionsHeaderByProfessionId($val->id);
+                        $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($val->id);
                         if (isset($professionHeaderDetail) && !empty($professionHeaderDetail)) {
                             if (strpos($professionHeaderDetail[2]->pfic_content, "Salary Range") !== FALSE) {
                                 $profession_acadamic_path = substr($professionHeaderDetail[2]->pfic_content, 0, strpos($professionHeaderDetail[2]->pfic_content, 'Salary Range'));
@@ -896,7 +896,7 @@ class ParentDashboardController extends Controller {
                         $professionAttempted[$key]['name'] = $val->pf_name;
                         $professionAttempted[$key]['profession_id'] = $val->id;
                         $professionAttempted[$key]['profession_acadamic_path'] = str_replace('<strong>Education Path</strong><br />', '', $profession_acadamic_path);
-                        $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($teenDetail->id, $val->id);
+                        $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($teenDetail->id, $val->id);
 
                         $badgesCollection['newbie'] = (isset($getTeenagerAllTypeBadges['level4Basic']['badges'])) ? $getTeenagerAllTypeBadges['level4Basic']['badges'] : '';
                         $badgesCollection['apprentice'] = (isset($getTeenagerAllTypeBadges['level4Intermediate']['badges'])) ? $getTeenagerAllTypeBadges['level4Intermediate']['badges'] : '';
@@ -946,10 +946,10 @@ class ParentDashboardController extends Controller {
                     $userId = $teenDetail->id;
                     foreach ($professionArray as $key => $pro_val) {
                         $professionId = $pro_val->id;
-                        $parentId = Auth::parent()->id();
+                        $parentId = Auth::guard('parent')->user()->id();
 
                         $level4Booster = Helpers::level4Booster($professionId, $userId);
-                        $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
+                        $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
                         $totalPoints = 0;
                         if (!empty($getTeenagerAllTypeBadges)) {
                             if ($getTeenagerAllTypeBadges['level4Basic']['noOfAttemptedQuestion'] != 0) {
@@ -988,8 +988,8 @@ class ParentDashboardController extends Controller {
                              $PromisePlus = "";
                         }
 
-                        $getTeenagerBoosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($userId);
-                        $getAllProfession = $this->ProfessionsRepository->getProfessionsById($professionId);
+                        $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userId);
+                        $getAllProfession = $this->professionsRepository->getProfessionsById($professionId);
 
                         $getLevel2AssessmentResult = Helpers::getTeenAPIScore($userId);
                         $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystem();
@@ -997,7 +997,7 @@ class ParentDashboardController extends Controller {
                         if (isset($getAllProfession) && !empty($getAllProfession)) {
                             foreach ($getAllProfession as $keyProfession => $professionName) {
                                 $pf_name = $professionName->pf_name;
-                                $getProfessionIdFromProfessionName = $this->ProfessionsRepository->getProfessionIdByName($professionName->pf_name);
+                                $getProfessionIdFromProfessionName = $this->professionsRepository->getProfessionIdByName($professionName->pf_name);
                                 if (isset($getProfessionIdFromProfessionName) && $getProfessionIdFromProfessionName > 0) {
                                     $compareLogic = array('HL', 'HM', 'HH', 'ML', 'MM', 'MH', 'LL', 'LM', 'LH');
                                     //FOR COMPARE LOGIC RESULT, L ='nomatch', M = 'moderate', H ='match'
@@ -1090,7 +1090,7 @@ class ParentDashboardController extends Controller {
                         if (isset($arrayCombinePoint) && !empty($arrayCombinePoint)) {
                             foreach ($arrayCombinePoint as $key2 => $value) {
                                 $point = array_count_values($value);
-                                $pingo = $this->ProfessionsRepository->getProfessionsByProfessionId($key2);
+                                $pingo = $this->professionsRepository->getProfessionsByProfessionId($key2);
 
                                 $L = (isset($point['L'])) ? $point['L'] : 0;
                                 $H = (isset($point['H'])) ? $point['H'] : 0;
@@ -1164,9 +1164,9 @@ class ParentDashboardController extends Controller {
                 //get Learning Style
 
                 $userId = $teenDetail->id;
-                $parentId = Auth::parent()->id();
+                $parentId = Auth::guard('parent')->user()->id;
 
-                $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfession($userId);
+                $professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($userId);
 
                 $finalProfessionArray = [];
                 $objLearningStyle = new LearningStyle();
@@ -1197,7 +1197,7 @@ class ParentDashboardController extends Controller {
                 if (isset($professionArray) && !empty($professionArray)) {
                     foreach ($professionArray as $key => $val) {
                         $professionId = $val->id;
-                        $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
+                        $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
                         $level4Booster = Helpers::level4Booster($professionId, $userId);
                         $l4BTotal = (isset($getTeenagerAllTypeBadges['level4Basic']) && !empty($getTeenagerAllTypeBadges['level4Basic'])) ? $getTeenagerAllTypeBadges['level4Basic']['basicAttemptedTotalPoints'] : '';
                         $l4ATotal = (isset($getTeenagerAllTypeBadges['level4Advance']) && !empty($getTeenagerAllTypeBadges['level4Advance'])) ? $getTeenagerAllTypeBadges['level4Advance']['earnedPoints'] : '';
@@ -1306,21 +1306,21 @@ class ParentDashboardController extends Controller {
                 return $pdf->stream('TeenagerReport.pdf');
 
             } else {
-                Auth::parent()->logout();
+                Auth::guard('parent')->logout();
                 return Redirect::to('/parent');
                 exit;
             }
         } else {
-            return Redirect::to("parent/dashboard")->with('error', 'No data found');
+            return Redirect::to("parent/home")->with('error', 'No data found');
             exit;
         }
     }
 
     public function getPromisePlus() {
-        if (Auth::parent()->check()) {
+        if (Auth::guard('parent')->check()) {
             $userId = Input::get('teenId');
             $professionId = Input::get('profession');
-            $parentId = Auth::parent()->id();
+            $parentId = Auth::guard('parent')->user()->id;
             $objPaidComponent = new PaidComponent();
             $objDeductedCoins = new DeductedCoins();
             $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
@@ -1333,15 +1333,15 @@ class ParentDashboardController extends Controller {
             if ($days == 0) {
                 $deductCoins = 0;
                 //deduct coin from user
-                $parentDetail = $this->ParentsRepository->getParentDataForCoinsDetail($parentId);
+                $parentDetail = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
                 if (!empty($parentDetail)) {
                     $deductCoins = $parentDetail['p_coins']-$coins;
                 }
-                $returnData = $this->ParentsRepository->updateParentCoinsDetail($parentId, $deductCoins);
+                $returnData = $this->parentsRepository->updateParentCoinsDetail($parentId, $deductCoins);
                 $return = Helpers::saveDeductedCoinsData($parentId,2,$coins,Config::get('constant.PROMISE_PLUS'),$professionId);
             }
             $level4Booster = Helpers::level4Booster($professionId, $userId);
-            $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
+            $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
             $totalPoints = 0;
             if (!empty($getTeenagerAllTypeBadges)) {
                 if ($getTeenagerAllTypeBadges['level4Basic']['noOfAttemptedQuestion'] != 0) {
@@ -1380,8 +1380,8 @@ class ParentDashboardController extends Controller {
                  $PromisePlus = "";
             }
 
-            $getTeenagerBoosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($userId);
-            $getAllProfession = $this->ProfessionsRepository->getProfessionsById($professionId);
+            $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userId);
+            $getAllProfession = $this->professionsRepository->getProfessionsById($professionId);
 
             $getLevel2AssessmentResult = Helpers::getTeenAPIScore($userId);
             $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystem();
@@ -1389,7 +1389,7 @@ class ParentDashboardController extends Controller {
             if (isset($getAllProfession) && !empty($getAllProfession)) {
                 foreach ($getAllProfession as $keyProfession => $professionName) {
                     $pf_name = $professionName->pf_name;
-                    $getProfessionIdFromProfessionName = $this->ProfessionsRepository->getProfessionIdByName($professionName->pf_name);
+                    $getProfessionIdFromProfessionName = $this->professionsRepository->getProfessionIdByName($professionName->pf_name);
                     if (isset($getProfessionIdFromProfessionName) && $getProfessionIdFromProfessionName > 0) {
                         $compareLogic = array('HL', 'HM', 'HH', 'ML', 'MM', 'MH', 'LL', 'LM', 'LH');
                         //FOR COMPARE LOGIC RESULT, L ='nomatch', M = 'moderate', H ='match'
@@ -1482,7 +1482,7 @@ class ParentDashboardController extends Controller {
             if (isset($arrayCombinePoint) && !empty($arrayCombinePoint)) {
                 foreach ($arrayCombinePoint as $key2 => $value) {
                     $point = array_count_values($value);
-                    $pingo = $this->ProfessionsRepository->getProfessionsByProfessionId($key2);
+                    $pingo = $this->professionsRepository->getProfessionsByProfessionId($key2);
 
                     $L = (isset($point['L'])) ? $point['L'] : 0;
                     $H = (isset($point['H'])) ? $point['H'] : 0;
@@ -1557,13 +1557,13 @@ class ParentDashboardController extends Controller {
             return view('parent.getPromisePlus',compact('professionAttempted'));
             exit;
         }
-        return view('parent.Login'); exit;
+        return view('parent.login'); exit;
     }
 
     public function getLearningStyle() {
-        if (Auth::parent()->check()) {
+        if (Auth::guard('parent')->check()) {
             $userId = Input::get('teenId');
-            $parentId = Auth::parent()->id();
+            $parentId = Auth::guard('parent')->user()->id;
             $objPaidComponent = new PaidComponent();
             $objDeductedCoins = new DeductedCoins();
             $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
@@ -1576,16 +1576,16 @@ class ParentDashboardController extends Controller {
             if ($days == 0) {
                 $deductCoins = 0;
                 //deduct coin from user
-                $parentDetail = $this->ParentsRepository->getParentDataForCoinsDetail($parentId);
+                $parentDetail = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
                 if (!empty($parentDetail)) {
                     $deductCoins = $parentDetail['p_coins']-$coins;
                 }
-                $returnData = $this->ParentsRepository->updateParentCoinsDetail($parentId, $deductCoins);
+                $returnData = $this->parentsRepository->updateParentCoinsDetail($parentId, $deductCoins);
 
                 $return = Helpers::saveDeductedCoinsData($parentId,2,$coins,Config::get('constant.LEARNING_STYLE'),0);
             }
             //Insert all user learning style data
-            $professionArray = $this->ProfessionsRepository->getTeenagerAttemptedProfession($userId);
+            $professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($userId);
 
             $objLevel4Answers = new Level4Answers();
             $objProfessionLearningStyle = new ProfessionLearningStyle();
@@ -1608,7 +1608,7 @@ class ParentDashboardController extends Controller {
                     }
                     $media = array(1,2,3);
                     for ($i = 0; $i < count($media); $i++) {
-                        $level4AdvanceData = $this->Level4ActivitiesRepository->getLevel4AdvanceDetailById($userId,$professionId,$media[$i]);
+                        $level4AdvanceData = $this->level4ActivitiesRepository->getLevel4AdvanceDetailById($userId,$professionId,$media[$i]);
                         $templateId = '';
                         if ($media[$i] == 3) {
                             $templateId = "L4AP";
@@ -1629,7 +1629,7 @@ class ParentDashboardController extends Controller {
                             }
                         }
                     }
-                    $level4IntermediateData = $this->Level4ActivitiesRepository->getLevel4IntermediateDetailById($userId,$professionId);
+                    $level4IntermediateData = $this->level4ActivitiesRepository->getLevel4IntermediateDetailById($userId,$professionId);
                     if (isset($level4IntermediateData) && !empty($level4IntermediateData)) {
                         $dataArr = [];
                         $uniqueArr =[];
@@ -1695,7 +1695,7 @@ class ParentDashboardController extends Controller {
                 if (isset($professionArray) && !empty($professionArray)) {
                     foreach ($professionArray as $key => $val) {
                         $professionId = $val->id;
-                        $getTeenagerAllTypeBadges = $this->TeenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
+                        $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
                         $level4Booster = Helpers::level4Booster($professionId, $userId);
                         $l4BTotal = (isset($getTeenagerAllTypeBadges['level4Basic']) && !empty($getTeenagerAllTypeBadges['level4Basic'])) ? $getTeenagerAllTypeBadges['level4Basic']['basicAttemptedTotalPoints'] : '';
                         $l4ATotal = (isset($getTeenagerAllTypeBadges['level4Advance']) && !empty($getTeenagerAllTypeBadges['level4Advance'])) ? $getTeenagerAllTypeBadges['level4Advance']['earnedPoints'] : '';
@@ -1784,11 +1784,11 @@ class ParentDashboardController extends Controller {
             return view('parent.getLearningStyle',compact('userLearningData'));
             exit;
         }
-        return view('parent.Login'); exit;
+        return view('parent.login'); exit;
     }
 
     function purchasedCoinsToViewReport() {
-        if (Auth::parent()->check()) {
+        if (Auth::guard('parent')->check()) {
             $parentId = Input::get('parentId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
@@ -1802,7 +1802,7 @@ class ParentDashboardController extends Controller {
             }
             if ($days == 0) {
                 $deductedCoins = $coins;
-                $parentDetail = $this->ParentsRepository->getParentDataForCoinsDetail($parentId);
+                $parentDetail = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
                 if (!empty($parentDetail)) {
                     if ($parentDetail['p_coins'] < $coins) {
                         return $parentDetail['p_coins'];
@@ -1810,13 +1810,13 @@ class ParentDashboardController extends Controller {
                     }
                     $coins = $parentDetail['p_coins']-$coins;
                 }
-                $result = $this->ParentsRepository->updateParentCoinsDetail($parentId, $coins);
+                $result = $this->parentsRepository->updateParentCoinsDetail($parentId, $coins);
                 $return = Helpers::saveDeductedCoinsData($parentId,2,$deductedCoins,'Parent Report',0);
             }
             return "1";
             exit;
         }
-        return view('parent.Login'); exit;
+        return view('parent.login'); exit;
     }
 
     public function saveTeenPromiseRate() {
@@ -1930,7 +1930,7 @@ class ParentDashboardController extends Controller {
         $profession_id = Input::get('profession_id');
         $teenId = Input::get('teenId');
         $profession_name = '';
-        $getProfessionNameFromProfessionId = $this->ProfessionsRepository->getProfessionsByProfessionId($profession_id);
+        $getProfessionNameFromProfessionId = $this->professionsRepository->getProfessionsByProfessionId($profession_id);
         if (isset($getProfessionNameFromProfessionId[0]) && !empty($getProfessionNameFromProfessionId[0])) {
             $profession_name = $getProfessionNameFromProfessionId[0]->pf_name;
        }
@@ -1939,9 +1939,9 @@ class ParentDashboardController extends Controller {
 
         $level4ParentBooster = Helpers::level4ParentBooster($profession_id, $parentid);
 
-        $teenDetail = $this->TeenagersRepository->getTeenagerByTeenagerId($teenId);
+        $teenDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
 
-        $parentDetail = $this->ParentsRepository->getParentDetailByParentId($parentid);
+        $parentDetail = $this->parentsRepository->getParentDetailByParentId($parentid);
 
         $rank = 0;
         foreach($level4ParentBooster['allData'] AS $key => $value) {
