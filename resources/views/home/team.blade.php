@@ -60,7 +60,3 @@
         <!-- mid section end-->
     </div>
 @stop
-
-@section('script')
-    <script src="{{ asset('js/general.js') }}"></script>
-@stop

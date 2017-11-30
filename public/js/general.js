@@ -137,18 +137,10 @@ $(document).ready(function () {
 			$(this).hide();
 		});
 */
-
+ //loading page css
     $('#loading-wrapper').remove();
     $('body').removeClass('overflw-hide');
-    // $('form').on('submit', function (e) {
-    //     e.preventDefault();
-    //     var but = $(this).find('[type="submit"]').toggleClass('sending').blur();
-
-    //     setTimeout(function () {
-    //         but.removeClass('sending').blur();
-    //     }, 2500);
-
-    // })
+    
     //progressbar
     $(function () {
         $(window).scroll(function () {

@@ -11,14 +11,13 @@
         <!-- Bootstrap -->
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
         <link href="{{asset('css/owl.css')}}" rel="stylesheet">
-        <link href="{{asset('css/magnific-popup.css')}}" rel="stylesheet">
-        <link href="{{asset('css/aos.css')}}" rel="stylesheet">
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
+        
         @stack('script-header')
         @yield('header')
     </head>
-    <body class="fixed-nav">
-        <nav class="fixed-navigation">
+    <body>
+        <nav>
             <div class="container">
                 <div class="logo pull-left">
                 	<a href="{{ url('/') }}">
@@ -27,11 +26,38 @@
                 </div>
                 <div class="menu-toggle pull-right">
                     <ul class="nav-bar clearfix">
-                        <li class="n-menu">
-                        	<a href="javascript:void(0);" class="menu-toggler">
-                        		<i class="icon-menu"></i>
-                        	</a>
+                        <li class="n-user submenu-container">
+                            <a href="javascript:void(0);"><i class="icon-user"></i><span class="badge">12</span></a>
+                            <div class="submenu">
+                                <div class="user-snapshot">
+                                    <div class="user-avatar">
+                                        <img src="img/alex.jpg" alt="">
+                                    </div>
+                                    <div class="user-name">
+                                        <h2>Alex Murphy</h2>
+                                        <p>Alexmurphy@gmail.com</p>
+                                    </div>
+                                </div>
+                                <div class="btns">
+                                    <a href="#" class="btn btn-primary btn-small text-uppercase">My Profile</a>
+                                    <a href="#" class="btn btn-primary btn-small text-uppercase">Messages</a>
+                                    <a href="#" class="btn btn-primary btn-small text-uppercase">Sign out</a>
+                                </div>
+                            </div>
                         </li>
+                        <li class="n-coin submenu-container">
+                            <a href="javascript:void(0);"><span class="coins"></span>250,000</a>
+                            <div class="submenu">
+                                <h2>My ProCoins</h2>
+                                <div class="btns">
+                                    <a href="#" class="btn btn-success btn-small text-uppercase">Gift</a>
+                                    <a href="#" class="btn btn-success btn-small text-uppercase">Buy</a>
+                                    <a href="#" class="btn btn-success btn-small text-uppercase">History</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="n-window"><a href="javascript:void(0);"><i class="icon-window"></i></a></li>
+                        <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -56,12 +82,12 @@
             <div class="container">
                 <div class="left">
                     <ul class="links">
-                        <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
+                        <li><a href="#">Contact</a></li>
                         <li><a href="#">Careers</a></li>
                         <li><a href="#">Privacy</a></li>
                         <li><a href="#">Terms & Conditions</a></li>
                     </ul>
-                    <span>&copy; 2016 Proteen</span>
+                    <span>&copy; 2018 ProTeen</span>
                 </div>
                 <div class="right">
                     <ul class="social">
@@ -72,10 +98,10 @@
                     </ul>
                     <div class="store">
                         <a href="" class="appstore">
-                            <img class="i-app-store" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAAA1AQMAAACOZRAoAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABJJREFUeNpjYBgFo2AUjAIqAwAEWQABDrhkeAAAAABJRU5ErkJggg==">
+                        <img class="i-app-store" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAAA1AQMAAACOZRAoAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABJJREFUeNpjYBgFo2AUjAIqAwAEWQABDrhkeAAAAABJRU5ErkJggg==">
                         </a>
                         <a href="" class="playstore">
-                            <img class="i-play-store" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAAA1AQMAAABsuQtRAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABJJREFUeNpjYBgFo2AUjAIqAwAEWQABDrhkeAAAAABJRU5ErkJggg==">
+                        <img class="i-play-store" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAAA1AQMAAABsuQtRAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABJJREFUeNpjYBgFo2AUjAIqAwAEWQABDrhkeAAAAABJRU5ErkJggg==">
                         </a>
                     </div>
                 </div>
@@ -90,12 +116,8 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
-        <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('js/aos.js') }}"></script>
         <script src="{{ asset('js/general.js') }}"></script>
-        
         @stack('script-footer')
         @yield('script')
     </body>

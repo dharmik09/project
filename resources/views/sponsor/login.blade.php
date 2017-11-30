@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <div class="col-xs-12">
     @if ($message = Session::get('error'))
     <div class="row">
