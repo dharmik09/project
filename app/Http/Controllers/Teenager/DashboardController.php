@@ -61,4 +61,8 @@ class DashboardController extends Controller
         return view('teenager.profile', compact('data', 'user'));   
     }
 
+    public function chat()
+    {
+        return view('teenager.chat');
+    }
 }

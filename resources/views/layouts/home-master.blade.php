@@ -58,8 +58,8 @@
                     <ul class="links">
                         <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
                         <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
+                        <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>
                     <span>&copy; 2016 Proteen</span>
                 </div>

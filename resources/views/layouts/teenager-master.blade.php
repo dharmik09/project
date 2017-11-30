@@ -32,11 +32,15 @@
                                 <div class="user-snapshot">
                                     <div class="user-avatar">
                                         <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : asset('uploads/teenager/thumb/proteen-logo.png'); ?>
-                                        <img src="{{ $user_profile_thumb_image }}" title="{{ Auth::guard('teenager')->user()->t_name }}">
+                                        <a href="{{ url('teenager/home') }}" title="My Dashboard">
+                                            <img src="{{ $user_profile_thumb_image }}">
+                                        </a>
                                     </div>
                                     <div class="user-name">
-                                        <h2>{{ Auth::guard('teenager')->user()->t_name }}</h2>
-                                        <p>{{ Auth::guard('teenager')->user()->t_email }}</p>
+                                        <a href="{{ url('teenager/home') }}" title="My Dashboard">
+                                            <h2>{{ Auth::guard('teenager')->user()->t_name }}</h2>
+                                            <p>{{ Auth::guard('teenager')->user()->t_email }}</p>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="btns">
@@ -50,7 +54,7 @@
                             </div>
                         </li>
                         <li class="n-coin submenu-container">
-                            <a href="javascript:void(0);"><span class="coins"></span>250,000</a>
+                            <a href="javascript:void(0);"><span class="coins"></span>{{ (Auth::guard('teenager')->user()->t_coins > 0) ? number_format(Auth::guard('teenager')->user()->t_coins) : 'No Coins' }}</a>
                             <div class="submenu">
                                 <h2>My ProCoins</h2>
                                 <div class="btns">
@@ -86,10 +90,10 @@
             <div class="container">
                 <div class="left">
                     <ul class="links">
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
                         <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
+                        <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>
                     <span>&copy; 2018 ProTeen</span>
                 </div>

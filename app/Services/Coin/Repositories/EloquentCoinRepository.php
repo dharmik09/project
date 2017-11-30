@@ -60,7 +60,7 @@ implements CoinRepository
         $coins = DB::table(config::get('databaseconstants.TBL_COINS_PACKAGE'))
         ->selectRaw('*')
         ->whereRaw('deleted IN (1)')
-        ->where('c_user_type',$type)
+        ->where('c_user_type', $type)
         ->get();
         return $coins;
     }
