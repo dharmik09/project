@@ -2,18 +2,18 @@
 <ul class="upld_img">    
 
 @if(isset($userLevel4AdvanceDocumentTask) && !empty($userLevel4AdvanceDocumentTask))
-<form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/parent/submitLevel4AdvanceActivityForReview') }}" enctype="multipart/form-data">
+<form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/parent/submit-level4-advance-activity-for-review') }}" enctype="multipart/form-data">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <input type="hidden" name="profession_id_review" value="{{ $professionId }}">
 <input type="hidden" name="teen_id" value="{{$response['teen_id']}}">
 <?php $pendingTask = 0; ?>
     @foreach($userLevel4AdvanceDocumentTask as $key=>$task)
     <?php 
-        if(File::exists(public_path($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name)) && $task->l4aapa_media_name != '') {
-            $image =  url($level4AdvanceOriginalImageUploadPath.'document.png');
-            $documentPath = url($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name);
+        if(isset($task->l4aapa_media_name) && $task->l4aapa_media_name != '') {
+            $image =  Storage::url($level4AdvanceOriginalImageUploadPath.'document.png');
+            $documentPath = Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aapa_media_name);
         }else{
-            $image =  url($level4AdvanceOriginalImageUploadPath.'no_document.png');
+            $image =  Storage::url($level4AdvanceOriginalImageUploadPath.'no_document.png');
             $documentPath = 'javascript:void(0)';
         }
     ?>

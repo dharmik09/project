@@ -223,7 +223,13 @@ class Level4AdvanceActivityController extends Controller {
                     if (in_array($ext, $validImageExtArr)) {
                         $save = true;
                         $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                        
                         Input::file('advance_task')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $pathOriginal, "s3");
+                        \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
                         $level4AdvanceData['l4aapa_media_type'] = 2;
                     } else {
                         echo "invalid";
@@ -327,10 +333,18 @@ class Level4AdvanceActivityController extends Controller {
             $result = $this->level4ActivitiesRepository->deleteParentAdvanceTask($id);
             if ($result) {
                 if ($postData['media_type'] == 3) {
+                    // unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
+                    // unlink($this->level4AdvanceThumbImageUploadPath . $postData['media_name']);
+
+                    //Delete file from AWS
+                    $originalImage = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceOriginalImageUploadPath, "s3");
+                    $thumbImage = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceThumbImageUploadPath, "s3");
+                } else if ($postData['media_type'] == 1) {
                     unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
-                    unlink($this->level4AdvanceThumbImageUploadPath . $postData['media_name']);
                 } else {
-                    unlink($this->level4AdvanceOriginalImageUploadPath . $postData['media_name']);
+
+                    //Delete document from AWS
+                    $originalDocument = $this->fileStorageRepository->deleteFileToStorage($postData['media_name'], $this->level4AdvanceOriginalImageUploadPath, "s3");
                 }
             }
         }
