@@ -33,5 +33,6 @@ Route::post('/get-question-data-advance-level', 'Parent\Level4AdvanceActivityCon
 Route::get('/level4-advance-step2/{professionId}/{typeid}/{teenId}', 'Parent\Level4AdvanceActivityController@level4AdvanceStep2')->name('level4-advance-step2');
 Route::post('/submit-level4-advance-activity', 'Parent\Level4AdvanceActivityController@submitLevel4AdvanceActivity')->name('submit-level4-advance-activity');
 Route::post('/delete-user-advance-task/', 'Parent\Level4AdvanceActivityController@deleteUserAdvanceTask')->name('delete-user-advance-task');
+Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceActivityController@submitLevel4AdvanceActivityForReview')->name('submit-level4-advance-activity-for-review');
 
 

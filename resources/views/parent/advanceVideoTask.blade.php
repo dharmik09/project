@@ -2,7 +2,7 @@
 <ul class="upld_img">    
 
 @if(isset($userLevel4AdvanceVideoTask) && !empty($userLevel4AdvanceVideoTask))
-<form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/parent/submitLevel4AdvanceActivityForReview') }}" enctype="multipart/form-data">
+<form id="advance_task_review" class="form-horizontal" method="post" action="{{ url('/parent/submit-level4-advance-activity-for-review') }}" enctype="multipart/form-data">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <input type="hidden" name="profession_id_review" value="{{ $professionId }}">
 <input type="hidden" name="teen_id" value="{{$response['teen_id']}}">
