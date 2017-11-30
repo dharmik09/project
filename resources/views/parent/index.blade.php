@@ -2,8 +2,6 @@
 
 @push('script-header')
     <title>{{ trans('labels.appname') }} : {{$type}}</title>
-    <link href="{{asset('css/magnific-popup.css')}}" rel="stylesheet">
-    <link href="{{asset('css/aos.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -184,11 +182,6 @@
 @stop
 
 @section('script')
-    <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
-    <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/general.js') }}"></script>
-    <script src="{{ asset('js/aos.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
             var loginRules = {

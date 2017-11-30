@@ -39,7 +39,6 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::group(['prefix' => 'teenager'], function () {
 	Route::get('/', 'Teenager\HomeController@index');
-	Route::get('/home', 'Teenager\HomeController@index');
 	Route::get('/login', 'Teenager\LoginController@login')->name('login');
 	Route::post('/login-check', 'Teenager\LoginController@loginCheck')->name('loginCheck');
 	Route::post('/logout', 'Teenager\LoginController@logout')->name('logout');

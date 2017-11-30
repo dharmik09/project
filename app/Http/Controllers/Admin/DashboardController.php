@@ -102,9 +102,9 @@ class DashboardController extends Controller
         
         $finalData = array('Total teens'=>$countteen,'Total parents'=>$countparent,'Total mentors'=>$countcounsellor,'Total sponsors'=>$countsponsor,'Total schools'=>$countschool,'Total L1 activities'=>$countlevel1activity,'Total Non-Fiction categories'=>$counthumanCategory,'Total fiction categories'=>$countcartoonCategory,'Total L2 activities'=>$countlevel2activity,'Total baskets'=>$countbasket,'Total professions'=>$countprofession,'Total L4 Basic activities'=>$countlevel4activity,'Total L4 Intermediate activities'=>$countlevel4intermediateactivity,'Total L4 Advance activities'=>$countl4AdvanceActivities);
         $urls = array('Total teens'=>'teenagers','Total parents'=>'parents/1','Total mentors'=>'counselors/2','Total sponsors'=>'sponsors','Total schools'=>'schools',
-            'Total L1 activities'=>'level1activity','Total Non-Fiction categories'=>'humaniconscategory','Total fiction categories'=>'cartooniconscategory',
-            'Total L2 activities'=>'level2activity',
-            'Total baskets'=>'baskets','Total professions'=>'professions','Total L4 Basic activities'=>'level4activity',            
+            'Total L1 activities'=>'level1Activity','Total Non-Fiction categories'=>'humanIconsCategory','Total fiction categories'=>'cartoonIconsCategory',
+            'Total L2 activities'=>'level2Activity',
+            'Total baskets'=>'baskets','Total professions'=>'professions','Total L4 Basic activities'=>'level4Activity',            
             'Total L4 Intermediate activities'=>'listLevel4IntermediateActivity','Total L4 Advance activities'=>'listlevel4advanceactivity');
         
         foreach($finalData as $name=>$counting){

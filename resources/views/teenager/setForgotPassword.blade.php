@@ -59,7 +59,6 @@
 @stop
 
 @section('script')
-<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
         var setNewPassword = {
