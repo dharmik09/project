@@ -247,8 +247,8 @@ a {
             }
             li {
                 display: inline-block;
-                width: 50%;
-                margin-left: -4px;
+                width: 49%;
+                //margin-left: -4px;
 
                 &:last-child {
                     a {
@@ -259,9 +259,10 @@ a {
                     background: $dark;
                     color: $white;
                     display: block;
-                    padding: 9px 10px;
+                    padding: 8px 10px;
                     text-align: center;
                     margin-right: 4px;
+                    border: 1px solid $dark;
                     @include maxms {
                         font-size: 13px;
                         padding: 9px 8px;
@@ -298,7 +299,9 @@ a {
                     }
                     &:hover {
                         text-decoration: none;
-                        background: $p-cl;
+                        background: transparent;
+                        border-color: $dark;
+                        
                     }
                 }
             }
@@ -334,6 +337,9 @@ a {
                 color: $dark;
                 text-decoration: underline;
             }
+        }
+        .invalid{
+            color: $white;
         }
     }
 }
@@ -699,12 +705,15 @@ a {
         margin: 0 auto 36px;
         @include maxms {
             margin-bottom: 25px;
+            max-width: 100%;
         }
         li {
             display: inline-block;
-            width: 50%;
-            margin-left: -4px;
-
+            width:49.5%;
+           // margin-left: -4px;
+            @include maxms{
+                width: 49%;
+            }
             &:last-child {
                 a {
                     margin-right: 0;

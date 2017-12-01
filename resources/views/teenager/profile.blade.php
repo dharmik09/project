@@ -151,7 +151,7 @@
                                                                 $sponsor_logo = ($value->sp_logo != "") ? Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) : asset(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
                                                             ?>
                                                             <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" height="74px" width="127px">
-                                                        </span>{{ str_limit($value->sp_company_name, $limit = 20, $end = '..') }}
+                                                        </span>{{ str_limit($value->sp_company_name, $limit = 100, $end = '..') }}
                                                     </label>
                                                 </div>
                                             @empty

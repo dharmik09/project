@@ -337,6 +337,9 @@ nav.fixed-navigation {
     z-index:99;
 }
 body.fixed-nav {
+    &.sec-overflow{
+        overflow-x: hidden;
+    }
     padding-top: 87px;
     @include maxsm {
         padding-top: 66px;

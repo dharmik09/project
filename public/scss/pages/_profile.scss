@@ -237,8 +237,12 @@
         @include maxsm {
             padding-top: 30px;
         }
+        .flex-items{
+            align-items: flex-end;
+        }
         .form-group {
             margin-bottom: 27px;
+            width: 100%;
             @include maxsm {
                 margin-bottom: 15px;
             }
@@ -249,12 +253,14 @@
                 font-size: 24px;
                 height: 57px;
                 color: rgba(22, 28, 34, 0.7);
+                padding: 16px 5px;
                 @include maxmd {
                 font-size: 20px;
             }
             @include maxsm {
                 font-size: 15px;
                 height: 42px;
+                padding: 13px 8px;
             }
             @include maxms {
                 font-size: 14px;
@@ -315,11 +321,11 @@
                     width: 63%;
                 }
                 .date-block {
-                    max-width: 85px;
+                    max-width: 90px;
                     margin-left: 5px;
                     float: left;
                     &:last-child {
-                        width: 106px;
+                        max-width: 106px;
                         @include maxms {
                             width: 30.56%;
                         }
