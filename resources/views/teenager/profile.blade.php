@@ -89,6 +89,21 @@
                                     <input type="password" class="form-control" id="name" placeholder=" password *" tabindex="11" value="{{ $user->password }}" maxlength="16" readonly>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                </div>
+                            </div>
                             <div class="col-sm-9 col-sm-offset-3 text-right">
                                 <div class="form-group date-sec">
                                     <label>Date of Birth:</label>
