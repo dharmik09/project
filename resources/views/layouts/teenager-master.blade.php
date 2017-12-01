@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="btns">
                                     <a href="{{ url('/teenager/my-profile') }}" title="Profile" class="btn btn-primary btn-small text-uppercase">My Profile</a>
-                                    <a href="#" class="btn btn-primary btn-small text-uppercase">Messages</a>
+                                    <a href="{{ url('/teenager/chat') }}" class="btn btn-primary btn-small text-uppercase">Messages</a>
                                     <a href="{{ url('/teenager/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-small text-uppercase">Sign out</a>
                                     <form id="logout-form" action="{{ url('/teenager/logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}

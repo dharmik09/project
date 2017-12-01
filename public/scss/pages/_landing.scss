@@ -215,12 +215,15 @@ a {
             text-transform: lowercase;
             margin-bottom: 15px;
         }
+        .form-group{
+             margin-bottom: 23px;
+        }
         .form-control {
             height: 42px;
             background: transparent;
             border-color: $white;
             font-size: 17px;
-            margin-bottom: 23px;
+           
             color: #fff;
             @include maxms {
                 font-size: 14px;
