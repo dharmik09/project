@@ -49,6 +49,10 @@
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
                             </div>
                             <button type="button" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
+                            <ul class="btn-list">
+                                <li><a href="#" title="Facebook" target="_blank"><i class="icon-facebook"><!-- --></i>Facebook</a></li>
+                                <li><a href="#" title="Google" target="_blank"><i class="icon-google"><!-- --></i>Google</a></li>
+                            </ul>
                         </form>
                         <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a></p>
                         <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>

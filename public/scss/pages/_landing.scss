@@ -215,15 +215,15 @@ a {
             text-transform: lowercase;
             margin-bottom: 15px;
         }
-        .form-group{
-             margin-bottom: 23px;
+        .form-group {
+            margin-bottom: 23px;
         }
         .form-control {
             height: 42px;
             background: transparent;
             border-color: $white;
             font-size: 17px;
-           
+
             color: #fff;
             @include maxms {
                 font-size: 14px;
@@ -235,6 +235,71 @@ a {
                 &:before {
                     background: transparent;
                     border-color: #fff;
+                }
+            }
+        }
+        .btn-list {
+            padding-left: 0;
+            list-style-type: none;
+            margin-bottom: 36px;
+            @include maxms {
+                margin-bottom: 25px;
+            }
+            li {
+                display: inline-block;
+                width: 50%;
+                margin-left: -4px;
+
+                &:last-child {
+                    a {
+                        margin-right: 0;
+                    }
+                }
+                a {
+                    background: $dark;
+                    color: $white;
+                    display: block;
+                    padding: 9px 10px;
+                    text-align: center;
+                    margin-right: 4px;
+                    @include maxms {
+                        font-size: 13px;
+                        padding: 9px 8px;
+                    }
+                    i {
+                        width: 19px;
+                        height: 19px;
+                        color: $dark;
+                        margin-right: 8px;
+                        padding: 2px;
+                        @include maxms {
+                            margin-right: 4px;
+                        }
+                        &.icon-facebook {
+                            background: #5885d1;
+                        }
+                        &.icon-google {
+                            background: #d63535
+                        }
+                        &.icon-fido {
+                            background: url(../img/fido-icon.png);
+                            background-size: contain;
+                            background-position: center;
+                            width: 43px;
+                            height: 15px;
+                            background-repeat: no-repeat;
+                            display: inline-block;
+                            margin-right: 0;
+                            @include maxms {
+                                width: 30px;
+                                margin-right: 3px;
+                            }
+                        }
+                    }
+                    &:hover {
+                        text-decoration: none;
+                        background: $p-cl;
+                    }
                 }
             }
         }
@@ -478,15 +543,17 @@ a {
             margin-bottom: 25px;
             width: 24.5%;
             float: left;
-            padding: 0 12px;
+            padding: 0 0 0 24px;
             @include maxmd {
                 width: 32.33%;
             }
             @include maxsm {
                 width: 49.5%;
+                padding:  0 12px 0 16px;
             }
             @include maxms {
                 width: 100%;
+                padding: 0 12px;
             }
             .grid-box {
                 background: $white;
@@ -624,19 +691,88 @@ a {
     }
 }
 
+.login-source {
+    &.btn-list {
+        padding-left: 0;
+        list-style-type: none;
+        max-width: 387px;
+        margin: 0 auto 36px;
+        @include maxms {
+            margin-bottom: 25px;
+        }
+        li {
+            display: inline-block;
+            width: 50%;
+            margin-left: -4px;
+
+            &:last-child {
+                a {
+                    margin-right: 0;
+                }
+            }
+            a {
+                background: $dark;
+                color: $white;
+                display: block;
+                padding: 9px 10px;
+                text-align: center;
+                margin-right: 4px;
+                @include maxms {
+                    font-size: 13px;
+                    padding: 9px 8px;
+                }
+                i {
+                    width: 19px;
+                    height: 19px;
+                    color: $dark;
+                    margin-right: 8px;
+                    padding: 2px;
+                    @include maxms {
+                        margin-right: 4px;
+                    }
+                    &.icon-facebook {
+                        background: #5885d1;
+                    }
+                    &.icon-google {
+                        background: #d63535
+                    }
+                    &.icon-fido {
+                        background: url(../img/fido-icon.png);
+                        background-size: contain;
+                        background-position: center;
+                        width: 43px;
+                        height: 15px;
+                        background-repeat: no-repeat;
+                        display: inline-block;
+                        margin-right: 0;
+                        @include maxms {
+                            width: 30px;
+                            margin-right: 3px;
+                        }
+                    }
+                }
+                &:hover {
+                    text-decoration: none;
+                    background: $p-cl;
+                }
+            }
+        }
+    }
+}
+
 // Animations
 //**********************//
 @keyframes rotate {
-  0% {
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }

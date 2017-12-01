@@ -17,10 +17,10 @@
     }
     .sec-popup {
         margin-top: 15px;
-       > a {
+        > a {
             color: $white;
         }
-        @include maxlg{
+        @include maxlg {
             position: relative;
             display: block;
             float: none;
@@ -42,7 +42,7 @@
     @include maxlg {
         padding: 40px 0;
     }
-    @include maxmd{
+    @include maxmd {
         padding: 20px 0 40px;
     }
     @include maxsm {
@@ -74,12 +74,13 @@
         right: 0;
         color: $white;
         font-size: 50px;
-        a{
+        a {
             color: $white;
-            &:hover, &:focus{
+            &:hover,
+            &:focus {
                 text-decoration: none;
                 color: $cl-complete;
-                span{
+                span {
                     color: $white;
                 }
             }
@@ -122,7 +123,7 @@
             width: 100%;
             margin-top: 40px;
         }
-        @include maxms{
+        @include maxms {
             font-size: 14px;
         }
     }
@@ -241,6 +242,24 @@
             @include maxsm {
                 margin-bottom: 15px;
             }
+            .input-group-addon {
+                background: $white;
+                border-color: #98999b;
+                font-family: hl;
+                font-size: 24px;
+                height: 57px;
+                color: rgba(22, 28, 34, 0.7);
+                @include maxmd {
+                font-size: 20px;
+            }
+            @include maxsm {
+                font-size: 15px;
+                height: 42px;
+            }
+            @include maxms {
+                font-size: 14px;
+            }
+            }
         }
         .form-control {
             background: $white;
@@ -255,7 +274,7 @@
                 font-size: 15px;
                 height: 42px;
             }
-            @include maxms{
+            @include maxms {
                 font-size: 14px;
             }
         }
@@ -277,7 +296,8 @@
                     width: 33%;
                 }
                 @include maxms {
-                    width: 36%;font-size: 14px;
+                    width: 36%;
+                    font-size: 14px;
                 }
             }
             .date-feild {
@@ -348,6 +368,46 @@
                 }
             }
         }
+        .sponsor-sec {
+            //margin: 50px 0 20px;
+            padding: 50px 0;
+            position: relative;
+            .sponsor-list {
+                height: 120px;
+                overflow-y: scroll;
+                label{
+                    @include maxsm{
+                        font-size: 14px;
+                    } 
+                }
+                .checkbox {
+                    margin: 30px 0 40px;
+                    &:last-child {
+                margin-bottom: 15px;
+            }
+                }
+            }
+            .logo-icon {
+                display: inline-block;
+                vertical-align: bottom;
+                margin: 0 12px;
+                @include maxsm {
+                width: 80px;
+            }
+            }
+            .checkbox .checker {
+                &:before {
+                    top: auto;
+                    bottom: 0;
+                    color: $white;
+                    border: 1px solid $white;
+                    @include maxms {
+                    bottom: auto;
+                    top: 30px;
+                }
+                }
+            }
+        }
         .toggle-switch {
             margin: 39px 0 80px;
             @include maxmd {
@@ -368,7 +428,8 @@
                     align-items: center;
                 }
                 @include maxms {
-                    text-align: left;font-size: 15px;
+                    text-align: left;
+                    font-size: 15px;
                 }
                 .switch {
                     position: relative;
@@ -424,7 +485,7 @@
                 background: $cl-complete;
                 border-color: $cl-complete;
             }
-            @include maxsm{
+            @include maxsm {
                 font-size: 17px;
             }
             @include maxms {
@@ -468,8 +529,8 @@ input:checked + .slider:before {
     @include maxlg {
         padding: 70px 0 60px;
     }
-    @include maxsm{
-       padding:  50px 0 30px;
+    @include maxsm {
+        padding: 50px 0 30px;
     }
     @include maxms {
         padding: 45px 0;
@@ -490,7 +551,7 @@ input:checked + .slider:before {
 
     }
     .sec-popup {
-        
+
         @include maxsm {
             display: none;
         }
@@ -529,7 +590,7 @@ input:checked + .slider:before {
                 font-size: 15px;
                 height: 42px;
             }
-            @include maxms{
+            @include maxms {
                 font-size: 14px;
             }
         }
@@ -551,7 +612,7 @@ input:checked + .slider:before {
                 padding: 7px 15px;
                 font-size: 17px;
             }
-            @include maxms{
+            @include maxms {
                 font-size: 14px;
                 padding: 11px 15px;
             }
@@ -599,7 +660,7 @@ input:checked + .slider:before {
         margin: 50px auto 0;
         [class*=col-] {
             margin-bottom: 15px;
-            @include maxsm{
+            @include maxsm {
                 margin-bottom: 25px;
             }
             .mentor-img {
@@ -686,7 +747,7 @@ input:checked + .slider:before {
             font-size: 24px;
             text-align: center;
             cursor: pointer;
-            @include maxsm{
+            @include maxsm {
                 font-size: 20px;
             }
             @include maxms {
@@ -748,7 +809,7 @@ input:checked + .slider:before {
                     padding: 8px 65px;
                     font-size: 17px;
                 }
-                @include maxms{
+                @include maxms {
                     font-size: 14px;
                 }
             }
@@ -791,7 +852,7 @@ input:checked + .slider:before {
     .bg-white {
         margin-top: 60px;
         padding: 0 0 42px;
-        @include maxsm{
+        @include maxsm {
             margin-top: 40px;
         }
     }
@@ -801,7 +862,7 @@ input:checked + .slider:before {
             padding: 0 32px;
         }
     }
-   /* .progress-tab {
+    /* .progress-tab {
         margin-bottom: 94px;
         border-bottom: none;
         overflow: hidden;
@@ -1052,7 +1113,7 @@ input:checked + .slider:before {
                 text-align: left;
                 h4 {
                     text-transform: capitalize;
-                    @include maxms{
+                    @include maxms {
                         font-size: 18px;
                     }
                 }
@@ -1089,7 +1150,7 @@ input:checked + .slider:before {
             color: $r-cl;
             position: relative;
             width: 100%;
-            @include maxsm{
+            @include maxsm {
                 width: auto;
                 font-size: 17px;
             }
@@ -1161,18 +1222,20 @@ input:checked + .slider:before {
         }
     }
 }
-.my-progress{
-    .custom-tab-container{
+
+.my-progress {
+    .custom-tab-container {
         margin-bottom: 94px;
         border-bottom: none;
         @include maxmd {
             margin-bottom: 60px;
         }
-        .count{
-           font-family: hl; 
+        .count {
+            font-family: hl;
         }
     }
 }
+
 .sec-guidance {
     padding: 38px 0 65px;
     background: $bg-offwhite;
@@ -1214,7 +1277,7 @@ input:checked + .slider:before {
             font-size: 17px;
             padding: 8px 40px;
         }
-        @include maxms{
+        @include maxms {
             font-size: 14px;
             padding: 10px 30px;
         }
@@ -1267,8 +1330,9 @@ input:checked + .slider:before {
         background: $h-cl;
     }
 }
-p{
-    @include maxms{
+
+p {
+    @include maxms {
         font-size: 14px;
     }
 }

@@ -1,12 +1,15 @@
 .sec-register {
     padding: 100px 0;
+    &.sec-overflow{
+        overflow-x: hidden;
+    }
     @include maxmd {
         padding: 70px 0;
     }
     @include maxsm {
         padding: 0px 0 40px;
     }
-    @include maxms{
+    @include maxms {
         padding: 40px 0;
     }
     .form-register {
@@ -61,15 +64,15 @@
                 position: relative;
                 text-align: center;
                 background-size: auto;
-                background-position:center;
-                background-repeat:no-repeat;
+                background-position: center;
+                background-repeat: no-repeat;
                 @include maxsm {
                     width: 100%;
                     min-height: 250px;
                     max-width: 350px;
-                    margin:0 auto;
+                    margin: 0 auto;
                 }
-                @include maxms{
+                @include maxms {
                     width: 100%;
                     max-width: 100%;
                 }
@@ -81,13 +84,13 @@
                     font-family: h;
                     font-size: 30px;
                     color: $lightgrey;
-                    @include maxsm{
+                    @include maxsm {
                         font-size: 26px;
                     }
                 }
-                &.activated{
-                    span{
-                        display:none;
+                &.activated {
+                    span {
+                        display: none;
                     }
                 }
                 input[type=file] {
@@ -121,15 +124,25 @@
         }
         .form-group {
             margin-bottom: 22px;
+            .input-group-addon {
+                background: $white;
+                border-color: $dark;
+                font-family: hl;
+                font-size: 17px;
+                height: 42px;
+                color: rgba(22, 28, 34, 0.7);
+                @include maxms {
+                    font-size: 14px;
+                }
+            }
             .form-control {
                 height: 42px;
                 background: transparent;
                 border-color: $dark;
-                font-size: 17px;
-                //color: $lightgrey;
+                font-size: 17px; //color: $lightgrey;
                 -webkit-appearance: none;
                 appearance: none;
-                @include maxms{
+                @include maxms {
                     font-size: 14px;
                 }
                 option {
@@ -182,8 +195,8 @@
             }
         }
         .frgtpwd-sec {
-                text-align: center;
-            
+            text-align: center;
+
         }
         .btn-submit {
             margin: 50px 0;
@@ -208,7 +221,7 @@
                 margin: 30px 0;
                 font-size: 15px;
             }
-            @include maxms{
+            @include maxms {
                 font-size: 14px;
                 padding: 8px 60px;
             }
@@ -245,7 +258,7 @@
         p {
             color: $lightgrey;
             font-size: 16px;
-            @include maxms{
+            @include maxms {
                 font-size: 14px;
             }
             a {
@@ -260,13 +273,13 @@
     }
     .sponsor-sec {
         background: $offwhite;
-       
+
         position: relative;
         margin: 50px 0 20px;
         &:before {
             position: absolute;
             top: -6px;
-            left:50%;
+            left: 50%;
             transform: translateX(-50%);
             display: inline-block;
             border-right: 40px solid transparent;
@@ -274,22 +287,27 @@
             border-left: 40px solid transparent;
             content: '';
         }
-        .sponsor-content{
-             padding: 50px 0;
+        .sponsor-content {
+            padding: 50px 0;
             position: relative;
-            &:before, &:after{
+            &:before,
+            &:after {
                 position: absolute;
                 content: '';
                 top: 0;
                 height: 100%;
                 width: 300%;
                 left: -300%;
-                background:  $offwhite;
+                background: $offwhite;
             }
-            &:after{
+            &:after {
                 left: auto;
-                width: 34.3%;
-                right: -34.3%;
+                width: 300%;
+                right: -300%;
+                @include maxlg {
+                    width: 19.3%;
+                    right: -19.3%;
+                }
             }
         }
         label {
@@ -298,7 +316,7 @@
         .checkbox {
             color: $lightgrey;
             margin: 30px 0 40px;
-            &:last-child{
+            &:last-child {
                 margin-bottom: 15px;
             }
             label {
@@ -321,7 +339,7 @@
                 width: 80px;
             }
         }
-        .sponsor-list{
+        .sponsor-list {
             height: 120px;
             overflow-y: scroll;
         }

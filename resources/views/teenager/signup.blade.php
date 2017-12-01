@@ -38,7 +38,7 @@
         </div>
         @endif
     </div>
-    <section class="sec-register">
+    <section class="sec-register sec-overflow">
         <div class="container-small">
             <div class="form-register">
                 <div class="row">
@@ -63,7 +63,7 @@
                 <form id="teenager_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/do-signup') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="social_provider" value="Normal">
-                    <div class="clearfix row">
+                    <div class="clearfix row flex-container">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <input type="text" class="form-control alphaonly" name="name" id="name" maxlength="100" placeholder="your name *" tabindex="1" value="{{old('name')}}" required />
@@ -90,7 +90,8 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">+91</span>
                                 <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number *" value="{{old('mobile')}}" tabindex="6" required />
                             </div>
                         </div>
@@ -159,14 +160,15 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                
+                                <div class="terms-error">Please select atleast one sponsor.</div>    
                             </div>
                         </div>
                     </div>
                     <p>Select at least one sponsor. *</p>
                     <p>Benefits include coupon code voucher and event participation.</p>
+                    <div class="sponsor-error">Please select atleast one sponsor.</div>
                     <div class="sponsor-sec">
-                        <div class="container-small">
+                        <div class="sponsor-content">
                             <div class="form-register sponsor-list">
                                 @forelse($sponsorDetail as $key => $value)
                                     <div class="checkbox">
@@ -184,7 +186,6 @@
                                 @empty
 
                                 @endforelse
-                                <div class="error">Please select atleast one sponsor.</div>
                             </div>
                         </div>
                     </div>
@@ -192,13 +193,20 @@
                         <div class="form-register">
                             <div class="terms-sec">
                                 <div class="checkbox">
-                                    <label><input type="checkbox" name="terms_condition" id="terms_condition" tabindex="16"><span class="checker"></span> I agree to ProTeen's <a href="#" title="Terms and Conditions">Terms and Conditions</a> and <a href="#" title="Privacy Policy">Privacy Policy</a>.</label>
+                                    <label>
+                                        <input type="checkbox" name="terms_condition" id="terms_condition" tabindex="16"><span class="checker"></span> I agree to ProTeen's <a href="#" title="Terms and Conditions">Terms and Conditions</a> and <a href="#" title="Privacy Policy">Privacy Policy</a>.
+                                    </label>
                                 </div>
+                                <div class="terms-error">Please select atleast one sponsor.</div>
                             </div>
                             <p class="text-center">
                                 <button type="submit" id="form_submit" class="btn btn-default btn-submit" title="Submit" tabindex="17">Submit</button>
                                 <span class="successmsg">Thank You !</span>
                             </p>
+                            <ul class="btn-list login-source">
+                                <li><a href="#" title="Facebook" target="_blank"><i class="icon-facebook"><!-- --></i>Facebook</a></li>
+                                <li><a href="#" title="Google" target="_blank"><i class="icon-google"><!-- --></i>Google</a></li>
+                            </ul>
                             <div class="frgtpwd-sec">
                                 <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Sign in">Sign in now</a>.</p>
                                 <p>* indicates a mandatory field</p>
