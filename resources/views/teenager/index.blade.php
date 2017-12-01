@@ -176,7 +176,6 @@
                 }
             });
         });
-        //masonary
         $(window).bind("load", function() {
             $('.masonary-grid').masonry({
                 itemSelector: '.item',
@@ -198,14 +197,14 @@
                 fixedBgPos: true,
                 fixedContentPos: true
             });
-            //testimonial slider
-            $('.testimonial-slider').owlCarousel({
-                loop: true,
-                margin: 10,
-                items: 1,
-                nav: true,
-                dots: false,
-            });
+        });
+        //testimonial slider
+        $('.testimonial-slider').owlCarousel({
+            loop: true,
+            margin: 10,
+            items: 1,
+            nav: true,
+            dots: false,
         });
         $('.play-icon').click(function () {
             $(this).hide();
