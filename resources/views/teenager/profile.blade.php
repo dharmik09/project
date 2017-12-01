@@ -48,29 +48,31 @@
                 <!--profile form-->
                 <div class="profile-form">
                     <form>
-                        <div class="clearfix row">
-                            <div class="col-sm-6">
+                        <div class="clearfix row flex-container">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <input type="email" class="form-control" id="name" placeholder="Email *" tabindex="3" value="{{ $user->t_email }}">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <input type="number" class="form-control" id="name" placeholder="Phone" tabindex="5" value="{{ $user->t_phone }}">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group input-group">
-                                    <span class="input-group-addon">+91</span>
-                                    <input type="number" class="form-control" id="name" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
+                                    <div class="clearfix">
+                                        <span class="input-group-addon">+91</span>
+                                        <input type="number" class="form-control" id="name" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group custom-select">
                                     <select tabindex="7" class="form-control" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
                                         <option value="">Country</option>
@@ -83,18 +85,18 @@
                                 </div>
                             </div>
                             <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <span class="password-info">Password info</span>
                                     <input type="password" class="form-control" id="name" placeholder=" password *" tabindex="11" value="{{ $user->password }}" maxlength="16" readonly>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group custom-select">
                                     <select tabindex="9" class="form-control" name="gender" required >
                                         <option value="1" <?php echo (old('gender') && old('gender') == 1) ? "selected='selected'" : ''; ?> >Male</option>
@@ -102,12 +104,12 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="proteen_code" id="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{old('proteen_code')}}">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
                                 </div>

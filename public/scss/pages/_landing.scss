@@ -301,7 +301,7 @@ a {
                         text-decoration: none;
                         background: transparent;
                         border-color: $dark;
-                        
+                        color: $dark;
                     }
                 }
             }
@@ -768,7 +768,7 @@ a {
         }
     }
 }
-
+.teen-bio .form-sec .invalid{color: $white;display: block;margin: 5px;}
 // Animations
 //**********************//
 @keyframes rotate {
