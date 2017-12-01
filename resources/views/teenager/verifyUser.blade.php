@@ -11,7 +11,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="verifide_content">
                         <span>{{ $verifyMessage }}</span>
-                        <a href="{{ url('/teenager/login') }}" class="btn primary_btn"><em>Login</em><span></span></a>
+                        <a href="{{ url('/teenager/login') }}" class="btn primary_btn"><em>Sign In</em><span></span></a>
                     </div>
                 </div>
             </div>

@@ -141,19 +141,19 @@
                                 <label>birth date *</label>
                                 <div class="date-feild">
                                     <select name="month" class="form-control date-block" id="month" tabindex="13">
-                                        <option value="">Select Month</option>
+                                        <option value="">mm</option>
                                         @for($month=01; $month<=12; $month++)
                                             <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}">{{ date('F', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
                                         @endfor
                                     </select>
                                     <select name="day" class="form-control date-block" id="day" tabindex="14">
-                                        <option value="">Select Day</option>
+                                        <option value="">dd</option>
                                         @for($day=1; $day<=31; $day++)
                                             <option value="{{date('d', mktime(0,0,0,0, $day, date('Y')))}}">{{ date('d', mktime(0,0,0,0, $day, date('Y'))) }}</option>
                                         @endfor
                                     </select>
                                     <select name="year" class="form-control date-block" id="year" tabindex="15">
-                                        <option value="">Select Year</option>
+                                        <option value="">yyyy</option>
                                         @foreach(range(\Carbon\Carbon::now()->year, 1950) as $year)
                                             <option value="{{$year}}">{{$year}}</option>
                                         @endforeach
@@ -200,7 +200,7 @@
                                 <span class="successmsg">Thank You !</span>
                             </p>
                             <div class="frgtpwd-sec">
-                                <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Login now">Login now</a>.</p>
+                                <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Sign in">Sign in now</a>.</p>
                                 <p>* indicates a mandatory field</p>
                             </div>
                         </div>
