@@ -57,7 +57,7 @@
             }
         }
         .no-data{
-            height: 89%;
+            height: 79%;
         }
     }
 }
@@ -102,6 +102,9 @@
                     @include maxmd{
                     font-size: 15px;
                     padding: 8px 6px;
+                        @include maxms{
+                            font-size: 14px;
+                        }
                 }
                 }
                 tbody {
@@ -110,17 +113,22 @@
             }
             .no-data {
                 border: 1px solid $bg-offwhite;
-                @include maxlg{
-                    height: 79.5%;
-                }
+                height: 80%;
                 @include maxmd{
-                    height: 89.5%;
+                    height: 89.7%;
+                }
+                @include maxsm{
+                    border-color: transparent;
+                    height: 88%;
                 }
                 .sec-bttm {
                     height: 50px;
                     position: absolute;
                     bottom: 0;
                     width: 100%;
+                    @include maxms{
+                        display: none;
+                    }
                 }
             }
         }

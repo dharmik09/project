@@ -1,7 +1,13 @@
 body{font-family: 'h';font-size: 14px;color:#000;}
-@media (min-width: 1270px) {
-	.container{width: 1230px;}
+.dt{display:table;height: 100%;width:100%;}
+.dtc{display:table-cell;height: 100%;width:100%;vertical-align: middle;}
+@include maxsm {
+	.table-responsive{border:none}
 }
+
 @include lg{
 	.container{width: 1170px;}
+}
+@media (min-width: 1270px) {
+	.container{width: 1230px;}
 }

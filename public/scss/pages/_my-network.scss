@@ -1,6 +1,6 @@
 
 .font-blue {
-    color: $h-cl;
+    color: $h-cl !important;
 }
 
 .network-filter {
@@ -11,6 +11,9 @@
             margin-right: 0;
             font-family: h;
             font-size: 17px;
+        }
+        @include maxms{
+            font-size: 14px;
         }
     }
     .custom-select {
@@ -29,7 +32,7 @@
     }
     .sort-filter {
 
-        [class*=col-] {
+        &[class*=col-] {
             padding: 0 8px;
             @include maxsm {
                 padding: 0 15px;
@@ -38,8 +41,17 @@
         .custom-select {
             width: 69%;
             background: $h-cl;
+            &.w-cl{
+                background: $w-cl;
+                select{
+                    border-color: $w-cl !important;
+                }
+            }
             @include maxlg {
                 width: 62%;
+            }
+            @include maxmd{
+                width: 67%;
             }
             @include maxsm {
                 width: 100%;
@@ -57,10 +69,13 @@
             font-size: 21px;
             padding: 6px 15px;
         }
+        @include maxsm{
+            font-size: 17px;
+        }
     }
     .search-bar {
         @include maxmd {
-            margin-top: 80px;
+            margin-top: 0px;
         }
     }
 }
@@ -72,7 +87,11 @@
     @include maxlg {
         padding-top: 15px;
     }
-
+    .col-xs-4{
+        @include maxms{
+            width: 50%;
+        }
+    }
     .connection-block {
         figure {
             position: relative;
@@ -93,10 +112,13 @@
                 position: relative;
                 margin-bottom: 10px;
                 @include maxlg {
-                    min-height: 185px;
+                    height: 185px;
+                }
+                @include maxsm{
+                    height: 155px;
                 }
                 @include maxms {
-                    min-height: 145px;
+                    height: 145px;
                 }
                 .overlay {
                     position: absolute;
@@ -114,9 +136,16 @@
                         li {
                             display: inline-block;
                             font-size: 40px;
-                            width: 48%;
+                            width: 50%;
                             vertical-align: middle;
                             text-align: center;
+                            margin-left: -4px;
+                            @include maxsm{
+                                font-size: 27px;
+                            }
+                            @include maxms{
+                                font-size: 24px;
+                            }
                             a {
                                 color: $white;
                                 &:hover {

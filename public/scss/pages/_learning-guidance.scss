@@ -81,6 +81,9 @@
             font-size: 17px;
             width: 100%;
         }
+        @include maxms{
+            font-size: 14px;
+        }
     }
 }
 
@@ -174,6 +177,9 @@
                         background: $strong !important;
                         text-decoration: none;
                     }
+                    &:focus{
+                        text-decoration: none;
+                    }
                     @include maxlg {
                         font-size: 46px;
                     }
@@ -191,15 +197,15 @@
                     &:before {
                         position: absolute;
                         content: ">";
-                        top: 35%;
+                        top: 50%;
+                        margin-top: -10px;
                         right: 25px;
                         transform: rotate(90deg);
                         font-size: 50px;
                         @include maxsm {
-                            top: 17%;
+                            right: 15px;
                         }
                         @include maxms {
-                            top: 20%;
                             font-size: 35px;
                             right: 10px;
                         }
@@ -242,6 +248,9 @@
                     font-size: 24px;
                     text-transform: capitalize;
                     margin-bottom: 8px;
+                    @include maxsm{
+                        font-size: 20px;
+                    }
                 }
                 p {
                     font-size: 24px;
@@ -251,6 +260,9 @@
                     }
                     @include maxsm {
                         font-size: 17px;
+                    }
+                    @include maxms{
+                        font-size: 14px;
                     }
                 }
                 strong {
@@ -278,6 +290,14 @@
                     }
                 }
             }
+        }
+    }
+}
+.learning-guidance-page{
+    .panel-heading .panel-title a:before{
+        margin-top:-22px !important;
+        @include maxms {
+            margin-top:-15px !important;
         }
     }
 }

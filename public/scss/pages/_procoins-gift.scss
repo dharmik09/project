@@ -33,6 +33,9 @@ padding: 81px 0 10px;
     .search-bar {
         position: relative;
         clear: both;
+        @include maxsm{
+            margin-bottom: 10px;
+        }
     }
 }
 
@@ -47,10 +50,18 @@ padding: 81px 0 10px;
 .procoins-gift {
     padding: 0 !important;
     margin-bottom: 70px;
+    .progress-tab{
+        @include maxsm{
+            margin-bottom: 40px;
+        }
+    }
     .gift-table {
         position: relative;
         margin-bottom: 0;
         min-height: 387px;
+        @include maxsm{
+            min-height: 300px;
+        }
         .table {
             th {
                 width: 33.33%;
@@ -66,8 +77,9 @@ padding: 81px 0 10px;
                     font-size: 16px;
                     padding: 12px 15px;
                 }
-                @include maxsm{
+                @include maxms{
                     padding: 10px;
+                    font-size: 14px;
                 }
             }
             tr {
@@ -89,7 +101,7 @@ padding: 81px 0 10px;
             text-align: center;
             background: #fff;
             @include maxsm{
-                height: 88.4%;
+                height: 83.4%;
             }
             i {
                 font-size: 70px;

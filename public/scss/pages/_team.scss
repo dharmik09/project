@@ -1,0 +1,231 @@
+.team-heading {
+    padding: 5em 0;
+    background: $h-cl;
+    @include maxlg {
+        padding: 4em 0;
+    }
+    @include maxsm {
+        padding: 3em 0;
+    }
+    @include maxms {
+        padding: 2em 0;
+    }
+    h1 {
+        color: $white;
+        text-transform: uppercase;
+        font-size: 60px;
+        @include maxlg {
+            font-size: 50px;
+        }
+        @include maxmd {
+            font-size: 40px;
+        }
+        @include maxsm {
+            font-size: 30px;
+        }
+    }
+    h2 {
+        font-size: 45px;
+        margin-bottom: 35px;
+        font-family: hl;
+        color: $white;
+        text-transform: uppercase;
+        @include maxlg {
+            font-size: 35px;
+        }
+        @include maxmd {
+            font-size: 25px;
+        }
+        @include maxsm {
+            font-size: 20px;
+        }
+        @include maxms {
+            font-size: 17px;
+            margin-bottom: 25px;
+        }
+    }
+    p {
+        color: $white;
+    }
+}
+
+.team-management {
+    padding: 4em 0;
+    @include maxsm {
+        padding: 3em 0;
+    }
+    @include maxms {
+        padding: 2em 0;
+    }
+    h2 {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 45px;
+        color: $p-cl;
+        margin-bottom: 35px;
+        @include maxlg {
+            font-size: 40px;
+        }
+        @include maxmd {
+            font-size: 35px;
+        }
+        @include maxsm {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+    }
+    .nav-tabs {
+        border-bottom: none;
+        .custom-tab {
+            text-align: center;
+            padding-bottom: 50px;
+            position: relative;
+            @include maxsm {
+                padding-bottom: 35px;
+            }
+            &.active {
+                a {
+                    background-color: transparent !important;
+                    > span {
+                        background-color: transparent !important;
+                    }
+                    .name {
+                        color: $p-cl;
+                    }
+
+                }
+                &:before {
+                    position: absolute;
+                    content: '';
+                    border-left: 40px solid transparent;
+                    border-right: 40px solid transparent;
+                    border-top: 40px solid $bg-offwhite;
+                    bottom: -39px;
+                    left: 50%;
+                    transform: translatex(-50%);
+                    @include maxsm {
+                        border-left: 30px solid transparent;
+                        border-right: 30px solid transparent;
+                        border-top: 30px solid $bg-offwhite;
+                        bottom: -29px;
+                    }
+                    @include maxms {
+                        border-left: 20px solid transparent;
+                        border-right: 20px solid transparent;
+                        border-top: 20px solid $bg-offwhite;
+                        bottom: -19px;
+                    }
+                }
+            }
+            a {
+                display: inline-block;
+                padding: 0;
+                &:hover {
+                    .name {
+                        color: $p-cl;
+                    }
+                }
+                .name {
+                    font-family: ab;
+                    font-size: 45px;
+                    font-weight: 500;
+                    color: $h-cl;
+                    display: block;
+                    @include maxlg {
+                        font-size: 40px;
+                    }
+                    @include maxmd {
+                        font-size: 30px;
+                    }
+                    @include maxsm {
+                        font-size: 26px;
+                    }
+                    @include maxms {
+                        font-size: 22px;
+                    }
+                }
+                .job-title {
+                    font-family: h;
+                    font-size: 24px;
+                    color: $r-cl;
+                    display: block;
+                    @include maxsm {
+                        font-size: 18px;
+                    }
+                    @include maxms {
+                        font-size: 16px;
+                    }
+                }
+
+            }
+        }
+    }
+    .tab-content {
+        background: $h-cl;
+        padding: 6em 0 4em;
+        @include maxsm {
+            padding: 4em 0 2em;
+        }
+        @include maxms{
+            padding-top: 3em;
+        }
+        p {
+            color: $white;
+            font-family: h;
+        }
+    }
+}
+
+.advisory-board {
+    padding: 0 0 4em;
+    h2 {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 45px;
+        color: $p-cl;
+        margin-bottom: 35px;
+        @include maxlg {
+            font-size: 40px;
+        }
+        @include maxmd {
+            font-size: 35px;
+        }
+        @include maxsm {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+    }
+    .board-list {
+        margin-top: 4em;
+        @include maxsm {
+            margin-top: 2em;
+        }
+        h3 {
+            font-size: 45px;
+            color: $h-cl;
+            @include maxlg {
+                font-size: 40px;
+            }
+            @include maxmd {
+                font-size: 30px;
+            }
+            @include maxsm {
+                font-size: 26px;
+            }
+            @include maxms {
+                font-size: 22px;
+            }
+        }
+        h4 {
+            font-family: h;
+            font-size: 24px;
+            color: $r-cl;
+            @include maxsm {
+                font-size: 18px;
+            }
+            @include maxms {
+                font-size: 16px;
+            }
+        }
+    }
+}

@@ -1,0 +1,136 @@
+.banner-career {
+    background-image: url(../img/career-banner.jpg);
+    margin-bottom: 44px;
+}
+.careers-map{max-width: 100%;
+    .sec-filter{
+        .custom-select.bg-blue{
+            background: $h-cl;
+            .form-control{
+                border-color: $h-cl !important;
+            }
+        }
+    }
+}
+.career-content{
+    margin-bottom: 90px;
+    h2{
+        font-size: 45px;
+        color:$h-cl;  
+        display: inline-block;
+        margin-bottom: 25px;
+        width: 85%;
+        @include maxmd{
+            font-size: 36px;
+        }
+        @include maxsm{
+            font-size: 28px;
+        }
+        @include maxms{
+            font-size: 22px;
+            width: 78%;
+        }
+    }
+    .sec-icon{
+        font-size: 26px;
+        padding: 12px 0;
+        @include maxmd{
+            font-size: 20px;
+        }
+        @include maxsm{
+            padding: 3px 0;
+        }
+        span{
+            margin-right: 20px;
+            @include maxmd{
+                margin-right: 6px;
+            }
+            &:last-child{
+                margin-right: 0;
+            }
+        }
+        a{
+            color: $h-cl;
+        }
+    }
+}
+.sec-category {
+    .career-map {
+        .category {
+            position: relative;
+            min-height: 357px;
+            text-align: center;
+            margin-bottom: 22px;
+            @include maxlg{
+                min-height: 317px;
+            }
+            @include maxms{
+                min-height: 280px;
+            }
+            a {
+                display: block;
+                color: $white;
+                font-family: hl;
+                font-size: 33px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100%;
+                transform: translate(-50%, -50%);
+                padding: 0 15px;
+                @include maxlg{
+                    font-size: 26px;
+                }
+                @include maxms{
+                    font-size: 21px;
+                }
+            }
+            .overlay {
+                font-family: hn-b;
+                font-size: 18px;
+                background: rgba(255, 255, 255, 0.45);
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                padding: 28px 0;
+                visibility: hidden;
+                bottom: 0;
+                right: 0;
+                opacity: 0;
+                transition: all 0.5s ease-out;
+                color: $g-cl;
+                @include maxlg{
+                    padding: 20px 0;
+                }
+                @include maxmd{
+                    padding: 18px 0;
+                    font-size: 17px;
+                }
+                @include maxms{
+                    font-size: 14px;
+                }
+                span {
+                    display: block;
+                }
+
+            }
+            .complete {
+                position: absolute;
+                background: rgba(86, 91, 95, .36);
+                right: 0;
+                top: 0;
+                width: 54px;
+                height: 54px;
+                color: $white;
+                font-size: 40px;
+                text-align: center;
+            }
+            &:hover {
+                .overlay {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}

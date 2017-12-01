@@ -17,11 +17,17 @@
     }
     .sec-popup {
         margin-top: 15px;
-        a {
+       > a {
             color: $white;
         }
+        @include maxlg{
+            position: relative;
+            display: block;
+            float: none;
+            text-align: right;
+        }
         @include maxsm {
-            float: left;
+            text-align: left;
         }
     }
 }
@@ -34,11 +40,14 @@
     position: relative;
     font-size: 16px;
     @include maxlg {
-        padding: 66px 0;
+        padding: 40px 0;
+    }
+    @include maxmd{
+        padding: 20px 0 40px;
     }
     @include maxsm {
         text-align: center;
-        padding: 100px 0 60px
+        padding: 30px 0 60px
     }
     .profile-img {
         background-size: cover;
@@ -80,7 +89,7 @@
             font-size: 45px;
         }
         @include maxsm {
-            top: 15px;
+            top: -45px;
         }
         span {
             font-family: hn-b;
@@ -113,6 +122,9 @@
             width: 100%;
             margin-top: 40px;
         }
+        @include maxms{
+            font-size: 14px;
+        }
     }
 
     h1 {
@@ -127,7 +139,7 @@
             font-size: 38px;
         }
         @include maxms {
-            font-size: 30px;
+            font-size: 28px;
         }
     }
     ul {
@@ -240,8 +252,11 @@
                 font-size: 20px;
             }
             @include maxsm {
-                font-size: 17px;
+                font-size: 15px;
                 height: 42px;
+            }
+            @include maxms{
+                font-size: 14px;
             }
         }
         .date-sec {
@@ -262,7 +277,7 @@
                     width: 33%;
                 }
                 @include maxms {
-                    width: 36%;
+                    width: 36%;font-size: 14px;
                 }
             }
             .date-feild {
@@ -280,7 +295,7 @@
                     width: 63%;
                 }
                 .date-block {
-                    width: 85px;
+                    max-width: 85px;
                     margin-left: 5px;
                     float: left;
                     &:last-child {
@@ -290,7 +305,7 @@
                         }
                     }
                     @include maxms {
-                        width: 30.56%;
+                        width: 29.56%;
                     }
                 }
             }
@@ -349,10 +364,11 @@
                 }
                 @include maxsm {
                     display: flex;
+                    font-size: 17px;
+                    align-items: center;
                 }
                 @include maxms {
-                    text-align: left;
-                    font-size: 17px;
+                    text-align: left;font-size: 15px;
                 }
                 .switch {
                     position: relative;
@@ -408,15 +424,18 @@
                 background: $cl-complete;
                 border-color: $cl-complete;
             }
-            @include maxms {
+            @include maxsm{
                 font-size: 17px;
-                padding: 6px 50px;
+            }
+            @include maxms {
+                font-size: 14px;
+                padding: 8px 50px;
             }
         }
         .hand-icon {
             display: inline-block;
             vertical-align: middle;
-            font-size: 42px;
+            font-size: 55px;
             color: $p-cl;
             margin-left: 23px;
             @include maxms {
@@ -449,6 +468,9 @@ input:checked + .slider:before {
     @include maxlg {
         padding: 70px 0 60px;
     }
+    @include maxsm{
+       padding:  50px 0 30px;
+    }
     @include maxms {
         padding: 45px 0;
     }
@@ -468,6 +490,7 @@ input:checked + .slider:before {
 
     }
     .sec-popup {
+        
         @include maxsm {
             display: none;
         }
@@ -503,8 +526,11 @@ input:checked + .slider:before {
             font-size: 24px;
             height: 57px;
             @include maxsm {
-                font-size: 17px;
+                font-size: 15px;
                 height: 42px;
+            }
+            @include maxms{
+                font-size: 14px;
             }
         }
         .btn-submit {
@@ -524,6 +550,10 @@ input:checked + .slider:before {
                 line-height: 1.3;
                 padding: 7px 15px;
                 font-size: 17px;
+            }
+            @include maxms{
+                font-size: 14px;
+                padding: 11px 15px;
             }
 
         }
@@ -567,27 +597,10 @@ input:checked + .slider:before {
         list-style-type: none;
         max-width: 693px;
         margin: 50px auto 0;
-        li {
-            display: inline-block;
-            width: 25%;
-            margin-left: -4px;
-            padding: 0 25px;
+        [class*=col-] {
             margin-bottom: 15px;
-            &:first-child {
-                padding-left: 0;
-                @include maxsm {
-                    padding: 0 10px;
-                }
-            }
-            &:last-child {
-                padding-right: 0;
-                @include maxsm {
-                    padding: 0 10px;
-                }
-            }
-            @include maxsm {
-                width: 50%;
-                padding: 0 10px;
+            @include maxsm{
+                margin-bottom: 25px;
             }
             .mentor-img {
                 background-size: cover;
@@ -624,7 +637,7 @@ input:checked + .slider:before {
         padding: 70px 0 34px;
     }
     @include maxms {
-        padding: 50px 0 34px;
+        padding: 50px 0 24px;
     }
     .sec-popup {
         @include maxsm {
@@ -661,7 +674,7 @@ input:checked + .slider:before {
         max-width: 707px;
         margin: 61px auto;
         @include maxsm {
-            margin: 40px 0;
+            margin: 40px 0 20px;
         }
         .ck-button {
             background-color: transparent;
@@ -673,8 +686,11 @@ input:checked + .slider:before {
             font-size: 24px;
             text-align: center;
             cursor: pointer;
+            @include maxsm{
+                font-size: 20px;
+            }
             @include maxms {
-                font-size: 17px;
+                font-size: 15px;
             }
             &:hover {
                 background-color: $cl-complete;
@@ -728,9 +744,12 @@ input:checked + .slider:before {
                     background: $cl-complete;
                     color: $white;
                 }
-                @include maxms {
+                @include maxsm {
                     padding: 8px 65px;
                     font-size: 17px;
+                }
+                @include maxms{
+                    font-size: 14px;
                 }
             }
         }
@@ -763,15 +782,18 @@ input:checked + .slider:before {
             font-size: 44px;
         }
         @include maxsm {
-            font-size: 36px;
+            font-size: 34px;
         }
         @include maxms {
-            font-size: 28px;
+            font-size: 26px;
         }
     }
     .bg-white {
         margin-top: 60px;
         padding: 0 0 42px;
+        @include maxsm{
+            margin-top: 40px;
+        }
     }
     .tab-content {
         padding: 0 42px;
@@ -779,10 +801,11 @@ input:checked + .slider:before {
             padding: 0 32px;
         }
     }
-    .progress-tab {
+   /* .progress-tab {
         margin-bottom: 94px;
         border-bottom: none;
         overflow: hidden;
+        display: flex;
         @include maxmd {
             margin-bottom: 60px;
         }
@@ -804,6 +827,13 @@ input:checked + .slider:before {
             }
             @include maxms {
                 font-size: 13px;
+            }
+            &:hover,&:focus{
+                a{
+                     border: none;
+                    color: $dark;
+                    background: $white;
+                } 
             }
             &:before {
                 position: absolute;
@@ -829,6 +859,7 @@ input:checked + .slider:before {
                 background: $white;
                 transform: rotate(-28deg);
                 z-index: 9;
+                transition: all 0.3s ease-out 0s;
                 @include maxlg{
                     right: -11px;
                 }
@@ -855,11 +886,14 @@ input:checked + .slider:before {
                 border: none;
                 padding: 27px 25px;
                 margin: 0;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                height: 100%;
                 &:hover,
                 &:focus {
                     border: none;
-                    color: $dark;
-                    background: $white;
+                    outline: none;
                     &:after{
                         background: $white;
                     }
@@ -923,7 +957,7 @@ input:checked + .slider:before {
             }
 
         }
-    }
+    }*/
     .badge-list {
         padding: 0;
         margin: 0;
@@ -966,6 +1000,7 @@ input:checked + .slider:before {
                 font-family: hn-b;
                 line-height: 1.1;
                 margin-top: 15px;
+                text-transform: uppercase;
             }
             &.point-cl {
                 color: $cl-complete;
@@ -1017,6 +1052,9 @@ input:checked + .slider:before {
                 text-align: left;
                 h4 {
                     text-transform: capitalize;
+                    @include maxms{
+                        font-size: 18px;
+                    }
                 }
             }
         }
@@ -1051,6 +1089,10 @@ input:checked + .slider:before {
             color: $r-cl;
             position: relative;
             width: 100%;
+            @include maxsm{
+                width: auto;
+                font-size: 17px;
+            }
             &:before {
                 position: absolute;
                 content: '';
@@ -1119,7 +1161,18 @@ input:checked + .slider:before {
         }
     }
 }
-
+.my-progress{
+    .custom-tab-container{
+        margin-bottom: 94px;
+        border-bottom: none;
+        @include maxmd {
+            margin-bottom: 60px;
+        }
+        .count{
+           font-family: hl; 
+        }
+    }
+}
 .sec-guidance {
     padding: 38px 0 65px;
     background: $bg-offwhite;
@@ -1136,10 +1189,10 @@ input:checked + .slider:before {
             font-size: 44px;
         }
         @include maxsm {
-            font-size: 36px;
+            font-size: 34px;
         }
         @include maxms {
-            font-size: 28px;
+            font-size: 26px;
         }
     }
     .btn-primary {
@@ -1157,9 +1210,13 @@ input:checked + .slider:before {
             background: $cl-complete;
             color: $white;
         }
-        @include maxms {
+        @include maxsm {
             font-size: 17px;
             padding: 8px 40px;
+        }
+        @include maxms{
+            font-size: 14px;
+            padding: 10px 30px;
         }
     }
 
@@ -1184,10 +1241,10 @@ input:checked + .slider:before {
             margin-bottom: 15px;
         }
         @include maxsm {
-            font-size: 36px;
+            font-size: 34px;
         }
         @include maxms {
-            font-size: 28px;
+            font-size: 26px;
         }
     }
     a {
@@ -1208,5 +1265,10 @@ input:checked + .slider:before {
     }
     &.academic-record {
         background: $h-cl;
+    }
+}
+p{
+    @include maxms{
+        font-size: 14px;
     }
 }

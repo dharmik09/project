@@ -157,6 +157,9 @@ a:hover {
                         @include maxmd{
                             font-size: 15px;
                         }
+                        @include maxms{
+                            font-size: 14px;
+                        }
                     }
                 }
             }
@@ -291,6 +294,9 @@ a:hover {
                         @include maxsm{
                             font-size: 16px;
                         }
+                        @include maxms{
+                            font-size: 14px;
+                        }
                     }
                     .user-msg {
                         max-width: 343px;
@@ -308,6 +314,9 @@ a:hover {
                         @include maxmd{
                             padding: 15px;
                             margin-bottom: 20px;
+                        }
+                        @include maxsm{
+                            max-width: 380px;
                         }
                         &:before {
                             position: absolute;

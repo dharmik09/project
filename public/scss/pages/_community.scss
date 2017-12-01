@@ -4,22 +4,27 @@
             padding-bottom: 15px;
         }
     }
-    .progress-tab{
+    /*.progress-tab{
         li{
             width: 50%;
+            margin-bottom: -2px;
             a{
                 @include maxms{
                     padding: 15px 8px;
                 }
             }
+            &:hover{
+                border-top: 2px solid #e0e6eb;
+            }
         }
-    }
+    }*/
     .load-more{
         font-family: hn-b;
         font-size: 18px;
         text-transform: uppercase;
         color: $w-cl;
         text-decoration: underline;
+        @include maxsm{font-size: 16px;}
         &:hover, &:focus{
             color: $cl-complete;
         }

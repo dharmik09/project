@@ -2,15 +2,22 @@
 nav{
     background-color: $dark;
     .logo{
-    	padding:18px 0;
-    	@include maxsm {padding:10px 0;
-			img{max-width:80%;}
+    	padding:12px 0;
+    	@include maxsm {
+            padding:12px 0;
+            width:85px;
+			img{max-width:74%;}
     	}
     }
     .menu-toggle{
     	@include maxsm {
 			padding: 10px 0;
     	}
+    }
+    @include maxsm{
+        >.container{
+            position: relative;
+        }
     }
 }
 .menu-toggle{
@@ -20,7 +27,7 @@ nav{
 
 .main-menu{
     position: fixed;
-    z-index:99;
+    z-index:999;
     top:0;
     left:0;
     right:0;
@@ -63,6 +70,7 @@ nav{
             font-family:'ab';
             text-decoration:none;
             line-height:85px;
+            text-transform: capitalize;
             &:focus,
             &:active,
             &:hover{
@@ -115,7 +123,14 @@ nav{
         font-size:30px;
         position: relative;
         padding: 27px 0 27px 25px;
-        display:block
+        display:block;
+        &:hover{
+            color: $cl-complete;
+        }
+        @include maxsm{
+            font-size: 18px;
+            padding: 8px 0 8px 15px;
+        }
     }
     li{
         float: left;
@@ -123,17 +138,37 @@ nav{
             &>a{
                 font-family:'hb';
                 font-size:23px;
+                width:170px;
+                display:block;
+                @include maxsm {
+                    font-size: 14px;
+                    width: 80px;
+                    display: block;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    line-height: 22px;
+                }
             }
             span{
                 margin-right: 5px;
-                display:inline-block
+                display:inline-block;
+                @include maxsm{
+                    float:left;
+                }
             }
+            .submenu{z-index::99;}
         }
         &.n-user{
+            .submenu{z-index::999;}
             &>a{
                 display:block;
                 margin-top:-5px;
                 font-size:40px;
+                @include maxsm {
+                    font-size: 27px;
+                    margin-top: -3px;
+                }
                 .badge{
                     position:absolute;
                     top:16px;
@@ -149,6 +184,9 @@ nav{
                     font-size:13px;
                     padding: 0;
                     line-height:20px;
+                    @include maxsm{
+                        top:0;
+                    }
                 }
             }
         }
@@ -173,32 +211,26 @@ nav{
     height:20px;
 }
 
-.n-user{}
-
-.n-window{
-    a{
-
-    }
-}
-.n-menu{}
-
-
-
-
-
 // Here goes submenu functionality
 .submenu-container{
     position: relative;
+    @include maxsm{
+        position: static;
+    }
     .submenu{
         width:400px;
         background-color: $lightgrey;
         padding:20px;
         position: absolute;
         visibility:hidden;
-        top:0;
+        top:100%;
         right:0;
         opacity:0;
         transition:all 0.5s ease-out;
+        @include maxsm{
+            width:100%;
+            text-align:center;
+        }
         &:before{
             content:'';
             position: absolute;
@@ -209,11 +241,15 @@ nav{
             border-left: 25px solid transparent;
             border-right: 25px solid transparent;
             border-top: 20px solid $lightgrey;
+            @include maxsm {
+                left:50%;
+                transform:translateX(-50%);
+            }
         }
     }
-    &:hover{
+    &.active{
         .submenu{
-            top:100%;
+            // top:100%;
             opacity:1;
             visibility:visible;
         }
@@ -265,12 +301,47 @@ nav{
     &.n-coin {
         .submenu{
             width:260px;
+            @include maxsm {
+                width:100%;
+            }
         }
         h2{
             padding-top:30px;
         }
         .btns{
             text-align:left;
+            @include maxsm {
+                text-align: center;
+            }
         }
     }
+}
+
+
+
+.user-snapshot{
+    display:inline-block
+}
+
+
+// Fixed navigation
+body{
+     -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;
+}
+nav.fixed-navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index:99;
+}
+body.fixed-nav {
+    padding-top: 87px;
+    @include maxsm {
+        padding-top: 66px;
+    }
+}
+body.fixedPosition{
+    overflow: hidden;
 }

@@ -1,0 +1,1330 @@
+.banner-detail {
+    background-image: url(../img/career-detail.jpg);
+}
+
+.career-detail {
+    padding: 87px 0 0;
+    @include maxlg {
+        padding: 57px 0 0;
+    }
+    @include maxmd {
+        padding: 30px 0;
+    }
+    @include maxsm {
+        padding: 30px 0;
+    }
+    h1 {
+        font-size: 54px;
+        color: $cl-complete;
+        margin-bottom: 30px;
+        @include maxlg {
+            font-size: 44px;
+        }
+        @include maxmd {
+            font-size: 38px;
+        }
+        @include maxsm {
+            font-size: 34px;
+        }
+        @include maxms {
+            font-size: 30px;
+        }
+    }
+}
+
+.detail-content {
+    .row {
+        margin: 0;
+    }
+    [class*=col-] {
+        padding: 0;
+    }
+}
+
+.career-stat {
+    margin-top: 5px;
+    @include maxmd {
+        .row > div:nth-child(even) {
+            ul {
+                margin-right: 0;
+            }
+        }
+    }
+    ul {
+        padding: 25px 20px;
+        list-style-type: none;
+        margin-right: 5px;
+        margin-bottom: 5px;
+
+        @include maxsm {
+            padding: 15px;
+            margin-right: 0;
+        }
+        &.color-1 {
+            background: $cl-complete
+        }
+        &.color-2 {
+            background: $h-cl;
+        }
+        &.color-3 {
+            background: $cl-procedural;
+        }
+        &.color-4 {
+            background: $w-cl;
+        }
+        li {
+            display: inline-block;
+            vertical-align: middle;
+            color: $white;
+            font-size: 50px;
+            @include maxms {
+                font-size: 40px;
+            }
+            &.icon {
+                width: 15%;
+                margin-right: 20px;
+                text-align: right;
+                @include maxms {
+                    margin-right: 15px;
+                }
+            }
+            h4 {
+                font-family: ht;
+                font-size: 31px;
+                color: $white;
+                margin-bottom: 0;
+                @include maxlg {
+                    font-size: 25px;
+                }
+                @include maxms {
+                    font-size: 20px;
+                }
+            }
+            p {
+                color: $white;
+                font-family: hn-b;
+                font-size: 20px;
+                margin-bottom: 0;
+                @include maxlg {
+                    font-size: 18px;
+                }
+                @include maxms {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+.description {
+    padding: 50px 20px 50px 30px;
+    @include maxlg {
+        padding: 30px 20px;
+    }
+    @include maxmd {
+        padding: 30px 0;
+    }
+    @include maxms {
+        padding: 20px 0;
+    }
+    .heading {
+        margin-bottom: 25px;
+        @include maxms {
+            margin-bottom: 15px;
+        }
+        h4 {
+            display: inline-block;
+            font-size: 31px;
+            font-family: hl;
+            color: $r-cl;
+            @include maxlg {
+                font-size: 28px;
+            }
+            @include maxsm {
+                font-size: 24px;
+            }
+        }
+        .list-icon {
+            float: right;
+            a {
+                font-size: 40px;
+                color: #979797;
+                line-height: 1;
+                margin: 0 10px;
+                @include maxmd {
+                    font-size: 35px;
+                }
+                @include maxms {
+                    font-size: 25px;
+                }
+            }
+        }
+    }
+    p {
+        font-size: 16px;
+        color: $r-cl;
+        font-family: h;
+        line-height: 1.6;
+        @include maxms {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    }
+}
+
+.career-detail-tab {
+    margin-bottom: 50px;
+    margin-right: 5px;
+    @include maxmd {
+        margin-right: 0;
+    }
+    @include maxsm {
+        margin-bottom: 30px;
+    }
+    &.bg-white {
+        padding: 0 0 42px;
+        @include maxms {
+            padding-bottom: 10px;
+        }
+    }
+    .custom-tab-container {
+        .custom-tab {
+            padding: 0 20px;
+            @include maxsm {
+                padding: 0;
+            }
+            &:first-child {
+                padding-left: 0;
+            }
+            &:last-child {
+                padding-right: 0;
+            }
+            /* a {
+                font-size: 24px;
+            }*/
+            &.active {
+                a {
+                    color: $r-cl !important;
+                }
+            }
+        }
+    }
+    .tab-content {
+        padding: 40px 30px 0;
+        @include maxsm {
+            padding: 20px 15px;
+        }
+        .block {
+            margin-bottom: 40px;
+            font-size: 16px;
+            color: $r-cl;
+            @include maxsm {
+                margin-bottom: 30px;
+            }
+            @include maxms {
+                font-size: 14px;
+            }
+            .img-sec {
+                text-align: center;
+                margin: 50px 0 20px;
+            }
+
+            h4 {
+                font-size: 31px;
+                font-family: hl;
+                color: $r-cl;
+                text-transform: capitalize;
+                font-weight: 300;
+                margin-bottom: 25px;
+                @include maxlg {
+                    font-size: 28px;
+                }
+                @include maxsm {
+                    font-size: 22px;
+                    margin-bottom: 15px;
+                }
+                @include maxms {
+                    font-size: 20px;
+                }
+            }
+            p {
+                font-size: 16px;
+                color: $r-cl;
+                @include maxms {
+                    font-size: 14px;
+                }
+            }
+            ul {
+                include maxms {
+                    padding-left: 25px;
+                }
+            }
+            .img-list {
+                margin: 50px 0 0px;
+                @include maxsm {
+                    margin-top: 20px;
+                }
+                ul {
+                    padding: 0;
+                    list-style-type: none;
+                    text-align: center;
+                    li {
+                        display: inline-block;
+                        margin: 0 10px 30px;
+                        opacity: 0.7;
+                        /* @include maxsm{
+                            &:nth-last-of-type(-n+2){
+                                margin-bottom: 5px;
+                            }
+                        }*/
+                    }
+                }
+            }
+        }
+    }
+}
+
+.explore-table {
+    .table {
+        font-family: hn-b;
+        font-size: 21px;
+        text-align: center;
+        @include maxlg {
+            font-size: 18px;
+        }
+        @include maxsm {
+            font-size: 15px;
+        }
+        @include maxms {
+            font-size: 14px;
+        }
+        tr {
+            border-bottom: 4px solid $white;
+        }
+        th {
+            background: $r-cl;
+            color: $white;
+            text-align: center;
+            border-right: 4px solid $white;
+            width: 25%;
+            &:last-child {
+                border-right: none;
+            }
+        }
+        tbody {
+            tr {
+                background: #e3e3e4;
+                color: $r-cl;
+                td {
+                    border-right: 4px solid $white;
+                    &:last-child {
+                        border-right: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.promise-plus {
+    text-align: center;
+    color: $cl-complete; //max-width: 70%;
+    margin: 42px auto;
+    max-width: 400px;
+    @include maxlg {
+        margin: 30px auto;
+    }
+    span {
+        font-size: 42px;
+        @include maxlg {
+            font-size: 35px;
+        }
+        @include maxmd {
+            font-size: 30px;
+        }
+        @include maxsm {
+            font-size: 26px;
+        }
+    }
+    .emojis-img {
+        display: inline-block;
+        max-width: 80px;
+        margin: 0 20px 20px 0;
+        @include maxms {
+            font-size: 50px;
+            margin: 0 15px 20px 0;
+        }
+    }
+    h3 {
+        font-size: 42px;
+        color: $cl-complete;
+        text-transform: capitalize;
+        display: inline-block;
+        margin-bottom: 24px;
+        @include maxlg {
+            font-size: 35px;
+        }
+        @include maxmd {
+            font-size: 30px;
+        }
+        @include maxsm {
+            font-size: 26px;
+        }
+    }
+    p {
+        font-family: hn-b;
+        color: $cl-complete;
+        font-size: 16px;
+        margin-bottom: 30px;
+        @include maxms {
+            font-size: 14px;
+        }
+    }
+}
+
+.promise-plus-overlay {
+    display: none;
+    transition: 0.3s all ease;
+    left: 0;
+    &.active {}
+}
+
+.btn-primary {
+    border-color: $cl-complete;
+    background-color: $cl-complete;
+    box-shadow: none;
+}
+
+.unbox-btn {
+    font-family: hn-b;
+    font-size: 16px;
+    .btn-primary {
+        color: $white;
+        display: inline-block;
+        background-color: transparent;
+        border-color: transparent;
+        .unbox-me {
+            background: $cl-complete;
+            padding: 14px 48px;
+            border: 1px solid $cl-complete;
+            color: $white;
+            @include maxlg {
+                padding: 12px 27px;
+            }
+
+            @include maxms {
+                padding: 9px 20px;
+            }
+        }
+        > span {
+            color: $r-cl;
+            padding: 14px 14px;
+            border: 1px solid #dddedf;
+            font-size: 16px;
+            margin-left: 0px;
+            display: inline-block;
+            @include maxlg {
+                font-size: 15px;
+                padding: 12px 14px;
+            }
+            @include maxms {
+                padding: 9px 14px;
+                font-size: 14px;
+            }
+            .coins {
+                vertical-align: middle;
+                margin-top: -3px;
+            }
+        }
+        &:hover,
+        &:focus {
+            background: transparent;
+            .unbox-me {
+                background: $cl-procedural;
+                border-color: $cl-procedural;
+            }
+        }
+    }
+
+}
+
+.virtual-plus {
+    h4 {
+        font-size: 16px;
+        font-family: hn-b; //display: inline-block;
+        position: relative;
+        color: $cl-complete;
+        text-transform: uppercase;
+        margin-bottom: 50px;
+        @include maxmd {
+            margin-bottom: 40px;
+        }
+        @include maxsm {
+            margin-bottom: 30px;
+        }
+        &:before,
+        &:after {
+            position: absolute;
+            content: '';
+            width: 35%;
+            height: 1px;
+            background: $cl-complete;
+            left: 0;
+            top: 8px;
+        }
+        &:after {
+            left: auto;
+            right: 0;
+        }
+        span {
+            background: #fff;
+            position: relative;
+            z-index: 9;
+            display: inline-block;
+            padding: 0 15px;
+        }
+    }
+    p {
+        font-size: 16px;
+        color: $r-cl;
+        font-family: h;
+        padding: 0 15px;
+        @include maxms {
+            font-size: 14px;
+        }
+    }
+
+}
+
+.quiz-sec {
+    margin-top: 60px;
+    @include maxmd {
+        margin-top: 45px;
+    }
+    @include maxsm {
+        margin-top: 35px;
+    }
+    .row {
+        margin: 0 -20px;
+        [class*=col-] {
+            padding: 0 20px;
+        }
+    }
+    .quiz-box {
+        border: 1px solid #dddedf;
+        padding: 44px 20px;
+        text-align: center;
+        margin-bottom: 40px;
+        width: 100%;
+        @include maxlg {
+            padding: 34px 15px;
+        }
+        @include maxsm {
+            padding: 25px 15px;
+            margin-bottom: 30px;
+        }
+        @include maxms {
+            padding: 20px 15px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-family: hl;
+            font-size: 31px;
+            text-transform: capitalize;
+            color: $r-cl;
+            margin-bottom: 30px;
+            @include maxlg {
+                font-size: 28px;
+            }
+            @include maxsm {
+                font-size: 24px;
+            }
+            @include maxms {
+                margin-bottom: 15px;
+                font-size: 22px;
+            }
+
+        }
+        h6 {
+            font-size: 16px;
+            font-family: hn-b;
+            color: $cl-complete;
+            margin-bottom: 8px;
+        }
+        p {
+            font-family: h;
+            font-size: 16px;
+            color: $r-cl;
+            margin-bottom: 30px;
+            @include maxms {
+                font-size: 14px;
+            }
+        }
+        .btn-play {
+            font-size: 16px;
+            font-family: hn-b;
+            text-transform: uppercase;
+            background: $cl-complete;
+            border: 1px solid $cl-complete;
+            padding: 11px 74px;
+            display: inline-block;
+            color: $white;
+            @include maxlg {
+                padding: 11px 64px;
+            }
+            @include maxms {
+                padding: 9px 45px;
+                font-size: 14px;
+            }
+            &:hover,
+            &:focus {
+                background-color: $cl-procedural;
+                border-color: $cl-procedural;
+            }
+        }
+        .img {
+            margin-bottom: 23px;
+            @include maxlg {
+                max-width: 124px;
+                margin: 0 auto 23px;
+            }
+        }
+        .quiz-que {
+            .que {
+                font-size: 24px;
+                @include maxmd {
+                    font-size: 22px;
+                }
+                @include maxsm {
+                    font-size: 17px;
+                    margin-bottom: 20px;
+                    padding-left: 60px;
+                    padding-top: 27px;
+                }
+                @include maxms {
+                    font-size: 15px;
+                    padding-left: 44px;
+                    padding-top: 26px;
+                }
+                i {
+                    @include maxsm {
+                        font-size: 40px;
+                    }
+                    @include maxms {
+                        font-size: 35px;
+                    }
+                }
+            }
+        }
+        .quiz-ans {
+            label {
+                margin-bottom: 30px;
+                text-align: left;
+                @include maxsm {
+                    margin-bottom: 10px;
+                }
+                em {
+                    @include maxlg {
+                        font-size: 20px;
+                    }
+                    @include maxsm {
+                        font-size: 17px;
+                    }
+                    @include maxms {
+                        font-size: 15px;
+                    }
+                }
+            }
+            .next-que {
+                @include maxsm {
+                    font-size: 70px;
+                }
+            }
+        }
+    }
+}
+
+.real-world {
+    h4 {
+        color: $cl-procedural;
+        &:before,
+        &:after {
+            background: $cl-procedural;
+            width: 33%;
+        }
+    }
+}
+
+.sec-hide {
+    display: none;
+    &.active {
+        display: block;
+        transition: 0.3s all ease;
+    }
+}
+
+.quiz-box,
+.quiz_view {
+    .checkbox label span.checker:before,
+    .radio label span.checker:before {
+        @include maxsm {
+            width: 16px;
+            height: 16px;
+        }
+    }
+    .quiz-que .quiz-ans .radio input:checked + .checker:after,
+    .quiz-que .quiz-ans .radio-inline input:checked + .checker:after {
+        @include maxsm {
+            top: 2px;
+            left: 2px;
+            width: 12px;
+            height: 12px;
+        }
+    }
+}
+
+.basic-quiz-area {
+    .time_noti_view {
+        color: $p-cl;
+        /*.time_type {
+            i {
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 50px;
+                @include maxmd {
+                    font-size: 40px;
+                }
+            }
+            .time-tag {
+                font-size: 18px;
+                font-family: "hb";
+                line-height: 50px;
+                display: inline-block;
+                vertical-align: middle;
+                padding-left: 15px;
+                @include maxmd {
+                    font-size: 16px;
+                }
+            }
+        }*/
+    }
+}
+
+.quiz-advanced {
+    .row {
+        margin: 0 -8px;
+        [class*=col-] {
+            padding: 0 8px;
+        }
+    }
+    .quiz-box {
+        .img {
+            font-size: 93px;
+            color: $cl-procedural;
+            line-height: 1;
+            max-height: 151px;
+        }
+        .btn-play {
+            background: $cl-procedural;
+            border-color: $cl-procedural;
+            padding: 11px 25px;
+            @include maxlg {
+                padding: 9px 20px;
+            }
+            &:hover,
+            &:focus {
+                background: $cl-complete;
+                border-color: $cl-complete;
+            }
+        }
+    }
+}
+
+.popover-content {
+    color: $r-cl;
+}
+
+.quiz-intermediate {
+    position: relative;
+    .quiz-que {
+        .que {
+            font-size: 28px;
+            @include maxmd {
+                font-size: 24px;
+            }
+            @include maxsm {
+                font-size: 17px;
+                margin-bottom: 20px;
+                padding-left: 60px;
+                padding-top: 27px;
+            }
+            @include maxms {
+                font-size: 15px;
+                padding-left: 44px;
+                padding-top: 26px;
+            }
+            i {
+                @include maxsm {
+                    font-size: 40px;
+                }
+                @include maxms {
+                    font-size: 35px;
+                }
+            }
+        }
+
+        .quiz-ans {
+            label {
+                @include maxms {
+                    margin-bottom: 10px;
+                }
+                em {
+                    font-size: 18px;
+                    @include maxms {
+                        font-size: 15px;
+                    }
+                }
+            }
+            .next-que {
+                @include maxsm {
+                    font-size: 70px;
+                }
+            }
+        }
+    }
+    .quiz-area {
+        background: #fff;
+        z-index: 9;
+        border: 1px solid #dddedf;
+        top: 0;
+        margin: 0 20px 30px;
+        padding: 20px;
+        .question-img {
+            max-width: 200px;
+            margin: 0 auto 30px;
+            @include maxms {
+                max-width: 150px;
+            }
+        }
+    }
+}
+
+.time_type {
+    color: $p-cl;
+    i {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 50px;
+        @include maxmd {
+            font-size: 40px;
+        }
+        @include maxms {
+            font-size: 30px;
+        }
+    }
+    .time-tag {
+        font-size: 18px;
+        font-family: "hn-b";
+        line-height: 50px;
+        display: inline-block;
+        vertical-align: middle;
+        padding-left: 15px;
+        @include maxmd {
+            font-size: 16px;
+        }
+        @include maxms {
+            font-size: 14px;
+        }
+    }
+}
+
+.upload-screen {
+    text-align: center;
+    h4 {
+        font-family: ab;
+        font-weight: 500;
+        color: $cl-complete;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+    .upload-img {
+        min-height: 100px;
+        border: 1px solid $cl-complete;
+        position: relative;
+        text-align: center;
+        width: 100px;
+        margin: 0 auto 20px;
+        span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: h;
+            font-size: 16px;
+            color: rgba(22, 28, 34, 0.8);
+        }
+        input[type=file] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+    }
+    .btn-primary {
+        border: none;
+        font-family: hn-b;
+        padding: 8px 25px;
+    }
+    .upload-content {
+        height: 200px;
+        margin: 30px 0;
+        border: 1px dashed #dddedf;
+        color: $r-cl;
+        .no-data {
+            display: table;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            .nodata-middle {
+                display: table-cell;
+                vertical-align: middle;
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+.competitive-role {
+    padding: 20px 0 0;
+    position: relative;
+    margin-bottom: 60px;
+    @include maxsm {
+        margin-bottom: 40px;
+    }
+    .img {
+        opacity: 0.83;
+    }
+    .quiz-sec {
+        .quiz-box {
+            h6 {
+                color: $r-cl;
+            }
+            .btn-list {
+                padding: 0;
+                list-style-type: none;
+                li {
+                    display: inline-block;
+                    margin-right: 15px;
+                    @include maxlg {
+                        margin-right: 10px;
+                    }
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                    .btn {
+                        font-family: hn-b;
+                        font-size: 16px;
+                        text-transform: uppercase;
+                        text-align: center;
+                        padding: 12px 20px;
+                        color: $r-cl;
+                        border: 1px solid #dddedf;
+                        @include maxlg {
+                            font-size: 15px;
+                            padding: 9px 15px;
+                        }
+                        @include maxms {
+                            font-size: 14px;
+                        }
+                        &.btn-apply {
+                            background: #cc93ad;
+                            color: $white;
+                            border-color: #cc93ad;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        border: 1px solid #dddedf;
+        background: rgba(255, 255, 255, 0.82);
+        color: $r-cl;
+        z-index: 99;
+        .overlay-inner {
+            top: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            .icon {
+                font-size: 80px;
+            }
+            p {
+                font-family: hn-b;
+                color: $r-cl;
+            }
+        }
+    }
+}
+
+.challenge-play {
+    h4 {
+        color: $h-cl;
+        &:before,
+        &:after {
+            background: $h-cl;
+        }
+    }
+    .form-challenge {
+        max-width: 80%;
+        margin: 40px auto 0;
+        .custom-select {
+            position: relative;
+            font-family: hn-b;
+            height: 47px;
+            border: 1px solid #dddedf;
+            color: $r-cl;
+            font-size: 16px;
+            @include maxms {
+                height: 42px;
+            }
+            &:before {
+                display: inline-block;
+                content: "<";
+                font-size: 20px;
+                position: absolute;
+                right: 15px;
+                top: 10px;
+                text-decoration: inherit;
+                -webkit-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+                cursor: pointer;
+                z-index: 0;
+                font-family: hl;
+            }
+            select {
+                cursor: pointer;
+                appearance: none;
+                border: none;
+                height: 47px;
+                padding-right: 40px;
+                @include maxms {
+                    height: 42px;
+                    font-size: 14px;
+                }
+            }
+        }
+        .btn-submit {
+            display: block;
+            color: #fff;
+            background: #27a6b5;
+            width: 100%;
+            text-transform: uppercase;
+            font-family: hn-b;
+            font-size: 20px;
+            line-height: 1.35;
+            padding: 9px 15px;
+            margin-left: 8px;
+            @include maxlg {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+            @include maxsm {
+                margin-left: 0;
+                font-size: 14px;
+                padding: 11px 15px;
+
+            }
+        }
+    }
+}
+
+.connect-block {
+    margin-bottom: 6px;
+    padding-bottom: 0;
+    margin-right: 5px;
+    .bg-white {
+        margin-top: 40px;
+        @include maxsm {
+            margin-top: 25px;
+        }
+        @include maxms {
+            padding: 0;
+        }
+    }
+    h2 {
+        font-size: 31px;
+        font-family: hl;
+        color: $r-cl;
+        text-align: left;
+        @include maxlg {
+            font-size: 28px;
+        }
+        @include maxsm {
+            font-size: 24px;
+        }
+    }
+    .custom-tab-container {
+        .custom-tab {
+            padding: 0 20px;
+            @include maxsm {
+                padding: 0;
+            }
+            &:first-child {
+                padding-left: 0;
+            }
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+    }
+    .tab-content {
+        padding: 40px;
+        @include maxlg {
+            padding: 30px;
+        }
+        @include maxms {
+            padding: 20px;
+        }
+    }
+}
+
+.ad-sec-h {
+    height: 90px;
+    width: 100%;
+    background: $white;
+    margin-bottom: 50px;
+    @include maxsm {
+        margin-bottom: 40px;
+    }
+}
+
+.t-table {
+    display: table;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    .table-cell {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 21px;
+        font-family: hn-b;
+        color: $dark;
+        text-transform: capitalize;
+        @include maxsm {
+            font-size: 18px;
+        }
+        @include maxms {
+            font-size: 16px;
+        }
+    }
+}
+
+.sec-match {
+    background: $white;
+    text-align: center;
+    padding: 40px 0;
+    position: relative;
+    .progress-match {
+        position: relative;
+        text-align: center;
+        padding-top: 30px;
+        span{
+            font-size: 0;
+        }
+        .barOverflow {
+            /* Wraps the rotating .bar */
+            position: relative;
+            overflow: hidden;
+            /* Comment this line to understand the trick */
+            width: 185px;
+            height: 90px;
+            margin: 0 auto -14px
+        }
+        .bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 185px;
+            height: 190px;
+            /* full circle! */
+            border-radius: 50%;
+            box-sizing: border-box;
+            border: 10px solid #eee;
+            /* half gray, */
+            border-bottom-color: #1ec89d;
+            /* half azure */
+            border-right-color: #1ec89d;
+
+        }
+
+    }
+    h3 {
+        margin-top: 0;
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 38px;
+        font-family: hl;
+        color: $lightgrey;
+        @include maxmd {
+            font-size: 30px;
+        }
+        @include maxms {
+            font-size: 26px;
+        }
+    }
+}
+
+#match {
+    margin: 20px;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+    margin: 0 auto;
+
+}
+
+.advanced-sec {
+    margin-top: 4px;
+    .panel-heading {
+        background: $r-cl;
+        padding: 0;
+        a {
+            display: block;
+            padding: 27px 15px 27px 45px;
+            color: $white;
+            font-family: ht;
+            font-size: 24px;
+            position: relative;
+            @include maxsm {
+                font-size: 20px;
+                padding: 18px 15px 18px 45px;
+            }
+            &.collapsed {
+                &:before {
+                    transform: rotate(90deg);
+                }
+                &:after {
+                    display: none;
+                }
+            }
+            &:before {
+                position: absolute;
+                content: ">";
+                top: 35%;
+                left: 18px;
+                transform: rotate(-90deg);
+                font-size: 24px;
+                @include maxsm {
+                    font-size: 18px;
+
+                }
+            }
+            &:after {
+                position: absolute;
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-top: 11px solid #565b5f;
+                bottom: -11px;
+                left: 20px;
+            }
+        }
+    }
+    .progress-bar-primary {
+        background: rgba(242, 133, 56, 1);
+        background: -moz-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 133, 56, 1)), color-stop(58%, rgba(242, 193, 86, 1)), color-stop(100%, rgba(7, 201, 165, 1)));
+        background: -webkit-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
+        background: -o-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
+        background: -ms-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
+        background: linear-gradient(to right, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1);
+    }
+    .skill-name {
+        width: 45%;
+        display: inline-block;
+        vertical-align: middle;
+        font-family: hn-b;
+        font-size: 16px;
+        color: $r-cl;
+        padding-right: 5px;
+        @include maxms {
+            font-size: 14px;
+        }
+    }
+    .panel-default {
+        border: none;
+        background: $bg-offwhite;
+        .panel-body {
+            padding: 4px 0;
+        }
+    }
+    .progress-block {
+        background: rgba(255, 255, 255, 0.5);
+        margin-bottom: 4px;
+        padding: 14px 15px;
+    }
+    .progress {
+        width: 55%;
+        display: inline-block;
+        margin-left: -4px;
+        vertical-align: middle;
+        margin-bottom: 0;
+        height: 12px;
+        background: #ebebeb;
+    }
+}
+
+.sec-tags {
+    padding: 0 10px;
+    margin-bottom: 40px;
+    h4 {
+        font-family: hl;
+        font-size: 24px;
+        color: $r-cl;
+        display: inline-block;
+    }
+    .tag-list {
+        padding: 0;
+        list-style-type: none;
+        margin-top: 20px;
+        li {
+            display: inline-block;
+            font-family: hl;
+            font-size: 16px;
+            color: $r-cl;
+            text-transform: capitalize;
+            border: 1px solid #dadadb;
+            padding: 9px 10px;
+            margin: 0 3px 3px 0px;
+            background: rgba(255, 255, 255, 0.52);
+            @include maxms {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.ad-v {
+    width: 100%;
+    height: 400px;
+    background: $white;
+    margin-bottom: 7px;
+}
+
+.ad-v-2 {
+    width: 100%;
+    height: 800px;
+    background: $white;
+}

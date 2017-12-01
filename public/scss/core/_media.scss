@@ -13,7 +13,11 @@
         @content;
     }
 }
-
+@mixin maxh700minw768{
+    @media (max-height: 700px) and (min-width:768px){
+        @content;
+    }
+}
 
 
 
