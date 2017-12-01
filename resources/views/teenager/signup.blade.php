@@ -143,13 +143,13 @@
                                 <div class="date-feild">
                                     <select name="month" class="form-control date-block" id="month" tabindex="13">
                                         <option value="">mm</option>
-                                        @for($month=01; $month<=12; $month++)
+                                        @for($month = 01; $month <= 12; $month++)
                                             <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}">{{ date('F', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
                                         @endfor
                                     </select>
                                     <select name="day" class="form-control date-block" id="day" tabindex="14">
                                         <option value="">dd</option>
-                                        @for($day=1; $day<=31; $day++)
+                                        @for($day = 1; $day <= 31; $day++)
                                             <option value="{{date('d', mktime(0,0,0,0, $day, date('Y')))}}">{{ date('d', mktime(0,0,0,0, $day, date('Y'))) }}</option>
                                         @endfor
                                     </select>

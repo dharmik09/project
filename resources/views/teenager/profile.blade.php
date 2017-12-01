@@ -72,9 +72,14 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group custom-select">
-                                    <select tabindex="7" class="form-control">
-                                        <option value="Canada">Canada</option>
+                                    <select tabindex="7" class="form-control" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
+                                        <option value="">Country</option>
+                                        @forelse($countries as $val)
+                                            <option value="{{$val->id}}" <?php echo (old('country') && old('country') == $val->id ) ? "selected='selected'" : ''; ?> > {{$val->c_name}} </option>
+                                        @empty
+                                        @endforelse
                                     </select>
+                                    <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
                                 </div>
                             </div>
                             <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
@@ -90,13 +95,16 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                <div class="form-group custom-select">
+                                    <select tabindex="9" class="form-control" name="gender" required >
+                                        <option value="1" <?php echo (old('gender') && old('gender') == 1) ? "selected='selected'" : ''; ?> >Male</option>
+                                        <option value="2" <?php echo (old('gender') && old('gender') == 2) ? "selected='selected'" : ''; ?> >Female</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                    <input type="text" class="form-control" name="proteen_code" id="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{old('proteen_code')}}">
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -108,9 +116,24 @@
                                 <div class="form-group date-sec">
                                     <label>Date of Birth:</label>
                                     <div class="date-feild">
-                                        <input type="number" class="form-control date-block" id="date" tabindex="12" placeholder="mm" maxlength="2">
-                                        <input type="number" class="form-control date-block" id="month" tabindex="12" placeholder="dd" maxlength="2">
-                                        <input type="number" class="form-control date-block" id="year" tabindex="12" placeholder="yyyy" maxlength="4">
+                                        <select name="month" class="form-control date-block" id="month" tabindex="13">
+                                            <option value="">mm</option>
+                                            @for($month = 01; $month <= 12; $month++)
+                                                <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}">{{ date('F', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="day" class="form-control date-block" id="day" tabindex="14" >
+                                            <option value=""></option>
+                                            @for($day = 1; $day <= 31; $day++)
+                                                <option value="{{date('d', mktime(0,0,0,0, $day, date('Y')))}}">{{ date('d', mktime(0,0,0,0, $day, date('Y'))) }}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="year" class="form-control date-block" id="year" tabindex="15">
+                                            <option value="">yyyy</option>
+                                            @foreach(range(\Carbon\Carbon::now()->year, 1950) as $year)
+                                                <option value="{{$year}}">{{$year}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
