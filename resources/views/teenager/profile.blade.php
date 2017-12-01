@@ -65,7 +65,8 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group">
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">+91</span>
                                     <input type="number" class="form-control" id="name" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
                                 </div>
                             </div>
@@ -84,6 +85,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
+                                    <span class="password-info">Password info</span>
                                     <input type="password" class="form-control" id="name" placeholder=" password *" tabindex="11" value="{{ $user->password }}" maxlength="16" readonly>
                                 </div>
                             </div>
