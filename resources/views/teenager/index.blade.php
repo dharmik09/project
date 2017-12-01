@@ -176,35 +176,36 @@
                 }
             });
         });
-        AOS.init({
-            duration: 1200,
-        });
         //masonary
-        $('.masonary-grid').masonry({
-            // options
-            itemSelector: '.item',
-            columnWidth: 1
-        });
-        //video popup
-        $('.play-video').magnificPopup({
-            disableOn: 0,
-            type: 'iframe',
-            mainClass: 'mfp-fade',
-            removalDelay: 160,
-            preloader: false,
-            overflowY: 'auto',
-            removalDelay: 300,
-            midClick: true,
-            fixedBgPos: true,
-            fixedContentPos: true
-        });
-        //testimonial slider
-        $('.testimonial-slider').owlCarousel({
-            loop: true,
-            margin: 10,
-            items: 1,
-            nav: true,
-            dots: false,
+        $(window).bind("load", function() {
+            $('.masonary-grid').masonry({
+                itemSelector: '.item',
+                columnWidth: 1
+            });
+            AOS.init({
+                duration: 1200,
+            });
+            //video popup
+            $('.play-video').magnificPopup({
+                disableOn: 0,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+                overflowY: 'auto',
+                removalDelay: 300,
+                midClick: true,
+                fixedBgPos: true,
+                fixedContentPos: true
+            });
+            //testimonial slider
+            $('.testimonial-slider').owlCarousel({
+                loop: true,
+                margin: 10,
+                items: 1,
+                nav: true,
+                dots: false,
+            });
         });
         $('.play-icon').click(function () {
             $(this).hide();
@@ -240,6 +241,7 @@
                 return false;
             }
         });
+        
         function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
