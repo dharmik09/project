@@ -97,6 +97,30 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="sponsor-sec">
+                                    <div class="sponsor-content">
+                                        <div class="form-register sponsor-list">
+                                            @forelse($sponsorDetail as $key => $value)
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="selected_sponsor[]" id="sponsor_{{$key}}" value="{{$value->sponsor_id}}" <?php (old('selected_sponsor') && in_array($value->sponsor_id, old('selected_sponsor')) ) ? "checked" : ""; ?> />
+                                                        <span class="checker"></span>
+                                                        <span class="logo-icon">
+                                                            <?php
+                                                                $sponsor_logo = ($value->sp_logo != "") ? Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) : asset(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                                                            ?>
+                                                            <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" height="74px" width="127px">
+                                                        </span>{{ str_limit($value->sp_company_name, $limit = 20, $end = '..') }}
+                                                    </label>
+                                                </div>
+                                            @empty
+
+                                            @endforelse
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-sm-7 text-right">
                                 <ul class="toggle-switch">
                                     <li>Public Profile
@@ -184,25 +208,25 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <figure>
-                            <div class="mentor-img" style="background-image: url(img/parent-1.jpg)"></div>
+                            <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-1.jpg')}})"></div>
                             <figcaption>Parent 1</figcaption>
                         </figure>
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <figure>
-                            <div class="mentor-img" style="background-image: url(img/parent-2.jpg)"></div>
+                            <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-2.jpg')}})"></div>
                             <figcaption>Parent 2</figcaption>
                         </figure>
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <figure>
-                            <div class="mentor-img" style="background-image: url(img/mentor-1.jpg)"></div>
+                            <div class="mentor-img" style="background-image: url({{Storage::url('img/mentor-1.jpg')}})"></div>
                             <figcaption>mentor 1</figcaption>
                         </figure>
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <figure>
-                            <div class="mentor-img" style="background-image: url(img/mentor-2.jpg)"></div>
+                            <div class="mentor-img" style="background-image: url({{Storage::url('img/mentor-2.jpg')}})"></div>
                             <figcaption>mentor 1</figcaption>
                         </figure>
                     </div>
@@ -452,7 +476,7 @@
                             <div class="flex-item">
                                 <div class="team-detail">
                                     <div class="team-img">
-                                        <img src="img/ellen.jpg" alt="team">
+                                        <img src="{{Storage::url('img/ellen.jpg')}}" alt="team">
                                     </div>
                                     <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
                                 </div>
@@ -468,7 +492,7 @@
                             <div class="flex-item">
                                 <div class="team-detail">
                                     <div class="team-img">
-                                        <img src="img/alex.jpg" alt="team">
+                                        <img src="{{Storage::url('img/alex.jpg')}}" alt="team">
                                     </div>
                                     <a href="#" title="Alex Murphy">Alex Murphy</a>
                                 </div>

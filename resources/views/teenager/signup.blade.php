@@ -160,7 +160,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="terms-error">Please select atleast one sponsor.</div>    
+                                <div class="birth-error">Invalid birth date.</div>    
                             </div>
                         </div>
                     </div>
@@ -179,8 +179,8 @@
                                                 <?php
                                                     $sponsor_logo = ($value->sp_logo != "") ? Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) : asset(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
                                                 ?>
-                                                <img src="{{ $sponsor_logo }}" alt="Unidel" height="100px" width="100px">
-                                            </span>{{ str_limit($value->sp_company_name, $limit = 7, $end = '..') }}
+                                                <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" height="74px" width="127px">
+                                            </span>{{ str_limit($value->sp_company_name, $limit = 20, $end = '..') }}
                                         </label>
                                     </div>
                                 @empty
