@@ -15,7 +15,7 @@ return [
     'add' => 'Add',
     'bulk' => 'Bulk',
     'bulkupload' => 'Bulk Upload',
-    'appname' => 'ProteenLife',
+    'appname' => 'ProTeenLife',
     'appshortname' => 'PRO',
     'admin' => 'Admin',
     'online' => 'Online',

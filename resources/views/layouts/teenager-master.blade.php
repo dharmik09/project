@@ -116,7 +116,7 @@
             </div>
         </footer>
         <div id="loading-wrapper">
-            <div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader"></div>
+            <div id="loading-text"><img src="{{ asset('img/ProTeen_Loading_edit.gif') }}" alt="loader"></div>
             <div id="loading-content"></div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

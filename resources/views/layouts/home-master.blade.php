@@ -61,7 +61,7 @@
                         <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
                         <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>
-                    <span>&copy; 2016 Proteen</span>
+                    <span>&copy; 2018 ProTeen</span>
                 </div>
                 <div class="right">
                     <ul class="social">
@@ -82,7 +82,7 @@
             </div>
         </footer>
         <div id="loading-wrapper">
-            <div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader"></div>
+            <div id="loading-text"><img src="{{ asset('img/ProTeen_Loading_edit.gif') }}" alt="loader"></div>
             <div id="loading-content"></div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
