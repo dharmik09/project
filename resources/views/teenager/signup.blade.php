@@ -38,7 +38,7 @@
         </div>
         @endif
     </div>
-    <section class="sec-register sec-overflow">
+    <section class="sec-register">
         <div class="container-small">
             <div class="form-register">
                 <div class="row">

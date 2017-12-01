@@ -17,7 +17,7 @@
         @stack('script-header')
         @yield('header')
     </head>
-    <body class="fixed-nav">
+    <body class="fixed-nav {{ (Route::getFacadeRoot()->current()->uri() == 'teenager/signup') ? 'sec-overflow' : '' }}">
         <nav class="fixed-navigation">
             <div class="container">
                 <div class="logo pull-left">
