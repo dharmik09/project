@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div class="banner-landing banner-parent">
+    <div class="banner-landing {{ ($type == 'Parent') ? 'banner-parent' : 'banner-mentor'}}">
         <div class="container">
             <div class="play-icon">
                 <a href="javascript:void(0);" class="play-btn" id="iframe-video">
@@ -21,11 +21,15 @@
         <div class="container-small">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="sec-heading">
+                    <div class="sec-heading {{ ($type == 'Parent') ? 'parent-heading' : 'mentor-heading'}}">
                         <h1>{{ ucfirst($type) }}</h1>
                         <span>Finally there’s a solution! </span>
                         <div class="hand-img" data-aos="zoom-in">
-                            <img src="{{Storage::url('img/hand-blue.png')}}" alt="{{ ucfirst($type) }}">
+                            @if($type == 'Parent')
+                                <img src="{{Storage::url('img/hand-blue.png')}}" alt="{{ ucfirst($type) }}">
+                            @else
+                                <img src="{{Storage::url('img/hand-mentor.png')}}" alt="{{ ucfirst($type) }}">
+                            @endif
                         </div>
                     </div>
                     <div class="content">
@@ -34,7 +38,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="form-sec bg-parent">
+                    <div class="form-sec {{ ($type == 'Parent') ? 'bg-parent' : 'bg-mentor'}}">
                         <h2>welcome back</h2>
                         <form id="login_form" method="POST" action="{{ url('/parent/login-check') }}" autocomplete="off">
                             {{csrf_field()}}
@@ -77,9 +81,17 @@
                         <img src="{{Storage::url('img/user.jpg')}}" alt="user">
                     </div>
                     <div class="testimonial-content">
-                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
+                        <span>
+                            @if($type == 'Parent')
+                                <img src="{{Storage::url('img/quote-blue.png')}}" alt="quote">
+                            @else
+                                <img src="{{Storage::url('img/quote-mentor.png')}}" alt="quote">
+                            @endif
+                        </span>
                         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
-                        <h5><a href="#" title="Lorem ipsum">Lorem ipsum</a> </h5>
+                        <h5>
+                            <a href="#" title="Lorem ipsum" class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">Lorem ipsum</a>
+                        </h5>
                     </div>
                 </li>
                 <li class="clearfix">
@@ -87,9 +99,15 @@
                         <img src="{{Storage::url('img/user.jpg')}}" alt="user">
                     </div>
                     <div class="testimonial-content">
-                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
+                        <span>
+                            @if($type == 'Parent')
+                                <img src="{{Storage::url('img/quote-blue.png')}}" alt="quote">
+                            @else
+                                <img src="{{Storage::url('img/quote-mentor.png')}}" alt="quote">
+                            @endif
+                        </span>
                         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
-                        <h5><a href="#" title="Lorem ipsum">Lorem ipsum </a></h5>
+                        <h5><a href="#" title="Lorem ipsum" class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">Lorem ipsum </a></h5>
                     </div>
                 </li>
             </ul>
@@ -113,7 +131,7 @@
     <!-- masonary section-->
     <section class="sec-masonary">
         <div class="container-large">
-            <h2>lorem ipsum dolor sit amet</h2>
+            <h2 class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">lorem ipsum dolor sit amet</h2>
             <div class="row">
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>
@@ -207,27 +225,27 @@
                 }
             });
         });
-        AOS.init({
-            duration: 1200,
-        });
-        //masonary
-        $('.masonary-grid').masonry({
-            // options
-            itemSelector: '.item',
-            columnWidth: 1
-        });
-        //video popup
-        $('.play-video').magnificPopup({
-            disableOn: 0,
-            type: 'iframe',
-            mainClass: 'mfp-fade',
-            removalDelay: 160,
-            preloader: false,
-            overflowY: 'auto',
-            removalDelay: 300,
-            midClick: true,
-            fixedBgPos: true,
-            fixedContentPos: true
+        $(window).bind("load", function() {
+            $('.masonary-grid').masonry({
+                itemSelector: '.item',
+                columnWidth: 1
+            });
+            AOS.init({
+                duration: 1200,
+            });
+            //video popup
+            $('.play-video').magnificPopup({
+                disableOn: 0,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+                overflowY: 'auto',
+                removalDelay: 300,
+                midClick: true,
+                fixedBgPos: true,
+                fixedContentPos: true
+            });
         });
         //testimonial slider
         $('.testimonial-slider').owlCarousel({

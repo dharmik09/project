@@ -49,6 +49,10 @@
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
                             </div>
                             <button type="button" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
+                            <ul class="btn-list">
+                                <li><a href="#" title="Facebook" target="_blank"><i class="icon-facebook"><!-- --></i>Facebook</a></li>
+                                <li><a href="#" title="Google" target="_blank"><i class="icon-google"><!-- --></i>Google</a></li>
+                            </ul>
                         </form>
                         <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a></p>
                         <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
@@ -176,27 +180,27 @@
                 }
             });
         });
-        AOS.init({
-            duration: 1200,
-        });
-        //masonary
-        $('.masonary-grid').masonry({
-            // options
-            itemSelector: '.item',
-            columnWidth: 1
-        });
-        //video popup
-        $('.play-video').magnificPopup({
-            disableOn: 0,
-            type: 'iframe',
-            mainClass: 'mfp-fade',
-            removalDelay: 160,
-            preloader: false,
-            overflowY: 'auto',
-            removalDelay: 300,
-            midClick: true,
-            fixedBgPos: true,
-            fixedContentPos: true
+        $(window).bind("load", function() {
+            $('.masonary-grid').masonry({
+                itemSelector: '.item',
+                columnWidth: 1
+            });
+            AOS.init({
+                duration: 1200,
+            });
+            //video popup
+            $('.play-video').magnificPopup({
+                disableOn: 0,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+                overflowY: 'auto',
+                removalDelay: 300,
+                midClick: true,
+                fixedBgPos: true,
+                fixedContentPos: true
+            });
         });
         //testimonial slider
         $('.testimonial-slider').owlCarousel({
@@ -240,6 +244,7 @@
                 return false;
             }
         });
+        
         function validateEmail(email) {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);

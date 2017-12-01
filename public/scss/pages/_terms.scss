@@ -1,0 +1,54 @@
+.terms-heading {
+    padding: 4em 0;
+    text-align: center;
+    @include maxlg{
+        padding: 3em 0;
+    }
+    @include maxsm{
+        padding: 2em 0 1em;
+    }
+    h1 {
+        font-size: 50px;
+        color: $p-cl;
+        @include maxlg{
+            font-size: 40px;
+        }
+        @include maxsm{
+            font-size: 34px;
+        }
+        @include maxms{
+            font-size: 30px;
+        }
+    }
+}
+
+.terms-content {
+    padding-bottom: 4em;
+    @include maxmd{
+        padding-bottom: 3em;
+    }
+    @include maxms{
+        padding-bottom: 2em;
+    }
+    p {
+        strong {
+            color: $h-cl;
+            font-size: 18px;
+            @include maxms{
+                font-size: 16px;
+            }
+        }
+    }
+    li{
+        font-family: hl;
+        color: $lightgrey;
+        font-size: 17px;
+        @include maxmd{
+            font-size: 15px;
+        }
+        @include maxms{
+            font-size: 14px;
+        }
+    }
+}
+

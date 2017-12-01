@@ -13,14 +13,19 @@
 @import "core/base";
 @import "core/navigation";
 @import "core/footer";
+@import "core/customtab";
+@import "core/modal";
+@import "core/loader";
 
 
 
 @import "pages/home";
 @import "pages/landing";
+@import "pages/landing-parent";
 @import "pages/login";
 @import "pages/register";
 @import "pages/interest";
+@import "pages/dashboard";
 @import "pages/multiple-intelligence";
 @import "pages/my-careers";
 @import "pages/my-network";
@@ -35,3 +40,10 @@
 @import "pages/procoins-history";
 @import "pages/coupons";
 @import "pages/gift-coupons";
+@import "pages/careers-tag";
+@import "pages/careers-page";
+@import "pages/careers-listing";
+@import "pages/careers-detail";
+@import "pages/contact";
+@import "pages/team";
+@import "pages/terms";

@@ -17,7 +17,7 @@
         @stack('script-header')
         @yield('header')
     </head>
-    <body class="fixed-nav">
+    <body class="fixed-nav {{ (Route::getFacadeRoot()->current()->uri() == 'teenager/signup') ? 'sec-overflow' : '' }}">
         <nav class="fixed-navigation">
             <div class="container">
                 <div class="logo pull-left">
@@ -58,10 +58,10 @@
                     <ul class="links">
                         <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
                         <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
+                        <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>
-                    <span>&copy; 2016 Proteen</span>
+                    <span>&copy; 2018 ProTeen</span>
                 </div>
                 <div class="right">
                     <ul class="social">
@@ -82,7 +82,7 @@
             </div>
         </footer>
         <div id="loading-wrapper">
-            <div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader"></div>
+            <div id="loading-text"><span>Loading...</span></div>
             <div id="loading-content"></div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

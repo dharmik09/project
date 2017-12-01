@@ -54,4 +54,14 @@ class HomeController extends Controller
     {
         return view('home.contactUs');
     }
+
+    public function privacyPolicy()
+    {
+        return view('home.privacyPolicy');
+    }
+
+    public function termsCondition()
+    {
+        return view('home.termsCondition');
+    }
 }

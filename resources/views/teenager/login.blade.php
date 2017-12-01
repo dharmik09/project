@@ -59,7 +59,6 @@
                             <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
                         </div>
                         <button type="submit" id="loginSubmit" value="Login" class="btn btn-default" title="Login" tabindex="4">Login</button>
-                        <div class="error">Please enter proper credentials</div>
                         <p class="text-center">or</p>
                         <ul class="btn-list">
                             <li><a href="{{ url('teenager/facebook') }}" title="Facebook" ><i class="icon-facebook"><!-- --></i>Facebook</a></li>

@@ -54,7 +54,6 @@ class SignupController extends Controller
     }
 
     public function doSignup(TeenagerSignupRequest $request) {
-        dd(env('MAIL_HOST'));
         $body = $request->all();
         $response = [];
         $response['status'] = 0;
@@ -161,42 +160,6 @@ class SignupController extends Controller
                         $replaceArray = array();
                         $replaceArray['TEEN_NAME'] = $teenagerDetailbyId->t_name;
 
-                        // if($teenagerDetailbyId->t_sponsor_choice == 1)
-                        // {
-                        //     //If user has selected Payment option
-                        //     $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PAYMENT_REVIEW_TEMPLATE'));
-                        //     $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-                        //     $data = array();
-                        //     $data['subject'] = $emailTemplateContent->et_subject;
-                        //     $data['toEmail'] = $teenagerDetailbyId->t_email;
-                        //     $data['toName'] = $teenagerDetailbyId->t_name;
-                        //     $data['content'] = $content;
-                        //     $data['teen_id'] = $teenagerDetailbyId->id;
-                        //     Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
-                        //         $message->subject($data['subject']);
-                        //         $message->to($data['toEmail'], $data['toName']);
-                        //         $teenagerPaymentDetail = [];
-                        //         $userid = $data['teen_id'];
-                        //         $teenagerPaymentDetail['t_payment_status'] = 1;
-                        //         $this->teenagersRepository->updatePaymentStatus($userid,$teenagerPaymentDetail);
-                        //     });
-                        //     $replaceArray['TEEN_EMAIL'] = $teenagerDetailbyId->t_email;
-                        //     //Send notification mail to admin
-                        //     $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.ADMIN_PAYMENT_NOTIFICATION_TEMPLATE'));
-                        //     $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-                        //     $data = array();
-                        //     $data['subject'] = $emailTemplateContent->et_subject;
-                        //     $data['toEmail'] = Helpers::getConfigValueByKey('ADMIN_EMAIL');
-                        //     $data['toName'] = Helpers::getConfigValueByKey('ADMIN_NAME');
-                        //     $data['content'] = $content;
-                        //     $data['teen_id'] = $teenagerDetailbyId->id;
-                        //     Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
-                        //         $message->subject($data['subject']);
-                        //         $message->to($data['toEmail'], $data['toName']);
-                        //     });
-                        // }
-                        // else
-                        // {
                             //If user has selected My choice or none option
                             $replaceArray['TEEN_UNIQUEID'] = Helpers::getTeenagerUniqueId();
                             $replaceArray['TEEN_URL'] = "<a href=" . url("verifyTeen?token=" . $replaceArray['TEEN_UNIQUEID']) . ">" . url("verifyTeen?token=" . $replaceArray['TEEN_UNIQUEID']) . "</a>";
@@ -219,14 +182,8 @@ class SignupController extends Controller
                                 $teenagerTokenDetail['tev_teenager'] = $data['teen_id'];
                                 $this->teenagersRepository->addTeenagerEmailVarifyToken($teenagerTokenDetail);
                             });
-                        //}
                         // ------------------------end sending mail ----------------------------//
-                        //$teenagerDetailbyId['payment_status'] = 0;
-                        // if($teenagerDetailbyId->t_sponsor_choice == 1){
-                        //     $responseMsg = 'Hi <strong>'.$teenagerDetailbyId->t_name.'</strong>, The instruction to activate your account has been sent to your registered eMailID <strong>'.$teenagerDetailbyId->t_email.'</strong>';
-                        // }else{
                             $responseMsg = 'Hi <strong>'.$teenagerDetailbyId->t_name.'</strong>, <br/> The access link to activate your account has been sent to your registered eMailID <strong>'.$teenagerDetailbyId->t_email.'</strong>';
-                        //}
                         return view('teenager.signupVerification', compact('responseMsg'));
                     }
                 } else {

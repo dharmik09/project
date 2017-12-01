@@ -1,9 +1,9 @@
 .coupons-heading {
     h1 {
         margin-bottom: 11px;
-        @include maxlg {
-            font-size: 60px;
-        }
+        // @include maxlg {
+        //     font-size: 60px;
+        // }
     }
     p {
         font-family: h;
@@ -105,6 +105,13 @@
                         font-size: 20px;
                         max-width: 162px;
                         padding: 6px 15px;
+                    }
+                    @include maxsm{
+                        font-size: 17px;
+                    }
+                    @include maxms{
+                        font-size: 14px;
+                        padding: 8px 15px;
                     }
                     &:hover {
                         background: $i-cl;

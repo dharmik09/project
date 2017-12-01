@@ -1,6 +1,9 @@
 h1 {
     font-size: 44px;
     color: rgba(22, 28, 34, 0.9);
+    @include maxsm{
+        font-size: 34px;
+    }
 }
 
 .form-sec.form-group input ::-webkit-input-placeholder {
@@ -57,13 +60,19 @@ h1 {
             text-align: left;
             form {
                 color: $lightgrey;
+                .form-group{
+                     margin-bottom: 23px;
+                }
                 .form-control {
                     height: 42px;
                     background: transparent;
                     border-color: $dark;
                     font-size: 17px;
-                    margin-bottom: 23px;
+                   
                     color: $dark;
+                    @include maxms{
+                        font-size: 14px
+                    }
                     &.error {
                         border: 2px solid #f05;
                         margin-bottom: 3px;
@@ -188,11 +197,12 @@ h1 {
 .form-group .error{
     margin-top: 0;
 }
-.error {
+em.invalid {
     color: red;
     font-size: 13px;
-    margin-top: -18px;
-    display: none;
+   margin-top: 5px;
+    display: block;
+    font-style: normal;
 }
 .successmsg{
     display: block;
@@ -202,4 +212,35 @@ h1 {
     font-family: h;
     margin: -15px 0 30px;
     display: none;
+}
+.alert {
+    background-color: $p-cl;
+    border-radius: 2px;
+    margin: 0px auto;
+    max-width: 767px;
+    position: relative;
+    z-index: 9;
+    h4{
+        margin-top: 0;
+    color: inherit;
+    }
+    .alert-success{
+      background:  #4ba82e;
+        color: $white;
+    }
+}
+.alert.danger {
+    border: medium none $p-cl;
+    color: rgba(255, 255, 255, 0.84);
+    z-index: auto;
+    button {
+    color: rgba(255, 255, 255, 0.84);
+        opacity: 1;
+}
+}
+.alert-dismissable .close, .alert-dismissible .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
 }

@@ -47,7 +47,7 @@
         }
         @include maxsm {
             font-size: 36px;
-            width: 70%;
+            width: 69%;
         }
         @include maxms {
             font-size: 26px;
@@ -58,10 +58,10 @@
         width: 20%;
         text-align: right;
         @include maxsm {
-            width: 30%;
+            width: 31%;
         }
 
-        a {
+        > a {
             display: inline-block;
             color: $lightgrey;
             font-size: 35px;
@@ -78,13 +78,16 @@
         .popover-title {
             display: none;
         }
-        .popover-content {
+        .popover-data {
             padding: 40px 20px;
         }
     }
     p {
         color: $r-cl;
         font-size: 16px;
+        @include maxms {
+            font-size: 14px;
+        }
     }
 }
 
@@ -123,10 +126,18 @@
         }
     }
     .popover-content {
+        padding:0;
+    }
+    .popover-data {
         padding: 35px 10px
     }
 }
-
+.popover-closer{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color:#000 !important;
+}
 .match-strong {
     background: $strong;
     color: $white;
@@ -145,6 +156,13 @@
 .match-list {
     float: right;
     padding: 0;
+    &.paddng-right{
+        padding-right: 40px;
+    }
+    @include maxmd {
+        float: none;
+
+    }
     @include maxsm {
         float: none;
     }
@@ -157,6 +175,12 @@
         color: $r-cl;
         margin-right: 10px;
         margin-bottom: 10px;
+        &:last-child{
+            margin-right: 0;
+        }
+        @include maxsm {
+            font-size: 16px;
+        }
         @include maxms {
             font-size: 14px;
         }
@@ -191,11 +215,7 @@
             font-weight: 700;
             @include maxmd {
                 margin-bottom: 25px;
-            }
-        }
-        .pull-right {
-            @include maxmd {
-                float: left !important;
+                float: none;
             }
         }
     }
@@ -224,10 +244,11 @@
                 font-size: 28px;
                 width: 100%;
                 display: block;
-                padding: 10px 30px;
+                padding: 21px 35px;
                 color: $white;
                 text-decoration: none;
                 text-transform: inherit;
+                line-height: 1.4;
                 @include maxlg {
                     font-size: 24px;
                 }
@@ -239,7 +260,7 @@
                     padding: 10px 15px;
                 }
                 @include maxms {
-                    font-size: 13px;
+                    font-size: 14px;
                 }
                 &:hover {
                     text-decoration: none;
@@ -261,9 +282,11 @@
                     background: $cl-complete;
                     width: 20%;
                     display: table-cell;
-                    padding: 10px 15px;
                     vertical-align: middle;
                     text-align: center;
+                    &:hover {
+                        background: $i-cl;
+                    }
                     span {
                         font-family: hl;
                         font-size: 28px;
@@ -348,6 +371,9 @@
             color: $r-cl;
             position: relative;
             width: 100%;
+            @include maxsm {
+                width: auto;
+            }
             &:before {
                 position: absolute;
                 content: '';
@@ -429,40 +455,63 @@
         }
     }
 }
-.popover{padding: 0;}
-.social-icon {
+
+.popover {
     padding: 0;
-    list-style-type: none;
-    margin: -40px -20px;
-    width: 100px;
-    li {
-        background: $dark;
-        color: $white;
-        font-size: 20px;
-        width: 50%;
-        height: 100%;
-        float: left;
-        a {
-            color: $white;
-            display: block;
-            width: 100%;
-            text-align: center;
-            i {
-                font-size: 20px;
+}
+
+.sec-popup {
+    .socialmedia-icon {
+        padding: 20px 20px 10px !important;
+        margin-top: -10px;
+        p {
+            margin-bottom: 5px;
+        }
+
+        .social-icon {
+            padding: 0;
+            list-style-type: none;
+            width: 100px;
+            li {
                 color: $white;
-            }
-            &.facebook {
-                background: #3b5998;
-                &:hover{
-                    background: #597dc7;
-                }
-            }
-            &.twitter{
-                background: #00bef6;
-                &:hover{
-                    background: #4bd1f9;
+                font-size: 20px;
+                width: 50%;
+                height: 100%;
+                float: left;
+                a {
+                    color: $white;
+                    display: block;
+                    width: 40px;
+                    height: 40px;
+                    line-height: 35px;
+                    margin: 0 auto;
+                    text-align: center;
+                    border-radius: 50%;
+                    @include maxsm {
+                        line-height: 40px;
+                    }
+                    i {
+                        font-size: 20px;
+                        color: $white;
+                    }
+                    &.facebook {
+                        background: #3b5998;
+                        &:hover {
+                            background: #597dc7;
+                        }
+                    }
+                    &.twitter {
+                        background: #00bef6;
+                        &:hover {
+                            background: #4bd1f9;
+                        }
+                    }
                 }
             }
         }
     }
+}
+.close {
+    font-size: 22px !important;
+    opacity: 0.5;
 }

@@ -1,0 +1,190 @@
+.tab-color-1 a,
+.tab-color-1 a > span,
+.tab-color-1 a:before,
+.tab-color-1 a:after {
+    background-color: $cl-complete !important;
+}
+
+.tab-color-2 a,
+.tab-color-2 a > span,
+.tab-color-2 a:before,
+.tab-color-2 a:after {
+    background-color: $h-cl !important;
+}
+
+.tab-color-3 a,
+.tab-color-3 a > span,
+.tab-color-3 a:before,
+.tab-color-3 a:after {
+    background-color: $w-cl !important;
+}
+
+.active.custom-tab a,
+.active.custom-tab a > span,
+.active.custom-tab a:before,
+.active.custom-tab a:after {
+    background-color: $white !important;
+}
+
+.custom-tab-container {
+    overflow: hidden;
+    border-bottom: none;
+    @include maxsm{
+        display: flex;
+    }
+    .custom-tab {
+        padding: 0 20px;
+        position: relative;
+        @include maxsm{
+            padding: 0;
+        }
+        &:hover {
+            a,
+            a > span,
+            a:before,
+            a:after {
+               /* background-color: $white !important;
+                color: $dark;*/
+            }
+        }
+        &.active {
+            z-index: 99;
+            &.tab-color-1 a {
+                color: $cl-complete;
+            }
+            &.tab-color-2 a {
+                color: $h-cl;
+            }
+            &.tab-color-3 a {
+                color: $w-cl;
+            }
+        }
+        a {
+            display: block;
+            position: static;
+            padding: 0 25px;
+            height: 90px; //text-align: center;
+            margin: 0;
+            font-family: hn-b;
+            font-size: 26px;
+            color: $white;
+            @include maxlg {
+                font-size: 21px;
+            }
+            @include maxmd {
+                font-size: 18px;
+            }
+            @include maxsm{
+                font-size: 15px;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                padding: 15px 10px;
+                height: 100%;
+                
+            }
+            @include maxms {
+                font-size: 13px;
+            }
+            > span {
+                position: relative;
+                z-index: 99;
+                transition: background-color 0.3s ease-out;
+            }
+            &:after,
+            &:before {
+                position: absolute;
+                content: '';
+                top: 0;
+                display: block;
+                width: 50px;
+                height: 110px;
+                transition: background-color 0.3s ease-out;
+                @include maxsm{
+                    display: none;
+                }
+            }
+            &:before {
+                left: 0;
+                transform: rotate(22deg);
+            }
+            &:after {
+                right: 0;
+                transform: rotate(-22deg);
+            }
+        }
+
+        &:first-child {
+            padding-left: 0;
+            a {
+                &:before {
+                    display: none !important;
+                }
+            }
+        }
+        &:last-child {
+            padding-right: 0;
+            a {
+                &:after {
+                    display: none !important;
+                }
+            }
+        }
+    }
+}
+
+.mobile-tab {
+    a {
+        width: 100%;
+        display: block;
+        line-height: 1.2;
+        margin-top: 20px;
+        font-family: hn-b;
+        font-size: 17px;
+        color: $white;
+        padding: 15px 10px;
+    }
+    &.active a{
+        background: $cl-complete !important;
+    }
+    &.first-mobile-tab {
+        a {
+            margin-top: 0;
+        }
+    }
+}
+
+// Removing border
+.nav-tabs > li > a,
+.nav-tabs > li > a:focus,
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    border: none;
+}
+
+// This is z-index hack do not change this
+.custom-tab:nth-child(1) {
+    z-index: 6;
+}
+
+.custom-tab:nth-child(2) {
+    z-index: 5;
+}
+
+.custom-tab:nth-child(3) {
+    z-index: 4;
+}
+
+.custom-tab:nth-child(4) {
+    z-index: 3;
+}
+
+.custom-tab:nth-child(5) {
+    z-index: 2;
+}
+
+.custom-tab:nth-child(6) {
+    z-index: 1;
+}

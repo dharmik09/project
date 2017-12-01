@@ -1,0 +1,50 @@
+.tag-banner{
+    background-image: url(../img/careers-tag.jpg);
+    background-position: 0 -83px;
+    @include maxlg{
+        background-position: center;
+    }
+}
+.tag-text{
+    padding: 50px 0;
+    h1{
+        margin-bottom: 24px;
+    }
+    p{
+        line-height: 1.5;
+    }
+}
+.careers-tag{
+    padding-bottom: 90px;
+    @include maxmd{
+        padding-bottom: 70px;
+    }
+    .bg-white{
+        padding: 38px 42px;
+        @include maxmd{
+            padding: 32px;
+        }
+        @include maxms {
+            padding: 20px 15px;
+        }
+    }
+    .career-heading{
+        margin-bottom: 2px;
+    }
+    .match-list{
+        padding-right: 40px;
+    }
+    .career-list{
+        margin-bottom: 0;
+        li{
+            &.complete-feild{
+                a{
+                    width: 82%;
+                }
+                .complete{
+                    width: 18%;
+                }
+            }
+        }
+    }
+}

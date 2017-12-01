@@ -1,0 +1,243 @@
+// @import "../core/iconfonts";
+.listing-heading {
+    padding: 82px 0 67px;
+    @include maxlg {
+        padding: 42px 0;
+    }
+    @include maxmd {
+        padding: 40px 0 20px;
+    }
+    @include maxms{
+        padding: 20px 0 0;
+    }
+}
+
+.listing-filter {
+    width: 89%;
+    margin: 0 auto 22px;
+    @include maxmd {
+        width: 100%;
+    }
+}
+
+.listing-content {
+    .bg-white {
+        padding: 0;
+    }
+    .panel-default {
+        border-color: transparent;
+        border: none;
+        border-bottom: 8px solid $bg-offwhite;
+
+        &.panel {
+            box-shadow: none;
+        }
+    }
+    .careers-tag {
+        padding-bottom: 0;
+    }
+    .panel-heading {
+        padding: 0;
+        background: transparent;
+        .panel-title {
+            position: relative;
+            a {
+                font-size: 45px;
+                font-family: ab;
+                color: $h-cl;
+                display: block;
+                padding: 43px 140px 43px 40px;
+                position: relative;
+                font-weight: 500;
+                line-height: 1.12;
+                @include maxlg {
+                    font-size: 38px;
+                }
+                @include maxmd {
+                    font-size: 32px;
+                    padding: 25px 110px 25px 20px
+                }
+                @include maxsm {
+                    font-size: 24px;
+                    padding: 15px 90px 15px 15px;
+                }
+                @include maxms{
+                    font-size: 18px;
+                    padding: 15px 80px 15px 15px;
+                }
+                &:before {
+                    position: absolute;
+                    right: 100px;
+                    font-family: proteen;
+                    line-height: 1;
+                    top: 59px;
+                    font-size: 26px;
+                    @extend .icon-list;
+                    @include maxmd {
+                        top: 32px;
+                        right: 70px;
+                    }
+                    @include maxsm {
+                        top: 15px;
+                        right: 60px;
+                        font-size: 23px;
+                    }
+                    @include maxms{
+                        right: 50px;
+                        font-size: 18px;
+                    }
+                }
+                &:hover,
+                &:focus {
+                    text-decoration: none;
+                }
+            }
+            .grid {
+                position: absolute;
+                right: 0;
+                top: 15px;
+                font-size: 26px;
+                padding: 43px 40px;
+                @include maxmd {
+                    top: 8px;
+                    font-size: 20px;
+                    padding: 25px;
+                }
+                @include maxsm {
+                    padding: 15px 20px;
+                    top: 0;
+                }
+                @include maxms{
+                    padding: 15px;
+                    font-size: 17px;
+                }
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
+    .panel-body {
+        border-top: none !important;
+        padding: 0px 40px 40px;
+        @include maxmd {
+            padding: 0 25px 30px;
+        }
+        @include maxsm{
+            padding: 0 15px 20px;
+        }
+        .career-heading {
+            p {
+                font-family: hl;
+                font-size: 24px;
+                color: $r-cl;
+                @include maxlg {
+                    font-size: 21px;
+                }
+                @include maxmd {
+                    font-size: 17px;
+                    margin-bottom: 10px;
+                }
+                @include maxms{
+                    font-size: 14px;
+                }
+                strong {
+                    color: $cl-complete;
+                }
+            }
+            .match-list {
+                padding-right: 0;
+                li {
+                    margin-right: 9px;
+                    @include maxlg {
+                        margin-right: 5px;
+                        font-size: 15px;
+                    }
+                    @include maxms{
+                        font-size: 14px;
+                    }
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                    .number {
+                        width: 24px;
+                        height: 24px;
+                        line-height: 24px;
+                        font-size: 17px;
+                        @include maxlg {
+                            width: 18px;
+                            height: 18px;
+                            line-height: 18px;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+        .career-list {
+            margin-top: 15px;
+            li {
+                a {
+                    @include maxmd {
+                        font-size: 18px;
+                        padding: 15px 25px;
+                    }
+                    @include maxsm {
+                        font-size: 15px;
+                        padding: 10px 15px;
+                    }
+                }
+            }
+            .complete-feild {
+                a {
+                    width: 78% !important;
+                    @include maxlg {
+                        width: 76% !important;
+                    }
+                    @include maxmd {
+                        width: 74% !important;
+                    }
+                    @include maxsm{
+                        width: 80% !important;
+                    }
+                }
+                .complete {
+                    background: rgba(86, 91, 95, 0.36) !important;
+                    width: 22% !important;
+                    @include maxlg {
+                        width: 24% !important;
+                    }
+                    @include maxmd {
+                        width: 26% !important;
+                    }
+                    @include maxsm{
+                        width: 10% !important;
+                    }
+                    &.thumb {
+                        width: 10% !important;
+                    }
+                    span {
+                        @include maxmd {
+                            font-size: 18px;
+                        }
+                        @include maxsm{
+                            font-size: 0px;
+                        }
+                        i{
+                            @include maxsm{
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .related-careers {
+            .career-heading {
+                .pull-right {
+                    float: left !important;
+                }
+            }
+        }
+    }
+}

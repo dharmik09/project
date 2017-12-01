@@ -1,0 +1,40 @@
+.banner-parent {
+    background-image: url(../img/Banner-2.png);
+}
+
+.banner-mentor {
+    background-image: url(../img/Banner-3.png);
+}
+.banner-school{
+    background-image: url(../img/Banner-4.png);
+}
+.banner-enterprise{
+    background-image: url(../img/Banner-5.png);
+}
+.teen-bio {
+    .parent-heading {
+        .hand-img {
+            left: 50%;
+        }
+    }
+    .mentor-heading,.school-heading {
+        .hand-img {
+            left: 54%;
+        }
+    }
+    .enterprise-heading{
+        .hand-img{
+            left: 75%;
+        }
+    }
+}
+
+.cl-mentor {
+    color: $s-cl !important;
+}
+.cl-school{
+    color: $w-cl !important;
+}
+.cl-enterprise{
+    color: $m-cl !important;
+}

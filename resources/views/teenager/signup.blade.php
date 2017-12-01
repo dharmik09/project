@@ -63,38 +63,41 @@
                 <form id="teenager_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/do-signup') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="social_provider" value="Normal">
-                    <div class="clearfix row">
-                        <div class="col-sm-6">
+                    <div class="clearfix row flex-container">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="text" class="form-control alphaonly" name="name" id="name" maxlength="100" placeholder="your name *" tabindex="1" value="{{old('name')}}" required />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="text" class="form-control digitalphaonly" name="nickname" maxlength="100" placeholder="nick name " tabindex="2" value="{{old('nickname')}}">
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="email" class="form-control" name="email" id="email" autocomplete="off" maxlength="100" placeholder="email address *" tabindex="3" value="{{old('email')}}" required />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="email" class="form-control" name="email_confirmation" id="email_confirmation" placeholder="confirm email address *" tabindex="4" maxlength="100" value="{{old('email_confirmation')}}" required />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="phone number" tabindex="5" value="{{old('phone')}}">
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number *" value="{{old('mobile')}}" tabindex="6" required />
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group input-group">
+                                <div class="clearfix">
+                                    <span class="input-group-addon">+91</span>
+                                    <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number *" value="{{old('mobile')}}" tabindex="6" required />
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group custom-select">
                                 <select tabindex="7" class="form-control" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
                                     <option value="">Country</option>
@@ -106,12 +109,12 @@
                                 <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="pincode" id="pincode" placeholder="zip code *" tabindex="8" required value="{{old('pincode')}}" maxlength="6" />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group custom-select">
                                 <select tabindex="9" class="form-control" name="gender" required >
                                     <option value="1" <?php echo (old('gender') && old('gender') == 1) ? "selected='selected'" : ''; ?> >Male</option>
@@ -119,54 +122,55 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="proteen_code" id="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{old('proteen_code')}}">
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="password" class="form-control" name="password" id="password" placeholder=" password *" tabindex="11" required />
                                 <em style="color:red" id="pass_validation">  </em>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="confirm password *" tabindex="12" required />
                                 
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="form-group date-sec">
                                 <label>birth date *</label>
                                 <div class="date-feild">
                                     <select name="month" class="form-control date-block" id="month" tabindex="13">
-                                        <option value="">Select Month</option>
-                                        @for($month=01; $month<=12; $month++)
+                                        <option value="">mm</option>
+                                        @for($month = 01; $month <= 12; $month++)
                                             <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}">{{ date('F', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
                                         @endfor
                                     </select>
                                     <select name="day" class="form-control date-block" id="day" tabindex="14">
-                                        <option value="">Select Day</option>
-                                        @for($day=1; $day<=31; $day++)
+                                        <option value="">dd</option>
+                                        @for($day = 1; $day <= 31; $day++)
                                             <option value="{{date('d', mktime(0,0,0,0, $day, date('Y')))}}">{{ date('d', mktime(0,0,0,0, $day, date('Y'))) }}</option>
                                         @endfor
                                     </select>
                                     <select name="year" class="form-control date-block" id="year" tabindex="15">
-                                        <option value="">Select Year</option>
+                                        <option value="">yyyy</option>
                                         @foreach(range(\Carbon\Carbon::now()->year, 1950) as $year)
                                             <option value="{{$year}}">{{$year}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                
+                                <div class="birth-error">Invalid birth date.</div>    
                             </div>
                         </div>
                     </div>
                     <p>Select at least one sponsor. *</p>
                     <p>Benefits include coupon code voucher and event participation.</p>
+                    <div class="sponsor-error">Please select atleast one sponsor.</div>
                     <div class="sponsor-sec">
-                        <div class="container-small">
+                        <div class="sponsor-content">
                             <div class="form-register sponsor-list">
                                 @forelse($sponsorDetail as $key => $value)
                                     <div class="checkbox">
@@ -177,14 +181,13 @@
                                                 <?php
                                                     $sponsor_logo = ($value->sp_logo != "") ? Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) : asset(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
                                                 ?>
-                                                <img src="{{ $sponsor_logo }}" alt="Unidel" height="100px" width="100px">
-                                            </span>{{ str_limit($value->sp_company_name, $limit = 7, $end = '..') }}
+                                                <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" height="74px" width="127px">
+                                            </span>{{ str_limit($value->sp_company_name, $limit = 20, $end = '..') }}
                                         </label>
                                     </div>
                                 @empty
 
                                 @endforelse
-                                <div class="error">Please select atleast one sponsor.</div>
                             </div>
                         </div>
                     </div>
@@ -192,15 +195,22 @@
                         <div class="form-register">
                             <div class="terms-sec">
                                 <div class="checkbox">
-                                    <label><input type="checkbox" name="terms_condition" id="terms_condition" tabindex="16"><span class="checker"></span> I agree to ProTeen's <a href="#" title="Terms and Conditions">Terms and Conditions</a> and <a href="#" title="Privacy Policy">Privacy Policy</a>.</label>
+                                    <label>
+                                        <input type="checkbox" name="terms_condition" id="terms_condition" tabindex="16"><span class="checker"></span> I agree to ProTeen's <a href="#" title="Terms and Conditions">Terms and Conditions</a> and <a href="#" title="Privacy Policy">Privacy Policy</a>.
+                                    </label>
                                 </div>
+                                <div class="terms-error">Please select atleast one sponsor.</div>
                             </div>
                             <p class="text-center">
                                 <button type="submit" id="form_submit" class="btn btn-default btn-submit" title="Submit" tabindex="17">Submit</button>
                                 <span class="successmsg">Thank You !</span>
                             </p>
+                            <ul class="btn-list login-source">
+                                <li><a href="#" title="Facebook" target="_blank"><i class="icon-facebook"><!-- --></i>Facebook</a></li>
+                                <li><a href="#" title="Google" target="_blank"><i class="icon-google"><!-- --></i>Google</a></li>
+                            </ul>
                             <div class="frgtpwd-sec">
-                                <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Login now">Login now</a>.</p>
+                                <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Sign in">Sign in now</a>.</p>
                                 <p>* indicates a mandatory field</p>
                             </div>
                         </div>

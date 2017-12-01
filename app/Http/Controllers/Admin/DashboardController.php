@@ -111,6 +111,6 @@ class DashboardController extends Controller
             $dashboardData[] = array('y' => $counting, 'name' => $name,'url' => $urls[$name]);
         }
         $dashboardData = json_encode($dashboardData);
-        return view('admin.Home', compact('dashboardData'));
+        return view('admin.home', compact('dashboardData'));
     }
 }

@@ -54,6 +54,9 @@
         @include maxsm{
             font-size: 16px;
         }
+        @include maxms{
+            font-size: 14px;
+        }
     }
 }
 
@@ -70,8 +73,14 @@
     font-size: 24px;
     color: $r-cl;
     margin-bottom: 49px;
+    @include maxmd{
+        font-size: 20px;
+    }
+    @include maxsm{
+        font-size: 17px;
+    }
     @include maxms{
-        margin-bottom: 20px;
+        margin-bottom: 20px;font-size: 14px;
     }
     .custom-select {
         position: relative;
@@ -89,6 +98,7 @@
             cursor: pointer;
             z-index: 0;
             font-family: hl;
+            pointer-events:none;
             @include maxms{
                 right: 8px;
                 top: 12px;
@@ -109,6 +119,13 @@
         }
         .form-control {
             border-color: $cl-complete !important;
+        }
+        &.bg-blue{
+            background: $h-cl;
+            .form-control{
+                border-color: $h-cl !important;
+
+            }
         }
     }
     .form-group {
@@ -132,7 +149,7 @@
             }
             @include maxms{
                 height: 42px;
-                font-size: 15px;
+                font-size: 14px;
                 padding: 6px 10px;
             }
 
@@ -172,6 +189,11 @@
             text-align: left;
         }
     }
+    .col-sm-12{
+        @include maxmd{
+        clear: both;
+        }
+    }
 }
 
 .sec-category {
@@ -204,9 +226,10 @@
         }
         @include maxmd {
             margin-bottom: 15px;
+            font-size: 17px;
         }
         @include maxms{
-            font-size: 15px;
+            font-size: 14px;
         }
     }
     .pull-right {
@@ -274,6 +297,9 @@
                     @include maxmd{
                         min-height: 270px;
                     }
+                    @include maxms{
+                        min-height: 210px;
+                    }
                 }
                 figcaption {
                     a {
@@ -305,6 +331,9 @@
                     @include maxmd{
                         padding: 10px 20px;
                         font-size: 16px;
+                    }
+                    @include maxms{
+                        font-size: 14px;
                     }
                 }
             }

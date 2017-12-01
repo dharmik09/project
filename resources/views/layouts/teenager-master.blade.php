@@ -31,22 +31,30 @@
                             <div class="submenu">
                                 <div class="user-snapshot">
                                     <div class="user-avatar">
-                                        <img src="img/alex.jpg" alt="">
+                                        <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : asset('uploads/teenager/thumb/proteen-logo.png'); ?>
+                                        <a href="{{ url('teenager/home') }}" title="My Dashboard">
+                                            <img src="{{ $user_profile_thumb_image }}">
+                                        </a>
                                     </div>
                                     <div class="user-name">
-                                        <h2>Alex Murphy</h2>
-                                        <p>Alexmurphy@gmail.com</p>
+                                        <a href="{{ url('teenager/home') }}" title="My Dashboard">
+                                            <h2>{{ Auth::guard('teenager')->user()->t_name }}</h2>
+                                            <p>{{ Auth::guard('teenager')->user()->t_email }}</p>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="btns">
-                                    <a href="#" class="btn btn-primary btn-small text-uppercase">My Profile</a>
-                                    <a href="#" class="btn btn-primary btn-small text-uppercase">Messages</a>
-                                    <a href="#" class="btn btn-primary btn-small text-uppercase">Sign out</a>
+                                    <a href="{{ url('/teenager/my-profile') }}" title="Profile" class="btn btn-primary btn-small text-uppercase">My Profile</a>
+                                    <a href="{{ url('/teenager/chat') }}" class="btn btn-primary btn-small text-uppercase">Messages</a>
+                                    <a href="{{ url('/teenager/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-small text-uppercase">Sign out</a>
+                                    <form id="logout-form" action="{{ url('/teenager/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
                                 </div>
                             </div>
                         </li>
                         <li class="n-coin submenu-container">
-                            <a href="javascript:void(0);"><span class="coins"></span>250,000</a>
+                            <a href="javascript:void(0);"><span class="coins"></span>{{ (Auth::guard('teenager')->user()->t_coins > 0) ? number_format(Auth::guard('teenager')->user()->t_coins) : 'No Coins' }}</a>
                             <div class="submenu">
                                 <h2>My ProCoins</h2>
                                 <div class="btns">
@@ -82,10 +90,10 @@
             <div class="container">
                 <div class="left">
                     <ul class="links">
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
                         <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
+                        <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>
                     <span>&copy; 2018 ProTeen</span>
                 </div>
@@ -108,7 +116,7 @@
             </div>
         </footer>
         <div id="loading-wrapper">
-            <div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader"></div>
+            <div id="loading-text">Loading...</div>
             <div id="loading-content"></div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

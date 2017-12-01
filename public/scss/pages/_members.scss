@@ -23,7 +23,7 @@
     }
     .chat-icon {
         font-size: 74px;
-        
+
         @include maxsm {
             font-size: 30px;
         }
@@ -59,8 +59,11 @@
             font-family: hl;
             text-transform: capitalize;
             min-width: 222px;
-            @include maxms {
+            @include maxmd {
                 font-size: 20px;
+            }
+            @include maxms {
+                font-size: 15px;
             }
         }
     }
@@ -106,36 +109,89 @@
                 margin-top: 20px;
                 border: none;
             }
-            li {
-                &:before {
-                    border-top: 30px solid #e0e6eb;
-                }
-                a {
-                    position: relative;
+            /*.progress-tab {
+                li {
+                    margin-bottom: -2px;
                     &:before {
-                        position: absolute;
-                        content: ' ';
-                        border-left: 18px solid transparent;
-                        border-right: 18px solid transparent;
-                        border-top: 30px solid #fff;
-                        top: -3px;
-                        right: -19px;
-                        z-index: 99;
-                        @include maxsm {
-                            display: none;
+                        border-top: 30px solid #e0e6eb;
+                    }
+                    &:hover {
+                        border-top: 2px solid #e0e6eb;
+                    }
+                    a {
+                        position: relative;
+                        &:before {
+                            position: absolute;
+                            content: ' ';
+                            border-left: 18px solid transparent;
+                            border-right: 18px solid transparent;
+                            border-top: 30px solid #fff;
+                            top: -3px;
+                            right: -19px;
+                            z-index: 99;
+                            @include maxsm {
+                                display: none;
+                            }
+                        }
+                    }
+                    &.active {
+                        border-top: 2px solid #e0e6eb;
+                        @include maxms {
+                            border: 1px solid #e0e6eb;
+                        }
+                    }
+                    &:last-child {
+                        a {
+                            &:before {
+                                display: none;
+                            }
                         }
                     }
                 }
-                &.active {
-                    border-top: 2px solid #e0e6eb;
-                    @include maxms {
-                        border: 1px solid #e0e6eb;
-                    }
-                }
-                &:last-child {
-                    a {
+            }*/
+            .custom-tab-container {
+                li {
+                    &.active {
+                        
                         &:before {
-                            display: none;
+                            position: absolute;
+                            content: '';
+                            top: 0;
+                            width: 94.5%;
+                            height: 2px;
+                            background: #e0e6eb;
+                            z-index: 999;
+                            @include maxlg{
+                                width: 93.5%;
+                            }
+                            @include maxmd{
+                                width: 91.5%;
+                            }
+                            @include maxsm{
+                                    width: 100%;
+                                }
+                        }
+                        &.tab-2{
+                            &:before{
+                                width: 89%;
+                                @include maxlg{
+                                    width: 87%;
+                                }
+                                @include maxmd{
+                                    width: 83%;
+                                }
+                                @include maxsm{
+                                    width: 100%;
+                                }
+                            }
+                        }
+                        a {
+                            &:after {
+                                border-right: 2px solid #e0e6eb;
+                            }
+                            &:before{
+                                border-left: 2px solid #e0e6eb; 
+                            }
                         }
                     }
                 }
@@ -146,7 +202,7 @@
 
 .sec-tab {
     .sec-popup {
-        display: none;
+        /*display: none;*/
     }
 }
 
@@ -170,6 +226,9 @@
                 @include maxsm {
                     font-size: 22px;
                     margin-top: 18px;
+                }
+                @include maxms {
+                    font-size: 18px;
                 }
             }
         }

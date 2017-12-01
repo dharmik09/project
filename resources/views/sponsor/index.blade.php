@@ -66,9 +66,9 @@
                         <img src="{{Storage::url('img/user.jpg')}}" alt="user">
                     </div>
                     <div class="testimonial-content">
-                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
+                        <span><img src="{{Storage::url('img/quote-enterprise.png')}}" alt="quote"></span>
                         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
-                        <h5><a href="#" title="Lorem ipsum">Lorem ipsum</a> </h5>
+                        <h5><a href="#" title="Lorem ipsum" class="cl-enterprise">Lorem ipsum</a> </h5>
                     </div>
                 </li>
                 <li class="clearfix">
@@ -76,9 +76,9 @@
                         <img src="{{Storage::url('img/user.jpg')}}" alt="user">
                     </div>
                     <div class="testimonial-content">
-                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
+                        <span><img src="{{Storage::url('img/quote-enterprise.png')}}" alt="quote"></span>
                         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
-                        <h5><a href="#" title="Lorem ipsum">Lorem ipsum </a></h5>
+                        <h5><a href="#" title="Lorem ipsum" class="cl-enterprise">Lorem ipsum </a></h5>
                     </div>
                 </li>
             </ul>
@@ -102,7 +102,7 @@
     <!-- masonary section-->
     <section class="sec-masonary">
         <div class="container-large">
-            <h2>lorem ipsum dolor sit amet</h2>
+            <h2 class="cl-enterprise">lorem ipsum dolor sit amet</h2>
             <div class="row">
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>
@@ -196,27 +196,27 @@
                 }
             });
         });
-        AOS.init({
-            duration: 1200,
-        });
-        //masonary
-        $('.masonary-grid').masonry({
-            // options
-            itemSelector: '.item',
-            columnWidth: 1
-        });
-        //video popup
-        $('.play-video').magnificPopup({
-            disableOn: 0,
-            type: 'iframe',
-            mainClass: 'mfp-fade',
-            removalDelay: 160,
-            preloader: false,
-            overflowY: 'auto',
-            removalDelay: 300,
-            midClick: true,
-            fixedBgPos: true,
-            fixedContentPos: true
+        $(window).bind("load", function() {
+            $('.masonary-grid').masonry({
+                itemSelector: '.item',
+                columnWidth: 1
+            });
+            AOS.init({
+                duration: 1200,
+            });
+            //video popup
+            $('.play-video').magnificPopup({
+                disableOn: 0,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+                overflowY: 'auto',
+                removalDelay: 300,
+                midClick: true,
+                fixedBgPos: true,
+                fixedContentPos: true
+            });
         });
         //testimonial slider
         $('.testimonial-slider').owlCarousel({

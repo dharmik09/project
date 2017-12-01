@@ -8,6 +8,7 @@ return [
     'DEFAULT_AWS' => "https://s3.ap-south-1.amazonaws.com/s3proteen/",
     'TEEN_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/teenager/original/',
     'TEEN_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/teenager/thumb/',
+    'TEEN_PROFILE_IMAGE_UPLOAD_PATH' => 'uploads/teenager/profile/',
     'BADGES_THUMB_IMAGE_UPLOAD_PATH' => 'frontend/images/badges/thumb/',
     'BADGES_ORIGINAL_IMAGE_UPLOAD_PATH' => 'frontend/images/badges/original/',
     'TEEN_THUMB_IMAGE_HEIGHT' => '300',

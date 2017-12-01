@@ -14,12 +14,12 @@
                         <h2 class="das_title">Your Profile</h2>
                         <div class="das_your_profile">
                             <div class="your_profile_img">
-                                <img src="{{ Storage::url('img/your_profile.jpg') }}" alt="your_profile">
-                                <h6>Jone Doe</h6>
+                                <img src="{{ $data['user_profile'] }}" alt="{{ $user->t_name }}">
+                                <h6>{{ $user->t_name }}</h6>
                             </div>
                             <!-- your_profile_img End -->
                             <div class="your_profile_view">
-                                <h4><a href="">edit</a></h4>
+                                <h4><a href="{{ url('/teenager/edit-profile') }}" title="Edit Profile">edit</a></h4>
                                 <div class="your_progress">
                                     <h6>Your Progress</h6>
                                     <h2>23%</h2>
