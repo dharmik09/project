@@ -76,7 +76,7 @@ class ApptitudeTypeScale extends Model
     
     public function calculateApptitudeHML($apptitudename,$score){
         $scale = '';
-        $apptitudeScale = $this->getAllApptitudeTypesScale();
+        $apptitudeScale = $this->getAllApptitudeTypesScaleForCalculateHML();
         foreach($apptitudeScale as $key=>$val){
             if($apptitudename == $val->apt_name)
             {                            
@@ -99,5 +99,14 @@ class ApptitudeTypeScale extends Model
 
     public function apptitude() {
         return $this->belongsTo('App\Apptitude', 'ats_apptitude_type_id');
+    }
+
+    public function getAllApptitudeTypesScaleForCalculateHML()
+    {
+        $apptitudetypescales = DB::select( DB::raw("SELECT
+                                              scale.* ,apptitude.apt_name
+                                          FROM " . config::get('databaseconstants.TBL_APPTITUDE_TYPE_SCALE'). " AS scale join " .config::get('databaseconstants.TBL_LEVEL2_APPTITUDE')." As apptitude on apptitude.id = scale.ats_apptitude_type_id where apptitude.deleted=1"), array());
+
+        return $apptitudetypescales;
     }
 }

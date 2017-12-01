@@ -634,7 +634,6 @@ Class Helpers {
         }
 
         $final = array('APIscore' => $finalScore, 'APIscale' => $scale);
-
         return $final;
     }
 

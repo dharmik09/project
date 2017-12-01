@@ -74,7 +74,7 @@ jQuery(document).ready(function($) {
     $('#close_'+professionId).click(function(event) {
         $(this).parents('.flip-container').removeClass('flip_now');
         $.ajax({
-            url: "{{ url('/parent/getremainigdays') }}",
+            url: "{{ url('/parent/get-remaining-days') }}",
             type: 'POST',
             data: {
                 "_token": '{{ csrf_token() }}',

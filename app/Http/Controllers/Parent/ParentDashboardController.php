@@ -30,6 +30,7 @@ use App\Apptitude;
 use App\Personality;
 use App\Level2ParentsActivity;
 use App\TeenParentChallenge;
+use Illuminate\Support\Facades\Storage;
 
 class ParentDashboardController extends Controller {
 
@@ -948,7 +949,7 @@ class ParentDashboardController extends Controller {
                     $userId = $teenDetail->id;
                     foreach ($professionArray as $key => $pro_val) {
                         $professionId = $pro_val->id;
-                        $parentId = Auth::guard('parent')->user()->id();
+                        $parentId = Auth::guard('parent')->user()->id;
 
                         $level4Booster = Helpers::level4Booster($professionId, $userId);
                         $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
@@ -989,7 +990,6 @@ class ParentDashboardController extends Controller {
                         } else {
                              $PromisePlus = "";
                         }
-
                         $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userId);
                         $getAllProfession = $this->professionsRepository->getProfessionsById($professionId);
 
@@ -1206,7 +1206,7 @@ class ParentDashboardController extends Controller {
                         $UserLerningStyle = [];
                         foreach ($userLearningData as $k => $value ) {
                             $userLData = $objLearningStyle->getLearningStyleDetailsByProfessionId($professionId,$value->parameterId,$userId);
-                            if (!empty($userLData)) {
+                            if (!empty($userLData->toArray())) {
                                 $points = '';
                                 $LAPoints = '';
                                 $points = $userLData[0]->uls_earned_points;
@@ -1302,7 +1302,6 @@ class ParentDashboardController extends Controller {
                 $response['teenagerMI'] = $finalSortedData;
                 $response['finalTeens'] = $finalTeens;
                 $response['teenagerMyIcons'] = $teenagerMyIcons;
-
                 //$pdf = App::make('dompdf.wrapper');
                 $pdf=PDF::loadView('parent.ExportParentprogressPDF',$response);
                 return $pdf->stream('TeenagerReport.pdf');
@@ -1572,7 +1571,7 @@ class ParentDashboardController extends Controller {
             $coins = $componentsData[0]->pc_required_coins;
             $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if (!empty($deductedCoinsDetail->toArray())) {
                 $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {
@@ -1596,7 +1595,7 @@ class ParentDashboardController extends Controller {
                 foreach ($professionArray as $key => $proValue) {
                     $professionId = $proValue->id;
                     $level4BasicData = $objLevel4Answers->getLevel4BasicDetailById($userId,$professionId);
-                    if (isset($level4BasicData) && !empty($level4BasicData)) {
+                    if (isset($level4BasicData) && !empty($level4BasicData->toArray())) {
                         $templateId = "L4B";
                         $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId,$templateId);
                         if ($learningId != '') {
@@ -1620,7 +1619,7 @@ class ParentDashboardController extends Controller {
                             $templateId = "L4AV";
                         }
                         $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId,$templateId);
-                        if (isset($level4AdvanceData) && !empty($level4AdvanceData)) {
+                        if (isset($level4AdvanceData) && !empty($level4AdvanceData->toArray())) {
                             if ($learningId != '') {
                                 $userData = [];
                                 $userData['uls_learning_style_id'] = $learningId;
@@ -1675,11 +1674,11 @@ class ParentDashboardController extends Controller {
             $userLearningData = $objLearningStyle->getLearningStyleDetails();
             $objProfession =  new Professions();
             $AllProData = $objProfession->getActiveProfessions();
-
             $TotalAttemptedP = 0;
             $allp = count($AllProData);
             $attemptedp = count($professionArray);
             $TotalAttemptedP = ($attemptedp * 100) / $allp;
+
             if (!empty($userLearningData)) {
                 foreach ($userLearningData as $k => $value ) {
                     $userLearningData[$k]->earned_points = 0;
@@ -1688,10 +1687,10 @@ class ParentDashboardController extends Controller {
                     $userLearningData[$k]->interpretationrange = '';
                     $userLearningData[$k]->totalAttemptedP = round($TotalAttemptedP);
                     $photo = $value->ls_image;
-                    if ($photo != '' && file_exists($this->learningStyleThumbImageUploadPath . $photo)) {
-                        $value->ls_image = asset($this->learningStyleThumbImageUploadPath . $photo);
+                    if ($photo != '' && isset($photo)) {
+                        $value->ls_image = Storage::url($this->learningStyleThumbImageUploadPath . $photo);
                     } else {
-                        $value->ls_image = asset("/frontend/images/proteen-logo.png");
+                        $value->ls_image = Storage::url("frontend/images/proteen-logo.png");
                     }
                 }
                 if (isset($professionArray) && !empty($professionArray)) {
@@ -1704,7 +1703,7 @@ class ParentDashboardController extends Controller {
                         $UserLerningStyle = [];
                         foreach ($userLearningData as $k => $value ) {
                             $userLData = $objLearningStyle->getLearningStyleDetailsByProfessionId($professionId,$value->parameterId,$userId);
-                            if (!empty($userLData)) {
+                            if (isset($userLData[0]) && !empty($userLData)) {
                                 $points = '';
                                 $LAPoints = '';
                                 $points = $userLData[0]->uls_earned_points;
@@ -1764,6 +1763,7 @@ class ParentDashboardController extends Controller {
                                       }
                                   }
                             }
+
                             if ($userLearningData[$k]->total_points != 0) {
                                 $LAPoints = ($value->earned_points * 100) / $userLearningData[$k]->total_points;
                             }

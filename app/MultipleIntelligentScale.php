@@ -86,7 +86,7 @@ class MultipleIntelligentScale extends Model
     public function calculateMIHML($MIname,$score){
         
         $scale = '';
-        $MIScale = $this->getAllMultipleIntelligenceTypes();
+        $MIScale = $this->getAllMultipleIntelligenceTypesForCalculateHML();
         foreach($MIScale as $key=>$val){
             if($MIname == $val->mit_name)
             {                            
@@ -105,6 +105,15 @@ class MultipleIntelligentScale extends Model
             }           
         }
         return $scale;
+    }
+
+    public function getAllMultipleIntelligenceTypesForCalculateHML($searchParamArray = array())
+    { 
+       $multipleintelligenttype = DB::select( DB::raw("SELECT
+                                              scale.* , mi.mit_name
+                                          FROM " . config::get('databaseconstants.TBL_MI_TYPE_SCALE'). " AS scale join " .config::get('databaseconstants.TBL_LEVEL2_MI')." As mi on mi.id = scale.mts_mi_type_id where mi.deleted=1"), array());
+        
+        return $multipleintelligenttype;
     }
 
     

@@ -76,6 +76,7 @@ class Level4ActivityController extends Controller {
                 if ($getParentAllTypeBadges['level4Basic']['noOfAttemptedQuestion'] != 0) {
                     $parentChallengeData[$key]->L4Attempted = 1;
                 }
+                //echo "<pre>"; print_r($parentChallengeData); exit;
                 $parentChallengeData[$key]->L4BasicPoint = $getParentAllTypeBadges['level4Basic']['earnedPoints'];
                 $parentChallengeData[$key]->L4IntermediatePoint = $getParentAllTypeBadges['level4Intermediate']['earnedPoints'];
                 $parentChallengeData[$key]->L4BAdvancePoint = $getParentAllTypeBadges['level4Advance']['earnedPoints'];
@@ -217,7 +218,6 @@ class Level4ActivityController extends Controller {
                         return Redirect::to("parent/my-challengers-accept/$professionId/$userid")->with('error', trans('appmessages.no_any_question_profession'));
                         exit;
                     }
-
                     if (isset($activities) && !empty($activities)) {
                         $activities = $activities;
                         $response['timer'] = $activities[0]->timer;
@@ -225,6 +225,7 @@ class Level4ActivityController extends Controller {
                         $activities = [];
                         $response['timer'] = 0;
                     }
+
                     $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userid);
                     $response['message'] = trans('appmessages.default_success_msg');
                     $response['NoOfTotalQuestions'] = $totalQuestion[0]->NoOfTotalQuestions;
@@ -237,6 +238,7 @@ class Level4ActivityController extends Controller {
                     $response['level4ParentBooster'] = $level4ParentBooster;
                     $response['teen_id'] = $userid;
                     $teenDetail = $this->teenagersRepository->getTeenagerByTeenagerId($userid);
+
                     $response['teenDetail'] = $teenDetail;
 
                     // STOP SENDING ALL DATA. JUST SENDING ONLY ONE DATA //$response['data'] = $activities;
@@ -248,10 +250,11 @@ class Level4ActivityController extends Controller {
                     } else {
                         $response['setCanvas'] = "no";
                         $response['data'] = (isset($activities[0])) ? $activities[0] : '';
-
+                        
                         return view('parent.level4ProfessionQuestion', compact('response'));
                         exit;
                     }
+                    
                 } else {
                     Auth::guard('parent')->logout();
                     return Redirect::to('/parent')->with('error', trans('appmessages.invalid_userid_msg'));
