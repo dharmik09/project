@@ -1206,7 +1206,7 @@ class ParentDashboardController extends Controller {
                         $UserLerningStyle = [];
                         foreach ($userLearningData as $k => $value ) {
                             $userLData = $objLearningStyle->getLearningStyleDetailsByProfessionId($professionId,$value->parameterId,$userId);
-                            if (!empty($userLData->toArray())) {
+                            if (isset($userLData[0]) && !empty($userLData)) {
                                 $points = '';
                                 $LAPoints = '';
                                 $points = $userLData[0]->uls_earned_points;
@@ -1303,7 +1303,7 @@ class ParentDashboardController extends Controller {
                 $response['finalTeens'] = $finalTeens;
                 $response['teenagerMyIcons'] = $teenagerMyIcons;
                 //$pdf = App::make('dompdf.wrapper');
-                $pdf=PDF::loadView('parent.ExportParentprogressPDF',$response);
+                $pdf=PDF::loadView('parent.exportParentProgressPDF',$response);
                 return $pdf->stream('TeenagerReport.pdf');
 
             } else {
@@ -1796,10 +1796,9 @@ class ParentDashboardController extends Controller {
             $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
             $coins = $componentsData[0]->pc_required_coins;
             $objDeductedCoins = new DeductedCoins();
-
             $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
                 $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {

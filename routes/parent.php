@@ -38,6 +38,8 @@ Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceA
 //My Teen
 Route::get('/pair-with-teen', 'Parent\ParentDashboardController@pairWithTeen')->name('pair-with-teen');
 Route::post('/save-pair', 'Parent\ParentDashboardController@savePair')->name('save-pair');
+Route::post('/gift-coins/', 'Parent\CoinsManagement@giftcoinstoTeenager')->name('gift-coins');
+Route::post('/save-coins-data-for-teen','Parent\CoinsManagement@saveGiftedCoinsDetail')->name('save-coins-data-for-teen');
 
 //Progress
 Route::get('/progress/{id}', 'Parent\ParentDashboardController@progress')->name('progress');
@@ -54,5 +56,10 @@ Route::post('/get-available-coins-for-parent/', 'Parent\CoinsManagement@getAvail
 Route::post('/get-learning-style', 'Parent\ParentDashboardController@getLearningStyle')->name('get-learning-style');
 Route::post('/get-remaining-days/', 'Parent\CoinsManagement@getRemainigDays')->name('get-remaining-days');
 Route::post('/get-remaining-days-for-report/', 'Parent\CoinsManagement@getremainigdaysForReport')->name('get-remaining-days-for-report');
+Route::post('/get-profession-education-path/', 'Parent\ParentDashboardController@getProfessionEducationPath')->name('get-profession-education-path');
+
+//Password
+Route::get('/change-password', 'Parent\PasswordController@changePassword')->name('change-password');
+Route::post('/update-password', 'Parent\PasswordController@updatePassword')->name('update-password');
 
 

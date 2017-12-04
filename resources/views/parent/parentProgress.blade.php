@@ -1335,7 +1335,6 @@
               "key": key,
           },
           success: function(response) {
-            alert(response);
             if (section != '') {
                 $("#page_loader").hide();
                 $('.section').slideUp();

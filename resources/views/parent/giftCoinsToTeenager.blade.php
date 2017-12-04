@@ -1,6 +1,6 @@
 @if(isset($userDetail) && !empty($userDetail))
 <div class="request_parent gift_coin">
-    <form id="addTeenCoins" class="form-horizontal" method="post" action={{ url("/parent/saveCoinsDataForTeen") }}>
+    <form id="addTeenCoins" class="form-horizontal" method="post" action={{ url("/parent/save-coins-data-for-teen") }}>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input type="hidden" name="id" value={{$userDetail['id']}}>
         <div class="row">
@@ -79,7 +79,7 @@ No data found
             type: 'POST',
             data: {
                 "_token": '{{ csrf_token() }}',
-                "parentId": <?php if (Auth::parent()->check()) { echo Auth::parent()->get()->id; } else { echo 0;}?>
+                "parentId": <?php //if (Auth::parent()->check()) { echo Auth::parent()->get()->id; } else { echo 0;}?>
             },
             success: function(response) {
                 coins = response;
