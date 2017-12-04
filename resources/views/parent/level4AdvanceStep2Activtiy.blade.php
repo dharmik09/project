@@ -61,7 +61,7 @@
                         <div class="my_updmain">
                             <div class="my_upd">
                                 <div for="file-input" class="l4_upld">
-                                    <img src="{{ asset('frontend/images/picture-mini.png')}}" id="previe"/>
+                                    <img src="{{ Storage::url('frontend/images/picture-mini.png')}}" id="previe"/>
                                     <p id="info_meta">Click to add <span id="media_name_image_tag"></span></p>
                                     <span class="hidden_box"></span>
                                 </div>
@@ -80,7 +80,7 @@
                         <div class="my_updmain">
                             <div class="my_upd">
                                 <div for="file-input" class="l4_upld">
-                                    <img src="{{ asset('frontend/images/picture-mini.png')}}" id="previe"/>
+                                    <img src="{{ Storage::url('frontend/images/picture-mini.png')}}" id="previe"/>
                                     <p id="info_meta">Click to add <span id="media_name_image_tag"></span></p>
                                     <span class="hidden_box"></span>
                                 </div>
@@ -99,7 +99,7 @@
                         <div class="my_updmain">
                             <div class="my_upd">
                                 <div for="file-input" class="l4_upld">
-                                    <img src="{{ asset('frontend/images/picture-mini.png')}}" id="previe"/>
+                                    <img src="{{ Storage::url('frontend/images/picture-mini.png')}}" id="previe"/>
                                     <p id="info_meta">Click to add <span id="media_name_image_tag"></span></p>
                                     <span class="hidden_box"></span>
                                 </div>

@@ -27,7 +27,7 @@ class CounselorController extends Controller {
     public function login() {
 
         if(Auth::guard('parent')->check()) {
-            return Redirect::to("/parent/dashboard");
+            return Redirect::to("/parent/home");
         }
         $text = '';
         $loginInfo = $this->cmsObj->getCmsBySlug('counselorlogininfotext');
@@ -43,7 +43,7 @@ class CounselorController extends Controller {
 
         $newuser = array();
         if(Auth::guard('parent')->check()) {
-            return Redirect::to("/parent/dashboard");
+            return Redirect::to("/parent/home");
         }
         $countries = Helpers::getCountries();
         $type = 'Mentor';

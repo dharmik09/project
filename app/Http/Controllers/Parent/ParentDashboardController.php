@@ -152,10 +152,10 @@ class ParentDashboardController extends Controller {
                         if ($val == 1) {
                             $interestImage = Helpers::getInterestData($interest);
                             if (!empty($interestImage)) {
-                                if ($interestImage->it_logo != '' && file_exists($this->interestOriginalImageUploadPath . $interestImage->it_logo)) {
-                                    $image = asset($this->interestOriginalImageUploadPath . $interestImage->it_logo);
+                                if (isset($interestImage->it_logo) && $interestImage->it_logo != '') {
+                                    $image = Storage::url($this->interestOriginalImageUploadPath . $interestImage->it_logo);
                                 } else {
-                                    $image = asset($this->interestOriginalImageUploadPath . 'proteen-logo.png');
+                                    $image = Storage::url($this->interestOriginalImageUploadPath . 'proteen-logo.png');
                                 }
                             }
                             $teenagerInterest[] = array('image' => $image, 'interest' => $interest);
@@ -172,9 +172,9 @@ class ParentDashboardController extends Controller {
                         $info = '';
                         if (!empty($aptitudemage)) {
                             if ($aptitudemage->apt_logo != '' && file_exists($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo)) {
-                                $image = asset($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo);
+                                $image = Storage::url($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo);
                             } else {
-                                $image = asset($this->apptitudeOriginalImageUploadPath . 'proteen-logo.png');
+                                $image = Storage::url($this->apptitudeOriginalImageUploadPath . 'proteen-logo.png');
                             }
                             $video = isset($aptitudemage->apt_video) && ($aptitudemage->apt_video != '') ? Helpers::youtube_id_from_url($aptitudemage->apt_video) : '';
                             $info = $aptitudemage->ap_information;
@@ -205,10 +205,10 @@ class ParentDashboardController extends Controller {
                         $info = '';
                         $miimage = Helpers::getMIData($mi);
                         if (!empty($miimage)) {
-                            if ($miimage->mit_logo != '' && file_exists($this->miOriginalImageUploadPath . $miimage->mit_logo)) {
-                                $image = asset($this->miOriginalImageUploadPath . $miimage->mit_logo);
+                            if ($miimage->mit_logo != '' && isset($miimage->mit_logo)) {
+                                $image = Storage::url($this->miOriginalImageUploadPath . $miimage->mit_logo);
                             } else {
-                                $image = asset($this->miOriginalImageUploadPath . 'proteen-logo.png');
+                                $image = Storage::url($this->miOriginalImageUploadPath . 'proteen-logo.png');
                             }
                             $video = isset($miimage->mi_video) && ($miimage->mi_video != '') ? Helpers::youtube_id_from_url($miimage->mi_video) : '';
                             $info = $miimage->mi_information;
@@ -237,9 +237,9 @@ class ParentDashboardController extends Controller {
                         $personalityimage = Helpers::getPersonalityData($personality);
                         if (!empty($personalityimage)) {
                             if ($personalityimage->pt_logo != '' && file_exists($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo)) {
-                                $image = asset($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo);
+                                $image = Storage::url($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo);
                             } else {
-                                $image = asset($this->personalityOriginalImageUploadPath . 'proteen-logo.png');
+                                $image = Storage::url($this->personalityOriginalImageUploadPath . 'proteen-logo.png');
                             }
                             $video = isset($personalityimage->pt_video) && ($personalityimage->pt_video != '') ? Helpers::youtube_id_from_url($personalityimage->pt_video) : '';
                             $info = $personalityimage->pt_information;
@@ -312,20 +312,20 @@ class ParentDashboardController extends Controller {
                     foreach ($teenagerIcons as $key => $icon) {
                         if ($icon->ti_icon_type == 1) {
 
-                            if ($icon->fiction_image != '' && file_exists($this->cartoonOriginalImageUploadPath . $icon->fiction_image)) {
-                                $fictionIcon[] = asset($this->cartoonOriginalImageUploadPath . $icon->fiction_image);
+                            if (isset($icon->fiction_image) && $icon->fiction_image != '') {
+                                $fictionIcon[] = Storage::url($this->cartoonOriginalImageUploadPath . $icon->fiction_image);
                             } else {
-                                $fictionIcon[] = asset($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
+                                $fictionIcon[] = Storage::url($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
                             }
                         } elseif ($icon->ti_icon_type == 2) {
-                            if ($icon->nonfiction_image != '' && file_exists($this->humanOriginalImageUploadPath . $icon->nonfiction_image)) {
-                                $nonFiction[] = asset($this->humanOriginalImageUploadPath . $icon->nonfiction_image);
+                            if (isset($icon->nonfiction_image) && $icon->nonfiction_image != '') {
+                                $nonFiction[] = Storage::url($this->humanOriginalImageUploadPath . $icon->nonfiction_image);
                             } else {
-                                $nonFiction[] = asset($this->humanOriginalImageUploadPath . 'proteen-logo.png');
+                                $nonFiction[] = Storage::url($this->humanOriginalImageUploadPath . 'proteen-logo.png');
                             }
                         } else {
-                            if ($icon->ti_icon_image != '' && file_exists($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image)) {
-                                $relationIcon[] = asset($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image);
+                            if (isset($icon->ti_icon_image) && $icon->ti_icon_image != '') {
+                                $relationIcon[] = Storage::url($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image);
                             }
                         }
                     }
@@ -511,10 +511,10 @@ class ParentDashboardController extends Controller {
                     $professionData = $this->professionsRepository->getProfessionsById($professionId);
 
                     $professionName = isset($professionData[0]->pf_name)?$professionData[0]->pf_name:'';
-                    if (isset($professionData[0]->pf_logo) && $professionData[0]->pf_logo != '' && file_exists($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo)) {
-                        $profession_logo = asset($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo);
+                    if (isset($professionData[0]->pf_logo) && $professionData[0]->pf_logo != '') {
+                        $profession_logo = Storage::url($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo);
                     } else {
-                        $profession_logo = asset($this->professionOriginalImageUploadPath . 'proteen-logo.png');
+                        $profession_logo = Storage::url($this->professionOriginalImageUploadPath . 'proteen-logo.png');
                     }
                     //Get badges
                     $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($teenagerId, $professionId);
@@ -706,10 +706,10 @@ class ParentDashboardController extends Controller {
                 $teengerDetail['email'] = $teenDetail->t_email;
                 $teengerDetail['unique_id'] = $teenDetail->t_uniqueid;
                 $photo = $teenDetail->t_photo;
-                if ($photo != '' && file_exists($this->teenThumbImageUploadPath . $photo)) {
-                    $url = asset($this->teenThumbImageUploadPath . $photo);
+                if (isset($photo) && $photo != '') {
+                    $url = Storage::url($this->teenThumbImageUploadPath . $photo);
                 } else {
-                    $url = asset("/backend/images/proteen_logo.png");
+                    $url = Storage::url("frontend/images/proteen_logo.png");
                 }
                 $teengerDetail['photo'] = $url;
 
@@ -757,10 +757,10 @@ class ParentDashboardController extends Controller {
                         if ($val == 1) {
                             $interestImage = Helpers::getInterestData($interest);
                             if (!empty($interestImage)) {
-                                if ($interestImage->it_logo != '' && file_exists($this->interestOriginalImageUploadPath . $interestImage->it_logo)) {
-                                    $image = asset($this->interestOriginalImageUploadPath . $interestImage->it_logo);
+                                if ($interestImage->it_logo != '' && isset($interestImage->it_logo)) {
+                                    $image = Storage::url($this->interestOriginalImageUploadPath . $interestImage->it_logo);
                                 } else {
-                                    $image = asset($this->interestOriginalImageUploadPath . 'proteen-logo.png');
+                                    $image = Storage::url($this->interestOriginalImageUploadPath . 'proteen-logo.png');
                                 }
                             }
                             $teenagerInterest[] = array('image' => $image, 'interest' => $interest);
@@ -859,26 +859,25 @@ class ParentDashboardController extends Controller {
                     foreach ($teenagerIcons as $key => $icon) {
                         if ($icon->ti_icon_type == 1) {
 
-                            if ($icon->fiction_image != '' && file_exists($this->cartoonOriginalImageUploadPath . $icon->fiction_image)) {
-                                $fictionIcon[] = $this->cartoonOriginalImageUploadPath . $icon->fiction_image;
+                            if ($icon->fiction_image != '' && isset($icon->fiction_image)) {
+                                $fictionIcon[] = Storage::url($this->cartoonOriginalImageUploadPath . $icon->fiction_image);
                             } else {
-                                $fictionIcon[] = $this->cartoonOriginalImageUploadPath . 'proteen-logo.png';
+                                $fictionIcon[] = Storage::url($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
                             }
                         } elseif ($icon->ti_icon_type == 2) {
-                            if ($icon->nonfiction_image != '' && file_exists($this->humanOriginalImageUploadPath . $icon->nonfiction_image)) {
-                                $nonFiction[] = $this->humanOriginalImageUploadPath . $icon->nonfiction_image;
+                            if ($icon->nonfiction_image != '' && isset($icon->nonfiction_image)) {
+                                $nonFiction[] = Storage::url($this->humanOriginalImageUploadPath . $icon->nonfiction_image);
                             } else {
-                                $nonFiction[] = $this->humanOriginalImageUploadPath . 'proteen-logo.png';
+                                $nonFiction[] = Storage::url($this->humanOriginalImageUploadPath . 'proteen-logo.png');
                             }
                         } else {
-                            if ($icon->ti_icon_image != '' && file_exists($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image)) {
-                                $relationIcon[] = asset($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image);
+                            if ($icon->ti_icon_image != '' && isset($icon->ti_icon_image)) {
+                                $relationIcon[] = Storage::url($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image);
                             }
                         }
                     }
                     $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
                 }
-
                 //Get teenager attempted profession
 
                 $professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($teenDetail->id);
@@ -921,15 +920,15 @@ class ParentDashboardController extends Controller {
                             $professionAttempted[$key]['yourscore'] = 0;
                             $professionAttempted[$key]['rank'] = 0;
                         }
-                        if (isset($val->pf_logo) && $val->pf_logo != '' && file_exists($this->professionThumbImageUploadPath . $val->pf_logo)) {
-                            $professionAttempted[$key]['thumb_logo'] = asset($this->professionThumbImageUploadPath . $val->pf_logo);
+                        if (isset($val->pf_logo) && $val->pf_logo != '') {
+                            $professionAttempted[$key]['thumb_logo'] = Storage::url($this->professionThumbImageUploadPath . $val->pf_logo);
                         } else {
-                            $professionAttempted[$key]['thumb_logo'] = asset($this->professionThumbImageUploadPath . 'proteen-logo.png');
+                            $professionAttempted[$key]['thumb_logo'] = Storage::url($this->professionThumbImageUploadPath . 'proteen-logo.png');
                         }
-                        if (isset($val->pf_logo) && $val->pf_logo != '' && file_exists($this->professionOriginalImageUploadPath . $val->pf_logo)) {
-                            $professionAttempted[$key]['orinigal_logo'] = asset($this->professionOriginalImageUploadPath . $val->pf_logo);
+                        if (isset($val->pf_logo) && $val->pf_logo != '') {
+                            $professionAttempted[$key]['orinigal_logo'] = Storage::url($this->professionOriginalImageUploadPath . $val->pf_logo);
                         } else {
-                            $professionAttempted[$key]['orinigal_logo'] = asset($this->professionOriginalImageUploadPath . 'proteen-logo.png');
+                            $professionAttempted[$key]['orinigal_logo'] = Storage::url($this->professionOriginalImageUploadPath . 'proteen-logo.png');
                         }
                     }
                 }
@@ -942,6 +941,7 @@ class ParentDashboardController extends Controller {
                         }
                     }
                 }
+
                 //Get Promise plus
                 $allProPromisePlus = [];
                 if (isset($professionArray) && !empty($professionArray)) {
@@ -1190,10 +1190,10 @@ class ParentDashboardController extends Controller {
                     $userLearningData[$k]->interpretationrange = '';
                     $userLearningData[$k]->totalAttemptedP = round($TotalAttemptedP);
                     $photo = $value->ls_image;
-                    if ($photo != '' && file_exists($this->learningStyleThumbImageUploadPath . $photo)) {
-                        $value->ls_image = asset($this->learningStyleThumbImageUploadPath . $photo);
+                    if ($photo != '' && isset($photo)) {
+                        $value->ls_image = Storage::url($this->learningStyleThumbImageUploadPath . $photo);
                     } else {
-                        $value->ls_image = asset("/frontend/images/proteen-logo.png");
+                        $value->ls_image = Storage::url("frontend/images/proteen-logo.png");
                     }
                 }
                 if (isset($professionArray) && !empty($professionArray)) {

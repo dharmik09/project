@@ -1,4 +1,4 @@
-@extends('layouts.parent-master')
+@extends('school.Master')
 
 @section('content')
 
@@ -43,42 +43,51 @@
 <div class="centerlize">
     <div class="container">
         <div class="pricing_title">
-            <h1><span class="title_border">Request By Teenagers</span></h1>
+            <div class="my_teens_content ">
+                <div class="btn_cont gift_modal_page">
+                    <a href="{{ url('school/getGiftCoins') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/getGiftCoins') ? 'active' : '' }}" >{{trans('labels.giftcoins')}}</a>
+                    <a href="{{ url('school/getConsumption') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/getConsumption') ? 'active' : '' }}" >{{trans('labels.consumption')}}</a>
+                </div>
+            </div>
+            <h1><span class="title_border">{{trans('labels.consumedcoins')}}</span></h1>
         </div>
         <div class="my_teens_content clearfix">
             <div class="my_teens_inner">
                 <div class="table_container">
                     <table class="sponsor_table">
                         <tr>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Requested Date</th>
-                            <th>Actions</th>
+                            <th>{{trans('labels.component')}}</th>
+                            <th>{{trans('labels.consumedcoins')}}</th>
+                            <th>{{trans('labels.consumedcoinsdate')}}</th>
+                            <th>{{trans('labels.enddate')}}</th>
                         </tr>
-                        @if(!empty($userDetail))
-                        @foreach($userDetail as $key=>$data)
+                        @if(!empty($deductedCoinsDetail) && count($deductedCoinsDetail) > 0)
+                        @foreach($deductedCoinsDetail as $key=>$data)
                         <tr>
                             <td>
-                                {{$data->t_name}}
+                                {{$data->pc_element_name}}
                             </td>
                             <td>
-                                @if ($data->tpr_status == 1)
-                                    Pending
-                                @else
-                                    Completed
-                                @endif
+                                <?php echo number_format($data->dc_total_coins); ?>
                             </td>
                             <td>
-                                <?php echo date('d M Y', strtotime($data->created_at)); ?>
+                                <?php echo date('d M Y', strtotime($data->dc_start_date)); ?>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" title="" onclick="purchasedCoins({{$data->tpr_teen_id}});">View</a>
+                                <?php echo date('d M Y', strtotime($data->dc_end_date)); ?>
                             </td>
                         </tr>
                         @endforeach
                         @else
                         <tr><td colspan="4">No data found</td></tr>
                         @endif
+                         <tr>
+                            <td colspan="4">
+                                @if (isset($deductedCoinsDetail) && !empty($deductedCoinsDetail))
+                                      <?php echo $deductedCoinsDetail->render(); ?>
+                                @endif
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -88,23 +97,8 @@
 </div>
 @stop
 @section('script')
-
-<script type="text/javascript">
-
-    function purchasedCoins(id)
-    {
-        $.ajax({
-            url: "{{ url('parent/accept-teen-request') }}",
-            type: 'post',
-            data: {
-                "_token": '{{ csrf_token() }}',
-                "teen_id": id
-            },
-            success: function(response) {
-               var path = '<?php echo url('/parent/my-coins/'); ?>';
-               location.href = path;
-            }
-        });
-    }
+<script>
+    $(".table_container").mCustomScrollbar({axis:"x"});
 </script>
+
 @stop
