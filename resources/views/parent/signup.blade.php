@@ -111,7 +111,7 @@
                                 <div class="upload_image">
                                     <input type="file" onchange="readURL(this);" name="photo"  class="profilePhoto" accept=".png, .jpg, .jpeg, .bmp" />
                                     <div class="placeholder_image">
-                                        <span><img src="{{asset('frontend/images/proteen_logo.png')}}"/></span>
+                                        <span><img src="{{Storage::url('frontend/images/proteen_logo.png')}}"/></span>
                                         <p><span>Upload Your Photo</span></p>
                                     </div>
                                 </div>

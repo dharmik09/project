@@ -9,6 +9,7 @@ use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
 use Helpers;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Storage;
 
 class EloquentTeenagersRepository extends EloquentBaseRepository implements TeenagersRepository {
 
@@ -314,7 +315,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 $basicBadgeRating = 0;
             }
             if ($basicBadgeRating > 0) {
-                $basicImagePoint = asset(Config::get('constant.BADGES_ORIGINAL_IMAGE_UPLOAD_PATH') . $basicBadgeRating . '.png');
+                $basicImagePoint = Storage::url(Config::get('constant.BADGES_ORIGINAL_IMAGE_UPLOAD_PATH') . $basicBadgeRating . '.png');
             }
         }
         $basicArray = [];
@@ -399,7 +400,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 $intermediateBadgeRating = 0;
             }
             if ($intermediateBadgeRating > 0) {
-                $intermediateImagePoint = asset(Config::get('constant.BADGES_ORIGINAL_IMAGE_UPLOAD_PATH') . "a" . $intermediateBadgeRating . '.png');
+                $intermediateImagePoint = Storage::url(Config::get('constant.BADGES_ORIGINAL_IMAGE_UPLOAD_PATH') . "a" . $intermediateBadgeRating . '.png');
             }
         }
         $intermediateArray = [];
@@ -454,7 +455,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
             $advanceBadgeRating += 2;
         }
         if ($advanceBadgeRating > 0) {
-            $advanceImagePoint = asset(Config::get('constant.BADGES_ORIGINAL_IMAGE_UPLOAD_PATH') . "w" . $advanceBadgeRating . '.png');
+            $advanceImagePoint = Storage::url(Config::get('constant.BADGES_ORIGINAL_IMAGE_UPLOAD_PATH') . "w" . $advanceBadgeRating . '.png');
         }
         $advanceArray = [];
         $advanceArray['totalPoints'] = $advanceEarnedPoint;

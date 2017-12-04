@@ -5,17 +5,17 @@
     <div style="width:50px;display:inline-block;padding-top: 10px;">
     <?php  if($professionAttempted['level2Promise'] == 'nomatch') {
     ?>
-        <img src="{{ asset('frontend/images/Look_Elsewhere_LL.png')}}" height="50px" alt="">
+        <img src="{{ Storage::url('frontend/images/Look_Elsewhere_LL.png')}}" height="50px" alt="">
     <?php
     }?>
     <?php if($professionAttempted['level2Promise'] == 'moderate') {
     ?>
-        <img src="{{ asset('frontend/images/Possible_Choice_MM.png')}}" height="50px" alt="">
+        <img src="{{ Storage::url('frontend/images/Possible_Choice_MM.png')}}" height="50px" alt="">
     <?php
     }?>
     <?php  if($professionAttempted['level2Promise'] == 'match') {
     ?>
-        <img src="{{ asset('frontend/images/Fitting_Choice_HH.png')}}"height="50px" alt="">
+        <img src="{{ Storage::url('frontend/images/Fitting_Choice_HH.png')}}"height="50px" alt="">
     <?php
     }?>
     </div>
@@ -26,21 +26,21 @@
     <div class="ahchivement promise_plus_ach">
     <?php  if($professionAttempted['level2Promise'] == 'match') {
     ?>
-        <img src="{{ asset('frontend/images/Fitting_Choice_HH.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'match') { echo 'promise_img';}?>">
-        <img src="{{ asset('frontend/images/Stretch_Yourself_HM.png')}}" alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'moderate') { echo 'promise_img';}?>">
-        <img src="{{ asset('frontend/images/Secondary_Choice_HL.png')}}" alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'nomatch') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Fitting_Choice_HH.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'match') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Stretch_Yourself_HM.png')}}" alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'moderate') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Secondary_Choice_HL.png')}}" alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'nomatch') { echo 'promise_img';}?>">
     <?php
     } if($professionAttempted['level2Promise'] == 'moderate'){
     ?>
-        <img src="{{ asset('frontend/images/Growth_Option_MH.png')}}" alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'match') { echo 'promise_img';}?>">
-        <img src="{{ asset('frontend/images/Possible_Choice_MM.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'moderate') { echo 'promise_img';}?>">
-        <img src="{{ asset('frontend/images/Stretch_Yourself_ML.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'nomatch') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Growth_Option_MH.png')}}" alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'match') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Possible_Choice_MM.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'moderate') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Stretch_Yourself_ML.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'nomatch') { echo 'promise_img';}?>">
     <?php
     } if($professionAttempted['level2Promise'] == 'nomatch') {
     ?>
-        <img src="{{ asset('frontend/images/Surprise_Match_LH.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'match') { echo 'promise_img';}?>">
-        <img src="{{ asset('frontend/images/Secondary_Choice_LM.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'moderate') { echo 'promise_img';}?>">
-        <img src="{{ asset('frontend/images/Look_Elsewhere_LL.png')}}" alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'nomatch') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Surprise_Match_LH.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'match') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Secondary_Choice_LM.png')}}"  alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'moderate') { echo 'promise_img';}?>">
+        <img src="{{ Storage::url('frontend/images/Look_Elsewhere_LL.png')}}" alt="" class="promise_plus_img <?php if($professionAttempted['promisePlus'] == 'nomatch') { echo 'promise_img';}?>">
     <?php
     }?>
     </div>

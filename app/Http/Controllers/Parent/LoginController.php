@@ -95,7 +95,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $userType = Auth::guard('parent')->get()->p_user_type;
+        $userType = Auth::guard('parent')->user()->p_user_type;
         if ($userType == 1) {
             $loginRoute = url('parent/login');
         } else {

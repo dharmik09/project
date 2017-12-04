@@ -50,7 +50,7 @@
                     @if($response['showCongrats'] == 'yes')
                     <div class="cong_container animation-element in-view">
                         <canvas id="canvas">Canvas is not supported in your browser.</canvas>
-                        <div class="cong cong_hero"><img src="{{asset('frontend/images/jumping.gif')}}" alt=""></div>
+                        <div class="cong cong_hero"><img src="{{Storage::url('frontend/images/jumping.gif')}}" alt=""></div>
                         <div class="cong cong_top"><p>Congratulations!</p></div>
                         <div class="cong cong_bottom">
                             <div class="cong_outer">
@@ -76,19 +76,19 @@
                     <div class="advance_step_1">
                         <a title="Click to upload image" href="javascript:void(0)" onclick="getQuestionDataAdvanceLevel(3, <?php echo $professionDetail[0]->id; ?>, <?php echo $response['teen_id'];?>);" class="icon_cate picture_pop">
                             <span class="advance_level_title">Upload your Image</span>
-                            <img src="{{asset('/frontend/images/picture.png')}}" alt="">
+                            <img src="{{Storage::url('frontend/images/picture.png')}}" alt="">
                             <span><i class="fa fa-upload" aria-hidden="true"></i></span>
                         </a>
                         
                         <a title="Click to upload video" href="javascript:void(0)" class="video_pop icon_cate" onclick="getQuestionDataAdvanceLevel(1, <?php echo $professionDetail[0]->id; ?>, <?php echo $response['teen_id'];?>);">
                             <span class="advance_level_title">Upload your video</span>
-                            <img src="{{asset('/frontend/images/video-camera.png')}}" alt="">
+                            <img src="{{Storage::url('frontend/images/video-camera.png')}}" alt="">
                             <span><i class="fa fa-upload" aria-hidden="true"></i></span>
                         </a>
                                               
                         <a title="Click to upload document" href="javascript:void(0)" class="file_pop icon_cate" onclick="getQuestionDataAdvanceLevel(2, <?php echo $professionDetail[0]->id; ?>, <?php echo $response['teen_id'];?>);">
                             <span class="advance_level_title">Upload your document</span>
-                            <img src="{{asset('/frontend/images/file.png')}}" alt="">
+                            <img src="{{Storage::url('frontend/images/file.png')}}" alt="">
                             <span><i class="fa fa-upload" aria-hidden="true"></i></span>
                         </a>
                     </div>
@@ -127,7 +127,7 @@
         <!-- Modal content-->
         <div class="modal-content">
                 <button type="button" class="close close_next" data-dismiss="modal">Next</button>
-                <div class="default_logo"><img src="{{asset('/frontend/images/proteen_logo.png')}}" alt=""></div>
+                <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 				<div class="sticky_pop_head"><h2 class="title"><span class="l-4"><span class="level_label">L-4</span></span></h2></div>
 
                 <div class="modal-body">

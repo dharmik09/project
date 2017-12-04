@@ -57,6 +57,7 @@ Route::post('/get-learning-style', 'Parent\ParentDashboardController@getLearning
 Route::post('/get-remaining-days/', 'Parent\CoinsManagement@getRemainigDays')->name('get-remaining-days');
 Route::post('/get-remaining-days-for-report/', 'Parent\CoinsManagement@getremainigdaysForReport')->name('get-remaining-days-for-report');
 Route::post('/get-profession-education-path/', 'Parent\ParentDashboardController@getProfessionEducationPath')->name('get-profession-education-path');
+Route::post('/accept-teen-request','Parent\CoinsManagement@acceptTeenRequest')->name('accept-teen-request');
 
 //Password
 Route::get('/change-password', 'Parent\PasswordController@changePassword')->name('change-password');

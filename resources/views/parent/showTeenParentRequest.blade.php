@@ -1,4 +1,4 @@
-@extends('parent.Master')
+@extends('layouts.parent-master')
 
 @section('content')
 
@@ -94,14 +94,14 @@
     function purchasedCoins(id)
     {
         $.ajax({
-            url: "{{ url('parent/acceptteenrequest') }}",
+            url: "{{ url('parent/accept-teen-request') }}",
             type: 'post',
             data: {
                 "_token": '{{ csrf_token() }}',
                 "teen_id": id
             },
             success: function(response) {
-               var path = '<?php echo url('/parent/mycoins/'); ?>';
+               var path = '<?php echo url('/parent/my-coins/'); ?>';
                location.href = path;
             }
         });

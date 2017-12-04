@@ -792,8 +792,8 @@ class Level4ActivityController extends Controller {
                                     if (isset($getAnswerResponseTextAndImage) && !empty($getAnswerResponseTextAndImage)) {
                                         $response['questionAnswerText'] = (isset($getAnswerResponseTextAndImage['answerResponseText']) && $getAnswerResponseTextAndImage['answerResponseText'] != '') ? $getAnswerResponseTextAndImage['answerResponseText'] : '';
                                         if (isset($getAnswerResponseTextAndImage['answerResponseImage']) && $getAnswerResponseTextAndImage['answerResponseImage'] != '') {
-                                            if (file_exists($this->answerResponseImageOriginal . $getAnswerResponseTextAndImage['answerResponseImage'])) {
-                                                $response['questionAnswerImage'] = asset($this->answerResponseImageOriginal . $getAnswerResponseTextAndImage['answerResponseImage']);
+                                            if (isset($getAnswerResponseTextAndImage['answerResponseImage']) && $getAnswerResponseTextAndImage['answerResponseImage'] != '') {
+                                                $response['questionAnswerImage'] = Storage::url($this->answerResponseImageOriginal . $getAnswerResponseTextAndImage['answerResponseImage']);
                                             } else {
                                                 $response['questionAnswerImage'] = '';
                                             }

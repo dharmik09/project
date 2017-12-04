@@ -28,7 +28,7 @@
                 <img src="{{$response['badges'][0]['newbie']}}" alt="" />
             <?php } else {
                 ?>
-                <img src="{{asset('/frontend/images/newbie_default.png')}}" alt="" />
+                <img src="{{Storage::url('frontend/images/newbie_default.png')}}" alt="" />
                 <?php
             }
             if (isset($response['badges'][0]['apprentice']) && $response['badges'][0]['apprentice'] != '') {
@@ -36,7 +36,7 @@
                 <img src="{{$response['badges'][0]['apprentice']}}" alt="" />
             <?php } else {
                 ?>
-                <img src="{{asset('/frontend/images/apprentice_default.png')}}" alt="" />
+                <img src="{{Storage::url('frontend/images/apprentice_default.png')}}" alt="" />
                 <?php
             }
             if (isset($response['badges'][0]['wizard']) && $response['badges'][0]['wizard'] != '') {
@@ -44,7 +44,7 @@
                 <img src="{{$response['badges'][0]['wizard']}}" alt="" />
             <?php } else {
                 ?>
-                <img src="{{asset('/frontend/images/wizard_default.png')}}" alt="" />
+                <img src="{{Storage::url('frontend/images/wizard_default.png')}}" alt="" />
             <?php } ?>
         </div>
     </div>
@@ -60,7 +60,7 @@
                 <span class="promiseplus">PROMISE Plus</span>
                 <span class="coinouter">
                     <span class="coinsnum">{{$response['required_coins']}}</span>
-                    <span class="coinsimg"><img src="{{asset('/frontend/images/coin-stack.png')}}">
+                    <span class="coinsimg"><img src="{{Storage::url('frontend/images/coin-stack.png')}}">
                     </span>
                 </span>
             </a>
