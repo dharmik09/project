@@ -206,8 +206,8 @@
                                 <span class="successmsg">Thank You !</span>
                             </p>
                             <ul class="btn-list login-source">
-                                <li><a href="#" title="Facebook" target="_blank"><i class="icon-facebook"><!-- --></i>Facebook</a></li>
-                                <li><a href="#" title="Google" target="_blank"><i class="icon-google"><!-- --></i>Google</a></li>
+                                <li><a href="{{ url('teenager/facebook') }}" title="Facebook" target="_blank"><i class="icon-facebook"><!-- --></i>Facebook</a></li>
+                                <li><a href="{{ url('teenager/google') }}" title="Google" target="_blank"><i class="icon-google"><!-- --></i>Google</a></li>
                             </ul>
                             <div class="frgtpwd-sec">
                                 <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Sign in">Sign in now</a>.</p>
