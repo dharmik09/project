@@ -71,7 +71,7 @@
                     <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/update-profile')? 'active':''}}"><a href="{{url('/parent/update-profile')}}" >My Profile</a></li>
                     <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/dashboard')? 'active':''}}"><a href="{{url('/parent/home/')}}">My Teen</a></li>
                     <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/progress')? 'active':''}}"><a href="{{url('/parent/progress/')}}">Progress</a></li>
-                    <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/pricing')? 'active':''}}"><a href="{{url('/parent/mycoins/')}}">My ProCoins</a></li>
+                    <li class="{{(Route::getFacadeRoot()->current()->uri() == 'parent/my-coins')? 'active':''}}"><a href="{{url('/parent/my-coins/')}}">My ProCoins</a></li>
                     <li class="user_avatar">
                         <a href="#" class="drop_down_menu">
                            <span class="user_detail_name">{{Auth::guard('parent')->user()->p_first_name}}</span>

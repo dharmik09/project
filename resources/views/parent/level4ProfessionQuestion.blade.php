@@ -66,7 +66,7 @@
             $hint = [];
         }
         ?>
-        @if(!empty($hint))
+        @if(!empty($hint) && isset($hint[0]))
         <div class="proteen_hint">
             <div class="container">
                 <div class="hero_div clearfix">

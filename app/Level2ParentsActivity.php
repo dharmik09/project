@@ -20,15 +20,16 @@ class Level2ParentsActivity extends Model {
                         ->where('l2pac_type', $saveParentLevel2Data['l2pac_type'])
                         ->where('l2pac_rate_id', $saveParentLevel2Data['l2pac_rate_id'])
                         ->get();
-       if (isset($result) && !empty($result) && count($result) > 0) {
+
+        if (isset($result) && !empty($result) && count($result) > 0) {
             $return = $this->where('id', $result[0]['id'])->update($saveParentLevel2Data);
             $return = $this->where('id', $result[0]['id'])->first();
-       } else {
+        } else {
             $return = $this->create($saveParentLevel2Data);
             $lastinsertId =  DB::getPdo()->lastInsertId();
             $return = $this->where('id', $lastinsertId)->first();
-       }
-       return $return;
+        }
+        return $return;
    }
 
    public function getLevel2ParentsActivity($rateId,$parent_Id,$teenid,$type) {
@@ -39,7 +40,6 @@ class Level2ParentsActivity extends Model {
                         ->where('l2pac_type', $type)
                         ->where('l2pac_rate_id', $rateId)
                         ->get();
-
         return $result;
    }
 

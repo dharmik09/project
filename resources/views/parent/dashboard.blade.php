@@ -156,7 +156,7 @@
         }
         $('.ajax-loader').show();
         $.ajax({
-            url: "{{ url('parent/giftcoins') }}",
+            url: "{{ url('parent/gift-coins') }}",
             type: 'post',
             data: {
                 "_token": '{{ csrf_token() }}',

@@ -80,7 +80,7 @@ class PersonalityScale extends Model
     
     public function calculatePersonalityHML($personality, $score){
         $scale = "H";
-        $personalityScale = $this->getAllPersonalityTypes();
+        $personalityScale = $this->getAllPersonalityTypesForCalculateHML();
         foreach($personalityScale as $key=>$val){
             if($personality == $val->pt_name)
             {                            
@@ -103,6 +103,14 @@ class PersonalityScale extends Model
 
     public function personality() {
         return $this->belongsTo('App\Personality', 'pts_personality_type_id');
+    }
+
+    public function getAllPersonalityTypesForCalculateHML($searchParamArray = array())
+    {
+        $personalitytypescales = DB::select( DB::raw("SELECT
+                                              scale.* , personality.pt_name
+                                          FROM " . config::get('databaseconstants.TBL_PERSONALITY_TYPE_SCALE'). " AS scale join " .config::get('databaseconstants.TBL_LEVEL2_PERSONALITY')." As personality on personality.id = scale.pts_personality_type_id where personality.deleted=1"), array());
+        return $personalitytypescales;
     }
 
 }

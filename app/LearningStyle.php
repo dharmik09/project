@@ -43,7 +43,7 @@ class LearningStyle extends Model {
                         ->where('Prols.pls_parameter_id', $perameterId)
                         ->where('Prols.deleted','=',1)
                         ->get();
-        if (count($learningStyle) > 0) {
+        if (!empty($learningStyle->toArray())) {
             $lId = $learningStyle[0]->id;
             $result = DB::table(config::get('databaseconstants.TBL_USER_LEARNING_STYLE'))
                     ->selectRaw('uls_learning_style_id,uls_earned_points')
@@ -51,7 +51,7 @@ class LearningStyle extends Model {
                     ->where('uls_profession_id',$id)
                     ->where('uls_teenager_id',$teenId)
                     ->get();
-            if (!empty($result)) {
+            if (!empty($result->toArray())) {
                 $result[0]->activity_name = $learningStyle[0]->pls_activity_name;
             }
             return $result;

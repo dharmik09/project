@@ -962,7 +962,7 @@
 
         function getRemaningDays(parentId) {
             $.ajax({
-                url: "{{ url('/parent/get-remainig-days') }}",
+                url: "{{ url('/parent/get-remaining-days') }}",
                 type: 'POST',
                 data: {
                     "_token": '{{ csrf_token() }}',
@@ -1155,7 +1155,7 @@
 
         function getRemaningDaysForReport(parent_id) {
             $.ajax({
-                url: "{{ url('/parent/get-remainig-days-for-report') }}",
+                url: "{{ url('/parent/get-remaining-days-for-report') }}",
                 type: 'POST',
                 data: {
                     "_token": '{{ csrf_token() }}',

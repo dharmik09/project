@@ -634,7 +634,6 @@ Class Helpers {
         }
 
         $final = array('APIscore' => $finalScore, 'APIscale' => $scale);
-
         return $final;
     }
 
@@ -2171,7 +2170,7 @@ Class Helpers {
            $final_date = round(abs($date) / 86400, 2);
         }
         $days = round($final_date);
-        return $days;
+        return 0;
     }
 
     public static function getAllUserTypes() {

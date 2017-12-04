@@ -38,11 +38,28 @@ Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceA
 //My Teen
 Route::get('/pair-with-teen', 'Parent\ParentDashboardController@pairWithTeen')->name('pair-with-teen');
 Route::post('/save-pair', 'Parent\ParentDashboardController@savePair')->name('save-pair');
+Route::post('/gift-coins/', 'Parent\CoinsManagement@giftcoinstoTeenager')->name('gift-coins');
+Route::post('/save-coins-data-for-teen','Parent\CoinsManagement@saveGiftedCoinsDetail')->name('save-coins-data-for-teen');
 
 //Progress
 Route::get('/progress/{id}', 'Parent\ParentDashboardController@progress')->name('progress');
 Route::post('/get-profession-badges-and-rank/', 'Parent\ParentDashboardController@getProfessionBadgesAndRank')->name('get-profession-badges-and-rank');
 Route::post('/save-teen-promise-rate/', 'Parent\ParentDashboardController@saveTeenPromiseRate')->name('save-teen-promise-rate');
 Route::post('/get-teen-promise-rate-count/', 'Parent\ParentDashboardController@getTeenPromiseRateCount')->name('get-teen-promise-rate-count');
+Route::get('/progress/', 'Parent\ParentDashboardController@progress');
+Route::post('/get-available-coins/', 'Parent\CoinsManagement@getAvailableCoins')->name('get-available-coins');
+Route::post('/get-coins-for-parent/', 'Parent\CoinsManagement@getCoinsForParent')->name('get-coins-for-parent');
+Route::post('/purchased-coins-to-view-report', 'Parent\ParentDashboardController@purchasedCoinsToViewReport')->name('purchased-coins-to-view-report');
+Route::get('/export-pdf/{id}', 'Parent\ParentDashboardController@exportPDF')->name('export-pdf');
+Route::post('/get-profession-badges-and-rank-on-click/', 'Parent\ParentDashboardController@getProfessionBadgesAndRankOnClick')->name('get-profession-badges-and-rank-on-click');
+Route::post('/get-available-coins-for-parent/', 'Parent\CoinsManagement@getAvailableCoinsForParent')->name('get-available-coins-for-parent');
+Route::post('/get-learning-style', 'Parent\ParentDashboardController@getLearningStyle')->name('get-learning-style');
+Route::post('/get-remaining-days/', 'Parent\CoinsManagement@getRemainigDays')->name('get-remaining-days');
+Route::post('/get-remaining-days-for-report/', 'Parent\CoinsManagement@getremainigdaysForReport')->name('get-remaining-days-for-report');
+Route::post('/get-profession-education-path/', 'Parent\ParentDashboardController@getProfessionEducationPath')->name('get-profession-education-path');
+
+//Password
+Route::get('/change-password', 'Parent\PasswordController@changePassword')->name('change-password');
+Route::post('/update-password', 'Parent\PasswordController@updatePassword')->name('update-password');
 
 

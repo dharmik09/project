@@ -5,7 +5,7 @@
 <div class="learn_outer lg_header_border">
     <div class="learn_inner lg_header_font">
         <p>
-            <img src="{{ asset('frontend/images/Factual.png')}}" alt=""><span>Factual</span>
+            <img src="{{ Storage::url('frontend/images/Factual.png')}}" alt=""><span>Factual</span>
         </p>
         <button class="micro_detail_button" data-idaa="factual_data">More</button>
         <div class="micro_detail factual_data">Basic elements an individual must know to be acquainted with a subject or  solve problems in it</div>
@@ -29,7 +29,7 @@
 <div class="learn_outer lg_header_border">
     <div class="learn_inner lg_header_font">
         <p>
-            <img src="{{ asset('frontend/images/Conceptual.png')}}" alt=""><span>Conceptual</span>
+            <img src="{{ Storage::url('frontend/images/Conceptual.png')}}" alt=""><span>Conceptual</span>
         </p>
         <button class="micro_detail_button" data-idaa="conceptual_data">More</button>
         <div class="micro_detail conceptual_data">The inter-relationships among the basic elements within a larger structure that enable them to function together</div>
@@ -53,7 +53,7 @@
 <div class="learn_outer lg_header_border">
     <div class="learn_inner lg_header_font">
         <p>
-            <img src="{{ asset('frontend/images/Procedural.png')}}" alt=""><span>Procedural</span>
+            <img src="{{ Storage::url('frontend/images/Procedural.png')}}" alt=""><span>Procedural</span>
         </p>
         <button class="micro_detail_button" data-idaa="procedural_data">More</button>
         <div class="micro_detail procedural_data">How to do something, methods of enquiry and criteria for using skills, algorithms, techniques and methods</div>
@@ -77,7 +77,7 @@
 <div class="learn_outer lg_header_border">
     <div class="learn_inner lg_header_font">
         <p>
-            <img src="{{ asset('frontend/images/Metacognitive.png')}}" alt=""><span>Meta-Cognitive</span>
+            <img src="{{ Storage::url('frontend/images/Metacognitive.png')}}" alt=""><span>Meta-Cognitive</span>
         </p>
         <button class="micro_detail_button" data-idaa="meta_co_data">More</button>
         <div class="micro_detail meta_co_data" >Knowledge of cognition - the mental process of acquiring knowledge and understanding through thought, experience, and the senses in general, as well as awareness and knowledge of one's own cognition.</div>
