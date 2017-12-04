@@ -29,7 +29,7 @@
                         <span class="complete-detail">Profile 62% complete</span>
                     </div>
                     <div class="col-sm-9">
-                        <h1>{{ $user->t_name }}</h1>
+                        <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                         <ul class="area-detail">
                             <li>{{ ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Miami" }} Area</li>
                             <li>87 Connections </li>
@@ -51,7 +51,7 @@
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}">
+                                    <input type="text" class="form-control" id="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }} {{ $user->t_lastname }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">

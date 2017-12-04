@@ -15,15 +15,15 @@
         margin: 0 auto;
         .reg-heading {
             @include maxsm {
-                display: flex;
-                flex-wrap: wrap;
+               // display: flex;
+               // flex-wrap: wrap;
                 margin-bottom: 22px;
             }
             [class*=col-] {
                 &:last-child {
-                    padding-left: 50px;
+                    padding-right: 50px;
                     @include maxsm {
-                        padding-left: 30px;
+                        padding:0 15px;
                     }
                 }
                 .full-width {
@@ -33,8 +33,8 @@
                     }
                     @include maxms {
                         text-align: center;
-                        display: flex;
-                        flex-wrap: wrap;
+                        //display: flex;
+                       // flex-wrap: wrap;
                     }
                     h1 {
                         @include maxms {
@@ -47,7 +47,7 @@
                     }
                 }
                 @include maxsm {
-                    display: inline-flex;
+                   // display: inline-flex;
                     width: 100%;
                 }
                 &.order-2 {

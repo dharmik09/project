@@ -62,6 +62,8 @@ class SignupController extends Controller
         $teenagerDetail = [];
         $teenagerDetail['t_uniqueid'] = Helpers::getTeenagerUniqueId();
         $teenagerDetail['t_name'] = (isset($body['name']) && $body['name'] != '') ? e($body['name']) : '';
+        $teenagerDetail['t_lastname'] = (isset($body['t_lastname']) && $body['t_lastname'] != '') ? e($body['t_lastname']) : '';
+        //Nickname is ProTeen Code
         $teenagerDetail['t_nickname'] = (isset($body['nickname']) && $body['nickname'] != '') ? e($body['nickname']) : '';
         
         $stringVariable = $body['year']."-".$body['month']."-".$body['day'];
@@ -79,7 +81,7 @@ class SignupController extends Controller
         $teenagerDetail['password'] = (isset($body['password']) && isset($body['password_confirmation']) && $body['password'] != '' && $body['password_confirmation'] === $body['password']) ? bcrypt($body['password']) : '';
         $teenagerDetail['t_phone'] = (isset($body['mobile']) && $body['mobile'] != '') ? $body['mobile'] : '';
         //Added new phone name field
-        //$teenagerDetail['t_phone_new'] = (isset($body['phone']) && $body['phone'] != '') ? $body['phone'] : '';
+        $teenagerDetail['t_phone_new'] = (isset($body['phone']) && $body['phone'] != '') ? $body['phone'] : '';
 
         $teenagerDetail['t_country'] = (isset($body['country']) && $body['country'] != '') ? $body['country'] : '';
         $teenagerDetail['t_social_provider'] = (isset($body['social_provider']) && $body['social_provider'] != '') ? $body['social_provider'] : '';
@@ -92,7 +94,7 @@ class SignupController extends Controller
         $teenagerDetail['deleted'] = '1';
 
         //Check all default field value -> If those are entered dummy by users
-        if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['password'] == '' || $teenagerDetail['t_email'] == '' || $teenagerDetail['t_gender'] == '' || $teenagerDetail['t_birthdate'] == '') {
+        if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['password'] == '' || $teenagerDetail['t_email'] == '' || $teenagerDetail['t_gender'] == '' || $teenagerDetail['t_birthdate'] == '') {
             return Redirect::to("teenager/signup")->withErrors(trans('validation.someproblems'))->withInput();
             exit;
         }
@@ -158,7 +160,7 @@ class SignupController extends Controller
                         $teenagerDetailbyId = $this->teenagersRepository->getTeenagerById($teenagerDetailSaved['id']);
                         // --------------------start sending mail -----------------------------//
                         $replaceArray = array();
-                        $replaceArray['TEEN_NAME'] = $teenagerDetailbyId->t_name;
+                        $replaceArray['TEEN_NAME'] = $teenagerDetailbyId->t_name." ".$teenagerDetailbyId->t_lastname;
 
                             //If user has selected My choice or none option
                             $replaceArray['TEEN_UNIQUEID'] = Helpers::getTeenagerUniqueId();
@@ -169,7 +171,7 @@ class SignupController extends Controller
                             $data = array();
                             $data['subject'] = $emailTemplateContent->et_subject;
                             $data['toEmail'] = $teenagerDetailbyId->t_email;
-                            $data['toName'] = $teenagerDetailbyId->t_name;
+                            $data['toName'] = $teenagerDetailbyId->t_name." ".$teenagerDetailbyId->t_lastname;
                             $data['content'] = $content;
                             $data['teen_token'] = $replaceArray['TEEN_UNIQUEID'];
                             $data['teen_url'] = $replaceArray['TEEN_URL'];

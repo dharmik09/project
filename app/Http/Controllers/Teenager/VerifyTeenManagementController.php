@@ -48,7 +48,7 @@ class VerifyTeenManagementController extends Controller
         if(isset($teenagerDetailbyId->id))
         {
             $replaceArray = array();
-            $replaceArray['TEEN_NAME'] = $teenagerDetailbyId->t_name;
+            $replaceArray['TEEN_NAME'] = $teenagerDetailbyId->t_name." ".$teenagerDetailbyId->t_lastname;
             $replaceArray['TEEN_UNIQUEID'] = Helpers::getTeenagerUniqueId();
             $replaceArray['TEEN_URL'] = "<a href=" . url("teenager/verify-teenager?token=" . $replaceArray['TEEN_UNIQUEID']) . ">" . url("teenager/verify-teenager?token=" . $replaceArray['TEEN_UNIQUEID']) . "</a>";
             $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.TEENAGER_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
@@ -56,7 +56,7 @@ class VerifyTeenManagementController extends Controller
             $data = array();
             $data['subject'] = $emailTemplateContent->et_subject;
             $data['toEmail'] = $teenagerDetailbyId->t_email;
-            $data['toName'] = $teenagerDetailbyId->t_name;
+            $data['toName'] = $teenagerDetailbyId->t_name." ".$teenagerDetailbyId->t_lastname;
             $data['content'] = $content;
             $data['teen_token'] = $replaceArray['TEEN_UNIQUEID'];
             $data['teen_url'] = $replaceArray['TEEN_URL'];
@@ -69,7 +69,7 @@ class VerifyTeenManagementController extends Controller
                 $teenagerTokenDetail['tev_teenager'] = $data['teen_id'];
                 $this->teenagersRepository->addTeenagerEmailVarifyToken($teenagerTokenDetail);
             });
-            $responseMsg = 'Hi <strong>'.$teenagerDetailbyId->t_name.'</strong>, <br/> The access link to activate your account has been sent to your registered eMailID <strong>'.$teenagerDetailbyId->t_email.'</strong>';
+            $responseMsg = 'Hi <strong>'.$teenagerDetailbyId->t_name.' '.$teenagerDetailbyId->t_lastname.'</strong>, <br/> The access link to activate your account has been sent to your registered eMailID <strong>'.$teenagerDetailbyId->t_email.'</strong>';
             return view('teenager.signupVerification', compact('responseMsg'));
         }
         return Redirect::back()->withErrors("No any user found for verification!");

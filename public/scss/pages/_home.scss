@@ -131,19 +131,28 @@
             padding: 0 20px 0 11%;
         }
     }
+    .dot-container{
+            height: 100% !important;
+    position: static !important;
+    }
     .owl-dots {
         // padding: 20px 0;
         // transform:translate(50%,-50%);
         transition: all 0.5s;
         position: absolute;
         bottom: 32.5%;
-        left: 13.5%;
+        //left: 13.5%;
+        padding-left: 80px;
+        
         @include maxlg {
             bottom: 28.5%;
         }
         @include maxsm {
             bottom: 34%;
-            left: 15%;
+            padding-left: 11%;
+        }
+        @include maxms{
+            bottom: 40%;
         }
     }
     .owl-dot {

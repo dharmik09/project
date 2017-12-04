@@ -207,11 +207,14 @@ em.invalid {
 .successmsg{
     display: block;
     font-size: 18px;
-    color: #4ba82e;
+    color: $h-cl;
     font-weight: 700;
     font-family: h;
-    margin: -15px 0 30px;
-    display: none;
+    margin: 15px 0;
+    text-align: center;
+    @include maxms{
+        font-size: 16px;
+    }
 }
 .alert {
     background-color: $p-cl;
