@@ -438,7 +438,7 @@ Class Helpers {
     }
 
     public static function getSchoolOriginalImageUrl($schoolLogo) {
-        return asset(Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH') . $schoolLogo);
+        return Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH') . $schoolLogo;
     }
 
     public static function getContactphotoOriginalImageUrl($sponsorPhoto) {
@@ -446,7 +446,7 @@ Class Helpers {
     }
 
     public static function getContactpersonOriginalImageUrl($schoolPhoto) {
-        return asset(Config::get('constant.CONTACT_PERSON_ORIGINAL_IMAGE_UPLOAD_PATH') . $schoolPhoto);
+        return Config::get('constant.CONTACT_PERSON_ORIGINAL_IMAGE_UPLOAD_PATH') . $schoolPhoto;
     }
 
     public static function getTeenagerThumbImageUrl($teenagerPhoto) {

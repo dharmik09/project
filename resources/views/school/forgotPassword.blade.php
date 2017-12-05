@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <form class="registration_form" method="POST" id="forgot-password" action="{{url('school/forgotPasswordOTP')}}">
+                <form class="registration_form" method="POST" id="forgot-password" action="{{url('school/forgot-password-OTP')}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <h1><span class="title_border">Forgot Password</span></h1>
                     <p class="header_text">Not a problem! Just type your email and we will send OTP(one time password) to reset password</p>

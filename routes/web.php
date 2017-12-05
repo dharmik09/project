@@ -119,39 +119,9 @@ Route::group(['prefix' => 'counselor'], function () {
 Route::group(['prefix' => 'school'], function () {
 	Route::get('/', 'School\HomeController@index');
 	Route::get('/login', 'School\LoginController@login');
-	Route::get('/dashboard', 'School\DashboardController@index');
-	Route::get('/signup', 'School\SignupController@signup');
-	Route::post('/doSignup', 'School\SignupController@doSignup');
-	Route::get('/doSignup', 'School\SignupController@signup');
-	Route::post('/dashboard/', 'School\LoginController@loginCheck');
-	Route::get('/logout', 'School\LoginController@getLogout');
-	Route::get('/changepassword', 'School\PasswordController@changePassword');
-	Route::post('/updatePassword', 'School\PasswordController@updatePassword');
-	Route::post('/userSearchForSchoolData/', 'School\DashboardController@userSearchForSchoolData');
-
-	Route::get('/forgotPassword', 'School\PasswordController@forgotPassword');
-	Route::post('/forgotPasswordOTP', 'School\PasswordController@forgotPasswordOTP');
-	Route::post('/forgotPasswordOTPVerify', 'School\PasswordController@forgotPasswordOTPVerify');
-	Route::post('/saveForgotPassword', 'School\PasswordController@saveForgotPassword');
-
-	Route::get('/forgotPasswordOTP', 'School\PasswordController@forgotPassword');
-	Route::get('/forgotPasswordOTPVerify', 'School\PasswordController@forgotPassword');
-	Route::get('/setForgotPassword', 'School\PasswordController@forgotPassword');
-	Route::get('/saveForgotPassword', 'School\PasswordController@forgotPassword');
-	Route::get('/updateprofile', 'School\UpdateProfileController@updateProfile');
-	Route::post('/saveProfile', 'School\UpdateProfileController@saveProfile');
-	Route::get('/progress', 'School\UpdateProfileController@progress');
-	Route::get('/progress/{cid}', 'School\UpdateProfileController@progress');
-	//Route::get('/progress/getClassAsPerSchool/{cid}', 'School\UpdateProfileController@getTeenDataAsPerClass');
-
-	Route::get('/bulkimport', 'School\DashboardController@bulkImport');
-	Route::post('/saveschoolbulkimport', 'School\DashboardController@savebulkdata');
-	Route::get('/inactive/{id}/{status}', 'School\DashboardController@inactive');
-	Route::get('/sendemail', 'School\DashboardController@sendemail');
-	Route::post('/sendemail', 'School\DashboardController@sendemail');  
-	Route::get('verifyTeenfromSchool', 'Teenager\VerifyTeenManagementController@verifyTeenFromSchool');
-
-	Route::get('/school/exportpdf/{id}', 'School\DashboardController@exportPDF');
+	Route::get('/login-check', 'School\LoginController@login');
+	Route::post('/login-check', 'School\LoginController@loginCheck')->name('school.login-check');
+	Route::post('/logout', 'School\LoginController@getLogout')->name('logout');
 });
 
-Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('verify-parent-teen-pair');
+Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('parent.verify-parent-teen-pair');

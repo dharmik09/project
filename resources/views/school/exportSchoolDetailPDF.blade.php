@@ -21,7 +21,7 @@
     <table>
         <tr>
             <td width="80px">
-                <div><img src="{{ asset('/backend/images/proteen_logo.png')}}" alt="" width="58px"/></div>
+                <div><img src="{{ Storage::url('frontend/images/proteen_logo.png')}}" alt="" width="58px"/></div>
             </td>
             <td>
                 <span><h2>SCHOOL ANALYTICS</h2></span>
@@ -42,7 +42,7 @@
                 <div><img src="{{$logo}}" alt="" width="60px" height="60px"/></div>
             </td>
             <td width="600px">
-                <div style="text-align:center; font-size: 24px;font-weight: bold; padding-top:10px;"> {{Auth::school()->get()->sc_name}}</div>
+                <div style="text-align:center; font-size: 24px;font-weight: bold; padding-top:10px;"> {{Auth::guard('school')->user()->sc_name}}</div>
             </td>
         </tr>
     </table>
@@ -163,7 +163,7 @@
             </td>
             <td style="border-bottom:2px solid #E66A45; text-align:center;" width="100px">
                 <?php
-                    $sid = Auth::school()->get()->id;
+                    $sid = Auth::guard('school')->user()->id;
                     $pf_id = $value->id;
                     $totalProfessionByClass = Helpers::getCountForAttemptedProfession($pf_id,$sid,$cid);
                     echo $totalProfessionByClass;

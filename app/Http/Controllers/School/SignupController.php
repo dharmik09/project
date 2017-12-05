@@ -25,11 +25,11 @@ use App\CMS;
 
 class SignupController extends Controller {
 
-    public function __construct(SchoolsRepository $SchoolsRepository, TemplatesRepository $TemplatesRepository) {
+    public function __construct(SchoolsRepository $schoolsRepository, TemplatesRepository $templatesRepository) {
 
         $this->objSchools = new Schools();
-        $this->SchoolsRepository = $SchoolsRepository;
-        $this->TemplatesRepository = $TemplatesRepository;
+        $this->schoolsRepository = $schoolsRepository;
+        $this->templatesRepository = $templatesRepository;
         $this->contactpersonOriginalImageUploadPath = Config::get('constant.CONTACT_PERSON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->contactpersonThumbImageUploadPath = Config::get('constant.CONTACT_PERSON_THUMB_IMAGE_UPLOAD_PATH');
         $this->contactpersonThumbImageHeight = Config::get('constant.CONTACT_PERSON_THUMB_IMAGE_HEIGHT');
@@ -45,14 +45,14 @@ class SignupController extends Controller {
     public function signup() {
         
         $newuser = array();
-        if (Auth::school()->check()) {
-            return Redirect::to("/school/dashboard");
+        if (Auth::guard('school')->check()) {
+            return Redirect::to("/school/home");
         }
         $countries = Helpers::getCountries();
         //$cities = Helpers::getCities();
         //echo "<pre>"; print_r($cities); die;
         //$states = Helpers::getStates();
-        $schoolDetail = $this->SchoolsRepository->getApprovedSchools();
+        $schoolDetail = $this->schoolsRepository->getApprovedSchools();
 
         $infotext = '';
         $termInfo = $this->cmsObj->getCmsBySlug('term-and-condition');
@@ -68,7 +68,7 @@ class SignupController extends Controller {
             $policytext = $privacyText['cms_body'];
         }
 
-        return view('school.Signup', compact('newuser', 'sponsorDetail', 'countries', 'infotext', 'policytext'));
+        return view('school.signup', compact('newuser', 'sponsorDetail', 'countries', 'infotext', 'policytext'));
     }
 
     public function doSignup(SchoolSignupRequest $request) {
@@ -99,10 +99,10 @@ class SignupController extends Controller {
         $schoolDetail['sc_uniqueid'] = Helpers::getTeenagerUniqueId();
         
         if ($schoolDetail['sc_email'] != '') {
-            $schoolEmailExist = $this->SchoolsRepository->checkActiveEmailExist($schoolDetail['sc_email']);
+            $schoolEmailExist = $this->schoolsRepository->checkActiveEmailExist($schoolDetail['sc_email']);
         }
         if ($schoolDetail['sc_phone'] != '') {
-            $schoolMobileExist = $this->SchoolsRepository->checkActivePhoneExist($schoolDetail['sc_phone']);
+            $schoolMobileExist = $this->schoolsRepository->checkActivePhoneExist($schoolDetail['sc_phone']);
         }
         if (isset($schoolEmailExist) && $schoolEmailExist) {
             $response['message'] = trans('appmessages.userwithsameemailaddress');
@@ -147,7 +147,7 @@ class SignupController extends Controller {
                                 $schoolDetail['sc_logo'] = "proteen_logo.png";
                             }
                         }
-                        $schoolDetailSaved = $this->SchoolsRepository->saveSchoolDetail($schoolDetail);
+                        $schoolDetailSaved = $this->schoolsRepository->saveSchoolDetail($schoolDetail);
                         $schoolDetailSaved = $schoolDetailSaved->toArray();
 
 
@@ -161,8 +161,8 @@ class SignupController extends Controller {
                         $replaceArray['USER_NAME'] = $schoolDetail['sc_first_name'] ." ". $schoolDetail['sc_last_name'];
                         $replaceArray['EMAIL'] = $schoolDetail['sc_email'];
 
-                        $emailTemplateContent = $this->TemplatesRepository->getEmailTemplateDataByName(Config::get('constant.VARIFY_USER_REQUEST'));
-                        $content = $this->TemplatesRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                        $emailTemplateContent = $this->templatesRepository->getEmailTemplateDataByName(Config::get('constant.VARIFY_USER_REQUEST'));
+                        $content = $this->templatesRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
                         $data = array();
                         $data['subject'] = $emailTemplateContent->et_subject;
@@ -175,9 +175,9 @@ class SignupController extends Controller {
                         });
 
                         /* save sponser by teenager id if sponsor id is not blank */
-                        $schoolDetailbyId = $this->SchoolsRepository->getSchoolById($schoolDetailSaved['id']);
+                        $schoolDetailbyId = $this->schoolsRepository->getSchoolById($schoolDetailSaved['id']);
                         $responseMsg = 'Hi <strong>'.$schoolDetailbyId->sc_first_name.'</strong>,<br/> Once ProTeen Admin verify your account, you will be able to login.';                            
-                        return view('school.SignupVerification', compact('responseMsg'));
+                        return view('school.signupVerification', compact('responseMsg'));
                     }
                 }
 

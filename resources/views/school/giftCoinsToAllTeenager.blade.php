@@ -1,5 +1,5 @@
 <div class="request_parent gift_coin">
-    <form id="addTeenCoins" class="form-horizontal" method="post" action={{ url("/school/saveCoinsDataForAllTeenager") }}>
+    <form id="addTeenCoins" class="form-horizontal" method="post" action={{ url("/school/save-coins-data-for-all-teenager") }}>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="clearfix">
         <div class="input_icon">

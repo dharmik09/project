@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 
@@ -48,12 +48,12 @@
 <div class="centerlize">
     <div class="container">
         <div class="container_padd">
-            <h1><span class="title_border">{{Auth::school()->get()->sc_name}}</span><br/>Students</h1>
+            <h1><span class="title_border">{{Auth::guard('school')->user()->sc_name}}</span><br/>Students</h1>
             <div style="text-align: center;margin-top: 10px;">&nbsp;&nbsp;(Upload excel file for bulk student import)
                 <a href="{{asset($schoolOriginalImagePath.'school_student_import_sample_file.xls')}}" id="" class="rlink">Download sample file</a>
             </div>
 
-            <form id="addSchoolBulk" method="post" action="{{ url('/school/saveschoolbulkimport') }}" enctype="multipart/form-data">
+            <form id="addSchoolBulk" method="post" action="{{ url('/school/save-school-bulk-import') }}" enctype="multipart/form-data">
                 <div class="my_box" style="margin-top: 50px;">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div>
@@ -72,7 +72,7 @@
                 </div>
             </form>
             <div class="back_to back_next_container clearfix">
-                <a href="{{ url('school/dashboard') }}" class="rlink"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back to dashboard</a>
+                <a href="{{ url('school/home') }}" class="rlink"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back to dashboard</a>
             </div>
 
         </div>            

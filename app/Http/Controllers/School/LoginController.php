@@ -23,10 +23,18 @@ use App\CMS;
 
 class LoginController extends Controller {
 
-    public function __construct(SchoolsRepository $SchoolsRepository)
+    /**
+     * Where to redirect users after login / registration.
+     *
+     * @var string
+     */
+    public $redirectTo = '/school/home';
+
+    public function __construct(SchoolsRepository $schoolsRepository)
     {
+        $this->middleware('school.guest', ['except' => 'logout']);
         $this->objSchools = new Schools();
-        $this->SchoolsRepository = $SchoolsRepository;
+        $this->schoolsRepository = $schoolsRepository;
         $this->schoolOriginalImageUploadPath = Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->schoolThumbImageUploadPath = Config::get('constant.SCHOOL_THUMB_IMAGE_UPLOAD_PATH');
         $this->schoolThumbImageHeight = Config::get('constant.SCHOOL_THUMB_IMAGE_HEIGHT');
@@ -35,8 +43,8 @@ class LoginController extends Controller {
     }
 
     public function login() {
-        if (Auth::school()->check()) {
-            return Redirect::to("/school/dashboard");
+        if (Auth::guard('school')->check()) {
+            return Redirect::to("/school/home");
         }
         $text = '';
         $loginInfo = $this->cmsObj->getCmsBySlug('schoollogininfotext');
@@ -44,11 +52,10 @@ class LoginController extends Controller {
             $loginText = $loginInfo->toArray();
             $text = $loginText['cms_body'];
         }
-        return view('school.Login',compact('text'));
+        return view('school.login',compact('text'));
     }
 
     public function loginCheck(SchoolLoginRequest $request) {
-
         $email = e(Input::get('email'));
         $password = e(Input::get('password'));
 
@@ -57,36 +64,32 @@ class LoginController extends Controller {
         $response['message'] = trans('appmessages.default_error_msg');
 
         if (isset($email) && $email != '' && isset($password) && $password != '') {
- 
-                if ($user = Auth::school()->attempt(['sc_email' => $email, 'password' => $password, 'deleted' => 1])) {
-                $school = $this->SchoolsRepository->getSchoolDetailByEmailId($email);
-                    if (!empty($school) && $school['sc_isapproved'] == '1') {
-                        return Redirect::to("school/dashboard");
-                        exit;
-                    } else {
-
-                        Auth::school()->logout();
-                        return Redirect::to('/school')->with('error', trans('appmessages.notvarified_user_msg'));
-                    }
-
+            if (Auth::guard('school')->attempt(['sc_email' => $email, 'password' => $password, 'deleted' => 1])) {
+                $school = $this->schoolsRepository->getSchoolDetailByEmailId($email);
+                if (!empty($school) && $school['sc_isapproved'] == '1') {
+                    flash('Welcome to the school panel')->success();
+                    return redirect()->to(route('school.home'));
+                    exit;
                 } else {
-                    $response['message'] = trans('appmessages.invalid_user_pwd_msg');
-                    return Redirect::to('/school')->with('error', trans('appmessages.invalid_user_pwd_msg'));
+                    Auth::guard('school')->logout();
+                    return Redirect::to('/school')->with('error', trans('appmessages.notvarified_user_msg'));
                 }
-
+            } else {
+                $response['message'] = trans('appmessages.invalid_user_pwd_msg');
+                return Redirect::to('/school')->with('error', trans('appmessages.invalid_user_pwd_msg'));
+            }
         } else {
             $response['message'] = trans('appmessages.missing_data_msg');
             return Redirect::to('/school')->with('error', trans('appmessages.missing_data_msg'));
         }
-
         return Redirect::back()
                         ->withInput()
                         ->withErrors(trans('validation.invalidcombo'));
     }
 
     public function getLogout() {
-        Auth::school()->logout();
-        return Redirect::to('/school');
+        Auth::guard('school')->logout();
+        return Redirect::to('/school/login');
         exit;
     }
 

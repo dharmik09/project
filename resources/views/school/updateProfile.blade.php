@@ -1,5 +1,4 @@
-
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 
@@ -42,7 +41,7 @@
 <div class="centerlize">
         <div class="container">
             <div class="container_padd detail_container">
-                <form class="registration_form" id="school_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/school/saveProfile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <form class="registration_form" id="school_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/school/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="col-md-offset-1 col-md-10 col-sm-12 teen_relative">
                         <span class="teen_id"><span>School Reference : </span>{{ $user->sc_uniqueid or ''}}</span>
@@ -63,11 +62,11 @@
                                                     <div class="mandatory">*</div>
                                                     <span>
                                                     <?php $school = Helpers::getSchoolOriginalImageUrl($user->sc_logo);
-                                                        if (file_exists(public_path($schoolOriginalImagePath . $user->sc_logo)) && $user->sc_logo != '') {
+                                                        if (isset($user->sc_logo) && $user->sc_logo != '') {
                                                     ?>
-                                                        <img src="{{asset($school)}}"/>
+                                                        <img src="{{Storage::url($school)}}"/>
                                                     <?php } else { ?>
-                                                        <span><img src="{{asset('frontend/images/proteen_logo.png')}}"/></span>
+                                                        <span><img src="{{Storage::url('frontend/images/proteen_logo.png')}}"/></span>
                                                         <p><span>Upload Your Logo</span></p>
                                                     <?php } ?>
                                                     </span>
@@ -82,11 +81,11 @@
                                                     <div class="placeholder_image update_profile">
                                                         <span>
                                                         <?php $contactperson = Helpers::getContactpersonOriginalImageUrl($user->sc_photo);
-                                                            if (file_exists(public_path($contactpersonOriginalImagePath . $user->sc_photo)) && $user->sc_photo != '') {
+                                                            if (isset($user->sc_photo) && $user->sc_photo != '') {
                                                         ?>
-                                                            <img src="{{asset($contactperson)}}"/>
+                                                            <img src="{{Storage::url($contactperson)}}"/>
                                                         <?php } else { ?>
-                                                            <span><img src="{{asset('frontend/images/proteen_logo.png')}}"/></span>
+                                                            <span><img src="{{Storage::url('frontend/images/proteen_logo.png')}}"/></span>
                                                             <p><span>Upload sponsor photo</span></p>
                                                         <?php } ?>
                                                             </span>
@@ -403,7 +402,7 @@
     $("#city_name").empty();
     $.ajax({
         type: 'GET',
-        url: '/getState/' + countryId,
+        url: '/get-state/' + countryId,
         dataType: "JSON",
         success: function(JSON){
             $("#state_name").empty()
@@ -419,7 +418,7 @@ function getDataOfCity(stateId)
 {
     $.ajax({
         type: 'GET',
-        url: '/getcity/' + stateId,
+        url: '/get-city/' + stateId,
         dataType: "JSON",
         success: function(JSON){
             $("#city_name").empty()

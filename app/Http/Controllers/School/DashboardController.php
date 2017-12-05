@@ -22,12 +22,11 @@ use App\TeenagerCoinsGift;
 
 class DashboardController extends Controller {
 
-    public function __construct(SchoolsRepository $SchoolsRepository,Level1ActivitiesRepository $Level1ActivitiesRepository, TeenagersRepository $TeenagersRepository, TemplatesRepository $TemplatesRepository,ProfessionsRepository $ProfessionsRepository) {
-        $this->middleware('auth.school');
-        $this->SchoolsRepository = $SchoolsRepository;
-        $this->TeenagersRepository = $TeenagersRepository;
-        $this->TemplateRepository = $TemplatesRepository;
-        $this->Level1ActivitiesRepository = $Level1ActivitiesRepository;
+    public function __construct(SchoolsRepository $schoolsRepository,Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository,ProfessionsRepository $professionsRepository) {
+        $this->schoolsRepository = $schoolsRepository;
+        $this->teenagersRepository = $teenagersRepository;
+        $this->templateRepository = $templatesRepository;
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
         $this->professionThumbImageUploadPath = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
         $this->schoolOriginalImageUploadPath = Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -36,28 +35,29 @@ class DashboardController extends Controller {
         $this->humanOriginalImageUploadPath = Config::get('constant.HUMAN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->relationIconOriginalImageUploadPath = Config::get('constant.RELATION_ICON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
-        $this->ProfessionsRepository = $ProfessionsRepository;
+        $this->professionsRepository = $professionsRepository;
+        $this->loggedInUser = Auth::guard('school');
     }
 
     public function index() {
 
         $teenDetailSchoolWise = array();
         $currentPage = 1;
-        if (Auth::school()->check()) {
+        if (Auth::guard('school')->check()) {
             if((\Session::has('currentPage'))){
                 $currentPage = \Session::get('currentPage'); 
             }
-            $school_id = Auth::school()->get()->id;
-            $schoolData = $this->SchoolsRepository->getSchoolDataForCoinsDetail($school_id);
+            $school_id = $this->loggedInUser->user()->id;
+            $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($school_id);
             $finalEmailArr = array();
-            $teenDetailSchoolWise = $this->TeenagersRepository->getActiveSchoolStudentsDetail($school_id);
+            $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetail($school_id);
 
-            $emailDetails = $this->TeenagersRepository->getEmailDataOfStudent($school_id);
+            $emailDetails = $this->teenagersRepository->getEmailDataOfStudent($school_id);
             if(!empty($emailDetails)){
                 foreach ($emailDetails as $data) {
                     $userid = $data->id;
                     $email = $data->t_email;
-                    $checkIfMailSent = $this->TeenagersRepository->checkMailSentOrNot($userid);
+                    $checkIfMailSent = $this->teenagersRepository->checkMailSentOrNot($userid);
                     if (empty($checkIfMailSent)) {
                         $finalEmailArr[] = $email;
                     }
@@ -71,7 +71,7 @@ class DashboardController extends Controller {
             }
             $totalPage = $teenDetailSchoolWise->lastPage();
             \Session::forget('currentPage');
-            return view('school.Dashboard', compact('teenDetailSchoolWise', 'finalEmailArr','schoolData','currentPage','totalPage'));
+            return view('school.dashboard', compact('teenDetailSchoolWise', 'finalEmailArr','schoolData','currentPage','totalPage'));
         } else {
             return view('school.login');
         }
@@ -79,7 +79,7 @@ class DashboardController extends Controller {
 
     public function bulkImport() {
         $schoolOriginalImagePath = Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH');
-        return view('school.AddSchoolBulk',compact('schoolOriginalImagePath'));
+        return view('school.addSchoolBulk',compact('schoolOriginalImagePath'));
     }
 
     public function savebulkdata() {
@@ -97,7 +97,7 @@ class DashboardController extends Controller {
                         {
                             $row['student_email'] = trim($row['student_email']);
                             \Session::put('import', '1');
-                            $activeEmail = $this->TeenagersRepository->checkActiveEmailExist($row['student_email']);
+                            $activeEmail = $this->teenagersRepository->checkActiveEmailExist($row['student_email']);
     //                        if ($activeEmail == 1) {
     //                            $emailList[] = $row['student_email'];
     //                            \Session::put('email', $emailList);
@@ -114,7 +114,7 @@ class DashboardController extends Controller {
                                         $gender = 2;
                                     }
                                     $schoolDetail['t_gender'] = $gender;
-                                    $schoolDetail['t_school'] = Auth::school()->get()->id;
+                                    $schoolDetail['t_school'] = $this->loggedInUser->user()->id;
                                     $schoolDetail['t_rollnum'] = $row['roll_no'];
                                     $schoolDetail['t_class'] = $row['class'];
                                     $schoolDetail['t_division'] = $row['division'];
@@ -125,7 +125,7 @@ class DashboardController extends Controller {
                                     //$schoolDetail['t_isverified'] = 0;
                                     //$schoolDetail['t_social_provider'] = 'Normal';
                                     //$schoolDetail['t_sponsor_choice'] = 3;
-                                    $response = $this->SchoolsRepository->saveSchoolBulkDetail($schoolDetail);
+                                    $response = $this->schoolsRepository->saveSchoolBulkDetail($schoolDetail);
                                 }
                            // }
                         }
@@ -138,24 +138,24 @@ class DashboardController extends Controller {
                 }
             });
             if(\Session::get('import') == 1){
-               return Redirect::to("school/dashboard")->with('success', 'Users imported successfully...');
+               return Redirect::to("school/home")->with('success', 'Users imported successfully...');
                exit;
             }else{
-               return Redirect::to("school/bulkimport")->with('error', 'Invalid data in excel file...');
+               return Redirect::to("school/bulk-import")->with('error', 'Invalid data in excel file...');
                exit;
             }
         } else {
-            return Redirect::to("school/bulkimport")->with('error', 'Invalid file type...');
+            return Redirect::to("school/bulk-import")->with('error', 'Invalid file type...');
             exit;
         }
     }
 
     public function inactive($id,$status) {
-        $response = $this->SchoolsRepository->inactiveRecord($id,$status);
+        $response = $this->schoolsRepository->inactiveRecord($id,$status);
         if ($response) {
-            return Redirect::to("school/dashboard");
+            return Redirect::to("school/home");
         } else {
-            return Redirect::to("school/dashboard");
+            return Redirect::to("school/home");
         }
     }
 
@@ -166,18 +166,18 @@ class DashboardController extends Controller {
         if(!empty($emaildata) && count($emaildata) > 0)
         {
           foreach ($emaildata as $key => $value) {
-              $teenagerDetailbyEmail = $this->TeenagersRepository->getTeenagerDetailByEmailId($value);
+              $teenagerDetailbyEmail = $this->teenagersRepository->getTeenagerDetailByEmailId($value);
               
               if (!empty($teenagerDetailbyEmail)) {
                   // --------------------start sending mail -----------------------------//
                   $password = str_random(10);
                   $replaceArray = array();
                   $replaceArray['VERIFICATION_LINK'] = "<a href=" . url("verifyTeenfromSchool?token=" . $teenagerDetailbyEmail['t_uniqueid']) . ">" . url("verifyTeenfromSchool?token=" . $teenagerDetailbyEmail['t_uniqueid']) . "</a>";
-                  $replaceArray['SCHOOL_NAME'] = Auth::school()->get()->sc_name;
+                  $replaceArray['SCHOOL_NAME'] = $this->loggedInUser->user()->sc_name;
                   $replaceArray['EMAIL'] = $value;
                   $replaceArray['PASSWORD'] = $password;
-                  $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.STUDENT_BULK_IMPORT'));
-                  $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                  $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.STUDENT_BULK_IMPORT'));
+                  $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
                   $data = array();
                   $data['subject'] = $emailTemplateContent->et_subject;
                   $data['toEmail'] = $value;
@@ -191,14 +191,14 @@ class DashboardController extends Controller {
                       $teenagerTokenDetail = [];
                       $teenagerTokenDetail['tev_token'] = $data['tev_token'];
                       $teenagerTokenDetail['tev_teenager'] = $data['teen_id'];
-                      $this->TeenagersRepository->addTeenagerEmailVarifyToken($teenagerTokenDetail);
+                      $this->teenagersRepository->addTeenagerEmailVarifyToken($teenagerTokenDetail);
                   });
 
 
                   $savePassword = bcrypt($password);
-                  $saveTeenPassword = $this->TeenagersRepository->savePassword($savePassword, $teenagerDetailbyEmail['t_uniqueid']);
+                  $saveTeenPassword = $this->teenagersRepository->savePassword($savePassword, $teenagerDetailbyEmail['t_uniqueid']);
               } else {
-                  return Redirect::to("school/dashboard")->with('error', 'Email Address does not Exist...');
+                  return Redirect::to("school/home")->with('error', 'Email Address does not Exist...');
               }
           }
           //Set current page when user sent an email
@@ -210,34 +210,34 @@ class DashboardController extends Controller {
           }
           \Session::put('currentPage', $currentPage);
           
-          return Redirect::to("school/dashboard")->with('success', 'Mail sent successfully...');
+          return Redirect::to("school/home")->with('success', 'Mail sent successfully...');
         }
         else
         {
-            return Redirect::to("school/dashboard")->with('error', 'Email Address does not Exist...');
+            return Redirect::to("school/home")->with('error', 'Email Address does not Exist...');
         }
     }
 
     public function exportPDF($id = 0) {
-        $schoolid = Auth::school()->get()->id;
+        $schoolid = $this->loggedInUser->user()->id;
         $objDeductedCoins = new DeductedCoins();
         $objTeenagerCoinsGift = new TeenagerCoinsGift();
 
         if (empty($id) && $id == 0 && $id == '') {
-            $classid = $this->SchoolsRepository->getFirstClassDetail($schoolid);
+            $classid = $this->schoolsRepository->getFirstClassDetail($schoolid);
             $id = (isset($classid->t_class) && $classid->t_class != '')?$classid->t_class:'';
         } else {
             $id = $id;
         }
         if (isset($id) && !empty($id)) {
-            $classDetails = $this->SchoolsRepository->getClassDetail($schoolid);
-            $teenDetailsForLevel1 = $this->SchoolsRepository->getStudentForLevel1($schoolid, $id);
-            $teenDetailsForLevel2 = $this->SchoolsRepository->getStudentForLevel2($schoolid, $id);
-            $teenDetailsForLevel3 = $this->SchoolsRepository->getStudentForLevel3($schoolid, $id);
-            $teenDetailsForLevel4 = $this->SchoolsRepository->getStudentForLevel4($schoolid, $id);
-            $professionAttempted = $this->SchoolsRepository->getAttemptedProfession($schoolid, $id);
+            $classDetails = $this->schoolsRepository->getClassDetail($schoolid);
+            $teenDetailsForLevel1 = $this->schoolsRepository->getStudentForLevel1($schoolid, $id);
+            $teenDetailsForLevel2 = $this->schoolsRepository->getStudentForLevel2($schoolid, $id);
+            $teenDetailsForLevel3 = $this->schoolsRepository->getStudentForLevel3($schoolid, $id);
+            $teenDetailsForLevel4 = $this->schoolsRepository->getStudentForLevel4($schoolid, $id);
+            $professionAttempted = $this->schoolsRepository->getAttemptedProfession($schoolid, $id);
         } else {
-            return Redirect::to("school/dashboard")->with('error', 'No data found');
+            return Redirect::to("school/home")->with('error', 'No data found');
             exit;
         }
 
@@ -249,7 +249,7 @@ class DashboardController extends Controller {
                 $image = asset($this->professionThumbImageUploadPath . 'proteen-logo.png');
             }
             $value->pf_logo = $image;
-            $professionHeaderDetail = $this->ProfessionsRepository->getProfessionsHeaderByProfessionId($value->id);
+            $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($value->id);
             if (isset($professionHeaderDetail) && !empty($professionHeaderDetail)) {
                 if (strpos($professionHeaderDetail[2]->pfic_content, "Salary Range") !== FALSE) {
                     $profession_acadamic_path = substr($professionHeaderDetail[2]->pfic_content, 0, strpos($professionHeaderDetail[2]->pfic_content, 'Salary Range'));
@@ -263,13 +263,13 @@ class DashboardController extends Controller {
         }
 
         $finalEmailArr = array();
-        $teenDetailSchoolWise = $this->TeenagersRepository->getActiveSchoolStudentsDetail($schoolid);
-        $emailDetails = $this->TeenagersRepository->getEmailDataOfStudent($schoolid);
+        $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetail($schoolid);
+        $emailDetails = $this->teenagersRepository->getEmailDataOfStudent($schoolid);
         if(!empty($emailDetails)){
             foreach ($emailDetails as $data) {
                 $userid = $data->id;
                 $email = $data->t_email;
-                $checkIfMailSent = $this->TeenagersRepository->checkMailSentOrNot($userid);
+                $checkIfMailSent = $this->teenagersRepository->checkMailSentOrNot($userid);
                 if (empty($checkIfMailSent)) {
                     $finalEmailArr[] = $email;
                 }
@@ -283,8 +283,8 @@ class DashboardController extends Controller {
             }
         }
 
-        $level1Questions = $this->Level1ActivitiesRepository->getLevel1AllActiveQuestion();  // Get level1 Activity(question)
-        $teenDetails = $this->TeenagersRepository->getAllTeenagersByClass($id);
+        $level1Questions = $this->level1ActivitiesRepository->getLevel1AllActiveQuestion();  // Get level1 Activity(question)
+        $teenDetails = $this->teenagersRepository->getAllTeenagersByClass($id);
         $questionText = '';
         foreach ($level1Questions as $singleData) {
             if ($singleData->id == $id) {
@@ -308,7 +308,7 @@ class DashboardController extends Controller {
         $teenagerMyIcons = array();
         //Get teenager choosen Icon
 
-        $teenagerIcons = $this->TeenagersRepository->getTeenagerSelectedIconByClass($id);
+        $teenagerIcons = $this->teenagersRepository->getTeenagerSelectedIconByClass($id);
         $relationIcon = array();
         $fictionIcon = array();
         $nonFiction = array();
@@ -340,14 +340,14 @@ class DashboardController extends Controller {
             $badgesData = [];
             $professionid = $value->id;
             $badgesData['pf_name'] = $value->pf_name;
-            $basicData = $this->TeenagersRepository->getTeenagerAllTypeBadgesByClass($id, $professionid);
+            $basicData = $this->teenagersRepository->getTeenagerAllTypeBadgesByClass($id, $professionid);
             $badgesData['bacisbadges'] = $basicData['level4Basic']['badgesStarCount'];
             $badgesData['intermediatebadges'] = $basicData['level4Intermediate']['badgesCount'];
             $badgesData['advancebadges'] = $basicData['level4Advance']['advanceBadgeStar'];
             $totalBadges[] = $badgesData;
         }
 
-        $logo = Auth::school()->get()->sc_logo;
+        $logo = $this->loggedInUser->user()->sc_logo;
         $image = '';
         if (!empty($logo)) {
             if ($logo != '' && file_exists($this->schoolOriginalImageUploadPath . $logo)) {
@@ -377,12 +377,12 @@ class DashboardController extends Controller {
         $response['deductedCoinsDetail'] = $deductedCoinsDetail;
         $response['teenCoinsDetail'] = $teenCoinsDetail;
 
-        $pdf=PDF::loadView('school.ExportSchoolDetailPDF', $response);
+        $pdf=PDF::loadView('school.exportSchoolDetailPDF', $response);
         return $pdf->stream('School.pdf');
     }
 
     function purchasedCoinsToViewReport() {
-        if (Auth::school()->check()) {
+        if (Auth::guard('school')->check()) {
             $schoolId = Input::get('schoolId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
@@ -396,68 +396,68 @@ class DashboardController extends Controller {
             }
             if ($days == 0) {
                 $deductedCoins = $coins;
-                $schoolData = $this->SchoolsRepository->getSchoolDataForCoinsDetail($schoolId);
+                $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
                 if (!empty($schoolData)) {
                     $coins = $schoolData['sc_coins']-$coins;
                 }
-                $result = $this->SchoolsRepository->updateSchoolCoinsDetail($schoolId, $coins);
+                $result = $this->schoolsRepository->updateSchoolCoinsDetail($schoolId, $coins);
                 $return = Helpers::saveDeductedCoinsData($schoolId,3,$deductedCoins,'School Report', 0);
             }
             return "1";
             exit;
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
     }
 
     public function getConsumption() {
-        if (Auth::school()->check()) {
-            $schoolid = Auth::school()->id();
+        if (Auth::guard('school')->check()) {
+            $schoolid = $this->loggedInUser->user()->id;
             $objDeductedCoins = new DeductedCoins();
 
             $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetail($schoolid,3);
 
-            return view('school.ShowConsumptionCoins', compact('deductedCoinsDetail'));
+            return view('school.showConsumptionCoins', compact('deductedCoinsDetail'));
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
     }
 
      public function getGiftCoins() {
-        if (Auth::school()->check()) {
-            $schoolid = Auth::school()->id();
+        if (Auth::guard('school')->check()) {
+            $schoolid = $this->loggedInUser->user()->id;
             $objTeenagerCoinsGift = new TeenagerCoinsGift();
             $teenCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetail($schoolid,3);
 
-            return view('school.ShowGiftedCoins', compact('teenCoinsDetail'));
+            return view('school.showGiftedCoins', compact('teenCoinsDetail'));
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
     }
 
     public function giftcoinstoTeenager() {
-       if (Auth::school()->check()) {
-            $schoolid = Auth::school()->id();
+       if (Auth::guard('school')->check()) {
+            $schoolid = $this->loggedInUser->user()->id;
             $teenagerId = Input::get('teen_id');
-            $userDetail = $this->TeenagersRepository->getTeenagerByTeenagerId($teenagerId);
+            $userDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenagerId);
 
-            return view('school.GiftCoinsToTeenager', compact('userDetail'));
+            return view('school.giftCoinsToTeenager', compact('userDetail'));
             exit;
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
 
     }
 
     public function saveGiftedCoinsDetail() {
-        if (Auth::school()->check()) {
+        if (Auth::guard('school')->check()) {
             $id = e(Input::get('id'));
             $giftcoins = e(Input::get('t_coins'));
-            $schoolId = Auth::school()->id();
+            $schoolId = $this->loggedInUser->user()->id;
             $objGiftUser = new TeenagerCoinsGift();
             $r_coins = 0;
-            $schoolData = $this->SchoolsRepository->getSchoolDataForCoinsDetail($schoolId);
+            $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
             if (!empty($schoolData)) {
                 $r_coins = $schoolData['sc_coins'];
             }
             if ($giftcoins > $r_coins) {
-                return Redirect::to("school/dashboard")->with('error', trans('labels.validcoinsparent'));
+                return Redirect::to("school/home")->with('error', trans('labels.validcoinsparent'));
             } else {
                 $saveData = [];
                 $saveData['tcg_sender_id'] = $schoolId;
@@ -469,30 +469,30 @@ class DashboardController extends Controller {
 
                 //add coins to teenager
                 $coins = 0;
-                $userData = $this->TeenagersRepository->getUserDataForCoinsDetail($id);
+                $userData = $this->teenagersRepository->getUserDataForCoinsDetail($id);
                 if (!empty($userData)) {
                     $coins = $userData['t_coins']+$giftcoins;
                 }
-                $result = $this->TeenagersRepository->updateTeenagerCoinsDetail($id, $coins);
+                $result = $this->teenagersRepository->updateTeenagerCoinsDetail($id, $coins);
 
                 //deduct coins from school account
-                $schoolData = $this->SchoolsRepository->getSchoolDataForCoinsDetail($schoolId);
+                $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
                 if (!empty($schoolData)) {
                     $giftcoins = $schoolData['sc_coins']-$giftcoins;
                 }
-                $result = $this->SchoolsRepository->updateSchoolCoinsDetail($schoolId, $giftcoins);
+                $result = $this->schoolsRepository->updateSchoolCoinsDetail($schoolId, $giftcoins);
 
                 //Mail to both users
                 //mail to teenager
-                $schoolData = $this->SchoolsRepository->getSchoolBySchoolId($schoolId);
-                $teenagerDetail = $this->TeenagersRepository->getTeenagerByTeenagerId($id);
+                $schoolData = $this->schoolsRepository->getSchoolBySchoolId($schoolId);
+                $teenagerDetail = $this->teenagersRepository->getTeenagerByTeenagerId($id);
 
                 $replaceArray = array();
                 $replaceArray['TEEN_NAME'] = $teenagerDetail['t_name'];
                 $replaceArray['COINS'] = e(Input::get('t_coins'));
                 $replaceArray['FROM_USER'] = $schoolData[0]['sc_name'];
-                $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
-                $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
+                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
                 $data = array();
                 $data['subject'] = $emailTemplateContent->et_subject;
                 $data['toEmail'] = $teenagerDetail['t_email'];
@@ -511,8 +511,8 @@ class DashboardController extends Controller {
                 $replaceArray['TEEN_NAME'] = $schoolData[0]['sc_name'];
                 $replaceArray['COINS'] = e(Input::get('t_coins'));
                 $replaceArray['TO_USER'] = $teenagerDetail['t_name'];
-                $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.GIFTED_COINS_TEMPLATE'));
-                $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.GIFTED_COINS_TEMPLATE'));
+                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
                 $data = array();
                 $data['subject'] = $emailTemplateContent->et_subject;
@@ -525,14 +525,14 @@ class DashboardController extends Controller {
                     $m->subject($data['subject']);
                     $m->to($data['toEmail'], $data['toName']);
                 });
-                return Redirect::to("school/dashboard")->with('success', trans('labels.coinsgiftsuccess'));
+                return Redirect::to("school/home")->with('success', trans('labels.coinsgiftsuccess'));
             }
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
      }
 
      public function getAvailableCoins() {
-        if (Auth::school()->check()) {
+        if (Auth::guard('school')->check()) {
             $schoolId = Input::get('schoolId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
@@ -540,29 +540,29 @@ class DashboardController extends Controller {
             return $componentsData[0]->pc_required_coins;
             exit;
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
     }
 
     public function giftcoinstoAllTeenager() {
-       if (Auth::school()->check()) {
-            $schoolid = Auth::school()->id();
+       if (Auth::guard('school')->check()) {
+            $schoolid = $this->loggedInUser->user()->id;
 
-            return view('school.GiftCoinsToAllTeenager');
+            return view('school.giftCoinsToAllTeenager');
             exit;
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
 
     }
 
     public function saveCoinsDataForAllTeenager() {
-        if (Auth::school()->check()) {
+        if (Auth::guard('school')->check()) {
             $id = e(Input::get('id'));
             $giftcoins = e(Input::get('t_coins'));
-            $schoolId = Auth::school()->id();
+            $schoolId = $this->loggedInUser->user()->id;
             $objGiftUser = new TeenagerCoinsGift();
             $r_coins = 0;
-            $schoolData = $this->SchoolsRepository->getSchoolDataForCoinsDetail($schoolId);
-            $teenDetailSchoolWise = $this->TeenagersRepository->getActiveSchoolStudentsDetail($schoolId);
+            $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
+            $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetail($schoolId);
             if (!empty($schoolData)) {
                 $r_coins = $schoolData['sc_coins'];
             }
@@ -572,7 +572,7 @@ class DashboardController extends Controller {
                 $deductCoins = $totalTeen * $giftcoins;
             }
             if ($deductCoins > $r_coins) {
-                return Redirect::to("school/dashboard")->with('error', trans('labels.validcoinsparent'));
+                return Redirect::to("school/home")->with('error', trans('labels.validcoinsparent'));
             } else {
                 foreach ($teenDetailSchoolWise AS $key => $value) {
                     $id = $value->id;
@@ -586,41 +586,41 @@ class DashboardController extends Controller {
 
                     //add coins to teenager
                     $coins = 0;
-                    $userData = $this->TeenagersRepository->getUserDataForCoinsDetail($id);
+                    $userData = $this->teenagersRepository->getUserDataForCoinsDetail($id);
                     if (!empty($userData)) {
                         $coins = $userData['t_coins']+$giftcoins;
                     }
-                    $result = $this->TeenagersRepository->updateTeenagerCoinsDetail($id, $coins);
+                    $result = $this->teenagersRepository->updateTeenagerCoinsDetail($id, $coins);
 
                     //deduct coins from school account
-                    $schoolData = $this->SchoolsRepository->getSchoolDataForCoinsDetail($schoolId);
+                    $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
                     $added_coins = 0;
                     if (!empty($schoolData)) {
                         $added_coins = $schoolData['sc_coins']-$giftcoins;
                     }
-                    $result = $this->SchoolsRepository->updateSchoolCoinsDetail($schoolId, $added_coins);
+                    $result = $this->schoolsRepository->updateSchoolCoinsDetail($schoolId, $added_coins);
                 }
 
-                //$teenagers = $this->TeenagersRepository->getAllActiveTeenagersForNotification();
-                $schoolData = $this->SchoolsRepository->getSchoolBySchoolId($schoolId);
+                //$teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
+                $schoolData = $this->schoolsRepository->getSchoolBySchoolId($schoolId);
 //                foreach ($teenagers AS $key => $value) {
 //                    $message = '"'.$schoolData[0]['sc_name'] . '" just gifted ProCoins to all its students!';
 //                    $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
 //                }
 
-                return Redirect::to("school/dashboard")->with('success', trans('labels.coinsgiftsuccess'));
+                return Redirect::to("school/home")->with('success', trans('labels.coinsgiftsuccess'));
             }
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
      }
      function getCoinsForSchool() {
-        if (Auth::school()->check()) {
+        if (Auth::guard('school')->check()) {
             $schoolId = Input::get('schoolId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
             $coins = $componentsData[0]->pc_required_coins;
 
-            $schoolData = $this->SchoolsRepository->getSchoolDataForCoinsDetail($schoolId);
+            $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
             if (!empty($schoolData)) {
                 if ($schoolData['sc_coins'] < $coins) {
                     return "1";
@@ -630,11 +630,11 @@ class DashboardController extends Controller {
             return $schoolData['sc_coins'];
             exit;
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
     }
 
     public function getremainigdaysForSchool() {
-        if (Auth::school()->check()) {
+        if (Auth::guard('school')->check()) {
             $schoolId = Input::get('schoolId');
             $objPaidComponent = new PaidComponent();
             $objDeductedCoins = new DeductedCoins();
@@ -645,16 +645,16 @@ class DashboardController extends Controller {
             if (!empty($deductedCoinsDetail)) {
                 $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
             }
-            return view('school.gerRemaningDays',compact('days'));
+            return view('school.getRemainingDays',compact('days'));
             /*$data = $days.' Days Left';
             return $data;*/
             exit;
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
     }
 
      public function display() {
-        return view('school.CoinsHistory');
+        return view('school.coinsHistory');
         exit;
     }
 
@@ -682,18 +682,18 @@ class DashboardController extends Controller {
         $searchKeyword = Input::get('search_keyword');
         $school_id = Input::get('schoolId');
 
-        $schoolData = $this->SchoolsRepository->getSchoolDataForCoinsDetail($school_id);
+        $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($school_id);
 
         if ($searchKeyword != '') {
             $finalEmailArr = array();
-            $teenDetailSchoolWise = $this->TeenagersRepository->getActiveSchoolStudentsDetailForSearch($school_id,$searchKeyword);
-            $emailDetails = $this->TeenagersRepository->getEmailDataOfStudentForSearch($school_id,$searchKeyword);
+            $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetailForSearch($school_id,$searchKeyword);
+            $emailDetails = $this->teenagersRepository->getEmailDataOfStudentForSearch($school_id,$searchKeyword);
 
             if(!empty($emailDetails)){
                 foreach ($emailDetails as $data) {
                     $userid = $data->id;
                     $email = $data->t_email;
-                    $checkIfMailSent = $this->TeenagersRepository->checkMailSentOrNot($userid);
+                    $checkIfMailSent = $this->teenagersRepository->checkMailSentOrNot($userid);
                     if (empty($checkIfMailSent)) {
                         $finalEmailArr[] = $email;
                     }
@@ -707,13 +707,13 @@ class DashboardController extends Controller {
             return view('school.searchDashboard', compact('teenDetailSchoolWise', 'finalEmailArr','schoolData'));
         } else {
             $finalEmailArr = array();
-            $teenDetailSchoolWise = $this->TeenagersRepository->getActiveSchoolStudentsDetail($school_id);
-            $emailDetails = $this->TeenagersRepository->getEmailDataOfStudent($school_id);
+            $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetail($school_id);
+            $emailDetails = $this->teenagersRepository->getEmailDataOfStudent($school_id);
             if(!empty($emailDetails)){
                 foreach ($emailDetails as $data) {
                     $userid = $data->id;
                     $email = $data->t_email;
-                    $checkIfMailSent = $this->TeenagersRepository->checkMailSentOrNot($userid);
+                    $checkIfMailSent = $this->teenagersRepository->checkMailSentOrNot($userid);
                     if (empty($checkIfMailSent)) {
                         $finalEmailArr[] = $email;
                     }
@@ -731,15 +731,15 @@ class DashboardController extends Controller {
     }
 
      public function editTeenRollnum() {
-        if (Auth::school()->check()) {
+        if (Auth::guard('school')->check()) {
             $id = Input::get('teenId');
             $rollnumber = Input::get('rollnum');
 
-            $return = $this->TeenagersRepository->updateTeenagerRollNumber($id,$rollnumber);
+            $return = $this->teenagersRepository->updateTeenagerRollNumber($id,$rollnumber);
             return "1";
             exit;
         }
-        return view('school.Login'); exit;
+        return view('school.login'); exit;
      }
 }
 

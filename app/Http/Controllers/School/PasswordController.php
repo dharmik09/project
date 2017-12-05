@@ -20,12 +20,12 @@ use App\Services\Template\Contracts\TemplatesRepository;
 use App\Services\Schools\Contracts\SchoolsRepository;
 class PasswordController extends Controller {
 
-    public function __construct(SchoolsRepository $SchoolsRepository,TemplatesRepository $TemplatesRepository
+    public function __construct(SchoolsRepository $schoolsRepository,TemplatesRepository $templatesRepository
     ) {
         $this->objSchools = new Schools();
-        $this->SchoolsRepository = $SchoolsRepository;
+        $this->schoolsRepository = $schoolsRepository;
         $this->objTemplates = new Templates();
-        $this->TemplateRepository = $TemplatesRepository;
+        $this->templateRepository = $templatesRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
@@ -33,10 +33,10 @@ class PasswordController extends Controller {
     }
 
     public function changePassword() {
-        if (Auth::school()->check()) {
-            return view('school.ChangePassword');
+        if (Auth::guard('school')->check()) {
+            return view('school.changePassword');
         }
-        return view('school.Login');
+        return view('school.login');
     }
 
     public function updatePassword(SchoolPasswordChangeRequest $request) {
@@ -45,17 +45,17 @@ class PasswordController extends Controller {
         $new_password = e(Input::get('new_password'));
         $confirm_password = e(Input::get('confirm_password'));
 
-        if (Auth::school()->check()) {
-            $user_id = Auth::school()->get()->id;
+        if (Auth::guard('school')->check()) {
+            $user_id = Auth::guard('school')->user()->id;
             $old_password = e(Input::get('old_password'));
             $new_password = e(Input::get('new_password'));
             $confirm_password = e(Input::get('confirm_password'));
             $user = Schools::find($user_id);
 
-            if (Auth::school()->attempt(['sc_email' => $user->sc_email, 'password' => $old_password, 'deleted' => 1])) {
+            if (Auth::guard('school')->attempt(['sc_email' => $user->sc_email, 'password' => $old_password, 'deleted' => 1])) {
                 $user->password = bcrypt(e($new_password));
                 $user->save();
-                return Redirect::to("school/dashboard")->with('success', 'Password Updated successfully.');
+                return Redirect::to("school/home")->with('success', 'Password Updated successfully.');
             } else {
                 return Redirect::back()
                                 ->withErrors('Old Password did not match.');
@@ -80,20 +80,20 @@ class PasswordController extends Controller {
             if (!filter_var($body['email'], FILTER_VALIDATE_EMAIL)) {
                 if (is_numeric($body['email']) && $body['email'] > 0 && $body['email'] == round($body['email'], 0)) {
                     $response['message'] = trans('appmessages.inprocess');
-                    return Redirect::to('/school/forgotPassword')->with('error', trans('appmessages.inprocess'));
+                    return Redirect::to('/school/forgot-password')->with('error', trans('appmessages.inprocess'));
                     exit;
                 } else {
                     $response['message'] = trans('appmessages.invalid_email_msg');
-                    return Redirect::to('/school/forgotPassword')->with('error', trans('appmessages.invalid_email_msg'));
+                    return Redirect::to('/school/forgot-password')->with('error', trans('appmessages.invalid_email_msg'));
                     exit;
                 }
             } else {
                 $data = array();
-                $schoolDetail = $this->SchoolsRepository->getSchoolDetailByEmailId($body['email']);
+                $schoolDetail = $this->schoolsRepository->getSchoolDetailByEmailId($body['email']);
                 if (isset($schoolDetail) && !empty($schoolDetail)) {
                     if ($schoolDetail['sc_social_provider'] == 'Google' || $schoolDetail['sc_social_provider'] == 'Facebook') {
                         $response['message'] = 'This email is associate with social account. Please sign in with your social account.';
-                        return Redirect::to('/school/forgotPassword')->with('error', trans('This email is associate with social account. Please sign in with your social account.'));
+                        return Redirect::to('/school/forgot-password')->with('error', trans('This email is associate with social account. Please sign in with your social account.'));
                         exit;
                     } else {
                         // generate otp for school reset password
@@ -101,13 +101,13 @@ class PasswordController extends Controller {
                         $resetRequest = [];
                         $resetRequest['trp_school'] = $schoolDetail['id'];
                         $resetRequest['trp_otp'] = $OTP;
-                        $this->SchoolsRepository->saveSchoolPasswordResetRequest($resetRequest);
+                        $this->schoolsRepository->saveSchoolPasswordResetRequest($resetRequest);
 
                         $replaceArray = array();
                         $replaceArray['TEEN_NAME'] = $schoolDetail['sc_first_name'];
                         $replaceArray['ONE_TIME_PASSWORD'] = $OTP;
-                        $emailTemplateContent = $this->TemplateRepository->getEmailTemplateDataByName(Config::get('constant.SCHOOL_RESET_EMAIL_TEMPLATE_NAME'));                       
-                        $content = $this->TemplateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                        $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.SCHOOL_RESET_EMAIL_TEMPLATE_NAME'));                       
+                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
                         $data = array();
                         $data['subject'] = $emailTemplateContent->et_subject;
                         $data['toEmail'] = $schoolDetail['sc_email'];
@@ -128,13 +128,13 @@ class PasswordController extends Controller {
                     }
                 } else {
                     $response['message'] = trans('appmessages.usernotexistwithemail');
-                    return Redirect::to('/school/forgotPassword')->with('error', trans('appmessages.usernotexistwithemail'));
+                    return Redirect::to('/school/forgot-password')->with('error', trans('appmessages.usernotexistwithemail'));
                     exit;
                 }
             }
         } else {
             $response['message'] = trans('appmessages.missing_data_msg');
-            return Redirect::to('/school/forgotPassword')->with('error', trans('appmessages.missing_data_msg'));
+            return Redirect::to('/school/forgot-password')->with('error', trans('appmessages.missing_data_msg'));
             exit;
         }
         return Redirect::back()
@@ -148,7 +148,7 @@ class PasswordController extends Controller {
         $body = Input::all();
         if(isset($body['userid']) && $body['userid'] > 0 && isset($body['OTP']) && $body['OTP'] != '')
         {
-            $bool = $this->SchoolsRepository->verifyOTPAgainstSchoolId($body['userid'], $body['OTP']);
+            $bool = $this->schoolsRepository->verifyOTPAgainstSchoolId($body['userid'], $body['OTP']);
             if($bool)
             {
                 $response['status'] = 1;
@@ -160,14 +160,14 @@ class PasswordController extends Controller {
             else
             {
                 $response['message'] = trans('appmessages.invalidOTP');
-                return Redirect::to('/school/forgotPasswordOTP')->with('error', trans('appmessages.invalidOTP'));
+                return Redirect::to('/school/forgot-password-OTP')->with('error', trans('appmessages.invalidOTP'));
                 exit;
             }
         }
         else
         {
             $response['message'] = trans('appmessages.missing_data_msg');
-            return Redirect::to('/school/forgotPassword')->with('error', trans('appmessages.missing_data_msg'));
+            return Redirect::to('/school/forgot-password')->with('error', trans('appmessages.missing_data_msg'));
             exit;
         }
         return Redirect::back()
@@ -187,7 +187,7 @@ class PasswordController extends Controller {
                 $schoolDetail = [];
                 $schoolDetail['id'] = $body['userid'];
                 $schoolDetail['password'] = bcrypt($body['newPassword']);
-                $this->SchoolsRepository->saveSchoolDetail($schoolDetail);
+                $this->schoolsRepository->saveSchoolDetail($schoolDetail);
 
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
@@ -198,14 +198,14 @@ class PasswordController extends Controller {
             else
             {
                 $response['message'] = trans('appmessages.missing_data_msg');
-                return Redirect::to('/school/setForgotPassword')->with('error', trans('appmessages.missing_data_msg'));
+                return Redirect::to('/school/set-forgot-password')->with('error', trans('appmessages.missing_data_msg'));
                 exit;
             }
         }
         else
         {
             $response['message'] = trans('appmessages.missing_data_msg');
-            return Redirect::to('/school/forgotPassword')->with('error', trans('appmessages.missing_data_msg'));
+            return Redirect::to('/school/forgot-password')->with('error', trans('appmessages.missing_data_msg'));
                 exit;
         }
     }

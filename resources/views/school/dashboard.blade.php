@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 
@@ -54,10 +54,10 @@
                 <div class="button_container coins_button_container">
                     <div class="coin_summary cst_dsh clearfix">
                         <div class="right col-md-3 col-sm-4 col-xs-12">
-                            <a href="{{ url('school/bulkimport') }}" class="btn primary_btn space_btm">Student Bulk Import</a>
+                            <a href="{{ url('school/bulk-import') }}" class="btn primary_btn space_btm">Student Bulk Import</a>
                         </div>
                         <div class="left col-md-6 col-sm-4 col-xs-12">
-                            <span class="coin_img"><img src="{{asset('/frontend/images/available_coin.png')}}" alt=""></span>
+                            <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
                             <span>{{trans('labels.availablecoins')}}</span>
                             <span class="coin_count_ttl">@if(!empty($schoolData)) <?php echo number_format($schoolData['sc_coins']);?> @endif</span>
                         </div>
@@ -72,12 +72,12 @@
                 <div class="table_title">
                 <div class="row">
                   <div class="dashboard_page_title">
-                    <h1><span class="title_border">{{Auth::school()->get()->sc_name}}-Students</span></h1>
+                    <h1><span class="title_border">{{Auth::guard('school')->user()->sc_name}}-Students</span></h1>
                     @if(!empty($teenDetailSchoolWise))<div style="padding-top: 20px;text-align:center;">(Click checkbox to send verification code)</div>@endif
                   </div>
                   <div class="dashboard_page_title clearfix">
                         <div class="search_container desktop_search gift_coin_search pull-right">
-                            <input type="text" name="search_box" id="searchForUser" class="search_input" placeholder="Search here..." onkeyup="userSearch(this.value, {{Auth::school()->get()->id}},1)">
+                            <input type="text" name="search_box" id="searchForUser" class="search_input" placeholder="Search here..." onkeyup="userSearch(this.value, {{Auth::guard('school')->user()->id}},1)">
                             <button type="submit" class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </div>
                     </div>
@@ -94,14 +94,14 @@
                         	<div class="img1_1">
                         		<div class="div_outer">
                         			<div class="inner_1">
-                        				<img src="{{asset('/frontend/images/load_hero.png')}}">
+                        				<img src="{{Storage::url('frontend/images/load_hero.png')}}">
                         			</div>
                         		</div>
                         	</div>
                         	<div class="img2_2">
                         		<div class="div_outer">
                         			<div class="inner_1">
-                        				<img src="{{asset('/frontend/images/load_bar.png')}}">
+                        				<img src="{{Storage::url('frontend/images/load_bar.png')}}">
                         			</div>
                         		</div>
                         	</div>
@@ -142,7 +142,7 @@
                                   <div class="modal-dialog">
                                       <div class="modal-content">
                                           <button type="button" class="close close_next" data-dismiss="modal">Close</button>
-                                          <div class="default_logo"><img src="{{asset('/frontend/images/proteen_logo.png')}}" alt=""></div>
+                                          <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
                               			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Edit Roll No</h2></div>
                                           <div id="userData">
                                                 <div class="request_parent gift_coin">
@@ -240,9 +240,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <button type="button" class="close close_next" data-dismiss="modal">Close</button>
-            <div class="default_logo"><img src="{{asset('/frontend/images/proteen_logo.png')}}" alt=""></div>
+            <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
-            <div id="userData">
+            <div id="userDataGiftCoin">
 
             </div>
         </div>
@@ -327,16 +327,16 @@
         }
         $('.ajax-loader').show();
         $.ajax({
-            url: "{{ url('school/giftcoins') }}",
+            url: "{{ url('school/gift-coins') }}",
             type: 'post',
             data: {
                 "_token": '{{ csrf_token() }}',
                 "teen_id": id
             },
             success: function(response) {
-               $('.ajax-loader').hide();
-               $('#userData').html(response);
-               $('#gift').modal('show');
+                $('.ajax-loader').hide();
+                $('#userDataGiftCoin').html(response);
+                $('#gift').modal('show');
             }
         });
     }
@@ -349,14 +349,14 @@
         }
         $('.ajax-loader').show();
         $.ajax({
-            url: "{{ url('school/giftCoinsToAllTeen') }}",
+            url: "{{ url('school/gift-coins-to-all-teen') }}",
             type: 'post',
             data: {
                 "_token": '{{ csrf_token() }}'
             },
             success: function(response) {
                $('.ajax-loader').hide();
-               $('#userData').html(response);
+               $('#userDataGiftCoin').html(response);
                $('#gift').modal('show');
             }
         });
@@ -365,7 +365,7 @@
 
     $(document).on('click', '.pagination a', function (e) {
         var search = $("#searchForUser").val();
-        var schoolid = <?php echo Auth::school()->id(); ?>;
+        var schoolid = <?php echo Auth::guard('school')->user()->id; ?>;
         var page = $(this).attr('href').split('page=')[1];
         userSearch(search,schoolid,page);
         e.preventDefault();
@@ -379,7 +379,7 @@
         $.ajax({
             type: 'POST',
             data: form_data,
-            url: "{{ url('/school/userSearchForSchoolData?page=') }}"+page,
+            url: "{{ url('/school/user-search-for-school-data?page=') }}"+page,
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
@@ -396,7 +396,7 @@
          $('.ajax-loader').show();
          var rollnum = $('#rollnum_'+id).val();
          $.ajax({
-            url: "{{ url('/school/editTeenRollnum') }}",
+            url: "{{ url('/school/edit-teen-roll-num') }}",
             type: 'POST',
             data: {
                 "_token": '{{ csrf_token() }}',

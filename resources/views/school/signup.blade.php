@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 <div class="clearfix">
@@ -32,7 +32,7 @@
 <div class="centerlize">
         <div class="container">
             <div class="container_padd detail_container">
-                <form class="registration_form" id="school_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/school/doSignup') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <form class="registration_form" id="school_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/school/do-signup') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <h1><span class="title_border">School Registration</span></h1>
                     <div class="clearfix">
@@ -56,7 +56,7 @@
                                         <div class="upload_image">
                                             <input type='file' onchange="readURL(this);" name="photo"  class="profilePhoto" accept=".png, .jpg, .jpeg, .bmp" />
                                             <div class="placeholder_image">
-                                                <span><img src="{{asset('frontend/images/proteen_logo.png')}}"/></span>
+                                                <span><img src="{{Storage::url('frontend/images/proteen_logo.png')}}"/></span>
                                                 <p><span>Upload Your Photo</span></p>
                                             </div>
                                         </div>
@@ -68,7 +68,7 @@
                                             <input type='file' onchange="readURL(this);" name="logo"  class="profilePhoto" accept=".png, .jpg, .jpeg, .bmp" />                                            
                                             <div class="placeholder_image sponsor">
                                                 <div class="mandatory">*</div>
-                                                <span><img src="{{asset('frontend/images/proteen_logo.png')}}"/></span>
+                                                <span><img src="{{Storage::url('frontend/images/proteen_logo.png')}}"/></span>
                                                 <p><span>Upload School Logo</span></p>
                                             </div>
                                         </div>
@@ -495,7 +495,7 @@ function getDataOfState(countryId)
     $("#city_name").empty();
     $.ajax({
         type: 'GET',
-        url: '/getState/' + countryId,
+        url: '/get-state/' + countryId,
         dataType: "JSON",
         success: function(JSON){
             $("#state_name").empty()
@@ -514,7 +514,7 @@ function getDataOfCity(stateId)
 {
     $.ajax({
         type: 'GET',
-        url: '/getcity/' + stateId,
+        url: '/get-city/' + stateId,
         dataType: "JSON",
         success: function(JSON){
             $("#city_name").empty()

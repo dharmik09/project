@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 
@@ -45,8 +45,8 @@
         <div class="pricing_title">
             <div class="my_teens_content ">
                 <div class="btn_cont gift_modal_page">
-                    <a href="{{ url('school/getGiftCoins') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/getGiftCoins') ? 'active' : '' }}" >{{trans('labels.giftcoins')}}</a>
-                    <a href="{{ url('school/getConsumption') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/getConsumption') ? 'active' : '' }}" >{{trans('labels.consumption')}}</a>
+                    <a href="{{ url('school/get-gift-coins') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-gift-coins') ? 'active' : '' }}" >{{trans('labels.giftcoins')}}</a>
+                    <a href="{{ url('school/get-consumption') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-consumption') ? 'active' : '' }}" >{{trans('labels.consumption')}}</a>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
                 <div class="login_form avl_coin_form consumed_coin search_coin_cst clearfix">
                     <div class="col-md-push-3 col-sm-push-3 col-md-6 col-sm-6">
                         <div class="search_container desktop_search gift_coin_search">
-                            <input type="text" name="search_box" id="searchForUser" class="search_input" placeholder="Search here..." onkeyup="userSearch(this.value, {{Auth::school()->get()->id}},1)">
+                            <input type="text" name="search_box" id="searchForUser" class="search_input" placeholder="Search here..." onkeyup="userSearch(this.value, {{Auth::guard('school')->user()->id}},1)">
                             <button type="submit" class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
     $(".table_container").mCustomScrollbar({axis:"x"});
     $(document).on('click', '.pagination a', function (e) {
         var search = $("#searchForUser").val();
-        var schoolid = <?php echo Auth::school()->id(); ?>;
+        var schoolid = <?php echo Auth::guard('school')->user()->id; ?>;
         var page = $(this).attr('href').split('page=')[1];
         userSearch(search,schoolid,page);
         e.preventDefault();
@@ -120,7 +120,7 @@
         $.ajax({
             type: 'POST',
             data: form_data,
-            url: "{{ url('/school/userSearchForShowGiftCoins?page=') }}"+page,
+            url: "{{ url('/school/user-search-for-show-gift-coins?page=') }}"+page,
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },

@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
     <div class="centerlize">
@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-4">
                         <div class="select-style">
-                            <?php $sid = Auth::school()->get()->id; ?>
+                            <?php $sid = Auth::guard('school')->user()->id; ?>
                             <select id="standard">
                                 <?php
                                 foreach($classDetails as $classDetail)
@@ -34,7 +34,7 @@
                                       <span class="promiseplus" title="Requires pop-up enabled in browser">Report<i class="fa fa-download" style="padding-left: 10px;" aria-hidden="true"></i></span>
                                       <span class="coinouter">
                                           <span class="coinsnum">{{$coins}}</span>
-                                          <span class="coinsimg"><img src="{{asset('/frontend/images/coin-stack.png')}}">
+                                          <span class="coinsimg"><img src="{{Storage::url('frontend/images/coin-stack.png')}}">
                                           </span>
                                       </span>
                                     </a>
@@ -79,10 +79,10 @@
                         @forelse($professionAttempted['profession'] as $key => $value)
                         <div class="item ">
                             <?php  $profession_logo = '';
-                            if (isset($value->pf_logo) && $value->pf_logo != '' && file_exists(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->pf_logo)) {
-                                $profession_logo = asset(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->pf_logo);
+                            if (isset($value->pf_logo) && $value->pf_logo != '') {
+                                $profession_logo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->pf_logo);
                             } else {
-                                $profession_logo = asset(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                                $profession_logo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
                             }?>
                             <img src="{{$profession_logo}}" alt="">
                             <span class="title">{{$value->pf_name}}</span>
@@ -166,20 +166,20 @@
                 showReport();
             } else {
                 $.ajax({
-                    url: "{{ url('/school/getAvailableCoins') }}",
+                    url: "{{ url('/school/get-available-coins') }}",
                     type: 'POST',
                     data: {
                         "_token": '{{ csrf_token() }}',
-                        "schoolId": <?php if (Auth::school()->check()) { echo Auth::school()->get()->id; } else { echo 0;}?>
+                        "schoolId": <?php if (Auth::guard('school')->check()) { echo Auth::guard('school')->user()->id; } else { echo 0;}?>
                     },
                     success: function(response) {
                         coins = response;
                         $.ajax({
-                            url: "{{ url('/school/getCoinsForSchool') }}",
+                            url: "{{ url('/school/get-coins-for-school') }}",
                             type: 'POST',
                             data: {
                                 "_token": '{{ csrf_token() }}',
-                                "schoolId": <?php if (Auth::school()->check()) { echo Auth::school()->get()->id; } else { echo 0;}?>
+                                "schoolId": <?php if (Auth::guard('school')->check()) { echo Auth::guard('school')->user()->id; } else { echo 0;}?>
                             },
                             success: function(response) {
                                 if (response > 1) {
@@ -260,18 +260,18 @@
         function showReport() {
             var days = <?php echo $days; ?>;
             $.ajax({
-                  url: "{{ url('/school/purchasedCoinsToViewReport') }}",
+                  url: "{{ url('/school/purchased-coins-to-view-report') }}",
                   type: 'POST',
                   data: {
                       "_token": '{{ csrf_token() }}',
-                      "schoolId": <?php echo Auth::school()->get()->id;?>
+                      "schoolId": <?php echo Auth::guard('school')->user()->id;?>
                   },
                   success: function(response) {
-                        var path = '<?php echo url('/school/exportpdf/'.$cid); ?>';
+                        var path = '<?php echo url('/school/export-pdf/'.$cid); ?>';
                         var win = window.open(path, '_blank');
                         win.focus();
                         if (days == 0) {
-                            getRemaningDaysForReport(<?php echo Auth::school()->get()->id;?>);
+                            getRemaningDaysForReport(<?php echo Auth::guard('school')->user()->id;?>);
                         }
                   }
               });
@@ -279,11 +279,11 @@
 
         function getRemaningDaysForReport(parent_id) {
             $.ajax({
-                url: "{{ url('/school/getremainigdaysForSchool') }}",
+                url: "{{ url('/school/get-remaining-days-for-school') }}",
                 type: 'POST',
                 data: {
                     "_token": '{{ csrf_token() }}',
-                    "schoolId": <?php echo Auth::school()->id(); ?>
+                    "schoolId": <?php echo Auth::guard('school')->user()->id; ?>
                 },
                 success: function(response) {
                    $('#RdaysReport').html(response);

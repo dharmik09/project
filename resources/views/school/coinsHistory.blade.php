@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 <div>
@@ -41,8 +41,8 @@
             <div class="pricing_title">
                 <h1><span class="title_border">{{trans('labels.history')}}</span></h1>
                 <div class="btn_cont gift_modal_page">
-                    <a href="{{ url('school/getGiftCoins') }}" class="btn primary_btn gift_history" >{{trans('labels.giftcoins')}}</a>
-                    <a href="{{ url('school/getConsumption') }}" class="btn primary_btn gift_history" >{{trans('labels.consumption')}}</a>
+                    <a href="{{ url('school/get-gift-coins') }}" class="btn primary_btn gift_history" >{{trans('labels.giftcoins')}}</a>
+                    <a href="{{ url('school/get-consumption') }}" class="btn primary_btn gift_history" >{{trans('labels.consumption')}}</a>
                 </div>
             </div>
         </div>

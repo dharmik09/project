@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 
@@ -6,7 +6,7 @@
     <div class="container">
         <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <form class="registration_form" method="POST" id="forgot-password-set-new" action="{{url('school/saveForgotPassword')}}">
+                <form class="registration_form" method="POST" id="forgot-password-set-new" action="{{url('school/save-forgot-password')}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="userid" value="{{$response['data']['userid']}}" />
                     <h1><span class="title_border">New Password</span></h1>

@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 
@@ -32,7 +32,7 @@
     <div class="container">
         <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <form id="login_form" role="form" method="POST" class="login_form" action="{{ url('/school/dashboard') }}">
+                <form id="login_form" role="form" method="POST" class="login_form" action="{{ url('/school/login-check') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <h1><span class="title_border">School Login <i class="fa fa-play" aria-hidden="true" style="cursor: pointer;"></i></span></h1>
                     <div class="col-md-offset-1 col-sm-offset-1 col-md-10 col-sm-10">
@@ -48,7 +48,7 @@
                         </div>
                         <div class="clearfix">
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <a href="{{url('school/forgotPassword')}}" class="link">Forgot Password?</a>
+                                <a href="{{url('school/forgot-password')}}" class="link">Forgot Password?</a>
                             </div>
                         </div>
                         <div class="button_container social_btn">

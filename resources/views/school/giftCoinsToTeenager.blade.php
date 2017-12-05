@@ -1,6 +1,6 @@
 @if(isset($userDetail) && !empty($userDetail))
 <div class="request_parent gift_coin">
-    <form id="addTeenCoins" class="form-horizontal" method="post" action={{ url("/school/saveCoinsDataForTeen") }}>
+    <form id="addTeenCoins" class="form-horizontal" method="post" action={{ url("/school/save-coins-data-for-teen") }}>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="id" value={{$userDetail['id']}}>
     <div class="row">

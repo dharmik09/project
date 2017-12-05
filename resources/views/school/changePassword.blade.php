@@ -1,4 +1,4 @@
-@extends('school.Master')
+@extends('layouts.school-master')
 
 @section('content')
 
@@ -32,7 +32,7 @@
     <div class="container">
         <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <form id="change_password_form" role="form" method="POST" class="login_form" action="{{ url('/school/updatePassword') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <form id="change_password_form" role="form" method="POST" class="login_form" action="{{ url('/school/update-password') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <h1><span class="title_border">Change Password</span></h1>
                     <div class="col-md-offset-1 col-sm-offset-1 col-md-10 col-sm-10">
@@ -56,7 +56,7 @@
                         <div class="button_container social_btn">
                             <div class="submit_register">
                                 <input type="submit" value="Save" class="btn primary_btn">
-                                <a href="{{ url('school/dashboard') }}" class="btn primary_btn"><em>Cancel</em><span></span></a>
+                                <a href="{{ url('school/home') }}" class="btn primary_btn"><em>Cancel</em><span></span></a>
                             </div>
 
                         </div>
