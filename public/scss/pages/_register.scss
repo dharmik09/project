@@ -1,6 +1,6 @@
 .sec-register {
     padding: 100px 0;
-    
+
     @include maxmd {
         padding: 70px 0;
     }
@@ -15,15 +15,15 @@
         margin: 0 auto;
         .reg-heading {
             @include maxsm {
-                display: flex;
-                flex-wrap: wrap;
+                // display: flex;
+                // flex-wrap: wrap;
                 margin-bottom: 22px;
             }
             [class*=col-] {
                 &:last-child {
-                    padding-left: 50px;
+                    padding-right: 50px;
                     @include maxsm {
-                        padding-left: 30px;
+                        padding: 0 15px;
                     }
                 }
                 .full-width {
@@ -32,9 +32,8 @@
                         text-align: center;
                     }
                     @include maxms {
-                        text-align: center;
-                        display: flex;
-                        flex-wrap: wrap;
+                        text-align: center; //display: flex;
+                        // flex-wrap: wrap;
                     }
                     h1 {
                         @include maxms {
@@ -47,7 +46,7 @@
                     }
                 }
                 @include maxsm {
-                    display: inline-flex;
+                    // display: inline-flex;
                     width: 100%;
                 }
                 &.order-2 {
@@ -314,15 +313,16 @@
         .checkbox {
             color: $lightgrey;
             margin: 30px 0 40px;
+            text-align: center;
             &:last-child {
                 margin-bottom: 15px;
             }
             label {
                 color: $lightgrey;
+                text-align: left;
             }
             .checker:before {
-                top: auto;
-                bottom: 0;
+                top: 50%; //bottom: 0;
                 @include maxms {
                     bottom: auto;
                     top: 30px;
@@ -332,34 +332,79 @@
         .logo-icon {
             display: inline-block;
             vertical-align: bottom;
-            margin: 0 12px;
+            margin: 0 12px 12px;
             @include maxsm {
                 width: 80px;
             }
         }
+        .sponsor-name {
+            display: block;
+            margin: 0 12px;
+        }
         .sponsor-list {
-            height: 120px;
-            overflow-y: scroll;
+            .owl-nav {
+                position: absolute;
+                top: 50%;
+                 transform: translateY(-50%); 
+                width: 100%;
+                .owl-prev,
+                .owl-next {
+                    position: absolute;
+                    left: -100px;
+                    font-size: 0;
+                    background-image: url(../img/prev-icon-dark.png);
+                    width: 30px;
+                    height: 45px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    @include maxlg{
+                        left: -60px;
+                    }
+                    @include maxmd{
+                        left: 0;
+                    }
+                    @include maxms{
+                        width: 20px;
+                        height: 35px;
+                    }
+                }
+                .owl-next {
+                    left: auto;
+                    right: -50px;
+                    background-image: url(../img/next-icon-dark.png);
+                    @include maxlg{
+                        right: -30px;
+                    }
+                    @include maxmd{
+                        right: 0;
+                    }
+                }
+            }
         }
     }
 }
+
 .sponsor-error {
     position: relative;
     bottom: -40px;
     color: red;
 }
-.terms-error, .birth-error{
+
+.terms-error,
+.birth-error {
     color: red;
     margin-top: 5px;
 }
-.form-group.input-group{
+
+.form-group.input-group {
     display: block;
-    .input-group-addon{
+    .input-group-addon {
         width: 15%;
         float: left;
         padding: 11px 12px;
     }
-    .form-control{
+    .form-control {
         display: inline-block;
         width: 85%;
     }

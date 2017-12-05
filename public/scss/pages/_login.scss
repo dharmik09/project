@@ -1,7 +1,7 @@
 h1 {
     font-size: 44px;
     color: rgba(22, 28, 34, 0.9);
-    @include maxsm{
+    @include maxsm {
         font-size: 34px;
     }
 }
@@ -60,17 +60,17 @@ h1 {
             text-align: left;
             form {
                 color: $lightgrey;
-                .form-group{
-                     margin-bottom: 23px;
+                .form-group {
+                    margin-bottom: 23px;
                 }
                 .form-control {
                     height: 42px;
                     background: transparent;
                     border-color: $dark;
                     font-size: 17px;
-                   
+
                     color: $dark;
-                    @include maxms{
+                    @include maxms {
                         font-size: 14px
                     }
                     &.error {
@@ -86,23 +86,7 @@ h1 {
                     margin-bottom: 23px;
                     text-transform: lowercase;
                 }
-                .btn {
-                    width: 100%;
-                    background: $p-cl;
-                    color: $white;
-                    font-family: hb;
-                    font-size: 17px;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    line-height: 1.5;
-                    padding: 7px 15px;
-                    border: 1px solid $p-cl;
-                    margin-bottom: 18px;
-                    &:hover {
-                        background: $dark;
-                        border-color: $dark;
-                    }
-                }
+
                 p {
                     font-size: 17px;
                     margin-bottom: 15px;
@@ -117,9 +101,10 @@ h1 {
                 }
                 li {
                     display: inline-block;
-                    width: 50%;
-                    margin-left: -4px;
-
+                    width: 49.5%; // margin-left: -4px;
+                    @include maxms {
+                        width: 49%;
+                    }
                     &:last-child {
                         a {
                             margin-right: 0;
@@ -185,6 +170,30 @@ h1 {
                     }
                 }
             }
+            .btn {
+                width: 100%;
+                background: $p-cl;
+                color: $white;
+                font-family: hb;
+                font-size: 17px;
+                font-weight: 700;
+                text-transform: uppercase;
+                line-height: 1.5;
+                padding: 7px 15px;
+                border: 1px solid $p-cl;
+                margin-bottom: 18px;
+                &:hover {
+                    background: $dark;
+                    border-color: $dark;
+                }
+                em {
+                    font-style: normal;
+                }
+            }
+        }
+        h4 {
+            text-align: center;
+            margin: 10px 0 20px;
         }
     }
 }
@@ -194,25 +203,32 @@ h1 {
     margin: 0 0 3px;
     border-color: red !important;
 }
-.form-group .error{
+
+.form-group .error {
     margin-top: 0;
 }
+
 em.invalid {
     color: red;
     font-size: 13px;
-   margin-top: 5px;
+    margin-top: 5px;
     display: block;
     font-style: normal;
 }
-.successmsg{
+
+.subscribe-success {
     display: block;
     font-size: 18px;
-    color: #4ba82e;
+    color: $h-cl;
     font-weight: 700;
     font-family: h;
-    margin: -15px 0 30px;
-    display: none;
+    margin: 15px 0;
+    text-align: center;
+    @include maxms {
+        font-size: 16px;
+    }
 }
+
 .alert {
     background-color: $p-cl;
     border-radius: 2px;
@@ -220,27 +236,35 @@ em.invalid {
     max-width: 767px;
     position: relative;
     z-index: 9;
-    h4{
+    h4 {
         margin-top: 0;
-    color: inherit;
+        color: inherit;
     }
-    .alert-success{
-      background:  #4ba82e;
+    .alert-success {
+        background: #4ba82e;
         color: $white;
     }
 }
+
 .alert.danger {
     border: medium none $p-cl;
     color: rgba(255, 255, 255, 0.84);
     z-index: auto;
     button {
-    color: rgba(255, 255, 255, 0.84);
+        color: rgba(255, 255, 255, 0.84);
         opacity: 1;
+    }
 }
-}
-.alert-dismissable .close, .alert-dismissible .close {
+
+.alert-dismissable .close,
+.alert-dismissible .close {
     position: relative;
     top: -2px;
     right: -21px;
     color: inherit;
+}
+
+.resend_verification {
+    margin: 15px auto;
+    max-width: 767px;
 }

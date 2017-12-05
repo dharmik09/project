@@ -48,7 +48,14 @@ $(document).ready(function () {
     $('.menu-close').click(function (e) {
         e.preventDefault();
     });
-
+    $('.vol-on').click(function (){
+        $(this).addClass('hide');
+        $('.vol-off').removeClass('hide');
+    })
+    $('.vol-off').click(function (){
+        $(this).addClass('hide');
+        $('.vol-on').removeClass('hide');
+    })
     $(".member-info .detail").each(function (i) {
         len = $(this).text().length;
         if (len > 10) {

@@ -237,6 +237,7 @@
                 smartSpeed: 1000,
                 dots:true,
             });
+            $(".owl-dots").wrap("<div class='container dot-container'></div>");
             $(window).scroll(function () {
                 var y = $(this).scrollTop();
                 $('.slider-maper a').each(function (event) {

@@ -134,7 +134,7 @@ class PasswordController extends Controller {
                         $this->teenagersRepository->saveTeenagerPasswordResetRequest($resetRequest);
 
                         $replaceArray = array();
-                        $replaceArray['TEEN_NAME'] = $teenagerDetail->t_name;
+                        $replaceArray['TEEN_NAME'] = $teenagerDetail->t_name." ".$teenagerDetail->t_lastname;;
                         $replaceArray['ONE_TIME_PASSWORD'] = $OTP;
 
                         $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.TEENAGER_RESET_EMAIL_TEMPLATE_NAME'));
@@ -142,7 +142,7 @@ class PasswordController extends Controller {
                         $data = array();
                         $data['subject'] = $emailTemplateContent->et_subject;
                         $data['toEmail'] = $teenagerDetail->t_email;
-                        $data['toName'] = $teenagerDetail->t_name;
+                        $data['toName'] = $teenagerDetail->t_name." ".$teenagerDetail->t_lastname;
                         $data['content'] = $content;
 
                         Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
@@ -183,7 +183,7 @@ class PasswordController extends Controller {
             $this->teenagersRepository->saveTeenagerPasswordResetRequest($resetRequest);
 
             $replaceArray = array();
-            $replaceArray['TEEN_NAME'] = $teenagerDetail->t_name;
+            $replaceArray['TEEN_NAME'] = $teenagerDetail->t_name." ".$teenagerDetail->t_lastname;
             $replaceArray['ONE_TIME_PASSWORD'] = $OTP;
 
             $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.TEENAGER_RESET_EMAIL_TEMPLATE_NAME'));
@@ -191,7 +191,7 @@ class PasswordController extends Controller {
             $data = array();
             $data['subject'] = $emailTemplateContent->et_subject;
             $data['toEmail'] = $teenagerDetail->t_email;
-            $data['toName'] = $teenagerDetail->t_name;
+            $data['toName'] = $teenagerDetail->t_name." ".$teenagerDetail->t_lastname;
             $data['content'] = $content;
             Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
                     $message->subject($data['subject']);

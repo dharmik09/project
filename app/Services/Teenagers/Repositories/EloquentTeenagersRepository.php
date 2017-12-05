@@ -159,7 +159,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         } else {
             $user = $this->model->where('deleted', '1')->where('t_email', $email)->first();
         }
-        if ($user->count() > 0) {
+        if (isset($user->id) && $user->count() > 0) {
             return true;
         } else {
             return false;

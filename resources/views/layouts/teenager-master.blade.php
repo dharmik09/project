@@ -38,9 +38,13 @@
                                     </div>
                                     <div class="user-name">
                                         <a href="{{ url('teenager/home') }}" title="My Dashboard">
-                                            <h2>{{ Auth::guard('teenager')->user()->t_name }}</h2>
+                                            <h2>{{ Auth::guard('teenager')->user()->t_name }} {{ Auth::guard('teenager')->user()->t_lastname }}</h2>
                                             <p>{{ Auth::guard('teenager')->user()->t_email }}</p>
                                         </a>
+                                    </div>
+                                    <div class="vol-btn">
+                                        <span class="vol-on"><img src="{{ Storage::url('img/icon-vol.png') }}" ></span>
+                                        <span class="vol-off hide"><img src="{{ Storage::url('img/vol-mute.png') }}" ></span>
                                     </div>
                                 </div>
                                 <div class="btns">
@@ -99,10 +103,10 @@
                 </div>
                 <div class="right">
                     <ul class="social">
-                        <li><a href="#"><i class="icon-facebook"></i></a></li>
-                        <li><a href="#"><i class="icon-twitter"></i></a></li>
-                        <li><a href="#"><i class="icon-google"></i></a></li>
-                        <li><a href="#"><i class="icon-linkdin"></i></a></li>
+                        <li><a href="https://www.facebook.com/proteenlife/" target="_blank"><i class="icon-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/ProTeenLife" target="_blank"><i class="icon-twitter"></i></a></li>
+                        <li><a href="https://plus.google.com/109414106711493074923" target="_blank"><i class="icon-google"></i></a></li>
+                        <li><a href="https://www.linkedin.com/company/proteen-life" target="_blank"><i class="icon-linkdin"></i></a></li>
                     </ul>
                     <div class="store">
                         <a href="" class="appstore">

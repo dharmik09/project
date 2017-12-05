@@ -76,7 +76,11 @@
             }
         });
     });
-
+    
+    AOS.init({
+        duration: 1200,
+    });
+    
     function checkPassword(){
         var password = $('#password').val();
         if (password == '') {

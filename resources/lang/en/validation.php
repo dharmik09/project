@@ -105,10 +105,10 @@ return [
     */
 
     'attributes' => [],
-    'emailrequired' => 'Email is Required',
-    'passwordrequired' => 'Password is Required',
-    'newpasswordrequired' => 'New Password is Required',
-    'confirmpasswordrequired' => 'Confirm Password is Required',
+    'emailrequired' => 'Email is required',
+    'passwordrequired' => 'Password is required',
+    'newpasswordrequired' => 'New Password is required',
+    'confirmpasswordrequired' => 'Confirm Password is required',
     'whoops' => 'Whoops!',
     'someproblems' => 'There were some problems with your input.',
     'invalidcombo' => 'This username/password combo does not exist.',

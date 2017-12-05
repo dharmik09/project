@@ -51,7 +51,8 @@ class DashboardController extends Controller
         $user = Auth::guard('teenager')->user();
         $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenProfileImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenProfileImageUploadPath.'proteen-logo.png');
         $data['user_profile_thumb'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenThumbImageUploadPath.'proteen-logo.png');
-        //echo "<pre/>"; print_r(Auth::guard('teenager')->user()->t_photo); die();
+        $teenagerAPIData = Helpers::getTeenAPIScore(Auth::guard('teenager')->user()->id);
+        //echo "<pre/>"; print_r($teenagerAPIData); die();
         return view('teenager.home', compact('data', 'user'));
     }
 

@@ -73,7 +73,8 @@ class SocialLoginController extends Controller {
 
             $teenagerDetail = [];
             $teenagerDetail['t_uniqueid'] = Helpers::getTeenagerUniqueId();
-            $teenagerDetail['t_name'] = $first_name." ".$last_name;
+            $teenagerDetail['t_name'] = $first_name;
+            $teenagerDetail['t_lastname'] = $last_name;
             $teenagerDetail['t_email'] = $email;
             //$teenagerDetail['password'] = (isset($user->user['id'])) ? $user->user['id'] : "" ;
             $teenagerDetail['t_fb_social_identifier'] = (isset($user->user['id'])) ? $user->user['id'] : "" ;
@@ -82,7 +83,7 @@ class SocialLoginController extends Controller {
             $teenagerDetail['deleted'] = '1';
             $teenagerDetail['t_isverified'] = '1';
             $teenagerDetail['gender'] = $gender;
-            $teenagerDetail['nickname'] = $nickname;
+            //$teenagerDetail['nickname'] = $nickname;
             
             $teenagerWithSocialId = $this->teenagersRepository->getTeenagerBySocialId($teenagerDetail['t_fb_social_identifier'], $teenagerDetail['t_social_provider']);
             $teenagerWithEmailId = $this->teenagersRepository->getTeenagerDetailByEmailId($teenagerDetail['t_email']);
@@ -184,10 +185,10 @@ class SocialLoginController extends Controller {
         try
         {
             $user = Socialite::driver('google')->user();
-            
             $loginUrl = "teenager/login";
             $homeUrl = "teenager/home";
             $name = (isset($user->name)) ? ucfirst($user->name) : "" ;
+            $lastname = (isset($user->user['name']['familyName'])) ? $user->user['name']['familyName'] : "";
             $email = (isset($user->email)) ? $user->email : "" ;
             $gender = (isset($user->user['gender'])) ? ($user->user['gender'] == "male") ? 1 : 2 : "";
             $nickname = (isset($user->nickname)) ? $user->nickname : ""; 
@@ -201,6 +202,7 @@ class SocialLoginController extends Controller {
             $teenagerDetail = [];
             $teenagerDetail['t_uniqueid'] = Helpers::getTeenagerUniqueId();
             $teenagerDetail['t_name'] = $name;
+            $teenagerDetail['t_lastname'] = $lastname;
             $teenagerDetail['t_email'] = $email;
             //$teenagerDetail['password'] = (isset($user->id)) ? $user->id : "" ;
             $teenagerDetail['t_social_identifier'] = (isset($user->id)) ? $user->id : "" ;
@@ -208,7 +210,7 @@ class SocialLoginController extends Controller {
             $teenagerDetail['t_social_accesstoken'] = (isset($user->token)) ? $user->token : "" ;
             $teenagerDetail['deleted'] = '1';
             $teenagerDetail['gender'] = $gender;
-            $teenagerDetail['nickname'] = $nickname;
+            //$teenagerDetail['nickname'] = $nickname;
             $teenagerDetail['t_isverified'] = '1';
             
             $teenagerWithSocialId = $this->teenagersRepository->getTeenagerBySocialId($teenagerDetail['t_social_identifier'], $teenagerDetail['t_social_provider']);
