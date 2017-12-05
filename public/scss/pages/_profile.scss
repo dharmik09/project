@@ -298,9 +298,10 @@
                 font-weight: 300;
                 font-family: hl;
                 font-size: 24px;
-                @include maxlg {
+                padding-right: 5px;
+                /*@include maxlg {
                     width: 23%;
-                }
+                }*/
                 @include maxmd {
                     font-size: 20px;
                 }
@@ -318,14 +319,16 @@
                 width: 69%;
                 margin-left: -4px;
                 vertical-align: middle;
-                @include maxlg {
+                padding-left: 19px;
+               /* @include maxlg {
                     width: 76%;
-                }
+                }*/
                 @include maxsm {
                     width: 65%;
                 }
                 @include maxms {
                     width: 63%;
+                    padding-left: 0;
                 }
                 .date-block {
                     max-width: 90px;
@@ -418,7 +421,7 @@
                         position: absolute;
                         left: -100px;
                         font-size: 0;
-                        background-image: url(../img/prev-icon.png);
+                        background-image: url(../img/prev-icon-dark.png);
                         width: 30px;
                         height: 45px;
                         background-size: contain;
@@ -438,7 +441,7 @@
                     .owl-next {
                         left: auto;
                         right: -50px;
-                        background-image: url(../img/next-icon.png);
+                        background-image: url(../img/next-icon-dark.png);
                         @include maxlg {
                             right: -30px;
                         }
@@ -1407,7 +1410,7 @@ input:checked + .slider:before {
         font-size: 42px;
         text-transform: capitalize;
         color: $white;
-        margin-bottom: 22px;
+        margin-bottom: 0px;
         @include maxlg {
             font-size: 38px;
         }
@@ -1460,13 +1463,14 @@ input:checked + .slider:before {
     }
     .list {
         padding: 60px 0 40px;
-        max-width: 70%;
+        max-width: 65%;
         margin: 0 auto;
         @include maxmd {
-            max-width: 100%;
+            max-width: 80%;
         }
         @include maxsm {
             padding: 40px 0 30px;
+            max-width: 100%;
         }
         @include maxms {
             padding: 30px 0 15px;
@@ -1527,7 +1531,7 @@ input:checked + .slider:before {
                 color: $lightgrey;
                 border-bottom: 1px dotted $r-cl;
                 float: right;
-                margin: 0 16px 0 30px;
+                margin: 0 16px 0 0px;
                 font-weight: 400;
                 font-family: h;
                 text-decoration: none;

@@ -1,145 +1,147 @@
-
-nav{
+nav {
     background-color: $dark;
-    .logo{
-    	padding:12px 0;
-    	@include maxsm {
-            padding:12px 0;
-            width:85px;
-			img{max-width:74%;}
-    	}
+    .logo {
+        padding: 12px 0;
+        @include maxsm {
+            padding: 12px 0;
+            width: 85px;
+            img {
+                max-width: 74%;
+            }
+        }
     }
-    .menu-toggle{
-    	@include maxsm {
-			padding: 10px 0;
-    	}
+    .menu-toggle {
+        @include maxsm {
+            padding: 10px 0;
+        }
     }
-    @include maxsm{
-        >.container{
+    @include maxsm {
+        > .container {
             position: relative;
         }
     }
 }
-.menu-toggle{
-	color:#fff;
-	font-size:28px;
+
+.menu-toggle {
+    color: #fff;
+    font-size: 28px;
 }
 
-.main-menu{
+.main-menu {
     position: fixed;
-    z-index:999;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    height:100%;
-    width:100%;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
     background-color: $white;
-    display:block;
-    visibility:hidden;
-    opacity:0;
-    transition:all 0.5s ease-out;
-    transform:translateY(-100%);
-    &.active{
-        transform:translateY(0);
-        visibility:visible;
-        opacity:1;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.5s ease-out;
+    transform: translateY(-100%);
+    &.active {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
     }
 
-    .menu-container{
-        display:table;
-        width:100%;
-        height:100%;
+    .menu-container {
+        display: table;
+        width: 100%;
+        height: 100%;
         text-align: center;
-        position:relative;
+        position: relative;
     }
-    ul{
-        display:table-cell;
+    ul {
+        display: table-cell;
         vertical-align: middle;
-        width:100%;
-        height:100%;
-        margin:0;
-        padding:0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
         list-style-type: none;
-        li{
-            display:block;
+        li {
+            display: block;
         }
-        a{
-            color:$s-cl;
-            font-size:43px;
-            font-family:'ab';
-            text-decoration:none;
-            line-height:85px;
+        a {
+            color: $s-cl;
+            font-size: 43px;
+            font-family: 'ab';
+            text-decoration: none;
+            line-height: 85px;
             text-transform: capitalize;
             &:focus,
             &:active,
-            &:hover{
-                color:$p-cl;
+            &:hover {
+                color: $p-cl;
             }
-            &.active{
-                color:$p-cl;
+            &.active {
+                color: $p-cl;
                 font-weight: bold;
             }
 
-            @include maxms{
-                font-size:18px;
-                line-height:3;
+            @include maxms {
+                font-size: 18px;
+                line-height: 3;
             }
 
-            @include maxsm{
-                font-size:22px;
-                line-height:2;
+            @include maxsm {
+                font-size: 22px;
+                line-height: 2;
             }
         }
     }
-    .menu-rocket{
+    .menu-rocket {
         position: absolute;
-        transition:all 0.5s;
+        transition: all 0.5s;
         @include maxsm {
-            max-width:100px;
+            max-width: 100px;
         }
     }
-    .menu-close{
-        font-size:40px;
+    .menu-close {
+        font-size: 40px;
         position: absolute;
-        right:50px;
-        top:50px;
-        text-decoration:none;
-        color:$r-cl;
-        @include maxms{
-            top:20px;
-            right:20px;
+        right: 50px;
+        top: 50px;
+        text-decoration: none;
+        color: $r-cl;
+        @include maxms {
+            top: 20px;
+            right: 20px;
         }
     }
 }
 
-.nav-bar{
+.nav-bar {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    li > a{
-        text-decoration:none;
-        color:#fff;
-        font-size:30px;
+    li > a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 30px;
         position: relative;
         padding: 27px 0 27px 25px;
-        display:block;
-        &:hover{
+        display: block;
+        &:hover {
             color: $cl-complete;
         }
-        @include maxsm{
+        @include maxsm {
             font-size: 18px;
             padding: 8px 0 8px 15px;
         }
     }
-    li{
+    li {
         float: left;
-        &.n-coin{
-            &>a{
-                font-family:'hb';
-                font-size:23px;
-                width:170px;
-                display:block;
+        &.n-coin {
+            & > a {
+                font-family: 'hb';
+                font-size: 23px;
+                width: 170px;
+                display: block;
                 @include maxsm {
                     font-size: 14px;
                     width: 80px;
@@ -150,42 +152,46 @@ nav{
                     line-height: 22px;
                 }
             }
-            span{
+            span {
                 margin-right: 5px;
-                display:inline-block;
-                @include maxsm{
-                    float:left;
+                display: inline-block;
+                @include maxsm {
+                    float: left;
                 }
             }
-            .submenu{z-index::99;}
+            .submenu {
+                z-index:99;
+            }
         }
-        &.n-user{
-            .submenu{z-index::999;}
-            &>a{
-                display:block;
-                margin-top:-5px;
-                font-size:40px;
+        &.n-user {
+            .submenu {
+                z-index:999;
+            }
+            & > a {
+                display: block;
+                margin-top: -5px;
+                font-size: 40px;
                 @include maxsm {
                     font-size: 27px;
                     margin-top: -3px;
                 }
-                .badge{
-                    position:absolute;
-                    top:16px;
-                    right:-8px;
-                    height:20px;
-                    width:20px;
-                    display:block;
-                    background-color:$p-cl;
+                .badge {
+                    position: absolute;
+                    top: 16px;
+                    right: -8px;
+                    height: 20px;
+                    width: 20px;
+                    display: block;
+                    background-color: $p-cl;
                     border-radius: 50%;
-                    color:#fff;
-                    text-align:center;
-                    font-family:'hnb';
-                    font-size:13px;
+                    color: #fff;
+                    text-align: center;
+                    font-family: 'hnb';
+                    font-size: 13px;
                     padding: 0;
-                    line-height:20px;
-                    @include maxsm{
-                        top:0;
+                    line-height: 20px;
+                    @include maxsm {
+                        top: 0;
                     }
                 }
             }
@@ -198,118 +204,124 @@ nav{
 .n-user,
 .n-coin,
 .n-window,
-.n-menu{
-    &>a{
-        line-height:30px;
+.n-menu {
+    & > a {
+        line-height: 30px;
     }
 }
 
-.coins{
+.coins {
     @extend .i-coin;
-    display:inline-block;
-    width:20px;
-    height:20px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
 }
 
 // Here goes submenu functionality
-.submenu-container{
+.submenu-container {
     position: relative;
-    @include maxsm{
+    @include maxsm {
         position: static;
     }
-    .submenu{
-        width:400px;
+    .submenu {
+        width: 400px;
         background-color: $lightgrey;
-        padding:20px;
+        padding: 20px;
         position: absolute;
-        visibility:hidden;
-        top:100%;
-        right:0;
-        opacity:0;
-        transition:all 0.5s ease-out;
-        @include maxsm{
-            width:100%;
-            text-align:center;
+        visibility: hidden;
+        top: 100%;
+        right: 0;
+        opacity: 0;
+        transition: all 0.5s ease-out;
+        @include maxsm {
+            width: 100%;
+            text-align: center;
         }
-        &:before{
-            content:'';
+        &:before {
+            content: '';
             position: absolute;
-            top:0;
-            right:0;
+            top: 0;
+            right: 0;
             width: 0;
             height: 0;
             border-left: 25px solid transparent;
             border-right: 25px solid transparent;
             border-top: 20px solid $lightgrey;
             @include maxsm {
-                left:50%;
-                transform:translateX(-50%);
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
     }
-    &.active{
-        .submenu{
+    &.active {
+        .submenu {
             // top:100%;
-            opacity:1;
-            visibility:visible;
+            opacity: 1;
+            visibility: visible;
         }
     }
 
-    .btns{
+    .btns {
         text-align: center;
         padding-top: 15px;
-        .btn{
-            font-weight:900;
+        .btn {
+            font-weight: 900;
         }
     }
-    h2{
-        color:$white;
-        padding:0;
-        margin:0;
-        font-size:33px;
+    h2 {
+        color: $white;
+        padding: 0;
+        margin: 0;
+        font-size: 33px;
         font-family: 'am';
-        display:block;
+        display: block;
     }
-    p{
-        color:$white;
-        padding:0;
-        margin:0;
-        font-family:'ht';
-        display:block;
-        font-size:14px;
+    p {
+        color: $white;
+        padding: 0;
+        margin: 0;
+        font-family: 'ht';
+        display: block;
+        font-size: 14px;
     }
-    .user-avatar{
-        width:100px;
-        height:100px;
+    .user-avatar {
+        width: 100px;
+        height: 100px;
         overflow: hidden;
-        border-radius:50%;
-        display:inline-block;
+        border-radius: 50%;
+        display: inline-block;
         vertical-align: middle;
-        img{
-            width:100%;
-            height:100%;
+        img {
+            width: 100%;
+            height: 100%;
         }
     }
-    .user-name{
-        display:inline-block;
+    .user-name {
+        display: inline-block;
         vertical-align: middle;
     }
-
-
-
+    .vol-btn {
+        //display: inline-block;
+        //vertical-align: top;
+        float: right;
+        margin-top: 20px;
+        span{
+            cursor: pointer;
+        }
+    } 
     // For procoins
     &.n-coin {
-        .submenu{
-            width:260px;
+        .submenu {
+            width: 260px;
             @include maxsm {
-                width:100%;
+                width: 100%;
             }
         }
-        h2{
-            padding-top:30px;
+        h2 {
+            padding-top: 30px;
         }
-        .btns{
-            text-align:left;
+        .btns {
+            text-align: left;
             @include maxsm {
                 text-align: center;
             }
@@ -319,25 +331,28 @@ nav{
 
 
 
-.user-snapshot{
-    display:inline-block
+.user-snapshot {
+    display: block;
 }
 
 
 // Fixed navigation
-body{
-     -webkit-font-smoothing: subpixel-antialiased;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;
+body {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
 }
+
 nav.fixed-navigation {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index:99;
+    z-index: 99;
 }
+
 body.fixed-nav {
-    &.sec-overflow{
+    &.sec-overflow {
         overflow-x: hidden;
     }
     padding-top: 87px;
@@ -345,6 +360,7 @@ body.fixed-nav {
         padding-top: 66px;
     }
 }
-body.fixedPosition{
+
+body.fixedPosition {
     overflow: hidden;
 }
