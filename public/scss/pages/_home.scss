@@ -406,21 +406,22 @@
 .banner {
     img {
         opacity: 0;
-        transform: translateY(-100px);
+       transform: translateY(100px);
         transition: all 2s ease-out;
     }
     .box {
-        margin-top: 46vh;
+        margin-top: 18vh;
        // opacity: 0;
         padding: 50px 63px 50px 76px;
        // transition: opacity 0.5s ease-out, transform 2s ease-out;
         //visibility: hidden;
         max-width: 505px;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+//        position: absolute;
+       /* top: 50%;
+        transform: translateY(-50%);*/
         @include maxh700minw768 {
-            margin-top:325px;
+            //margin-top:325px;
+            margin-top:155px;
         }
         @include maxlg {
            // margin-bottom: 20vh;
@@ -430,7 +431,7 @@
         @include maxmd {
            // margin-bottom: 0;
            // margin-top: 20vh;
-            transform: translateY(-50%);
+           // transform: translateY(-50%);
         }
         @include maxsm {
           //  margin-top: 20vh;
@@ -523,28 +524,37 @@
             right: auto;
         }
     }
+    img{
+        position: absolute;
+    }
 }
 
 .banner-2 {
     .box {
         background-color: $i-cl;
     }
+    img{
+        position: absolute;
+    }
     &.active {
         img.i-parent-arrow {
-            left: 100%;
+            left: 90%;
             position: absolute;
-            top: 50%;
+            top: 65%;
         }
         img.i-parent-hand {
             position: absolute;
             right: 6%;
             top: 0;
-            transform: translateY(-80%);
+            transform: translateY(34%);
         }
     }
 }
 
 .banner-3 {
+    img{
+        position: absolute;
+    }
     .box {
         background-color: $s-cl;
         @include maxsm {
@@ -559,36 +569,42 @@
         img.i-mentor-arrow {
             position: absolute;
             top: 0;
-            transform: translate(-100%, -100%);
+            transform: translate(-100%, 200%);
         }
         img.i-mentor-hand {
             position: absolute;
             top: 0;
-            transform: translate(70%, -86%);
+            transform: translate(70%, 4%);
         }
     }
 }
 
 .banner-4 {
+    img{
+        position: absolute;
+    }
     .box {
         background-color: $w-cl;
     }
     &.active {
         img.i-school-arrow {
-            left: 100%;
+            left: 90%;
             position: absolute;
-            top: 30%;
+            top: 50%;
         }
         img.i-school-hand {
             position: absolute;
             right: 16%;
             top: 0;
-            transform: translateY(-80%);
+            transform: translateY(38%);
         }
     }
 }
 
 .banner-5 {
+    img{
+        position: absolute;
+    }
     .box {
         background-color: $m-cl;
         @include maxsm {
@@ -603,12 +619,12 @@
         img.i-enterprise-arrow {
             position: absolute;
             top: 100%;
-            transform: translate(-146%, -100%);
+            transform: translate(-176%, -170%);
         }
         img.i-enterprise-hand {
             position: absolute;
             top: 20px;
-            transform: translate(0%, -110%);
+            transform: translate(0%, -10%);
         }
     }
 }
