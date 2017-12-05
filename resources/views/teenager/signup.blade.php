@@ -85,7 +85,7 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group custom-select">
-                                <select tabindex="7" class="form-control" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
+                                <select tabindex="5" class="form-control" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
                                     <option value="">country*</option>
                                     @forelse($countries as $val)
                                         <option value="{{$val->id}}" <?php echo (old('country') && old('country') == $val->id ) ? "selected='selected'" : ''; ?> > {{$val->c_name}} </option>
@@ -96,19 +96,19 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="pincode" id="pincode" placeholder="zip code *" tabindex="8" required value="{{old('pincode')}}" maxlength="6" />
+                                <input type="text" class="form-control" name="pincode" id="pincode" placeholder="zip code *" tabindex="6" required value="{{old('pincode')}}" maxlength="6" />
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="phone number" tabindex="5" value="{{old('phone')}}">
+                                <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="phone number" tabindex="7" value="{{old('phone')}}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group input-group">
                                 <div class="clearfix">
                                     <span class="input-group-addon" id="country_phone_code">+91</span>
-                                    <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number *" value="{{old('mobile')}}" tabindex="6" required />
+                                    <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number *" value="{{old('mobile')}}" tabindex="8" required />
                                 </div>
                             </div>
                         </div>
@@ -225,10 +225,6 @@
                 minlength: 3,
                 maxlength: 100
             },
-            nickname: {
-                maxlength: 100,
-                minlength: 2
-            },
             birth_date: {
                 required: true
             },
@@ -285,10 +281,6 @@
             messages: {
                 name: {
                     required: "{{ trans('validation.namerequiredfield') }}"
-                },
-                nickname: {
-                    minlenght: 'Nickname is very short',
-                    maxlength: 'Nickname is out of range'
                 },
                 birth_date: {
                     required: '<?php echo trans('validation.bdaterequiredfield') ?>'
