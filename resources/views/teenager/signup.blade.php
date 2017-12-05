@@ -195,7 +195,7 @@
                         <div class="terms-sec">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="terms_condition" id="terms_condition" tabindex="16"><span class="checker"></span> I agree to ProTeen's <a href="#" title="Terms and Conditions">Terms and Conditions</a> and <a href="#" title="Privacy Policy">Privacy Policy</a>.
+                                    <input type="checkbox" name="terms_condition" id="terms_condition" tabindex="16"><span class="checker"></span> I agree to ProTeen's <a href="{{ url('terms-condition') }}" title="Terms and Conditions" target="_blank">Terms and Conditions</a> and <a href="{{ url('privacy-policy') }}" title="Privacy Policy" target="_blank">Privacy Policy</a>.
                                 </label>
                             </div>
                             <div class="terms-error"></div>
