@@ -22,8 +22,6 @@
     <div class="container-small">
         <div class="login-form">
             <h1>teen sign up verification</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
-            <span class="icon" ><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
             <div class="form-sec">
                 <h4>{!!$responseMsg!!}</h4>
             </div>
