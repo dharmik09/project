@@ -18,15 +18,18 @@
     </div>
     @endif
 </div>
-<div class="centerlize">
-    <div class="container">
-            <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
-                <div class="col-md-12 col-sm-12 col-xs-12">                    
-                    <p class="login-box-msg">{!!$responseMsg!!}</p>                    
-                </div>
+<section class="sec-login">
+    <div class="container-small">
+        <div class="login-form">
+            <h1>teen sign up verification</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+            <span class="icon" ><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
+            <div class="form-sec">
+                <h4>{!!$responseMsg!!}</h4>
             </div>
+        </div>
     </div>
-</div>
+</section>
 @stop
 @section('script')
 
