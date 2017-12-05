@@ -164,7 +164,7 @@ class SignupController extends Controller
 
                             //If user has selected My choice or none option
                             $replaceArray['TEEN_UNIQUEID'] = Helpers::getTeenagerUniqueId();
-                            $replaceArray['TEEN_URL'] = "<a href=" . url("verifyTeen?token=" . $replaceArray['TEEN_UNIQUEID']) . ">" . url("verifyTeen?token=" . $replaceArray['TEEN_UNIQUEID']) . "</a>";
+                            $replaceArray['TEEN_URL'] = "<a href=" . url("verify-teenager?token=" . $replaceArray['TEEN_UNIQUEID']) . ">" . url("verify-teenager?token=" . $replaceArray['TEEN_UNIQUEID']) . "</a>";
 
                             $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.TEENAGER_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
                             $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);

@@ -22,6 +22,7 @@
     <div class="container-small">
         <div class="login-form">
             <h1>teen sign up verification</h1>
+            <br/>
             <div class="form-sec">
                 <h4>{!!$responseMsg!!}</h4>
             </div>
