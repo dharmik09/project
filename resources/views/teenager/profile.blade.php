@@ -263,32 +263,38 @@
                 </form>
             </div>
             <div class="mentor-list">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-6">
+                <ul class="row owl-carousel">
+                    <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-1.jpg')}})"></div>
                             <figcaption>Parent 1</figcaption>
                         </figure>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
+                        <figure>
+                            <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-1.jpg')}})"></div>
+                            <figcaption>Parent 1</figcaption>
+                        </figure>
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-2.jpg')}})"></div>
                             <figcaption>Parent 2</figcaption>
                         </figure>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="mentor-img" style="background-image: url({{Storage::url('img/mentor-1.jpg')}})"></div>
                             <figcaption>mentor 1</figcaption>
                         </figure>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="mentor-img" style="background-image: url({{Storage::url('img/mentor-2.jpg')}})"></div>
                             <figcaption>mentor 1</figcaption>
                         </figure>
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
@@ -602,6 +608,24 @@
 @section('script')
 <script>
     $(document).ready(function() {
+        $('.mentor-list ul').owlCarousel({
+            loop: true,
+            margin: 0,
+            items: 4,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: false,
+            dots: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                768: {
+                    items: 4
+                },
+            }
+        });
         $('.sponsor-list').owlCarousel({
             loop: false,
             margin: 20,
