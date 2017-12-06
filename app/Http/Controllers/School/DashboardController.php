@@ -19,6 +19,7 @@ use PDF;
 use App\PaidComponent;
 use App\DeductedCoins;
 use App\TeenagerCoinsGift;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller {
 
@@ -243,10 +244,10 @@ class DashboardController extends Controller {
 
         foreach ($professionAttempted['profession'] As $key => $value) {
             $image = $value->pf_logo;
-            if ($image != '' && file_exists($this->professionThumbImageUploadPath . $image)) {
-                $image = asset($this->professionThumbImageUploadPath . $image);
+            if ($image != '' && isset($image)) {
+                $image = Storage::url($this->professionThumbImageUploadPath . $image);
             } else {
-                $image = asset($this->professionThumbImageUploadPath . 'proteen-logo.png');
+                $image = Storage::url($this->professionThumbImageUploadPath . 'proteen-logo.png');
             }
             $value->pf_logo = $image;
             $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($value->id);
@@ -316,19 +317,19 @@ class DashboardController extends Controller {
             foreach ($teenagerIcons as $key => $icon) {
                 if ($icon->ti_icon_type == 1) {
 
-                    if ($icon->fiction_image != '' && file_exists($this->cartoonOriginalImageUploadPath . $icon->fiction_image)) {
+                    if ($icon->fiction_image != '' && isset($icon->ti_icon_image)) {
                         $fictionIcon[] = $this->cartoonOriginalImageUploadPath . $icon->fiction_image;
                     } else {
                         $fictionIcon[] = $this->cartoonOriginalImageUploadPath . 'proteen-logo.png';
                     }
                 } elseif ($icon->ti_icon_type == 2) {
-                    if ($icon->nonfiction_image != '' && file_exists($this->humanOriginalImageUploadPath . $icon->nonfiction_image)) {
+                    if ($icon->nonfiction_image != '' && isset($icon->ti_icon_image)) {
                         $nonFiction[] = $this->humanOriginalImageUploadPath . $icon->nonfiction_image;
                     } else {
                         $nonFiction[] = $this->humanOriginalImageUploadPath . 'proteen-logo.png';
                     }
                 } else {
-                    if ($icon->ti_icon_image != '' && file_exists($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image)) {
+                    if ($icon->ti_icon_image != '' && isset($icon->ti_icon_image)) {
                         $relationIcon[] = $this->relationIconOriginalImageUploadPath . $icon->ti_icon_image;
                     }
                 }
@@ -350,7 +351,7 @@ class DashboardController extends Controller {
         $logo = $this->loggedInUser->user()->sc_logo;
         $image = '';
         if (!empty($logo)) {
-            if ($logo != '' && file_exists($this->schoolOriginalImageUploadPath . $logo)) {
+            if ($logo != '' && isset($logo)) {
                 $image = $this->schoolOriginalImageUploadPath . $logo;
             } else {
                 $image = $this->schoolOriginalImageUploadPath . 'proteen-logo.png';
