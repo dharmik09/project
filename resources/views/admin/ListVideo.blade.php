@@ -38,7 +38,7 @@
                                 </td>
                                 <td>
                                     <?php
-                                        $image = ($value->v_photo != "" && Storage::disk('s3')->exists($uploadVideoThumbPath.$value->v_photo)) ? Config::get('constant.DEFAULT_AWS').$uploadVideoThumbPath.$value->v_photo : asset('/backend/images/proteen_logo.png'); 
+                                        $image = ($value->v_photo != "" && isset($value->v_photo)) ? Storage::url($uploadVideoThumbPath.$value->v_photo) : asset('/backend/images/proteen_logo.png'); 
                                     ?>
                                     <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                 </td>

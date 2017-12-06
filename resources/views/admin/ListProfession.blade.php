@@ -61,7 +61,7 @@
                                 </td>
                                 <td>
                                     <?php
-                                        $image = ($profession->pf_logo != "" && Storage::disk('s3')->exists($uploadProfessionThumbPath.$profession->pf_logo)) ? Config::get('constant.DEFAULT_AWS').$uploadProfessionThumbPath.$profession->pf_logo : asset('/backend/images/proteen_logo.png');
+                                        $image = ($profession->pf_logo != "" && isset($profession->pf_logo)) ? Storage::url($uploadProfessionThumbPath.$profession->pf_logo) : asset('/backend/images/proteen_logo.png');
                                     ?>
                                     <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                    </td>

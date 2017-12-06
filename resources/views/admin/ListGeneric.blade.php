@@ -39,7 +39,7 @@
                                     {{$generic->ga_name}}
                                 </td>
                                 <td>
-                                    <?php $image = ($generic->ga_image != "" && Storage::disk('s3')->exists($genericThumbImagePath.$generic->ga_image)) ? Config::get('constant.DEFAULT_AWS').$genericThumbImagePath.$generic->ga_image : asset('/backend/images/proteen_logo.png'); ?>
+                                    <?php $image = ($generic->ga_image != "" && isset($generic->ga_image)) ? Storage::url($genericThumbImagePath.$generic->ga_image) : asset('/backend/images/proteen_logo.png'); ?>
                                     <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                 </td>
                                 <td>
