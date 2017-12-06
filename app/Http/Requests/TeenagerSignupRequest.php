@@ -22,7 +22,7 @@ class TeenagerSignupRequest extends Request {
      */
     public function rules() {
             return [
-                'mobile' => 'min : 10 | max : 11',
+                //'mobile' => 'min : 10 | max : 11',
                 //'photo' => 'mimes:jpeg,jpg,bmp,png',
                 'name' => 'required | min : 3',
                 't_lastname' => 'required | min : 3',

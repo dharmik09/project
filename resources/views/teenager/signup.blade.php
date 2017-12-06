@@ -108,7 +108,7 @@
                             <div class="form-group input-group">
                                 <div class="clearfix">
                                     <span class="input-group-addon" id="country_phone_code">+91</span>
-                                    <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number *" value="{{old('mobile')}}" tabindex="8" required />
+                                    <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number" value="{{old('mobile')}}" tabindex="8" />
                                 </div>
                             </div>
                         </div>
@@ -269,10 +269,10 @@
             'selected_sponsor[]': {
                 required: true
             },
-            mobile: {
-                minlength: 10,
-                maxlength: 11
-            },
+            // mobile: {
+            //     minlength: 10,
+            //     maxlength: 11
+            // },
             terms_condition: {
                 required: true
             }
@@ -307,11 +307,11 @@
                 },
                 'selected_sponsor[]': {required: 'Please select atleast one sponsor'
                 },
-                mobile: {required: 'Mobile number is required'
-                },                                                   
+                // mobile: {required: 'Mobile number is required'
+                // },                                                   
                 terms_condition: { required: 'Please select terms and conditions'
                 },
-                gender:{ required: 'Please select genger'
+                gender:{ required: 'Please select gender'
                 },
                 day: { required: 'Date is required',
                 },

@@ -82,7 +82,7 @@ class SocialLoginController extends Controller {
             $teenagerDetail['t_fb_social_accesstoken'] = (isset($user->token)) ? $user->token : "" ;
             $teenagerDetail['deleted'] = '1';
             $teenagerDetail['t_isverified'] = '1';
-            $teenagerDetail['gender'] = $gender;
+            $teenagerDetail['t_gender'] = $gender;
             //$teenagerDetail['nickname'] = $nickname;
             
             $teenagerWithSocialId = $this->teenagersRepository->getTeenagerBySocialId($teenagerDetail['t_fb_social_identifier'], $teenagerDetail['t_social_provider']);
@@ -209,7 +209,7 @@ class SocialLoginController extends Controller {
             $teenagerDetail['t_social_provider'] = "Google";
             $teenagerDetail['t_social_accesstoken'] = (isset($user->token)) ? $user->token : "" ;
             $teenagerDetail['deleted'] = '1';
-            $teenagerDetail['gender'] = $gender;
+            $teenagerDetail['t_gender'] = $gender;
             //$teenagerDetail['nickname'] = $nickname;
             $teenagerDetail['t_isverified'] = '1';
             
