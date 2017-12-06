@@ -41,20 +41,30 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <div class="my_chart">
-                                        <img src="{{ Storage::url('img/My_chart.png') }}" alt="My_chart">
-                                        <h4>Interest 1</h4>
+                                @forelse($teenagerInterest as $interestKey => $interestValue)
+                                    <?php if($interestValue < 1) { continue; } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="my_chart">
+                                            <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}">
+                                            <h4>{{ $interestKey }}</h4>
+                                        </div>
                                     </div>
-                                    <!-- my_chart End -->
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <div class="my_chart">
-                                        <img src="{{ Storage::url('img/My_chart2.png') }}" alt="My_chart">
-                                        <h4>Interest 2</h4>
+                                @empty
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="my_chart">
+                                            <img src="{{ Storage::url('img/my-interest-2.png') }}" alt="My_chart">
+                                            <h4>Interest 1</h4>
+                                        </div>
+                                        <!-- my_chart End -->
                                     </div>
-                                    <!-- my_chart End -->
-                                </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="my_chart">
+                                            <img src="{{ Storage::url('img/my-interest-1.png') }}" alt="My_chart">
+                                            <h4>Interest 2</h4>
+                                        </div>
+                                        <!-- my_chart End -->
+                                    </div>
+                                @endforelse
                             </div>
                             <p><a href="">Expand</a></p>
                         </div>
@@ -62,20 +72,28 @@
                         <div class="das_your_profile my_interests">
                             <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="row">
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <div class="my_chart">
-                                        <img src="{{ Storage::url('img/My_chart2.png') }}" alt="My_chart">
-                                        <h4>Strength 1</h4>
+                                @forelse($teenagerStrength as $strengthKey => $strengthValue)
+                                    <?php $imageChart = "img/My_chart-".$strengthValue.".png"; ?>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="my_chart">
+                                            <img src="{{ Storage::url($imageChart) }}" alt="{{ $strengthKey }}" title="{{ $strengthKey }}">
+                                            <h4>{{ $strengthKey }}</h4>
+                                        </div>
                                     </div>
-                                    <!-- my_chart End -->
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <div class="my_chart">
-                                        <img src="{{ Storage::url('img/My_chart3.png') }}" alt="My_chart">
-                                        <h4>Strength 2</h4>
+                                @empty
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="my_chart">
+                                            <img src="{{ Storage::url('img/My_chart2.png') }}" alt="My_chart">
+                                            <h4>Strength 1</h4>
+                                        </div>
                                     </div>
-                                    <!-- my_chart End -->
-                                </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <div class="my_chart">
+                                            <img src="{{ Storage::url('img/My_chart3.png') }}" alt="My_chart">
+                                            <h4>Strength 2</h4>
+                                        </div>
+                                    </div>
+                                @endforelse
                             </div>
                             <p><a href="">Expand</a></p>
                         </div>
