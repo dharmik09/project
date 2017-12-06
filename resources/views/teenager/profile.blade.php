@@ -26,8 +26,13 @@
                         <div class="profile-img" style="background-image: url({{ $data['user_profile'] }})">
 
                         </div>
-                        <span class="complete-detail">Profile 62% complete</span>
+                        <span class="complete-detail">Profile 62% complete <?php echo $user->t_pincode; ?></span>
+                        <?php
+                            //$homepage = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=360311&sensor=true');
+                            //echo "<pre/>"; print_r(json_decode($homepage)); die();
+                        ?>
                     </div>
+
                     <div class="col-sm-9">
                         <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                         <ul class="area-detail">
