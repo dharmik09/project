@@ -39,7 +39,7 @@
     <table>
         <tr>
             <td width="50px">
-                <div><img src="{{$logo}}" alt="" width="60px" height="60px"/></div>
+                <div><img src="{{Storage::url($logo)}}" alt="" width="60px" height="60px"/></div>
             </td>
             <td width="600px">
                 <div style="text-align:center; font-size: 24px;font-weight: bold; padding-top:10px;"> {{Auth::guard('school')->user()->sc_name}}</div>
@@ -125,7 +125,7 @@
         <?php $column_count = 0; ?>
         @foreach($teenagerMyIcons as $key=>$image)
             <div style="width:150px; text-align:center; display:inline-block; margin:0 10px 10px 0; ">
-                <img src="{{$image}}" alt="" width="75px" height="75px" class="circular" >
+                <img src="{{Storage::url($image)}}" alt="" width="75px" height="75px" class="circular" >
             </div>
             <?php
                 $column_count++;

@@ -10,7 +10,7 @@
         <div class="container">
             <div class="play-icon">
                 <a href="javascript:void(0);" class="play-btn" id="iframe-video">
-                    <img src="{{ asset('img/play-icon.png') }}" alt="play icon">
+                    <img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon">
                 </a>
             </div>
         </div>
