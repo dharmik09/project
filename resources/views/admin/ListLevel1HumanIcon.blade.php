@@ -51,7 +51,7 @@
                                 </td>
                                 <td>
                                     <?php 
-                                        $image = ($level1icon->hi_image != "" && Storage::disk('s3')->exists($humanThumbPath.$level1icon->hi_image)) ? Config::get('constant.DEFAULT_AWS').$humanThumbPath.$level1icon->hi_image : asset('/backend/images/proteen_logo.png'); 
+                                        $image = ($level1icon->hi_image != "" && isset($level1icon->hi_image)) ? Storage::url($humanThumbPath.$level1icon->hi_image) : asset('/backend/images/proteen_logo.png'); 
                                     ?>
                                     <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                 </td>

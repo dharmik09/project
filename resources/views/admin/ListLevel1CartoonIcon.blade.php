@@ -62,7 +62,7 @@
                                 
                                 <td>
                                     <?php 
-                                        $image = ($level1icon->ci_image != "" && Storage::disk('s3')->exists($cartoonThumbPath.$level1icon->ci_image)) ? Config::get('constant.DEFAULT_AWS').$cartoonThumbPath.$level1icon->ci_image : asset('/backend/images/proteen_logo.png'); 
+                                        $image = ($level1icon->ci_image != "" && isset($level1icon->ci_image)) ? Storage::url($cartoonThumbPath.$level1icon->ci_image) : asset('/backend/images/proteen_logo.png'); 
                                     ?>
                                     <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                 </td>

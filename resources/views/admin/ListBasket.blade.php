@@ -44,7 +44,7 @@
                                 </td>
                                 <td>                                
                                     <?php 
-                                        $image = ($basket->b_logo != "" && Storage::disk('s3')->exists($uploadBasketThumbPath.$basket->b_logo)) ? Config::get('constant.DEFAULT_AWS').$uploadBasketThumbPath.$basket->b_logo : asset('/backend/images/proteen_logo.png'); 
+                                        $image = ($basket->b_logo != "" && isset($basket->b_logo)) ? Storage::url($uploadBasketThumbPath.$basket->b_logo) : asset('/backend/images/proteen_logo.png'); 
                                     ?>
                                     <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
                                    
