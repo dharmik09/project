@@ -182,7 +182,7 @@
                                                 ?>
                                                 <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" style="height:74px; width:127px;">
                                             </span>
-                                            <span class="sponsor-name">{{ str_limit($value->sp_company_name, $limit = 50, $end = '..') }}</span>
+                                            <span class="sponsor-name">{{ str_limit($value->sp_company_name, $limit = 100, $end = '..') }}</span>
                                         </label>
                                     </div>
                                 @empty

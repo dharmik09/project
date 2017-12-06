@@ -61,7 +61,12 @@
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }} {{ $user->t_lastname }}">
+                                    <input type="text" class="form-control" id="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 flex-items">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="t_lastname" placeholder="Last Name *" tabindex="1" value="{{ $user->t_lastname }}" required>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -152,7 +157,7 @@
                             <div class="col-sm-12">
                                 <div class="sponsor-sec">
                                     <div class="sponsor-content">
-                                        <div class="form-register sponsor-list">
+                                        <div class="form-register sponsor-list owl-carousel">
                                             @forelse($sponsorDetail as $key => $value)
                                                 <div class="checkbox">
                                                     <label>
@@ -162,8 +167,9 @@
                                                             <?php
                                                                 $sponsor_logo = ($value->sp_logo != "") ? Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) : asset(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
                                                             ?>
-                                                            <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" height="74px" width="127px">
-                                                        </span>{{ str_limit($value->sp_company_name, $limit = 100, $end = '..') }}
+                                                            <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" style="height:74px; width:127px;">
+                                                        </span>
+                                                        <span class="sponsor-name">{{ str_limit($value->sp_company_name, $limit = 100, $end = '..') }}</span>
                                                     </label>
                                                 </div>
                                             @empty
@@ -257,32 +263,38 @@
                 </form>
             </div>
             <div class="mentor-list">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-6">
+                <ul class="row owl-carousel">
+                    <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-1.jpg')}})"></div>
                             <figcaption>Parent 1</figcaption>
                         </figure>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
+                        <figure>
+                            <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-1.jpg')}})"></div>
+                            <figcaption>Parent 1</figcaption>
+                        </figure>
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-2.jpg')}})"></div>
                             <figcaption>Parent 2</figcaption>
                         </figure>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="mentor-img" style="background-image: url({{Storage::url('img/mentor-1.jpg')}})"></div>
                             <figcaption>mentor 1</figcaption>
                         </figure>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="mentor-img" style="background-image: url({{Storage::url('img/mentor-2.jpg')}})"></div>
                             <figcaption>mentor 1</figcaption>
                         </figure>
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
@@ -591,4 +603,50 @@
     <!--academic record end-->
     <!--mid section end-->
     
+@stop
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        $('.mentor-list ul').owlCarousel({
+            loop: true,
+            margin: 0,
+            items: 4,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: false,
+            dots: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                768: {
+                    items: 4
+                },
+            }
+        });
+        $('.sponsor-list').owlCarousel({
+            loop: false,
+            margin: 20,
+            items: 3,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+            }
+        });
+    });
+</script>
 @stop
