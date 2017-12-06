@@ -7,14 +7,14 @@
 @section('content')
 
     <div class="banner-landing">
-        <div class="container">
+        <!--<div class="container">
             <div class="play-icon">
                 <a href="javascript:void(0);" class="play-btn" id="iframe-video">
                     <img src="{{ asset('img/play-icon.png') }}" alt="play icon">
                 </a>
             </div>
         </div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0&amp;showinfo=0&autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0&amp;showinfo=0&autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>-->
     </div>
     <!-- teen bio-->
     <section class="teen-bio">
