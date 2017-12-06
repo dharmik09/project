@@ -208,7 +208,7 @@
                             <li><a href="{{ url('teenager/google') }}" title="Google"><i class="icon-google"><!-- --></i>Google</a></li>
                         </ul>
                         <div class="frgtpwd-sec">
-                            <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Sign in">Sign in now</a>.</p>
+                            <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot password?">Forgot password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Sign in">Sign in now</a>.</p>
                             <p>* indicates a mandatory field</p>
                         </div>
                     </div>
