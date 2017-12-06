@@ -26,17 +26,22 @@
                         <div class="profile-img" style="background-image: url({{ $data['user_profile'] }})">
 
                         </div>
-                        <span class="complete-detail">Profile 62% complete <?php echo $user->t_pincode; ?></span>
+                        <span class="complete-detail">Profile 62% complete </span>
                         <?php
-                            //$homepage = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=360311&sensor=true');
-                            //echo "<pre/>"; print_r(json_decode($homepage)); die();
+                            if($user->t_pincode != "")
+                            {
+                                $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true');
+                                $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+                            } else {
+                                $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
+                            }
                         ?>
                     </div>
 
                     <div class="col-sm-9">
                         <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                         <ul class="area-detail">
-                            <li>{{ ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Miami" }} Area</li>
+                            <li>{{ $getCityArea }} Area</li>
                             <li>87 Connections </li>
                         </ul>
                         <ul class="social-media">
