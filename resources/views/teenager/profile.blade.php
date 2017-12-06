@@ -152,7 +152,7 @@
                             <div class="col-sm-12">
                                 <div class="sponsor-sec">
                                     <div class="sponsor-content">
-                                        <div class="form-register sponsor-list">
+                                        <div class="form-register sponsor-list owl-carousel">
                                             @forelse($sponsorDetail as $key => $value)
                                                 <div class="checkbox">
                                                     <label>
@@ -162,8 +162,9 @@
                                                             <?php
                                                                 $sponsor_logo = ($value->sp_logo != "") ? Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) : asset(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
                                                             ?>
-                                                            <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" height="74px" width="127px">
-                                                        </span>{{ str_limit($value->sp_company_name, $limit = 100, $end = '..') }}
+                                                            <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" style="height:74px; width:127px;">
+                                                        </span>
+                                                        <span class="sponsor-name">{{ str_limit($value->sp_company_name, $limit = 100, $end = '..') }}</span>
                                                     </label>
                                                 </div>
                                             @empty
@@ -591,4 +592,32 @@
     <!--academic record end-->
     <!--mid section end-->
     
+@stop
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        $('.sponsor-list').owlCarousel({
+            loop: false,
+            margin: 20,
+            items: 3,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+            }
+        });
+    });
+</script>
 @stop
