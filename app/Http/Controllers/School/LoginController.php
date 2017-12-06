@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\School;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SchoolLoginRequest;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Image;
 use Config;
@@ -72,22 +73,22 @@ class LoginController extends Controller {
                     exit;
                 } else {
                     Auth::guard('school')->logout();
-                    return Redirect::to('/school')->with('error', trans('appmessages.notvarified_user_msg'));
+                    return Redirect::to('/school/login')->with('error', trans('appmessages.notvarified_user_msg'));
                 }
             } else {
                 $response['message'] = trans('appmessages.invalid_user_pwd_msg');
-                return Redirect::to('/school')->with('error', trans('appmessages.invalid_user_pwd_msg'));
+                return Redirect::to('/school/login')->with('error', trans('appmessages.invalid_user_pwd_msg'));
             }
         } else {
             $response['message'] = trans('appmessages.missing_data_msg');
-            return Redirect::to('/school')->with('error', trans('appmessages.missing_data_msg'));
+            return Redirect::to('/school/login')->with('error', trans('appmessages.missing_data_msg'));
         }
         return Redirect::back()
                         ->withInput()
                         ->withErrors(trans('validation.invalidcombo'));
     }
 
-    public function getLogout() {
+    public function logout(Request $request) {
         Auth::guard('school')->logout();
         return Redirect::to('/school/login');
         exit;

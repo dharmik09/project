@@ -121,7 +121,7 @@ Route::group(['prefix' => 'school'], function () {
 	Route::get('/login', 'School\LoginController@login');
 	Route::get('/login-check', 'School\LoginController@login');
 	Route::post('/login-check', 'School\LoginController@loginCheck')->name('school.login-check');
-	Route::post('/logout', 'School\LoginController@getLogout')->name('logout');
+	Route::post('/logout', 'School\LoginController@logout')->name('logout');
 	Route::get('/signup', 'School\SignupController@signup')->name('signup');
 	Route::post('/do-signup', 'School\SignupController@doSignup')->name('do-signup');
 	Route::get('/do-signup', 'School\SignupController@signup');
