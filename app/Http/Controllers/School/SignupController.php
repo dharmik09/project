@@ -22,14 +22,16 @@ use App\City;
 use App\Services\Template\Contracts\TemplatesRepository;
 use App\Services\Schools\Contracts\SchoolsRepository;
 use App\CMS;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class SignupController extends Controller {
 
-    public function __construct(SchoolsRepository $schoolsRepository, TemplatesRepository $templatesRepository) {
+    public function __construct(SchoolsRepository $schoolsRepository, TemplatesRepository $templatesRepository, FileStorageRepository $fileStorageRepository) {
 
         $this->objSchools = new Schools();
         $this->schoolsRepository = $schoolsRepository;
         $this->templatesRepository = $templatesRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->contactpersonOriginalImageUploadPath = Config::get('constant.CONTACT_PERSON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->contactpersonThumbImageUploadPath = Config::get('constant.CONTACT_PERSON_THUMB_IMAGE_UPLOAD_PATH');
         $this->contactpersonThumbImageHeight = Config::get('constant.CONTACT_PERSON_THUMB_IMAGE_HEIGHT');
@@ -129,6 +131,13 @@ class SignupController extends Controller {
                             $pathThumb = public_path($this->contactpersonThumbImageUploadPath . $fileName);
                             Image::make($photo->getRealPath())->save($pathOriginal);
                             Image::make($photo->getRealPath())->resize($this->contactpersonThumbImageWidth, $this->contactpersonThumbImageHeight)->save($pathThumb);
+
+                            //Uploading on AWS
+                            $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->contactpersonOriginalImageUploadPath, $pathOriginal, "s3");
+                            $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->contactpersonThumbImageUploadPath, $pathThumb, "s3");
+                            
+                            \File::delete($this->contactpersonOriginalImageUploadPath . $fileName);
+                            \File::delete($this->contactpersonThumbImageUploadPath . $fileName);
                             $schoolDetail['sc_photo'] = $fileName;
                         }else{
                             $schoolDetail['sc_photo'] = "proteen_logo.png";
@@ -140,6 +149,13 @@ class SignupController extends Controller {
                                 $pathThumb = public_path($this->schoolThumbImageUploadPath . $fileName);
                                 Image::make($logo->getRealPath())->save($pathOriginal);
                                 Image::make($logo->getRealPath())->resize($this->schoolThumbImageWidth, $this->schoolThumbImageHeight)->save($pathThumb);
+
+                                //Uploading on AWS
+                                $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->schoolOriginalImageUploadPath, $pathOriginal, "s3");
+                                $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->schoolThumbImageUploadPath, $pathThumb, "s3");
+                                
+                                \File::delete($this->schoolOriginalImageUploadPath . $fileName);
+                                \File::delete($this->schoolThumbImageUploadPath . $fileName);
                                 $schoolDetail['sc_logo'] = $fileName;
                                 
                             }

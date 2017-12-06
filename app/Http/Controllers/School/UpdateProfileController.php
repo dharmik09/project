@@ -123,7 +123,7 @@ class UpdateProfileController extends Controller {
             //Image upload            
             $file = Input::file('logo');
             if (!empty($file)) {
-                $fileName = 'school' . time() . '.' . $file->getClientOriginalExtension();
+                $fileName = 'school_' . time() . '.' . $file->getClientOriginalExtension();
                 $pathOriginal = public_path($this->schoolOriginalImageUploadPath . $fileName);
                 $pathThumb = public_path($this->schoolThumbImageUploadPath . $fileName);
                 Image::make($file->getRealPath())->save($pathOriginal);

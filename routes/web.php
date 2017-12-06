@@ -122,6 +122,18 @@ Route::group(['prefix' => 'school'], function () {
 	Route::get('/login-check', 'School\LoginController@login');
 	Route::post('/login-check', 'School\LoginController@loginCheck')->name('school.login-check');
 	Route::post('/logout', 'School\LoginController@getLogout')->name('logout');
+	Route::get('/signup', 'School\SignupController@signup')->name('signup');
+	Route::post('/do-signup', 'School\SignupController@doSignup')->name('do-signup');
+	Route::get('/do-signup', 'School\SignupController@signup');
+	Route::get('/forgot-password', 'School\PasswordController@forgotPassword')->name('forgot-password');
+	Route::post('/forgot-password-OTP', 'School\PasswordController@forgotPasswordOTP')->name('forgot-password-OTP');
+	Route::post('/forgot-password-OTP-verify', 'School\PasswordController@forgotPasswordOTPVerify')->name('forgot-password-OTP-verify');
+	Route::post('/save-forgot-password', 'School\PasswordController@saveForgotPassword')->name('save-forgot-password');
+
+	Route::get('/forgot-password-OTP', 'School\PasswordController@forgotPassword');
+	Route::get('/forgot-password-OTP-verify', 'School\PasswordController@forgotPassword');
+	Route::get('/set-forgot-password', 'School\PasswordController@forgotPassword')->name('set-forgot-password');
+	Route::get('/save-forgot-password', 'School\PasswordController@forgotPassword');
 });
 
 Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('parent.verify-parent-teen-pair');
