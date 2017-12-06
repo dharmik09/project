@@ -61,7 +61,12 @@
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }} {{ $user->t_lastname }}">
+                                    <input type="text" class="form-control" id="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 flex-items">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="t_lastname" placeholder="Last Name *" tabindex="1" value="{{ $user->t_lastname }}" required>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
