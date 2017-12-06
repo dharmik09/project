@@ -88,7 +88,7 @@
                 </li>
                 <li class="clearfix">
                     <div class="testimonial-img">
-                        <img src="{{Storage::url('img/Omkar Tarkar.jpg')}}" alt="user">
+                        <img src="{{Storage::url('img/Omkar Tarkar.png')}}" alt="user">
                     </div>
                     <div class="testimonial-content">
                         <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
