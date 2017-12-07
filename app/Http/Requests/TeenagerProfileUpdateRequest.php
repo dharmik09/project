@@ -22,15 +22,17 @@ class TeenagerProfileUpdateRequest extends Request {
      */
     public function rules() {
             return [
-                'mobile' => 'max:11 | min:10',
-                'photo' => 'mimes:jpeg,jpg,bmp,png',
-                'name' => 'required',
-                'birth_date' => 'required',
-                'gender' => 'required',
+                'name' => 'required | min:3',
+                'lastname' => 'required | min:3',
+                'email' => 'required | email | max : 100',
                 'country' => 'required',
                 'pincode' => 'required',
-                'email' => 'required | email',
-                //'password' => 'required | min : 6',
+                'gender' => 'required',
+                'year' => 'required',
+                'month' => 'required',
+                'day' => 'required',
+                'mobile' => 'required | numeric',
+                'phone' => 'numeric'
             ];
     }
     

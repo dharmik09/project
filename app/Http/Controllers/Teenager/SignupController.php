@@ -95,7 +95,7 @@ class SignupController extends Controller
 
         //Check all default field value -> If those are entered dummy by users
         if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['password'] == '' || $teenagerDetail['t_email'] == '' || $teenagerDetail['t_gender'] == '' || $teenagerDetail['t_birthdate'] == '') {
-            return Redirect::to("teenager/signup")->withErrors(trans('validation.someproblems'))->withInput();
+            return Redirect::to("teenager/signup")->with('error', trans('validation.someproblems'))->withInput();
             exit;
         }
         if (!isset($body['selected_sponsor']) || count($body['selected_sponsor']) < 1) {

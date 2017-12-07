@@ -5,11 +5,50 @@
 @endpush
 
 @section('content')
-
     <!--mid section-->
     <!-- profile section-->
     <section class="sec-profile">
         <div class="container">
+            <div class="col-xs-12">
+                @if ($message = Session::get('success'))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <div class="alert alert-success alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if ($message = Session::get('error'))
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 invalid_pass_error">
+                        <div class="box-body">
+                            <div class="alert alert-error alert-dismissable danger">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if (count($errors) > 0)
+                <div class="alert alert-danger danger">
+                    <strong>{{trans('validation.whoops')}}</strong>
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                    {{trans('validation.someproblems')}}<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+            </div>
             <div class="sec-popup">
                 <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                 <div class="hide" id="pop1">
@@ -57,42 +96,43 @@
                 </div>
                 <!--profile form-->
                 <div class="profile-form">
-                    <form>
+                    <form id="teenager_my_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="t_lastname" placeholder="Last Name *" tabindex="1" value="{{ $user->t_lastname }}" required>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name *" tabindex="1" value="{{ $user->t_lastname }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" id="name" placeholder="Email *" tabindex="3" value="{{ $user->t_email }}">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email *" tabindex="3" value="{{ $user->t_email }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="number" class="form-control" id="name" placeholder="Phone" tabindex="5" value="{{ $user->t_phone }}">
+                                    <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone" tabindex="5" value="{{ $user->t_phone }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group input-group">
                                     <div class="clearfix">
                                         <span class="input-group-addon">+91</span>
-                                        <input type="number" class="form-control" id="name" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
+                                        <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group custom-select">
-                                    <select tabindex="7" class="form-control" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
+                                    <select tabindex="7" class="form-control" id="country"name="country" onchange="getPhoneCodeByCountry(this.value);" required>
                                         <option value="">Country</option>
                                         @forelse($countries as $val)
-                                            <option value="{{$val->id}}" <?php echo (old('country') && old('country') == $val->id ) ? "selected='selected'" : ''; ?> > {{$val->c_name}} </option>
+                                            <option value="{{$val->id}}" <?php echo ($user->t_country == $val->id ) ? "selected='selected'" : ''; ?> > {{$val->c_name}} </option>
                                         @empty
                                         @endforelse
                                     </select>
@@ -102,18 +142,18 @@
                             <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                    <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <span class="password-info">Password info</span>
-                                    <input type="password" class="form-control" id="name" placeholder=" password *" tabindex="11" value="{{ $user->password }}" maxlength="16" readonly>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16" readonly>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group custom-select">
-                                    <select tabindex="9" class="form-control" name="gender" required >
+                                    <select tabindex="9" class="form-control" id="gender" name="gender" required >
                                         <option value="1" <?php echo (old('gender') && old('gender') == 1) ? "selected='selected'" : ''; ?> >Male</option>
                                         <option value="2" <?php echo (old('gender') && old('gender') == 2) ? "selected='selected'" : ''; ?> >Female</option>
                                     </select>
@@ -121,14 +161,10 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="proteen_code" id="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{old('proteen_code')}}">
+                                    <input type="text" class="form-control" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-xs-12 flex-items">
-                                <div class="form-group">
-                                    <input type="number" class="form-control" id="name" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
-                                </div>
-                            </div>
+                            <?php list($birthYear, $birthMonth, $birthDay) = explode("-", $user->t_birthdate); ?>
                             <div class="col-sm-9 col-sm-offset-3 text-right">
                                 <div class="form-group date-sec">
                                     <label>Date of Birth:</label>
@@ -136,23 +172,24 @@
                                         <select name="month" class="form-control date-block" id="month" tabindex="13">
                                             <option value="">mm</option>
                                             @for($month = 01; $month <= 12; $month++)
-                                                <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}">{{ date('F', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
+                                                <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}" <?php echo ($month == $birthMonth) ? "selected='selected'" : ''; ?> >{{ date('F', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
                                             @endfor
                                         </select>
                                         <select name="day" class="form-control date-block" id="day" tabindex="14" >
-                                            <option value=""></option>
+                                            <option value="">dd</option>
                                             @for($day = 1; $day <= 31; $day++)
-                                                <option value="{{date('d', mktime(0,0,0,0, $day, date('Y')))}}">{{ date('d', mktime(0,0,0,0, $day, date('Y'))) }}</option>
+                                                <option value="{{date('d', mktime(0,0,0,0, $day, date('Y')))}}" <?php echo ($day == $birthDay) ? "selected='selected'" : ''; ?> >{{ date('d', mktime(0,0,0,0, $day, date('Y'))) }}</option>
                                             @endfor
                                         </select>
                                         <select name="year" class="form-control date-block" id="year" tabindex="15">
                                             <option value="">yyyy</option>
                                             @foreach(range(\Carbon\Carbon::now()->year, 1950) as $year)
-                                                <option value="{{$year}}">{{$year}}</option>
+                                                <option value="{{$year}}" <?php echo ($year == $birthYear) ? "selected='selected'" : ''; ?> >{{$year}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
+                                <div class="birth-error" style="text-align: left;padding-left:35%;"></div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="sponsor-sec">
@@ -161,7 +198,7 @@
                                             @forelse($sponsorDetail as $key => $value)
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="selected_sponsor[]" id="sponsor_{{$key}}" value="{{$value->sponsor_id}}" <?php (old('selected_sponsor') && in_array($value->sponsor_id, old('selected_sponsor')) ) ? "checked" : ""; ?> />
+                                                        <input type="checkbox" name="selected_sponsor[]" id="sponsor_{{$key}}" value="{{$value->sponsor_id}}" <?php echo (!empty($teenSponsorIds) && in_array($value->sponsor_id, $teenSponsorIds) ) ? "checked" : ""; ?> />
                                                         <span class="checker"></span>
                                                         <span class="logo-icon">
                                                             <?php
@@ -176,6 +213,7 @@
 
                                             @endforelse
                                         </div>
+                                        <div class="sponsor-error"></div>
                                     </div>
                                 </div>
                             </div>
@@ -646,6 +684,110 @@
                     items: 3
                 },
             }
+        });
+        jQuery.validator.addMethod("lettersonly", function(value, element) {
+            return this.optional(element) || /^[a-z]+$/i.test(value);
+        }, "Letters only please");
+        var updateProfileRules = {
+            name: {
+                required: true,
+                minlength: 3,
+                maxlength: 100,
+                lettersonly: true
+            },
+            lastname: {
+                required: true,
+                minlength: 3,
+                maxlength: 100,
+                lettersonly: true
+            },
+            email: {
+                required: true,
+                email: true,
+                maxlength : 100
+            },
+            country: {
+                required: true
+            },
+            pincode: {
+                required: true,
+                minlength: 5,
+                maxlength: 6,
+                number: true
+            },
+            gender: {
+                required: true
+            },
+            year: {
+                required: true,
+            },
+            month: {
+                required: true,
+            },
+            day: {
+                required: true,
+            },
+            'selected_sponsor[]': {
+                required: true
+            },
+            mobile: {
+                required: true,
+                minlength: 10,
+                maxlength: 11,
+                number: true
+            },
+            phone: {
+                minlength: 7,
+                number: true
+            }
+        };
+        
+        $("#teenager_my_profile_form").validate({
+            rules: updateProfileRules,
+            messages: {
+                name: {
+                    required: "First name is required",
+                },
+                lastname: {
+                    required: "Last name is required",
+                },
+                email: {
+                    required: "Email is required",
+                },
+                country: {
+                    required: "Country is required"
+                },
+                pincode: {
+                    required: "Pincode is required",
+                },
+                gender: {
+                    required: "Gender is required",
+                },
+                year: {
+                    required: "Year is required",
+                },
+                month: {
+                    required: "Month is required",
+                },
+                day: {
+                    required: "Day is required",
+                },
+                'selected_sponsor[]': {
+                    required: "Select at least one sponsor",
+                },
+                mobile: {
+                    required: "Mobile is required",
+                }
+            },
+            errorPlacement: function(error, element) {
+                if(element.attr("name") == "selected_sponsor[]") {
+                    error.appendTo(".sponsor-error");
+                }else if(element.attr("name") == "day" || element.attr("name") == "year" || element.attr("name") == "month"){
+                    error.appendTo(".birth-error");
+                } else {
+                    error.insertAfter(element)
+                }
+            },
         });
     });
 </script>
