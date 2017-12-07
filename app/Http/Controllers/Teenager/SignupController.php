@@ -111,6 +111,7 @@ class SignupController extends Controller
         if ($teenagerDetail['t_email'] != '' && $teenagerDetail['t_social_provider'] == 'Normal') {
             $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenagerDetail['t_email']);
         }
+        $teenagerMobileExist = false;
         if ($teenagerDetail['t_phone'] != '' && $teenagerDetail['t_social_provider'] == 'Normal') {
             $teenagerMobileExist = $this->teenagersRepository->checkActivePhoneExist($teenagerDetail['t_phone']);
         }

@@ -55,8 +55,13 @@ class DashboardController extends Controller
         $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenProfileImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenProfileImageUploadPath.'proteen-logo.png');
         $data['user_profile_thumb'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenThumbImageUploadPath.'proteen-logo.png');
         $teenagerAPIData = Helpers::getTeenAPIScore(Auth::guard('teenager')->user()->id);
-        //echo "<pre/>"; print_r($teenagerAPIData); die();
-        return view('teenager.home', compact('data', 'user'));
+        $teenagerInterest = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
+        $teenagerMI = isset($teenagerAPIData['APIscale']['MI']) ? $teenagerAPIData['APIscale']['MI'] : [];
+        $teenagerAptitude = isset($teenagerAPIData['APIscale']['aptitude']) ? $teenagerAPIData['APIscale']['aptitude'] : [];
+        $teenagerPersonality = isset($teenagerAPIData['APIscale']['personality']) ? $teenagerAPIData['APIscale']['personality'] : [];
+        $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
+        //echo "<pre/>"; print_r($teenagerStrength); die();
+        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest'));
     }
 
     //My profile data
