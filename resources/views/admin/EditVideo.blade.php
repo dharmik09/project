@@ -84,6 +84,21 @@
                         </div>
 
                         <?php
+                        if (old('v_description'))
+                            $v_description = old('v_description');
+                        elseif ($videoDetail)
+                            $v_description = $videoDetail->v_description;
+                        else
+                            $v_description = '';
+                        ?>
+                        <div class="form-group">
+                            <label for="v_description" class="col-sm-2 control-label">{{trans('labels.description')}}</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" id="v_description" name="v_description" rows="8">{{$v_description}}</textarea>
+                            </div>
+                        </div>
+
+                        <?php
                         if (old('deleted'))
                             $deleted = old('deleted');
                         elseif ($videoDetail)

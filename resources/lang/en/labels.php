@@ -638,5 +638,6 @@ return [
     'emailpermistionmustberequired' => "Email permission must be required",
     'userisnolongeractive' => "User is no longer active",
     'welcome_profile_message' => "Successfully logged in!",
-    'somethingwronginsocialsignin' => "Something went wrong while signing in"
+    'somethingwronginsocialsignin' => "Something went wrong while signing in",
+    'description' => 'Description',
 ];

@@ -51,6 +51,7 @@ class VideoManagementController extends Controller {
         $videoData['id'] = e(Input::get('id'));
         $videoData['v_title'] = Input::get('v_title');
         $videoData['v_link'] = Input::get('v_link');
+        $videoData['v_description'] = Input::get('v_description');
         $videoData['deleted'] = Input::get('deleted');
         $hiddenPhoto = trim(Input::get('hidden_photo'));
         $videoData['v_photo'] = $hiddenPhoto;
