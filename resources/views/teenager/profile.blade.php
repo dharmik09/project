@@ -278,20 +278,19 @@
             </div>
             <h2>Parents & Mentors</h2>
             <div class="parent-form">
-                <form>
+                <form id="teenager_parent_pair_form" role="form" method="POST" action="{{ url('/teenager/save-pair') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="email" placeholder="Email" class="form-control">
+                                <input type="email" id="parent_email" name="parent_email" placeholder="Email" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group custom-select">
-                                <select class="form-control">
-                              <option value="Parent">Parent</option>
-                              <option value="Mentor 1">Mentor 1</option>
-                              <option value="Mentor 2">Mentor 2</option>
-                            </select>
+                                <select class="form-control" id="p_user_type" name="p_user_type">
+                                    <option value="1">Parent</option>
+                                    <option value="2">Mentor</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -302,36 +301,23 @@
             </div>
             <div class="mentor-list">
                 <ul class="row owl-carousel">
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-1.jpg')}})"></div>
-                            <figcaption>Parent 1</figcaption>
-                        </figure>
-                    </li>
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-1.jpg')}})"></div>
-                            <figcaption>Parent 1</figcaption>
-                        </figure>
-                    </li>
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="mentor-img" style="background-image: url({{Storage::url('img/parent-2.jpg')}})"></div>
-                            <figcaption>Parent 2</figcaption>
-                        </figure>
-                    </li>
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="mentor-img" style="background-image: url({{Storage::url('img/mentor-1.jpg')}})"></div>
-                            <figcaption>mentor 1</figcaption>
-                        </figure>
-                    </li>
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="mentor-img" style="background-image: url({{Storage::url('img/mentor-2.jpg')}})"></div>
-                            <figcaption>mentor 1</figcaption>
-                        </figure>
-                    </li>
+                    @forelse ($teenagerParents as $teenagerParent)
+                        <?php 
+                            if (isset($teenagerParent->p_photo) && $teenagerParent->p_photo != '') {
+                                $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $teenagerParent->p_photo;
+                            } else {
+                                $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
+                            }
+                        ?>
+                        <li class="col-sm-3 col-xs-6">
+                            <figure>
+                                <div class="mentor-img" style="background-image: url({{ Storage::url($parentPhoto) }})"></div>
+                                <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
+                            </figure>
+                        </li>
+                    @empty
+                        No parents or mentors found.
+                    @endforelse
                 </ul>
             </div>
         </div>
@@ -788,6 +774,27 @@
                     error.insertAfter(element)
                 }
             },
+        });
+        var parentInviteRules = {
+            parent_email: {
+                required: true,
+                email: true,
+                maxlength: 100
+            },
+            p_user_type: {
+                required: true
+            }
+        };
+        $("#teenager_parent_pair_form").validate({
+            rules: parentInviteRules,
+            messages: {
+                parent_email: {
+                    required: "Email is required"
+                },
+                p_user_type: {
+                    required: "Please select user type"
+                }
+            }
         });
     });
 </script>
