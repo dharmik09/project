@@ -8,6 +8,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Video;
 use App\CMS;
+use App\Testimonial;
 
 class HomeController extends Controller
 {
@@ -27,6 +28,7 @@ class HomeController extends Controller
     {
         //$this->middleware('admin.guest', ['except' => 'logout']);
         $this->cmsObj = new CMS;
+        $this->objTestimonial = new Testimonial;
     }
 
     /**
@@ -47,6 +49,8 @@ class HomeController extends Controller
         }
         $objVideo = new Video();
         $videoDetail =  $objVideo->getAllVideoDetail();
-        return view('school.index', compact('videoDetail', 'schoolText'));
+        $testimonials = $this->objTestimonial->getAllTestimonials();
+        $quoteImage = 'img/quote-school.png';
+        return view('school.index', compact('videoDetail', 'schoolText', 'testimonials', 'quoteImage'));
     }
 }

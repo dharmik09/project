@@ -63,50 +63,7 @@
     <!-- teen bio end-->
     <!-- testimonial section-->
     <section class="sec-testimonial">
-        <div class="container-small clearfix">
-            <ul class="testimonial-slider owl-carousel clearfix">
-                <li class="clearfix">
-                    <div class="testimonial-img">
-                        <img src="{{Storage::url('img/Aseem Aggarwal.jpg')}}" alt="user">
-                    </div>
-                    <div class="testimonial-content">
-                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
-                        <p>Because of the enormous options available, we all find ourselves at a junction from where thousands of roads are emerging. I was in the same dilemma. This is where Proteen came into role play. It was like boon to get out of that dilemma and helped me in knowing my actual interest and potential. - <strong>Aseem Aggarwal</strong></p>
-                        <h5><a href="#" title="Lorem ipsum"></a>3rd Year, B.Tech (Information Technology), College of Technology, Pantanagar, Uttarakhand, INDIA  </h5>
-                    </div>
-                </li>
-                <li class="clearfix">
-                    <div class="testimonial-img">
-                        <img src="{{Storage::url('img/Naitik Kotak.png')}}" alt="user">
-                    </div>
-                    <div class="testimonial-content">
-                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
-                        <p>While playing ProTeen I realised it uses a student-centric approach that gives the student a decision making ability which in turn makes him adapt to find the best suited profession for himself. - <strong>Naitik Kotak</strong></p>
-                        <h5><a href="#" title="Lorem ipsum">2nd year Computer Engineering from Shah and Anchor Kutchhi Engineering College, Mumbai, INDIA</a></h5>
-                    </div>
-                </li>
-                <li class="clearfix">
-                    <div class="testimonial-img">
-                        <img src="{{Storage::url('img/Omkar Tarkar.png')}}" alt="user">
-                    </div>
-                    <div class="testimonial-content">
-                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
-                        <p>For young and curious minds ProTeen is an amazing platform. It helps one discover his qualities. ProTeen gave me confidence for considering Management as a career option which I had doubts for. After my B Tech I am planning to do MBA thanks to ProTeen. - <strong>Omkar Tarkar</strong></p>
-                        <h5><a href="#" title="Lorem ipsum">2nd Year B.Tech (Metallurgical and Material Science Engineering) at The National Institute of Technology, Nagpur, India</a></h5>
-                    </div>
-                </li>
-                <li class="clearfix">
-                    <div class="testimonial-img">
-                        <img src="{{Storage::url('img/Sneha Kumari.png')}}" alt="user">
-                    </div>
-                    <div class="testimonial-content">
-                        <span><img src="{{Storage::url('img/quote.png')}}" alt="quote"></span>
-                        <p>ProTeen is a very interesting and innovative game. It relates to the youth and help them to choose the best suited career for themselves. - <strong>Sneha Kumari</strong></p>
-                        <h5><a href="#" title="Lorem ipsum">MBA Student (Healthcare and Hospital Management), University of Hyderabad</a></h5>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        @include('layouts/testimonials')
     </section>
     <!-- testimonial section end-->
     <!-- content area-->

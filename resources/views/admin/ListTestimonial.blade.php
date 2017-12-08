@@ -67,7 +67,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td><center>{{trans('labels.norecordfound')}}</center></td>
+                                <td>{{trans('labels.norecordfound')}}</td>
                                 <td></td><td></td><td></td><td></td><td></td>
                             </tr>
                             @endforelse

@@ -73,44 +73,7 @@
     <!-- teen bio end-->
     <!-- testimonial section-->
     <section class="sec-testimonial">
-        <div class="container-small clearfix">
-            <ul class="testimonial-slider owl-carousel clearfix">
-                <li class="clearfix">
-                    <div class="testimonial-img">
-                        <img src="{{Storage::url('img/user.jpg')}}" alt="user">
-                    </div>
-                    <div class="testimonial-content">
-                        <span>
-                            @if($type == 'Parent')
-                                <img src="{{Storage::url('img/quote-blue.png')}}" alt="quote">
-                            @else
-                                <img src="{{Storage::url('img/quote-mentor.png')}}" alt="quote">
-                            @endif
-                        </span>
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
-                        <h5>
-                            <a href="#" title="Lorem ipsum" class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">Lorem ipsum</a>
-                        </h5>
-                    </div>
-                </li>
-                <li class="clearfix">
-                    <div class="testimonial-img">
-                        <img src="{{Storage::url('img/user.jpg')}}" alt="user">
-                    </div>
-                    <div class="testimonial-content">
-                        <span>
-                            @if($type == 'Parent')
-                                <img src="{{Storage::url('img/quote-blue.png')}}" alt="quote">
-                            @else
-                                <img src="{{Storage::url('img/quote-mentor.png')}}" alt="quote">
-                            @endif
-                        </span>
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. Nullam quis augue sem. Aliquam id turpis luctus.</p>
-                        <h5><a href="#" title="Lorem ipsum" class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">Lorem ipsum </a></h5>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        @include('layouts/testimonials')
     </section>
     <!-- testimonial section end-->
     <!-- content area-->
