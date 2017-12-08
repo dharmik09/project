@@ -23,4 +23,4 @@ CREATE TABLE IF NOT EXISTS `pro_t_testinomials` (
   `updated_at` timestamp NULL DEFAULT NULL COMMENT 'timestamp',
   `deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted	',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
