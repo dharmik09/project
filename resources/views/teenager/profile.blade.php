@@ -221,31 +221,31 @@
                                 <ul class="toggle-switch">
                                     <li>Public Profile
                                         <label class="switch">
-                                      <input type="checkbox">
+                                      <input type="checkbox" id="public_profile" name="public_profile" <?php echo (isset($user->is_search_on) && $user->is_search_on == '1') ? "checked='checked'": '' ?> value="1">
                                           <span class="slider round"></span>
                                     </label>
                                     </li>
                                     <li>Share info with other members
                                         <label class="switch">
-                                      <input type="checkbox">
+                                      <input type="checkbox" id="share_with_members" name="share_with_members" <?php echo (isset($user->is_share_with_other_members) && $user->is_share_with_other_members == '1') ? "checked='checked'": '' ?> value="1">
                                           <span class="slider round"></span>
                                     </label>
                                     </li>
                                     <li>Share info with parents
                                         <label class="switch">
-                                      <input type="checkbox">
+                                      <input type="checkbox" id="share_with_parents" name="share_with_parents" <?php echo (isset($user->is_share_with_parents) && $user->is_share_with_parents == '1') ? "checked='checked'": '' ?> value="1">
                                           <span class="slider round"></span>
                                     </label>
                                     </li>
                                     <li>Share info with teachers
                                         <label class="switch">
-                                      <input type="checkbox">
+                                      <input type="checkbox" id="share_with_teachers" name="share_with_teachers" <?php echo (isset($user->is_share_with_teachers) && $user->is_share_with_teachers == '1') ? "checked='checked'": '' ?> value="1">
                                           <span class="slider round"></span>
                                     </label>
                                     </li>
                                     <li>Notifications
                                         <label class="switch">
-                                      <input type="checkbox">
+                                      <input type="checkbox" id="notifications" name="notifications" <?php echo (isset($user->is_notify) && $user->is_notify == '1') ? "checked='checked'": '' ?> value="1">
                                           <span class="slider round"></span>
                                     </label>
                                     </li>
