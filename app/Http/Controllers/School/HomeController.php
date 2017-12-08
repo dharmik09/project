@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Video;
+use App\CMS;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,7 @@ class HomeController extends Controller
     public function __construct()
     {
         //$this->middleware('admin.guest', ['except' => 'logout']);
+        $this->cmsObj = new CMS;
     }
 
     /**
@@ -37,8 +39,14 @@ class HomeController extends Controller
         if(Auth::guard('school')->check()) {
             return redirect()->to(route('school.home'));
         }
+        $schoolText = '';
+        $loginInfo = $this->cmsObj->getCmsBySlug('schoollogininfotext');
+        if(!empty($loginInfo)){
+            $loginText = $loginInfo->toArray();
+            $schoolText = $loginText['cms_body'];
+        }
         $objVideo = new Video();
         $videoDetail =  $objVideo->getAllVideoDetail();
-        return view('school.index', compact('videoDetail'));
+        return view('school.index', compact('videoDetail', 'schoolText'));
     }
 }

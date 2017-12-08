@@ -29,8 +29,7 @@
                         </div>
                     </div>
                     <div class="content">
-                        <p>ProTeen is a self-discovery game for teens and is based on their individual aptitude, personality, multiple intelligences and interests. It guides high school and college students through the maze of real world career options and helps them to achieve their future goals by making intelligent academic choices today. ProTeen is a gamified app and web platform.</p>
-                        <p>ProTeen supplements traditional school or counselor driven approaches currently in use globally. It encompasses all aspects of the educational ecosystem – students, parents, schools and career mentors such as teachers, counselors and professionals.</p>
+                        {!! $enterpriseText !!}
                     </div>
                 </div>
                 <div class="col-sm-6">
