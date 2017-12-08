@@ -383,6 +383,11 @@
                                     <i class="fa fa-dashboard"></i> <span>{{trans('labels.faq')}}</span>
                                 </a>
                             </li>
+                            <li class="{{ (Request::is('admin/testimonials') || Request::is('admin/addTestimonial') || Request::is('admin/editTestimonial/*') || Request::is('admin/saveTestimonial') || Request::is('admin/deleteTestimonial/*')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/testimonials') }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.testimonial')}}</span>
+                                </a>
+                            </li>
                         @endif                        
                     </ul>
                 </section>

@@ -205,6 +205,8 @@ return [
     'cityrequired' => 'Please enter City. This is required.',
     'staterequired' => 'Please enter State. This is required.',
     'countryrequired' => 'Please enter Country. This is required.',
-
-
+    'nameisrequired' => 'Name is required',
+    'titleisrequired' => 'Title is required',
+    'imageisrequired' => 'Image is required',
+    'descriptionisrequired' => 'Description is required',
 ];

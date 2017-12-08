@@ -640,4 +640,11 @@ return [
     'welcome_profile_message' => "Successfully logged in!",
     'somethingwronginsocialsignin' => "Something went wrong while signing in",
     'description' => 'Description',
+    'testimonial' => 'Testimonial',
+    'testimonialname' => 'Name',
+    'testimonialtitle' => 'Title',
+    'testimonialimage' => 'Image',
+    'testimonialdescription' => 'Description',
+    'testimonials' => 'Testimonials',
+    'testimonialaction' => 'Actions',
 ];

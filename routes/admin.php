@@ -402,6 +402,13 @@ Route::post('/getProfessionConcepts/', 'Admin\ReportController@getProfessionConc
 Route::get('/level4AdvanceReport/', 'Admin\ReportController@level4AdvanceReport');
 Route::post('/level4AdvanceReport/', 'Admin\ReportController@level4AdvanceReport');
 
+//Testinomial
+Route::get('/testimonials', 'Admin\TestimonialManagementController@index')->name('testinomials');
+Route::post('/testimonials', 'Admin\TestimonialManagementController@index')->name('testinomials');
+Route::get('/addTestimonial', 'Admin\TestimonialManagementController@add')->name('addTestinomial');
+Route::post('/saveTestimonial', 'Admin\TestimonialManagementController@save')->name('saveTestinomial');
+Route::get('/editTestimonial/{id}', 'Admin\TestimonialManagementController@edit')->name('editTestinomial');
+Route::get('/deleteTestimonial/{id}', 'Admin\TestimonialManagementController@delete')->name('deleteTestinomial');
 
 
 

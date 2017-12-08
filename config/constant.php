@@ -264,6 +264,7 @@ return [
     'FAQ_THUMB_IMAGE_HEIGHT' => '150',
     'FAQ_THUMB_IMAGE_WIDTH' => '150',
 
+    'TESTINOMIAL_ORIGINAL_IMAGE_UPLOAD_PATH' => "uploads/testimonial/",
 
 
 ];
