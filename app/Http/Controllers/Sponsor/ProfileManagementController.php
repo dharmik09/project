@@ -20,7 +20,7 @@ use App\Services\Sponsors\Contracts\SponsorsRepository;
 use App\Http\Requests\SponsorProfileUpdateRequest;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 
-class updateProfileController extends Controller {
+class ProfileManagementController extends Controller {
 
     public function __construct(FileStorageRepository $fileStorageRepository, SponsorsRepository $sponsorsRepository) {
         $this->objSponsors = new Sponsors();

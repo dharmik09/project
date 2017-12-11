@@ -26,7 +26,7 @@ use App\Services\Sponsors\Contracts\SponsorsRepository;
 use App\CMS;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 
-class ParentSignupController extends Controller {
+class SignupController extends Controller {
 
     public function __construct(TeenagersRepository $teenagersRepository, ParentsRepository $parentsRepository, SponsorsRepository $sponsorsRepository, TemplatesRepository $templatesRepository, FileStorageRepository $fileStorageRepository) 
     {

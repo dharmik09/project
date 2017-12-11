@@ -76,15 +76,15 @@ Route::group(['prefix' => 'sponsor'], function () {
 	Route::post('/do-signup', 'Sponsor\SignupController@doSignup')->name('sponsor.doSignup');
 	Route::get('/do-signup', 'Sponsor\SignupController@signup');
 	Route::get('/enterprise-request', 'Sponsor\SignupController@preLoginPackagePurchase')->name('sponsor.enterprise-request');
-	Route::get('/forgot-password', 'Sponsor\PasswordController@forgotPassword')->name('sponsor.forgot-password');
-	Route::post('/forgot-password-OTP', 'Sponsor\PasswordController@forgotPasswordOTP')->name('forgot-password-OTP');
-	Route::post('/forgot-password-OTP-verify', 'Sponsor\PasswordController@forgotPasswordOTPVerify')->name('forgot-password-OTP-verify');
-	Route::post('/save-forgot-password', 'Sponsor\PasswordController@saveForgotPassword')->name('save-forgot-password');
+	Route::get('/forgot-password', 'Sponsor\PasswordManagementController@forgotPassword')->name('sponsor.forgot-password');
+	Route::post('/forgot-password-OTP', 'Sponsor\PasswordManagementController@forgotPasswordOTP')->name('forgot-password-OTP');
+	Route::post('/forgot-password-OTP-verify', 'Sponsor\PasswordManagementController@forgotPasswordOTPVerify')->name('forgot-password-OTP-verify');
+	Route::post('/save-forgot-password', 'Sponsor\PasswordManagementController@saveForgotPassword')->name('save-forgot-password');
 
-	Route::get('/forgot-password-OTP', 'Sponsor\PasswordController@forgotPassword');
-	Route::get('/forgot-password-OTP-verify', 'Sponsor\PasswordController@forgotPassword');
-	Route::get('/save-forgot-password', 'Sponsor\PasswordController@forgotPassword');
-	Route::get('/set-forgot-password', 'Sponsor\PasswordController@forgotPassword');
+	Route::get('/forgot-password-OTP', 'Sponsor\PasswordManagementController@forgotPassword');
+	Route::get('/forgot-password-OTP-verify', 'Sponsor\PasswordManagementController@forgotPassword');
+	Route::get('/save-forgot-password', 'Sponsor\PasswordManagementController@forgotPassword');
+	Route::get('/set-forgot-password', 'Sponsor\PasswordManagementController@forgotPassword');
 });
 
 Route::group(['prefix' => 'parent'], function () {
@@ -92,27 +92,27 @@ Route::group(['prefix' => 'parent'], function () {
 	Route::get('/login', 'Parent\LoginController@login')->name('parent.login');
 	Route::post('/login-check', 'Parent\LoginController@loginCheck')->name('parent.loginCheck');
 	Route::post('/logout', 'Parent\LoginController@logout')->name('parent.logout');
-	Route::get('/signup', 'Parent\ParentSignupController@signup')->name('parent.signup');
-	Route::post('/do-signup', 'Parent\ParentSignupController@doSignup')->name('parent.do-signup');
-	Route::get('/do-signup', 'Parent\ParentSignupController@signup');
+	Route::get('/signup', 'Parent\SignupController@signup')->name('parent.signup');
+	Route::post('/do-signup', 'Parent\SignupController@doSignup')->name('parent.do-signup');
+	Route::get('/do-signup', 'Parent\SignupController@signup');
 	Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('verify-parent-teen-pair');
 	Route::get('/verify-parent-registration', 'Parent\LoginController@verifyParentRegistration')->name('verify-parent-registration');
-	Route::get('/forgot-password', 'Parent\PasswordController@forgotPassword')->name('forgot-password');
-	Route::post('/forgot-password-OTP', 'Parent\PasswordController@forgotPasswordOTP')->name('forgot-password-OTP');
-	Route::post('/forgot-password-OTP-verify', 'Parent\PasswordController@forgotPasswordOTPVerify')->name('forgot-password-OTP-verify');
-	Route::post('/save-forgot-password', 'Parent\PasswordController@saveForgotPassword')->name('save-forgot-password');
+	Route::get('/forgot-password', 'Parent\PasswordManagementController@forgotPassword')->name('forgot-password');
+	Route::post('/forgot-password-OTP', 'Parent\PasswordManagementController@forgotPasswordOTP')->name('forgot-password-OTP');
+	Route::post('/forgot-password-OTP-verify', 'Parent\PasswordManagementController@forgotPasswordOTPVerify')->name('forgot-password-OTP-verify');
+	Route::post('/save-forgot-password', 'Parent\PasswordManagementController@saveForgotPassword')->name('save-forgot-password');
 
-	Route::get('/forgot-password-OTP', 'Parent\PasswordController@forgotPassword');
-	Route::get('/forgot-password-OTP-verify', 'Parent\PasswordController@forgotPassword');
-	Route::get('/set-forgot-password', 'Parent\PasswordController@forgotPassword')->name('set-forgot-password');
-	Route::get('/save-forgot-password', 'Parent\PasswordController@forgotPassword');
+	Route::get('/forgot-password-OTP', 'Parent\PasswordManagementController@forgotPassword');
+	Route::get('/forgot-password-OTP-verify', 'Parent\PasswordManagementController@forgotPassword');
+	Route::get('/set-forgot-password', 'Parent\PasswordManagementController@forgotPassword')->name('set-forgot-password');
+	Route::get('/save-forgot-password', 'Parent\PasswordManagementController@forgotPassword');
 });
 
 //Counselor
 Route::group(['prefix' => 'counselor'], function () {
 	Route::get('/', 'Parent\HomeController@loginCounselor');
-	Route::get('/login', 'Parent\CounselorController@login');
-	Route::get('/signup', 'Parent\CounselorController@signup');
+	Route::get('/login', 'Parent\CounselorManagementController@login');
+	Route::get('/signup', 'Parent\CounselorManagementController@signup');
 });
 
 //School Section

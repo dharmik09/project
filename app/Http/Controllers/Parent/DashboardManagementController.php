@@ -32,7 +32,7 @@ use App\Level2ParentsActivity;
 use App\TeenParentChallenge;
 use Illuminate\Support\Facades\Storage;
 
-class ParentDashboardController extends Controller {
+class DashboardManagementController extends Controller {
 
     public function __construct(ParentsRepository $parentsRepository, TeenagersRepository $teenagersRepository, Level1ActivitiesRepository $level1ActivitiesRepository, ProfessionsRepository $professionsRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
         $this->parentsRepository = $parentsRepository;

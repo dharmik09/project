@@ -25,7 +25,7 @@ use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\Services\Parents\Contracts\ParentsRepository;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 
-class Level4AdvanceActivityController extends Controller {
+class Level4AdvanceActivityManagementController extends Controller {
 
     public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, Level2ActivitiesRepository $level2ActivitiesRepository, TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, SponsorsRepository $sponsorsRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository) {
         $this->objTeenagers = new Teenagers();

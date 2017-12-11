@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use App\Transactions;
 use App\CMS;
 
-class CounselorController extends Controller {
+class CounselorManagementController extends Controller {
 
 
     public function __construct()

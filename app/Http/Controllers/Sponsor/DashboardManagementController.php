@@ -21,7 +21,7 @@ use App\DeductedCoins;
 use App\Transactions;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 
-class DashboardController extends Controller
+class DashboardManagementController extends Controller
 {
     public function __construct(FileStorageRepository $fileStorageRepository, SponsorsRepository $sponsorsRepository, CouponsRepository $couponsRepository,TeenagersRepository $teenagersRepository)
     {

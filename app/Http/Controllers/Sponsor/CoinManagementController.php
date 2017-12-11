@@ -25,7 +25,7 @@ use App\Transactions;
 use App\Configurations;
 use Softon\Indipay\Facades\Indipay;
 
-class CoinsManagement extends Controller {
+class CoinManagementController extends Controller {
 
     public function __construct(CoinRepository $coinRepository, SponsorsRepository $sponsorsRepository,TemplatesRepository $templatesRepository,SchoolsRepository $schoolsRepository) {
         $this->objCoins = new Coins();

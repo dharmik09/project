@@ -21,7 +21,7 @@ use App\Services\Template\Contracts\TemplatesRepository;
 use App\Services\Parents\Contracts\ParentsRepository;
 use App\Services\Sponsors\Contracts\SponsorsRepository;
 
-class PasswordController extends Controller {
+class PasswordManagementController extends Controller {
 
     public function __construct(ParentsRepository $parentsRepository, SponsorsRepository $sponsorsRepository, TemplatesRepository $templatesRepository
     ) {

@@ -21,7 +21,7 @@ use App\Services\Sponsors\Contracts\SponsorsRepository;
 use App\Http\Requests\ParentProfileUpdateRequest;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 
-class updateProfileController extends Controller {
+class ProfileManagementController extends Controller {
 
     public function __construct(ParentsRepository $parentsRepository, SponsorsRepository $sponsorsRepository, FileStorageRepository $fileStorageRepository)
     {
@@ -94,7 +94,7 @@ class updateProfileController extends Controller {
                     $user->p_photo = $fileName;
                 }
                 else {
-                    $user-> p_photo = proteen_logo.png;
+                    $user->p_photo = 'proteen_logo.png';
                 }
             }
             $user->save();

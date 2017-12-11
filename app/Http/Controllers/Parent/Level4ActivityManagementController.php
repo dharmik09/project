@@ -32,7 +32,7 @@ use App\Level2ParentsActivity;
 use App\TeenParentChallenge;
 use App\TemplateDeductedCoins;
 
-class Level4ActivityController extends Controller {
+class Level4ActivityManagementController extends Controller {
 
     public function __construct(ParentsRepository $parentsRepository, TeenagersRepository $teenagersRepository, Level1ActivitiesRepository $level1ActivitiesRepository, ProfessionsRepository $professionsRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository) {
         $this->parentsRepository = $parentsRepository;
