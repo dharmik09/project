@@ -24,3 +24,6 @@ CREATE TABLE IF NOT EXISTS `pro_t_testinomials` (
   `deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted	',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+//Add new field to profession table ## 11-12-2017
+ALTER TABLE `pro_pf_profession` ADD `pf_profession_tags` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `pf_profession_alias`;

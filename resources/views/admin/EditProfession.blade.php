@@ -126,6 +126,22 @@
                                 <textarea name="pf_profession_alias" class="form-control" id="pf_profession_alias" >{{$pf_profession_alias}}</textarea>
                             </div>
                         </div>
+
+                        <?php
+                        if (old('pf_profession_tags'))
+                            $pf_profession_tags = old('pf_profession_tags');
+                        elseif ($professionDetail)
+                            $pf_profession_tags = $professionDetail->pf_profession_tags;
+                        else
+                            $pf_profession_tags = '';
+                        ?>
+                        
+                        <div class="form-group">
+                            <label for="pf_tags" class="col-sm-2 control-label">Enter Tags</label>
+                            <div class="col-sm-10">
+                                <textarea name="pf_profession_tags" class="form-control" id="pf_profession_tags" >{{$pf_profession_tags}}</textarea>
+                            </div>
+                        </div>
                         
 
                         <!--<?php
@@ -276,6 +292,10 @@
                 placeholder: 'Enter alias ...',
                 maxLength : 255
             });
+        $('#pf_profession_tags').tagEditor({
+                placeholder: 'Enter tags ...',
+                maxLength : 255
+            });
             
         var config = {
             '.chosen-select'           : {},
@@ -296,6 +316,9 @@
                 pf_basket : {
                     required : true
                 },
+                pf_profession_tags : {
+                    required : true
+                },
                 deleted : {
                     required : true
                 }
@@ -306,6 +329,9 @@
                     required : true
                 },
                 pf_basket : {
+                    required : true
+                },
+                pf_profession_tags : {
                     required : true
                 },
                 deleted : {
@@ -322,6 +348,9 @@
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 pf_basket : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                pf_profession_tags : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {

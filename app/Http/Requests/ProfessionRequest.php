@@ -30,6 +30,7 @@ class ProfessionRequest extends Request
                 'pf_name'         => 'required',
                 'pf_logo'          => 'mimes:jpeg,jpg,bmp,png',
                 'normal'        => 'mimes:mp4,3gp,wmv,mkv',
+                'pf_profession_tags' => 'required',
                 'deleted' => 'required',
             ];
         }
@@ -39,6 +40,7 @@ class ProfessionRequest extends Request
                 'pf_name'         => 'required',
                 'pf_logo'          => 'mimes:jpeg,jpg,bmp,png',
                 'normal'        => 'mimes:mp4,3gp,wmv,mkv',
+                'pf_profession_tags' => 'required',
                 'deleted' => 'required',
             ];
         }
@@ -50,6 +52,7 @@ class ProfessionRequest extends Request
             'pf_logo.required' => trans('validation.photorequired'),
             'pf_logo.mimes' => trans('validation.validphotorequired'),
             'normal.mimes' => trans('validation.validvideorequired'),
+            'pf_profession_tags.required' => trans('validation.tagsrequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }

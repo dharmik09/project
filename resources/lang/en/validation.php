@@ -209,4 +209,5 @@ return [
     'titleisrequired' => 'Title is required',
     'imageisrequired' => 'Image is required',
     'descriptionisrequired' => 'Description is required',
+    'tagsrequired' => 'Tags field is required',
 ];
