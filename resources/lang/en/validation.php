@@ -210,4 +210,6 @@ return [
     'imageisrequired' => 'Image is required',
     'descriptionisrequired' => 'Description is required',
     'tagsrequired' => 'Tags field is required',
+    'pageisrequired' => 'Page is required',
+    'slugisrequired' =>'Slug is required',
 ];

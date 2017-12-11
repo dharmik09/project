@@ -48,10 +48,10 @@ class HelptextRequest extends Request
 
     public function messages() {
         return [
-            'h_title.required' => trans('validation.nameisrequired'),
-            'h_slug.required' => trans('validation.titleisrequired'),
-            'h_description.required' => trans('validation.imageisrequired'),
-            'h_page.required' => trans('validation.descriptionisrequired'),
+            'h_title.required' => trans('validation.titleisrequired'),
+            'h_slug.required' => trans('validation.slugisrequired'),
+            'h_description.required' => trans('validation.descriptionisrequired'),
+            'h_page.required' => trans('validation.pageisrequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }

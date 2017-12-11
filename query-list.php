@@ -27,3 +27,28 @@ CREATE TABLE IF NOT EXISTS `pro_t_testinomials` (
 
 //Add new field to profession table ## 11-12-2017
 ALTER TABLE `pro_pf_profession` ADD `pf_profession_tags` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `pf_profession_alias`;
+
+//Add new table for HelpTexts ## 11-12-2017
+CREATE TABLE IF NOT EXISTS `pro_h_helptext` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `h_title` varchar(255) NOT NULL,
+  `h_slug` varchar(255) NOT NULL,
+  `h_description` text NOT NULL,
+  `h_page` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'timestamp',
+  `deleted` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+//Add new table for Profession Certifications ## 11-12-2017
+CREATE TABLE IF NOT EXISTS `pro_pc_profession_certifications` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `pc_name` varchar(255) NOT NULL,
+  `pc_image` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'timestamp',
+  `deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+

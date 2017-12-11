@@ -265,6 +265,10 @@ return [
     'FAQ_THUMB_IMAGE_WIDTH' => '300',
 
     'TESTINOMIAL_ORIGINAL_IMAGE_UPLOAD_PATH' => "uploads/testimonial/",
+    'PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH' => "uploads/professionCertification/original/",
+    'PROFESSION_CERTIFICATION_THUMB_IMAGE_UPLOAD_PATH' => "uploads/professionCertification/thumb/",
+    'PROFESSION_CERTIFICATION_THUMB_IMAGE_HEIGHT' => '300',
+    'PROFESSION_CERTIFICATION_THUMB_IMAGE_WIDTH' => '300'
 
 
 ];

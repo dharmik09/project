@@ -402,7 +402,7 @@ Route::post('/getProfessionConcepts/', 'Admin\ReportController@getProfessionConc
 Route::get('/level4AdvanceReport/', 'Admin\ReportController@level4AdvanceReport');
 Route::post('/level4AdvanceReport/', 'Admin\ReportController@level4AdvanceReport');
 
-//Testinomial
+//Testimonial
 Route::get('/testimonials', 'Admin\TestimonialManagementController@index')->name('testinomials');
 Route::post('/testimonials', 'Admin\TestimonialManagementController@index')->name('testinomials');
 Route::get('/addTestimonial', 'Admin\TestimonialManagementController@add')->name('addTestinomial');
@@ -410,13 +410,21 @@ Route::post('/saveTestimonial', 'Admin\TestimonialManagementController@save')->n
 Route::get('/editTestimonial/{id}', 'Admin\TestimonialManagementController@edit')->name('editTestinomial');
 Route::get('/deleteTestimonial/{id}', 'Admin\TestimonialManagementController@delete')->name('deleteTestinomial');
 
-//Testinomial
+//Helptext
 Route::get('/helpText', 'Admin\HelpTextManagementController@index')->name('helpText');
 Route::post('/helpText', 'Admin\HelpTextManagementController@index')->name('helpText');
 Route::get('/addHelpText', 'Admin\HelpTextManagementController@add')->name('addHelpText');
 Route::post('/saveHelpText', 'Admin\HelpTextManagementController@save')->name('saveHelpText');
 Route::get('/editHelpText/{id}', 'Admin\HelpTextManagementController@edit')->name('editHelpText');
 Route::get('/deleteHelpText/{id}', 'Admin\HelpTextManagementController@delete')->name('deleteHelpText');
+
+//Profession Certifications
+Route::get('/professionCertifications', 'Admin\CertificationManagementController@index')->name('helpText');
+Route::post('/professionCertifications', 'Admin\CertificationManagementController@index')->name('helpText');
+Route::get('/addProfessionCertification', 'Admin\CertificationManagementController@add')->name('addHelpText');
+Route::post('/saveProfessionCertification', 'Admin\CertificationManagementController@save')->name('saveHelpText');
+Route::get('/editProfessionCertification/{id}', 'Admin\CertificationManagementController@edit')->name('editHelpText');
+Route::get('/deleteProfessionCertification/{id}', 'Admin\CertificationManagementController@delete')->name('deleteHelpText');
 
 
 

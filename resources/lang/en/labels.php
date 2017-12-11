@@ -655,5 +655,12 @@ return [
     'helptextaction' => 'Actions',
     'helptextupdatesuccess' => 'Helptext updated successfully',
     'helptextdeletesuccess' => 'Helptext deleted successfully',
+    'professioncertifications' => 'Profession Certifications',
+    'professioncertificationimage' => 'Image',
+    'professioncertificationname' => 'Name',
+    'professioncertificationaction' => 'Actions',
+    'professioncertification' => 'Profession Certification',
+    'professioncertificationdeletesuccess' => 'Profession Certification deleted successfully',
+    'professioncertificationupdatesuccess' => 'Profession Certification updated successfully',
     
 ];
