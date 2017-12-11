@@ -83,7 +83,7 @@ class updateProfileController extends Controller {
                     $pathOriginal = public_path($this->parentOriginalImageUploadPath . $fileName);
                     $pathThumb = public_path($this->parentThumbImageUploadPath . $fileName);
                     Image::make($file->getRealPath())->save($pathOriginal);
-                    Image::make($file->getRealPath())->resize(45,45)->save($pathThumb);
+                    Image::make($file->getRealPath())->resize(300,300)->save($pathThumb);
 
                     //Uploading on AWS
                     $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->parentOriginalImageUploadPath, $pathOriginal, "s3");
