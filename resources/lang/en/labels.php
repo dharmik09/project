@@ -647,4 +647,13 @@ return [
     'testimonialdescription' => 'Description',
     'testimonials' => 'Testimonials',
     'testimonialaction' => 'Actions',
+    'helptexttitle' => 'Title',
+    'helptextslug' => 'Slug',
+    'helptextdescription' => 'Description',
+    'helptextpage' => 'Page',
+    'helptext' => 'Helptext',
+    'helptextaction' => 'Actions',
+    'helptextupdatesuccess' => 'Helptext updated successfully',
+    'helptextdeletesuccess' => 'Helptext deleted successfully',
+    
 ];

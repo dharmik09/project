@@ -410,6 +410,14 @@ Route::post('/saveTestimonial', 'Admin\TestimonialManagementController@save')->n
 Route::get('/editTestimonial/{id}', 'Admin\TestimonialManagementController@edit')->name('editTestinomial');
 Route::get('/deleteTestimonial/{id}', 'Admin\TestimonialManagementController@delete')->name('deleteTestinomial');
 
+//Testinomial
+Route::get('/helpText', 'Admin\HelpTextManagementController@index')->name('helpText');
+Route::post('/helpText', 'Admin\HelpTextManagementController@index')->name('helpText');
+Route::get('/addHelpText', 'Admin\HelpTextManagementController@add')->name('addHelpText');
+Route::post('/saveHelpText', 'Admin\HelpTextManagementController@save')->name('saveHelpText');
+Route::get('/editHelpText/{id}', 'Admin\HelpTextManagementController@edit')->name('editHelpText');
+Route::get('/deleteHelpText/{id}', 'Admin\HelpTextManagementController@delete')->name('deleteHelpText');
+
 
 
 

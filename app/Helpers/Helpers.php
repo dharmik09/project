@@ -2451,5 +2451,10 @@ Class Helpers {
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
+    }
+
+    public static function page() {
+        $page = array('1' => 'Dashboard Page', '2' => 'Profile Page');
+        return $page;
     } 
 }
