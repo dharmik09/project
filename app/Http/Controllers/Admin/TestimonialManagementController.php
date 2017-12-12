@@ -77,7 +77,7 @@ class TestimonialManagementController extends Controller
         }
         $response = $this->objTestimonial->saveTestimonialDetail($testimonialDetail);
         if ($response) {
-             return Redirect::to("admin/testimonials")->with('success',trans('labels.paidcomponentsupdatesuccess'));
+             return Redirect::to("admin/testimonials")->with('success',trans('labels.tetimonialupdatesuccess'));
         } else {
             return Redirect::to("admin/testimonials")->with('error', trans('labels.commonerrormessage'));
         }
@@ -86,7 +86,7 @@ class TestimonialManagementController extends Controller
     public function delete($id) {
         $return = $this->objTestimonial->deleteTestimonial($id);
         if ($return){
-           return Redirect::to("admin/testimonials")->with('success', trans('labels.paidcomponentsdeletesuccess'));
+           return Redirect::to("admin/testimonials")->with('success', trans('labels.testimonialdeletesuccess'));
         } else {
             return Redirect::to("admin/testimonials")->with('error', trans('labels.commonerrormessage'));
         }

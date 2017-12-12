@@ -662,5 +662,14 @@ return [
     'professioncertification' => 'Profession Certification',
     'professioncertificationdeletesuccess' => 'Profession Certification deleted successfully',
     'professioncertificationupdatesuccess' => 'Profession Certification updated successfully',
-    
+    'professionsubjectname' => 'Name',
+    'professionsubjectimage' => 'Image',
+    'professionsubjectaction' => 'Actions',
+    'professionsubject' => 'Profession Subject',
+    'professionsubjects' => 'Profession Subjects',
+    'professionsubjectupdatesuccess' => 'Profession subject updated successfully',
+    'professionsubjectdeletesuccess' => 'Profession subject deleted successfully',
+    'tetimonialupdatesuccess' => 'Tetimonial updated successfully',
+    'testimonialdeletesuccess' => 'Testimonial deleted successfully',
+     
 ];

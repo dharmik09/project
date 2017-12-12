@@ -393,9 +393,14 @@
                                     <i class="fa fa-dashboard"></i> <span>{{trans('labels.helptext')}}</span>
                                 </a>
                             </li>
-                            <li class="{{ (Request::is('admin/professionCertifications') || Request::is('admin/addProfessionCertification') || Request::is('admin/editProfessionCertification/*') || Request::is('admin/saveProfessionCertification') || Request::is('admin/deleteProfessionCertifications/*')) ? 'active' : '' }} treeview">
+                            <li class="{{ (Request::is('admin/professionCertifications') || Request::is('admin/addProfessionCertification') || Request::is('admin/editProfessionCertification/*') || Request::is('admin/saveProfessionCertification') || Request::is('admin/deleteProfessionCertification/*')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/professionCertifications') }}">
                                     <i class="fa fa-dashboard"></i> <span>{{trans('labels.professioncertification')}}</span>
+                                </a>
+                            </li>
+                            <li class="{{ (Request::is('admin/professionSubjects') || Request::is('admin/addProfessionSubject') || Request::is('admin/editProfessionSubject/*') || Request::is('admin/saveProfessionSubject') || Request::is('admin/deleteProfessionSubject/*')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/professionSubjects') }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.professionsubject')}}</span>
                                 </a>
                             </li>
                         @endif                        

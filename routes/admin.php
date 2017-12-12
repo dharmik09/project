@@ -426,6 +426,15 @@ Route::post('/saveProfessionCertification', 'Admin\CertificationManagementContro
 Route::get('/editProfessionCertification/{id}', 'Admin\CertificationManagementController@edit')->name('editHelpText');
 Route::get('/deleteProfessionCertification/{id}', 'Admin\CertificationManagementController@delete')->name('deleteHelpText');
 
+//Profession Subjects
+Route::get('/professionSubjects', 'Admin\ProfessionSubjectManagementController@index')->name('professionSubjects');
+Route::post('/professionSubjects', 'Admin\ProfessionSubjectManagementController@index')->name('professionSubjects');
+Route::get('/addProfessionSubject', 'Admin\ProfessionSubjectManagementController@add')->name('addProfessionSubject');
+Route::post('/saveProfessionSubject', 'Admin\ProfessionSubjectManagementController@save')->name('saveProfessionSubject');
+Route::get('/editProfessionSubject/{id}', 'Admin\ProfessionSubjectManagementController@edit')->name('editProfessionSubject');
+Route::get('/deleteProfessionSubject/{id}', 'Admin\ProfessionSubjectManagementController@delete')->name('deleteProfessionSubject');
+
+
 
 
 

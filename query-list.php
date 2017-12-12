@@ -52,3 +52,14 @@ CREATE TABLE IF NOT EXISTS `pro_pc_profession_certifications` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+//Add new table for Profession Subjects ## 12-12-2017
+CREATE TABLE IF NOT EXISTS `pro_ps_profession_subjects` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `ps_name` varchar(255) NOT NULL,
+  `ps_image` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'timestamp',
+  `deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
