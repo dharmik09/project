@@ -111,7 +111,7 @@
                                             </div>
                                         </a>
                                         <h4 class="text-center">{{ $video->v_title }}</h4>
-                                        <figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt </figcaption>
+                                        <figcaption>{{ substr($video->v_description, 0, 100) }} </figcaption>
                                     </figure>
                                 </div>
                             </div>
