@@ -114,7 +114,8 @@
         <?php if (isset($certification->id) && $certification->id != '0') { ?>
             var validationRules = {
                 pc_name : {
-                    required : true
+                    required : true,
+                    minlength : 2
                 },
                 deleted : {
                     required : true
@@ -123,7 +124,8 @@
         <?php } else { ?>
             var validationRules = {
                 pc_name : {
-                    required : true
+                    required : true,
+                    minlength : 2
                 },
                 pc_image : {
                     required : true

@@ -27,20 +27,24 @@ class ProfessionRequest extends Request
         if($this->get('id') == 0)
         {
             return [
-                'pf_name'         => 'required',
-                'pf_logo'          => 'mimes:jpeg,jpg,bmp,png',
-                'normal'        => 'mimes:mp4,3gp,wmv,mkv',
+                'pf_name' => 'required',
+                'pf_logo' => 'mimes:jpeg,jpg,bmp,png',
+                'normal' => 'mimes:mp4,3gp,wmv,mkv',
                 'pf_profession_tags' => 'required',
+                'pf_certifications' => 'required',
+                'pf_subjects' => 'required',
                 'deleted' => 'required',
             ];
         }
         else
         {
             return [
-                'pf_name'         => 'required',
-                'pf_logo'          => 'mimes:jpeg,jpg,bmp,png',
-                'normal'        => 'mimes:mp4,3gp,wmv,mkv',
+                'pf_name' => 'required',
+                'pf_logo' => 'mimes:jpeg,jpg,bmp,png',
+                'normal' => 'mimes:mp4,3gp,wmv,mkv',
                 'pf_profession_tags' => 'required',
+                'pf_certifications' => 'required',
+                'pf_subjects' => 'required',
                 'deleted' => 'required',
             ];
         }
@@ -53,6 +57,8 @@ class ProfessionRequest extends Request
             'pf_logo.mimes' => trans('validation.validphotorequired'),
             'normal.mimes' => trans('validation.validvideorequired'),
             'pf_profession_tags.required' => trans('validation.tagsrequired'),
+            'pf_certifications.required' => trans('validation.certificationsrequired'),
+            'pf_subjects.required' => trans('validation.subjectsrequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }

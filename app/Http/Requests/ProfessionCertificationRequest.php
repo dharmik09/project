@@ -28,7 +28,7 @@ class ProfessionCertificationRequest extends Request
         {
             return [
                 'pc_name'      => 'required',
-                'pc_image'      => 'required',
+                'pc_image'      => 'required|mimes:jpeg,jpg,bmp,png',
                 'deleted' => 'required',
             ];
         }

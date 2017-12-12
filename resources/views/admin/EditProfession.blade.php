@@ -142,6 +142,76 @@
                                 <textarea name="pf_profession_tags" class="form-control" id="pf_profession_tags" >{{$pf_profession_tags}}</textarea>
                             </div>
                         </div>
+
+                        <?php
+                        if (old('pf_certifications'))
+                            $pf_certifications = old('pf_certifications');
+                        elseif ($professionDetail)
+                            $pf_certifications = $professionDetail->pf_certifications;
+                        else
+                            $pf_certifications = '';
+                        ?>
+                        
+                        <?php
+                        if (isset($professionDetail) && !empty($professionDetail))
+                        {
+                            if($professionDetail->pf_certifications != '' && $professionDetail->pf_certifications != 0){
+                                $pf_certification_arr = explode(',',$professionDetail->pf_certifications);
+                            }else{
+                                $pf_certification_arr = array(); 
+                            }
+                        }
+                        else
+                        {
+                            $pf_certification_arr = array(); 
+                        } 
+                        ?>
+
+                        <div class="form-group">
+                            <label for="pf_certifications" class="col-sm-2 control-label">Enter Certifications</label>
+                            <div class="col-sm-10">
+                                <select class="form-control chosen-select" id="pf_certifications" name="pf_certifications[]" multiple="multiple" data-placeholder="Choose a Certifications...">
+                                    <option value="">Select Certifications</option>
+                                    <?php foreach ($certifications as $key => $value) { ?>
+                                        <option value="{{$value->id}}" <?php if(in_array($value->id, $pf_certification_arr)) echo 'selected'; ?>>{{$value->pc_name}}</option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <?php
+                        if (old('pf_subjects'))
+                            $pf_subjects = old('pf_subjects');
+                        elseif ($professionDetail)
+                            $pf_subjects = $professionDetail->pf_subjects;
+                        else
+                            $pf_subjects = '';
+                        ?>
+                        <?php
+                        if (isset($professionDetail) && !empty($professionDetail))
+                        {
+                            if($professionDetail->pf_subjects != '' && $professionDetail->pf_subjects != 0){
+                                $pf_subject_arr = explode(',',$professionDetail->pf_subjects);
+                            }else{
+                                $pf_subject_arr = array(); 
+                            }
+                        }
+                        else
+                        {
+                            $pf_subject_arr = array(); 
+                        } 
+                        ?>
+                        <div class="form-group">
+                            <label for="pf_subjects" class="col-sm-2 control-label">Enter Subjects</label>
+                            <div class="col-sm-10">
+                                <select class="form-control chosen-select" id="pf_subjects" name="pf_subjects[]" multiple="multiple" data-placeholder="Choose a subjects...">
+                                    <option value="">Select Subjects</option>
+                                    <?php foreach ($subjects as $key => $value) { ?>
+                                        <option value="{{$value->id}}" <?php if(in_array($value->id, $pf_subject_arr)) echo 'selected'; ?>>{{$value->ps_name}}</option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
                         
 
                         <!--<?php
@@ -319,6 +389,12 @@
                 pf_profession_tags : {
                     required : true
                 },
+                pf_certifications : {
+                    required : true
+                },
+                pf_subjects : {
+                    required : true
+                },
                 deleted : {
                     required : true
                 }
@@ -332,6 +408,12 @@
                     required : true
                 },
                 pf_profession_tags : {
+                    required : true
+                },
+                pf_certifications : {
+                    required : true
+                },
+                pf_subjects : {
                     required : true
                 },
                 deleted : {
@@ -351,6 +433,12 @@
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 pf_profession_tags : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                pf_certifications : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                pf_subjects : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {

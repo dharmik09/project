@@ -21,6 +21,8 @@ use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Cache;
 use App\Notifications;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\ProfessionSubject;
+use App\Certification;
 
 class ProfessionManagementController extends Controller {
 
@@ -42,7 +44,8 @@ class ProfessionManagementController extends Controller {
         $this->basketThumbImageHeight = Config::get('constant.BASKET_THUMB_IMAGE_HEIGHT');
         $this->basketThumbImageWidth = Config::get('constant.BASKET_THUMB_IMAGE_WIDTH');
         $this->getProfessionImagePath = Config::get('constant.GET_PROFESSION_IMAGES');
-
+        $this->objSubject = new ProfessionSubject;
+        $this->objCertification = new Certification;
         $this->loggedInUser = Auth::guard('admin');
     }
 
@@ -55,16 +58,20 @@ class ProfessionManagementController extends Controller {
 
     public function add() {
         $professionDetail = [];
+        $subjects = $this->objSubject->getAllProfessionSubjects();
+        $certifications = $this->objCertification->getAllProfessionCertifications();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.EditProfession', compact('professionDetail'));
+        return view('admin.EditProfession', compact('professionDetail', 'subjects', 'certifications'));
     }
 
     public function edit($id) {
         $professionDetail = $this->objProfession->find($id);
         $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
         $uploadVideoPath = $this->professionVideoUploadPath;
+        $subjects = $this->objSubject->getAllProfessionSubjects();
+        $certifications = $this->objCertification->getAllProfessionCertifications();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath'));
+        return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath', 'subjects', 'certifications'));
     }
 
     public function save(ProfessionRequest $professionRequest) {
@@ -98,8 +105,10 @@ class ProfessionManagementController extends Controller {
         $professionDetail['deleted'] = e(input::get('deleted'));
         $professionDetail['pf_profession_alias'] = input::get('pf_profession_alias');
         $professionDetail['pf_profession_tags'] = input::get('pf_profession_tags');
+        $professionDetail['pf_certifications'] = implode(',', input::get('pf_certifications'));
+        $professionDetail['pf_subjects'] = implode(',', input::get('pf_subjects'));
         $secondary_baskets = input::get('pf_related_basket');
-        
+            
         if (Input::file()) {
             $file = Input::file('pf_logo');
             $videoFile = Input::file('normal');

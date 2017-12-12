@@ -212,4 +212,6 @@ return [
     'tagsrequired' => 'Tags field is required',
     'pageisrequired' => 'Page is required',
     'slugisrequired' =>'Slug is required',
+    'certificationsrequired' => 'Select atleast one certification',
+    'subjectsrequired' => 'Select atleast one subject',
 ];

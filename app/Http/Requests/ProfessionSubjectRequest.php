@@ -28,7 +28,7 @@ class ProfessionSubjectRequest extends Request
         {
             return [
                 'ps_name'      => 'required',
-                'ps_image'      => 'required',
+                'ps_image'      => 'required|mimes:jpeg,jpg,bmp,png',
                 'deleted' => 'required',
             ];
         }

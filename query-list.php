@@ -63,3 +63,9 @@ CREATE TABLE IF NOT EXISTS `pro_ps_profession_subjects` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+//Add new field to profession table ## 12-12-2017
+ALTER TABLE `pro_pf_profession` ADD `pf_certifications` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `pf_profession_tags`;
+
+//Add new field to profession table ## 12-12-2017
+ALTER TABLE `pro_pf_profession` ADD `pf_subjects` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `pf_certifications`;
+
