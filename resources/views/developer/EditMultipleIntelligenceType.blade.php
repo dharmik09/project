@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         
-                         <?php
+                        <?php
                           if (old('mi_information'))
                               $mi_information = old('mi_information');
                           elseif ($multipleintelligenceDetail)
@@ -193,7 +193,7 @@
         }
     }
 </script>
-<?php if (empty($multipleintelligenceDetail)){ ?>
+<?php if (empty($multipleintelligenceDetail->mi_slug)){ ?>
     <script>
     $('#mit_name').keyup(function ()
     {

@@ -72,3 +72,9 @@ ALTER TABLE `pro_pf_profession` ADD `pf_subjects` VARCHAR(255) CHARACTER SET utf
 //Add new field to multi-intelligence table ## 13-12-2017
 ALTER TABLE `pro_mit_multiple_intelligence_types` ADD `mi_slug` VARCHAR(255) NOT NULL AFTER `mit_name`;
 
+//Add new field to interest type table ## 13-12-2017
+ALTER TABLE `pro_it_interest_types` ADD `it_slug` VARCHAR(255) NOT NULL AFTER `it_name`;
+
+//Add new field to interest type table ## 13-12-2017
+ALTER TABLE `pro_it_interest_types` ADD `it_description` TEXT NOT NULL AFTER `it_logo`;
+

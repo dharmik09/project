@@ -27,14 +27,16 @@ class InterestTypeRequest extends Request
         if($this->get('id') == 0)
         {
             return [
-                'it_name'         => 'required',
+                'it_name' => 'required',
+                'it_slug' => 'required',
                 'deleted' => 'required',
             ];
         }
         else
         {
             return [
-                'it_name'         => 'required',
+                'it_name' => 'required',
+                'it_slug' => 'required',
                 'deleted' => 'required',
             ];
         }
@@ -43,6 +45,7 @@ class InterestTypeRequest extends Request
     public function messages() {
         return [
             'it_name.required' => trans('validation.namerequiredfield'),
+            'it_slug.required' => trans('validation.slugisrequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }

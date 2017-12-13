@@ -671,5 +671,6 @@ return [
     'professionsubjectdeletesuccess' => 'Profession subject deleted successfully',
     'tetimonialupdatesuccess' => 'Tetimonial updated successfully',
     'testimonialdeletesuccess' => 'Testimonial deleted successfully',
-     
+    'frmitdescription' => 'Description',
+    'frmitlblslug' => 'Slug',   
 ];

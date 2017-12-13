@@ -49,10 +49,24 @@
                     <div class="form-group">
                         <label for="it_name" class="col-sm-2 control-label">{{trans('labels.formlblname')}}</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id=it_name"" name="it_name" placeholder="{{trans('labels.formlblname')}}" value="{{$it_name}}" minlength="3" maxlength="50"/>
+                            <input type="text" class="form-control" id="it_name" name="it_name" placeholder="{{trans('labels.formlblname')}}" value="{{$it_name}}" minlength="3" maxlength="50"/>
                         </div>
                     </div>
-                     <div class="form-group">
+                    <?php
+                    if (old('it_slug'))
+                        $it_slug = old('it_slug');
+                    elseif ($interestDetail)
+                        $it_slug = $interestDetail->it_slug;
+                    else
+                        $it_slug = '';
+                    ?>
+                    <div class="form-group">
+                        <label for="it_slug" class="col-sm-2 control-label">{{trans('labels.formlblslug')}}</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly="true" class="form-control" id="it_slug" name="it_slug" placeholder="{{trans('labels.formlblslug')}}" value="{{$it_slug}}" minlength="6" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="l1ac_points" class="col-sm-2 control-label">{{trans('labels.interestblheadlogo')}}</label>
                         <div class="col-sm-6">
                             <input type="file" id="it_logo" name="it_logo" />
@@ -63,8 +77,20 @@
                             <?php } ?>
                         </div>
                     </div>
-
-
+                    <?php
+                    if (old('it_description'))
+                        $it_description = old('it_description');
+                    elseif ($interestDetail)
+                        $it_description = $interestDetail->it_description;
+                    else
+                        $it_description = '';
+                    ?>
+                    <div class="form-group" id="it_description">
+                        <label for="it_description" class="col-sm-2 control-label">{{trans('labels.frmitdescription')}}</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" id="it_description" name="it_description" rows="8">{{$it_description}}</textarea>
+                        </div>
+                    </div>
                     <?php
                     if (old('deleted'))
                         $deleted = old('deleted');
@@ -105,6 +131,9 @@
                 it_name : {
                     required : true
                 },
+                it_slug : {
+                    required : true
+                },
                 deleted : {
                     required : true
                 }
@@ -116,6 +145,9 @@
                 it_name : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
+                it_slug : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
                 deleted : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 }
@@ -123,5 +155,17 @@
         })
     });
 </script>
+<?php if (empty($interestDetail->it_slug)){ ?>
+    <script>
+    $('#it_name').keyup(function ()
+    {
+        var str = $(this).val();
+        str = str.replace(/[^a-zA-Z0-9\s]/g, "");
+        str = str.toLowerCase();
+        str = str.replace(/\s/g, '-');
+        $('#it_slug').val(str);
+    });
+    </script>
+<?php } ?>
 @stop
 
