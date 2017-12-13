@@ -14,11 +14,11 @@
                     $videoCode = Helpers::youtube_id_from_url($multipleIntelligence->mi_video);
                     if ($videoCode != '') {
                         if(strlen($multipleIntelligence->mi_video) > 50) {
-                            preg_match('/=(.*?)\&/s', $video->v_link, $output);
+                            preg_match('/=(.*?)\&/s', $multipleIntelligence->mi_video, $output);
                             $videoId = $output[1];
                         } else {
                             if (strpos($multipleIntelligence->mi_video, '=') !== false) {
-                                $output = explode('=',$video->v_link);
+                                $output = explode('=', $multipleIntelligence->mi_video);
                                 $videoId = $output[1];
                             } else {
                                 $videoId = substr($multipleIntelligence->mi_video, strrpos($multipleIntelligence->mi_video, '/') + 1);

@@ -28,7 +28,6 @@ class MultipleIntelligenceManagementController extends Controller
         $this->miThumbImageUploadPath = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
     }
 
-    //Retrieve multiple intelligence data by name
     public function index($slug) 
     {
         $miThumbImageUploadPath = $this->miThumbImageUploadPath;

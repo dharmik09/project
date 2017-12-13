@@ -10,9 +10,8 @@ Route::get('/chat', 'Teenager\DashboardController@chat');
 Route::get('/gift-coupons', function() {
 	return view('teenager.giftCoupons');
 });
-Route::get('/interest', function() {
-	return view('teenager.interest');
-});
+Route::get('/interest/{slug}', 'Teenager\InterestManagementController@index');
+	//return view('teenager.interest');
 Route::get('/multiple-intelligence/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
 Route::get('/gift-procoins', function() {
 	return view('teenager.proCoinsGift');

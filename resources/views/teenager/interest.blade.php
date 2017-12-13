@@ -9,8 +9,36 @@
         <!-- mid section starts-->
         <div class="inner-banner">
             <div class="container">
-                <div class="sec-banner">
-                    <!-- -->
+                <?php
+                    if (isset($interest->it_video) && !empty($interest->it_video)) {
+                        $videoId = '';
+                        $videoCode = Helpers::youtube_id_from_url($interest->it_video);
+                        if ($videoCode != '') {
+                            if(strlen($interest->it_video) > 50) {
+                                preg_match('/=(.*?)\&/s', $interest->it_video, $output);
+                                $videoId = $output[1];
+                            } else {
+                                if (strpos($interest->it_video, '=') !== false) {
+                                    $output = explode('=',$interest->it_video);
+                                    $videoId = $output[1];
+                                } else {
+                                    $videoId = substr($interest->it_video, strrpos($interest->it_video, '/') + 1);
+                                }
+                            }
+                        }
+                    } else {
+                        $videoId = '';
+                    }
+                ?>
+                <div class="sec-banner banner-landing" style="background-image: url('{{ Storage::url($interestThumbImageUploadPath . $interest->it_logo) }}');">
+                    <div class="container">
+                        <div class="play-icon">
+                            <a href="javascript:void(0);" class="play-btn" id="iframe-video">
+                                <img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon">
+                            </a>
+                        </div>
+                    </div>
+                    <iframe width="100%" height="100%" @if($videoId != '') src="https://www.youtube.com/embed/{{$videoId}}" @else src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0&amp;showinfo=0&autoplay=1" @endif frameborder="0" allowfullscreen id="iframe-video"></iframe>
                 </div>
             </div>
         </div>
@@ -18,7 +46,7 @@
         <div class="container">
             <section class="introduction-text">
                 <div class="heading-sec clearfix">
-                    <h1>Interest Title</h1>
+                    <h1>{{ $interest->it_name }}</h1>
                     <div class="sec-popup">
                         <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
                             <i class="icon-question">
@@ -47,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                <p>{{ $interest->it_description }}</p>
             </section>
         </div>
         <!--introduction text end-->
@@ -211,5 +239,13 @@
         <!-- mid section end-->
     </div>
 @stop
+@section('script')
+    <script>
+        $('.play-icon').click(function() {
+            $(this).hide();
+            $('iframe').show();
+        });
+    </script>
+@endsection
 
 
