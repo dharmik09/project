@@ -53,6 +53,7 @@ class MultipleIntelligenceTypeManagementController extends Controller
 
         $multipleintelligenceDetail['id'] = e(Input::get('id'));
         $multipleintelligenceDetail['mit_name'] = e(Input::get('mit_name'));
+        $multipleintelligenceDetail['mi_slug'] = e(Input::get('mi_slug'));
         $multipleintelligenceDetail['mi_video'] = e(Input::get('mi_video'));
         $multipleintelligenceDetail['mi_information'] = e(Input::get('mit_information'));
         $hiddenLogo  = e(input::get('hidden_logo'));

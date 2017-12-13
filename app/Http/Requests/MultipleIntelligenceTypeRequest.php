@@ -27,14 +27,16 @@ class MultipleIntelligenceTypeRequest extends Request
         if($this->get('id') == 0)
         {
             return [
-                'mit_name'         => 'required',
+                'mit_name' => 'required',
+                'mi_slug' => 'required',
                 'deleted' => 'required',
             ];
         }
         else
         {
             return [
-                'mit_name'         => 'required',
+                'mit_name' => 'required',
+                'mi_slug' => 'required',
                 'deleted' => 'required',
             ];
         }
@@ -43,6 +45,7 @@ class MultipleIntelligenceTypeRequest extends Request
     public function messages() {
         return [
             'mit_name.required' => trans('validation.namerequiredfield'),
+            'mi_slug.required' => trans('validation.slugisrequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }

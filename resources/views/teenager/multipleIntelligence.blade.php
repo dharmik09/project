@@ -9,8 +9,32 @@
         <!-- mid section starts-->
         <div class="inner-banner">
             <div class="container">
-                <div class="sec-banner multiple-banner">
-                    <!-- -->
+                <?php
+                    $videoId = '';
+                    $videoCode = Helpers::youtube_id_from_url($multipleIntelligence->mi_video);
+                    if ($videoCode != '') {
+                        if(strlen($multipleIntelligence->mi_video) > 50) {
+                            preg_match('/=(.*?)\&/s', $video->v_link, $output);
+                            $videoId = $output[1];
+                        } else {
+                            if (strpos($multipleIntelligence->mi_video, '=') !== false) {
+                                $output = explode('=',$video->v_link);
+                                $videoId = $output[1];
+                            } else {
+                                $videoId = substr($multipleIntelligence->mi_video, strrpos($multipleIntelligence->mi_video, '/') + 1);
+                            }
+                        }
+                    }
+                ?>
+                <div class="sec-banner banner-landing" style="background-image: url('{{ Storage::url($miThumbImageUploadPath . $multipleIntelligence->mit_logo) }}');">
+                    <div class="container">
+                        <div class="play-icon">
+                            <a href="javascript:void(0);" class="play-btn" id="iframe-video">
+                                <img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon">
+                            </a>
+                        </div>
+                    </div>
+                    <iframe width="100%" height="100%" @if($videoId != '') src="https://www.youtube.com/embed/{{$videoId}}" @else src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0&amp;showinfo=0&autoplay=1" @endif frameborder="0" allowfullscreen id="iframe-video"></iframe>
                 </div>
             </div>
         </div>
@@ -18,7 +42,7 @@
         <div class="container">
             <section class="introduction-text">
                 <div class="heading-sec clearfix">
-                    <h1>Multiple Intelligence Title</h1>
+                    <h1>{{ $multipleIntelligence->mit_name }}</h1>
                     <div class="sec-popup">
                         <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                         <div class="hide" id="pop1">
@@ -39,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                <p>{{ $multipleIntelligence->mi_information }}</p>
             </section>
         </div>
         <!--introduction text end-->
@@ -182,5 +206,12 @@
         <!-- mid section end-->
     </div>
 @stop
-
+@section('script')
+    <script>
+        $('.play-icon').click(function() {
+            $(this).hide();
+            $('iframe').show();
+        });
+    </script>
+@endsection
     

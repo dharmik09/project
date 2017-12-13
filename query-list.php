@@ -69,3 +69,6 @@ ALTER TABLE `pro_pf_profession` ADD `pf_certifications` VARCHAR(255) CHARACTER S
 //Add new field to profession table ## 12-12-2017
 ALTER TABLE `pro_pf_profession` ADD `pf_subjects` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `pf_certifications`;
 
+//Add new field to multi-intelligence table ## 13-12-2017
+ALTER TABLE `pro_mit_multiple_intelligence_types` ADD `mi_slug` VARCHAR(255) NOT NULL AFTER `mit_name`;
+

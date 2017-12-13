@@ -49,7 +49,21 @@
                     <div class="form-group">
                         <label for="mit_name" class="col-sm-2 control-label">{{trans('labels.formlblname')}}</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id=mit_name"" name="mit_name" placeholder="{{trans('labels.formlblname')}}" value="{{$mit_name}}" minlength="3" maxlength="50"/>
+                            <input type="text" class="form-control" id="mit_name" name="mit_name" placeholder="{{trans('labels.formlblname')}}" value="{{$mit_name}}" minlength="3" maxlength="50"/>
+                        </div>
+                    </div>
+                    <?php
+                    if (old('mi_slug'))
+                        $mi_slug = old('mi_slug');
+                    elseif ($multipleintelligenceDetail)
+                        $mi_slug = $multipleintelligenceDetail->mi_slug;
+                    else
+                        $mi_slug = '';
+                    ?>
+                    <div class="form-group">
+                        <label for="mi_slug" class="col-sm-2 control-label">{{trans('labels.formlblslug')}}</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly="true" class="form-control" id="mi_slug" name="mi_slug" placeholder="{{trans('labels.formlblslug')}}" value="{{$mi_slug}}" minlength="6" maxlength="50">
                         </div>
                     </div>
                     <div class="form-group">
@@ -135,6 +149,9 @@
                 mit_name : {
                     required : true
                 },
+                mi_slug : {
+                    required : true
+                },
                 deleted : {
                     required : true
                 }
@@ -144,6 +161,9 @@
             rules : validationRules,
             messages : {
                 mit_name : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                mi_slug : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {
@@ -172,9 +192,18 @@
             }
         }
     }
-    
-    
-    
 </script>
+<?php if (empty($multipleintelligenceDetail)){ ?>
+    <script>
+    $('#mit_name').keyup(function ()
+    {
+        var str = $(this).val();
+        str = str.replace(/[^a-zA-Z0-9\s]/g, "");
+        str = str.toLowerCase();
+        str = str.replace(/\s/g, '-');
+        $('#mi_slug').val(str);
+    });
+    </script>
+<?php } ?>
 @stop
 

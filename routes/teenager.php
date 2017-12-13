@@ -13,9 +13,7 @@ Route::get('/gift-coupons', function() {
 Route::get('/interest', function() {
 	return view('teenager.interest');
 });
-Route::get('/multiple-intelligence', function() {
-	return view('teenager.multipleIntelligence');
-});
+Route::get('/multiple-intelligence/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
 Route::get('/gift-procoins', function() {
 	return view('teenager.proCoinsGift');
 });
