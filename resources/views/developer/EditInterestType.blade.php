@@ -92,6 +92,20 @@
                         </div>
                     </div>
                     <?php
+                    if (old('it_video'))
+                        $it_video = old('it_video');
+                    elseif ($interestDetail)
+                        $it_video = $interestDetail->it_video;
+                    else
+                        $it_video = '';
+                    ?>
+                    <div class="form-group">
+                        <label for="it_video" class="col-sm-2 control-label">{{trans('labels.formlblvideo')}}</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="it_video" name="it_video" placeholder="{{trans('labels.formlblvideo')}}" value="{{$it_video}}" minlength="3" maxlength="50"/>
+                        </div>
+                    </div>
+                    <?php
                     if (old('deleted'))
                         $deleted = old('deleted');
                     elseif ($interestDetail)

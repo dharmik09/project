@@ -78,3 +78,6 @@ ALTER TABLE `pro_it_interest_types` ADD `it_slug` VARCHAR(255) NOT NULL AFTER `i
 //Add new field to interest type table ## 13-12-2017
 ALTER TABLE `pro_it_interest_types` ADD `it_description` TEXT NOT NULL AFTER `it_logo`;
 
+//Add new field to interest type table ## 13-12-2017
+ALTER TABLE `pro_it_interest_types` ADD `it_video` VARCHAR(255) NOT NULL AFTER `it_description`;
+

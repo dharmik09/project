@@ -55,6 +55,7 @@ class InterestTypeManagementController extends Controller
         $interestDetail['it_name'] = e(Input::get('it_name'));
         $interestDetail['it_slug'] = e(Input::get('it_slug'));
         $interestDetail['it_description'] = e(Input::get('it_description'));
+        $interestDetail['it_video'] = e(Input::get('it_video'));
         $hiddenLogo  = e(input::get('hidden_logo'));
         $interestDetail['deleted'] = e(Input::get('deleted'));
         
