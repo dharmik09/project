@@ -27,14 +27,16 @@ class ApptitudeTypeRequest extends Request
         if($this->get('id') == 0)
         {
             return [
-                'apt_name'         => 'required',
+                'apt_name' => 'required',
+                'apt_slug' => 'required',
                 'deleted' => 'required',
             ];
         }
         else
         {
             return [
-                'apt_name'         => 'required',
+                'apt_name' => 'required',
+                'apt_slug' => 'required',
                 'deleted' => 'required',
             ];
         }
@@ -43,6 +45,7 @@ class ApptitudeTypeRequest extends Request
     public function messages() {
         return [
             'apt_name.required' => trans('validation.namerequiredfield'),
+            'apt_slug.required' => trans('validation.slugisrequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }

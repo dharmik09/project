@@ -86,4 +86,10 @@ class Personality extends Model
         }
     }
 
+    public function getPersonalityDetailBySlug($slug)
+    {
+        $personality = Personality::where('deleted', Config::get('constant.ACTIVE_FLAG'))->where('pt_slug', $slug)->first();
+        return $personality;
+    }
+
 }

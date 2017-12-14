@@ -27,14 +27,16 @@ class PersonalityTypeRequest extends Request
         if($this->get('id') == 0)
         {
             return [
-                'pt_name'         => 'required',
+                'pt_name' => 'required',
+                'pt_slug' => 'required',
                 'deleted' => 'required',
             ];
         }
         else
         {
             return [
-                'pt_name'         => 'required',
+                'pt_name' => 'required',
+                'pt_slug' => 'required',
                 'deleted' => 'required',
             ];
         }
@@ -43,6 +45,7 @@ class PersonalityTypeRequest extends Request
     public function messages() {
         return [
             'pt_name.required' => trans('validation.namerequiredfield'),
+            'pt_slug.required' => trans('validation.slugisrequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }

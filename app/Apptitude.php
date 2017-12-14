@@ -86,4 +86,10 @@ class Apptitude extends Model
         }
     }
 
+    public function getApptitudeDetailBySlug($slug)
+    {
+        $apptitude = Apptitude::where('deleted', Config::get('constant.ACTIVE_FLAG'))->where('apt_slug', $slug)->first();
+        return $apptitude;
+    }
+
 }

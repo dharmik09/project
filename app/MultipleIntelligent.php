@@ -89,7 +89,7 @@ class MultipleIntelligent extends Model
 
     public function getMultipleIntelligenceDetailBySlug($slug)
     {
-        $mi = MultipleIntelligent::where('deleted', Config::get('constant.ACTIVE_FLAG'))->where('mi_slug',$slug)->first();
+        $mi = MultipleIntelligent::where('deleted', Config::get('constant.ACTIVE_FLAG'))->where('mi_slug', $slug)->first();
         return $mi;
     }
 }

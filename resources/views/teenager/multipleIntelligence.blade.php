@@ -11,22 +11,22 @@
             <div class="container">
                 <?php
                     $videoId = '';
-                    $videoCode = Helpers::youtube_id_from_url($multipleIntelligence->mi_video);
+                    $videoCode = Helpers::youtube_id_from_url($multipleIntelligence->video);
                     if ($videoCode != '') {
-                        if(strlen($multipleIntelligence->mi_video) > 50) {
-                            preg_match('/=(.*?)\&/s', $multipleIntelligence->mi_video, $output);
+                        if(strlen($multipleIntelligence->video) > 50) {
+                            preg_match('/=(.*?)\&/s', $multipleIntelligence->video, $output);
                             $videoId = $output[1];
                         } else {
-                            if (strpos($multipleIntelligence->mi_video, '=') !== false) {
-                                $output = explode('=', $multipleIntelligence->mi_video);
+                            if (strpos($multipleIntelligence->video, '=') !== false) {
+                                $output = explode('=', $multipleIntelligence->video);
                                 $videoId = $output[1];
                             } else {
-                                $videoId = substr($multipleIntelligence->mi_video, strrpos($multipleIntelligence->mi_video, '/') + 1);
+                                $videoId = substr($multipleIntelligence->video, strrpos($multipleIntelligence->video, '/') + 1);
                             }
                         }
                     }
                 ?>
-                <div class="sec-banner banner-landing" style="background-image: url('{{ Storage::url($miThumbImageUploadPath . $multipleIntelligence->mit_logo) }}');">
+                <div class="sec-banner banner-landing" style="background-image: url('{{ Storage::url($miThumbImageUploadPath . $multipleIntelligence->logo) }}');">
                     <div class="container">
                         <div class="play-icon">
                             <a href="javascript:void(0);" class="play-btn" id="iframe-video">
@@ -42,7 +42,7 @@
         <div class="container">
             <section class="introduction-text">
                 <div class="heading-sec clearfix">
-                    <h1>{{ $multipleIntelligence->mit_name }}</h1>
+                    <h1>{{ $multipleIntelligence->title }}</h1>
                     <div class="sec-popup">
                         <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                         <div class="hide" id="pop1">
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <p>{{ $multipleIntelligence->mi_information }}</p>
+                <p>{{ $multipleIntelligence->description }}</p>
             </section>
         </div>
         <!--introduction text end-->

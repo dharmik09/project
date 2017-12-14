@@ -54,6 +54,7 @@ class ApptitudeTypeManagementController extends Controller
         
         $apptitudeDetail['id'] = e(Input::get('id'));
         $apptitudeDetail['apt_name'] = e(Input::get('apt_name'));
+        $apptitudeDetail['apt_slug'] = e(Input::get('apt_slug'));
         $apptitudeDetail['apt_video'] = e(Input::get('ap_video'));
         $apptitudeDetail['ap_information'] = e(Input::get('apt_information'));
         $hiddenLogo  = e(input::get('hidden_logo'));

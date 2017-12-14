@@ -81,3 +81,9 @@ ALTER TABLE `pro_it_interest_types` ADD `it_description` TEXT NOT NULL AFTER `it
 //Add new field to interest type table ## 13-12-2017
 ALTER TABLE `pro_it_interest_types` ADD `it_video` VARCHAR(255) NOT NULL AFTER `it_description`;
 
+//Add new field to personality types table ## 14-12-2017
+ALTER TABLE `pro_pt_personality_types` ADD `pt_slug` VARCHAR(255) NOT NULL AFTER `pt_name`;
+
+//Add new field to apptitude types table ## 14-12-2017
+ALTER TABLE `pro_apt_apptitude_types` ADD `apt_slug` VARCHAR(255) NOT NULL AFTER `apt_name`;
+

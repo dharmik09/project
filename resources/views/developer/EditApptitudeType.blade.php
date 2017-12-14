@@ -49,7 +49,21 @@
                     <div class="form-group">
                         <label for="apt_name" class="col-sm-2 control-label">{{trans('labels.formlblname')}}</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id=apt_name"" name="apt_name" placeholder="{{trans('labels.formlblname')}}" value="{{$apt_name}}" minlength="3" maxlength="50"/>
+                            <input type="text" class="form-control" id="apt_name" name="apt_name" placeholder="{{trans('labels.formlblname')}}" value="{{$apt_name}}" minlength="3" maxlength="50"/>
+                        </div>
+                    </div>
+                    <?php
+                    if (old('apt_slug'))
+                        $apt_slug = old('apt_slug');
+                    elseif ($apptitudeDetail)
+                        $apt_slug = $apptitudeDetail->apt_slug;
+                    else
+                        $apt_slug = '';
+                    ?>
+                    <div class="form-group">
+                        <label for="apt_slug" class="col-sm-2 control-label">{{trans('labels.formlblslug')}}</label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly="true" class="form-control" id="apt_slug" name="apt_slug" placeholder="{{trans('labels.formlblslug')}}" value="{{$apt_slug}}" minlength="6" maxlength="50">
                         </div>
                     </div>
                     <div class="form-group">
@@ -135,6 +149,9 @@
                 apt_name : {
                     required : true
                 },
+                apt_slug : {
+                    required : true
+                },
                 deleted : {
                     required : true
                 }
@@ -144,6 +161,9 @@
             rules : validationRules,
             messages : {
                 apt_name : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                apt_slug : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {
@@ -173,5 +193,17 @@
         }              
     }
 </script>
+<?php if (empty($apptitudeDetail->apt_slug)){ ?>
+    <script>
+    $('#apt_name').keyup(function ()
+    {
+        var str = $(this).val();
+        str = str.replace(/[^a-zA-Z0-9\s]/g, "");
+        str = str.toLowerCase();
+        str = str.replace(/\s/g, '-');
+        $('#apt_slug').val(str);
+    });
+    </script>
+<?php } ?>
 @stop
 

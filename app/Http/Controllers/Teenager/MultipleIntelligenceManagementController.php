@@ -13,6 +13,8 @@ use Session;
 use Redirect;
 use Response;
 use App\MultipleIntelligent;
+use App\Apptitude;
+use App\Personality;
 
 class MultipleIntelligenceManagementController extends Controller
 {
@@ -23,15 +25,56 @@ class MultipleIntelligenceManagementController extends Controller
      */
     public function __construct()
     {
-        $this->objMultipleIntelligent = new MultipleIntelligent;
-        $this->miOriginalImageUploadPath = Config::get('constant.MI_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->objMultipleIntelligent = new MultipleIntelligent();
+        $this->objApptitude = new Apptitude();
+        $this->objPersonality = new Personality();
         $this->miThumbImageUploadPath = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
+        $this->apptitudeThumbImageUploadPath = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
+        $this->personalityThumbImageUploadPath = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
     }
 
-    public function index($slug) 
+    public function index($type, $slug) 
     {
-        $miThumbImageUploadPath = $this->miThumbImageUploadPath;
-        $multipleIntelligence = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($slug);
+        if (!empty($type) || !empty($slug)) {
+            $multipleIntelligence = new \stdClass();
+            switch($type) {
+                case Config::get('constant.MULTI_INTELLIGENCE_TYPE'):
+                    $mi = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($slug);
+                    $multipleIntelligence->title = $mi->mit_name;
+                    $multipleIntelligence->slug = $mi->mi_slug;
+                    $multipleIntelligence->logo = $mi->mit_logo;
+                    $multipleIntelligence->video = $mi->mi_video;
+                    $multipleIntelligence->description = $mi->mi_information;
+                    $miThumbImageUploadPath = $this->miThumbImageUploadPath;
+                    break;
+
+                case Config::get('constant.APPTITUDE_TYPE'):
+                    $apptitude = $this->objApptitude->getApptitudeDetailBySlug($slug);
+                    $multipleIntelligence->title = $apptitude->apt_name;
+                    $multipleIntelligence->slug = $apptitude->apt_slug;
+                    $multipleIntelligence->logo = $apptitude->apt_logo;
+                    $multipleIntelligence->video = $apptitude->apt_video;
+                    $multipleIntelligence->description = $apptitude->ap_information;
+                    $miThumbImageUploadPath = $this->apptitudeThumbImageUploadPath;
+                    break;
+
+                case Config::get('constant.PERSONALITY_TYPE'):
+                    $personality =$this->objPersonality->getPersonalityDetailBySlug($slug);
+                    $multipleIntelligence->title = $personality->pt_name;
+                    $multipleIntelligence->slug = $personality->pt_slug;
+                    $multipleIntelligence->logo = $personality->pt_logo;
+                    $multipleIntelligence->video = $personality->pt_video;
+                    $multipleIntelligence->description = $personality->pt_information;
+                    $miThumbImageUploadPath = $this->personalityThumbImageUploadPath;
+                    break;
+
+                default:
+                    return redirect::back()->with('error', trans('labels.commonerrormessage'));
+            };
+        } else {
+            return redirect::back()->with('error', trans('labels.commonerrormessage'));
+        }
+        
         return view('teenager.multipleIntelligence', compact('multipleIntelligence', 'miThumbImageUploadPath'));
     }
 

@@ -104,8 +104,8 @@ return [
     'RELATION_THUMB_IMAGE_WIDTH' => '300',
     'APPTITUDE_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/apptitude/original/',
     'APPTITUDE_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/apptitude/thumb/',
-    'APPTITUDE_THUMB_IMAGE_HEIGHT' => '128',
-    'APPTITUDE_THUMB_IMAGE_WIDTH' => '128',
+    'APPTITUDE_THUMB_IMAGE_HEIGHT' => '1200',
+    'APPTITUDE_THUMB_IMAGE_WIDTH' => '686',
     'MI_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/multipleIntelligence/original/',
     'MI_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/multipleIntelligence/thumb/',
     'MI_THUMB_IMAGE_HEIGHT' => '1200',
@@ -116,8 +116,8 @@ return [
     'INTEREST_THUMB_IMAGE_WIDTH' => '686',
     'PERSONALITY_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/personality/original/',
     'PERSONALITY_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/personality/thumb/',
-    'PERSONALITY_THUMB_IMAGE_HEIGHT' => '300',
-    'PERSONALITY_THUMB_IMAGE_WIDTH' => '300',
+    'PERSONALITY_THUMB_IMAGE_HEIGHT' => '1200',
+    'PERSONALITY_THUMB_IMAGE_WIDTH' => '686',
     'LEVEL1_QUESTION_OPTION_IMAGE_PATH' => 'frontend/images/',
     'LEVEL3_PROFESSION_POINTS' => 50,
     'LEVEL3_BASKET_VIDEO_POINTS' => 25,
@@ -274,7 +274,11 @@ return [
     'PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH' => "uploads/professionSubject/original/",
     'PROFESSION_SUBJECT_THUMB_IMAGE_UPLOAD_PATH' => "uploads/professionSubject/thumb/",
     'PROFESSION_SUBJECT_THUMB_IMAGE_HEIGHT' => '300',
-    'PROFESSION_SUBJECT_THUMB_IMAGE_WIDTH' => '300'
+    'PROFESSION_SUBJECT_THUMB_IMAGE_WIDTH' => '300',
+    'MULTI_INTELLIGENCE_TYPE' => 'mi',
+    'APPTITUDE_TYPE' => 'apptitude',
+    'PERSONALITY_TYPE' => 'personality',
+
 
 
 ];

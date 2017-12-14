@@ -48,10 +48,23 @@
                         <div class="form-group">
                             <label for="pt_name" class="col-sm-2 control-label">{{trans('labels.formlblname')}}</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id=pt_name"" name="pt_name" placeholder="{{trans('labels.formlblname')}}" value="{{$pt_name}}" minlength="3" maxlength="50"/>
+                                <input type="text" class="form-control" id="pt_name" name="pt_name" placeholder="{{trans('labels.formlblname')}}" value="{{$pt_name}}" minlength="3" maxlength="50"/>
                             </div>
                         </div>
-
+                        <?php
+                        if (old('pt_slug'))
+                            $pt_slug = old('pt_slug');
+                        elseif ($personalityDetail)
+                            $pt_slug = $personalityDetail->pt_slug;
+                        else
+                            $pt_slug = '';
+                        ?>
+                        <div class="form-group">
+                            <label for="pt_slug" class="col-sm-2 control-label">{{trans('labels.formlblslug')}}</label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly="true" class="form-control" id="pt_slug" name="pt_slug" placeholder="{{trans('labels.formlblslug')}}" value="{{$pt_slug}}" minlength="6" maxlength="50">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="l1ac_points" class="col-sm-2 control-label">{{trans('labels.personalityblheadlogo')}}</label>
                             <div class="col-sm-6">
@@ -136,6 +149,9 @@
             pt_name: {
                 required: true
             },
+            pt_slug: {
+                required: true
+            },
             deleted: {
                 required: true
             }
@@ -145,6 +161,9 @@
             rules: validationRules,
             messages: {
                 pt_name: {
+                    required: "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                pt_slug: {
                     required: "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted: {
@@ -174,5 +193,17 @@
         }
     }
 </script>
+<?php if (empty($personalityDetail->pt_slug)){ ?>
+    <script>
+    $('#pt_name').keyup(function ()
+    {
+        var str = $(this).val();
+        str = str.replace(/[^a-zA-Z0-9\s]/g, "");
+        str = str.toLowerCase();
+        str = str.replace(/\s/g, '-');
+        $('#pt_slug').val(str);
+    });
+    </script>
+<?php } ?>
 @stop
 

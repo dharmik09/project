@@ -12,7 +12,7 @@ Route::get('/gift-coupons', function() {
 });
 Route::get('/interest/{slug}', 'Teenager\InterestManagementController@index');
 	//return view('teenager.interest');
-Route::get('/multi-intelligence/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
+Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
 Route::get('/gift-procoins', function() {
 	return view('teenager.proCoinsGift');
 });

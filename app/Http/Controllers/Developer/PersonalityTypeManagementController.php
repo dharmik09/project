@@ -52,6 +52,7 @@ class PersonalityTypeManagementController extends Controller
 
         $personalityDetail['id'] = e(Input::get('id'));
         $personalityDetail['pt_name'] = e(Input::get('pt_name'));
+        $personalityDetail['pt_slug'] = e(Input::get('pt_slug'));
         $personalityDetail['pt_video'] = e(Input::get('pt_video'));
         $personalityDetail['pt_information'] = e(Input::get('pit_information'));
         $hiddenLogo = e(input::get('hidden_logo'));
