@@ -82,7 +82,7 @@
                         <li><a href="{{ url('/teenager/my-profile') }}" title="Profile" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/my-profile', 'teenager/edit-profile']) ? 'active' : ''}}">Profile</a></li>
                         <li><a href="{{ url('/teenager/home') }}" title="Coupons" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/careers']) ? 'active' : ''}}">Coupons</a></li>
                         <li><a href="{{ url('/teenager/chat') }}" title="Chat" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/chat']) ? 'active' : ''}}">Chat</a></li>
-                        <li><a href="{{ url('/teenager/home') }}" title="Help" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/careers']) ? 'active' : ''}}">Help</a></li>
+                        <li><a href="{{ url('/teenager/help') }}" title="Help" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/help']) ? 'active' : ''}}">Help</a></li>
                         
                     </ul>
                     <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">

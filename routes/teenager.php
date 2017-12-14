@@ -28,3 +28,6 @@ Route::get('/seo-mi', function() {
 Route::get('/seo-teaser', function() {
 	return view('teenager.seoTeaser');
 });
+
+//Help
+Route::get('help', 'Teenager\HomeController@help');	
