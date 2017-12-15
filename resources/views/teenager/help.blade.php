@@ -27,6 +27,10 @@
                             <div class="panel-collapse collapse" id="accordion{{$help->id}}">
                                 <div class="panel-body">
                                     <p><span>Answer:</span> {!! $help->f_que_answer !!}</p>
+                                    <?php
+                                        $faqImage = (isset($help->f_photo) && $help->f_photo != '') ? Storage::url($faqThumbImageUploadPath . $help->f_photo) : Storage::url($faqThumbImageUploadPath . 'proteen-logo.png'); 
+                                    ?>
+                                    <p><img src="{{ $faqImage }}" /></p>
                                 </div>
                             </div>
                         </div>

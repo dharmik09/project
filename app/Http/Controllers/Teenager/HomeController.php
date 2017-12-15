@@ -10,6 +10,7 @@ use App\Video;
 use App\CMS;
 use App\Testimonial;
 use App\FAQ;
+use Config;
 
 class HomeController extends Controller
 {
@@ -31,6 +32,7 @@ class HomeController extends Controller
         $this->cmsObj = new CMS;
         $this->objTestimonial = new Testimonial;
         $this->objFAQ = new FAQ;
+        $this->faqThumbImageUploadPath = Config::get('constant.FAQ_THUMB_IMAGE_UPLOAD_PATH');
     }
 
     /**
@@ -64,7 +66,8 @@ class HomeController extends Controller
     public function help()
     {
         $helps = $this->objFAQ->getAllFAQ();
-        return view('teenager.help', compact('helps'));
+        $faqThumbImageUploadPath = $this->faqThumbImageUploadPath;
+        return view('teenager.help', compact('helps', 'faqThumbImageUploadPath'));
     }
    
 }

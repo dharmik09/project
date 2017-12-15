@@ -21,7 +21,7 @@ class TeenagerCoinsGift extends Model {
         }*/
         return $return;
     }
-    public function getTeenagerCoinsGiftDetail($id,$type) {
+    public function getTeenagerCoinsGiftDetail($id, $type) {
         $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
                 ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
                 ->selectRaw('g_coins.* , teen.t_name, teen.t_email')
