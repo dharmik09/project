@@ -5,6 +5,8 @@ Route::get('/dashboard', 'Teenager\DashboardController@dashboard');
 Route::get('/edit-profile', 'Teenager\DashboardController@profile');
 Route::get('/my-profile', 'Teenager\DashboardController@profile');
 Route::post('/save-profile', 'Teenager\DashboardController@saveProfile')->name('save-profile');
+Route::post('/save-teenager-academic-info', 'Teenager\DashboardController@saveTeenagerAcademic');
+Route::post('/save-teenager-achievement-info', 'Teenager\DashboardController@saveTeenagerAchievement');
 Route::get('/chat', 'Teenager\DashboardController@chat');
 //Route::post('/save-pair', 'Teenager\DashboardController@savePair')->name('save-pair');
 Route::get('/gift-coupons', function() {

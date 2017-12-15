@@ -7,7 +7,7 @@
 @section('content')
     <!--mid section-->
     <!-- profile section-->
-    <section class="sec-profile">
+    <section class="sec-profile sponsor-overflow">
         <div class="container">
             <div class="col-xs-12">
                 @if ($message = Session::get('success'))
@@ -147,7 +147,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <span class="password-info">Type to change your current password</span>
+                                    <span class="password-info">Type password to change your current password</span>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16">
                                 </div>
                             </div>
@@ -333,6 +333,18 @@
                     @empty
                         No parents or mentors found.
                     @endforelse
+                    <li class="col-sm-3 col-xs-6">
+                        <figure>
+                            <div class="mentor-img" style="background-image: url({{ Storage::url('uploads/parent/thumb/parent_1510156890.jpg') }})"></div>
+                            <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
+                        </figure>
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
+                        <figure>
+                            <div class="mentor-img" style="background-image: url({{ Storage::url('uploads//parent/thumb/parent_1510156890.jpg') }})"></div>
+                            <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
+                        </figure>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -413,12 +425,7 @@
     <section class="sec-progress">
         <div class="container">
             <h2>My Progress</h2>
-            <div class="bg-white my-progress">
-                <!--<ul class="nav nav-tabs progress-tab">
-                    <li class="acheivement active"><a data-toggle="tab" href="#menu1">Achievements <span class="count">(10)</span></a></li>
-                    <li class="career"><a data-toggle="tab" href="#menu2">My Careers <span class="count">(18)</span></a></li>
-                    <li class="connection"><a data-toggle="tab" href="#menu3">My Connections <span class="count">(56)</span></a></li>
-                </ul>-->
+            <div class="bg-white my-progress profile-tab">
                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
                     <li class="active custom-tab col-xs-4 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Achievements <span class="count">(10)</span></span></span></a></li>
                     <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">(18)</span></span></span></a></li>
@@ -623,28 +630,60 @@
             <p class="text-center"><a href="#" title="learn more" class="btn btn-primary">learn more</a></p>
         </div>
     </section>
-    <!--sec learning guidance end-->
-    <!--achievement record-->
-    <section class="achievement-record sec-record">
-        <div class="container">
-            <h2>Achievement Record</h2>
-            <p><a href="#" title="Edit Detail">Edit Detail</a></p>
+    <div class="sec-record">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed achievement">Achievement Record<span>Edit</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="accordion1">
+                    <div class="panel-body">
+                        <div class="list clearfix">
+                            <form id="teenager_achievement" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-teenager-achievement-info') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            {{ csrf_field() }}
+                                <div class="col-sm-12">
+                                    <textarea name="meta_value" id="achievement">{{ isset($teenagerMeta['achievement'][0]['meta_value']) ? $teenagerMeta['achievement'][0]['meta_value'] : "" }}</textarea>
+                                    <span class="achievement_error"></span>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed academic">Academic Record<span>Edit</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="accordion2">
+                    <div class="panel-body">
+                        <div class="list clearfix">
+                            <form id="teenager_academic" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-teenager-academic-info') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            {{ csrf_field() }}
+                                <div class="col-sm-12">
+                                    <textarea name="meta_value" id="academic">{{ isset($teenagerMeta['education'][0]['meta_value']) ? $teenagerMeta['education'][0]['meta_value'] : "" }}</textarea>
+                                    <span class="academic_error"></span>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
-    <!--achievement record end-->
-    <!--academic record-->
-    <section class="academic-record sec-record">
-        <div class="container">
-            <h2>Academic Record</h2>
-            <p><a href="#" title="Edit Detail">Edit Detail</a></p>
-        </div>
-    </section>
-    <!--academic record end-->
-    <!--mid section end-->
-    
+    </div>
 @stop
 
 @section('script')
+<script src="//cdn.ckeditor.com/4.5.8/standard/ckeditor.js"></script>
 <script>
     $(document).ready(function() {
         $('.mentor-list ul').owlCarousel({
@@ -808,6 +847,27 @@
                 }
             }
         });
+
+        CKEDITOR.replace('achievement');
+        CKEDITOR.replace('academic');
+    });
+    $("#teenager_achievement").submit(function(event){
+        var myContent = CKEDITOR.instances.achievement.getData();
+        if(myContent == "")
+        {
+            $(".achievement_error").text("Please add achievement!").show().fadeOut(5000);
+            return false;
+        }
+        return true;
+    });
+    $("#teenager_academic").submit(function(event){
+        var myContent = CKEDITOR.instances.academic.getData();
+        if(myContent == "")
+        {
+            $(".academic_error").text("Please add academic detail!").show().fadeOut(5000);
+            return false;
+        }
+        return true;
     });
 </script>
 @stop
