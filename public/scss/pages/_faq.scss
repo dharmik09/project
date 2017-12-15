@@ -7,10 +7,10 @@
         &:before {
             position: absolute;
             content: "\e903";
-            bottom: -55px;
-            right: -108px;
+            bottom: -73px;
+            right: -105px;
             font-family: 'proteen' !important;
-            font-size: 58px;
+            font-size: 95px;
             color: $cl-complete;
             transform: rotate(24deg);
             @include maxmd {
@@ -93,6 +93,7 @@
             p {
                 font-family: hn-b;
                 font-size: 16px;
+                color: $r-cl;
                 @include maxms{
                     font-size: 14px;
                 }
@@ -110,4 +111,7 @@
 
 .faq-accordian .panel-title a:before {
     transform: rotate(-90deg) !important;
+}
+.popover{
+    font-family: hl;
 }

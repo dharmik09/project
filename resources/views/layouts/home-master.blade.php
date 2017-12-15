@@ -35,7 +35,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="main-menu">
+            <div class="main-menu bg-light">
                 <div class="menu-container">
                     <ul>
                         <li><a href="{{ url('/teenager') }}" title="Teen" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager', 'teenager/login', 'teenager/signup']) ? 'active' : ''}}">Teen</a></li>

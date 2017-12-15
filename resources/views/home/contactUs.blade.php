@@ -26,9 +26,10 @@
                         <div class="col-sm-6 col-xs-12">
                             <h3>Mumbai Office</h3>
                             <p>UniDEL Ventures Pvt. Ltd.<br> 86 Jolly Maker 2,<br> 225 Nariman Point,<br> Mumbai – 400 021, India</p>
-                            <p class="phone"><span>Phone : </span><a href="tel:912222873545" title="Call Us">+91 (22) 2287 3545</a>, <a href="tel:912222043855" title="Call Us">+91 (22) 2204 3855</a></p>
-                            <p><span>Fax : </span>+91 (22) 2288 4424</p>
-                            <p class="mail"><span>Mail : </span><a href="mailto:info@proteenlife.com" title="Mail Us">info@proteenlife.com</a></p>
+                            <p class="mail">
+                                <img src="{{ Storage::url('img/mail.png') }}" alt="Contact email :">
+                                <a href="mailto:info@proteenlife.com" title="Mail Us">info@proteenlife.com</a>
+                            </p>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <h3>Singapore Office</h3>

@@ -49,6 +49,9 @@
         }
         &.active {
             z-index: 99;
+            span{
+                color: $r-cl;
+            }
             &.tab-color-1 a {
                 color: $cl-complete;
             }
@@ -188,3 +191,4 @@
 .custom-tab:nth-child(6) {
     z-index: 1;
 }
+.tab-complete{font-family: hl;float: right;}

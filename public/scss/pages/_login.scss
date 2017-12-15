@@ -41,11 +41,14 @@ h1 {
     @include maxsm {
         padding: 35px 0;
     }
+    h1 {
+        font-family: am;
+    }
     p {
         font-size: 16px;
-        font-family: h;
+        font-family: hl;
         text-align: center;
-        color: $lightgrey;
+        color: rgba(74, 74, 74, 0.7);
     }
     .login-form {
         max-width: 385px;
@@ -53,8 +56,12 @@ h1 {
         .icon {
             font-size: 130px;
             color: $p-cl;
-            transform: rotate(90deg);
+            transform: rotate(-90deg);
             display: inline-block;
+            i {
+                display: block;
+                transform: scaleX(-1);
+            }
         }
         .form-sec {
             text-align: left;
@@ -101,9 +108,10 @@ h1 {
                 }
                 li {
                     display: inline-block;
-                    width: 49.5%; // margin-left: -4px;
+                    width: 50%; // margin-left: -4px
+                    float: left;
                     @include maxms {
-                        width: 49%;
+                        // width: 49%;
                     }
                     &:last-child {
                         a {
@@ -163,6 +171,7 @@ h1 {
                 color: $lightgrey;
                 text-align: center;
                 margin-bottom: 5px;
+                font-family: h;
                 a {
                     color: $lightgrey;
                     &:hover {

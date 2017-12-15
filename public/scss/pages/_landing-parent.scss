@@ -19,12 +19,20 @@
     }
     .mentor-heading,.school-heading {
         .hand-img {
-            left: 54%;
+            left: 58%;
         }
     }
     .enterprise-heading{
         .hand-img{
             left: 75%;
+            @include maxmd{
+                left: 80%;
+                top: -11%;
+            }
+            @include maxsm{
+                left: 75%;
+                top: -40%;
+            }
         }
     }
 }

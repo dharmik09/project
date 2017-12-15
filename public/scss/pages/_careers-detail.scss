@@ -64,10 +64,10 @@
         &.color-1 {
             background: $cl-complete
         }
-        &.color-2 {
+        &.color-3 {
             background: $h-cl;
         }
-        &.color-3 {
+        &.color-2 {
             background: $cl-procedural;
         }
         &.color-4 {
@@ -208,6 +208,25 @@
                     color: $r-cl !important;
                 }
             }
+            &.tab-color-1 a,
+            &.tab-color-1 a > span,
+            &.tab-color-1 a:before,
+            &.tab-color-1 a:after {
+                background-color: $cl-procedural !important;
+            }
+
+            &.tab-color-2 a,
+            &.tab-color-2 a > span,
+            &.tab-color-2 a:before,
+            &.tab-color-2 a:after {
+                background-color: $cl-complete !important;
+            }
+        }
+        .active.custom-tab a,
+        .active.custom-tab a > span,
+        .active.custom-tab a:before,
+        .active.custom-tab a:after {
+            background-color: $white !important;
         }
     }
     .tab-content {
@@ -1094,13 +1113,25 @@
             padding: 20px;
         }
     }
+    p {
+        .load-more {
+            font-family: hn-b;
+            font-size: 18px;
+            text-transform: uppercase;
+            color: #73376d;
+            text-decoration: underline;
+            &:hover {
+                color: $p-cl;
+            }
+        }
+    }
 }
 
 .ad-sec-h {
     height: 90px;
-    width: 100%;
+    width: 99.5%;
     background: $white;
-    margin-bottom: 50px;
+    margin: 5px 0 50px;
     @include maxsm {
         margin-bottom: 40px;
     }
@@ -1195,6 +1226,7 @@
 
 .advanced-sec {
     margin-top: 4px;
+    margin-bottom: 20px;
     .panel-heading {
         background: $r-cl;
         padding: 0;
@@ -1337,17 +1369,21 @@
     left: 0;
     height: 100%;
     width: 100%;
-   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,eeeeef+13,eeeeef+88,ffffff+88&0+0,0.8+13,0.92+89 */
-background: -moz-linear-gradient(top, rgba(238,238,239,0) 0%, rgba(238,238,239,0.8) 13%, rgba(238,238,239,0.92) 88%, rgba(238,238,239,0.92) 89%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, rgba(238,238,239,0) 0%,rgba(238,238,239,0.8) 13%,rgba(238,238,239,0.92) 88%,rgba(238,238,239,0.92) 89%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, rgba(238,238,239,0) 0%,rgba(238,238,239,0.8) 13%,rgba(238,238,239,0.92) 88%,rgba(238,238,239,0.92) 89%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ebffffff',GradientType=0 ); /* IE6-9 */
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,eeeeef+13,eeeeef+88,ffffff+88&0+0,0.8+13,0.92+89 */
+    background: -moz-linear-gradient(top, rgba(238, 238, 239, 0) 0%, rgba(238, 238, 239, 0.8) 13%, rgba(238, 238, 239, 0.92) 88%, rgba(238, 238, 239, 0.92) 89%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(238, 238, 239, 0) 0%, rgba(238, 238, 239, 0.8) 13%, rgba(238, 238, 239, 0.92) 88%, rgba(238, 238, 239, 0.92) 89%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(238, 238, 239, 0) 0%, rgba(238, 238, 239, 0.8) 13%, rgba(238, 238, 239, 0.92) 88%, rgba(238, 238, 239, 0.92) 89%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ebffffff', GradientType=0);
+    /* IE6-9 */
     p {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
         top: 20%;
-        @include maxmd{
+        @include maxmd {
             top: 11%;
         }
         .btn-border {
@@ -1360,7 +1396,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
             padding: 10px 83px;
             text-transform: uppercase;
             line-height: 1.35;
-            @include maxsm{
+            @include maxsm {
                 padding: 8px 53px;
                 font-size: 15px;
             }
@@ -1371,3 +1407,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
         }
     }
 }
+
+.color-swap {
+    .tab-color-1 a,
+    .tab-color-1 a > span,
+    .tab-color-1 a:before,
+    .tab-color-1 a:after {
+        background-color: $h-cl !important;
+    }
+    .active.custom-tab a,
+    .active.custom-tab a > span,
+    .active.custom-tab a:before,
+    .active.custom-tab a:after {
+        background-color: $white !important;
+    }
+}
+#menu4 .team-point i{color: $h-cl !important;}
+#menu4 .load-more{color: $h-cl !important;}

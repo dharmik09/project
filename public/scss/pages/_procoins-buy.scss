@@ -141,7 +141,7 @@
         }
     }
     p {
-        font-family: h;
+        font-family: hl;
         font-size: 19px;
         color: $r-cl;
         max-width: 50%;
@@ -308,6 +308,7 @@
                     font-size: 16px;
                     color: $r-cl;
                     max-width: 75%;
+                    font-family: h;
                     @include maxlg {
                         max-width: 100%;
                     }

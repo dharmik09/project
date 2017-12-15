@@ -27,14 +27,14 @@
     font-style: normal;
 }
 
-@font-face {
+/*@font-face {
   // font-family: 'NexaBold';
   font-family: 'nb';
   src: url('../fonts/NexaBold.eot');
   src: url('../fonts/NexaBold.woff2') format('woff2'),url('../fonts/NexaBold.woff') format('woff'),url('../fonts/NexaBold.ttf') format('truetype'),url('../fonts/NexaBold.svg#NexaBold') format('svg'),url('../fonts/NexaBold.eot?#iefix') format('embedded-opentype');
  // font-weight: 400;
   font-style: normal;
-}
+}*/
 
 @font-face {
   // font-family: 'HelveticaNeue-Thin';
@@ -44,16 +44,6 @@
   font-weight: 200;
   font-style: normal;
 }
-
-@font-face {
-  // font-family: 'HelveticaNeue-bold';
-  font-family: 'hnb';
-  src: url('../fonts/HelveticaNeue-Thin.eot');
-  src: url('../fonts/HelveticaNeue-Thin.woff2') format('woff2'),url('../fonts/HelveticaNeue-Thin.woff') format('woff'),url('../fonts/HelveticaNeue-Thin.ttf') format('truetype'),url('../fonts/HelveticaNeue-Thin.svg#HelveticaNeue-Thin') format('svg'),url('../fonts/HelveticaNeue-Thin.eot?#iefix') format('embedded-opentype');
-  font-weight: 200;
-  font-style: normal;
-}
-
 
 @font-face {
   // font-family: 'Helvetica';
@@ -82,7 +72,7 @@
   font-style: normal;
 }
 @font-face {
-    //font-family: 'Helvetica Neue LT Pro';
+    //font-family: 'Helvetica Neue LT Pro bold';
     font-family: 'hn-b';
     src: url('../fonts/HelveticaNeueLTPro-Bd.eot');
     src: url('../fonts/HelveticaNeueLTPro-Bd.eot?#iefix') format('embedded-opentype'),
@@ -91,10 +81,3 @@
     font-weight: bold;
     font-style: normal;
 }
-
-
-
-
-
-
-// Helvetica neu bold needs to be updated this is just for temp placeholder
