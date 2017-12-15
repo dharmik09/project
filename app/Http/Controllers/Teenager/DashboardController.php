@@ -60,7 +60,6 @@ class DashboardController extends Controller
         $teenagerAptitude = isset($teenagerAPIData['APIscale']['aptitude']) ? $teenagerAPIData['APIscale']['aptitude'] : [];
         $teenagerPersonality = isset($teenagerAPIData['APIscale']['personality']) ? $teenagerAPIData['APIscale']['personality'] : [];
         $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
-        //echo "<pre/>"; print_r($teenagerStrength); die();
         return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest'));
     }
 
@@ -78,7 +77,8 @@ class DashboardController extends Controller
         foreach($teenagerSponsors as $teenagerSponsor) {
             $teenSponsorIds[] = $teenagerSponsor->ts_sponsor;
         }
-        return view('teenager.profile', compact('data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents'));   
+        $teenagerMeta = Helpers::getTeenagerMetaData(Auth::guard('teenager')->user()->id);
+        return view('teenager.profile', compact('data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta'));   
     }
 
     public function chat()
@@ -165,6 +165,38 @@ class DashboardController extends Controller
             }
             exit;
         }
+    }
+
+    //Update meta information for teenager
+    public function saveTeenagerAchievement(Request $request) {
+        $data = [];
+        $data['tmd_teenager'] = Auth::guard('teenager')->user()->id;
+        $data['tmd_meta_value'] = $request->meta_value;
+        $data['tmd_meta_id'] = 1; //"1" is default us for achievement meta data, "2" is default for education data
+        
+        $teenagerMeta = Helpers::getTeenagerMetaData($data['tmd_teenager'], $data['tmd_meta_id']);
+        $data['id'] = (isset($teenagerMeta['achievement'][0]['meta_value_id'])) ? $teenagerMeta['achievement'][0]['meta_value_id'] : 0; 
+        
+        //Saving the record 
+        $teenagerMeta = $this->teenagersRepository->saveTeenagerMetaData($data);
+        
+        return Redirect::to("teenager/my-profile")->with('success', 'Achievement updated successfully.');
+    }
+
+    //Update meta information for teenager
+    public function saveTeenagerAcademic(Request $request) {
+        $data = [];
+        $data['tmd_teenager'] = Auth::guard('teenager')->user()->id;
+        $data['tmd_meta_value'] = $request->meta_value;
+        $data['tmd_meta_id'] = 2; //"1" is default us for achievement meta data, "2" is default for education data
+        
+        $teenagerMeta = Helpers::getTeenagerMetaData($data['tmd_teenager'], $data['tmd_meta_id']);
+        $data['id'] = (isset($teenagerMeta['education'][0]['meta_value_id'])) ? $teenagerMeta['education'][0]['meta_value_id'] : 0; 
+        
+        //Saving the record 
+        $teenagerMeta = $this->teenagersRepository->saveTeenagerMetaData($data);
+        
+        return Redirect::to("teenager/my-profile")->with('success', 'Academic record updated successfully.');
     }
    
 }

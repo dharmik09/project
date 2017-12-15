@@ -1163,9 +1163,6 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
      */
 
     public function saveTeenagerMetaData($data) {
-        // $metaData = DB::table(config::get('databaseconstants.TBL_TEENAGER_META_DATA'))->insert($data);
-        // return $metaData;
-
         if ($data['id'] != '' && $data['id'] > 0) {
             $metaData = DB::table(config::get('databaseconstants.TBL_TEENAGER_META_DATA'))->where('id', $data['id'])->update($data);
         } else {
