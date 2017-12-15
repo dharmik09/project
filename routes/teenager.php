@@ -30,4 +30,8 @@ Route::get('/seo-teaser', function() {
 });
 
 //Help
-Route::get('help', 'Teenager\HomeController@help');	
+Route::get('help', 'Teenager\HomeController@help');
+
+//ProCoins
+Route::get('/get-gift-coins/', 'Teenager\CoinManagementController@getGiftCoins');
+Route::post('/user-search-for-gifted-coins/', 'Teenager\CoinManagementController@userSearchForGiftCoins');

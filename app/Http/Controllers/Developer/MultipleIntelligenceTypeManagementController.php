@@ -68,7 +68,7 @@ class MultipleIntelligenceTypeManagementController extends Controller
                 $fileName = 'mi_' . time() . '.' . $file->getClientOriginalExtension();
                 $pathOriginal = public_path($this->miOriginalImageUploadPath . $fileName);
                 $pathThumb = public_path($this->miThumbImageUploadPath . $fileName);
-                
+                        
                 Image::make($file->getRealPath())->save($pathOriginal);
                 Image::make($file->getRealPath())->resize($this->miThumbImageWidth, $this->miThumbImageHeight)->save($pathThumb);
                 
