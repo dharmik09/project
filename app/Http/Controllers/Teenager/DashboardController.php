@@ -20,6 +20,9 @@ use App\Country;
 use App\Http\Requests\TeenagerProfileUpdateRequest;
 use App\Teenagers;
 use Carbon\Carbon;
+use App\TeenParentRequest;
+use App\Services\Parents\Contracts\ParentsRepository;
+use Input;
 
 class DashboardController extends Controller
 {
@@ -35,16 +38,18 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function __construct(SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository)
+    public function __construct(SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
         $this->middleware('teenager');
         $this->objCountry = new Country();
+        $this->objTeenParentRequest = new TeenParentRequest;
         $this->templateRepository = $templatesRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
+        $this->parentsRepository = $parentsRepository;
     }
 
     //Dashboard data
@@ -163,6 +168,50 @@ class DashboardController extends Controller
             } else {
                 return Redirect::to("teenager/my-profile")->withErrors(trans('validation.somethingwrong'));
             }
+            exit;
+        }
+    }
+
+    public function requestParentForPurchasedCoins() {
+        $email = Input::get('email');
+        $teenId = Auth::guard('teenager')->user()->id;
+        $parent = $this->parentsRepository->getParentDetailByEmailId($email);
+        if (!empty($parent)) {
+            $checkPairAvailability = $this->parentsRepository->checkPairAvailability($teenId, $parent['id']);
+            if (!empty($checkPairAvailability)) {
+                $saveData = [];
+                $saveData['tpr_teen_id'] = $teenId;
+                $saveData['tpr_parent_id'] = $parent['id'];
+                $saveData['tpr_status'] = 1;
+                $result = $this->objTeenParentRequest->saveTeenParentRequestDetail($saveData);
+
+                $userDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
+                $replaceArray = array();
+                $replaceArray['USER_NAME'] = $parent['p_first_name'];
+
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_COINS_REQUEST_TEMPLATE'));
+                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+
+                $data = array();
+                $data['subject'] = $emailTemplateContent->et_subject;
+                $data['toEmail'] = $parent['p_email'];
+                $data['toName'] = $parent['p_first_name'] ." ". $parent['p_last_name'];
+                $data['content'] = $content;
+
+                Mail::send(['html' => 'emails.Template'], $data , function ($m) use ($data) {
+                    $m->from(Config::get('constant.FROM_MAIL_ID'), 'ProCoins Request By Teenager');
+                    $m->subject($data['subject']);
+                    $m->to($data['toEmail'], $data['toName']);
+                });
+
+              return Redirect::to('/teenager/buy-procoins/')->with('success', trans('appmessages.parentrequestsuccess'));
+              exit;
+            } else {
+                return Redirect::to('/teenager/buy-procoins/')->with('error', trans('appmessages.parentteenvarify'));
+                exit;
+            }
+        } else {
+            return Redirect::to('/teenager/buy-procoins/')->with('error', trans('appmessages.parent_email_invalid'));
             exit;
         }
     }

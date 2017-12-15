@@ -266,7 +266,7 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
     }
 
     public function checkPairAvailability($teenagerId, $parentId) {
-        $checkPairAvailability = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR'))->where('ptp_teenager',$teenagerId)->where('ptp_parent_id', $parentId)->first();
+        $checkPairAvailability = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR'))->where('ptp_teenager', $teenagerId)->where('ptp_parent_id', $parentId)->first();
         return $checkPairAvailability;
     }
 
