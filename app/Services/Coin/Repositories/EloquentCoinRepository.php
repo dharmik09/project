@@ -58,20 +58,20 @@ implements CoinRepository
     public function getAllCoinsDetail($type) 
     {
         $coins = DB::table(config::get('databaseconstants.TBL_COINS_PACKAGE'))
-        ->selectRaw('*')
-        ->whereRaw('deleted IN (1)')
-        ->where('c_user_type', $type)
-        ->get();
+                    ->selectRaw('*')
+                    ->whereRaw('deleted IN (1)')
+                    ->where('c_user_type', $type)
+                    ->get();
         return $coins;
     }
 
     public function getAllCoinsDetailByid($id) 
     {
         $coins = DB::table(config::get('databaseconstants.TBL_COINS_PACKAGE'))
-        ->selectRaw('*')
-        ->whereRaw('deleted IN (1)')
-        ->where('id',$id)
-        ->get();
+                    ->selectRaw('*')
+                    ->whereRaw('deleted IN (1)')
+                    ->where('id',$id)
+                    ->get();
         return $coins;
     }
 

@@ -63,7 +63,7 @@
                                 <h2>My ProCoins</h2>
                                 <div class="btns">
                                     <a href="{{ url('/teenager/get-gift-coins') }}" class="btn btn-success btn-small text-uppercase">Gift</a>
-                                    <a href="#" class="btn btn-success btn-small text-uppercase">Buy</a>
+                                    <a href="{{ url('/teenager/buy-procoins') }}" class="btn btn-success btn-small text-uppercase">Buy</a>
                                     <a href="{{ url('/teenager/get-pro-coins-history') }}" class="btn btn-success btn-small text-uppercase">History</a>
                                 </div>
                             </div>

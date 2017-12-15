@@ -19,9 +19,7 @@ Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceMa
 Route::get('/buy-procoins', function() {
 	return view('teenager.proCoinsBuy');
 });
-Route::get('/procoins-history', function() {
-	return view('teenager.proCoinsHistory');
-});
+
 Route::get('/seo-mi', function() {
 	return view('teenager.seoMi');
 });
@@ -38,4 +36,8 @@ Route::post('/user-search-for-gifted-coins/', 'Teenager\CoinManagementController
 
 //ProCoins History
 Route::get('/get-pro-coins-history/', 'Teenager\CoinManagementController@getProCoinsHistory');
+
+//Buy ProCoins
+Route::get('/buy-procoins', 'Teenager\CoinManagementController@displayProCoins');
+Route::post('/request-parent', 'Teenager\DashboardController@requestParentForPurchasedCoins');
 //Route::get('/getConsumption/', 'Teenager\DashboardController@getConsumption');

@@ -22,7 +22,7 @@ class Transactions extends Model
         return $response;
     }
 
-    public function getTransactionsDetail($id,$type) {
+    public function getTransactionsDetail($id, $type) {
         $transaction = DB::table(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans")
                 ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'trans.tn_userid')
                 ->selectRaw('trans.* , tn_email, t_name')
