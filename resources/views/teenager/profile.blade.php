@@ -316,7 +316,7 @@
             </div>
             <div class="mentor-list">
                 <ul class="row owl-carousel">
-                    @forelse ($teenagerParents as $teenagerParent)
+                    @forelse($teenagerParents as $teenagerParent)
                         <?php 
                             if (isset($teenagerParent->p_photo) && $teenagerParent->p_photo != '') {
                                 $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $teenagerParent->p_photo;
@@ -333,18 +333,6 @@
                     @empty
                         No parents or mentors found.
                     @endforelse
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="mentor-img" style="background-image: url({{ Storage::url('uploads/parent/thumb/parent_1510156890.jpg') }})"></div>
-                            <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
-                        </figure>
-                    </li>
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="mentor-img" style="background-image: url({{ Storage::url('uploads//parent/thumb/parent_1510156890.jpg') }})"></div>
-                            <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
-                        </figure>
-                    </li>
                 </ul>
             </div>
         </div>
