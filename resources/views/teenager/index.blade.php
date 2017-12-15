@@ -14,7 +14,7 @@
                 </a>
             </div>
         </div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/WoelVRjFO4A?rel=0&showinfo=0&autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/WoelVRjFO4A?rel=0&showinfo=0" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
     <!-- teen bio-->
     <section class="teen-bio">

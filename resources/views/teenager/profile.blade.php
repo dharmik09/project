@@ -333,6 +333,18 @@
                     @empty
                         No parents or mentors found.
                     @endforelse
+                    <li class="col-sm-3 col-xs-6">
+                        <figure>
+                            <div class="mentor-img" style="background-image: url({{ Storage::url('uploads/parent/thumb/parent_1510156890.jpg') }})"></div>
+                            <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
+                        </figure>
+                    </li>
+                    <li class="col-sm-3 col-xs-6">
+                        <figure>
+                            <div class="mentor-img" style="background-image: url({{ Storage::url('uploads//parent/thumb/parent_1510156890.jpg') }})"></div>
+                            <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
+                        </figure>
+                    </li>
                 </ul>
             </div>
         </div>
