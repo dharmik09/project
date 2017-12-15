@@ -11,6 +11,9 @@ use Config;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\TeenagerCoinsGift;
 use Input;
+use App\Transactions;
+use App\DeductedCoins;
+use App\TemplateDeductedCoins;
 
 class CoinManagementController extends Controller
 {
@@ -23,6 +26,9 @@ class CoinManagementController extends Controller
     public function __construct(TeenagersRepository $teenagersRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
+        $this->objTransactions = new Transactions;
+        $this->objDeductedCoins = new DeductedCoins;
+        $this->objTemplateDeductedCoins = new TemplateDeductedCoins;
     }
 
     /**
@@ -53,5 +59,19 @@ class CoinManagementController extends Controller
             return view('teenager.searchGiftedCoins', compact('teenCoinsDetail'));
             exit;
         }
+    }
+
+    /**
+     * ProCoin History Data
+     *
+     * @return void
+     */
+    public function getProCoinsHistory() {
+        $teenId = Auth::guard('teenager')->user()->id;
+        $transactionDetail = $this->objTransactions->getTransactionsDetail($teenId, 1);
+        $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailForPS($teenId, 1);
+        $deductedCoinsDetailLS = $this->objDeductedCoins->getDeductedCoinsDetailForLS($teenId, 1);
+        $deductedTemplateCoinsDetail = $this->objTemplateDeductedCoins->getDeductedCoinsDetail($teenId, 1);
+        return view('teenager.proCoinsHistory', compact('transactionDetail', 'deductedCoinsDetail', 'deductedTemplateCoinsDetail', 'deductedCoinsDetailLS'));
     }
 }
