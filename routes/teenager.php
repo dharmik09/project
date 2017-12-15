@@ -15,9 +15,7 @@ Route::get('/gift-coupons', function() {
 Route::get('/interest/{slug}', 'Teenager\InterestManagementController@index');
 	//return view('teenager.interest');
 Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
-Route::get('/gift-procoins', function() {
-	return view('teenager.proCoinsGift');
-});
+
 Route::get('/buy-procoins', function() {
 	return view('teenager.proCoinsBuy');
 });
@@ -34,6 +32,10 @@ Route::get('/seo-teaser', function() {
 //Help
 Route::get('help', 'Teenager\HomeController@help');
 
-//ProCoins
+//ProCoins Gift
 Route::get('/get-gift-coins/', 'Teenager\CoinManagementController@getGiftCoins');
 Route::post('/user-search-for-gifted-coins/', 'Teenager\CoinManagementController@userSearchForGiftCoins');
+
+//ProCoins History
+Route::get('/get-pro-coins-history/', 'Teenager\CoinManagementController@getProCoinsHistory');
+//Route::get('/getConsumption/', 'Teenager\DashboardController@getConsumption');
