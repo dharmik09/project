@@ -42,6 +42,9 @@ nav {
     opacity: 0;
     transition: all 0.5s ease-out;
     transform: translateY(-100%);
+    &.bg-light{
+        background-color: rgba(255,255,255,0.8);
+    }
     &.active {
         transform: translateY(0);
         visibility: visible;
@@ -299,12 +302,13 @@ nav {
     .user-name {
         display: inline-block;
         vertical-align: middle;
+        width: 70%;
     }
     .vol-btn {
-        //display: inline-block;
-        //vertical-align: top;
-        float: right;
         margin-top: 20px;
+        position: absolute;
+        top: 0;
+        right: 15px;
         span{
             cursor: pointer;
         }
@@ -333,6 +337,7 @@ nav {
 
 .user-snapshot {
     display: block;
+    margin-top: 20px;
 }
 
 

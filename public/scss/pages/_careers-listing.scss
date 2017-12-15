@@ -130,7 +130,7 @@
             p {
                 font-family: hl;
                 font-size: 24px;
-                color: $r-cl;
+                color: #727476;
                 @include maxlg {
                     font-size: 21px;
                 }
@@ -143,6 +143,7 @@
                 }
                 strong {
                     color: $cl-complete;
+                    font-family: hn-b;
                 }
             }
             .match-list {

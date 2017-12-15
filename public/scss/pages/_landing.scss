@@ -150,24 +150,26 @@ a {
             font-family: h;
             font-size: 18px;
             color: $p-cl;
+            font-weight: 500;
 
         }
         .hand-img {
             position: absolute;
-            left: 37%;
+            left: 60%;
             top: -30%;
             @include maxlg {
-                left: 40%;
+               // left: 40%;
                 top: -15%;
             }
             @include maxmd {
-                left: 45%;
+               //     left: 45%;
                 top: -41%;
             }
             @include maxms {
                 width: 65px;
                 left: initial;
                 right: 10px;
+                top: -32%;
             }
         }
     }
@@ -330,6 +332,7 @@ a {
             color: $white;
             font-size: 14px;
             margin-bottom: 0;
+            font-family: h;
         }
         a {
             color: $white;
@@ -599,6 +602,7 @@ a {
                     figcaption {
                         color: $lightgrey;
                         font-size: 14px;
+                        font-family: hl;
                     }
                 }
             }

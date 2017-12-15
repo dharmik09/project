@@ -24,7 +24,8 @@ a:hover {
     padding-bottom: 110px;
     display: flex;
     flex-wrap: wrap;
-    @include maxsm{
+    position: relative;
+    @include maxsm {
         position: relative;
         padding-bottom: 40px;
     }
@@ -35,35 +36,74 @@ a:hover {
         justify-content: center;
         align-items: center;
         flex-basis: 50%;
-        @include maxsm{
+        position: relative; //position: absolute;
+        //left: 0;
+        //top:0px;
+        //width: 49.5%;
+        border-right: none;
+        @include maxsm {
             flex-basis: 100%;
+            border-right: 1px solid $cl-complete;
         }
+        &:before {
+            position: absolute;
+            content: '';
+            width: 1px;
+            background: $cl-complete;
+            height: 116px;
+            top: 0;
+            right: 0px;
+            @include maxsm{display: none;}
+        }
+        /*.arrow {
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-left: 30px solid $cl-procedural;
+            border-bottom: 20px solid transparent;
+            position: absolute; // content: '';
+            top: 50%;
+            right: -30px;
+            transform: translateY(-50%);
+        }*/
         .chat-slider {
             margin: 78px 0;
             border-bottom: 1px solid $cl-complete;
-            @include maxsm{
+            @include maxmd {
+                margin: 64px 0;
+            }
+            @include maxsm {
                 margin: 48px 0;
             }
         }
         .chat-tab {
             border-top: 1px solid $cl-complete;
+            border-right: 1px solid $cl-complete;
             margin-bottom: 0;
-            position: relative;
+            position: relative; // width: 94% !important;
+            @include maxsm{
+                border-right: none;
+            }
             &.active {
                 border-top: 1px solid $cl-procedural;
                 border-bottom: 1px solid $cl-procedural;
+                border-right: none;
                 cursor: pointer;
                 &:before {
                     width: 0;
                     height: 0;
                     border-top: 20px solid transparent;
-                    border-left: 30px solid $cl-procedural;
+                    border-right: 30px solid $white;
                     border-bottom: 20px solid transparent;
                     position: absolute;
                     content: '';
                     top: 50%;
-                    right: 0;
+                    right: 0px;
                     transform: translateY(-50%);
+                    z-index: 99;
+                    @include maxlg {
+                        border-right: 20px solid $white;
+                    }
                 }
                 a {
                     border: none;
@@ -74,7 +114,7 @@ a:hover {
                         color: $white !important;
                     }
                     .detail {
-                        color: $white !important;
+                        color: $white !important; //font-family: hn-b !important;
                     }
                     .option {
                         color: $white !important;
@@ -94,6 +134,9 @@ a:hover {
                     .option {
                         color: $white !important
                     }
+                    .detail {
+                        font-family: hn-b !important;
+                    }
                 }
             }
         }
@@ -108,7 +151,7 @@ a:hover {
                 margin-left: -4px;
                 padding-bottom: 0;
                 vertical-align: middle;
-                @include maxlg{
+                @include maxlg {
                     padding-left: 15px;
                 }
                 .option {
@@ -121,7 +164,7 @@ a:hover {
                     @include maxlg {
                         font-size: 34px;
                     }
-                    @include maxmd{
+                    @include maxmd {
                         font-size: 28px;
                     }
                 }
@@ -142,7 +185,7 @@ a:hover {
                         @include maxlg {
                             font-size: 30px;
                         }
-                        @include maxmd{
+                        @include maxmd {
                             font-size: 24px;
                         }
                     }
@@ -154,10 +197,10 @@ a:hover {
                         @include maxlg {
                             font-size: 16px;
                         }
-                        @include maxmd{
+                        @include maxmd {
                             font-size: 15px;
                         }
-                        @include maxms{
+                        @include maxms {
                             font-size: 14px;
                         }
                     }
@@ -179,7 +222,7 @@ a:hover {
                     text-indent: 0;
                     top: auto;
                     z-index: 9;
-                    @include maxsm{
+                    @include maxsm {
                         flex-shrink: 30px;
                     }
                     &:hover,
@@ -190,23 +233,26 @@ a:hover {
                     &.bx-prev {
                         top: -73px;
                         transform: rotate(90deg);
-                        @include maxlg{
+                        @include maxlg {
                             top: -53px;
                         }
-                        @include maxsm{
+                        @include maxmd {
+                            top: -44px;
+                        }
+                        @include maxsm {
                             top: -33px;
                         }
                     }
                     &.bx-next {
                         bottom: -86px;
                         transform: rotate(90deg);
-                        @include maxlg{
+                        @include maxlg {
                             bottom: -56px;
                         }
-                        @include maxmd{
-                            bottom: -70px;
+                        @include maxmd {
+                            bottom: -60px;
                         }
-                        @include maxsm{
+                        @include maxsm {
                             bottom: -56px;
                         }
                     }
@@ -221,17 +267,17 @@ a:hover {
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        flex-basis: 50%;
-        @include maxsm{
+        flex-basis: 50%; //padding-left: 46.5%;
+        @include maxsm {
             flex-basis: 100%;
         }
         .tab-pane {
             width: 100%;
-            @include maxsm{
+            @include maxsm {
                 display: none;
             }
-            &.active{
-                @include maxsm{
+            &.active {
+                @include maxsm {
                     display: block;
                     position: absolute;
                     top: 0;
@@ -244,17 +290,17 @@ a:hover {
             .chat-screen {
                 padding-top: 30px;
                 background: $white;
-                @include maxmd{
+                @include maxmd {
                     padding-top: 10px;
                 }
-                @include maxsm{
+                @include maxsm {
                     position: relative;
                     padding-bottom: 121px;
                     height: 100%;
                 }
-                .close{
+                .close {
                     float: left;
-                    i{
+                    i {
                         margin-left: 15px;
                     }
                 }
@@ -269,7 +315,7 @@ a:hover {
                     @include maxlg {
                         font-size: 30px;
                     }
-                    @include maxmd{
+                    @include maxmd {
                         font-size: 24px;
                         margin-bottom: 15px;
                     }
@@ -277,11 +323,11 @@ a:hover {
                 .chat-convo {
                     padding: 0 63px 0 42px;
                     max-height: 800px;
-                        overflow-y: scroll;
+                    overflow-y: scroll;
                     @include maxlg {
                         padding: 0 42px;
                     }
-                    @include maxmd{
+                    @include maxmd {
                         padding: 0 30px;
                     }
                     p {
@@ -291,10 +337,10 @@ a:hover {
                         @include maxlg {
                             font-size: 20px;
                         }
-                        @include maxsm{
+                        @include maxsm {
                             font-size: 16px;
                         }
-                        @include maxms{
+                        @include maxms {
                             font-size: 14px;
                         }
                     }
@@ -311,11 +357,11 @@ a:hover {
                             padding: 20px 15px 20px 20px;
                             margin-bottom: 25px;
                         }
-                        @include maxmd{
+                        @include maxmd {
                             padding: 15px;
                             margin-bottom: 20px;
                         }
-                        @include maxsm{
+                        @include maxsm {
                             max-width: 380px;
                         }
                         &:before {
@@ -327,7 +373,7 @@ a:hover {
                             bottom: -21px;
                             left: -16px;
                             transform: rotate(40deg);
-                            @include maxmd{
+                            @include maxmd {
                                 bottom: -19px;
                                 left: -12px;
                             }
@@ -345,7 +391,7 @@ a:hover {
                             padding: 20px 15px 20px 20px;
                             margin-bottom: 25px;
                         }
-                        @include maxmd{
+                        @include maxmd {
                             padding: 15px;
                             margin-bottom: 20px;
                         }
@@ -358,7 +404,7 @@ a:hover {
                             bottom: -21px;
                             right: -16px;
                             transform: rotate(-40deg);
-                            @include maxmd{
+                            @include maxmd {
                                 bottom: -19px;
                                 right: -12px;
                             }
@@ -367,19 +413,21 @@ a:hover {
                 }
                 .chat-form {
                     border-top: 2px solid $cl-complete;
+                    border-left: 1px solid $cl-complete;
                     background: $bg-offwhite;
                     padding: 29px 30px;
                     margin-top: 20px;
-                    @include maxmd{
+                    @include maxmd {
                         margin-top: 40px;
                         padding: 15px 20px;
                     }
-                    @include maxsm{
+                    @include maxsm {
                         position: absolute;
                         bottom: 0;
                         width: 100%;
+                        border-left: none;
                     }
-                    @include maxms{
+                    @include maxms {
                         padding: 15px 0;
                     }
                     .chat-uploads {
@@ -394,11 +442,11 @@ a:hover {
                             font-size: 30px;
                             line-height: 1;
                             margin-bottom: 29px;
-                            @include maxmd{
+                            @include maxmd {
                                 font-size: 24px;
                                 margin-bottom: 20px;
                             }
-                            @include maxms{
+                            @include maxms {
                                 font-size: 20px;
                             }
                             a {
@@ -424,7 +472,7 @@ a:hover {
                             color: $r-cl;
                             padding: 20px;
                             background: $white;
-                            @include maxmd{
+                            @include maxmd {
                                 height: 77px;
                                 font-size: 17px;
                                 padding: 8px 10px;
@@ -438,10 +486,10 @@ a:hover {
                         margin-left: -4px;
                         vertical-align: middle;
                         text-align: right;
-                        @include maxmd{
+                        @include maxmd {
                             font-size: 38px;
                         }
-                        @include maxms{
+                        @include maxms {
                             font-size: 30px;
                         }
                     }

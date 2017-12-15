@@ -327,6 +327,7 @@
                     @extend .i-teen-circle;
                     height: 74px;
                     width: 78px;
+                    left: -20px;
                 }
                 &:after {
                     background-color: $p-cl;
@@ -407,7 +408,7 @@
     img {
         opacity: 0;
        transform: translateY(100px);
-        transition: all 2s ease-out;
+        transition: all 3s ease-out;
     }
     .box {
         margin-top: 18vh;
@@ -507,7 +508,8 @@
         position: absolute;
         right: 0;
         top: 50vh;
-        transform: translateY(-50%);
+        transform: translate(130%,-50%);
+        //transform: translate(-130%, 0%);
     }
     .i-hand-teen {
         left: 34%;
@@ -527,6 +529,11 @@
     img{
         position: absolute;
     }
+    &.active{
+        .i-teen-arrow {
+              transform: translate(0%, 0%);
+        }
+    }
 }
 
 .banner-2 {
@@ -536,17 +543,20 @@
     img{
         position: absolute;
     }
+    img.i-parent-arrow {
+        position: absolute;
+        transform: translate(0%,-50%);
+        top: 65%;
+    }
     &.active {
-        img.i-parent-arrow {
-            left: 90%;
-            position: absolute;
-            top: 65%;
-        }
         img.i-parent-hand {
             position: absolute;
             right: 6%;
             top: 0;
             transform: translateY(34%);
+        }
+        img.i-parent-arrow {
+            transform: translate(180%, 0%);
         }
     }
 }
@@ -586,11 +596,15 @@
     .box {
         background-color: $w-cl;
     }
+    img.i-school-arrow {
+        transform: translate(0 ,-50%);
+    }
     &.active {
         img.i-school-arrow {
-            left: 90%;
-            position: absolute;
-            top: 50%;
+           // left: 90%;
+           // position: absolute;
+            //top: 60%;
+             transform: translate(180%, -70%);
         }
         img.i-school-hand {
             position: absolute;
@@ -605,6 +619,9 @@
     img{
         position: absolute;
     }
+    img.i-enterprise-arrow {
+         transform: translate(0 ,-50%);
+    }
     .box {
         background-color: $m-cl;
         @include maxsm {
@@ -618,8 +635,8 @@
     &.active {
         img.i-enterprise-arrow {
             position: absolute;
-            top: 100%;
-            transform: translate(-176%, -170%);
+            top: 70%;
+            transform: translate(-170%, 0%);
         }
         img.i-enterprise-hand {
             position: absolute;

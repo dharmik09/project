@@ -1,6 +1,6 @@
 .sec-register {
     padding: 100px 0;
-
+    h1{font-family: am;}
     @include maxmd {
         padding: 70px 0;
     }
@@ -63,6 +63,10 @@
                 background-size: auto;
                 background-position: center;
                 background-repeat: no-repeat;
+                max-width: 100%;
+                &:before{
+                    display: none;
+                }
                 @include maxsm {
                     width: 100%;
                     min-height: 250px;
@@ -98,11 +102,16 @@
                 }
             }
             .icon {
-                font-size: 130px;
+                font-size: 170px;
                 color: $p-cl;
-                transform: rotate(90deg);
+                transform: rotate(-90deg);
                 display: inline-block;
                 line-height: 1.35;
+                margin-top: 12px;
+                i{
+                    display: block;
+                    transform: scaleX(-1);
+                }
                 @include maxms {
                     font-size: 100px;
                     order: 3;
@@ -110,9 +119,9 @@
                 }
             }
             p {
-                font-family: hl;
+                font-family: ht;
                 font-size: 16px;
-                color: $lightgrey;
+                color: rgba(22, 28, 34, 0.7);
                 @include maxms {
                     order: 2;
                     font-size: 14px;
@@ -139,6 +148,7 @@
                 font-size: 17px; //color: $lightgrey;
                 -webkit-appearance: none;
                 appearance: none;
+                text-transform: lowercase;
                 @include maxms {
                     font-size: 14px;
                 }
@@ -152,9 +162,9 @@
             }
 
             label {
-                color: $lightgrey;
+                color: rgba(22, 28, 34, 0.7);
                 a {
-                    color: $lightgrey;
+                    color: rgba(22, 28, 34, 0.7);
                     text-decoration: underline;
                     &:hover {
                         color: $p-cl;
@@ -166,6 +176,7 @@
                     width: 20%;
                     display: inline-block;
                     vertical-align: middle;
+                    margin-bottom: 0;
                     @include maxms {
                         width: 25%;
                     }
@@ -243,9 +254,9 @@
             }
         }
         label {
-            color: $lightgrey;
+            color: rgba(22, 28, 34, 0.7);
             a {
-                color: $lightgrey;
+                color: rgba(22, 28, 34, 0.7);
                 text-decoration: underline;
                 &:hover {
                     color: $p-cl;
@@ -253,13 +264,14 @@
             }
         }
         p {
-            color: $lightgrey;
+            color: rgba(22, 28, 34, 0.7);
             font-size: 16px;
+            font-family: h;
             @include maxms {
                 font-size: 14px;
             }
             a {
-                color: $lightgrey;
+                color:rgba(22, 28, 34, 0.7);
                 text-decoration: underline;
                 &:hover {
                     color: $p-cl;
@@ -276,8 +288,8 @@
         &:before {
             position: absolute;
             top: -6px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 5%;
+            //transform: translateX(-50%);
             display: inline-block;
             border-right: 40px solid transparent;
             border-top: 40px solid $white;

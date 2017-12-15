@@ -70,8 +70,11 @@
 }
 
 .describe-traits {
-    padding: 76px 0 34px;
+    padding: 76px 0 29px;
     background: $white;
+    p {
+        font-family: 'ht';
+    }
     .survey-list {
         margin-bottom: 0;
         @include maxsm {
@@ -109,50 +112,10 @@
                 margin-top: 20px;
                 border: none;
             }
-            /*.progress-tab {
-                li {
-                    margin-bottom: -2px;
-                    &:before {
-                        border-top: 30px solid #e0e6eb;
-                    }
-                    &:hover {
-                        border-top: 2px solid #e0e6eb;
-                    }
-                    a {
-                        position: relative;
-                        &:before {
-                            position: absolute;
-                            content: ' ';
-                            border-left: 18px solid transparent;
-                            border-right: 18px solid transparent;
-                            border-top: 30px solid #fff;
-                            top: -3px;
-                            right: -19px;
-                            z-index: 99;
-                            @include maxsm {
-                                display: none;
-                            }
-                        }
-                    }
-                    &.active {
-                        border-top: 2px solid #e0e6eb;
-                        @include maxms {
-                            border: 1px solid #e0e6eb;
-                        }
-                    }
-                    &:last-child {
-                        a {
-                            &:before {
-                                display: none;
-                            }
-                        }
-                    }
-                }
-            }*/
             .custom-tab-container {
                 li {
                     &.active {
-                        
+
                         &:before {
                             position: absolute;
                             content: '';
@@ -161,38 +124,51 @@
                             height: 2px;
                             background: #e0e6eb;
                             z-index: 999;
-                            @include maxlg{
+                            @include maxlg {
                                 width: 93.5%;
                             }
-                            @include maxmd{
+                            @include maxmd {
                                 width: 91.5%;
                             }
-                            @include maxsm{
-                                    width: 100%;
-                                }
+                            @include maxsm {
+                                width: 100%;
+                            }
                         }
-                        &.tab-2{
-                            &:before{
-                                width: 89%;
-                                @include maxlg{
+                        &.tab-2 {
+                            &:before {
+                                width: 90%;
+                                @include maxlg {
                                     width: 87%;
                                 }
-                                @include maxmd{
+                                @include maxmd {
                                     width: 83%;
                                 }
-                                @include maxsm{
+                                @include maxsm {
                                     width: 100%;
                                 }
                             }
+
                         }
                         a {
                             &:after {
                                 border-right: 2px solid #e0e6eb;
                             }
-                            &:before{
-                                border-left: 2px solid #e0e6eb; 
+                            &:before {
+                                border-left: 2px solid #e0e6eb;
                             }
                         }
+                    }
+                    &.tab-color-2 a,
+                    &.tab-color-2 a > span,
+                    &.tab-color-2 a:before,
+                    &.tab-color-2 a:after {
+                        background-color: $cl-procedural !important;
+                    }
+                    &.active.custom-tab a,
+                    &.active.custom-tab a > span,
+                    &.active.custom-tab a:before,
+                    &.active.custom-tab a:after {
+                        background-color: $white !important;
                     }
                 }
             }

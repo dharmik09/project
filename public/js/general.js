@@ -147,6 +147,27 @@ $(document).ready(function () {
  //loading page css
     $('#loading-wrapper').remove();
     $('body').removeClass('overflw-hide');
+    //expand
+     $('.expand').click(function(){
+         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
+        $('.sec-wrap-1').slideToggle("slow");
+    })
+    $('.expand-1').click(function(){
+         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
+        $('.sec-wrap-2').slideToggle("slow");
+    })
+    $('.expand-2').click(function(){
+         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
+        $('.sec-wrap-3').slideToggle("slow");
+    })
+    $('.expand-3').click(function(){
+         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
+        $('.sec-wrap-4').slideToggle("slow");
+    })
+    $('.expand-4').click(function(){
+         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
+        $('.sec-wrap-5').slideToggle("slow");
+    })
     
     //progressbar
     $(function () {

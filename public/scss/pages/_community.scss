@@ -1,5 +1,6 @@
 .sec-connection{
     .my-progress{
+        margin-top: 0;
         @include maxms{
             padding-bottom: 15px;
         }

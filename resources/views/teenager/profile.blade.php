@@ -101,12 +101,12 @@
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required maxlength="50">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name *" tabindex="1" value="{{ $user->t_lastname }}">
+                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name *" tabindex="2" value="{{ $user->t_lastname }}" required maxlength="50">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -147,8 +147,8 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <span class="password-info">Password info</span>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16" readonly>
+                                    <span class="password-info">Type to change your current password</span>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -221,33 +221,48 @@
                                 <ul class="toggle-switch">
                                     <li>Public Profile
                                         <label class="switch">
-                                      <input type="checkbox" id="public_profile" name="public_profile" <?php echo (isset($user->is_search_on) && $user->is_search_on == '1') ? "checked='checked'": '' ?> value="1">
-                                          <span class="slider round"></span>
-                                    </label>
+                                            <input type="checkbox" id="public_profile" name="public_profile" <?php echo (isset($user->is_search_on) && $user->is_search_on == '1') ? "checked='checked'": '' ?> value="1">
+                                            <span class="slider round">
+                                                <span class="on">On</span>
+                                                <span class="off">Off</span>
+                                            </span>
+                                        </label>
                                     </li>
                                     <li>Share info with other members
                                         <label class="switch">
-                                      <input type="checkbox" id="share_with_members" name="share_with_members" <?php echo (isset($user->is_share_with_other_members) && $user->is_share_with_other_members == '1') ? "checked='checked'": '' ?> value="1">
-                                          <span class="slider round"></span>
-                                    </label>
+                                            <input type="checkbox" id="share_with_members" name="share_with_members" <?php echo (isset($user->is_share_with_other_members) && $user->is_share_with_other_members == '1') ? "checked='checked'": '' ?> value="1">
+                                            <span class="slider round">
+                                                <span class="on">On</span>
+                                                <span class="off">Off</span>
+                                            </span>
+                                        </label>
                                     </li>
                                     <li>Share info with parents
                                         <label class="switch">
-                                      <input type="checkbox" id="share_with_parents" name="share_with_parents" <?php echo (isset($user->is_share_with_parents) && $user->is_share_with_parents == '1') ? "checked='checked'": '' ?> value="1">
-                                          <span class="slider round"></span>
-                                    </label>
+                                            <input type="checkbox" id="share_with_parents" name="share_with_parents" <?php echo (isset($user->is_share_with_parents) && $user->is_share_with_parents == '1') ? "checked='checked'": '' ?> value="1">
+                                            <span class="slider round">
+                                                <span class="on">On</span>
+                                                <span class="off">Off</span>
+                                            </span>
+                                        </label>
                                     </li>
                                     <li>Share info with teachers
                                         <label class="switch">
-                                      <input type="checkbox" id="share_with_teachers" name="share_with_teachers" <?php echo (isset($user->is_share_with_teachers) && $user->is_share_with_teachers == '1') ? "checked='checked'": '' ?> value="1">
-                                          <span class="slider round"></span>
-                                    </label>
+                                            <input type="checkbox" id="share_with_teachers" name="share_with_teachers" <?php echo (isset($user->is_share_with_teachers) && $user->is_share_with_teachers == '1') ? "checked='checked'": '' ?> value="1">
+                                            <span class="slider round">
+                                                <span class="on">On</span>
+                                                <span class="off">Off</span>
+                                            </span>
+                                        </label>
                                     </li>
                                     <li>Notifications
                                         <label class="switch">
-                                      <input type="checkbox" id="notifications" name="notifications" <?php echo (isset($user->is_notify) && $user->is_notify == '1') ? "checked='checked'": '' ?> value="1">
-                                          <span class="slider round"></span>
-                                    </label>
+                                            <input type="checkbox" id="notifications" name="notifications" <?php echo (isset($user->is_notify) && $user->is_notify == '1') ? "checked='checked'": '' ?> value="1">
+                                            <span class="slider round">
+                                                <span class="on">On</span>
+                                                <span class="off">Off</span>
+                                            </span>
+                                        </label>
                                     </li>
                                 </ul>
                             </div>
@@ -653,7 +668,7 @@
         $('.sponsor-list').owlCarousel({
             loop: false,
             margin: 20,
-            items: 3,
+            items: 2,
             autoplay: false,
             autoplayTimeout: 3000,
             smartSpeed: 1000,
@@ -666,25 +681,22 @@
                 768: {
                     items: 2
                 },
-                992: {
-                    items: 3
-                },
             }
         });
         jQuery.validator.addMethod("lettersonly", function(value, element) {
-            return this.optional(element) || /^[a-z]+$/i.test(value);
+            return this.optional(element) || /^[a-z\s]+$/i.test(value);
         }, "Letters only please");
         var updateProfileRules = {
             name: {
                 required: true,
                 minlength: 3,
-                maxlength: 100,
+                maxlength: 50,
                 lettersonly: true
             },
             lastname: {
                 required: true,
                 minlength: 3,
-                maxlength: 100,
+                maxlength: 50,
                 lettersonly: true
             },
             email: {

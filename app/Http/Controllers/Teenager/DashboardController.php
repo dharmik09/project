@@ -134,6 +134,9 @@ class DashboardController extends Controller
             return Redirect::to("teenager/my-profile")->withErrors(trans('validation.someproblems'))->withInput();
             exit;
         }
+        $teenagerMobileExist = false;
+        $teenagerEmailExist = false;
+        
         if ($teenagerDetail['t_email'] != '' && $user->t_social_provider == 'Normal') {
             $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenagerDetail['t_email'], $user->id);
         }
@@ -163,6 +166,5 @@ class DashboardController extends Controller
             exit;
         }
     }
-
-    
+   
 }
