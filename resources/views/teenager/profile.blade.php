@@ -142,7 +142,7 @@
                             <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -172,7 +172,7 @@
                                         <select name="month" class="form-control date-block" id="month" tabindex="13">
                                             <option value="">mm</option>
                                             @for($month = 01; $month <= 12; $month++)
-                                                <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}" <?php echo ($month == $birthMonth) ? "selected='selected'" : ''; ?> >{{ date('F', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
+                                                <option value="{{date('m', mktime(0,0,0,$month, 1, date('Y')))}}" <?php echo ($month == $birthMonth) ? "selected='selected'" : ''; ?> >{{ date('M', mktime(0,0,0,$month, 1, date('Y'))) }}</option>
                                             @endfor
                                         </select>
                                         <select name="day" class="form-control date-block" id="day" tabindex="14" >
@@ -675,10 +675,10 @@
 <script>
     $(document).ready(function() {
         $('.mentor-list ul').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 0,
             items: 4,
-            autoplay: true,
+            autoplay: false,
             autoplayTimeout: 3000,
             smartSpeed: 1000,
             nav: false,

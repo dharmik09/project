@@ -65,6 +65,7 @@ class DashboardController extends Controller
         $teenagerAptitude = isset($teenagerAPIData['APIscale']['aptitude']) ? $teenagerAPIData['APIscale']['aptitude'] : [];
         $teenagerPersonality = isset($teenagerAPIData['APIscale']['personality']) ? $teenagerAPIData['APIscale']['personality'] : [];
         $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
+        //echo "<pre/>"; print_r($teenagerAPIData); die();
         return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest'));
     }
 

@@ -321,7 +321,6 @@
                 }
             },
             errorPlacement: function(error, element) {
-                console.log(element);
                 if (element.attr("name") == "terms_condition") {
                     error.appendTo(".terms-error");
                 } else if(element.attr("name") == "selected_sponsor[]") {
@@ -403,7 +402,7 @@
             $('.sponsor-list').owlCarousel({
                 loop: false,
                 margin: 20,
-                items: 3,
+                items: 2,
                 autoplay: false,
                 autoplayTimeout: 3000,
                 smartSpeed: 1000,
@@ -415,9 +414,6 @@
                     },
                     768: {
                         items: 2
-                    },
-                    992: {
-                        items:3
                     },
                 }
             });
