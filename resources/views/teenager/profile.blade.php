@@ -139,7 +139,6 @@
                                     <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
                                 </div>
                             </div>
-                            <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
@@ -164,7 +163,12 @@
                                     <input type="text" class="form-control" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
                                 </div>
                             </div>
-                            <?php list($birthYear, $birthMonth, $birthDay) = explode("-", $user->t_birthdate); ?>
+                            <?php 
+                                $birthYear = $birthMonth = $birthDay = "";
+                                if(isset($user->t_birthdate) && $user->t_birthdate != "") {
+                                    list($birthYear, $birthMonth, $birthDay) = explode("-", $user->t_birthdate);
+                                }
+                            ?>
                             <div class="col-sm-9 col-sm-offset-3 text-right">
                                 <div class="form-group date-sec">
                                     <label>Date of Birth:</label>

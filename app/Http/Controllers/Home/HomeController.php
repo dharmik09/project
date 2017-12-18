@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
+use App\CMS;
+use App\Testimonial;
 
 class HomeController extends Controller
 {
@@ -23,7 +25,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('admin.guest', ['except' => 'logout']);
+        $this->cmsObj = new CMS;
+        $this->testimonialObj = new Testimonial;
     }
 
     /**
@@ -47,7 +50,9 @@ class HomeController extends Controller
     
     public function team()
     {
-        return view('home.team');
+        $data = $this->testimonialObj->where(['t_type' => "management", 'deleted' => 1])->get();
+        //echo "<pre/>"; print_r($data->t_title); die();
+        return view('home.team', compact('data'));
     }
 
     public function contactUs()

@@ -87,3 +87,5 @@ ALTER TABLE `pro_pt_personality_types` ADD `pt_slug` VARCHAR(255) NOT NULL AFTER
 //Add new field to apptitude types table ## 14-12-2017
 ALTER TABLE `pro_apt_apptitude_types` ADD `apt_slug` VARCHAR(255) NOT NULL AFTER `apt_name`;
 
+//Adding new filed into testinomials table for managing team CMS
+ALTER TABLE `pro_t_testinomials` ADD `t_type` VARCHAR(20) NULL DEFAULT 'testinomials' AFTER `t_description`;
