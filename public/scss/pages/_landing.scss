@@ -261,10 +261,11 @@ a {
                     background: $dark;
                     color: $white;
                     display: block;
-                    padding: 8px 10px;
+                    padding: 9px 10px;
                     text-align: center;
                     margin-right: 4px;
                     border: 1px solid $dark;
+                    line-height: 1.5;
                     @include maxms {
                         font-size: 13px;
                         padding: 9px 8px;
@@ -640,12 +641,21 @@ a {
     text-transform: uppercase;
     color: $white;
     font-size: 17px;
-    padding: 7px 65px;
+    padding: 7px 52px;
     display: inline-block;
     border-color: $dark;
     margin-bottom: 23px;
     line-height: 1.5;
     position: relative;
+    @include maxlg{
+        padding: 7px 43px;
+    }
+    @include maxmd{
+        padding: 7px 38px;
+    }
+    @include maxsm{
+        padding: 7px 52px;
+    }
     @include maxms {
         font-size: 14px;
     }

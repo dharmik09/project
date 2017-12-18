@@ -78,7 +78,7 @@
         border-bottom: none;
         .custom-tab {
             text-align: center;
-            padding-bottom: 50px;
+            padding-bottom: 40px;
             position: relative;
             @include maxsm {
                 padding-bottom: 35px;
@@ -100,7 +100,7 @@
                     border-left: 40px solid transparent;
                     border-right: 40px solid transparent;
                     border-top: 40px solid $bg-offwhite;
-                    bottom: -39px;
+                    bottom: -42px;
                     left: 50%;
                     transform: translatex(-50%);
                     @include maxsm {
@@ -163,10 +163,11 @@
     .tab-content {
         background: $h-cl;
         padding: 6em 0 4em;
+        margin-top: -40px;
         @include maxsm {
             padding: 4em 0 2em;
         }
-        @include maxms{
+        @include maxms {
             padding-top: 3em;
         }
         p {
@@ -174,10 +175,50 @@
             font-family: h;
         }
     }
+    .owl-carousel {
+        .owl-stage-outer{
+            height: 180px;
+            @include maxmd{
+                height: 160px;
+            }
+            @include maxsm{
+                height: 138px;
+            }
+            @include maxms{
+                height: 128px;
+            }
+        }
+        .owl-nav {
+           position: absolute; 
+            top: 25%;
+            /* transform: translateY(-50%); */
+            width: 100%;
+            .owl-prev,
+            .owl-next {
+                position: absolute;
+                right: 0;
+                font-size: 0;
+                background-image: url(../img/next-icon-dark.png);
+                width: 25px;
+                height: 25px;
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            .owl-prev {
+                left: 0;
+                right: auto;
+                background-image: url(../img/prev-icon-dark.png);
+                @include maxmd{
+                    left: -10px;
+                }
+            }
+        }
+    }
 }
 
 .advisory-board {
-    padding: 0 0 4em;
+    padding: 0 0em;
     h2 {
         text-align: center;
         text-transform: uppercase;
@@ -227,5 +268,19 @@
                 font-size: 16px;
             }
         }
+    }
+    .tab-content{
+        margin-top: 0;
+    }
+    .nav-tabs{
+        .custom-tab{
+            padding-bottom: 50px;
+            &.active:before{
+                bottom: -39px
+            }
+        }
+    }
+    .team-management{
+        padding-bottom: 0;
     }
 }

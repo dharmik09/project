@@ -71,10 +71,10 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. </p>
                     <div class="list-procoins">
                         <div class="row flex-container">
+                            @if(isset($coinsDetail) && !empty($coinsDetail))
+                            <?php $column_count = 1; ?>
+                            @foreach($coinsDetail as $key=>$val)
                             <div class="col-sm-6 flex-items">
-                                @if(isset($coinsDetail) && !empty($coinsDetail))
-                                <?php $column_count = 1; ?>
-                                @foreach($coinsDetail as $key=>$val)
                                 <div class="block-procoins">
                                     <div class="coin-info">
                                         <div class="icon">
@@ -90,8 +90,7 @@
                                                 }
                                             }
                                         ?>
-                                        <!-- <img src="{{ $coinImage }}" alt="{{ $altImage }}"/> -->
-                                            <i class="icon-diamond"></i>
+                                            <img src="{{ $coinImage }}" alt="{{ $altImage }}">
                                         </div>
                                         <h4>{{$val->c_package_name}}</h4>
                                         <h2 class="price">
@@ -104,14 +103,15 @@
                                     </div>
                                     <a href="#" title="Buy" class="btn btn-primary">Buy</a>
                                 </div>
-                                <?php
+                                
+                            </div>
+                            <?php
                                     $column_count++;
                                 ?>
                                 @endforeach
                                 @else
                                     No Packages found.
                                 @endif
-                            </div>
                             <!-- <div class="col-sm-6 flex-items">
                                 <div class="block-procoins">
                                     <div class="coin-info">
