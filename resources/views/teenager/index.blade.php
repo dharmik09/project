@@ -194,7 +194,7 @@
             interval: 5000
         });
         $('.play-icon').click(function () {
-            $(this).hide();
+            $(this).hide("slow");
             $('iframe').show();
         })
         $("#loginSubmit").click(function() {

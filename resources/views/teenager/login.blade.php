@@ -60,7 +60,7 @@
                         </div>
                         <button type="submit" id="loginSubmit" value="Login" class="btn btn-default" title="Login" tabindex="4">Login</button>
                         <p class="text-center">or</p>
-                        <ul class="btn-list">
+                        <ul class="btn-list clearfix">
                             <li><a href="{{ url('teenager/facebook') }}" title="Facebook" ><i class="icon-facebook"><!-- --></i>Facebook</a></li>
                             <li><a href="{{ url('teenager/google') }}" title="Google" ><i class="icon-google"><!-- --></i>Google</a></li>
                         </ul>

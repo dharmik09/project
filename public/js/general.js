@@ -145,28 +145,71 @@ $(document).ready(function () {
 		});
 */
  //loading page css
-    $('#loading-wrapper').remove();
+    //$('#loading-wrapper').remove();
+    setTimeout(function(){
+        $('#loading-wrapper').remove();
+    },2500);
     $('body').removeClass('overflw-hide');
     //expand
      $('.expand').click(function(){
-         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
         $('.sec-wrap-1').slideToggle("slow");
+         if ($(this).hasClass('less')) {
+                $(this).removeClass('less');
+                $(this).addClass('more');
+                $(this).text('Collapse');
+         }else{
+             $(this).addClass('less');
+                $(this).removeClass('more');
+                $(this).text('Expand');
+         }
     })
     $('.expand-1').click(function(){
-         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
         $('.sec-wrap-2').slideToggle("slow");
+        if ($(this).hasClass('less')) {
+                $(this).removeClass('less');
+                $(this).addClass('more');
+                $(this).text('Collapse');
+         }else{
+             $(this).addClass('less');
+                $(this).removeClass('more');
+                $(this).text('Expand');
+         }
     })
     $('.expand-2').click(function(){
-         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
         $('.sec-wrap-3').slideToggle("slow");
+        if ($(this).hasClass('less')) {
+                $(this).removeClass('less');
+                $(this).addClass('more');
+                $(this).text('Collapse');
+         }else{
+             $(this).addClass('less');
+                $(this).removeClass('more');
+                $(this).text('Expand');
+         }
     })
     $('.expand-3').click(function(){
-         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
         $('.sec-wrap-4').slideToggle("slow");
+        if ($(this).hasClass('less')) {
+                $(this).removeClass('less');
+                $(this).addClass('more');
+                $(this).text('Collapse');
+         }else{
+             $(this).addClass('less');
+                $(this).removeClass('more');
+                $(this).text('Expand');
+         }
     })
     $('.expand-4').click(function(){
-         //$(this).closest('.row').find('.sec-wrap').slideToggle("slow");
         $('.sec-wrap-5').slideToggle("slow");
+        if ($(this).hasClass('less')) {
+                $(this).removeClass('less');
+                $(this).addClass('more');
+                $(this).text('Collapse');
+         }else{
+             $(this).addClass('less');
+                $(this).removeClass('more');
+                $(this).text('Expand');
+         }
     })
     
     //progressbar

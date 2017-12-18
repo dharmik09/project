@@ -11,6 +11,8 @@
         <!-- Bootstrap -->
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
         <link href="{{asset('css/owl.css')}}" rel="stylesheet">
+        <link href="{{asset('css/magnific-popup.css')}}" rel="stylesheet">
+        <link href="{{asset('css/aos.css')}}" rel="stylesheet">
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
         
         @stack('script-header')
@@ -121,7 +123,7 @@
             </div>
         </footer>
         <div id="loading-wrapper">
-            <div id="loading-text">Loading...</div>
+            <div id="loading-text"><span>Loading...</span></div>
             <div id="loading-content"></div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -130,7 +132,11 @@
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
+        <script src="{{ asset('js/aos.js') }}"></script>
+        <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
         <script src="{{ asset('js/general.js') }}"></script>
+        
         @stack('script-footer')
         @yield('script')
     </body>
