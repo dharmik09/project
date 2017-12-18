@@ -16,6 +16,12 @@ use App\DeductedCoins;
 use App\TemplateDeductedCoins;
 use App\Services\Coin\Contracts\CoinRepository;
 use App\PurchasedCoins;
+use Indipay;
+use App\Services\Parents\Contracts\ParentsRepository;
+use App\TeenParentRequest;
+use App\Services\Template\Contracts\TemplatesRepository;
+use Mail;
+use Redirect;
 
 class CoinManagementController extends Controller
 {
@@ -25,14 +31,17 @@ class CoinManagementController extends Controller
      *
      * @return void
      */
-    public function __construct(TeenagersRepository $teenagersRepository, CoinRepository $coinRepository)
+    public function __construct(TeenagersRepository $teenagersRepository, CoinRepository $coinRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->objTransactions = new Transactions;
         $this->objDeductedCoins = new DeductedCoins;
         $this->objTemplateDeductedCoins = new TemplateDeductedCoins;
         $this->objPurchasedCoins = new PurchasedCoins;
+        $this->objTeenParentRequest = new TeenParentRequest;
+        $this->templateRepository = $templatesRepository;
         $this->coinRepository = $coinRepository;
+        $this->parentsRepository = $parentsRepository;
     }
 
     /**
@@ -105,5 +114,69 @@ class CoinManagementController extends Controller
             }
         }
         return view('teenager.proCoinsBuy', compact('coinsDetail', 'teenData', 'day'));
+    }
+
+    //Process purchased coins to Indipay
+    public function saveCoinPurchasedData($id) {
+        $coinsDetail = $this->coinRepository->getAllCoinsDetailByid($id);
+        if (!empty($coinsDetail)) {
+            $teenId = Auth::guard('teenager')->user()->id;
+            $amount = $coinsDetail[0]->c_price;
+            $parameters = [
+                  'tid' => $teenId.time(),
+                  'order_id' => time(),
+                  'amount' => $amount,
+                  'merchant_param1' => '1',
+                  'merchant_param2' => $id,
+            ];
+
+            $order = Indipay::prepare($parameters);
+            return Indipay::process($order);
+        }
+    }
+
+    //Mail to Parent for purchase coins
+    public function requestParentForPurchasedCoins() {
+        $email = Input::get('email');
+        $teenId = Auth::guard('teenager')->user()->id;
+        $parent = $this->parentsRepository->getParentDetailByEmailId($email);
+        if (!empty($parent)) {
+            $checkPairAvailability = $this->parentsRepository->checkPairAvailability($teenId, $parent['id']);
+            if (!empty($checkPairAvailability)) {
+                $saveData = [];
+                $saveData['tpr_teen_id'] = $teenId;
+                $saveData['tpr_parent_id'] = $parent['id'];
+                $saveData['tpr_status'] = 1;
+                $result = $this->objTeenParentRequest->saveTeenParentRequestDetail($saveData);
+
+                $userDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
+                $replaceArray = array();
+                $replaceArray['USER_NAME'] = $parent['p_first_name'];
+
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_COINS_REQUEST_TEMPLATE'));
+                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+
+                $data = array();
+                $data['subject'] = $emailTemplateContent->et_subject;
+                $data['toEmail'] = $parent['p_email'];
+                $data['toName'] = $parent['p_first_name'] ." ". $parent['p_last_name'];
+                $data['content'] = $content;
+
+                Mail::send(['html' => 'emails.Template'], $data , function ($m) use ($data) {
+                    $m->from(Config::get('constant.FROM_MAIL_ID'), 'ProCoins Request By Teenager');
+                    $m->subject($data['subject']);
+                    $m->to($data['toEmail'], $data['toName']);
+                });
+
+              return Redirect::to('/teenager/buy-procoins/')->with('success', trans('appmessages.parentrequestsuccess'));
+              exit;
+            } else {
+                return Redirect::to('/teenager/buy-procoins/')->with('error', trans('appmessages.parentteenvarify'));
+                exit;
+            }
+        } else {
+            return Redirect::to('/teenager/buy-procoins/')->with('error', trans('appmessages.parent_email_invalid'));
+            exit;
+        }
     }
 }

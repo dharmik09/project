@@ -173,50 +173,6 @@ class DashboardController extends Controller
         }
     }
 
-    public function requestParentForPurchasedCoins() {
-        $email = Input::get('email');
-        $teenId = Auth::guard('teenager')->user()->id;
-        $parent = $this->parentsRepository->getParentDetailByEmailId($email);
-        if (!empty($parent)) {
-            $checkPairAvailability = $this->parentsRepository->checkPairAvailability($teenId, $parent['id']);
-            if (!empty($checkPairAvailability)) {
-                $saveData = [];
-                $saveData['tpr_teen_id'] = $teenId;
-                $saveData['tpr_parent_id'] = $parent['id'];
-                $saveData['tpr_status'] = 1;
-                $result = $this->objTeenParentRequest->saveTeenParentRequestDetail($saveData);
-
-                $userDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
-                $replaceArray = array();
-                $replaceArray['USER_NAME'] = $parent['p_first_name'];
-
-                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_COINS_REQUEST_TEMPLATE'));
-                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-
-                $data = array();
-                $data['subject'] = $emailTemplateContent->et_subject;
-                $data['toEmail'] = $parent['p_email'];
-                $data['toName'] = $parent['p_first_name'] ." ". $parent['p_last_name'];
-                $data['content'] = $content;
-
-                Mail::send(['html' => 'emails.Template'], $data , function ($m) use ($data) {
-                    $m->from(Config::get('constant.FROM_MAIL_ID'), 'ProCoins Request By Teenager');
-                    $m->subject($data['subject']);
-                    $m->to($data['toEmail'], $data['toName']);
-                });
-
-              return Redirect::to('/teenager/buy-procoins/')->with('success', trans('appmessages.parentrequestsuccess'));
-              exit;
-            } else {
-                return Redirect::to('/teenager/buy-procoins/')->with('error', trans('appmessages.parentteenvarify'));
-                exit;
-            }
-        } else {
-            return Redirect::to('/teenager/buy-procoins/')->with('error', trans('appmessages.parent_email_invalid'));
-            exit;
-        }
-    }
-
     //Update meta information for teenager
     public function saveTeenagerAchievement(Request $request) {
         $data = [];

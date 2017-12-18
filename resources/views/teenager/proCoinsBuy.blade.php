@@ -101,32 +101,18 @@
                                         </div>
                                         <p>{{$val->c_description}}</p>
                                     </div>
-                                    <a href="#" title="Buy" class="btn btn-primary">Buy</a>
+                                    <?php $packageId = base64_encode($val->id);?>
+                                    <a href="#" title="Buy" class="btn btn-primary" data-toggle="modal" data-target="#buyProCoins" onClick="purchasedCoins('{{$packageId}}', {{$val->c_valid_for}});">Buy</a>
                                 </div>
                                 
                             </div>
                             <?php
-                                    $column_count++;
-                                ?>
-                                @endforeach
-                                @else
-                                    No Packages found.
-                                @endif
-                            <!-- <div class="col-sm-6 flex-items">
-                                <div class="block-procoins">
-                                    <div class="coin-info">
-                                        <div class="icon">
-                                            <i class="icon-gold"></i>
-                                        </div>
-                                        <h4>Gold</h4>
-                                        <h2 class="price"><span>&#8377;</span>360</h2>
-                                        <div class="procoins-value">250,000 <span>ProCoins</span>
-                                        </div>
-                                        <p>30 days validity • Includes 185,000 ProCoins for free features • Includes 65,000 ProCoins for Paid features</p>
-                                    </div>
-                                    <a href="#" title="Buy" class="btn btn-primary">Buy</a>
-                                </div>
-                            </div> -->
+                                $column_count++;
+                            ?>
+                            @endforeach
+                            @else
+                                No Packages found.
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -135,6 +121,24 @@
         <!--procoins sec end-->
     </div>
     <!--mid content end-->
+    <div class="modal fade" id="buyProCoins" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    <h4 class="modal-title">Buy Coins</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="packageId" type="hidden" value="" >
+                    <p>This Package valid for <span class="confirm_coins"></span> Days</p>
+                </div>
+                <div class="modal-footer"><button type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="savePurchasedCoinDetails();">ok</button><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+   <!--  <div id="buyProCoinsModal" title="Buy Coins" style="display:none;">
+        <p><span class="confirm_coins"></span></p>
+    </div> -->
 @stop
    
 @section('script')
@@ -144,5 +148,25 @@
                 $("body").addClass('procoins-buy');
             }
         })
+        function purchasedCoins(packageId, days)
+        {
+            $("#packageId").val(packageId);
+            $(".confirm_coins").text(days);
+        }
+        function savePurchasedCoinDetails()
+        {
+            var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
+            package_id = Base64.decode($("#packageId").val());
+            $.ajax({
+                url: "{{ url('/teenager/save-coin-purchased-data').'/' }}" + package_id,
+                type: 'get',
+                data: {
+                    "_token": '{{ csrf_token() }}',
+                },
+            success: function(response) {
+                    
+                }
+            });
+        }
     </script>
 @stop

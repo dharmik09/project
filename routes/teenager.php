@@ -39,5 +39,6 @@ Route::get('/get-pro-coins-history/', 'Teenager\CoinManagementController@getProC
 
 //Buy ProCoins
 Route::get('/buy-procoins', 'Teenager\CoinManagementController@displayProCoins');
-Route::post('/request-parent', 'Teenager\DashboardController@requestParentForPurchasedCoins');
+Route::post('/request-parent', 'Teenager\CoinManagementController@requestParentForPurchasedCoins');
+Route::get('/save-coin-purchased-data/{id}', 'Teenager\CoinManagementController@saveCoinPurchasedData');
 //Route::get('/getConsumption/', 'Teenager\DashboardController@getConsumption');

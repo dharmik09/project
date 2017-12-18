@@ -106,6 +106,7 @@ class EloquentCouponsRepository extends EloquentBaseRepository
     
     public function getSponsorsCoupon()
     {
+      
         $coupons = DB::table(config::get('databaseconstants.TBL_COUPONS'). " AS coupon")
                               ->join(config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor", 'coupon.cp_sponsor', '=', 'sponsor.id')
                               ->selectRaw('coupon.* , sponsor.sp_company_name')

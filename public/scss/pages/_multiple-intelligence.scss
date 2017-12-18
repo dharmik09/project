@@ -5,17 +5,12 @@
     position: relative;
     .teaser-overlay {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,eeeeef+8,eeeeef+88,ffffff+88&0+0,0.8+8,0.92+89 */
-/*background: -moz-linear-gradient(top, rgba(238,238,239,0) 0%, rgba(238,238,239,0.8) 8%, rgba(238,238,239,0.92) 88%, rgba(238,238,239,0.92) 89%); 
-background: -webkit-linear-gradient(top, rgba(238,238,239,0) 0%,rgba(238,238,239,0.8) 8%,rgba(238,238,239,0.92) 88%,rgba(238,238,239,0.92) 89%);
-background: linear-gradient(to bottom, rgba(238,238,239,0) 0%,rgba(238,238,239,0.8) 8%,rgba(238,238,239,0.92) 88%,rgba(238,238,239,0.92) 89%); 
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ebffffff',GradientType=0 ); */
-        background-image: url(../img/overlay.png);
-        background-size: cover;
-        background-position: top center;
-        width: 100%;
-        
+/*background: -moz-linear-gradient(top, rgba(238,238,238,0) 0%, rgba(238,238,238,0.8) 8%, rgba(238,238,238,0.8) 88%, rgba(238,238,238,0.80 89%); 
+background: -webkit-linear-gradient(top, rgba(238,238,238,0) 0%,rgba(238,238,238,0.8) 8%,rgba(238,238,238,0.8) 88%,rgba(238,238,238,0.8) 89%);
+background: linear-gradient(to bottom, rgba(238,238,238,0) 0%,rgba(238,238,238,0.8) 8%,rgba(238,238,238,0.8) 88%,rgba(238,238,238,0.8) 89%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ebffffff',GradientType=0 );*/ /* IE6-9 */
         p{
             top: 13%;
         }
     }
-}
+} 
