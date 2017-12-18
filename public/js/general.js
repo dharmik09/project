@@ -11,12 +11,16 @@ $(document).ready(function () {
             $('.submenu-container').removeClass('active');
         }
     });
-    $(".submenu-container > a").hover(function(){
-    $('.submenu-container').removeClass('active');
+    $(".submenu-container > a").hover(function () {
+        $('.submenu-container').removeClass('active');
         $(this).closest('.submenu-container').addClass('active');
-},function(){
-    $('.submenu-container').addClass('inactive');
-});
+        $('.submenu').removeClass('inactive');
+    }, function () {
+        $('.submenu-container').removeClass('inactive');
+    });
+    $(".submenu-container").mouseleave(function () {
+        $('.submenu-container').removeClass('active');
+    });
 
     var rocketImage = $('.menu-rocket');
     var activatedLink = $('.main-menu li a.active');
@@ -53,11 +57,11 @@ $(document).ready(function () {
     $('.menu-close').click(function (e) {
         e.preventDefault();
     });
-    $('.vol-on').click(function (){
+    $('.vol-on').click(function () {
         $(this).addClass('hide');
         $('.vol-off').removeClass('hide');
     })
-    $('.vol-off').click(function (){
+    $('.vol-off').click(function () {
         $(this).addClass('hide');
         $('.vol-on').removeClass('hide');
     })
@@ -149,74 +153,74 @@ $(document).ready(function () {
 			$(this).hide();
 		});
 */
- //loading page css
+    //loading page css
     //$('#loading-wrapper').remove();
-    setTimeout(function(){
+    setTimeout(function () {
         $('#loading-wrapper').remove();
-    },2500);
+    }, 2500);
     $('body').removeClass('overflw-hide');
     //expand
-     $('.expand').click(function(){
+    $('.expand').click(function () {
         $('.sec-wrap-1').slideToggle("slow");
-         if ($(this).hasClass('less')) {
-                $(this).removeClass('less');
-                $(this).addClass('more');
-                $(this).text('Collapse');
-         }else{
-             $(this).addClass('less');
-                $(this).removeClass('more');
-                $(this).text('Expand');
-         }
+        if ($(this).hasClass('less')) {
+            $(this).removeClass('less');
+            $(this).addClass('more');
+            $(this).text('Collapse');
+        } else {
+            $(this).addClass('less');
+            $(this).removeClass('more');
+            $(this).text('Expand');
+        }
     })
-    $('.expand-1').click(function(){
+    $('.expand-1').click(function () {
         $('.sec-wrap-2').slideToggle("slow");
         if ($(this).hasClass('less')) {
-                $(this).removeClass('less');
-                $(this).addClass('more');
-                $(this).text('Collapse');
-         }else{
-             $(this).addClass('less');
-                $(this).removeClass('more');
-                $(this).text('Expand');
-         }
+            $(this).removeClass('less');
+            $(this).addClass('more');
+            $(this).text('Collapse');
+        } else {
+            $(this).addClass('less');
+            $(this).removeClass('more');
+            $(this).text('Expand');
+        }
     })
-    $('.expand-2').click(function(){
+    $('.expand-2').click(function () {
         $('.sec-wrap-3').slideToggle("slow");
         if ($(this).hasClass('less')) {
-                $(this).removeClass('less');
-                $(this).addClass('more');
-                $(this).text('Collapse');
-         }else{
-             $(this).addClass('less');
-                $(this).removeClass('more');
-                $(this).text('Expand');
-         }
+            $(this).removeClass('less');
+            $(this).addClass('more');
+            $(this).text('Collapse');
+        } else {
+            $(this).addClass('less');
+            $(this).removeClass('more');
+            $(this).text('Expand');
+        }
     })
-    $('.expand-3').click(function(){
+    $('.expand-3').click(function () {
         $('.sec-wrap-4').slideToggle("slow");
         if ($(this).hasClass('less')) {
-                $(this).removeClass('less');
-                $(this).addClass('more');
-                $(this).text('Collapse');
-         }else{
-             $(this).addClass('less');
-                $(this).removeClass('more');
-                $(this).text('Expand');
-         }
+            $(this).removeClass('less');
+            $(this).addClass('more');
+            $(this).text('Collapse');
+        } else {
+            $(this).addClass('less');
+            $(this).removeClass('more');
+            $(this).text('Expand');
+        }
     })
-    $('.expand-4').click(function(){
+    $('.expand-4').click(function () {
         $('.sec-wrap-5').slideToggle("slow");
         if ($(this).hasClass('less')) {
-                $(this).removeClass('less');
-                $(this).addClass('more');
-                $(this).text('Collapse');
-         }else{
-             $(this).addClass('less');
-                $(this).removeClass('more');
-                $(this).text('Expand');
-         }
+            $(this).removeClass('less');
+            $(this).addClass('more');
+            $(this).text('Collapse');
+        } else {
+            $(this).addClass('less');
+            $(this).removeClass('more');
+            $(this).text('Expand');
+        }
     })
-    
+
     //progressbar
     $(function () {
         $(window).scroll(function () {
