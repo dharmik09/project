@@ -1361,7 +1361,7 @@
     height: 800px;
     background: $white;
 }
-
+/*.teaser-content{filter: blur(3px);}*/
 .teaser-overlay {
     z-index: 99;
     position: absolute;
@@ -1424,3 +1424,4 @@
 }
 #menu4 .team-point i{color: $h-cl !important;}
 #menu4 .load-more{color: $h-cl !important;}
+.alert-s{color:$white;}

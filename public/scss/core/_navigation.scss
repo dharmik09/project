@@ -36,7 +36,7 @@ nav {
     bottom: 0;
     height: 100%;
     width: 100%;
-    background-color: $white;
+    background-color: rgba(255, 255, 255, 0.8);
     display: block;
     visibility: hidden;
     opacity: 0;
@@ -369,3 +369,4 @@ body.fixed-nav {
 body.fixedPosition {
     overflow: hidden;
 }
+.inactive{display: none;}

@@ -11,7 +11,12 @@ $(document).ready(function () {
             $('.submenu-container').removeClass('active');
         }
     });
-
+    $(".submenu-container > a").hover(function(){
+    $('.submenu-container').removeClass('active');
+        $(this).closest('.submenu-container').addClass('active');
+},function(){
+    $('.submenu-container').addClass('inactive');
+});
 
     var rocketImage = $('.menu-rocket');
     var activatedLink = $('.main-menu li a.active');
