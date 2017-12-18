@@ -9,12 +9,12 @@
     <div class="banner-landing">
         <div class="container">
             <div class="play-icon">
-                <a href="javascript:void(0);" class="play-btn" id="iframe-video">
+                <a href="javascript:void(0);" class="play-btn" id="iframe-video-click">
                     <img src="{{ asset('img/play-icon.png') }}" alt="play icon">
                 </a>
             </div>
         </div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/WoelVRjFO4A?rel=0&showinfo=0" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/WoelVRjFO4A?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
     <!-- teen bio-->
     <section class="teen-bio">
@@ -155,7 +155,12 @@
                     }
                 }
             });
+            $('#iframe-video-click').on('click', function(ev) {
+                $("#iframe-video")[0].src += "&autoplay=1";
+                ev.preventDefault();
+            });
         });
+
         $(window).bind("load", function() {
             $('.masonary-grid').masonry({
                 itemSelector: '.item',
