@@ -130,6 +130,7 @@
         <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('frontend/js/jquery-ui.min.js')}}"></script>
         <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
