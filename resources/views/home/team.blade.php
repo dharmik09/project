@@ -22,7 +22,7 @@
                     <h2>Management</h2>
                     <ul class="nav nav-tabs clearfix owl-carousel" id="team-slider">
                         @forelse($data as $user)
-                            <li class="custom-tab col-xs-6">
+                            <li <?php if($data->first() == $user) { ?> class="custom-tab col-xs-6 active" <?php } else { ?> class="custom-tab col-xs-6" <?php } ?> >
                                 <a data-toggle="tab" href="#menu{{ $user->id }}">
                                     <span class="name">{{ $user->t_name }}</span>
                                     <span class="job-title">{{ $user->t_title }}</span>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="tab-content">
                     @forelse($data as $user)
-                        <div id="menu{{$user->id}}" class="tab-pane fade in active">
+                        <div id="menu{{$user->id}}" <?php if($data->first() == $user) { ?> class="tab-pane fade in active" <?php } else { ?> class="tab-pane fade" <?php } ?> >
                             <div class="container">
                                 {!! $user->t_description !!}
                             </div>
@@ -86,5 +86,11 @@
             },
         }
     });
+    $('#team-slider a').click(function(e) {
+        e.preventDefault();
+        $("#team-slider li").removeClass('active');
+        $(this).addClass("active");
+    });
+    
 </script>
 @endpush

@@ -145,10 +145,16 @@
 @stop
 
 @section('script')
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
+    CKEDITOR.replace('t_description');
     $('.numeric').on('keyup', function() {
         this.value = this.value.replace(/[^0-9]/gi, '');
     });
+    jQuery.validator.addMethod("emptyetbody", function(value, element) {
+    var t_description = CKEDITOR.instances['t_description'].getData();
+        return t_description != '';
+    }, "<?php echo trans('validation.requiredfield')?>");
     jQuery(document).ready(function() {
         <?php if (isset($testimonial->id) && $testimonial->id != '0') { ?>
             var validationRules = {
@@ -159,7 +165,7 @@
                     required : true
                 },
                 t_description : {
-                    required : true
+                    emptyetbody : true
                 },
                 deleted : {
                     required : true
@@ -177,7 +183,7 @@
                     required : true
                 },
                 t_description : {
-                    required : true
+                    emptyetbody : true
                 },
                 deleted : {
                     required : true
@@ -198,7 +204,7 @@
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 t_description : {
-                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                    emptyetbody : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
