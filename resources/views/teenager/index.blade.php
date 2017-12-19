@@ -190,8 +190,7 @@
             items: 1,
             nav: true,
             dots: false,
-            autoplay:true,
-            interval: 5000
+            smartSpeed: 2000,
         });
         $('.play-icon').click(function () {
             $(this).hide("slow");

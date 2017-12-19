@@ -220,6 +220,7 @@
             items: 1,
             nav: true,
             dots: false,
+            smartSpeed: 2000,
         });
         $('.play-icon').click(function () {
             $(this).hide();
