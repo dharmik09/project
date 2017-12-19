@@ -156,7 +156,7 @@ $(document).ready(function () {
     //loading page css
     //$('#loading-wrapper').remove();
     setTimeout(function () {
-        $('#loading-wrapper').remove();
+        $('#loading-wrapper').hide();
     }, 2500);
     $('body').removeClass('overflw-hide');
     //expand

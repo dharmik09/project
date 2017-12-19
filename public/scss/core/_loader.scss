@@ -120,3 +120,7 @@
     transform: rotate(360deg);
   }
 }
+.deactive{
+    opacity: 0.5;
+    pointer-events: none;
+}

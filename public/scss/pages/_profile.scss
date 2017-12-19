@@ -1523,7 +1523,7 @@ input:checked + .slider:before {
 .sec-record {
     background: $bg-offwhite;
     text-align: center;
-    padding-bottom: 40px;
+    //padding-bottom: 40px;
     p {
         margin-bottom: 0;
     }
@@ -1716,7 +1716,7 @@ span.password-info {
 
 .sponsor-overflow {
     overflow-x: hidden;
-    overflow-y: -webkit-paged-x;
+    overflow-y:hidden;
 }
 
 .opinion-ans {
