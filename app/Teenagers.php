@@ -170,7 +170,7 @@ class Teenagers extends Authenticatable {
         return $result;
     }
 
-    public function getActiveTeenagersForGiftCoupon($teenId = '',$searchData) {
+    public function getActiveTeenagersForGiftCoupon($teenId = '', $searchData) {
         $whereStr = '';
         $whereArray = [];
         foreach ($searchData AS $key => $value) {

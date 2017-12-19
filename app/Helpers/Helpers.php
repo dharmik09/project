@@ -2434,9 +2434,9 @@ Class Helpers {
         return asset(Config::get('constant.VIDEO_ORIGINAL_IMAGE_UPLOAD_PATH') . $videoPhotoName);
     }
 
-    public static function getActiveTeenagersForGiftCoupon($Id = '',$searchArray) {
+    public static function getActiveTeenagersForGiftCoupon($Id = '', $searchArray) {
         $objTeenager = new Teenagers();
-        $teenager = $objTeenager->getActiveTeenagersForGiftCoupon($Id,$searchArray);
+        $teenager = $objTeenager->getActiveTeenagersForGiftCoupon($Id, $searchArray);
         return $teenager;
     }
 
