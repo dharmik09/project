@@ -25,7 +25,7 @@ class TestimonialManagementController extends Controller
 
     public function index() {
         $testimonialOriginalImageUploadPath = $this->testimonialOriginalImageUploadPath;
-        $testimonials = $this->objTestimonial->getAllTestimonials();
+        $testimonials = $this->objTestimonial->getAllTestimonialRecords();
         return view('admin.ListTestimonial', compact('testimonials', 'testimonialOriginalImageUploadPath'));
     }
 

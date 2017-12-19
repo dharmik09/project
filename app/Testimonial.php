@@ -13,7 +13,7 @@ class Testimonial extends Model
     protected $guarded = [];
     
     public function getAllTestimonials() {
-        $testinomials = Testimonial::selectRaw('*')->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+        $testinomials = Testimonial::selectRaw('*')->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->where('t_type', "testinomials")->get();
         return $testinomials;
     }
 
@@ -37,5 +37,10 @@ class Testimonial extends Model
         } else {
             return false;
         }
+    }
+
+    public function getAllTestimonialRecords() {
+        $testinomials = Testimonial::selectRaw('*')->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+        return $testinomials;
     }
 }
