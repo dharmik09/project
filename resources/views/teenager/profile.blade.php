@@ -62,21 +62,21 @@
             <div class="profile-detail">
                 <div class="row">
                     <div class="col-sm-3">
-                        <div class="profile-img" style="background-image: url({{ $data['user_profile'] }})">
-
+                        <div class="upload-img profile-img" id="img-preview">
+                            <span style="background-image: url({{ $data['user_profile'] }})"></span>
+                            <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
                         </div>
-                        <span class="complete-detail">Profile 62% complete </span>
-                        <?php
-                            if($user->t_pincode != "")
-                            {
-                                $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true');
-                                $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
-                            } else {
-                                $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
-                            }
-                        ?>
+                        <span class="complete-detail">Profile 62% complete</span>
                     </div>
-
+                    <?php
+                        if($user->t_pincode != "")
+                        {
+                            $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true');
+                            $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+                        } else {
+                            $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
+                        }
+                    ?>
                     <div class="col-sm-9">
                         <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                         <ul class="area-detail">
@@ -116,14 +116,14 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone" tabindex="5" value="{{ $user->t_phone }}">
+                                    <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="Phone" tabindex="5" value="{{ $user->t_phone_new }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group input-group">
                                     <div class="clearfix">
                                         <span class="input-group-addon">+91</span>
-                                        <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
+                                        <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +139,6 @@
                                     <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
                                 </div>
                             </div>
-                            <input type="hidden" name="country_phone_code" id="country_phone_code" readonly="readonly" id="country_phone_code" class="cst_input_primary" maxlength="10" placeholder="Phone Code" value="{{old('country_phone_code')}}">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
@@ -147,8 +146,8 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <span class="password-info">Type password to change your current password</span>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16">
+                                    <span class="password-info">Type password to change your current password</span>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -164,7 +163,12 @@
                                     <input type="text" class="form-control" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
                                 </div>
                             </div>
-                            <?php list($birthYear, $birthMonth, $birthDay) = explode("-", $user->t_birthdate); ?>
+                            <?php 
+                                $birthYear = $birthMonth = $birthDay = "";
+                                if(isset($user->t_birthdate) && $user->t_birthdate != "") {
+                                    list($birthYear, $birthMonth, $birthDay) = explode("-", $user->t_birthdate);
+                                }
+                            ?>
                             <div class="col-sm-9 col-sm-offset-3 text-right">
                                 <div class="form-group date-sec">
                                     <label>Date of Birth:</label>
@@ -261,6 +265,15 @@
                                             <span class="slider round">
                                                 <span class="on">On</span>
                                                 <span class="off">Off</span>
+                                            </span>
+                                        </label>
+                                    </li>
+                                    <li>View Information For
+                                        <label class="switch">
+                                        <input type="checkbox">
+                                            <span class="slider round">
+                                              <span class="on">USA</span>
+                                              <span class="off">India</span>
                                             </span>
                                         </label>
                                     </li>
@@ -673,6 +686,20 @@
 @section('script')
 <script src="//cdn.ckeditor.com/4.5.8/standard/ckeditor.js"></script>
 <script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var a = document.querySelector("#img-preview");
+                a.style.backgroundImage = "url('" + e.target.result + "')";
+                // document.getElementById("#").className = "activated";
+                a.className = "upload-img activated";
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+        
     $(document).ready(function() {
         $('.mentor-list ul').owlCarousel({
             loop: false,

@@ -49,6 +49,7 @@ class TestimonialManagementController extends Controller
         $testimonialDetail['t_title'] = e(Input::get('t_title'));
         $testimonialDetail['t_description'] = e(Input::get('t_description'));
         $testimonialDetail['deleted'] = e(Input::get('deleted'));
+        $testimonialDetail['t_type'] = Input::get('t_type');
 
         if (Input::file())
         {

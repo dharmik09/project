@@ -1,26 +1,18 @@
 @extends('layouts.admin-master')
 
 @section('content')
-
-<!-- Content Wrapper. Contains page content -->
-
-<!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
         {{trans('labels.testimonials')}}
     </h1>
 </section>
-
-<!-- Main content -->
 <section class="content">
     <div class="row">
-        <!-- right column -->
         <div class="col-md-12">
-            <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo (isset($testimonial) && !empty($testimonial)) ? trans('labels.edit') : trans('labels.add') ?> {{trans('labels.testimonial')}}</h3>
-                </div><!-- /.box-header -->
+                </div>
                 @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <strong>{{trans('validation.whoops')}}</strong>{{trans('validation.someproblems')}}<br><br>
@@ -65,6 +57,24 @@
                         <label for="t_title" class="col-sm-2 control-label">{{trans('labels.testimonialtitle')}}</label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" id="t_title" name="t_title" placeholder="{{trans('labels.testimonialtitle')}}" value="{{$t_title}}"/>
+                        </div>
+                    </div>
+                    <?php
+                        if (old('t_type'))
+                            $t_type = old('t_type');
+                        elseif ($testimonial)
+                            $t_type = $testimonial->t_type;
+                        else
+                            $t_type = '';
+                    ?>
+                    <div class="form-group">
+                        <label for="t_type" class="col-sm-2 control-label">Type</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="t_type" name="t_type">
+                                <option value="testinomials" <?php if ($t_type == "testinomials") echo 'selected'; ?> > Testinomials </option>
+                                <option value="management" <?php if ($t_type == "management") echo 'selected'; ?> > Team Management </option>
+                                <option value="advisory" <?php if ($t_type == "advisory") echo 'selected'; ?> > Team Advisory </option>
+                            </select>
                         </div>
                     </div>
                     <?php
