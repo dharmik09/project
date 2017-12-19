@@ -93,11 +93,11 @@
     .upload-img {
         max-width: 88%;
         min-height: 184px;
-        cursor: pointer; // border: 1px solid $white;
+        cursor: pointer; border:none;
         margin-bottom: 44px;
         transition: all 0.3s ease-out 0s;
         &:before {
-            //  display: none;
+            display: none;//for removing hover
             opacity: 0;
             z-index: 9;
             content: "\e927";
@@ -321,7 +321,7 @@
                 margin-bottom: 15px;
             }
             .input-group-addon {
-                background: $white;
+                background: #efefef;
                 border-color: #98999b;
                 font-family: hl;
                 font-size: 24px;
@@ -2151,7 +2151,7 @@ span.password-info {
     border: 1px solid $p-cl;
     position: relative;
     text-align: center;
-    background-size: auto;
+    background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
     max-width: 150px;

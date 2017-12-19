@@ -14,7 +14,7 @@
                 </a>
             </div>
         </div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/WoelVRjFO4A?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/4d7ZXKozbtw?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
     <!-- teen bio-->
     <section class="teen-bio">
@@ -205,9 +205,10 @@
             items: 1,
             nav: true,
             dots: false,
+            smartSpeed: 2000,
         });
         $('.play-icon').click(function () {
-            $(this).hide();
+            $(this).hide("slow");
             $('iframe').show();
         });
         $("#loginSubmit").click(function() {

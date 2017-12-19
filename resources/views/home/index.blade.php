@@ -233,9 +233,11 @@
                 mouseDrag: false,
                 touchDrag: false,
                 autoplay: true,
-                autoplayTimeout: 3000,
-                smartSpeed: 1000,
+                autoplayTimeout:7000,
+                smartSpeed: 2000,
                 dots:true,
+                animateOut: 'fadeOut',
+                animateIn: 'fadeIn',
             });
             $(".owl-dots").wrap("<div class='container dot-container'></div>");
             $(window).scroll(function () {

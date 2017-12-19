@@ -10,7 +10,7 @@
         <div class="container">
             <div class="play-icon">
                 <a href="javascript:void(0);" class="play-btn" id="iframe-video-click">
-                    <img src="{{ asset('img/play-icon.png') }}" alt="play icon">
+                    <img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon">
                 </a>
             </div>
         </div>
@@ -190,8 +190,7 @@
             items: 1,
             nav: true,
             dots: false,
-            autoplay:true,
-            interval: 5000
+            smartSpeed: 2000,
         });
         $('.play-icon').click(function () {
             $(this).hide("slow");
