@@ -28,12 +28,6 @@
                                     <span class="job-title">{{ $user->t_title }}</span>
                                 </a>
                             </li>
-                            <li class="custom-tab col-xs-6">
-                                <a data-toggle="tab" href="#menu{{ $user->id }}">
-                                    <span class="name">{{ $user->t_name }}</span>
-                                    <span class="job-title">{{ $user->t_title }}</span>
-                                </a>
-                            </li>
                         @empty
 
                         @endforelse
@@ -41,11 +35,6 @@
                 </div>
                 <div class="tab-content">
                     @forelse($data as $user)
-                        <div id="menu{{$user->id}}" class="tab-pane fade in active">
-                            <div class="container">
-                                {!! $user->t_description !!}
-                            </div>
-                        </div>
                         <div id="menu{{$user->id}}" class="tab-pane fade in active">
                             <div class="container">
                                 {!! $user->t_description !!}
