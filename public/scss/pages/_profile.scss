@@ -52,25 +52,32 @@
     .profile-img {
         border: none;
         max-width: 100%;
-        width: 100%;
+        width: 88%;
         min-height: 184px;
         margin-bottom: 44px;
         cursor: pointer;
+
         span {
-            background-size: cover;
+            background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             width: 100%;
             min-height: 184px;
-            cursor: pointer;
-            //position: absolute;
-            &:before{
+            cursor: pointer; //position: absolute;
+            display: block;
+            &:before {
                 position: absolute;
                 width: 100%;
                 height: 100%;
                 top: 0;
                 left: 0;
                 background: rgba(255, 95, 68, 0.7);
+                opacity: 0;
+            }
+        }
+        &:hover {
+            span:before {
+                opacity: 1;
             }
         }
         &:before {
@@ -83,10 +90,50 @@
             background-size: contain;
         }
     }
+    .upload-img {
+        max-width: 88%;
+        min-height: 184px;
+        cursor: pointer; // border: 1px solid $white;
+        margin-bottom: 44px;
+        transition: all 0.3s ease-out 0s;
+        &:before {
+            //  display: none;
+            opacity: 0;
+            z-index: 9;
+            content: "\e927";
+            font-family: proteen;
+            font-size: 30px;
+            padding-top: 70px;
+        }
+        &:hover {
+            &:before {
+                opacity: 1;
+            }
+            .upload-icon {
+                opacity: 1;
+            }
+        }
+        input[type="file"] {
+            cursor: pointer;
+            z-index: 99;
+        }
+        /*.upload-icon {
+            opacity: 0;
+            i {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 99;
+            }
+
+        }*/
+    }
     .complete-detail {
         display: block;
         font-size: 16px;
         font-family: hn-b;
+        text-align: center;
     }
     .chat-icon {
         position: absolute;
@@ -265,7 +312,7 @@
             }
         }
         .flex-items {
-            align-items: flex-end;
+            align-items: flex-start;
         }
         .form-group {
             margin-bottom: 27px;
