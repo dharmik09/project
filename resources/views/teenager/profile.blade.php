@@ -116,14 +116,14 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" tabindex="5" value="{{ $user->t_phone }}">
+                                    <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="Phone" tabindex="5" value="{{ $user->t_phone_new }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group input-group">
                                     <div class="clearfix">
                                         <span class="input-group-addon">+91</span>
-                                        <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
+                                        <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@
                                             </span>
                                         </label>
                                     </li>
-                                    <li>View Information In
+                                    <li>View Information For
                                         <label class="switch">
                                         <input type="checkbox">
                                             <span class="slider round">

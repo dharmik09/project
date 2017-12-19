@@ -185,9 +185,10 @@ class SocialLoginController extends Controller {
         try
         {
             $user = Socialite::driver('google')->user();
+
             $loginUrl = "teenager/login";
             $homeUrl = "teenager/home";
-            $name = (isset($user->name)) ? ucfirst($user->name) : "" ;
+            $name = (isset($user->user['name']['givenName'])) ? $user->user['name']['givenName'] : "";
             $lastname = (isset($user->user['name']['familyName'])) ? $user->user['name']['familyName'] : "";
             $email = (isset($user->email)) ? $user->email : "" ;
             $gender = (isset($user->user['gender'])) ? ($user->user['gender'] == "male") ? 1 : 2 : "";
