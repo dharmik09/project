@@ -16,10 +16,6 @@ Route::get('/interest/{slug}', 'Teenager\InterestManagementController@index');
 	//return view('teenager.interest');
 Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
 
-Route::get('/buy-procoins', function() {
-	return view('teenager.proCoinsBuy');
-});
-
 Route::get('/seo-mi', function() {
 	return view('teenager.seoMi');
 });
@@ -41,4 +37,8 @@ Route::get('/get-pro-coins-history/', 'Teenager\CoinManagementController@getProC
 Route::get('/buy-procoins', 'Teenager\CoinManagementController@displayProCoins');
 Route::post('/request-parent', 'Teenager\CoinManagementController@requestParentForPurchasedCoins');
 Route::get('/save-coin-purchased-data/{id}', 'Teenager\CoinManagementController@saveCoinPurchasedData');
-//Route::get('/getConsumption/', 'Teenager\DashboardController@getConsumption');
+
+//Coupons
+Route::get('/coupons/', 'Teenager\CouponManagementController@coupons');
+Route::post('/consume-coupon', 'Teenager\CouponManagementController@consumeCoupon');
+Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
