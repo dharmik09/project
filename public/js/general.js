@@ -236,3 +236,11 @@ $(document).ready(function () {
         });
     });
 });
+//menu close
+$(document).keydown(function(e) {
+    // ESCAPE key pressed
+    if (e.keyCode == 27) {
+        $('.main-menu').removeClass('active');
+        $('body').removeClass('fixedPosition');
+    }
+});

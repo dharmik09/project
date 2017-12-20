@@ -39,19 +39,19 @@ a {
 }
 
 .teen-bio .form-group input::-webkit-input-placeholder {
-    color: $white;
+    color: $white;text-transform:lowercase
 }
 
 .teen-bio .form-group input::-moz-placeholder {
-    color: $white;
+    color: $white;text-transform:lowercase
 }
 
 .teen-bio .form-group input :-ms-input-placeholder {
-    color: $white;
+    color: $white;text-transform:lowercase
 }
 
 .teen-bio .form-group input:-moz-placeholder {
-    color: $white;
+    color: $white;text-transform:lowercase
 }
 
 .container-small {
@@ -175,8 +175,14 @@ a {
     }
     .content {
         padding-right: 50px;
+        color: $lightgrey;
+        font-family: hl;
+        font-size: 17px;
         @include maxlg {
             padding-right: 10px;
+        }
+        @include maxms{
+            font-size: 14px;
         }
         p {
             margin-bottom: 30px;
@@ -225,7 +231,6 @@ a {
             background: transparent;
             border-color: $white;
             font-size: 17px;
-
             color: #fff;
             @include maxms {
                 font-size: 14px;
@@ -332,7 +337,7 @@ a {
         p {
             color: $white;
             font-size: 14px;
-            margin-bottom: 0;
+            margin-bottom: 6px;
             font-family: h;
         }
         a {
@@ -386,6 +391,7 @@ a {
                 padding-left: 2%;
                 display: inline-block;
                 vertical-align: middle;
+                color: $lightgrey;
                 @include maxmd {
                     padding-left: 5%;
                 }
@@ -484,6 +490,9 @@ a {
 
 .sec-content {
     padding: 120px 0;
+    color: $lightgrey;
+    font-family: hl;
+    font-size: 17px;
     @include maxlg {
         padding: 90px 0;
     }
@@ -492,6 +501,7 @@ a {
     }
     @include maxms {
         padding: 40px 0;
+        font-size: 14px;
     }
     [class*=col-] {
         &:first-child {

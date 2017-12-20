@@ -128,7 +128,11 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="password" class="form-control" name="password" id="password" placeholder=" password *" tabindex="11" required />
+                                <input type="password" class="form-control pass-visi" name="password" id="password" placeholder=" password *" tabindex="11" required />
+                                <span class="visibility-pwd">
+                                    <img src="{{ Storage::url('img/view.png') }}" alt="view" class="view img">
+                                    <img src="{{ Storage::url('img/hide.png') }}" alt="view" class="img-hide hide img">
+                                </span>
                                 <em style="color:red" id="pass_validation">  </em>
                             </div>
                         </div>
@@ -431,5 +435,22 @@
                 }
             });
         });
+
+        // Cache the toggle button
+            var $toggle = $(".visibility-pwd");
+            var $field = $(".pass-visi");
+             var i = $(this).find('.img');
+            // Toggle the field type
+            $toggle.on("click", function(e) {
+                e && e.preventDefault();
+                if ($field.attr("type") == "password") {
+                    $field.attr("type", "text");
+                    i.toggleClass("hide");
+                } else {
+                   i.toggleClass("hide");
+                    $field.attr("type", "password");
+                }
+
+            });
     </script>
 @stop
