@@ -26,13 +26,12 @@ class TeenagerProfileUpdateRequest extends Request {
                 'lastname' => 'required | min:3',
                 'email' => 'required | email | max : 100',
                 'country' => 'required',
-                'pincode' => 'required',
+                'pincode' => 'required | min : 5 | max : 6',
                 'gender' => 'required',
                 'year' => 'required',
                 'month' => 'required',
                 'day' => 'required',
                 'mobile' => 'required | numeric',
-                'phone' => 'numeric'
             ];
     }
     
