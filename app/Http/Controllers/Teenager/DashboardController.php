@@ -204,5 +204,18 @@ class DashboardController extends Controller
         
         return Redirect::to("teenager/my-profile")->with('success', 'Academic record updated successfully.');
     }
+
+    public function getPhoneCodeByCountry(Request $request) {
+        $countryId = $request->country_id;
+        $countryPhoneCode = '';
+        if($countryId != ''){
+            $countryData = $this->teenagersRepository->getCountryPhoneCode($countryId);
+            if(isset($countryData->c_phone_code) && $countryData->c_phone_code != ''){
+                $countryPhoneCode = $countryData->c_phone_code;
+            }
+        }
+        echo $countryPhoneCode; 
+        exit; 
+    }
    
 }
