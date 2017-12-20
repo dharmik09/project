@@ -25,7 +25,7 @@ class TestimonialManagementController extends Controller
 
     public function index() {
         $testimonialOriginalImageUploadPath = $this->testimonialOriginalImageUploadPath;
-        $testimonials = $this->objTestimonial->getAllTestimonials();
+        $testimonials = $this->objTestimonial->getAllTestimonialRecords();
         return view('admin.ListTestimonial', compact('testimonials', 'testimonialOriginalImageUploadPath'));
     }
 
@@ -47,7 +47,7 @@ class TestimonialManagementController extends Controller
         $testimonialDetail['id'] = e(Input::get('id'));
         $testimonialDetail['t_name'] = e(Input::get('t_name'));
         $testimonialDetail['t_title'] = e(Input::get('t_title'));
-        $testimonialDetail['t_description'] = e(Input::get('t_description'));
+        $testimonialDetail['t_description'] = Input::get('t_description');
         $testimonialDetail['deleted'] = e(Input::get('deleted'));
         $testimonialDetail['t_type'] = Input::get('t_type');
 

@@ -22,7 +22,7 @@
                     <h2>Management</h2>
                     <ul class="nav nav-tabs clearfix owl-carousel" id="team-slider">
                         @forelse($data as $user)
-                            <li class="custom-tab col-xs-6">
+                            <li <?php if($data->first() == $user) { ?> class="custom-tab col-xs-6 active" <?php } else { ?> class="custom-tab col-xs-6" <?php } ?> >
                                 <a data-toggle="tab" href="#menu{{ $user->id }}">
                                     <span class="name">{{ $user->t_name }}</span>
                                     <span class="job-title">{{ $user->t_title }}</span>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="tab-content">
                     @forelse($data as $user)
-                        <div id="menu{{$user->id}}" class="tab-pane fade in active">
+                        <div id="menu{{$user->id}}" <?php if($data->first() == $user) { ?> class="tab-pane fade in active" <?php } else { ?> class="tab-pane fade" <?php } ?> >
                             <div class="container">
                                 {!! $user->t_description !!}
                             </div>
@@ -46,23 +46,38 @@
                 </div>
             </div>
             @endif
+            @if($advisoryData->count() > 0)
             <div class="advisory-board">
-                <div class="container">
-                    <h2>Advisory Board</h2>
-                    <div class="board-list">
-                        <div class="row">
-                            <div class="col-xs-6 text-center">
-                                <h3>John Doe</h3>
-                                <h4>Job Title</h4>
+                <div class="team-management">
+                    <div class="container">
+                        <h2>ADVISORY BOARD</h2>
+                        <ul class="nav nav-tabs clearfix owl-carousel" id="advisory-slider">
+                            @forelse($advisoryData as $advisoryUser)
+                            <li <?php if($advisoryData->first() == $advisoryUser) { ?> class="active custom-tab col-xs-6" <?php } else { ?> class="custom-tab col-xs-6" <?php } ?> > 
+                                <a data-toggle="tab" href="#advisoryMenu{{ $advisoryUser->id }}">
+                                    <span class="name">{{ $advisoryUser->t_name }}</span>
+                                    <span class="job-title">{{ $advisoryUser->t_title }}</span>
+                                </a>
+                            </li>
+                            @empty
+
+                            @endforelse
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        @forelse($advisoryData as $advisoryUser)
+                            <div id="advisoryMenu{{$advisoryUser->id}}" <?php if($advisoryData->first() == $advisoryUser) { ?> class="tab-pane fade in active" <?php } else { ?> class="tab-pane fade" <?php } ?> >
+                                <div class="container">
+                                    {!! $advisoryUser->t_description !!}
+                                </div>
                             </div>
-                            <div class="col-xs-6 text-center">
-                                <h3>John Doe</h3>
-                                <h4>Job Title</h4>
-                            </div>
-                        </div>
+                        @empty
+
+                        @endforelse
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     @endif
 @stop
@@ -85,6 +100,34 @@
                 items: 2
             },
         }
+    });
+    $('#team-slider a').click(function(e) {
+        e.preventDefault();
+        $("#team-slider li").removeClass('active');
+        $(this).addClass("active");
+    });
+    $('#advisory-slider').owlCarousel({
+        loop: false,
+        margin: 20,
+        items: 2,
+        autoplay: false,
+        autoplayTimeout: 3000,
+        smartSpeed: 1000,
+        nav: true,
+        dots: false,
+        responsive: {
+            0: {
+                items: 1
+            },
+            768: {
+                items: 2
+            },
+        }
+    });
+    $('#advisory-slider a').click(function(e) {
+        e.preventDefault();
+        $("#advisory-slider li").removeClass('active');
+        $(this).addClass("active");
     });
 </script>
 @endpush

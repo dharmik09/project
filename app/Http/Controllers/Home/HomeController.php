@@ -51,8 +51,8 @@ class HomeController extends Controller
     public function team()
     {
         $data = $this->testimonialObj->where(['t_type' => "management", 'deleted' => 1])->get();
-        //echo "<pre/>"; print_r($data->t_title); die();
-        return view('home.team', compact('data'));
+        $advisoryData = $this->testimonialObj->where(['t_type' => "advisory", 'deleted' => 1])->get();
+        return view('home.team', compact('data', 'advisoryData'));
     }
 
     public function contactUs()
