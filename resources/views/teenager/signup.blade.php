@@ -349,8 +349,13 @@
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var a = document.querySelector("#img-preview");
-                    a.style.backgroundImage =  "url('"+ e.target.result +"')";
-                    a.className = "upload-img activated";
+                    if (input.files[0].size > 3000000) {
+                        alert("File size is too large. Maximum 3MB allowed");
+                        $(this).val('');
+                    } else {
+                        a.style.backgroundImage =  "url('"+ e.target.result +"')";
+                        a.className = "upload-img activated";
+                    }
                 };
                 reader.readAsDataURL(input.files[0]);
             }
