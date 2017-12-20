@@ -92,6 +92,7 @@ class SignupController extends Controller
         $teenagerDetail['t_pincode'] = (isset($body['pincode']) && $body['pincode'] != '') ? $body['pincode'] : '';
         //$teenagerDetail['fromLogin'] = (isset($body['fromLogin']) && $body['fromLogin'] != '') ? $body['fromLogin'] : '';
         $teenagerDetail['t_photo'] = '';
+        $teenagerDetail['t_view_information'] = (isset($teenagerDetail['t_country']) && $teenagerDetail['t_country'] != '' && $teenagerDetail['t_country'] == 1) ? 0 : 1;
         $teenagerDetail['deleted'] = '1';
 
         //Check all default field value -> If those are entered dummy by users

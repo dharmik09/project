@@ -271,7 +271,7 @@
                                     </li>
                                     <li>View Information For
                                         <label class="switch">
-                                        <input type="checkbox">
+                                        <input type="checkbox" id="t_view_information" name="t_view_information" <?php echo (isset($user->t_view_information) && $user->t_view_information == '1') ? "checked='checked'": '' ?> value="1">
                                             <span class="slider round">
                                               <span class="on">USA</span>
                                               <span class="off">India</span>
