@@ -43,6 +43,7 @@ use App\DeductedCoins;
 use App\ProfileViewDeductedCoins;
 use App\Notifications;
 use Illuminate\Support\Facades\Storage;
+use App\CMS;
 
 Class Helpers {
     /*
@@ -2548,5 +2549,12 @@ Class Helpers {
         } else {
             return $result;
         }
+    }
+
+    public static function getCmsBySlug($slug)
+    {
+        $objCms = new CMS();
+        $cmsDetails = $objCms->getCmsBySlug($slug);
+        return $cmsDetails;
     }
 }

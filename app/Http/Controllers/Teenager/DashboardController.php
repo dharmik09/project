@@ -23,6 +23,8 @@ use Carbon\Carbon;
 use App\TeenParentRequest;
 use App\Services\Parents\Contracts\ParentsRepository;
 use Input;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
+use Image;
 
 class DashboardController extends Controller
 {
@@ -38,7 +40,7 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function __construct(SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository)
+    public function __construct(SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
@@ -50,6 +52,9 @@ class DashboardController extends Controller
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
         $this->parentsRepository = $parentsRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
+        $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
+        $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
     }
 
     //Dashboard data
@@ -75,7 +80,7 @@ class DashboardController extends Controller
         $data = [];
         $teenSponsorIds = [];
         $user = Auth::guard('teenager')->user();
-        $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenProfileImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenProfileImageUploadPath.'proteen-logo.png');
+        $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "") ? Storage::url($this->teenProfileImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenProfileImageUploadPath.'proteen-logo.png');
         $countries = $this->objCountry->getAllCounries();
         $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
         $teenagerSponsors = $this->teenagersRepository->getTeenagerSelectedSponsor($user->id);
@@ -125,6 +130,7 @@ class DashboardController extends Controller
         $teenagerDetail['is_share_with_parents'] = (isset($body['share_with_parents']) && $body['share_with_parents'] != '') ? $body['share_with_parents'] : '0';
         $teenagerDetail['is_share_with_teachers'] = (isset($body['share_with_teachers']) && $body['share_with_teachers'] != '') ? $body['share_with_teachers'] : '0';
         $teenagerDetail['is_notify'] = (isset($body['notifications']) && $body['notifications'] != '') ? $body['notifications'] : '0';
+        $teenagerDetail['t_view_information'] = (isset($body['t_view_information']) && $body['t_view_information'] != '') ? $body['t_view_information'] : '0';
 
         //Check all default field value -> If those are entered dummy by users
         if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['t_phone'] == '' || $teenagerDetail['t_email'] == '') {
@@ -162,6 +168,32 @@ class DashboardController extends Controller
             /* save sponser by teenager id if sponsor id is not blank */
             if (isset($body['selected_sponsor']) && !empty($body['selected_sponsor'])) {
                 $sponserDetail = $this->teenagersRepository->saveTeenagerSponserId($user->id, implode(',', $body['selected_sponsor']));
+            }
+            if (Input::file()) {
+                $file = Input::file('pic');
+                if (!empty($file)) {
+                    if(isset($user->t_photo) && !empty($user->t_photo)) {
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($user->t_photo, $this->teenOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($user->t_photo, $this->teenThumbImageUploadPath, "s3");
+                        $profileImageDelete = $this->fileStorageRepository->deleteFileToStorage($user->t_photo, $this->teenProfileImageUploadPath, "s3");
+                    }
+                    $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
+                    $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
+                    $pathThumb = public_path($this->teenThumbImageUploadPath . $fileName);
+                    $pathProfile = public_path($this->teenProfileImageUploadPath . $fileName);
+                    Image::make($file->getRealPath())->save($pathOriginal);
+                    Image::make($file->getRealPath())->resize($this->teenThumbImageWidth, $this->teenThumbImageHeight)->save($pathThumb);
+                    Image::make($file->getRealPath())->resize(200, 200)->save($pathProfile);
+                    //Uploading on AWS
+                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
+                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                    $profileImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenProfileImageUploadPath, $pathProfile, "s3");
+                    //Deleting Local Files
+                    \File::delete($this->teenOriginalImageUploadPath . $fileName);
+                    \File::delete($this->teenThumbImageUploadPath . $fileName);
+                    \File::delete($this->teenProfileImageUploadPath . $fileName);
+                    $teenagerDetail['t_photo'] = $fileName;
+                }
             }
             $teenUpdate = $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
             if (isset($teenUpdate) && !empty($teenUpdate)) {
