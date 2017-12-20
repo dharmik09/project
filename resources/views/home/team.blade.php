@@ -47,7 +47,7 @@
             </div>
             @endif
             @if($advisoryData->count() > 0)
-            <div class="advisory-board">
+            <div>
                 <div class="team-management">
                     <div class="container">
                         <h2>ADVISORY BOARD</h2>

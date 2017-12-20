@@ -123,7 +123,7 @@
                                 <div class="form-group input-group">
                                     <div class="clearfix">
                                         <span class="input-group-addon">+91</span>
-                                        <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
+                                        <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" maxlength="10" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
                                     </div>
                                 </div>
                             </div>
@@ -148,6 +148,7 @@
                                 <div class="form-group">
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16">
                                     <span class="password-info">Type password to change your current password</span>
+                                    <em id="pass_validation">  </em>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -280,7 +281,7 @@
                                 </ul>
                             </div>
                             <div class="text-center col-sm-12">
-                                <button class="btn btn-submit" type="Submit" title="Submit">Submit</button>
+                                <button id="saveProfile" class="btn btn-submit" type="Submit" title="Submit">Submit</button>
                                 <span class="hand-icon"><i class="icon-hand-simple"></i></span>
                             </div>
                         </div>
@@ -686,6 +687,9 @@
 @section('script')
 <script src="//cdn.ckeditor.com/4.5.8/standard/ckeditor.js"></script>
 <script>
+    $('.onlyNumber').on('keyup', function() {
+            this.value = this.value.replace(/[^0-9]/gi, '');
+        });
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -829,7 +833,7 @@
                 },
                 mobile: {
                     required: "Mobile is required",
-                }
+                },
             },
             errorPlacement: function(error, element) {
                 if(element.attr("name") == "selected_sponsor[]") {
@@ -883,6 +887,46 @@
             return false;
         }
         return true;
+    });
+    
+    $("input[type=password]").keyup(function(){
+        var password = $(this).val();
+        if (password == '') {
+            $("#pass_validation").text('');
+            $("#pass_validation").removeClass('invalid');
+            $("#saveProfile").removeAttr("disabled");
+            return true;
+        } else if (password.length < 6) {
+            $("#pass_validation").addClass('invalid');
+            $("#pass_validation").text('Use at least 6 characters');
+            $("#saveProfile").attr("disabled", "disabled");
+            return true;
+        } else if (password.length > 20) {
+            $("#pass_validation").addClass('invalid');
+            $("#pass_validation").text('Password maximum range is 20');
+            $("#saveProfile").attr("disabled", "disabled");
+            return true;
+        } else if (password.search(/\d/) == -1) {
+            $("#pass_validation").addClass('invalid');
+            $("#pass_validation").text('Use at least one number');
+            $("#saveProfile").attr("disabled", "disabled");
+            return true;
+        } else if (password.search(/[a-zA-Z]/) == -1) {
+            $("#pass_validation").addClass('invalid');
+            $("#pass_validation").text('Use at least one character');
+            $("#saveProfile").attr("disabled", "disabled");
+            return true;
+        } else if (password.search(/[!\@\#\$\%\^\&\*\(\)\_\+]/) == -1) {
+            $("#pass_validation").addClass('invalid');
+            $("#pass_validation").text('Use at least one special character');
+            $("#saveProfile").attr("disabled", "disabled");
+            return true;
+        } else {
+            $("#pass_validation").removeClass('invalid');
+            $("#pass_validation").text('');
+            $("#saveProfile").removeAttr("disabled");
+            return false;
+        }
     });
 </script>
 @stop
