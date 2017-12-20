@@ -52,4 +52,5 @@ return [
     'schoolnotexist' => 'Invalid School ID, please retry',
     'invalid_parentid_msg' => 'Invalid ParentId',
     'invalid_professinid_msg' => 'Invalid ProfessionId or Profession does not exist',
+    'emailisnotreal' => 'Email id is not real',
 ];
