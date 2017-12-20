@@ -41,27 +41,27 @@
     <section class="sec-register">
         <div class="container-small">
             <div class="form-register">
-                <div class="row">
-                    <div class="reg-heading clearfix">
-                        <div class="col-sm-7 flex-tems pull-right">
-                            <div class="full-width">
-                                <span class="icon" data-aos="fade-down"><i class="icon-hand"><!-- --></i></span>
-                                <h1>teen registration</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-5 flex-items order-2 pull-left">
-                            <div class="upload-img" id="img-preview">
-                                <span>photo upload</span>
-                                <input type="file" name="photo"  onchange="readURL(this);" accept=".png, .jpg, .jpeg, .bmp" style="cursor:pointer;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <form id="teenager_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/do-signup') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="social_provider" value="Normal">
+                    <div class="row">
+                        <div class="reg-heading clearfix">
+                            <div class="col-sm-7 flex-tems pull-right">
+                                <div class="full-width">
+                                    <span class="icon" data-aos="fade-down"><i class="icon-hand"><!-- --></i></span>
+                                    <h1>teen registration</h1>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5 flex-items order-2 pull-left">
+                                <div class="upload-img" id="img-preview">
+                                    <span>photo upload</span>
+                                    <input type="file" name="photo"  onchange="readURL(this);" accept=".png, .jpg, .jpeg, .bmp" style="cursor:pointer;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="clearfix row flex-container">
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">

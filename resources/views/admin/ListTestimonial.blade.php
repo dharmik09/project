@@ -31,6 +31,7 @@
                                 <th>{{trans('labels.serialnumber')}}</th>
                                 <th>{{trans('labels.testimonialname')}}</th>
                                 <th>{{trans('labels.testimonialtitle')}}</th>
+                                <th>{{trans('labels.testimonialtype')}}</th>
                                 <th>{{trans('labels.testimonialimage')}}</th>
                                 <th>{{trans('labels.testimonialdescription')}}</th>
                                 <th>{{trans('labels.testimonialaction')}}</th>
@@ -49,6 +50,27 @@
                                 </td>
                                 <td>
                                     {{ $testimonial->t_title }}
+                                </td>
+                                <td>
+                                    <?php 
+                                        switch ($testimonial->t_type) {
+                                            case "advisory":
+                                                echo "Team Advisory";
+                                                break;
+                                            
+                                            case "management":
+                                                echo "Team Management";
+                                                break;
+
+                                            case "testinomials":
+                                                echo "Testimonials";
+                                                break;
+
+                                            default:
+                                                echo "-";
+                                                break;
+                                        };
+                                    ?>
                                 </td>
                                 <td>
                                     <?php 

@@ -60,44 +60,44 @@
             </div>
             <!--profile detail-->
             <div class="profile-detail">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="upload-img profile-img" id="img-preview">
-                            <span style="background-image: url({{ $data['user_profile'] }})"></span>
-                            <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
+                <form id="teenager_my_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="upload-img profile-img" id="img-preview">
+                                <span style="background-image: url({{ $data['user_profile'] }})"></span>
+                                <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
+                            </div>
+                            <span class="complete-detail">Profile 62% complete</span>
                         </div>
-                        <span class="complete-detail">Profile 62% complete</span>
-                    </div>
-                    <?php
-                        if($user->t_pincode != "")
-                        {
-                            $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true');
-                            $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
-                        } else {
-                            $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
-                        }
-                    ?>
-                    <div class="col-sm-9">
-                        <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
-                        <ul class="area-detail">
-                            <li>{{ $getCityArea }} Area</li>
-                            <li>87 Connections </li>
-                        </ul>
-                        <ul class="social-media">
-                            <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
-                            <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
-                        </ul>
-                        <div class="chat-icon">
-                            <a href="#" title="Chat"><i class="icon-chat"></i>
-                                <span>3</span></a>
+                        <?php
+                            if($user->t_pincode != "")
+                            {
+                                $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true');
+                                $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+                            } else {
+                                $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
+                            }
+                        ?>
+                        <div class="col-sm-9">
+                            <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
+                            <ul class="area-detail">
+                                <li>{{ $getCityArea }} Area</li>
+                                <li>87 Connections </li>
+                            </ul>
+                            <ul class="social-media">
+                                <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
+                            </ul>
+                            <div class="chat-icon">
+                                <a href="#" title="Chat"><i class="icon-chat"></i>
+                                    <span>3</span></a>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. Nunc fringilla mattis mi, sit amet hendrerit nibh euismod in. Praesent ut vulputate sem. Vestibulum odio quam, sagittis vitae pellentesque sit amet, rhoncus sit amet ipsum. Ut eros risus, molestie sed sapien at, euismod dignissim velit.</p>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. Nunc fringilla mattis mi, sit amet hendrerit nibh euismod in. Praesent ut vulputate sem. Vestibulum odio quam, sagittis vitae pellentesque sit amet, rhoncus sit amet ipsum. Ut eros risus, molestie sed sapien at, euismod dignissim velit.</p>
                     </div>
-                </div>
-                <!--profile form-->
-                <div class="profile-form">
-                    <form id="teenager_my_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <!--profile form-->
+                    <div class="profile-form">
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
@@ -285,9 +285,9 @@
                                 <span class="hand-icon"><i class="icon-hand-simple"></i></span>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <!--profile form end-->
+                    </div>
+                    <!--profile form end-->
+                </form>
             </div>
             <!--profile detail end-->
         </div>

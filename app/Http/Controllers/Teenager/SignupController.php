@@ -37,6 +37,7 @@ class SignupController extends Controller
         $this->middleware('teenager.guest', ['except' => 'logout']);
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
         $this->objCountry = new Country();
@@ -137,19 +138,22 @@ class SignupController extends Controller
                                 $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
                                 $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
                                 $pathThumb = public_path($this->teenThumbImageUploadPath . $fileName);
+                                $pathProfile = public_path($this->teenProfileImageUploadPath . $fileName);
                                 Image::make($file->getRealPath())->save($pathOriginal);
                                 Image::make($file->getRealPath())->resize($this->teenThumbImageWidth, $this->teenThumbImageHeight)->save($pathThumb);
+                                Image::make($file->getRealPath())->resize(200, 200)->save($pathProfile);
                                 
                                 //Uploading on AWS
                                 $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
                                 $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                                $profileImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenProfileImageUploadPath, $pathProfile, "s3");
                                 //Deleting Local Files
                                 \File::delete($this->teenOriginalImageUploadPath . $fileName);
                                 \File::delete($this->teenThumbImageUploadPath . $fileName);
+                                \File::delete($this->teenProfileImageUploadPath . $fileName);
                                 $teenagerDetail['t_photo'] = $fileName;
                             }
                         }
-                        //echo "<pre/>"; print_r($teenagerDetail); die();
                         $teenagerDetailSaved = $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
                         $teenagerDetailSaved = $teenagerDetailSaved->toArray();
 
