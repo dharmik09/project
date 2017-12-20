@@ -122,7 +122,7 @@
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group input-group">
                                     <div class="clearfix">
-                                        <span class="input-group-addon">+91</span>
+                                        <span id="countrycode" class="input-group-addon">+91</span>
                                         <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" maxlength="10" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
                                     </div>
                                 </div>
@@ -870,7 +870,7 @@
         CKEDITOR.replace('achievement');
         CKEDITOR.replace('academic');
     });
-    $("#teenager_achievement").submit(function(event){
+    $("#teenager_achievement").submit(function(event) {
         var myContent = CKEDITOR.instances.achievement.getData();
         if(myContent == "")
         {
@@ -879,7 +879,7 @@
         }
         return true;
     });
-    $("#teenager_academic").submit(function(event){
+    $("#teenager_academic").submit(function(event) {
         var myContent = CKEDITOR.instances.academic.getData();
         if(myContent == "")
         {
@@ -889,7 +889,7 @@
         return true;
     });
     
-    $("input[type=password]").keyup(function(){
+    $("input[type=password]").keyup(function() {
         var password = $(this).val();
         if (password == '') {
             $("#pass_validation").text('');
@@ -928,5 +928,18 @@
             return false;
         }
     });
+    function getPhoneCodeByCountry(country_id) {
+        $.ajax({
+            url: "{{ url('teenager/get-phone-code-by-country-for-profile') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "country_id": country_id
+            },
+            success: function(response) {
+                $('#countrycode').text(response);
+            }
+        });
+    }
 </script>
 @stop
