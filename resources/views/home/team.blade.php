@@ -13,7 +13,10 @@
                 <div class="container">
                     <h1>Team Headline</h1>
                     <h2>Lorem ipsum dolor sit amet</h2>
-                    <p>ProTeen is the brainchild of Sunil K Dalal and Sunil K Tatkar who through their interactions with scores of young people saw a real need to create a tool to help navigate the real world and improve their chances of success. ProTeen has born from their multi-pronged global research on the challenges faced by teenagers, current school practices, available solutions, market directions and employer needs.</p>
+                    <?php $cmsDetails = Helpers::getCmsBySlug('team-page-header-info'); ?>
+                    @if (isset($cmsDetails->cms_body) && !empty($cmsDetails->cms_body))
+                        {!! $cmsDetails->cms_body !!}
+                    @endif
                 </div>
             </div>
             @if($data->count() > 0)

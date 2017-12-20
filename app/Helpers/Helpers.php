@@ -43,6 +43,7 @@ use App\DeductedCoins;
 use App\ProfileViewDeductedCoins;
 use App\Notifications;
 use Illuminate\Support\Facades\Storage;
+use App\CMS;
 
 Class Helpers {
     /*
@@ -2456,5 +2457,12 @@ Class Helpers {
     public static function page() {
         $page = array('1' => 'Dashboard Page', '2' => 'Profile Page');
         return $page;
-    } 
+    }
+
+    public static function getCmsBySlug($slug)
+    {
+        $objCms = new CMS();
+        $cmsDetails = $objCms->getCmsBySlug($slug);
+        return $cmsDetails;
+    }
 }
