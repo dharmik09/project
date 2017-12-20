@@ -101,14 +101,14 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="phone number" tabindex="7" value="{{old('phone')}}">
+                                <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="phone number" minlength="7" maxlength="10" tabindex="7" value="{{old('phone')}}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group input-group">
                                 <div class="clearfix">
                                     <span class="input-group-addon" id="country_phone_code">+91</span>
-                                    <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number" value="{{old('mobile')}}" tabindex="8" />
+                                    <input type="text" name="mobile" class="form-control onlyNumber" minlength="10" maxlength="10" placeholder="mobile number" value="{{old('mobile')}}" tabindex="8" />
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="nickname" id="nickname" placeholder="ProTeen code" tabindex="10" value="{{old('nickname')}}">
+                                <input type="text" class="form-control alphaonly" name="nickname" id="nickname" placeholder="ProTeen code" tabindex="10" value="{{old('nickname')}}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -220,6 +220,10 @@
 
 @section('script')
     <script type="text/javascript">
+        
+        jQuery.validator.addMethod("mobilelength", function(value, element) {
+            return this.optional(element) || /^\d{10}$/i.test(value);
+        }, "Please enter valid mobile number");
         var signupRules = {
             name: {
                 required: true,
@@ -269,12 +273,16 @@
             'selected_sponsor[]': {
                 required: true
             },
-            // mobile: {
-            //     minlength: 10,
-            //     maxlength: 11
-            // },
+            mobile: {
+                required: true,
+                mobilelength: true
+            },
             terms_condition: {
                 required: true
+            },
+            phone: {
+                minlength: 7,
+                maxlength: 10
             }
         };
         $("#teenager_registration_form").validate({
@@ -395,9 +403,9 @@
         });
         $('.alphaonly').bind('keyup blur', function() {
             var node = $(this);
-            node.val(node.val().replace(/[^a-zA-Z ]/g, ''));
+            node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
         });
-
+        
         $(document).ready(function() {
             $('.sponsor-list').owlCarousel({
                 loop: false,

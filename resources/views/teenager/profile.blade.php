@@ -101,12 +101,12 @@
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required maxlength="50">
+                                    <input type="text" class="form-control alphaonly" id="name" name="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required maxlength="50">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name *" tabindex="2" value="{{ $user->t_lastname }}" required maxlength="50">
+                                    <input type="text" class="form-control alphaonly" id="lastname" name="lastname" placeholder="Last Name *" tabindex="2" value="{{ $user->t_lastname }}" required maxlength="50">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -116,7 +116,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="Phone" tabindex="5" value="{{ $user->t_phone_new }}">
+                                    <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="Phone" minlength="7" maxlength="10" tabindex="5" value="{{ $user->t_phone_new }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -161,7 +161,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
+                                    <input type="text" class="form-control alphaonly" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
                                 </div>
                             </div>
                             <?php 
@@ -690,6 +690,10 @@
     $('.onlyNumber').on('keyup', function() {
             this.value = this.value.replace(/[^0-9]/gi, '');
         });
+    $('.alphaonly').bind('keyup blur', function() {
+            var node = $(this);
+            node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
+        });
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -742,8 +746,11 @@
             }
         });
         jQuery.validator.addMethod("lettersonly", function(value, element) {
-            return this.optional(element) || /^[a-z\s]+$/i.test(value);
+            return this.optional(element) || /^[a-z_'\s]+$/i.test(value);
         }, "Letters only please");
+        jQuery.validator.addMethod("mobilelength", function(value, element) {
+            return this.optional(element) || /^\d{10}$/i.test(value);
+        }, "Please enter valid mobile number");
         var updateProfileRules = {
             name: {
                 required: true,
@@ -788,12 +795,12 @@
             },
             mobile: {
                 required: true,
-                minlength: 10,
-                maxlength: 11,
+                mobilelength: true,
                 number: true
             },
             phone: {
                 minlength: 7,
+                maxlength: 10,
                 number: true
             }
         };
