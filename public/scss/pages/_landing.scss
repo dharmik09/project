@@ -686,7 +686,7 @@ a {
         border-left-color: transparent;
         border-radius: 50%;
         opacity: 0;
-        transition-duration: 0.5s;
+        transition-duration: 0.2s;
         transition-property: opacity;
         animation-duration: 1s;
         animation-iteration-count: infinite;
@@ -698,7 +698,7 @@ a {
         display: inline-block;
         height: 100%;
         width: 0px;
-        transition-delay: 0.5s;
+        transition-delay: 0.3s;
         transition-duration: 0.75s;
         transition-property: width;
     }
@@ -707,7 +707,7 @@ a {
         pointer-events: none;
         cursor: not-allowed;
         &:not(.expand) {
-            text-align: left;
+           // text-align: center;
         }
         &:before {
             transition-delay: 0.5s;

@@ -131,6 +131,7 @@ class PasswordController extends Controller {
                         $resetRequest['trp_teenager'] = $teenagerDetail->id;
                         $resetRequest['trp_otp'] = $OTP;
                         $resetRequest['trp_uniqueid'] = $teenagerDetail->t_uniqueid;
+                        $resetRequest['updated_at'] = date('Y-m-d H:i:s');
                         $this->teenagersRepository->saveTeenagerPasswordResetRequest($resetRequest);
 
                         $replaceArray = array();
@@ -209,10 +210,8 @@ class PasswordController extends Controller {
         $response['status'] = 0;
         $response['message'] = trans('appmessages.default_error_msg');
         $body = Input::all();
-
         if (isset($body['userid']) && $body['userid'] > 0 && isset($body['OTP']) && $body['OTP'] != '') {
             $bool = $this->teenagersRepository->verifyOTPAgainstTeenagerId($body['userid'], $body['OTP']);
-
             if ($bool) {
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');

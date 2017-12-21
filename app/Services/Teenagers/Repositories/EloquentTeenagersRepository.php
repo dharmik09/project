@@ -550,7 +550,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         $find = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->where('trp_teenager', $resetRequest['trp_teenager'])->first();
         if($find)
         {
-            $requestData = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->where('trp_teenager', $resetRequest['trp_teenager'])->update(['trp_otp' => $resetRequest['trp_otp'], 'trp_status' => 1]);
+            $requestData = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->where('trp_teenager', $resetRequest['trp_teenager'])->update(['trp_otp' => $resetRequest['trp_otp'], 'trp_status' => 1, 'updated_at' => $resetRequest['updated_at']]);
         } else {
             $requestData = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->insert($resetRequest);
         }
@@ -591,14 +591,14 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
 
         if (isset($result) && !empty($result)) {
             $currentDatetime = time(); // or your date as well
-            $requestDatetime = strtotime($result->created_at);
+            $requestDatetime = strtotime($result->updated_at);
             $datediff = $currentDatetime - $requestDatetime;
             $daysDifference = floor($datediff / (60 * 60 * 24));
-            if ($daysDifference > config::get('constant.PASSWORD_RESET_REQUEST_VALIDITY_DAYS')) {
+            if ($daysDifference > Config::get('constant.PASSWORD_RESET_REQUEST_VALIDITY_DAYS')) {
                 return false;
             } else {
-                $row = DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->find($result->id);
-                DB::table(config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->where('id', $result->id)->update(['trp_status' => 0]);
+                $row = DB::table(Config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->find($result->id);
+                DB::table(Config::get('databaseconstants.TBL_TEENAGER_RESET_PASSWORD'))->where('id', $result->id)->update(['trp_status' => 0]);
                 return true;
             }
         } else {
