@@ -434,12 +434,10 @@
                     },
                 }
             });
-        });
-
-        // Cache the toggle button
+            // Cache the toggle button
             var $toggle = $(".visibility-pwd");
             var $field = $(".pass-visi");
-             var i = $(this).find('.img');
+            var i = $(this).find('.img');
             // Toggle the field type
             $toggle.on("click", function(e) {
                 e && e.preventDefault();
@@ -452,5 +450,6 @@
                 }
 
             });
+        });
     </script>
 @stop

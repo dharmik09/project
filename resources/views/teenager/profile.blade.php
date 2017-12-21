@@ -146,7 +146,11 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16">
+                                    <input type="password" class="form-control pass-visi" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16">
+                                    <span class="visibility-pwd">
+                                        <img src="{{ Storage::url('img/view.png') }}" alt="view" class="view img">
+                                        <img src="{{ Storage::url('img/hide.png') }}" alt="view" class="img-hide hide img">
+                                    </span>
                                     <span class="password-info">Type password to change your current password</span>
                                     <em id="pass_validation">  </em>
                                 </div>
@@ -281,7 +285,7 @@
                                 </ul>
                             </div>
                             <div class="text-center col-sm-12">
-                                <button id="saveProfile" class="btn btn-submit" type="Submit" title="Submit">Submit</button>
+                                <button id="saveProfile" class="btn btn-submit" type="submit" title="Submit">Submit</button>
                                 <span class="hand-icon"><i class="icon-hand-simple"></i></span>
                             </div>
                         </div>
@@ -881,6 +885,21 @@
 
         CKEDITOR.replace('achievement');
         CKEDITOR.replace('academic');
+        // Cache the toggle button
+        var $toggle = $(".visibility-pwd");
+        var $field = $(".pass-visi");
+        var i = $(this).find('.img');
+        // Toggle the field type
+        $toggle.on("click", function(e) {
+            e && e.preventDefault();
+            if ($field.attr("type") == "password") {
+                $field.attr("type", "text");
+                i.toggleClass("hide");
+            } else {
+               i.toggleClass("hide");
+                $field.attr("type", "password");
+            }
+        });
     });
     $("#teenager_achievement").submit(function(event) {
         var myContent = CKEDITOR.instances.achievement.getData();
