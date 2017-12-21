@@ -60,53 +60,53 @@
             </div>
             <!--profile detail-->
             <div class="profile-detail">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="upload-img profile-img" id="img-preview">
-                            <span style="background-image: url({{ $data['user_profile'] }})"></span>
-                            <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
+                <form id="teenager_my_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="upload-img profile-img" id="img-preview">
+                                <span style="background-image: url({{ $data['user_profile'] }})"></span>
+                                <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
+                            </div>
+                            <span class="complete-detail">Profile 62% complete</span>
                         </div>
-                        <span class="complete-detail">Profile 62% complete</span>
-                    </div>
-                    <?php
-                        if($user->t_pincode != "")
-                        {
-                            $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true');
-                            $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
-                        } else {
-                            $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
-                        }
-                    ?>
-                    <div class="col-sm-9">
-                        <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
-                        <ul class="area-detail">
-                            <li>{{ $getCityArea }} Area</li>
-                            <li>87 Connections </li>
-                        </ul>
-                        <ul class="social-media">
-                            <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
-                            <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
-                        </ul>
-                        <div class="chat-icon">
-                            <a href="#" title="Chat"><i class="icon-chat"></i>
-                                <span>3</span></a>
+                        <?php
+                            if($user->t_pincode != "")
+                            {
+                                $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true');
+                                $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+                            } else {
+                                $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
+                            }
+                        ?>
+                        <div class="col-sm-9">
+                            <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
+                            <ul class="area-detail">
+                                <li>{{ $getCityArea }} Area</li>
+                                <li>87 Connections </li>
+                            </ul>
+                            <ul class="social-media">
+                                <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
+                            </ul>
+                            <div class="chat-icon">
+                                <a href="#" title="Chat"><i class="icon-chat"></i>
+                                    <span>3</span></a>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. Nunc fringilla mattis mi, sit amet hendrerit nibh euismod in. Praesent ut vulputate sem. Vestibulum odio quam, sagittis vitae pellentesque sit amet, rhoncus sit amet ipsum. Ut eros risus, molestie sed sapien at, euismod dignissim velit.</p>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. Nunc fringilla mattis mi, sit amet hendrerit nibh euismod in. Praesent ut vulputate sem. Vestibulum odio quam, sagittis vitae pellentesque sit amet, rhoncus sit amet ipsum. Ut eros risus, molestie sed sapien at, euismod dignissim velit.</p>
                     </div>
-                </div>
-                <!--profile form-->
-                <div class="profile-form">
-                    <form id="teenager_my_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <!--profile form-->
+                    <div class="profile-form">
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required maxlength="50">
+                                    <input type="text" class="form-control alphaonly" id="name" name="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required maxlength="50">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name *" tabindex="2" value="{{ $user->t_lastname }}" required maxlength="50">
+                                    <input type="text" class="form-control alphaonly" id="lastname" name="lastname" placeholder="Last Name *" tabindex="2" value="{{ $user->t_lastname }}" required maxlength="50">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -116,7 +116,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="Phone" tabindex="5" value="{{ $user->t_phone_new }}">
+                                    <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="Phone" minlength="7" maxlength="10" tabindex="5" value="{{ $user->t_phone_new }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -161,7 +161,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
+                                    <input type="text" class="form-control alphaonly" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
                                 </div>
                             </div>
                             <?php 
@@ -271,7 +271,7 @@
                                     </li>
                                     <li>View Information For
                                         <label class="switch">
-                                        <input type="checkbox">
+                                        <input type="checkbox" id="t_view_information" name="t_view_information" <?php echo (isset($user->t_view_information) && $user->t_view_information == '1') ? "checked='checked'": '' ?> value="1">
                                             <span class="slider round">
                                               <span class="on">USA</span>
                                               <span class="off">India</span>
@@ -285,9 +285,9 @@
                                 <span class="hand-icon"><i class="icon-hand-simple"></i></span>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <!--profile form end-->
+                    </div>
+                    <!--profile form end-->
+                </form>
             </div>
             <!--profile detail end-->
         </div>
@@ -690,14 +690,23 @@
     $('.onlyNumber').on('keyup', function() {
             this.value = this.value.replace(/[^0-9]/gi, '');
         });
+    $('.alphaonly').bind('keyup blur', function() {
+            var node = $(this);
+            node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
+        });
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
                 var a = document.querySelector("#img-preview");
-                a.style.backgroundImage = "url('" + e.target.result + "')";
-                // document.getElementById("#").className = "activated";
-                a.className = "upload-img activated";
+                if (input.files[0].size > 3000000) {
+                    alert("File size is too large. Maximum 3MB allowed");
+                    $(this).val('');
+                } else {
+                    a.style.backgroundImage = "url('" + e.target.result + "')";
+                    // document.getElementById("#").className = "activated";
+                    a.className = "upload-img activated";
+                }
             };
 
             reader.readAsDataURL(input.files[0]);
@@ -742,8 +751,11 @@
             }
         });
         jQuery.validator.addMethod("lettersonly", function(value, element) {
-            return this.optional(element) || /^[a-z\s]+$/i.test(value);
+            return this.optional(element) || /^[a-z_'\s]+$/i.test(value);
         }, "Letters only please");
+        jQuery.validator.addMethod("mobilelength", function(value, element) {
+            return this.optional(element) || /^\d{10}$/i.test(value);
+        }, "Please enter valid mobile number");
         var updateProfileRules = {
             name: {
                 required: true,
@@ -788,12 +800,12 @@
             },
             mobile: {
                 required: true,
-                minlength: 10,
-                maxlength: 11,
+                mobilelength: true,
                 number: true
             },
             phone: {
                 minlength: 7,
+                maxlength: 10,
                 number: true
             }
         };

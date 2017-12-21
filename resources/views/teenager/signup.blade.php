@@ -41,27 +41,27 @@
     <section class="sec-register">
         <div class="container-small">
             <div class="form-register">
-                <div class="row">
-                    <div class="reg-heading clearfix">
-                        <div class="col-sm-7 flex-tems pull-right">
-                            <div class="full-width">
-                                <span class="icon" data-aos="fade-down"><i class="icon-hand"><!-- --></i></span>
-                                <h1>teen registration</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-5 flex-items order-2 pull-left">
-                            <div class="upload-img" id="img-preview">
-                                <span>photo upload</span>
-                                <input type="file" name="photo"  onchange="readURL(this);" accept=".png, .jpg, .jpeg, .bmp" style="cursor:pointer;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <form id="teenager_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/do-signup') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="social_provider" value="Normal">
+                    <div class="row">
+                        <div class="reg-heading clearfix">
+                            <div class="col-sm-7 flex-tems pull-right">
+                                <div class="full-width">
+                                    <span class="icon" data-aos="fade-down"><i class="icon-hand"><!-- --></i></span>
+                                    <h1>teen registration</h1>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5 flex-items order-2 pull-left">
+                                <div class="upload-img" id="img-preview">
+                                    <span>photo upload</span>
+                                    <input type="file" name="photo"  onchange="readURL(this);" accept=".png, .jpg, .jpeg, .bmp" style="cursor:pointer;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="clearfix row flex-container">
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
@@ -101,14 +101,14 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="phone number" tabindex="7" value="{{old('phone')}}">
+                                <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="phone number" minlength="7" maxlength="10" tabindex="7" value="{{old('phone')}}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group input-group">
                                 <div class="clearfix">
                                     <span class="input-group-addon" id="country_phone_code">+91</span>
-                                    <input type="text" name="mobile" class="form-control onlyNumber" maxlength="10" placeholder="mobile number" value="{{old('mobile')}}" tabindex="8" />
+                                    <input type="text" name="mobile" class="form-control onlyNumber" minlength="10" maxlength="10" placeholder="mobile number" value="{{old('mobile')}}" tabindex="8" />
                                 </div>
                             </div>
                         </div>
@@ -123,12 +123,16 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="nickname" id="nickname" placeholder="ProTeen code" tabindex="10" value="{{old('nickname')}}">
+                                <input type="text" class="form-control alphaonly" name="nickname" id="nickname" placeholder="ProTeen code" tabindex="10" value="{{old('nickname')}}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="password" class="form-control" name="password" id="password" placeholder=" password *" tabindex="11" required />
+                                <input type="password" class="form-control pass-visi" name="password" id="password" placeholder=" password *" tabindex="11" required />
+                                <span class="visibility-pwd">
+                                    <img src="{{ Storage::url('img/view.png') }}" alt="view" class="view img">
+                                    <img src="{{ Storage::url('img/hide.png') }}" alt="view" class="img-hide hide img">
+                                </span>
                                 <em style="color:red" id="pass_validation">  </em>
                             </div>
                         </div>
@@ -220,6 +224,10 @@
 
 @section('script')
     <script type="text/javascript">
+        
+        jQuery.validator.addMethod("mobilelength", function(value, element) {
+            return this.optional(element) || /^\d{10}$/i.test(value);
+        }, "Please enter valid mobile number");
         var signupRules = {
             name: {
                 required: true,
@@ -269,12 +277,16 @@
             'selected_sponsor[]': {
                 required: true
             },
-            // mobile: {
-            //     minlength: 10,
-            //     maxlength: 11
-            // },
+            mobile: {
+                required: true,
+                mobilelength: true
+            },
             terms_condition: {
                 required: true
+            },
+            phone: {
+                minlength: 7,
+                maxlength: 10
             }
         };
         $("#teenager_registration_form").validate({
@@ -341,8 +353,13 @@
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var a = document.querySelector("#img-preview");
-                    a.style.backgroundImage =  "url('"+ e.target.result +"')";
-                    a.className = "upload-img activated";
+                    if (input.files[0].size > 3000000) {
+                        alert("File size is too large. Maximum 3MB allowed");
+                        $(this).val('');
+                    } else {
+                        a.style.backgroundImage =  "url('"+ e.target.result +"')";
+                        a.className = "upload-img activated";
+                    }
                 };
                 reader.readAsDataURL(input.files[0]);
             }
@@ -395,9 +412,9 @@
         });
         $('.alphaonly').bind('keyup blur', function() {
             var node = $(this);
-            node.val(node.val().replace(/[^a-zA-Z ]/g, ''));
+            node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
         });
-
+        
         $(document).ready(function() {
             $('.sponsor-list').owlCarousel({
                 loop: false,
@@ -418,5 +435,22 @@
                 }
             });
         });
+
+        // Cache the toggle button
+            var $toggle = $(".visibility-pwd");
+            var $field = $(".pass-visi");
+             var i = $(this).find('.img');
+            // Toggle the field type
+            $toggle.on("click", function(e) {
+                e && e.preventDefault();
+                if ($field.attr("type") == "password") {
+                    $field.attr("type", "text");
+                    i.toggleClass("hide");
+                } else {
+                   i.toggleClass("hide");
+                    $field.attr("type", "password");
+                }
+
+            });
     </script>
 @stop

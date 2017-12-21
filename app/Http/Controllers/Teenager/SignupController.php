@@ -37,6 +37,7 @@ class SignupController extends Controller
         $this->middleware('teenager.guest', ['except' => 'logout']);
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
         $this->objCountry = new Country();
@@ -91,6 +92,7 @@ class SignupController extends Controller
         $teenagerDetail['t_pincode'] = (isset($body['pincode']) && $body['pincode'] != '') ? $body['pincode'] : '';
         //$teenagerDetail['fromLogin'] = (isset($body['fromLogin']) && $body['fromLogin'] != '') ? $body['fromLogin'] : '';
         $teenagerDetail['t_photo'] = '';
+        $teenagerDetail['t_view_information'] = (isset($teenagerDetail['t_country']) && $teenagerDetail['t_country'] != '' && $teenagerDetail['t_country'] == 1) ? 0 : 1;
         $teenagerDetail['deleted'] = '1';
 
         //Check all default field value -> If those are entered dummy by users
@@ -109,6 +111,15 @@ class SignupController extends Controller
         }
         $teenagerMobileExist = false;
         $teenagerEmailExist = false;
+
+        /*Check weather Email-Id is exist in Real world or not*/
+        if($teenagerDetail['t_email'] != '' && $teenagerDetail['t_social_provider'] == 'Normal'){
+            $teenagerVerifyEmailIsReal = Helpers::verifyEmailIsReal($teenagerDetail['t_email'],env('MAIL_USERNAME'),false);
+            if($teenagerVerifyEmailIsReal == 'invalid'){
+                return Redirect::to("teenager/signup")->withErrors(trans('appmessages.emailisnotreal'))->withInput();
+            }
+        }
+        
         if ($teenagerDetail['t_email'] != '' && $teenagerDetail['t_social_provider'] == 'Normal') {
             $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenagerDetail['t_email']);
         }
@@ -137,19 +148,22 @@ class SignupController extends Controller
                                 $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
                                 $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
                                 $pathThumb = public_path($this->teenThumbImageUploadPath . $fileName);
+                                $pathProfile = public_path($this->teenProfileImageUploadPath . $fileName);
                                 Image::make($file->getRealPath())->save($pathOriginal);
                                 Image::make($file->getRealPath())->resize($this->teenThumbImageWidth, $this->teenThumbImageHeight)->save($pathThumb);
+                                Image::make($file->getRealPath())->resize(200, 200)->save($pathProfile);
                                 
                                 //Uploading on AWS
                                 $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
                                 $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                                $profileImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenProfileImageUploadPath, $pathProfile, "s3");
                                 //Deleting Local Files
                                 \File::delete($this->teenOriginalImageUploadPath . $fileName);
                                 \File::delete($this->teenThumbImageUploadPath . $fileName);
+                                \File::delete($this->teenProfileImageUploadPath . $fileName);
                                 $teenagerDetail['t_photo'] = $fileName;
                             }
                         }
-                        //echo "<pre/>"; print_r($teenagerDetail); die();
                         $teenagerDetailSaved = $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
                         $teenagerDetailSaved = $teenagerDetailSaved->toArray();
 

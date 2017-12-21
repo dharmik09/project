@@ -131,6 +131,7 @@
                     font-weight: 500;
                     color: $h-cl;
                     display: block;
+                    text-transform: capitalize;
                     @include maxlg {
                         font-size: 40px;
                     }
@@ -149,6 +150,7 @@
                     font-size: 24px;
                     color: $r-cl;
                     display: block;
+                    text-transform: capitalize;
                     @include maxsm {
                         font-size: 18px;
                     }
@@ -164,6 +166,7 @@
         background: $h-cl;
         padding: 6em 0 4em;
         margin-top: -40px;
+        color: $white;
         @include maxsm {
             padding: 4em 0 2em;
         }
@@ -173,6 +176,9 @@
         p {
             color: $white;
             font-family: h;
+            span{
+                color: $white
+            }
         }
     }
     .owl-carousel {

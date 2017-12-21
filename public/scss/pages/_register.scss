@@ -60,7 +60,7 @@
                 border: 1px solid $p-cl;
                 position: relative;
                 text-align: center;
-                background-size: cover;
+                background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
                 max-width: 100%;
@@ -148,7 +148,8 @@
                 font-size: 17px; //color: $lightgrey;
                 -webkit-appearance: none;
                 appearance: none;
-                text-transform: lowercase;
+                //text-transform: lowercase;
+                padding: 6px 38px 6px 12px;
                 @include maxms {
                     font-size: 14px;
                 }
@@ -370,15 +371,17 @@
                     background-size: contain;
                     background-position: center;
                     background-repeat: no-repeat;
+                    @include maxms{
+                        width: 20px;
+                        height: 35px;
+                    }
+                }
+                .owl-prev{
                     @include maxlg{
                         left: -60px;
                     }
                     @include maxmd{
                         left: 0;
-                    }
-                    @include maxms{
-                        width: 20px;
-                        height: 35px;
                     }
                 }
                 .owl-next {
@@ -412,12 +415,18 @@
 .form-group.input-group {
     display: block;
     .input-group-addon {
-        width: 15%;
+        width: 30%;
         float: left;
         padding: 11px 12px;
     }
     .form-control {
         display: inline-block;
-        width: 85%;
+        width: 70%;
     }
+}
+.visibility-pwd img{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
 }
