@@ -230,13 +230,16 @@
             $(this).hide("slow");
             $('iframe').show();
         });
-        $("#loginSubmit").click(function() {
+        $("#login_form").submit(function() {
             $("#loginSubmit").toggleClass('sending').blur();
             var form = $("#login_form");
             form.validate();
             if (form.valid()) {
-                form.submit();
-                $("#loginSubmit").removeClass('sending').blur();
+                //form.submit();
+                return true;
+                setTimeout(function () {
+                    $("#loginSubmit").removeClass('sending').blur();
+                }, 2500);
             } else {
                 $("#loginSubmit").removeClass('sending').blur();
             }

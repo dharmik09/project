@@ -233,9 +233,12 @@
             if (validEmailOrMobile) {
                 $('#email_mobile_invalid').hide();
                 if (form.valid()) {
-                    form.submit();
+                    //form.submit();
+                    return true;
                 }
-                $("#loginSubmit").removeClass('sending').blur();
+                setTimeout(function () {
+                    $("#loginSubmit").removeClass('sending').blur();
+                }, 2500);
                 return true;
             } else {
                 $("#loginSubmit").removeClass('sending').blur();

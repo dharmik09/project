@@ -108,16 +108,6 @@ $(document).ready(function () {
     $('body').on('click', '.popover-closer', function (event) {
         $('.custompop').popover('hide');
     });
-    //button loader js
-    $('form').on('submit', function (e) {
-        e.preventDefault();
-        var but = $(this).find('[type="submit"]').toggleClass('sending').blur();
-
-        setTimeout(function () {
-            but.removeClass('sending').blur();
-        }, 2500);
-
-    })
     /*// add iframe url for a map
 		function loadMap(iframeObject)
 		{
