@@ -30,6 +30,28 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
+                <!-- <form id="addLeave" class="form-horizontal" method="post" enctype="multipart/form-data"> -->
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="ate_start_date" class="col-md-1 control-label">{{trans('labels.teenagestartdate')}}</label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="start_date" name="start_date" value="<?php if(isset($startDate) && $startDate != '') { echo $startDate; }?>"/>
+                            </div>
+
+                            <label for="ate_end_date" class="col-md-1 control-label">{{trans('labels.teenageenddate')}}</label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="end_date" name="end_date" value="<?php if(isset($endDate) && $endDate != '') { echo $endDate; }?>"/>
+                            </div> 
+
+                            <div class="col-md-2">
+                                <button onclick="getTeenagerListByDate();" class="btn btn-warning btn-primary">{{trans('labels.lblsearch')}}</button>
+                            
+                                <button onclick="resetDataTable();" class="btn btn-warning btn-primary">{{trans('labels.lblreset')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </form> -->
                     <table class="table table-striped" id="teenager_table" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -79,7 +101,15 @@
                         $.each(ajaxParams, function(key, value) {
                             data[key] = value;
                         });
-                        ajaxParams = {};
+
+                        if($('#start_date').val() && $('#end_date').val())
+                        {
+                            var start_date = $('#start_date').val();
+                            var end_date = $('#end_date').val();
+                            ajaxParams = {start_date:start_date, end_date:end_date};
+                        }else{
+                            ajaxParams = {};
+                        }
                     }
                 }
             },
@@ -99,7 +129,23 @@
     };
 
     $(document).ready(function() {
-        var ajaxParams = {};
+        $("#start_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+        });
+        
+        $("#end_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+        });
+        
+        if($('#start_date').val() && $('#end_date').val())
+        {
+            var start_date = $('#start_date').val();
+            var end_date = $('#end_date').val();
+            var ajaxParams = {start_date:start_date, end_date:end_date};
+        }else{
+            var ajaxParams = {};
+        }        
+        
         getTeenagerList(ajaxParams);
     });
 
@@ -127,6 +173,30 @@
         }
     });
     
+    function getTeenagerListByDate(){
+         if($('#start_date').val() && $('#end_date').val())
+        {
+            var start_date = $('#start_date').val();
+            var end_date = $('#end_date').val();
+
+            var ajaxParams = {start_date:start_date, end_date:end_date};
+
+            getTeenagerList(ajaxParams);
+        }
+        else if($('#start_date').val().length <= 0 || $('#end_date').val().length <= 0){
+            alert('Please select Start Date and End Date');
+        }
+    }
+
+    function resetDataTable(){
+        $('#start_date').val('');  
+        $('#end_date').val('');  
+        
+        var ajaxParams = {};
+
+        getTeenagerList(ajaxParams);
+    }
+
     function add_details($id)
     {
         $.ajax({

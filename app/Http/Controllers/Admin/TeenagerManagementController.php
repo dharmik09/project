@@ -72,8 +72,14 @@ class TeenagerManagementController extends Controller {
     }
 
     public function getIndex(){
+
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        $teenagers = $this->teenagersRepository->getAllTeenagersData()->get()->count();
+        if(Input::get('start_date') && Input::get('end_date')){
+            $teenagers = $this->teenagersRepository->getAllTeenagersDataByDate(Input::get('start_date'), Input::get('end_date'))->get()->count();
+        }
+        else{
+            $teenagers = $this->teenagersRepository->getAllTeenagersData()->get()->count();
+        }
         $records = array();
         $columns = array(
             0 => 'id',
@@ -94,7 +100,12 @@ class TeenagerManagementController extends Controller {
         $iDisplayStart = intval(Input::get('start'));
         $sEcho = intval(Input::get('draw'));
 
-        $records["data"] = $this->teenagersRepository->getAllTeenagersData();
+        if(Input::get('start_date') && Input::get('end_date')){
+            $records["data"] = $this->teenagersRepository->getAllTeenagersDataByDate(Input::get('start_date'), Input::get('end_date'));
+        }
+        else{
+            $records["data"] = $this->teenagersRepository->getAllTeenagersData();
+        }
         if (!empty($search['value'])) {
             $val = $search['value'];
             $records["data"]->where(function($query) use ($val) {
@@ -918,7 +929,7 @@ class TeenagerManagementController extends Controller {
                     foreach ($userLearningData as $k => $value ) {
                         $userLData = $objLearningStyle->getLearningStyleDetailsByProfessionId($professionId,$value->parameterId,$id);
 
-                        if (!empty($userLData)) {
+                        if (count($userLData)>0) {
                             $points = '';
                             $LAPoints = '';
                             $points = $userLData[0]->uls_earned_points;

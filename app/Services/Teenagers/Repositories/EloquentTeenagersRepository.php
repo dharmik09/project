@@ -34,6 +34,17 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         return $teenagers;
     }
 
+    public function getAllTeenagersDataByDate($startDate, $endDate) {
+        $teenagers = DB::table("pro_t_teenagers AS teenager")
+                ->leftjoin(config::get('databaseconstants.TBL_SCHOOLS') . " AS school", 'teenager.t_school', '=', 'school.id')
+                ->selectRaw('teenager.*, school.sc_name')
+                ->whereIn('teenager.deleted', ['1','2'])
+                ->where('teenager.t_name', '!=', '')
+                ->whereBetween('teenager.created_at',[$startDate,$endDate]);
+
+        return $teenagers;
+    }
+
     public function getAllTeenagers($searchParamArray = array(),$currentPage = 0) {
         // $whereStr = '';
         // $orderStr = '';
