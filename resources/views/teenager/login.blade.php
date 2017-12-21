@@ -142,18 +142,15 @@
             if (validEmailOrMobile) {
                 $('#email_mobile_invalid').hide();
                 if (form.valid()) {
-                    $("#loginSubmit").removeClass('sending').blur();
-                    return true;
-                } else {
-                    $("#loginSubmit").removeClass('sending').blur();
+                    form.submit();
                 }
+                $("#loginSubmit").removeClass('sending').blur();
                 return true;
             } else {
                 $('#email_mobile_invalid').show();
                 $("#loginSubmit").removeClass('sending').blur();
                 return false;
             }
-            $("#loginSubmit").removeClass('sending').blur();
         });
 
         function validateEmail(email) {

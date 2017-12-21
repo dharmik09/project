@@ -47,7 +47,7 @@
                             <div class="checkbox">
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
                             </div>
-                            <button type="button" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
+                            <button type="submit" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
                             <ul class="btn-list">
                                 <li><a href="{{ url('teenager/facebook') }}" title="Facebook" ><i class="icon-facebook"><!-- --></i>Facebook</a></li>
                                 <li><a href="{{ url('teenager/google') }}" title="Google" ><i class="icon-google"><!-- --></i>Google</a></li>
@@ -196,8 +196,8 @@
             $(this).hide("slow");
             $('iframe').show();
         })
-        $("#loginSubmit").click(function() {
-            $(this).toggleClass('sending').blur();
+        $("#login_form").submit(function() {
+            $("#loginSubmit").toggleClass('sending').blur();
             var form = $("#login_form");
             form.validate();
             var validEmailOrMobile = false;
@@ -215,13 +215,11 @@
                 $('#email_mobile_invalid').hide();
                 if (form.valid()) {
                     form.submit();
-                } else {
-                    $(this).removeClass('sending').blur();
                 }
-                $(this).removeClass('sending').blur();
+                $("#loginSubmit").removeClass('sending').blur();
                 return true;
             } else {
-                $(this).removeClass('sending').blur();
+                $("#loginSubmit").removeClass('sending').blur();
                 $('#email_mobile_invalid').show();
                 return false;
             }
