@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 Route::get('/get-state/{id}', 'StateCityController@getState');
 Route::get('/get-city/{id}', 'StateCityController@getCity');
 
-
-Route::get('articles', 'Webservice\ArticleController@index');
-
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([ 'middleware' => ['api-support'] ], function () {
+	Route::get('articles', 'Webservice\ArticleController@index');
 });
+
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });

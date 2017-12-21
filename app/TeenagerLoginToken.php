@@ -26,7 +26,7 @@ class TeenagerLoginToken extends Model {
     }
 
     public function validateAccessToken($teenId,$token) {
-        $token = $this->where('deleted', '1')->where('tlt_teenager_id', $teenId)->where('tlt_login_token',$token)->get();
+        $token = $this->where('deleted', '1')->where('tlt_teenager_id', $teenId)->where('tlt_login_token',$token)->first();
         if (count($token) > 0) {
             return true;
         } else {

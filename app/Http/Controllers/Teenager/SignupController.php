@@ -111,6 +111,15 @@ class SignupController extends Controller
         }
         $teenagerMobileExist = false;
         $teenagerEmailExist = false;
+
+        /*Check weather Email-Id is exist in Real world or not*/
+        if($teenagerDetail['t_email'] != '' && $teenagerDetail['t_social_provider'] == 'Normal'){
+            $teenagerVerifyEmailIsReal = Helpers::verifyEmailIsReal($teenagerDetail['t_email'],env('MAIL_USERNAME'),false);
+            if($teenagerVerifyEmailIsReal == 'invalid'){
+                return Redirect::to("teenager/signup")->withErrors(trans('appmessages.emailisnotreal'))->withInput();
+            }
+        }
+        
         if ($teenagerDetail['t_email'] != '' && $teenagerDetail['t_social_provider'] == 'Normal') {
             $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenagerDetail['t_email']);
         }
