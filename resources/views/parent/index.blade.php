@@ -14,7 +14,8 @@
                 </a>
             </div>
         </div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/WoelVRjFO4A?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+        <?php $video = ($type == 'Parent') ? 'S6FgCxlf9Tw' : 'jFzLKuxhv3I'; ?>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{$video}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
     <!-- teen bio-->
     <section class="teen-bio">
