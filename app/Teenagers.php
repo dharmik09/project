@@ -44,11 +44,9 @@ class Teenagers extends Authenticatable {
 
     public function getBirthdate($id) {
         $result = $this->select('t_birthdate')
-                ->where('id', $id)
-                ->get();
-        foreach ($result as $re) {
-            return $re->t_birthdate;
-        }
+            ->where('id', $id)
+            ->first();
+        return (isset($re->t_birthdate)) ? $re->t_birthdate : ""; 
     }
 
     public function getTeenagerBoosterPoints($teenagerId) {
@@ -240,5 +238,10 @@ class Teenagers extends Authenticatable {
     public function getCountry()
     {
         return $this->belongsTo(Country::class, 't_country')->withDefault();
+    }
+
+    public static function teenagerActiveStatus($id)
+    {
+        return ( Teenagers::where(['id' => $id, 'deleted' => 1])->count() > 0 ) ? true : false;
     }
 }
