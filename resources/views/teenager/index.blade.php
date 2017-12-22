@@ -131,8 +131,9 @@
                         @endforelse
                     </div>
                 </div>
-                @if(count($videoDetail) > 12)
-                    <p class="text-center"><a href="#" title="load more" class="btn btn-primary">load more</a></p>
+                <div id="load-video"></div>
+                @if($videoCount > 4)
+                    <p class="text-center"><a id="load-more" href="" title="load more" data-id="{{ $video->id }}" class="btn btn-primary">load more</a></p>
                 @endif
             </div>
         </div>
@@ -178,6 +179,25 @@
                     $field.attr("type", "password");
                 }
             });
+
+            $(document).on('click','#load-more',function(){
+                var id = $(this).data('id');
+                //$("#btn-more").html("Loading....");
+                $.ajax({
+                    url : '{{ url("teenager/load-more-video") }}',
+                    method : "POST",
+                    data : {id:id, _token:"{{csrf_token()}}"},
+                    dataType : "text",
+                    success : function (data) {
+                        if(data != '') {
+                            //$('#remove-row').remove();
+                            $('#load-video').append(data);
+                        } else {
+                            //$('#btn-more').html("No Data");
+                        }
+                    }
+                });
+            });  
         });
 
         $(window).bind("load", function() {

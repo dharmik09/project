@@ -27,7 +27,8 @@ class Video extends Model
         return $return;
     }
 
-    public function deleteVideo($id) {
+    public function deleteVideo($id) 
+    {
         $video         = $this->find($id);
         $video->deleted = config::get('constant.DELETED_FLAG');
         $response          = $video->save();
@@ -41,9 +42,31 @@ class Video extends Model
         }
     }
 
-    public function getAllVideoDetail() {
+    public function getAllVideoDetail() 
+    {
         $result = Video::select('*')
                         ->where('deleted' ,'1')
+                        ->get();
+        return $result;
+    }
+
+    public function getMoreVideos()
+    {
+        $videos = Video::select('*')
+                        ->where('id', '<', $id)
+                        ->where('deleted' ,'1')
+                        ->orderBy('created_at','DESC')
+                        ->limit(4)
+                        ->get();
+        return $videos;
+    }
+
+    public function getVideos()
+    {
+        $result = Video::select('*')
+                        ->where('deleted' ,'1')
+                        ->orderBy('created_at','DESC')
+                        ->limit(4)
                         ->get();
         return $result;
     }
