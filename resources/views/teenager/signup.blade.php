@@ -123,7 +123,7 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" class="form-control alphaonly" name="nickname" id="nickname" placeholder="ProTeen code" tabindex="10" value="{{old('nickname')}}">
+                                <input type="text" class="form-control nospace" name="nickname" id="nickname" placeholder="ProTeen code" tabindex="10" value="{{old('nickname')}}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -414,6 +414,10 @@
             var node = $(this);
             node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
         });
+        $('.nospace').bind('keyup blur', function() {
+            var node = $(this);
+            node.val(node.val().replace(/\s/g, ''));
+        });
         
         $(document).ready(function() {
             $('.sponsor-list').owlCarousel({
@@ -450,6 +454,19 @@
                 }
 
             });
+        });
+        $("#teenager_registration_form").submit(function() {
+            $("#form_submit").toggleClass('sending').blur();
+            var form = $("#teenager_registration_form");
+            form.validate();
+            if (form.valid()) {
+                return true;
+                setTimeout(function () {
+                    $("#form_submit").removeClass('sending').blur();
+                }, 2500);
+            } else {
+                $("#form_submit").removeClass('sending').blur();
+            }
         });
     </script>
 @stop
