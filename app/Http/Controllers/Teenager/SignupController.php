@@ -73,7 +73,7 @@ class SignupController extends Controller
         if (Helpers::validateDate($stringVariable, "Y-m-d") && $todayDate->gt($birthDate) ) {
             $teenagerDetail['t_birthdate'] = $stringVariable;
         } else {
-            return Redirect::to("teenager/signup")->withErrors("Date is invalid")->withInput();
+            return Redirect::to("teenager/signup")->withErrors("Birthdate is invalid")->withInput();
             exit;
         }
         
@@ -113,12 +113,12 @@ class SignupController extends Controller
         $teenagerEmailExist = false;
 
         /*Check weather Email-Id is exist in Real world or not*/
-        if($teenagerDetail['t_email'] != '' && $teenagerDetail['t_social_provider'] == 'Normal'){
-            $teenagerVerifyEmailIsReal = Helpers::verifyEmailIsReal($teenagerDetail['t_email'],env('MAIL_USERNAME'),false);
-            if($teenagerVerifyEmailIsReal == 'invalid'){
-                return Redirect::to("teenager/signup")->withErrors(trans('appmessages.emailisnotreal'))->withInput();
-            }
-        }
+        // if($teenagerDetail['t_email'] != '' && $teenagerDetail['t_social_provider'] == 'Normal'){
+        //     $teenagerVerifyEmailIsReal = Helpers::verifyEmailIsReal($teenagerDetail['t_email'],env('MAIL_USERNAME'),false);
+        //     if($teenagerVerifyEmailIsReal == 'invalid'){
+        //         return Redirect::to("teenager/signup")->withErrors(trans('appmessages.emailisnotreal'))->withInput();
+        //     }
+        // }
         
         if ($teenagerDetail['t_email'] != '' && $teenagerDetail['t_social_provider'] == 'Normal') {
             $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenagerDetail['t_email']);
