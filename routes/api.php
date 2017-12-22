@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('/login', 'Webservice\LoginController@login');
+
 Route::get('/get-state/{id}', 'StateCityController@getState');
 Route::get('/get-city/{id}', 'StateCityController@getCity');
 

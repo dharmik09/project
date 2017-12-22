@@ -14,9 +14,21 @@ class Teenagers extends Authenticatable {
     use Notifiable;
 
     protected $table = 'pro_t_teenagers';
-    //protected $fillable = ['id', 't_uniqueid', 't_school', 't_school_status', 't_name', 't_nickname', 't_email', 'password', 't_gender', 't_social_provider', 't_social_identifier', 't_social_accesstoken', 't_phone', 't_birthdate', 't_country', 't_pincode', 't_location', 't_photo', 't_level', 't_credit', 't_boosterpoints', 't_isfirstlogin', 't_sponsor_choice', 't_isverified', 't_device_token', 't_device_type', 'remember_token', 'deleted', 'is_search_on', 'is_notify', 'is_sound_on','t_last_activity'];
     protected $guarded = [];
-  
+    protected $hidden = ['password', 'remember_token'];
+    
+    public function getCountry() {
+        return $this->belongsTo(Country::class, 't_country')->withDefault();
+    }
+
+    public static function teenagerActiveStatus($id) {
+        return ( Teenagers::where(['id' => $id, 'deleted' => 1])->count() > 0 ) ? true : false;
+    }
+
+    public function teenagerSponsors() {
+        return $this->hasMany(TeenagerSponsor::class, "ts_teenager")->with('sponsor');
+    }
+
     public function getActiveTeenagers() {
         $result = $this->select('*')
                 ->where('t_name', '!=','')
@@ -235,13 +247,4 @@ class Teenagers extends Authenticatable {
       return $result;
     }
 
-    public function getCountry()
-    {
-        return $this->belongsTo(Country::class, 't_country')->withDefault();
-    }
-
-    public static function teenagerActiveStatus($id)
-    {
-        return ( Teenagers::where(['id' => $id, 'deleted' => 1])->count() > 0 ) ? true : false;
-    }
 }
