@@ -50,13 +50,13 @@ class Video extends Model
         return $result;
     }
 
-    public function getMoreVideos()
+    public function getMoreVideos($id)
     {
         $videos = Video::select('*')
                         ->where('id', '<', $id)
                         ->where('deleted' ,'1')
                         ->orderBy('created_at','DESC')
-                        ->limit(4)
+                        ->limit(12)
                         ->get();
         return $videos;
     }
@@ -66,8 +66,18 @@ class Video extends Model
         $result = Video::select('*')
                         ->where('deleted' ,'1')
                         ->orderBy('created_at','DESC')
-                        ->limit(4)
+                        ->limit(12)
                         ->get();
+        return $result;
+    }
+
+    public function loadMoreVideoCount($id)
+    {
+        $result = Video::select('*')
+                        ->where('id', '<', $id)
+                        ->where('deleted' ,'1')
+                        ->orderBy('created_at','DESC')
+                        ->count();
         return $result;
     }
 

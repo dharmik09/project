@@ -132,8 +132,8 @@
                     </div>
                 </div>
                 <div id="load-video"></div>
-                @if($videoCount > 4)
-                    <p class="text-center"><a id="load-more" href="" title="load more" data-id="{{ $video->id }}" class="btn btn-primary">load more</a></p>
+                @if(isset($videoCount) && $videoCount > 12)
+                    <p id="remove-row" class="text-center"><a id="load-more" href="javascript:void(0)" title="load more" data-id="{{ $video->id }}" class="btn btn-primary">load more</a></p>
                 @endif
             </div>
         </div>
@@ -190,7 +190,7 @@
                     dataType : "text",
                     success : function (data) {
                         if(data != '') {
-                            //$('#remove-row').remove();
+                            $('#remove-row').remove();
                             $('#load-video').append(data);
                         } else {
                             //$('#btn-more').html("No Data");

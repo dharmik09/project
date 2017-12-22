@@ -33,6 +33,7 @@ class HomeController extends Controller
         $this->objTestimonial = new Testimonial;
         $this->objFAQ = new FAQ;
         $this->faqThumbImageUploadPath = Config::get('constant.FAQ_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objVideo = new Video();
     }
 
     /**
@@ -45,9 +46,8 @@ class HomeController extends Controller
         if(Auth::guard('teenager')->check()) {
             return redirect()->to(route('teenager.home'));
         }
-        $objVideo = new Video();
-        $videoCount =  $objVideo->getAllVideoDetail()->count();
-        $videoDetail = $objVideo->getVideos();
+        $videoCount = $this->objVideo->getAllVideoDetail()->count();
+        $videoDetail = $this->objVideo->getVideos();
         $teenText = '';
         $loginInfo = $this->cmsObj->getCmsBySlug('teenagerlogininfotext');
         if(!empty($loginInfo)){
@@ -79,8 +79,8 @@ class HomeController extends Controller
     public function loadMoreVideo(Request $request)
     {
         $id = $request->id;
-        $videoDetail = $objVideo->getMoreVideos();
-        return view('teenager.loadMoreVideo', compact('videoDetail'));
+        $videoDetail = $this->objVideo->getMoreVideos($id);
+        $videoCount = $this->objVideo->loadMoreVideoCount($id);
+        return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
     }
-   
 }
