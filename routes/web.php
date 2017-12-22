@@ -58,6 +58,7 @@ Route::group(['prefix' => 'teenager'], function () {
 	Route::post('/resend-OTP', 'Teenager\PasswordController@resendOTP');
 	Route::get('/facebook', 'Teenager\SocialLoginController@redirectToProviderFacebook');
 	Route::get('/google', 'Teenager\SocialLoginController@redirectToProviderGooglePlus');
+	Route::post('/load-more-video', 'Teenager\HomeController@loadMoreVideo')->name('load-more-video');
 });
 
 Route::group(['prefix' => 'developer'], function () {

@@ -46,7 +46,8 @@ class HomeController extends Controller
             return redirect()->to(route('teenager.home'));
         }
         $objVideo = new Video();
-        $videoDetail =  $objVideo->getAllVideoDetail();
+        $videoCount =  $objVideo->getAllVideoDetail()->count();
+        $videoDetail = $objVideo->getVideos();
         $teenText = '';
         $loginInfo = $this->cmsObj->getCmsBySlug('teenagerlogininfotext');
         if(!empty($loginInfo)){
@@ -55,7 +56,7 @@ class HomeController extends Controller
         }
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote.png';
-        return view('teenager.index', compact('videoDetail', 'teenText', 'testimonials', 'quoteImage'));
+        return view('teenager.index', compact('videoDetail', 'teenText', 'testimonials', 'quoteImage', 'videoCount'));
     }
 
     /**
@@ -68,6 +69,18 @@ class HomeController extends Controller
         $helps = $this->objFAQ->getAllFAQ();
         $faqThumbImageUploadPath = $this->faqThumbImageUploadPath;
         return view('teenager.help', compact('helps', 'faqThumbImageUploadPath'));
+    }
+
+    /**
+     * Returns More video on Index page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function loadMoreVideo(Request $request)
+    {
+        $id = $request->id;
+        $videoDetail = $objVideo->getMoreVideos();
+        return view('teenager.loadMoreVideo', compact('videoDetail'));
     }
    
 }
