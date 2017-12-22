@@ -29,6 +29,7 @@ class HomeController extends Controller
         //$this->middleware('admin.guest', ['except' => 'logout']);
         $this->cmsObj = new CMS;
         $this->objTestimonial = new Testimonial;
+        $this->objVideo = new Video;
     }
 
     /**
@@ -48,9 +49,23 @@ class HomeController extends Controller
             $schoolText = $loginText['cms_body'];
         }
         $objVideo = new Video();
-        $videoDetail =  $objVideo->getAllVideoDetail();
+        $videoDetail =  $this->objVideo->getVideos();
+        $videoCount = $this->objVideo->getAllVideoDetail()->count();
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote-school.png';
-        return view('school.index', compact('videoDetail', 'schoolText', 'testimonials', 'quoteImage'));
+        return view('school.index', compact('videoDetail', 'schoolText', 'testimonials', 'quoteImage', 'videoCount'));
+    }
+
+    /**
+     * Returns More video on Index page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function loadMoreVideo(Request $request)
+    {
+        $id = $request->id;
+        $videoDetail = $this->objVideo->getMoreVideos($id);
+        $videoCount = $this->objVideo->loadMoreVideoCount($id);
+        return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
     }
 }

@@ -29,6 +29,7 @@ class HomeController extends Controller
         //$this->middleware('admin.guest', ['except' => 'logout']);
         $this->cmsObj = new CMS;
         $this->objTestimonial = new Testimonial;
+        $this->objVideo = new Video();
     }
 
     /**
@@ -41,8 +42,8 @@ class HomeController extends Controller
         if(Auth::guard('sponsor')->check()) {
             return redirect()->to(route('sponsor.home'));
         }
-        $objVideo = new Video();
-        $videoDetail =  $objVideo->getAllVideoDetail();
+        $videoCount = $this->objVideo->getAllVideoDetail()->count();
+        $videoDetail =  $this->objVideo->getVideos();
         $enterpriseText = '';
         $loginInfo = $this->cmsObj->getCmsBySlug('sponsorlogininfotext');
         if(!empty($loginInfo)){
@@ -51,7 +52,20 @@ class HomeController extends Controller
         }
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote-enterprise.png';
-        return view('sponsor.index', compact('videoDetail', 'enterpriseText', 'testimonials', 'quoteImage'));
+        return view('sponsor.index', compact('videoDetail', 'enterpriseText', 'testimonials', 'quoteImage', 'videoCount'));
+    }
+
+    /**
+     * Returns More video on Index page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function loadMoreVideo(Request $request)
+    {
+        $id = $request->id;
+        $videoDetail = $this->objVideo->getMoreVideos($id);
+        $videoCount = $this->objVideo->loadMoreVideoCount($id);
+        return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
     }
    
 }

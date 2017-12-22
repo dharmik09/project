@@ -86,6 +86,7 @@ Route::group(['prefix' => 'sponsor'], function () {
 	Route::get('/forgot-password-OTP-verify', 'Sponsor\PasswordManagementController@forgotPassword');
 	Route::get('/save-forgot-password', 'Sponsor\PasswordManagementController@forgotPassword');
 	Route::get('/set-forgot-password', 'Sponsor\PasswordManagementController@forgotPassword');
+	Route::post('/load-more-video', 'Sponsor\HomeController@loadMoreVideo')->name('load-more-video');
 });
 
 Route::group(['prefix' => 'parent'], function () {
@@ -107,6 +108,7 @@ Route::group(['prefix' => 'parent'], function () {
 	Route::get('/forgot-password-OTP-verify', 'Parent\PasswordManagementController@forgotPassword');
 	Route::get('/set-forgot-password', 'Parent\PasswordManagementController@forgotPassword')->name('set-forgot-password');
 	Route::get('/save-forgot-password', 'Parent\PasswordManagementController@forgotPassword');
+	Route::post('/load-more-video', 'Parent\HomeController@loadMoreVideo')->name('load-more-video');
 });
 
 //Counselor
@@ -135,6 +137,7 @@ Route::group(['prefix' => 'school'], function () {
 	Route::get('/forgot-password-OTP-verify', 'School\PasswordController@forgotPassword');
 	Route::get('/set-forgot-password', 'School\PasswordController@forgotPassword')->name('set-forgot-password');
 	Route::get('/save-forgot-password', 'School\PasswordController@forgotPassword');
+	Route::post('/load-more-video', 'School\HomeController@loadMoreVideo')->name('load-more-video');
 });
 
 Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('parent.verify-parent-teen-pair');

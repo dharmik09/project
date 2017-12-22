@@ -21,6 +21,7 @@ class HomeController extends Controller
     {
         $this->cmsObj = new CMS();
         $this->objTestimonial = new Testimonial;
+        $this->objVideo = new Video;
         //$this->middleware('admin.guest', ['except' => 'logout']);
     }
 
@@ -42,10 +43,11 @@ class HomeController extends Controller
         }
         $type = 'Parent';
         $objVideo = new Video();
-        $videoDetail =  $objVideo->getAllVideoDetail();
+        $videoDetail =  $this->objVideo->getVideos();
+        $videoCount = $this->objVideo->getAllVideoDetail()->count();
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote-blue.png';
-        return view('parent.index', compact('videoDetail', 'type', 'text', 'testimonials', 'quoteImage'));
+        return view('parent.index', compact('videoDetail', 'type', 'text', 'testimonials', 'quoteImage', 'videoCount'));
     }
 
     public function loginCounselor()
@@ -61,10 +63,24 @@ class HomeController extends Controller
         }
         $type = 'Mentor';
         $objVideo = new Video();
-        $videoDetail =  $objVideo->getAllVideoDetail();
+        $videoDetail =  $this->objVideo->getVideos();
+        $videoCount = $this->objVideo->getAllVideoDetail()->count();
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote-mentor.png';
-        return view('parent.index', compact('videoDetail', 'type', 'text', 'testimonials', 'quoteImage'));
+        return view('parent.index', compact('videoDetail', 'type', 'text', 'testimonials', 'quoteImage', 'videoCount'));
+    }
+
+    /**
+     * Returns More video on Index page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function loadMoreVideo(Request $request)
+    {
+        $id = $request->id;
+        $videoDetail = $this->objVideo->getMoreVideos($id);
+        $videoCount = $this->objVideo->loadMoreVideoCount($id);
+        return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
     }
    
 }
