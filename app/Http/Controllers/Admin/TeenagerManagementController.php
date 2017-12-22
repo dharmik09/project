@@ -101,7 +101,8 @@ class TeenagerManagementController extends Controller {
         $sEcho = intval(Input::get('draw'));
 
         if(Input::get('start_date') && Input::get('end_date')){
-            $records["data"] = $this->teenagersRepository->getAllTeenagersDataByDate(Input::get('start_date'), Input::get('end_date'));
+            $end_date = date('Y-m-d H:i:s', strtotime(Input::get('end_date') . ' +1 day'));
+            $records["data"] = $this->teenagersRepository->getAllTeenagersDataByDate(Input::get('start_date'), $end_date);
         }
         else{
             $records["data"] = $this->teenagersRepository->getAllTeenagersData();
