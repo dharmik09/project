@@ -108,6 +108,8 @@ $(document).ready(function () {
     $('body').on('click', '.popover-closer', function (event) {
         $('.custompop').popover('hide');
     });
+    
+   
     /*// add iframe url for a map
 		function loadMap(iframeObject)
 		{
@@ -244,3 +246,15 @@ $(document).keydown(function (e) {
         $('body').removeClass('fixedPosition');
     }
 });
+$(window).load(function(){
+     //character limit in sponsor name
+   /* $(".sponsor-list .sponsor-name").text(function (index, currentText) {
+        return currentText.substr(0, 80) + "...";
+    });*/
+    $(".sponsor-list .sponsor-name").each(function (i) {
+        len = $(this).text().length;
+        if (len > 10) {
+            $(this).text($(this).text().substr(0, 80) + '...');
+        }
+    });
+})

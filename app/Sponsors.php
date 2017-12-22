@@ -26,6 +26,8 @@ class Sponsors extends Authenticatable {
     *
     * @var array
     */
+    protected $hidden = ['password', 'remember_token'];
+    
     public function getActiveSponsors()
     {
         $result = $this->select('*')
@@ -42,4 +44,7 @@ class Sponsors extends Authenticatable {
         return $credit;
     }
 
+    public function teenagerSponsorCollection() {
+        return $this->hasMany(TeenagerSponsor::class, 'ts_sponsor');
+    }
 }
