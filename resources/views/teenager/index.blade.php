@@ -42,7 +42,11 @@
                                 <span class="invalid" id="email_mobile_invalid" style="display: none;">Valid email or mobile required</span>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="password" maxlength="20" minlength="6" name="password" placeholder="password" tabindex="2">
+                                <input type="password" class="form-control pass-visi" id="password" maxlength="20" minlength="6" name="password" placeholder="password" tabindex="2">
+                                <span class="visibility-pwd">
+                                    <img src="{{ Storage::url('img/view-white.png') }}" alt="view" class="view img">
+                                    <img src="{{ Storage::url('img/hide-white.png') }}" alt="view" class="img-hide hide img">
+                                </span>
                             </div>
                             <div class="checkbox">
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
@@ -159,6 +163,21 @@
                 $("#iframe-video")[0].src += "&autoplay=1";
                 ev.preventDefault();
             });
+            // Cache the toggle button
+            var $toggle = $(".visibility-pwd");
+            var $field = $(".pass-visi");
+            var i = $(this).find('.img');
+            // Toggle the field type
+            $toggle.on("click", function(e) {
+                e && e.preventDefault();
+                if ($field.attr("type") == "password") {
+                    $field.attr("type", "text");
+                    i.toggleClass("hide");
+                } else {
+                   i.toggleClass("hide");
+                    $field.attr("type", "password");
+                }
+            });
         });
 
         $(window).bind("load", function() {
@@ -214,9 +233,12 @@
             if (validEmailOrMobile) {
                 $('#email_mobile_invalid').hide();
                 if (form.valid()) {
-                    form.submit();
+                    //form.submit();
+                    return true;
                 }
-                $("#loginSubmit").removeClass('sending').blur();
+                setTimeout(function () {
+                    $("#loginSubmit").removeClass('sending').blur();
+                }, 2500);
                 return true;
             } else {
                 $("#loginSubmit").removeClass('sending').blur();

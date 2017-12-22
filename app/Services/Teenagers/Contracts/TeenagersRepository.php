@@ -12,6 +12,7 @@ interface TeenagersRepository extends BaseRepository
     public function getAllTeenagers($searchParamArray = array());
 
     public function getAllTeenagersData();
+    public function getAllTeenagersDataByDate($startDate, $endDate);
 
     /**
      * Save Teenager detail passed in $teenagerDetail array

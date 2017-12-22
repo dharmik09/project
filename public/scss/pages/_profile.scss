@@ -343,8 +343,8 @@
                 }
             }
         }
-        .input-group{
-            .form-control{
+        .input-group {
+            .form-control {
                 width: 70%;
             }
         }
@@ -353,8 +353,7 @@
             border-color: #98999b;
             font-family: hl;
             font-size: 24px;
-            height: 57px;
-            text-transform: capitalize;
+            height: 57px; //text-transform: capitalize;
             color: $reg-l;
             @include maxmd {
                 font-size: 20px;
@@ -685,6 +684,12 @@
             margin-top: 30px;
             @include maxms {
                 display: none;
+            }
+        }
+        .visibility-pwd img {
+            top: 17px;
+            @include maxsm{
+                top: 10px;
             }
         }
     }

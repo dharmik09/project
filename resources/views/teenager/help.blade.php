@@ -11,6 +11,14 @@
             <div class="container">
             <h1 class="font-blue">How to</h1>
             <p>Frequently asked questions</p>
+                <div class="procoin-form gift-form">
+                    <form>
+                        <div class="form-group search-bar clearfix">
+                            <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
+                            <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <!-- accordian section-->

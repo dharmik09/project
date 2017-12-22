@@ -14,7 +14,8 @@
                 </a>
             </div>
         </div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/WoelVRjFO4A?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+        <?php $video = ($type == 'Parent') ? 'S6FgCxlf9Tw' : 'jFzLKuxhv3I'; ?>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{$video}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
     <!-- teen bio-->
     <section class="teen-bio">
@@ -46,7 +47,11 @@
                                 <input type="text" class="form-control" id="email" maxlength="50" name="email" placeholder="Email or Mobile" value="{{old('email')}}" autocomplete="off" tabindex="1">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="password" maxlength="20" minlength="6" name="password" placeholder="password" tabindex="2">
+                                <input type="password" class="form-control pass-visi" id="password" maxlength="20" minlength="6" name="password" placeholder="password" tabindex="2">
+                                <span class="visibility-pwd">
+                                    <img src="{{ Storage::url('img/view-white.png') }}" alt="view" class="view img">
+                                    <img src="{{ Storage::url('img/hide-white.png') }}" alt="view" class="img-hide hide img">
+                                </span>
                             </div>
                             <div class="checkbox">
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
@@ -190,6 +195,21 @@
                 $("#iframe-video")[0].src += "&autoplay=1";
                 ev.preventDefault();
             });
+            // Cache the toggle button
+            var $toggle = $(".visibility-pwd");
+            var $field = $(".pass-visi");
+            var i = $(this).find('.img');
+            // Toggle the field type
+            $toggle.on("click", function(e) {
+                e && e.preventDefault();
+                if ($field.attr("type") == "password") {
+                    $field.attr("type", "text");
+                    i.toggleClass("hide");
+                } else {
+                   i.toggleClass("hide");
+                    $field.attr("type", "password");
+                }
+            });
         });
         $(window).bind("load", function() {
             $('.masonary-grid').masonry({
@@ -226,13 +246,16 @@
             $(this).hide();
             $('iframe').show();
         });
-        $("#loginSubmit").click(function() {
+        $("#login_form").submit(function() {
             $("#loginSubmit").toggleClass('sending').blur();
             var form = $("#login_form");
             form.validate();
             if (form.valid()) {
-                form.submit();
-                $("#loginSubmit").removeClass('sending').blur();
+                //form.submit();
+                return true;
+                setTimeout(function () {
+                    $("#loginSubmit").removeClass('sending').blur();
+                }, 2500);
             } else {
                 $("#loginSubmit").removeClass('sending').blur();
             }
