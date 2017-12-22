@@ -97,6 +97,7 @@
         border: none;
         margin-bottom: 44px;
         transition: all 0.3s ease-out 0s;
+        background-size: contain;
         &:before {
             display: none; //for removing hover
             opacity: 0;
@@ -495,10 +496,17 @@
                     left: auto;
                     right: -300%;
                 }
+                @include maxmd {
+                    padding: 50px;
+                }
             }
             .sponsor-name {
                 display: block;
                 margin: 0 12px;
+                width: 70%;
+                @include maxsm {
+                    width: 100%;
+                }
             }
             .sponsor-list {
                 .owl-nav {
@@ -521,7 +529,7 @@
                             left: -60px;
                         }
                         @include maxmd {
-                            left: 0;
+                            left: -50px;
                         }
                         @include maxms {
                             width: 20px;
@@ -536,7 +544,7 @@
                             right: -30px;
                         }
                         @include maxmd {
-                            right: 0;
+                            right: -50px;
                         }
                     }
                 }
@@ -597,6 +605,7 @@
                 @include maxms {
                     text-align: left;
                     font-size: 15px;
+                    margin-bottom: 30px;
                 }
                 .switch {
                     position: relative;
@@ -607,9 +616,12 @@
                     margin-bottom: 0;
                     margin-left: 18px;
                     @include maxsm {
-                        margin-right: 20px;
+                        margin-right: 70px;
                         margin-left: 0;
                         order: -1;
+                    }
+                    @include maxms {
+                        margin-right: 20px;
                     }
                     input {
                         display: none;
@@ -646,6 +658,10 @@
                             -moz-transition: all 0.5s;
                             transition: all 0.5s;
                             font-weight: 300;
+                            @include maxms {
+                                padding-left: 20px;
+                                top: 30px;
+                            }
                         }
                         .off {
                             opacity: 1;
@@ -688,7 +704,7 @@
         }
         .visibility-pwd img {
             top: 17px;
-            @include maxsm{
+            @include maxsm {
                 top: 10px;
             }
         }

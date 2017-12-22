@@ -319,6 +319,9 @@
                     right: -19.3%;
                 }
             }
+            @include maxmd{
+                padding: 50px;
+            }
         }
         label {
             color: $lightgrey;
@@ -353,8 +356,13 @@
         .sponsor-name {
             display: block;
             margin: 0 12px;
+            width: 70%;
+            @include maxsm{
+                width: 100%;
+            }
         }
         .sponsor-list {
+            .owl-stage-outer{}
             .owl-nav {
                 position: absolute;
                 top: 50%;
@@ -381,7 +389,7 @@
                         left: -60px;
                     }
                     @include maxmd{
-                        left: 0;
+                        left: -50px;
                     }
                 }
                 .owl-next {
@@ -392,7 +400,7 @@
                         right: -30px;
                     }
                     @include maxmd{
-                        right: 0;
+                        right: -50px;
                     }
                 }
             }
