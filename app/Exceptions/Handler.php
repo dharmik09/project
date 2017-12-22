@@ -54,13 +54,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ( ($exception instanceof Symfony\Component\Debug\Exception\FatalThrowableError || $exception instanceof ReflectionException || $exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) && $request->wantsJson())
+        if ( ($exception instanceof \ErrorException || $exception instanceof ReflectionException || $exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) && $request->wantsJson())
         {
             return response()->json([
                 'status' => 0,
                 'login' => 0,
-                'message' => 'Resource not found.'. $exception->getStatusCode(),
-                'data' => $exception->getMessage()
+                'message' => 'Resource not found.',
+                'error' => $exception->getMessage()
             ], 404);
         }
         return parent::render($request, $exception);
