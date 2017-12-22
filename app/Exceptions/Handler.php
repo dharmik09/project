@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use ReflectionException;
+use FatalThrowableError;
 
 class Handler extends ExceptionHandler
 {
@@ -52,10 +54,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ( ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) && $request->wantsJson())
+        if ( ($exception instanceof Symfony\Component\Debug\Exception\FatalThrowableError || $exception instanceof ReflectionException || $exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) && $request->wantsJson())
         {
             return response()->json([
-                'data' => 'Resource not found'
+                'status' => 0,
+                'login' => 0,
+                'message' => 'Resource not found.'. $exception->getStatusCode(),
+                'data' => $exception->getMessage()
             ], 404);
         }
         return parent::render($request, $exception);
