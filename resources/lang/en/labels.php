@@ -673,4 +673,7 @@ return [
     'testimonialdeletesuccess' => 'Testimonial deleted successfully',
     'frmitdescription' => 'Description',
     'frmitlblslug' => 'Slug',   
+    'teenagestartdate' => 'Start Date',   
+    'teenageenddate' => 'End Date',   
+    'lblreset' => 'Reset',   
 ];
