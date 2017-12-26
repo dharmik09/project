@@ -503,6 +503,11 @@ a {
         padding: 40px 0;
         font-size: 14px;
     }
+    span{
+        @include maxms{
+            font-size: 14px !important;
+        }
+    }
     [class*=col-] {
         &:first-child {
             padding-right: 50px;
@@ -733,7 +738,7 @@ a {
         }
         li {
             display: inline-block;
-            width:49.5%;
+            width:49.4%;
            // margin-left: -4px;
             @include maxms{
                 width: 49%;
@@ -792,7 +797,7 @@ a {
         }
     }
 }
-.teen-bio .form-sec .invalid{color: $white;display: block;margin: 5px;}
+.teen-bio .form-sec .invalid{color: $white;display: block;margin-top: 5px;}
 // Animations
 //**********************//
 @keyframes rotate {

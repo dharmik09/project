@@ -189,8 +189,11 @@ h6 {
                 line-height: 30px;
                 font-family: 'ht';
                 margin-top: 15px;
-                @include maxsm {
+                @include maxmd{
                     font-size: 22px;
+                }
+                @include maxsm {
+                    font-size: 20px;
                 }
             }
         }
@@ -564,4 +567,9 @@ h6 {
 }
 [class*="sec-wrap-"] {
     display: none;
+}
+.das_your_profile.my_interests .col-xs-6{
+    @include maxms{
+        width: 100%;
+    }
 }

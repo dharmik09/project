@@ -151,6 +151,9 @@
                     color: $r-cl;
                     display: block;
                     text-transform: capitalize;
+                    @include maxmd{
+                        font-size: 22px;
+                    }
                     @include maxsm {
                         font-size: 18px;
                     }
