@@ -17,6 +17,10 @@ Route::group([ 'middleware' => ['api-outside'] ], function () {
 	Route::post('/login', 'Webservice\LoginController@login');
 	Route::post('/getCountryList', 'Webservice\RestLessController@getCountryList');
 	Route::post('/getSponsors', 'Webservice\RestLessController@getSponsors');
+	Route::post('/verifyOTP', 'Webservice\PasswordController@verifyOTP');
+	Route::post('/resetPassword', 'Webservice\PasswordController@resetPassword');
+	Route::post('/forgotPassword', 'Webservice\PasswordController@forgotPassword');
+	Route::post('/userLogout', 'Webservice\LoginController@userLogout');
 });
 
 Route::group([ 'middleware' => ['api-support'] ], function () {

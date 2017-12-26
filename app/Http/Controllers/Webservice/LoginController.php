@@ -29,6 +29,7 @@ class LoginController extends Controller
 
     /* Request Params : login
     *  email, password, device_id, device_type
+    *  No loginToken required because it's call without loggedin user
     */
     public function login(Request $request)
     {
@@ -101,5 +102,31 @@ class LoginController extends Controller
     	
     	return response()->json($response, 200);
     	exit;
+    }
+
+    /* Request Params : userLogout
+    *  userId, token, device_id
+    *  No loginToken required because it's call without loggedin user
+    */
+    public function userLogout(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        if($request->userId != "" && $request->device_id != "" && $request->token != "") {
+            $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
+            if ($checkuserexist) {
+                $userId = $request->userId;
+                $token = $request->token;
+                $result = $this->objDeviceToken->deleteDeviceToken($request->userId, $token);
+                $return = $this->objTeenagerLoginToken->deletedTeenagerLoginDetail($request->userId, $request->device_id);
+                $response['status'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+            } else {
+                $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+            }
+        } else {
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+
+        return response()->json($response, 200);
+        exit;
     }
 }
