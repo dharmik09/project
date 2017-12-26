@@ -9,7 +9,7 @@ Route::post('/save-teenager-academic-info', 'Teenager\DashboardController@saveTe
 Route::post('/save-teenager-achievement-info', 'Teenager\DashboardController@saveTeenagerAchievement');
 Route::get('/chat', 'Teenager\DashboardController@chat');
 Route::post('/get-phone-code-by-country-for-profile', 'Teenager\DashboardController@getPhoneCodeByCountry');
-//Route::post('/save-pair', 'Teenager\DashboardController@savePair')->name('save-pair');
+Route::post('/save-pair', 'Teenager\DashboardController@savePair')->name('save-pair');
 Route::get('/gift-coupons', function() {
 	return view('teenager.giftCoupons');
 });

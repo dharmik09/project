@@ -7,7 +7,7 @@
                 </div>
                 <div class="testimonial-content">
                     <span><img src="{{Storage::url($quoteImage)}}" alt="quote"></span>
-                    <p>{{$testimonial->t_description}} - <strong>{{$testimonial->t_name}}</strong></p>
+                    <p>{!! $testimonial->t_description !!} - <strong>{{$testimonial->t_name}}</strong></p>
                     <h5><a href="#" title="Lorem ipsum"></a>{{$testimonial->t_title}}  </h5>
                 </div>
             </li>

@@ -542,9 +542,11 @@
                         background-image: url(../img/next-icon-dark.png);
                         @include maxlg {
                             right: -30px;
+                             left: auto;
                         }
                         @include maxmd {
                             right: -50px;
+                             left: auto;
                         }
                     }
                 }

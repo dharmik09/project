@@ -41,61 +41,91 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <?php $countInterest = 0; ?>
                                 @forelse($teenagerInterest as $interestKey => $interestValue)
                                     <?php if($interestValue < 1) { continue; } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <div class="my_chart">
-                                            <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}">
-                                            <h4>{{ $interestKey }}</h4>
+                                    <?php 
+                                        if(isset($countInterest) && $countInterest == 4) { ?>
+                                            <div class="expandInterest">
+                                        <?php } ?>
+                                        <div class="col-md-6 col-sm-6 col-xs-6"> 
+                                            <div class="my_chart">
+                                                <!-- <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}"> -->
+                                                <div class="progress-radial progress-20">
+                                                </div>
+                                                <h4>{{ $interestKey }}</h4>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <?php 
+                                            if(isset($countInterest) && $countInterest == 3) { ?>
+                                            </div>
+                                        <?php } ?>
+                                    <?php $countInterest++; ?>
                                 @empty
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url('img/my-interest-2.png') }}" alt="My_chart">
+                                            <!-- <img src="{{ Storage::url('img/my-interest-2.png') }}" alt="My_chart"> -->
+                                            <div class="progress-radial progress-5">
+                                            </div>
                                             <h4>Interest 1</h4>
                                         </div>
                                         <!-- my_chart End -->
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url('img/my-interest-1.png') }}" alt="My_chart">
+                                            <!-- <img src="{{ Storage::url('img/my-interest-1.png') }}" alt="My_chart"> -->
+                                            <div class="progress-radial progress-15">
+                                            </div>
                                             <h4>Interest 2</h4>
                                         </div>
                                         <!-- my_chart End -->
                                     </div>
                                 @endforelse
                             </div>
-                            <p><a href="">Expand</a></p>
+                            <p><a id="interest" href="javascript:void(0);" onclick="expandInterest();">Expand</a></p>
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
                             <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="row">
+                                <?php $countStrength = 0; ?>
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
-                                    <?php $imageChart = "img/My_chart-".$strengthValue.".png"; ?>
+                                    <?php $imageChart = "img/My_chart-".$strengthValue.".png";
+                                    if(isset($countStrength) && $countStrength == 4) { ?>
+                                        <div class="expandStrength">
+                                    <?php } ?>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url($imageChart) }}" alt="{{ $strengthKey }}" title="{{ $strengthKey }}">
+                                            <div class="progress-radial progress-20">
+                                            </div>
+                                            <!-- <img src="{{ Storage::url($imageChart) }}" alt="{{ $strengthKey }}" title="{{ $strengthKey }}"> -->
                                             <h4>{{ $strengthKey }}</h4>
                                         </div>
                                     </div>
+                                    <?php if(isset($countStrength) && $countStrength == 3) { ?>
+                                        </div>
+                                    <?php }  
+                                    $countStrength++; ?>
                                 @empty
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url('img/My_chart2.png') }}" alt="My_chart">
+                                            <div class="progress-radial progress-5">
+                                            </div>
+                                            <!-- <img src="{{ Storage::url('img/My_chart2.png') }}" alt="My_chart"> -->
                                             <h4>Strength 1</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url('img/My_chart3.png') }}" alt="My_chart">
+                                            <div class="progress-radial progress-10">
+                                            </div>
+                                            <!-- <img src="{{ Storage::url('img/My_chart3.png') }}" alt="My_chart"> -->
                                             <h4>Strength 2</h4>
                                         </div>
                                     </div>
                                 @endforelse
                             </div>
-                            <p><a href="">Expand</a></p>
+                            <p><a id="strength" href="javascript:void(0);" onclick="expandStrength();">Expand</a></p>
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
@@ -327,4 +357,54 @@
         </div>
     </div>
     
+@stop
+
+@section('script')
+    <script>
+        // timer
+        jQuery(document).ready(function($) {
+            var count = 1;
+            var counter = setInterval(timer, 1000);
+
+            function secondPassed() {
+                var minutes = Math.round((count - 30) / 60);
+                var remainingcount = count % 60;
+                if (remainingcount < 10) {
+                    remainingcount = "0" + remainingcount;
+                }
+                $('.time-tag,.time-tag').text(minutes + ":" + remainingcount);
+                $('.time-tag').show();
+            }
+
+            function timer() {
+                if (count < 0) {} else {
+                    secondPassed();
+                }
+                count = count + 1;
+                if (count == 60) {
+                    //saveBoosterPoints(teenagerId, professionId, 2, isyoutube);
+                }
+            }
+            $(".expandInterest").hide();
+            $(".expandSterngth").hide();
+        });
+        function expandInterest() {
+            if ($('.expandInterest').is(':visible')) {
+                $(".expandInterest").slideUp();
+                $("#interest").text("Expand");
+            } else {
+                $(".expandInterest").slideDown();
+                $("#interest").text("Collapse");
+            }
+        }
+        function expandStrength() {
+            if ($('.expandStrength').is(':visible')) {
+                $(".expandStrength").slideUp();
+                $("#strength").text("Expand");
+            } else {
+                $(".expandStrength").slideDown();
+                $("#strength").text("Collapse");
+            }
+        }
+    </script>
 @stop
