@@ -94,8 +94,11 @@
                                         </div>
                                         <h4>{{$val->c_package_name}}</h4>
                                         <h2 class="price">
-                                            <i class="fa fa-<?php if ($val->c_currency == 1) { echo 'inr';} else {echo 'usd';}?>" aria-hidden="true"></i>
-                                            <span><?php echo intval($val->c_price); ?></span>
+                                            <span>
+                                                &#8377;
+                                                <!-- <i class="fa fa-<?php //if ($val->c_currency == 1) { echo 'inr';} else {echo 'usd';}?>" aria-hidden="true"></i> -->
+                                            </span>
+                                            <?php echo intval($val->c_price); ?>
                                         </h2>
                                         <div class="procoins-value"><?php echo number_format($val->c_coins);?> <span>ProCoins</span>
                                         </div>

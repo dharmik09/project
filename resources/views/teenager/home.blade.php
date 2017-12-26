@@ -340,3 +340,33 @@
     </div>
     
 @stop
+
+@section('script')
+    <script>
+        // timer
+        jQuery(document).ready(function($) {
+            var count = 1;
+            var counter = setInterval(timer, 1000);
+
+            function secondPassed() {
+                var minutes = Math.round((count - 30) / 60);
+                var remainingcount = count % 60;
+                if (remainingcount < 10) {
+                    remainingcount = "0" + remainingcount;
+                }
+                $('.time-tag,.time-tag').text(minutes + ":" + remainingcount);
+                $('.time-tag').show();
+            }
+
+            function timer() {
+                if (count < 0) {} else {
+                    secondPassed();
+                }
+                count = count + 1;
+                if (count == 60) {
+                    //saveBoosterPoints(teenagerId, professionId, 2, isyoutube);
+                }
+            }
+        });
+    </script>
+@stop
