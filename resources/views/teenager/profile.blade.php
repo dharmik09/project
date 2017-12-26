@@ -641,7 +641,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed achievement">Achievement Record<span>Edit</span></a>
+                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed achievement">Achievement Record
+                            <span>
+                            @if (isset($teenagerMeta['achievement'][0]['meta_value'])) 
+                                {!! $teenagerMeta['achievement'][0]['meta_value'] !!}
+                            @endif
+                            </span>
+                            <span>Edit</span>
+                        </a>
                     </h4>
                 </div>
                 <div class="panel-collapse collapse" id="accordion1">
@@ -664,7 +671,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed academic">Academic Record<span>Edit</span></a>
+                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed academic">Academic Record
+                            <span>
+                            @if(isset($teenagerMeta['education'][0]['meta_value']))
+                                {!! $teenagerMeta['education'][0]['meta_value'] !!}
+                            @endif
+                            </span>
+                            <span>Edit</span>
+                        </a>
                     </h4>
                 </div>
                 <div class="panel-collapse collapse" id="accordion2">
