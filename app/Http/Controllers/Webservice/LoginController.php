@@ -169,7 +169,7 @@ class LoginController extends Controller
     *  userId, device_id
     *  No loginToken required because it's call without loggedin user
     */
-    public function saveUpdatedDeviceToken(Request $request) {
+    public function updateTeenagerLoginToken(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->userId != "" && $request->device_id != "") {
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
