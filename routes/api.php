@@ -20,7 +20,13 @@ Route::group([ 'middleware' => ['api-outside'] ], function () {
 	Route::post('/verifyOTP', 'Webservice\PasswordController@verifyOTP');
 	Route::post('/resetPassword', 'Webservice\PasswordController@resetPassword');
 	Route::post('/forgotPassword', 'Webservice\PasswordController@forgotPassword');
+	//Dought
 	Route::post('/userLogout', 'Webservice\LoginController@userLogout');
+	//Dought
+	Route::post('/saveUpdatedDeviceToken', 'Webservice\LoginController@saveUpdatedDeviceToken');
+	//Dought
+	Route::post('/updateTeenagerLoginToken', 'Webservice\LoginController@updateTeenagerLoginToken');
+	
 });
 
 Route::group([ 'middleware' => ['api-support'] ], function () {

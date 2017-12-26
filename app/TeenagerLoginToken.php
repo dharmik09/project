@@ -34,12 +34,12 @@ class TeenagerLoginToken extends Model {
         }
     }
 
-    public function deletedTeenagerLoginDetail($teenId,$deviceId) {
+    public function deletedTeenagerLoginDetail($teenId, $deviceId) {
         $token = DB::table(config::get('databaseconstants.TBL_TEENAGER_LOGIN_TOKEN'))->where('tlt_teenager_id', $teenId)->where('tlt_device_id', $deviceId)->update(['deleted'=> 3]);
         return $token;
     }
 
-    public function updateTeenagerLoginDetail($teenId,$deviceId) {
+    public function updateTeenagerLoginDetail($teenId, $deviceId) {
 
         $data = DB::table(config::get('databaseconstants.TBL_TEENAGER_LOGIN_TOKEN'))->where('tlt_teenager_id', $teenId)->where('tlt_device_id', $deviceId)->first();
         if (count($data) > 0) {
