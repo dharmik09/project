@@ -47,6 +47,15 @@ class ApiSupportMiddleware
                 'message' => trans('appmessages.invalid_access')
             ], 401);
         }
+        //Check Authorization token active or not
+        if (apache_request_headers()['Authorization'] != "YWRtaW4udXNlckBwcm90ZWVuLmNvbTokMnkkMTAkWWlqUTNNR2owOEtuTEhtdS9JS3E4dU55dFFMajBwMHV4VVhBUjZ5eHNjSDlrMUxIVzZBdDI") {
+            return response()->json([
+                'status' => 0, 
+                'login' => 0, 
+                'message' => "Authorization header is not valid"
+            ], 401);
+        }
+
         //Save user's last login activity
         $this->teenagersRepository->saveTeenagerActivityDetail($request->userId);
         
