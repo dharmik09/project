@@ -165,7 +165,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control alphaonly" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
+                                    <input type="text" class="form-control nospace" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
                                 </div>
                             </div>
                             <?php 
@@ -285,7 +285,7 @@
                                 </ul>
                             </div>
                             <div class="text-center col-sm-12">
-                                <button id="saveProfile" class="btn btn-submit" type="submit" title="Submit">Submit</button>
+                                <button id="saveProfile" class="btn btn-submit btn-default" type="submit" title="Submit">Submit</button>
                                 <span class="hand-icon"><i class="icon-hand-simple"></i></span>
                             </div>
                         </div>
@@ -698,6 +698,10 @@
             var node = $(this);
             node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
         });
+    $('.nospace').bind('keyup blur', function() {
+            var node = $(this);
+            node.val(node.val().replace(/\s/g, ''));
+        });
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -972,5 +976,18 @@
             }
         });
     }
+    $("#teenager_my_profile_form").submit(function() {
+            $("#saveProfile").toggleClass('sending').blur();
+            var form = $("#teenager_my_profile_form");
+            form.validate();
+            if (form.valid()) {
+                return true;
+                setTimeout(function () {
+                    $("#saveProfile").removeClass('sending').blur();
+                }, 2500);
+            } else {
+                $("#saveProfile").removeClass('sending').blur();
+            }
+        });
 </script>
 @stop

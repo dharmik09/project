@@ -126,8 +126,9 @@
                         @endforelse
                     </div>
                 </div>
-                @if(count($videoDetail) > 12)
-                    <p class="text-center"><a href="#" title="load more" class="btn btn-primary">load more</a></p>
+                <div id="load-video"></div>
+                @if(isset($videoCount) && $videoCount > 12)
+                    <p id="remove-row" class="text-center"><a id="load-more" href="javascript:void(0)" data-id="{{ $video->id }}" title="load more" class="btn btn-primary">load more</a></p>
                 @endif
             </div>
         </div>
@@ -244,5 +245,23 @@
                 $("#loginSubmit").removeClass('sending').blur();
             }
         });
+        $(document).on('click','#load-more',function(){
+                var id = $(this).data('id');
+                //$("#btn-more").html("Loading....");
+                $.ajax({
+                    url : '{{ url("sponsor/load-more-video") }}',
+                    method : "POST",
+                    data : {id:id, _token:"{{csrf_token()}}"},
+                    dataType : "text",
+                    success : function (data) {
+                        if(data != '') {
+                            $('#remove-row').remove();
+                            $('#load-video').append(data);
+                        } else {
+                            //$('#btn-more').html("No Data");
+                        }
+                    }
+                });
+            });  
     </script>
 @stop
