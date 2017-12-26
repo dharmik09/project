@@ -14,8 +14,7 @@ class StateCityController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
-    public function __construct(
-    ) {
+    public function __construct() {
         $this->objCountry = new Country();
         $this->objState = new State();
         $this->objCity = new City();

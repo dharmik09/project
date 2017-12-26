@@ -13,13 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('/login', 'Webservice\LoginController@login');
-
-Route::get('/get-state/{id}', 'StateCityController@getState');
-Route::get('/get-city/{id}', 'StateCityController@getCity');
+Route::group([ 'middleware' => ['api-outside'] ], function () {
+	Route::post('/login', 'Webservice\LoginController@login');
+	Route::post('/getCountryList', 'Webservice\RestLessController@getCountryList');
+	Route::post('/getSponsors', 'Webservice\RestLessController@getSponsors');
+});
 
 Route::group([ 'middleware' => ['api-support'] ], function () {
-	Route::get('articles', 'Webservice\ArticleController@index');
+	Route::post('/setPassword', 'Webservice\PasswordController@setPassword');
+	Route::post('/changePassword', 'Webservice\PasswordController@changePassword');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

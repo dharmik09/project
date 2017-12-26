@@ -27,7 +27,7 @@ class LoginController extends Controller
         $this->sponsorThumbImageUploadPath = Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH');
     }
 
-    /* Request Params : 
+    /* Request Params : login
     *  email, password, device_id, device_type
     */
     public function login(Request $request)
