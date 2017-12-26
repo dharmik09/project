@@ -45,21 +45,27 @@
                                     <?php if($interestValue < 1) { continue; } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}">
+                                            <!-- <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}"> -->
+                                            <div class="progress-radial progress-20">
+                                            </div>
                                             <h4>{{ $interestKey }}</h4>
                                         </div>
                                     </div>
                                 @empty
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url('img/my-interest-2.png') }}" alt="My_chart">
+                                            <!-- <img src="{{ Storage::url('img/my-interest-2.png') }}" alt="My_chart"> -->
+                                            <div class="progress-radial progress-5">
+                                            </div>
                                             <h4>Interest 1</h4>
                                         </div>
                                         <!-- my_chart End -->
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url('img/my-interest-1.png') }}" alt="My_chart">
+                                            <!-- <img src="{{ Storage::url('img/my-interest-1.png') }}" alt="My_chart"> -->
+                                            <div class="progress-radial progress-15">
+                                            </div>
                                             <h4>Interest 2</h4>
                                         </div>
                                         <!-- my_chart End -->
@@ -76,20 +82,26 @@
                                     <?php $imageChart = "img/My_chart-".$strengthValue.".png"; ?>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url($imageChart) }}" alt="{{ $strengthKey }}" title="{{ $strengthKey }}">
+                                            <div class="progress-radial progress-20">
+                                            </div>
+                                            <!-- <img src="{{ Storage::url($imageChart) }}" alt="{{ $strengthKey }}" title="{{ $strengthKey }}"> -->
                                             <h4>{{ $strengthKey }}</h4>
                                         </div>
                                     </div>
                                 @empty
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url('img/My_chart2.png') }}" alt="My_chart">
+                                            <div class="progress-radial progress-5">
+                                            </div>
+                                            <!-- <img src="{{ Storage::url('img/My_chart2.png') }}" alt="My_chart"> -->
                                             <h4>Strength 1</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
-                                            <img src="{{ Storage::url('img/My_chart3.png') }}" alt="My_chart">
+                                            <div class="progress-radial progress-10">
+                                            </div>
+                                            <!-- <img src="{{ Storage::url('img/My_chart3.png') }}" alt="My_chart"> -->
                                             <h4>Strength 2</h4>
                                         </div>
                                     </div>

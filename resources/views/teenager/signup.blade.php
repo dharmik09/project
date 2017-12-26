@@ -85,7 +85,7 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group custom-select">
-                                <select tabindex="5" class="form-control" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
+                                <select tabindex="5" class="form-control" id="country" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
                                     <option value="">country*</option>
                                     @forelse($countries as $val)
                                         <option value="{{$val->id}}" <?php echo (old('country') && old('country') == $val->id ) ? "selected='selected'" : ''; ?> > {{$val->c_name}} </option>
@@ -293,7 +293,7 @@
             rules: signupRules,
             messages: {
                 name: {
-                    required: "{{ trans('validation.namerequiredfield') }}"
+                  required: "{{ trans('validation.namerequiredfield') }}"
                 },
                 birth_date: {
                     required: '<?php echo trans('validation.bdaterequiredfield') ?>'
@@ -454,6 +454,11 @@
                 }
 
             });
+            var countryCode = $("#country").val();
+            if (countryCode) {
+                getPhoneCodeByCountry(countryCode);
+            }
+
         });
         $("#teenager_registration_form").submit(function() {
             $("#form_submit").toggleClass('sending').blur();

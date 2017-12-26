@@ -101,36 +101,36 @@
                         <div class="clearfix row flex-container">
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control alphaonly" id="name" name="name" placeholder="First Name *" tabindex="1" value="{{ $user->t_name }}" required maxlength="50">
+                                    <input type="text" class="form-control alphaonly" id="name" name="name" placeholder="first name *" tabindex="1" value="{{ $user->t_name }}" required maxlength="50">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control alphaonly" id="lastname" name="lastname" placeholder="Last Name *" tabindex="2" value="{{ $user->t_lastname }}" required maxlength="50">
+                                    <input type="text" class="form-control alphaonly" id="lastname" name="lastname" placeholder="last name *" tabindex="2" value="{{ $user->t_lastname }}" required maxlength="50">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email *" tabindex="3" value="{{ $user->t_email }}">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="email *" tabindex="3" value="{{ $user->t_email }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="Phone" minlength="7" maxlength="10" tabindex="5" value="{{ $user->t_phone_new }}">
+                                    <input type="text" class="form-control onlyNumber" id="phone" name="phone" placeholder="phone" minlength="7" maxlength="10" tabindex="5" value="{{ $user->t_phone_new }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group input-group">
                                     <div class="clearfix">
                                         <span id="countrycode" class="input-group-addon">+91</span>
-                                        <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" maxlength="10" placeholder="Mobile Phone *" tabindex="6" value="{{ $user->t_phone }}">
+                                        <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" maxlength="10" placeholder="mobile phone *" tabindex="6" value="{{ $user->t_phone }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group custom-select">
                                     <select tabindex="7" class="form-control" id="country"name="country" onchange="getPhoneCodeByCountry(this.value);" required>
-                                        <option value="">Country</option>
+                                        <option value="">country</option>
                                         @forelse($countries as $val)
                                             <option value="{{$val->id}}" <?php echo ($user->t_country == $val->id ) ? "selected='selected'" : ''; ?> > {{$val->c_name}} </option>
                                         @empty
@@ -141,12 +141,12 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Postal (Zip) Code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="postal (zip) code*" tabindex="8" value="{{ $user->t_pincode }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="password" class="form-control pass-visi" id="password" name="password" placeholder="Password" tabindex="11" value="" maxlength="16">
+                                    <input type="password" class="form-control pass-visi" id="password" name="password" placeholder="password" tabindex="11" value="" maxlength="16">
                                     <span class="visibility-pwd">
                                         <img src="{{ Storage::url('img/view.png') }}" alt="view" class="view img">
                                         <img src="{{ Storage::url('img/hide.png') }}" alt="view" class="img-hide hide img">
@@ -165,7 +165,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control nospace" id="proteen_code" name="proteen_code" placeholder="ProTeen code" tabindex="10" value="{{ $user->t_nickname }}">
+                                    <input type="text" class="form-control nospace" id="proteen_code" name="proteen_code" placeholder="proteen code" tabindex="10" value="{{ $user->t_nickname }}">
                                 </div>
                             </div>
                             <?php 
@@ -228,7 +228,7 @@
                             </div>
                             <div class="col-sm-7 text-right">
                                 <ul class="toggle-switch">
-                                    <li>Public Profile
+                                    <li>Public profile
                                         <label class="switch">
                                             <input type="checkbox" id="public_profile" name="public_profile" <?php echo (isset($user->is_search_on) && $user->is_search_on == '1') ? "checked='checked'": '' ?> value="1">
                                             <span class="slider round">
@@ -273,7 +273,7 @@
                                             </span>
                                         </label>
                                     </li>
-                                    <li>View Information For
+                                    <li>View information for
                                         <label class="switch">
                                         <input type="checkbox" id="t_view_information" name="t_view_information" <?php echo (isset($user->t_view_information) && $user->t_view_information == '1') ? "checked='checked'": '' ?> value="1">
                                             <span class="slider round">
@@ -904,6 +904,10 @@
                 $field.attr("type", "password");
             }
         });
+        var countryCode = $("#country").val();
+        if (countryCode) {
+            getPhoneCodeByCountry(countryCode);
+        }
     });
     $("#teenager_achievement").submit(function(event) {
         var myContent = CKEDITOR.instances.achievement.getData();
