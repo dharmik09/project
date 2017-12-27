@@ -98,6 +98,7 @@ Route::group(['prefix' => 'parent'], function () {
 	Route::post('/do-signup', 'Parent\SignupController@doSignup')->name('parent.do-signup');
 	Route::get('/do-signup', 'Parent\SignupController@signup');
 	Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('verify-parent-teen-pair');
+	Route::get('/verify-parent-teen-pair-registration', 'Parent\LoginController@verifyParentTeenRegistration')->name('verify-parent-teen-pair-registration');
 	Route::get('/verify-parent-registration', 'Parent\LoginController@verifyParentRegistration')->name('verify-parent-registration');
 	Route::get('/forgot-password', 'Parent\PasswordManagementController@forgotPassword')->name('forgot-password');
 	Route::post('/forgot-password-OTP', 'Parent\PasswordManagementController@forgotPasswordOTP')->name('forgot-password-OTP');
@@ -109,6 +110,7 @@ Route::group(['prefix' => 'parent'], function () {
 	Route::get('/set-forgot-password', 'Parent\PasswordManagementController@forgotPassword')->name('set-forgot-password');
 	Route::get('/save-forgot-password', 'Parent\PasswordManagementController@forgotPassword');
 	Route::post('/load-more-video', 'Parent\HomeController@loadMoreVideo')->name('load-more-video');
+	Route::post('/set-profile', 'Parent\LoginController@setProfile')->name('set-profile');
 });
 
 //Counselor
