@@ -44,7 +44,7 @@
                                 <input type="text" class="form-control" id="end_date" name="end_date" value="<?php if(isset($endDate) && $endDate != '') { echo $endDate; }?>"/>
                             </div> 
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <button onclick="getTeenagerListByDate();" class="btn btn-warning btn-primary">{{trans('labels.lblsearch')}}</button>
                             
                                 <button onclick="resetDataTable();" class="btn btn-warning btn-primary">{{trans('labels.lblreset')}}</button>
