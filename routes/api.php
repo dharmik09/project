@@ -32,6 +32,7 @@ Route::group([ 'middleware' => ['api-outside'] ], function () {
 Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/setPassword', 'Webservice\PasswordController@setPassword');
 	Route::post('/changePassword', 'Webservice\PasswordController@changePassword');
+	Route::post('/updateProfile', 'Webservice\DashboardController@updateProfile');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -16,7 +16,7 @@ Route::get('/deleteVideo/{id}', 'Admin\VideoManagementController@delete')->name(
 Route::get('/teenagers', 'Admin\TeenagerManagementController@index');
 Route::post('/get-teenager', 'Admin\TeenagerManagementController@getIndex');
 Route::get('/add-teenager', 'Admin\TeenagerManagementController@add');
-Route::get('/view-teenager/{id}', 'Admin\TeenagerManagementController@viewDetail');
+Route::get('/view-teenager/{id}/{type}', 'Admin\TeenagerManagementController@viewDetail');
 Route::post('/get-uniqueid', 'Admin\AjaxController@generateTeenagerUniqueId');
 Route::get('/edit-teenager/{id}/{sid}', 'Admin\TeenagerManagementController@edit');
 Route::get('/delete-teenager/{id}', 'Admin\TeenagerManagementController@delete');
