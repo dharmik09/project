@@ -22,11 +22,10 @@ Route::group([ 'middleware' => ['api-outside'] ], function () {
 	Route::post('/forgotPassword', 'Webservice\PasswordController@forgotPassword');
 	//Dought
 	Route::post('/userLogout', 'Webservice\LoginController@userLogout');
-	//Dought
-	Route::post('/saveUpdatedDeviceToken', 'Webservice\LoginController@saveUpdatedDeviceToken');
-	//Dought
-	Route::post('/updateTeenagerLoginToken', 'Webservice\LoginController@updateTeenagerLoginToken');
 	
+	Route::post('/saveUpdatedDeviceToken', 'Webservice\LoginController@saveUpdatedDeviceToken');
+	Route::post('/updateTeenagerLoginToken', 'Webservice\LoginController@updateTeenagerLoginToken');
+	Route::post('/signup', 'Webservice\SignupController@signup');
 });
 
 Route::group([ 'middleware' => ['api-support'] ], function () {

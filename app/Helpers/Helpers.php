@@ -427,7 +427,8 @@ Class Helpers {
     }
 
     public static function getTeenagerOriginalImageUrl($teenagerPhoto) {
-        return asset(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenagerPhoto);
+        //return asset(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenagerPhoto);
+        return Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenagerPhoto);
     }
 
     public static function getParentOriginalImageUrl($parentPhoto) {
@@ -451,7 +452,8 @@ Class Helpers {
     }
 
     public static function getTeenagerThumbImageUrl($teenagerPhoto) {
-        return asset(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH') . $teenagerPhoto);
+        //return asset(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH') . $teenagerPhoto);
+        return Storage::url(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH') . $teenagerPhoto);
     }
 
     public static function getParentThumbImageUrl($parentPhoto) {
