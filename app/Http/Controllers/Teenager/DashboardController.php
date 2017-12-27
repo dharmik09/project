@@ -262,8 +262,8 @@ class DashboardController extends Controller
             $parentDetail['p_email'] = (isset($postData['parent_email']) && $postData['parent_email'] != '') ? $postData['parent_email'] : '';
             $parentDetail['p_user_type'] = (isset($postData['p_user_type']) && $postData['p_user_type'] != '') ? $postData['p_user_type'] : '';
             $parentDetail['deleted'] = '1';
-            $password = str_random(10);
-            $parentDetail['password'] = bcrypt($password);
+            //$password = str_random(10);
+            //$parentDetail['password'] = bcrypt($password);
             //Check if parent email exist
             $getParentDetailByEmailId = '';
             $checkPairAvailability = [];
@@ -314,14 +314,14 @@ class DashboardController extends Controller
                     $replaceArray = array();
                     $replaceArray['PARENT_NAME'] = (isset($parentData['p_first_name']) && !empty($parentData['p_first_name'])) ? $parentData['p_first_name'] : "";
                     if($parentDetail['p_user_type'] == 1){
-                        $replaceArray['PARENT_LOGIN_URL'] = url("parent/login");
+                        $replaceArray['PARENT_SET_PROFILE_URL'] = url("parent/set-profile");
                     }else{
-                        $replaceArray['PARENT_LOGIN_URL'] = url("counselor/login");
+                        $replaceArray['PARENT_SET_PROFILE_URL'] = url("counselor/set-profile");
                     }
-                    $replaceArray['PARENT_EMAIL'] = $parentData['p_email'];
-                    $replaceArray['PARENT_PASSWORD'] = $password;
+                    //$replaceArray['PARENT_EMAIL'] = $parentData['p_email'];
+                    //$replaceArray['PARENT_PASSWORD'] = $password;
                     $replaceArray['PARENT_UNIQUEID'] = Helpers::getParentUniqueId();
-                    $replaceArray['VERIFICATION_URL'] = url("parent/verify-parent-teen-pair?token=" . $replaceArray['PARENT_UNIQUEID']);
+                    $replaceArray['VERIFICATION_URL'] = url("parent/verify-parent-teen-pair-registration?token=" . $replaceArray['PARENT_UNIQUEID']);
                     $replaceArray['USERNAME'] = Auth::guard('teenager')->user()->t_name;
                     if (isset($parentEmailExist) && $parentEmailExist) {
                         $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEEN_SECOND_TIME'));
