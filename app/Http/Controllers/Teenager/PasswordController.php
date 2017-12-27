@@ -181,6 +181,8 @@ class PasswordController extends Controller {
             $resetRequest['trp_teenager'] = $teenagerDetail->id;
             $resetRequest['trp_otp'] = $OTP;
             $resetRequest['trp_uniqueid'] = $teenagerDetail->t_uniqueid;
+            $resetRequest['updated_at'] = date('Y-m-d H:i:s');
+                        
             $this->teenagersRepository->saveTeenagerPasswordResetRequest($resetRequest);
 
             $replaceArray = array();

@@ -8,6 +8,9 @@
     @include maxh700minw768 {
         height:680px;
     }
+    @media (max-height:480px){
+        height: auto;
+    }
     @include maxms {
         background-position: top;
         background-size: cover;
@@ -152,7 +155,7 @@
             padding-left: 11%;
         }
         @include maxms{
-            bottom: 40%;
+            bottom: 25%;
         }
     }
     .owl-dot {

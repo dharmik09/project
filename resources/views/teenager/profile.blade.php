@@ -312,6 +312,7 @@
             <h2>Parents & Mentors</h2>
             <div class="parent-form">
                 <form id="teenager_parent_pair_form" role="form" method="POST" action="{{ url('/teenager/save-pair') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    {{csrf_field()}}
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">

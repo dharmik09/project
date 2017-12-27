@@ -537,8 +537,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
      */
 
     public function getTeenagerDetailByEmailId($email) {
-        $teenagerDetail = $this->model->where('deleted', '1')->where('t_email', $email)->first();
-        return $teenagerDetail;
+        return $this->model->where('deleted', '1')->where('t_email', $email)->first();
     }
 
     /*
@@ -621,7 +620,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
 
         if (isset($result) && !empty($result)) {
             $result = $result->toArray();
-            if ($user = Auth::teenager()->attempt(['t_email' => $result['t_email'], 'password' => $currentPassword, 'deleted' => 1, 't_isverified' => '1'])) {
+            if ($user = Auth::guard('teenager')->attempt(['t_email' => $result['t_email'], 'password' => $currentPassword, 'deleted' => 1, 't_isverified' => '1'])) {
                 return true;
             } else {
                 return false;
@@ -703,7 +702,6 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
      */
     public function checkActiveTeenager($id) {
         $teenager = $this->model->where('deleted', '1')->where('id', $id)->get();
-
         if ($teenager->count() > 0) {
             if ($teenager[0]->t_social_provider == 'Normal') {
                 $verifyTeenager = $this->model->where('deleted', '1')->where('t_isverified', '1')->where('id', $id)->get();

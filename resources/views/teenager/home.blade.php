@@ -41,16 +41,26 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <?php $countInterest = 0; ?>
                                 @forelse($teenagerInterest as $interestKey => $interestValue)
                                     <?php if($interestValue < 1) { continue; } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <div class="my_chart">
-                                            <!-- <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}"> -->
-                                            <div class="progress-radial progress-20">
+                                    <?php 
+                                        if(isset($countInterest) && $countInterest == 4) { ?>
+                                            <div class="expandInterest">
+                                        <?php } ?>
+                                        <div class="col-md-6 col-sm-6 col-xs-6"> 
+                                            <div class="my_chart">
+                                                <!-- <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}"> -->
+                                                <div class="progress-radial progress-20">
+                                                </div>
+                                                <h4>{{ $interestKey }}</h4>
                                             </div>
-                                            <h4>{{ $interestKey }}</h4>
                                         </div>
-                                    </div>
+                                        <?php 
+                                            if(isset($countInterest) && $countInterest == 3) { ?>
+                                            </div>
+                                        <?php } ?>
+                                    <?php $countInterest++; ?>
                                 @empty
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
@@ -72,14 +82,18 @@
                                     </div>
                                 @endforelse
                             </div>
-                            <p><a href="">Expand</a></p>
+                            <p><a id="interest" href="javascript:void(0);" onclick="expandInterest();">Expand</a></p>
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
                             <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="row">
+                                <?php $countStrength = 0; ?>
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
-                                    <?php $imageChart = "img/My_chart-".$strengthValue.".png"; ?>
+                                    <?php $imageChart = "img/My_chart-".$strengthValue.".png";
+                                    if(isset($countStrength) && $countStrength == 4) { ?>
+                                        <div class="expandStrength">
+                                    <?php } ?>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
                                             <div class="progress-radial progress-20">
@@ -88,6 +102,10 @@
                                             <h4>{{ $strengthKey }}</h4>
                                         </div>
                                     </div>
+                                    <?php if(isset($countStrength) && $countStrength == 3) { ?>
+                                        </div>
+                                    <?php }  
+                                    $countStrength++; ?>
                                 @empty
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
@@ -107,7 +125,7 @@
                                     </div>
                                 @endforelse
                             </div>
-                            <p><a href="">Expand</a></p>
+                            <p><a id="strength" href="javascript:void(0);" onclick="expandStrength();">Expand</a></p>
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
@@ -367,6 +385,26 @@
                     //saveBoosterPoints(teenagerId, professionId, 2, isyoutube);
                 }
             }
+            $(".expandInterest").hide();
+            $(".expandSterngth").hide();
         });
+        function expandInterest() {
+            if ($('.expandInterest').is(':visible')) {
+                $(".expandInterest").slideUp();
+                $("#interest").text("Expand");
+            } else {
+                $(".expandInterest").slideDown();
+                $("#interest").text("Collapse");
+            }
+        }
+        function expandStrength() {
+            if ($('.expandStrength').is(':visible')) {
+                $(".expandStrength").slideUp();
+                $("#strength").text("Expand");
+            } else {
+                $(".expandStrength").slideDown();
+                $("#strength").text("Collapse");
+            }
+        }
     </script>
 @stop

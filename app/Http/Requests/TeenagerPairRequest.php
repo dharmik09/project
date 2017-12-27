@@ -22,13 +22,8 @@ class TeenagerPairRequest extends Request {
      */
     public function rules() {
             return [
-                'p_first_name' => 'required | min : 3',
-                'p_last_name' => 'required | min : 3',
                 'p_user_type' => 'required',
-                'gender' => 'required',
-                'country' => 'required',
-                'pincode' => 'required | min : 5 | max : 6',
-                'email' => 'required | email'                
+                'parent_email' => 'required | email'                
             ];
     }
     

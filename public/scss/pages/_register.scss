@@ -438,3 +438,7 @@
     top: 10px;
     cursor: pointer;
 }
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+     /* IE10+ CSS styles go here */
+    .login-source.btn-list li{width: 49.4%;}
+}

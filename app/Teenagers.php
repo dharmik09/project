@@ -15,6 +15,7 @@ class Teenagers extends Authenticatable {
 
     protected $table = 'pro_t_teenagers';
     protected $guarded = [];
+    //protected $casts = [ 'id' => 'integer' ];
     protected $hidden = ['password', 'remember_token'];
     
     public function getCountry() {
