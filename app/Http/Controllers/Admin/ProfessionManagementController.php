@@ -198,20 +198,25 @@ class ProfessionManagementController extends Controller {
         Excel::selectSheetsByIndex(0)->load($profession, function($reader) {
             foreach ($reader->toArray() as $row) {
                 if ($row['basket_name'] != '' && $row['profession_name'] != '') {
+                    
                     $professtionDetail = [];
                     $professtionDetail['pf_name'] = trim($row['profession_name']);
                     $professtionDetail['pf_video'] = trim($row['profession_video']);
+
                     $basketDetail = [];
                     $basketDetail['b_name'] = $row['basket_name'];
                     $basketDetail['b_video'] = $row['basket_video'];
-                    
-                    $headerDetail = [];
-                    $headerDetail[0] = $row['job_workplace'];
-                    $headerDetail[1] = $row['skill_personality'];
-                    $headerDetail[2] = $row['path_growth'];
-                    $headerDetail[3] = $row['trends_infolinks'];
 
-                    $response = $this->professionsRepository->saveProfessionBulkDetail($professtionDetail, $basketDetail, $headerDetail);
+                    $headerTitle = [];
+                    $headerDetail = [];
+                    foreach ($row as $key => $value) {
+                        if($key != "profession_name" && $key != "profession_video" && $key != "basket_name" && $key != "basket_video"){
+                            $headerTitle[] = $key;
+                            $headerDetail[] = $value;
+                        }
+                    }
+
+                    $response = $this->professionsRepository->saveProfessionBulkDetail($professtionDetail, $basketDetail, $headerTitle, $headerDetail);
                 }
             }
         });
