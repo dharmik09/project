@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ( ($exception instanceof \Illuminate\Database\QueryException  || $exception instanceof \BadMethodCallException || $exception instanceof \ErrorException || $exception instanceof ReflectionException || $exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) && $request->wantsJson())
+        if ( ($exception instanceof \InvalidArgumentException || $exception instanceof \Illuminate\Database\QueryException  || $exception instanceof \BadMethodCallException || $exception instanceof \ErrorException || $exception instanceof ReflectionException || $exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) && $request->wantsJson())
         {
             return response()->json([
                 'status' => 0,

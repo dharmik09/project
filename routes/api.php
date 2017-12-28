@@ -25,6 +25,7 @@ Route::group([ 'middleware' => ['api-outside'] ], function () {
 	
 	Route::post('/saveUpdatedDeviceToken', 'Webservice\LoginController@saveUpdatedDeviceToken');
 	Route::post('/updateTeenagerLoginToken', 'Webservice\LoginController@updateTeenagerLoginToken');
+	//Dought for login token required in response or not. If yes then have to pass required information
 	Route::post('/signup', 'Webservice\SignupController@signup');
 });
 
@@ -32,6 +33,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/setPassword', 'Webservice\PasswordController@setPassword');
 	Route::post('/changePassword', 'Webservice\PasswordController@changePassword');
 	Route::post('/updateProfile', 'Webservice\DashboardController@updateProfile');
+		
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
