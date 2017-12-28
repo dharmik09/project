@@ -133,15 +133,12 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         return $professionData;
     }
 
-    public function saveProfessionBulkDetail($professionDetail, $basketDetail, $headerDetail) {
-        $result = DB::select(DB::raw("SELECT
-                                            *
-                                            FROM " . config::get('databaseconstants.TBL_PROFESSIONS')));
+    public function saveProfessionBulkDetail($professionDetail, $basketDetail, $headerTitle, $headerDetail) {
+
+        $result = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_PROFESSIONS')));
         $objBasket = New Baskets();
 
-        $basketData = DB::select(DB::raw("SELECT
-                                            *
-                                            FROM " . config::get('databaseconstants.TBL_BASKETS')));
+        $basketData = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_BASKETS')));
 
         $objHeader = New ProfessionHeaders();
 
@@ -154,7 +151,6 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         $basketFlag = true;
         foreach ($basketData as $value) {
             foreach ($basketDetail as $data) {
-
                 if ($data == $value->b_name) {
                     $basketFlag = false;
                     $professionDetail['pf_basket'] = $value->id;
@@ -185,14 +181,9 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
             $headerDetail['pfic_profession'] = $return->id;
         }
 
-        $headerTitle = [];
-        $headerTitle[0] = 'job_workplace';
-        $headerTitle[1] = 'skill_personality';
-        $headerTitle[2] = 'path_growth';
-        $headerTitle[3] = 'trends_infolinks';
         $j = 0;
         $headerData = $objHeader->where('pfic_profession', $headerDetail['pfic_profession'])->get();
-        for ($i = 0; $i < $headerlength; ++$i) {
+        for ($i = 0; $i < count($headerTitle); ++$i) {
             $headerDataNew = [];
             $headerDataNew['pfic_profession'] = $headerDetail['pfic_profession'];
             $headerDataNew['pfic_title'] = $headerTitle[$i];

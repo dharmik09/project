@@ -102,14 +102,19 @@ a {
 
 .teen-bio {
     padding: 70px 0 110px;
+    font-family: hl;
+    color:$lightgrey;
+    font-size: 17px;
     @include maxlg {
         padding-bottom: 70px;
     }
     @include maxmd {
         padding: 50px 0;
+        font-size: 15px
     }
     @include maxms {
         padding: 40px 0;
+        font-size: 14px;
     }
     .sec-heading {
         position: relative;
@@ -181,6 +186,9 @@ a {
         @include maxlg {
             padding-right: 10px;
         }
+        @include maxmd{
+            font-size: 15px;
+        }
         @include maxms{
             font-size: 14px;
         }
@@ -199,6 +207,8 @@ a {
         font-size: 14px;
         font-family: h;
         margin-left: 40px;
+        margin-bottom: 20px;
+        width: 100%;
         &.bg-parent {
             background: $i-cl;
         }
@@ -350,6 +360,25 @@ a {
         .invalid{
             color: $white;
         }
+    }
+    .order-1{
+        @include maxsm{
+            order: 1;
+        }
+    }
+    .order-3{
+        @include maxsm{
+            width: 100%;
+            order: 3
+        }
+    }
+    .order-2{
+        @include maxsm{
+            order: 2;
+        }
+    }
+    .flex-items{
+        align-items: flex-start !important;
     }
 }
 
@@ -813,4 +842,7 @@ a {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+.full-width{
+    width: 100%;
 }

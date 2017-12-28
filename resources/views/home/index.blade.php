@@ -87,7 +87,7 @@
                     <div class="col-md-6">
                         <div class="box">
                             <h1>teen</h1>
-                            <p>Are you confused about which subjects to choose in senior school or which major to choose in college? <br /><br />Finally there’s a solution! ProTeen is a web-based game that helps you navigate the world of careers and academics and understand how to match your skills </p>
+                            <p>{!! $teenText !!} </p>
                             <a href="{{url('/teenager')}}" class="btn-base" title="Explore Teenager">Explore</a>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
                     <div class="col-md-6">
                         <div class="box">
                             <h1>parent</h1>
-                            <p>Parenting is a challenging job and helping your teens make decisions about their future is a daunting task. There are hundreds of academic and career options available. PROTEEN brings hope and takes a fresh approach to the standard psychometric assessment of intelligence.</p>
+                            <p>{!! $parentText !!}</p>
                             <a href="{{url('/parent')}}" class="btn-base" title="Explore Parent">Explore</a>
                             <img class="i-parent-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALAAAABPAQMAAABxvd3RAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABdJREFUeNpjYBgFo2AUjIJRMApGARwAAAcZAAFZsHVlAAAAAElFTkSuQmCC">
                             <img class="i-parent-hand decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAB+AQMAAABoPtO8AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwTEBAAAAwqD1T20Hb6AAAIDfAAtSAAH+RaQAAAAAAElFTkSuQmCC">
@@ -144,7 +144,7 @@
                             <img class="i-mentor-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAAAxAQMAAAA7sXOsAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABFJREFUeNpjYBgFo2AU0A8AAANyAAGw+IxhAAAAAElFTkSuQmCC">
                             <img class="i-mentor-hand decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM8AAACcAQMAAADiVW1FAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABtJREFUeNrtwTEBAAAAwqD1T20JT6AAAAAA/gYQdAAB5WpmIgAAAABJRU5ErkJggg==">
                             <h1>mentor</h1>
-                            <p>Education and career mentors face a daunting task – guiding students to make good academic and career choices is a challenge. <br />But now there's a new way – ProTeen brings hope and takes a fresh approach to the standard psychometric assessment of intelligence. </p>
+                            <p>{!! $mentorText !!} </p>
                             <a href="{{ url('/counselor') }}" class="btn-base" title="Explore Mentor">Explore</a>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                     <div class="col-md-6">
                         <div class="box">
                             <h1>school</h1>
-                            <p>Every school aspires to create generations of accomplished students who go to college, gain skills to eventually become productive members of society. ProTeen’s assessment and functionality is built as a unique web-based game that allows students to navigate the world of professions.</p>
+                            <p>{!! $schoolText !!}</p>
                             <a href="{{ url('/school') }}" class="btn-base" title="Explore School">Explore</a>
                             <img class="i-school-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAACIAQMAAAB3DF2PAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwTEBAAAAwqD1T20Hb6AAAADgNw5YAAGqN+r4AAAAAElFTkSuQmCC">
                             <img class="i-school-hand decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAB9AQMAAADuqqESAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwYEAAAAAw6D5U1/hAFUBAACHAQs7AAFxHAdOAAAAAElFTkSuQmCC">
@@ -201,7 +201,7 @@
                             <img class="i-enterprise-arrow decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKsAAABRAQMAAACXL8QlAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABdJREFUeNpjYBgFo2AUjIJRMApGAZkAAAdHAAHlvLOKAAAAAElFTkSuQmCC">
                             <img class="i-enterprise-hand decorator" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACVAQMAAADltmNwAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABpJREFUeNrtwYEAAAAAw6D5Ux/hAlUBAAAcAww5AAEHz3YTAAAAAElFTkSuQmCC">
                             <h1>enterprise</h1>
-                            <p>ProTeen is a sponsorship platform for corporates and academic institutions that aspire to get connected with very specific young adult communities in a socially responsible way. Promote your services, promote your Educational Program, access powerful analytics and more.</p>
+                            <p>{!! $sponsorText !!}</p>
                             <a href="{{ url('/sponsor') }}" class="btn-base" title="Explore Enterprise">Explore</a>
                         </div>
                     </div>

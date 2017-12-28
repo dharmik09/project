@@ -26,6 +26,7 @@ Route::get('/seo-teaser', function() {
 
 //Help
 Route::get('help', 'Teenager\HomeController@help');
+Route::post('/search-help', 'Teenager\HomeController@help')->name('search-help');
 
 //ProCoins Gift
 Route::get('/get-gift-coins/', 'Teenager\CoinManagementController@getGiftCoins');

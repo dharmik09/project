@@ -36,7 +36,42 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.index');
+        $mentorInfo = $this->cmsObj->getCmsBySlug('home-page-mentor-info');
+        $parentInfo = $this->cmsObj->getCmsBySlug('home-page-parent-info');
+        $schoolInfo = $this->cmsObj->getCmsBySlug('home-page-school-info');
+        $sponsorInfo = $this->cmsObj->getCmsBySlug('home-page-sponsor-info');
+        $teenInfo = $this->cmsObj->getCmsBySlug('home-page-teen-info');
+        if(!empty($mentorInfo)){
+            $mentorDetail = $mentorInfo->toArray();
+            $mentorText = $mentorDetail['cms_body'];
+        } else {
+            $mentorText = '';
+        }
+        if(!empty($parentInfo)){
+            $parentDetail = $parentInfo->toArray();
+            $parentText = $parentDetail['cms_body'];
+        } else {
+            $parentText = '';
+        }
+        if(!empty($schoolInfo)){
+            $schoolDetail = $schoolInfo->toArray();
+            $schoolText = $schoolDetail['cms_body'];
+        } else {
+            $schoolText = '';
+        }
+        if(!empty($sponsorInfo)){
+            $sponsorDetail = $sponsorInfo->toArray();
+            $sponsorText = $sponsorDetail['cms_body'];
+        } else {
+            $sponsorText = '';
+        }
+        if(!empty($teenInfo)){
+            $teenDetail = $teenInfo->toArray();
+            $teenText = $teenDetail['cms_body'];
+        } else {
+            $teenText = '';
+        }
+        return view('home.index', compact('teenText', 'sponsorText', 'schoolText', 'parentText', 'mentorText'));
     }
     /**
      * Show the application's faq page.
