@@ -102,14 +102,19 @@ a {
 
 .teen-bio {
     padding: 70px 0 110px;
+    font-family: hl;
+    color:$lightgrey;
+    font-size: 17px;
     @include maxlg {
         padding-bottom: 70px;
     }
     @include maxmd {
         padding: 50px 0;
+        font-size: 15px
     }
     @include maxms {
         padding: 40px 0;
+        font-size: 14px;
     }
     .sec-heading {
         position: relative;
@@ -180,6 +185,9 @@ a {
         font-size: 17px;
         @include maxlg {
             padding-right: 10px;
+        }
+        @include maxmd{
+            font-size: 15px;
         }
         @include maxms{
             font-size: 14px;
