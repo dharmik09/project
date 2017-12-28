@@ -34,7 +34,7 @@ interface ProfessionsRepository extends BaseRepository
     /**
      * save Buket, Profession Bulk Detail
      */
-    public function saveProfessionBulkDetail($professtionDetail, $basketDetail, $headerDetail);
+    public function saveProfessionBulkDetail($professtionDetail, $basketDetail, $headerTitle, $headerDetail);
     
     /**
      * get Profession data from profession name
