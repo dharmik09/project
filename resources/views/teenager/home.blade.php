@@ -102,7 +102,9 @@
                                             <h4>{{ $strengthKey }}</h4>
                                         </div>
                                     </div>
-                                    <?php if(isset($countStrength) && $countStrength == 3) { ?>
+                                    <?php
+                                        end($teenagerStrength); 
+                                        if(isset($countStrength) && $countStrength > 4 && $strengthKey == key($teenagerStrength)) { ?>
                                         </div>
                                     <?php }  
                                     $countStrength++; ?>
@@ -135,37 +137,22 @@
                                     <div class="panel panel-default factual">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="career-cl collapsed">Career 1</a>
+                                                <a href="#" class="career-cl collapsed">Career 1</a>
                                             </h4>
-                                        </div>
-                                        <div class="panel-collapse collapse" id="accordion1">
-                                            <div class="panel-body">
-                                                Career 1
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="panel panel-default factual">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="career-cl collapsed">Career 2</a>
+                                                <a href="#" class="career-cl collapsed">Career 2</a>
                                             </h4>
-                                        </div>
-                                        <div class="panel-collapse collapse" id="accordion2">
-                                            <div class="panel-body">
-                                                Career 2
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="panel panel-default factual">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-parent="#accordion" data-toggle="collapse" href="#accordion3" class="career-lc collapsed">Career 3</a>
+                                                <a href="#" class="career-lc collapsed">Career 3</a>
                                             </h4>
-                                        </div>
-                                        <div class="panel-collapse collapse" id="accordion3">
-                                            <div class="panel-body">
-                                                Career 3
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -386,7 +373,7 @@
                 }
             }
             $(".expandInterest").hide();
-            $(".expandSterngth").hide();
+            $(".expandStrength").hide();
         });
         function expandInterest() {
             if ($('.expandInterest').is(':visible')) {

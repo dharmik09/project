@@ -199,6 +199,8 @@ a {
         font-size: 14px;
         font-family: h;
         margin-left: 40px;
+        margin-bottom: 20px;
+        width: 100%;
         &.bg-parent {
             background: $i-cl;
         }
@@ -350,6 +352,25 @@ a {
         .invalid{
             color: $white;
         }
+    }
+    .order-1{
+        @include maxsm{
+            order: 1;
+        }
+    }
+    .order-3{
+        @include maxsm{
+            width: 100%;
+            order: 3
+        }
+    }
+    .order-2{
+        @include maxsm{
+            order: 2;
+        }
+    }
+    .flex-items{
+        align-items: flex-start !important;
     }
 }
 
@@ -813,4 +834,7 @@ a {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+.full-width{
+    width: 100%;
 }

@@ -265,6 +265,15 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
         }
     }
 
+    /* Update parent-teen status by parent id */
+
+    public function updateParentTeenStatusByParentId($id) {
+        $parentverify = DB::table('pro_ptp_parent_teen_pair')
+                ->where('ptp_parent_id', $id)
+                ->update(['ptp_is_verified' => 1]);
+        return $parentverify;
+    }
+
     public function checkPairAvailability($teenagerId, $parentId) {
         $checkPairAvailability = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR'))->where('ptp_teenager', $teenagerId)->where('ptp_parent_id', $parentId)->first();
         return $checkPairAvailability;
@@ -501,6 +510,17 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
         $array['level4Advance'] = $advanceArray;
 
         return $array;
+    }
+
+    public function getParentDetailsByPtpToken($token)
+    {
+        $parentDetail = DB::table('pro_p_parent')
+                            ->join("pro_ptp_parent_teen_pair", 'pro_p_parent.id', 'pro_ptp_parent_teen_pair.ptp_parent_id')
+                            ->selectRaw('pro_ptp_parent_teen_pair.ptp_parent_id, pro_ptp_parent_teen_pair.ptp_teenager, pro_p_parent.*, pro_ptp_parent_teen_pair.ptp_is_verified')
+                            ->where('pro_ptp_parent_teen_pair.ptp_token', $token)
+                            ->where('pro_p_parent.deleted', '!=', 3)
+                            ->first();
+        return $parentDetail;
     }
 
 }

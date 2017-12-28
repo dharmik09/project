@@ -92,3 +92,6 @@ ALTER TABLE `pro_t_testinomials` ADD `t_type` VARCHAR(20) NULL DEFAULT 'testinom
 
 //Adding new field in teenagers table ## 20-12-2017
 ALTER TABLE `pro_t_teenagers` ADD `t_view_information` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0 - India, 1 - Other' AFTER `is_share_with_teachers`;
+
+//Make nickname nullable ## 27-12-2017 BD
+ALTER TABLE `pro_t_teenagers` CHANGE `t_nickname` `t_nickname` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;

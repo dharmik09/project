@@ -1596,6 +1596,14 @@ input:checked + .slider:before {
                     margin-top: 22px;
                 }
             }
+            ul,ol{
+                /*list-style-position: inside;
+                text-align: center;
+                padding: 0;*/
+                display: table;
+                margin: 0 auto;
+            }
+            h1,h2,h3,h4,h5,h6{color: #fff;}
         }
     }
     .panel-default {

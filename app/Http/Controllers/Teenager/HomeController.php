@@ -11,6 +11,7 @@ use App\CMS;
 use App\Testimonial;
 use App\FAQ;
 use Config;
+use Input;
 
 class HomeController extends Controller
 {
@@ -66,9 +67,20 @@ class HomeController extends Controller
      */
     public function help()
     {
-        $helps = $this->objFAQ->getAllFAQ();
+        $searchText = Input::get('search_help');
+        $searchedAnsColumnIds = array();
+        $ansIds = array();
+        if (isset($searchText) && !empty($searchText)) {
+            $helps = $this->objFAQ->getSearchedFAQ($searchText);
+            $searchedAnsColumnIds = $this->objFAQ->getSearchedFAQFromAnsColumn($searchText);
+            foreach ($searchedAnsColumnIds as $searchedAnsColumnId) {
+                $ansIds[] = $searchedAnsColumnId->id;
+            }
+        } else {
+            $helps = $this->objFAQ->getAllFAQ();
+        }
         $faqThumbImageUploadPath = $this->faqThumbImageUploadPath;
-        return view('teenager.help', compact('helps', 'faqThumbImageUploadPath'));
+        return view('teenager.help', compact('helps', 'faqThumbImageUploadPath', 'searchText', 'ansIds'));
     }
 
     /**
