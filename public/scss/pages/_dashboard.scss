@@ -268,7 +268,7 @@ h6 {
                     right: 25px;
                     font-size: 25px;
                     @include maxms {
-                        top: 35%;
+                        top: 25%;
                         right: 15px;
                     }
                 }
@@ -394,11 +394,11 @@ h6 {
 }
 
 .my_career_tab .panel-title a.collapsed:before {
-    transform: rotate(90deg) !important;
+   // transform: rotate(90deg) !important;
 }
 
 .my_career_tab .panel-title a:before {
-    transform: rotate(-90deg) !important;
+   // transform: rotate(-90deg) !important;
 }
 
 .quiz-que {

@@ -134,11 +134,17 @@ nav {
         }
         @include maxsm {
             font-size: 18px;
-            padding: 8px 0 8px 15px;
+            padding: 8px 0;
         }
     }
     li {
         float: left;
+        @include maxsm{
+            padding-left: 10px;
+            &:first-child{
+                padding-left: 0;
+            }
+        }
         &.n-coin {
             & > a {
                 font-family: 'hb';
@@ -147,9 +153,9 @@ nav {
                 display: block;
                 @include maxsm {
                     font-size: 14px;
-                    width: 80px;
+                    width: auto;
                     display: block;
-                    text-overflow: ellipsis;
+                    //text-overflow: ellipsis;
                     white-space: nowrap;
                     overflow: hidden;
                     line-height: 22px;
@@ -160,6 +166,8 @@ nav {
                 display: inline-block;
                 @include maxsm {
                     float: left;
+                    width: 15px;
+                    height: 15px;margin-top: 3px;
                 }
             }
             .submenu {
@@ -225,6 +233,7 @@ nav {
     position: relative;
     @include maxsm {
         position: static;
+        
     }
     .submenu {
         width: 400px;

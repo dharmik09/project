@@ -20,24 +20,31 @@
     <!-- teen bio-->
     <section class="teen-bio">
         <div class="container-small">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="sec-heading {{ ($type == 'Parent') ? 'parent-heading' : 'mentor-heading'}}">
-                        <h1>{{ ucfirst($type) }}</h1>
-                        <span>Finally there’s a solution! </span>
-                        <div class="hand-img" data-aos="zoom-in">
-                            @if($type == 'Parent')
-                                <img src="{{Storage::url('img/hand-blue.png')}}" alt="{{ ucfirst($type) }}">
+            <div class="row flex-container">
+                <div class="col-sm-6 flex-items order-1">
+                    <div class="full-width ">
+                        <div class="sec-heading {{ ($type == 'Parent') ? 'parent-heading' : 'mentor-heading'}}">
+                            <h1>{{ ucfirst($type) }}</h1>
+                            <span>Finally there’s a solution! </span>
+                            <div class="hand-img" data-aos="zoom-in">
+                                @if($type == 'Parent')
+                                    <img src="{{Storage::url('img/hand-blue.png')}}" alt="{{ ucfirst($type) }}">
+                                @else
+                                    <img src="{{Storage::url('img/hand-mentor.png')}}" alt="{{ ucfirst($type) }}">
+                                @endif
+                            </div>
+                        </div>
+                        <div class="content">
+                            <?php $arrangedText = explode("###", preg_replace("/&nbsp;/", '', $text)); ?>
+                            @if(isset($arrangedText[0]) && !empty($arrangedText[0]))
+                                {!! $arrangedText[0] !!}
                             @else
-                                <img src="{{Storage::url('img/hand-mentor.png')}}" alt="{{ ucfirst($type) }}">
+                                {!! $text !!}
                             @endif
                         </div>
                     </div>
-                    <div class="content">
-                        {!! $text !!}
-                    </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 flex-items order-3">
                     <div class="form-sec {{ ($type == 'Parent') ? 'bg-parent' : 'bg-mentor'}}">
                         <h2>welcome back</h2>
                         <form id="login_form" method="POST" action="{{ url('/parent/login-check') }}" autocomplete="off">
@@ -70,6 +77,13 @@
                         ?>
                         <p><a href="{{ $passwordRoute }}" title="Forgot username/password?">Forgot username/password?</a></p>
                         <p>Not enrolled? <a href="{{ $signUpRoute }}" title="Sign up now.">Sign up now.</a></p>
+                    </div>
+                </div>
+                <div class="col-sm-12 flex-items order-2">
+                   <div class="full-width">
+                        @if(isset($arrangedText[1]) && !empty($arrangedText[1]))
+                            <p>{!! $arrangedText[1] !!}</p>
+                        @endif
                     </div>
                 </div>
             </div>

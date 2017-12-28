@@ -128,7 +128,7 @@
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="password" class="form-control pass-visi" name="password" id="password" placeholder=" password *" tabindex="11" required />
+                                <input type="password" class="form-control pass-visi" name="password" id="password" placeholder="password *" tabindex="11" required />
                                 <span class="visibility-pwd">
                                     <img src="{{ Storage::url('img/view.png') }}" alt="view" class="view img">
                                     <img src="{{ Storage::url('img/hide.png') }}" alt="view" class="img-hide hide img">

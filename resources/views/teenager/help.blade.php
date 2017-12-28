@@ -12,9 +12,10 @@
             <h1 class="font-blue">How to</h1>
             <p>Frequently asked questions</p>
                 <div class="procoin-form gift-form">
-                    <form>
+                    <form id="help_search_form" role="form" method="POST" action="{{ url('/teenager/search-help') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                        {{csrf_field()}}
                         <div class="form-group search-bar clearfix">
-                            <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
+                            <input name="search_help" type="text" placeholder="search" tabindex="1" class="form-control search-feild" value="{{ (isset($searchText) && !empty($searchText)) ? $searchText : '' }}">
                             <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
                         </div>
                     </form>
@@ -32,7 +33,14 @@
                                 <h4 class="panel-title">
                                     <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$help->id}}" class="collapsed"><span>Question:</span> {{ $help->f_question_text }}</a></h4>
                             </div>
-                            <div class="panel-collapse collapse" id="accordion{{$help->id}}">
+                            <?php 
+                                if (isset($ansIds) && !empty($ansIds) && in_array($help->id, $ansIds)) {
+                                    $collapseIn = "in";
+                                    } else {
+                                        $collapseIn = "";
+                                    }
+                            ?>
+                            <div class="panel-collapse collapse {{ $collapseIn }}" id="accordion{{$help->id}}">
                                 <div class="panel-body">
                                     <p><span>Answer:</span> {!! $help->f_que_answer !!}</p>
                                     <?php

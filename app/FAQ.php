@@ -52,4 +52,21 @@ class FAQ extends Model
         return $result;
     }
 
+    public function getSearchedFAQ($searchText)
+    {
+        $faqDetail = FAQ::where('f_question_text', 'like', '%'.$searchText.'%')
+                        ->orWhere('f_que_answer', 'like', '%'.$searchText.'%')
+                        ->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                        ->get();
+        return $faqDetail;
+    }
+
+    public function getSearchedFAQFromAnsColumn($searchText)
+    {
+        $faqIds = FAQ::select('id')->where('f_que_answer', 'like', '%'.$searchText.'%')
+                    ->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->get();
+        return $faqIds;
+    }
+
 }

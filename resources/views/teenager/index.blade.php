@@ -19,20 +19,27 @@
     <!-- teen bio-->
     <section class="teen-bio">
         <div class="container-small">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="sec-heading">
-                        <h1>Teen</h1>
-                        <span>Finally there’s a solution! </span>
-                        <div class="hand-img" data-aos="zoom-in">
-                            <img src="{{Storage::url('img/hand-img.png')}}" alt="Teenager">
+            <div class="row flex-container">
+                <div class="col-sm-6 flex-items order-1">
+                    <div class="full-width ">
+                        <div class="sec-heading">
+                            <h1>Teen</h1>
+                            <span>Finally there’s a solution! </span>
+                            <div class="hand-img" data-aos="zoom-in">
+                                <img src="{{Storage::url('img/hand-img.png')}}" alt="Teenager">
+                            </div>
+                        </div>
+                        <div class="content">
+                            <?php $arrangedText = explode("###", preg_replace("/&nbsp;/", '', $teenText)); ?>
+                            @if(isset($arrangedText[0]) && !empty($arrangedText[0]))
+                                {!! $arrangedText[0] !!}
+                            @else
+                                {!! $teenText !!}
+                            @endif
                         </div>
                     </div>
-                    <div class="content">
-                        {!! $teenText !!}
-                    </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 flex-items order-3">
                     <div class="form-sec">
                         <h2>welcome back</h2>
                         <form id="login_form" method="POST" action="{{ url('/teenager/login-check') }}" autocomplete="off">
@@ -59,6 +66,13 @@
                         </form>
                         <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot password?">Forgot password?</a></p>
                         <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
+                    </div>
+                </div>
+                <div class="col-sm-12 flex-items order-2">
+                   <div class="full-width">
+                        @if(isset($arrangedText[1]) && !empty($arrangedText[1]))
+                            <p>{!! $arrangedText[1] !!}</p>
+                        @endif
                     </div>
                 </div>
             </div>
