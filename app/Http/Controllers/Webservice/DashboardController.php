@@ -160,7 +160,7 @@ class DashboardController extends Controller
                     }
 
                     $ads = Helpers::getAds($teenager->id);
-                    $response['Ads'] = $ads;
+                    $response['ads'] = $ads;
                     $response['status'] = 1;
                     $response['login'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');
@@ -182,5 +182,4 @@ class DashboardController extends Controller
         return response()->json($response, 200);
         exit;
     }
-
 }
