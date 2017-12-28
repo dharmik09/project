@@ -102,7 +102,9 @@
                                             <h4>{{ $strengthKey }}</h4>
                                         </div>
                                     </div>
-                                    <?php if(isset($countStrength) && $countStrength == 3) { ?>
+                                    <?php
+                                        end($teenagerStrength); 
+                                        if(isset($countStrength) && $countStrength > 4 && $strengthKey == key($teenagerStrength)) { ?>
                                         </div>
                                     <?php }  
                                     $countStrength++; ?>
@@ -386,7 +388,7 @@
                 }
             }
             $(".expandInterest").hide();
-            $(".expandSterngth").hide();
+            $(".expandStrength").hide();
         });
         function expandInterest() {
             if ($('.expandInterest').is(':visible')) {
