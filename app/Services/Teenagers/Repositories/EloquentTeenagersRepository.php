@@ -535,9 +535,15 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     /*
       return : array of Teenager detail by email id
      */
-
     public function getTeenagerDetailByEmailId($email) {
         return $this->model->where('deleted', '1')->where('t_email', $email)->first();
+    }
+
+    /*
+    *  return : array of Teenager detail by id
+    */
+    public function getTeenagerDetailById($id) {
+        return $this->model->where('deleted', '1')->where('id', $id)->first();
     }
 
     /*

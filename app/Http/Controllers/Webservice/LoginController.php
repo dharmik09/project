@@ -44,11 +44,11 @@ class LoginController extends Controller
     		} else {
     			$teenager = $this->teenagersRepository->getTeenagerDetailByEmailId($request->email);
     			if(!$teenager) {
-    				$response['message'] = trans('appmessages.invalid_email_msg');
+    				$response['message'] = trans('appmessages.usernotexistwithemail');
     				return response()->json($response, 200);
     			}
     		}
-    		if($teenager) {
+            if($teenager) {
     			if(isset($teenager->t_isverified) && $teenager->t_isverified == 1) {
     				if (Auth::guard('teenager')->attempt(['t_email' => $teenager->t_email, 'password' => $request->password, 'deleted' => 1])) {
     					//Get/Format Sponsor Detail

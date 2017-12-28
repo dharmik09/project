@@ -180,6 +180,9 @@ class SignupController extends Controller
                         $teenagerDetailSaved->t_photo_thumb = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerThumbImageUrl($teenagerDetailSaved->t_photo) : "";
                         //IF require then birthdate will be seprate in day,month,year in response
                         $teenagerDetailSaved->t_birthdate = ($teenagerDetailSaved->t_birthdate != '0000-00-00' ) ? $teenagerDetailSaved->t_birthdate : '';
+                        $teenagerDetailSaved->year = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->year : "";
+                        $teenagerDetailSaved->day = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->day : "";
+                        $teenagerDetailSaved->month = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->month : "";
                         $teenagerDetailSaved->t_sponsors = $this->teenagersRepository->getSelfSponserListData($teenagerDetailSaved->id);
                         $response['status'] = 1;
                         //$response['login'] = 1;
@@ -220,6 +223,10 @@ class SignupController extends Controller
                             //Get Collection of teena and sponsors
                             $teenagerDetailbyId = $this->teenagersRepository->getTeenagerById($teenagerDetailSaved->id);
                             $teenagerDetailbyId->t_birthdate = (isset($teenagerDetailbyId->t_birthdate) && $teenagerDetailbyId->t_birthdate != '0000-00-00') ? $teenagerDetailbyId->t_birthdate : '';
+                            $teenagerDetailbyId->year = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->year : "";
+                            $teenagerDetailbyId->day = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->day : "";
+                            $teenagerDetailbyId->month = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->month : "";
+                            
                             if ($teenagerDetailbyId->t_photo != '') {
                                 $teenPhoto = $teenagerDetailbyId->t_photo;
                                 $teenagerDetailbyId->t_photo = Helpers::getTeenagerOriginalImageUrl($teenPhoto);
