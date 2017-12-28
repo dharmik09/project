@@ -70,4 +70,24 @@ class ProfileController extends Controller
     	return response()->json($response, 200);
     	exit;
     }
+
+    /* Request Params : deleteTeenagerData
+    *  loginToken, userId
+    *  Service after loggedIn user
+    */
+    public function deleteTeenagerData(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerDetailById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $this->teenagersRepository->deleteTeenagerData($request->userId);
+            $response['status'] = 1;
+            $response['message'] = 'Successfully deleted!';
+            $response['data'] = [];
+        } else {
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
 }

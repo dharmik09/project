@@ -1047,9 +1047,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     }
 
     public function deleteTeenagerData($userId) {
-        //$teenager = $this->model->find($userId);
-        //$teenager->deleted = config::get('constant.DELETED_FLAG');
-        //$response = $teenager->save();
+        $teenager = $this->model->find($userId);
+        $teenager->deleted = config::get('constant.DELETED_FLAG');
+        $response = $teenager->save();
         //Remove basket attempted data
         DB::table('pro_tba_teenager_basket_attempted')->where('tba_teenager', '=', $userId)->delete();
 
