@@ -31,6 +31,8 @@ use App\LearningStyle;
 use App\Professions;
 use App\TeenagerCoinsGift;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class TeenagerManagementController extends Controller {
 
@@ -63,16 +65,18 @@ class TeenagerManagementController extends Controller {
         $this->relationIconOriginalImageUploadPath = Config::get('constant.RELATION_ICON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
         $this->learningStyleThumbImageUploadPath = Config::get('constant.LEARNING_STYLE_THUMB_IMAGE_UPLOAD_PATH');
-
+         
+        $this->log = new Logger('admin-teenager');
+        $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
 
     public function index() {
-        //$teenagers = $this->teenagersRepository->getAllTeenagersData();
-        return view('admin.ListTeenager');
+        //$teenagers = $this->teenagersRepository->getAllTeenagersData
+          return view('admin.ListTeenager');
     }
 
     public function getIndex(){
-
+        $this->log->info('Admin teenager listing page');
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         if(Input::get('start_date') && Input::get('end_date')){
             $teenagers = $this->teenagersRepository->getAllTeenagersDataByDate(Input::get('start_date'), Input::get('end_date'))->get()->count();
@@ -156,10 +160,11 @@ class TeenagerManagementController extends Controller {
         exit;
     }
 
-    public function add() {
+    public function add() {        
         $teenagerDetail = [];
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
+        $this->log->info('Admin add teenager page');
         return view('admin.EditTeenager', compact('teenagerDetail', 'sponsorDetail'));
     }
 
@@ -175,6 +180,7 @@ class TeenagerManagementController extends Controller {
             }
         }
         $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
+        $this->log->info('Admin edit teenager page');
         return view('admin.EditTeenager', compact('teenagerDetail', 'sid', 'uploadTeenagerThumbPath','sponsorDetail', 'selectedSponsors'));
     }
 
@@ -276,20 +282,24 @@ class TeenagerManagementController extends Controller {
             //Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teenupdatesuccess'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
             if(isset($sid) && !empty($sid) && $sid > 0)
             {
+                $this->log->info('Admin Teen added/updated successfully',array('teenid' => $teenagerDetail['id']));
                 return Redirect::to("/admin/view-student-list/$sid")->with('success', trans('labels.teenupdatesuccess'));
             }
             else
             {
+                $this->log->info('Admin Teen added/updated successfully',array('teenid' => $teenagerDetail['id']));
                 return Redirect::to("admin/teenagers".$postData['pageRank'])->with('success', trans('labels.teenupdatesuccess'));
             }
         } else {
             //Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_TEENAGERS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), serialize($teenagerDetail), $_SERVER['REMOTE_ADDR']);
             if(isset($sid) && !empty($sid) && $sid > 0)
             {
+                $this->log->error('Admin something went wrong while adding/updating teen',array('teenid' => $teenagerDetail['id']));
                 return Redirect::to("/admin/view-student-list/$sid")->with('success', trans('labels.teenagererrormessage'));
             }
             else
             {
+                $this->log->error('Admin something went wrong while adding/updating teen',array('teenid' => $teenagerDetail['id']));                
                 return Redirect::to("admin/teenagers".$postData['pageRank'])->with('error', trans('labels.teenagererrormessage'));
             }
         }
@@ -299,11 +309,11 @@ class TeenagerManagementController extends Controller {
         $return = $this->teenagersRepository->deleteTeenager($id);
         if ($return) {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_TEENAGERS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teendeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
-
+            $this->log->info('Admin Teen deleted successfully',array('teenid' => $id));
             return Redirect::to("admin/teenagers")->with('success', trans('labels.teendeletesuccess'));
         } else {
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_TEENAGERS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.somethingwrong'), '', $_SERVER['REMOTE_ADDR']);
-
+            $this->log->error('Admin something went wrong while deleting teen',array('teenid' => $id));
             return Redirect::to("admin/teenagers")->with('error', trans('labels.commonerrormessage'));
         }
     }
@@ -599,6 +609,7 @@ class TeenagerManagementController extends Controller {
             $FieldArray['total'] = $boosterPoints['total'];
             fputcsv($fp, $FieldArray);
         }
+        $this->log->info('Admin export teen data');
         header('Content-type: application/csv');
         header('Content-Disposition: attachment; filename=' . $filename);
         exit;
