@@ -58,3 +58,18 @@ Route::get('/list-career', function() {
 Route::get('/career-grid', function() {
 	return view('teenager.careerGrid');
 });
+Route::get('/career-tag', function() {
+	return view('teenager.careerTag');
+});
+
+//Community
+Route::get('/community', function() {
+	return view('teenager.community');
+});
+
+Route::get('/learning-guidance', function() {
+	return view('teenager.learningGuidance');
+});
+
+
+
