@@ -1555,6 +1555,7 @@ input:checked + .slider:before {
     text-align: center; //padding-bottom: 40px;
     p {
         margin-bottom: 0;
+        color: $white;
     }
     .panel-heading {
         padding: 0;

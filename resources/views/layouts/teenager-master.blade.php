@@ -22,7 +22,7 @@
         <nav>
             <div class="container">
                 <div class="logo pull-left">
-                	<a href="<?php if (Auth::guard('teenager')->check()) { url('teenager/home'); } else { url('/'); } ?>">
+                	<a href="@if(Auth::guard('teenager')->check()) {{ url('teenager/home') }} @else {{ url('/') }} @endif">
                 		<img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}">
                 	</a>
                 </div>

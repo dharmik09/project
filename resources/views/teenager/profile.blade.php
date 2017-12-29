@@ -912,7 +912,7 @@
         CKEDITOR.replace('academic');
 
         CKEDITOR.config.toolbar = [
-            ['Bold', 'Italic', 'BulletedList', 'TextColor', 'Format', 'Font', 'FontSize', 'Source']
+            ['Bold', 'Italic', 'BulletedList', 'Source']
         ] ;
 
 

@@ -205,7 +205,7 @@ class Teenagers extends Authenticatable {
         return $result;
     }
 
-    public function getActiveTeenagersForCoupon($teenId = '',$slot) {
+    public function getActiveTeenagersForCoupon($teenId = '', $slot) {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }
@@ -221,7 +221,7 @@ class Teenagers extends Authenticatable {
         return $result;
     }
 
-    public function getActiveTeenagersForCouponSearch($teenId = '',$slot,$searchData) {
+    public function getActiveTeenagersForCouponSearch($teenId = '', $slot, $searchData) {
       if ($slot > 0) {
           $slot = $slot * config::get('constant.RECORD_PER_PAGE');
       }

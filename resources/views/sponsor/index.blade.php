@@ -57,7 +57,7 @@
                             <div class="checkbox">
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
                             </div>
-                            <button type="button" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
+                            <button type="submit" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
                         </form>
                         <p><a href="{{ url('parent/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a></p>
                         <p>Not enrolled? <a href="{{ url('parent/signup') }}" title="Sign up now.">Sign up now.</a></p>

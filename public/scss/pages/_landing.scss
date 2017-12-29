@@ -92,8 +92,9 @@ a {
     @include maxsm {
         height: 400px;
     }
-    @include maxsm {
+    @include maxms {
         height: 340px;
+        background-image: url(../img/teen-mob.jpg);
     }
     iframe {
         display: none;

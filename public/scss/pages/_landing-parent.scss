@@ -1,12 +1,26 @@
 .banner-parent {
     background-image: url(../img/parent-landing.jpg);
+    background-position: 0;
+    @include maxsm{
+        background-position: 23%;
+    }
+    @include maxms{
+         background-image: url(../img/parents-mob.jpg);
+         background-position: center;
+    }
 }
 
 .banner-mentor {
     background-image: url(../img/mentor-landing.jpg);
+    @include maxms{
+         background-image: url(../img/mentor-mob.jpg);
+    }
 }
 .banner-school{
     background-image: url(../img/school-landing.jpg);
+    @include maxms{
+         background-image: url(../img/school-mob.jpg);
+    }
 }
 .banner-enterprise{
     background-image: url(../img/enterprise-landing.jpg);

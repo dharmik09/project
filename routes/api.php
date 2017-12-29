@@ -34,6 +34,10 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/changePassword', 'Webservice\PasswordController@changePassword');
 	Route::post('/updateProfile', 'Webservice\DashboardController@updateProfile');
 	Route::post('/getTeenagerProfileData', 'Webservice\ProfileController@getTeenagerProfileData');
+	Route::post('/deleteTeenagerData', 'Webservice\ProfileController@deleteTeenagerData');
+	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
+	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
+	Route::post('/getParentList', 'Webservice\ParentController@getParentList');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
