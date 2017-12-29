@@ -44,3 +44,32 @@ Route::get('/save-coin-purchased-data/{id}', 'Teenager\CoinManagementController@
 Route::get('/coupons/', 'Teenager\CouponManagementController@coupons');
 Route::post('/consume-coupon', 'Teenager\CouponManagementController@consumeCoupon');
 Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
+
+//Career
+Route::get('/my-careers', function() {
+	return view('teenager.myCareers');
+});
+Route::get('/career-detail/{id}', function() {
+	return view('teenager.careerDetail');
+});
+Route::get('/list-career', function() {
+	return view('teenager.careersListing');
+});
+Route::get('/career-grid', function() {
+	return view('teenager.careerGrid');
+});
+Route::get('/career-tag', function() {
+	return view('teenager.careerTag');
+});
+
+//Community
+Route::get('/community', function() {
+	return view('teenager.community');
+});
+
+Route::get('/learning-guidance', function() {
+	return view('teenager.learningGuidance');
+});
+
+
+

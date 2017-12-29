@@ -99,10 +99,22 @@
     <section class="sec-content">
         <div class="container-small">
             <div class="row">
-                <div class="col-md-12">
-                    <?php $cmsDetails = Helpers::getCmsBySlug('landing-page-info'); ?>
+                <div class="col-md-6">
+                    <?php
+                        $cmsDetails = Helpers::getCmsBySlug('landing-page-info');
+                    ?>
                     @if (isset($cmsDetails->cms_body) && !empty($cmsDetails->cms_body))
-                        {!! $cmsDetails->cms_body !!}
+                        <?php $landingPageText = explode("###", preg_replace("/&nbsp;/", '', $cmsDetails->cms_body)); ?>
+                        @if(isset($landingPageText[0]) && !empty($landingPageText[0]))
+                            {!! $landingPageText[0] !!}
+                        @else
+                            {!! $$cmsDetails->cms_body !!}
+                        @endif
+                    @endif
+                </div>
+                <div class="col-md-6">
+                    @if(isset($landingPageText[1]) && !empty($landingPageText[1]))
+                        {!! $landingPageText[1] !!}
                     @endif
                 </div>
             </div>
