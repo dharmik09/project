@@ -189,11 +189,15 @@ h6 {
                 line-height: 30px;
                 font-family: 'ht';
                 margin-top: 15px;
+                min-height: 90px;
                 @include maxmd{
                     font-size: 22px;
                 }
                 @include maxsm {
                     font-size: 20px;
+                }
+                @include maxms{
+                    min-height: auto;
                 }
             }
         }
