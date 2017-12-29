@@ -183,7 +183,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
 
         $j = 0;
         $headerData = $objHeader->where('pfic_profession', $headerDetail['pfic_profession'])->get();
-        for ($i = 0; $i < $headerlength; ++$i) {
+        for ($i = 0; $i < count($headerTitle); ++$i) {
             $headerDataNew = [];
             $headerDataNew['pfic_profession'] = $headerDetail['pfic_profession'];
             $headerDataNew['pfic_title'] = $headerTitle[$i];
