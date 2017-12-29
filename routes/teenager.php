@@ -44,3 +44,11 @@ Route::get('/save-coin-purchased-data/{id}', 'Teenager\CoinManagementController@
 Route::get('/coupons/', 'Teenager\CouponManagementController@coupons');
 Route::post('/consume-coupon', 'Teenager\CouponManagementController@consumeCoupon');
 Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
+
+//Career
+Route::get('/my-careers', function() {
+	return view('teenager.myCareers');
+});
+Route::get('career-detail/{id}', function() {
+	return view('teenager.careerDetail');
+});
