@@ -71,5 +71,13 @@ Route::get('/learning-guidance', function() {
 	return view('teenager.learningGuidance');
 });
 
+//Network
+Route::get('/my-network', function() {
+	return view('teenager.network');
+});
+Route::get('/network-member', function() {
+	return view('teenager.networkMember');
+});
+
 
 
