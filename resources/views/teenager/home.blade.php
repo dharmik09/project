@@ -130,7 +130,7 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
-                            <h2>My Careers <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="my_career_tab">
                                 <div class="panel-group" id="accordion">
                                     <div class="panel panel-default factual">
@@ -156,7 +156,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p><a href="{{ url('/teenager/my-careers') }}">Expand</a></p>
+                            <p><a href="#">Expand</a></p>
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests my_network_cont">

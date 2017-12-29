@@ -49,6 +49,12 @@ Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
 Route::get('/my-careers', function() {
 	return view('teenager.myCareers');
 });
-Route::get('career-detail/{id}', function() {
+Route::get('/career-detail/{id}', function() {
 	return view('teenager.careerDetail');
+});
+Route::get('/list-career', function() {
+	return view('teenager.careersListing');
+});
+Route::get('/career-grid', function() {
+	return view('teenager.careerGrid');
 });

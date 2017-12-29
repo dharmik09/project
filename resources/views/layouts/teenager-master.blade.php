@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="n-window"><a href="javascript:void(0);"><i class="icon-window"></i></a></li>
+                        <li class="n-window"><a href="{{ url('/teenager/list-career') }}"><i class="icon-window"></i></a></li>
                         <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
                     </ul>
                 </div>
