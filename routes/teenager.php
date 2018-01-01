@@ -45,6 +45,9 @@ Route::get('/coupons/', 'Teenager\CouponManagementController@coupons');
 Route::post('/consume-coupon', 'Teenager\CouponManagementController@consumeCoupon');
 Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
 
+//Profile Level 1 Questions related route
+Route::post('/playLevel1Activity', 'Teenager\level1ActivityController@playLevel1Activity');
+
 //Career
 Route::get('/my-careers', function() {
 	return view('teenager.myCareers');
@@ -78,6 +81,3 @@ Route::get('/my-network', function() {
 Route::get('/network-member', function() {
 	return view('teenager.networkMember');
 });
-
-
-

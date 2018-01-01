@@ -129,22 +129,22 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
      */
     public function getNotAttemptedActivities($teenagerId) {
         $activities = DB::select(DB::raw("SELECT
-                                            	tmp.*
-                                            FROM (SELECT
-                                            	L1AC.id AS activityID,
-                                            	l1ac_text,
-                                            	l1ac_points,
-                                            	l1ac_image,
-                                            	GROUP_CONCAT(L1OP.id) AS optionIds,
-                                            	GROUP_CONCAT(l1op_option) AS options,
-                                                L1AC.deleted
-                                            FROM
-                                            	" . config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS L1AC
-                                            INNER JOIN " . config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS L1OP ON L1OP.l1op_activity = L1AC.id
-                                            GROUP BY
-                                            	L1AC.id) AS tmp
-                                            LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS L1ANS ON L1ANS.l1ans_activity = tmp.activityID AND L1ANS.l1ans_teenager = $teenagerId
-                                            WHERE tmp.deleted=1 and L1ANS.id IS NULL AND L1ANS.l1ans_teenager IS NULL AND L1ANS.l1ans_activity IS NULL AND L1ANS.l1ans_answer IS NULL"), array());
+                        tmp.*
+                        FROM (SELECT
+                            L1AC.id AS activityID,
+                            l1ac_text,
+                            l1ac_points,
+                            l1ac_image,
+                            GROUP_CONCAT(L1OP.id) AS optionIds,
+                            GROUP_CONCAT(l1op_option) AS options,
+                            L1AC.deleted
+                        FROM
+                            " . config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " AS L1AC
+                        INNER JOIN " . config::get('databaseconstants.TBL_LEVEL1_OPTIONS') . " AS L1OP ON L1OP.l1op_activity = L1AC.id
+                        GROUP BY
+                            L1AC.id) AS tmp
+                        LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS L1ANS ON L1ANS.l1ans_activity = tmp.activityID AND L1ANS.l1ans_teenager = $teenagerId
+                        WHERE tmp.deleted=1 and L1ANS.id IS NULL AND L1ANS.l1ans_teenager IS NULL AND L1ANS.l1ans_activity IS NULL AND L1ANS.l1ans_answer IS NULL"), array());
 
         foreach ($activities as $key => $activity) {
             $optionIds = explode(",", $activity->optionIds);

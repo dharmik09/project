@@ -302,6 +302,16 @@ h6 {
                 color: $r-cl;
                 font-family: 'hn-b';
                 margin-top: 10px;
+                a{
+                
+                font-size: 16px;
+                color: $r-cl;
+                font-family: 'hn-b';
+                margin-top: 10px;
+                    &:hover{
+                        color: $cl-complete;
+                    }
+                }
             }
         }
     }
