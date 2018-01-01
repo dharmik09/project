@@ -2566,4 +2566,173 @@ Class Helpers {
         $cmsDetails = $objCms->getCmsBySlug($slug);
         return $cmsDetails;
     }
+
+    // Get interest and strength details by teen id
+    public static function getTeenInterestAndStregnthDetails($teengerId) {
+        $finalScore = array();
+        $objLevel2Answers = new Level2Answers();
+        $objLevel2Activity = new Level2Activity();
+        $correctAnswerQuestionsIds = $objLevel2Answers->level2GetCorrectAnswerQuestionIds($teengerId);
+
+        if (isset($correctAnswerQuestionsIds) && !empty($correctAnswerQuestionsIds)) {
+            foreach ($correctAnswerQuestionsIds as $key => $questions) {
+                $questionData[] = $objLevel2Activity->getActiveLevel2Activity($questions->l2ans_activity);
+            }
+        }
+
+        // Get default all data of Interest, Aptitude, and personality and MI
+        $objPersonality = new Personality();
+        $personality = $objPersonality->getActivepersonality();
+        $personalityArr = $personality->toArray();
+        if (!empty($personalityArr)) {
+            foreach ($personalityArr as $key => $val) {
+                $allPersonality[$val['pt_slug']] = 0;
+            }
+        }
+
+        $objInterest = new Interest();
+        $interest = $objInterest->getActiveInterest();
+        $interestArr = $interest->toArray();
+        if (!empty($interestArr)) {
+            foreach ($interestArr as $key => $val) {
+                $allInterest[$val['it_slug']] = 0;
+            }
+        }
+
+        $objApptitude = new Apptitude();
+        $apptitude = $objApptitude->getActiveApptitude();
+        $apptitudeArr = $apptitude->toArray();
+        if (!empty($apptitudeArr)) {
+            foreach ($apptitudeArr as $key => $val) {
+                $allApptitude[$val['apt_slug']] = 0;
+            }
+        }
+
+        $objMultipleIntelligent = new MultipleIntelligent();
+        $MI = $objMultipleIntelligent->getActiveMultipleIntelligent();
+        $MIArr = $MI->toArray();
+        if (!empty($MIArr)) {
+            foreach ($MIArr as $key => $val) {
+                $allMI[$val['mi_slug']] = 0;
+            }
+        }
+
+        //Get Interest, Aptitude, and personality and MI of Teen based on answer
+
+        if (isset($questionData) && !empty($questionData)) {
+            $miName = '';
+            $aptitudeName = '';
+            $personalityName = '';
+            $interest = '';
+            foreach ($questionData as $key => $detail) {
+                if (isset($detail[0])) {
+
+
+                    if ($detail[0]->mi_slug != '') {
+                        $miName = $detail[0]->mi_slug;
+                        $APIdata['MI'][] = $detail[0]->mi_slug;
+                    }
+                    if ($detail[0]->apt_slug != '') {
+                        $aptitudeName = $detail[0]->apt_slug;
+                        $APIdata['aptitude'][] = $detail[0]->apt_slug;
+                    }
+                    if ($detail[0]->pt_slug != '') {
+                        $personalityName = $detail[0]->pt_slug;
+                        $APIdata['personality'][] = $detail[0]->pt_slug;
+                    }
+                    if ($detail[0]->it_name != '') {
+                        $interest = $detail[0]->it_name;
+                        $APIdata['interest'][] = $detail[0]->it_slug;
+                    }
+                }
+            }
+        }
+
+        if (isset($APIdata['MI'])) {
+            $score['MI'] = array_count_values($APIdata['MI']);
+        } else {
+            $score['MI'] = array();
+        }
+
+        if (isset($APIdata['aptitude'])) {
+            $score['aptitude'] = array_count_values($APIdata['aptitude']);
+        } else {
+            $score['aptitude'] = array();
+        }
+
+        if (isset($APIdata['personality'])) {
+            $score['personality'] = array_count_values($APIdata['personality']);
+        } else {
+            $score['personality'] = array();
+        }
+
+        if (isset($APIdata['interest'])) {
+            $score['interest'] = array_count_values($APIdata['interest']);
+        } else {
+            $score['interest'] = array();
+        }
+
+        $finalScore['MI'] = $score['MI'] + $allMI;
+        $finalScore['aptitude'] = $score['aptitude'] + $allApptitude;
+        $finalScore['personality'] = $score['personality'] + $allPersonality;
+        $finalScore['interest'] = $score['interest'] + $allInterest;
+
+        //MI Scale
+        if (!empty($finalScore['MI'])) {
+            $objMIScale = new MultipleIntelligentScale();
+            foreach ($finalScore['MI'] as $mi => $score) {
+                $scale['MI'][$mi] = $objMIScale->calculateMIHML($mi, $score);
+            }
+        }
+        //Apptitude Scale
+        if (!empty($finalScore['aptitude'])) {
+            $objApptitudeScale = new ApptitudeTypeScale();
+            foreach ($finalScore['aptitude'] as $apptitude => $scoreapptitude) {
+                $scale['aptitude'][$apptitude] = $objApptitudeScale->calculateApptitudeHML($apptitude, $scoreapptitude);
+            }
+        }
+
+        //Personality Scale
+        if (!empty($finalScore['personality'])) {
+            $objPersonalityScale = new PersonalityScale();
+            foreach ($finalScore['personality'] as $personality => $scorepersonality) {
+                $scale['personality'][$personality] = $objPersonalityScale->calculatePersonalityHML($personality, $scorepersonality);
+            }
+        }
+
+        $final = array('APIscore' => $finalScore, 'APIscale' => $scale);
+        return $final;
+    }
+
+    public static function getInterestBySlug($slug)
+    {
+        $objInterest = new Interest();
+        $interest = $objInterest->getInterestDetailBySlug($slug);
+
+        return $interest->it_name;
+    }
+
+    public static function getMIBySlug($slug)
+    {
+        $objMultipleIntelligent = new MultipleIntelligent();
+        $multipleIntelligent = $objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($slug);
+
+        return $multipleIntelligent->mit_name;
+    }
+
+    public static function getApptitudeBySlug($slug)
+    {
+        $objApptitude = new Apptitude();
+        $apptitude = $objApptitude->getApptitudeDetailBySlug($slug);
+
+        return $apptitude->apt_name;
+    }
+
+    public static function getPersonalityBySlug($slug)
+    {
+        $objPersonality = new Personality();
+        $personality = $objPersonality->getPersonalityDetailBySlug($slug);
+
+        return $personality->pt_name;
+    }
 }

@@ -17,6 +17,11 @@ class Certification extends Model
         return $certifications;
     }
 
+    public function getProfessionCertificationByName($name) {
+        $certifications = Certification::where('pc_name', $name)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
+        return $certifications;
+    }
+
 
     public function saveProfessionCertificationDetail($certificationDetail) {
        if ($certificationDetail['id'] != '0') {

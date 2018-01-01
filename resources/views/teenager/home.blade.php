@@ -52,7 +52,7 @@
                                                 <!-- <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}"> -->
                                                 <div class="progress-radial progress-20">
                                                 </div>
-                                                <h4>{{ $interestKey }}</h4>
+                                                <h4><a href="{{ url('teenager/interest/') }}"><?php echo Helpers::getInterestBySlug($interestKey); ?></h4>
                                             </div>
                                         </div>
                                         <?php 
@@ -89,7 +89,7 @@
                             <div class="row">
                                 <?php $countStrength = 0; ?>
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
-                                    <?php $imageChart = "img/My_chart-".$strengthValue.".png";
+                                    <?php $imageChart = "img/My_chart-".$strengthValue['score'].".png";
                                     if(isset($countStrength) && $countStrength == 4) { ?>
                                         <div class="expandStrength">
                                     <?php } ?>
@@ -98,7 +98,7 @@
                                             <div class="progress-radial progress-20">
                                             </div>
                                             <!-- <img src="{{ Storage::url($imageChart) }}" alt="{{ $strengthKey }}" title="{{ $strengthKey }}"> -->
-                                            <h4>{{ $strengthKey }}</h4>
+                                            <h4><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}"> {{ $strengthValue['name'] }}</a></h4>
                                         </div>
                                     </div>
                                     <?php
