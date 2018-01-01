@@ -95,3 +95,14 @@ ALTER TABLE `pro_t_teenagers` ADD `t_view_information` TINYINT(1) NOT NULL DEFAU
 
 //Make nickname nullable ## 27-12-2017 BD
 ALTER TABLE `pro_t_teenagers` CHANGE `t_nickname` `t_nickname` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+//Add new table for Profession Wise Certificates ## 29-12-2017
+CREATE TABLE `pro_pwc_professions_wise_certificates` (
+ `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+ `profession_id` int(11) NOT NULL,
+ `certificate_id` int(11) NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NULL DEFAULT NULL,
+ `deleted` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1

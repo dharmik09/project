@@ -10,8 +10,11 @@ use Config;
 use Request;
 use Redirect;
 use App\Certification;
+use App\Professions;
+use App\ProfessionWiseCertification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfessionCertificationRequest;
+use App\Http\Requests\ProfessionWiseCertificationRequest;
 use Helpers;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 
@@ -20,6 +23,8 @@ class CertificationManagementController extends Controller
     public function __construct(FileStorageRepository $fileStorageRepository) {
         $this->fileStorageRepository = $fileStorageRepository;
         $this->objCertification = new Certification;
+        $this->objProfessions = new Professions;
+        $this->objProfessionWiseCertification = new ProfessionWiseCertification;
         $this->certificationOriginalImageUploadPath = Config::get("constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH");
         $this->certificationThumbImageUploadPath = Config::get("constant.PROFESSION_CERTIFICATION_THUMB_IMAGE_UPLOAD_PATH");
         $this->certificationThumbImageHeight = Config::get("constant.PROFESSION_CERTIFICATION_THUMB_IMAGE_HEIGHT");
@@ -98,5 +103,58 @@ class CertificationManagementController extends Controller
         }
     }
 
-}
+    public function professionWiseCertificationIndex() {
+        $data = $this->objProfessionWiseCertification->getAllProfessionWiseCertification();
+        return view('admin.ListProfessionWiseCertification', compact('data'));
+    }
 
+    public function professionWiseCertificationAdd() {
+        $data = [];
+        $profession = $this->objProfessions->getActiveProfessions();
+        $certificateList = $this->objCertification->getAllProfessionCertifications();
+        $professionList = $profession->sortBy('pf_name');
+        return view('admin.EditProfessionWiseCertification', compact('data','professionList','certificateList'));
+    }
+
+    public function professionWiseCertificationEdit($id) {
+        $data = $this->objProfessionWiseCertification->getProfessionWiseCertificationByProfessionId($id);
+        $profession = $this->objProfessions->getActiveProfessions();
+        $certificateList = $this->objCertification->getAllProfessionCertifications();
+        $professionList = $profession->sortBy('pf_name');
+        // echo "<pre>"; print_r($data); exit;
+        return view('admin.EditProfessionWiseCertification', compact('data','professionList','certificateList'));
+    }
+
+    public function professionWiseCertificationSave(ProfessionWiseCertificationRequest $professionWiseCertificationRequest) {
+        $checkProfessionWiseCertificationByProfessionId = $this->objProfessionWiseCertification->getProfessionWiseCertificationByProfessionId(Input::get('profession_id'));
+        if(count($checkProfessionWiseCertificationByProfessionId)>0){
+            return Redirect::to("admin/professionWiseCertifications")->with('error',trans('labels.professionwisecertificationdataalreadyaddedforprofession'));
+        }
+        if(Input::get('delete_id'))
+        {
+            $this->objProfessionWiseCertification->deleteProfessionWiseCertificationByProfessionId(Input::get('delete_id'));
+        }
+        $certificateId = Input::get('certificate_id');
+        foreach ($certificateId as $value) {
+            $data = [];
+            $data['profession_id'] = e(Input::get('profession_id'));
+            $data['certificate_id'] = $value;
+            $response = $this->objProfessionWiseCertification->insertUpdate($data);
+        }
+        if ($response) {
+             return Redirect::to("admin/professionWiseCertifications")->with('success',trans('labels.professionwisecertificationupdatesuccess'));
+        } else {
+            return Redirect::to("admin/professionWiseCertifications")->with('error', trans('labels.commonerrormessage'));
+        }
+    }
+
+    public function professionWiseCertificationDelete($id) {
+        $return = $this->objProfessionWiseCertification->deleteProfessionWiseCertificationByProfessionId($id);
+        if ($return){
+           return Redirect::to("admin/professionWiseCertifications")->with('success', trans('labels.professionwisecertificationdeletesuccess'));
+        } else {
+            return Redirect::to("admin/professionWiseCertifications")->with('error', trans('labels.commonerrormessage'));
+        }
+    }
+
+}

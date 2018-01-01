@@ -393,10 +393,22 @@
                                     <i class="fa fa-dashboard"></i> <span>{{trans('labels.helptext')}}</span>
                                 </a>
                             </li>
-                            <li class="{{ (Request::is('admin/professionCertifications') || Request::is('admin/addProfessionCertification') || Request::is('admin/editProfessionCertification/*') || Request::is('admin/saveProfessionCertification') || Request::is('admin/deleteProfessionCertification/*')) ? 'active' : '' }} treeview">
+                            <li class="{{ (Request::is('admin/professionCertifications') || Request::is('admin/addProfessionCertification') || Request::is('admin/editProfessionCertification/*') || Request::is('admin/saveProfessionCertification') || Request::is('admin/deleteProfessionCertification/*')) || (Request::is('admin/professionWiseCertifications') || Request::is('admin/addProfessionWiseCertification') || Request::is('admin/editProfessionWiseCertification/*') || Request::is('admin/deleteProfessionWiseCertification/*')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/professionCertifications') }}">
-                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.professioncertification')}}</span>
+                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.professioncertification')}}</span><i class="fa fa-angle-left pull-right"></i>
                                 </a>
+                                <ul class="treeview-menu">
+                                    <li class="treeview">
+                                        <a href="{{ url('admin/professionCertifications') }}">
+                                            <i class="fa fa-circle-o"></i><span>{{trans('labels.professioncertification')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="treeview">
+                                        <a href="{{ url('admin/professionWiseCertifications') }}">
+                                            <i class="fa fa-circle-o"></i><span>{{trans('labels.professionwisecertification')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="{{ (Request::is('admin/professionSubjects') || Request::is('admin/addProfessionSubject') || Request::is('admin/editProfessionSubject/*') || Request::is('admin/saveProfessionSubject') || Request::is('admin/deleteProfessionSubject/*')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/professionSubjects') }}">
