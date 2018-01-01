@@ -47,8 +47,8 @@ class RedirectIfNotTeenager
                 exit;
             }
 
-            if(($notDeleted->t_name == '' || $notDeleted->t_lastname == '' || $notDeleted->t_pincode == '' || $notDeleted->t_email == '' || $notDeleted->t_gender == '' || $notDeleted->t_gender == 0 || $notDeleted->t_birthdate == '') && Request::path() != 'teenager/edit-profile' && Request::path() != 'teenager/my-profile' && Request::path() != 'teenager/save-profile'){
-                return Redirect::to('teenager/edit-profile')->with('error', 'Please fillup the all mandatory fields to use the application.');
+            if(($notDeleted->t_name == '' || $notDeleted->t_lastname == '' || $notDeleted->t_pincode == '' || $notDeleted->t_email == '' || $notDeleted->t_gender == '' || $notDeleted->t_gender == 0 || $notDeleted->t_birthdate == '') && Request::path() != 'teenager/set-profile' && Request::path() != 'teenager/my-profile' && Request::path() != 'teenager/save-profile' && Request::path() != 'teenager/get-phone-code-by-country-for-profile'){
+                return Redirect::to('teenager/set-profile')->with('error', 'Please fillup the all mandatory fields to use the application.');
                 exit;
             }
 

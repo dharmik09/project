@@ -4,6 +4,7 @@ Route::get('/home', 'Teenager\DashboardController@dashboard')->name('home');
 Route::get('/dashboard', 'Teenager\DashboardController@dashboard');
 Route::get('/edit-profile', 'Teenager\DashboardController@profile');
 Route::get('/my-profile', 'Teenager\DashboardController@profile');
+Route::get('/set-profile', 'Teenager\DashboardController@setProfile')->name('set-profile');
 Route::post('/save-profile', 'Teenager\DashboardController@saveProfile')->name('save-profile');
 Route::post('/save-teenager-academic-info', 'Teenager\DashboardController@saveTeenagerAcademic');
 Route::post('/save-teenager-achievement-info', 'Teenager\DashboardController@saveTeenagerAchievement');

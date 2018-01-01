@@ -60,7 +60,7 @@
             </div>
             <!--profile detail-->
             <div class="profile-detail">
-                <form id="teenager_my_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <form id="teenager_set_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="row">
                         <div class="col-sm-3">
@@ -89,10 +89,6 @@
                                 <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
                                 <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                             </ul>
-                            <div class="chat-icon">
-                                <a href="#" title="Chat"><i class="icon-chat"></i>
-                                    <span>3</span></a>
-                            </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. Nunc fringilla mattis mi, sit amet hendrerit nibh euismod in. Praesent ut vulputate sem. Vestibulum odio quam, sagittis vitae pellentesque sit amet, rhoncus sit amet ipsum. Ut eros risus, molestie sed sapien at, euismod dignissim velit.</p>
                         </div>
                     </div>
@@ -297,425 +293,10 @@
         </div>
     </section>
     <!-- profile section-->
-    <!--sec parents & mentors-->
-    <section class="sec-parents">
-        <div class="container">
-            <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop2" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop2">
-                    <div class="popover-data">
-                        <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
-                    </div>
-                </div>
-            </div>
-            <h2>Parents & Mentors</h2>
-            <div class="parent-form">
-                <form id="teenager_parent_pair_form" role="form" method="POST" action="{{ url('/teenager/save-pair') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                    {{csrf_field()}}
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <input type="email" id="parent_email" name="parent_email" placeholder="Email" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group custom-select">
-                                <select class="form-control" id="p_user_type" name="p_user_type">
-                                    <option value="1">Parent</option>
-                                    <option value="2">Mentor</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <button class="btn btn-submit" type="submit" title="a=Add">Add</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="mentor-list">
-                <ul class="row owl-carousel">
-                    @forelse($teenagerParents as $teenagerParent)
-                        <?php 
-                            if (isset($teenagerParent->p_photo) && $teenagerParent->p_photo != '') {
-                                $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $teenagerParent->p_photo;
-                            } else {
-                                $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
-                            }
-                        ?>
-                        <li class="col-sm-3 col-xs-6">
-                            <figure>
-                                <div class="mentor-img" style="background-image: url({{ Storage::url($parentPhoto) }})"></div>
-                                <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
-                            </figure>
-                        </li>
-                    @empty
-                        No parents or mentors found.
-                    @endforelse
-                </ul>
-            </div>
-        </div>
-    </section>
-    <!--sec parents & mentors end-->
-    <!-- sec personal survey-->
-    <div class="sec-survey">
-        <div class="container">
-
-            <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop3" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop3">
-                    <div class="popover-data">
-                        <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
-                    </div>
-                </div>
-            </div>
-            <h2>Personal Survey</h2>
-            <div class="survey-list">
-                <div class="opinion-sec show" id="opinionSection" style="display:none;">
-                    <!-- @include('teenager/basic/level1Question') -->
-                </div>
-            </div>
-            <p>Choose three traits that you feel describe you:</p>
-            <div class="survey-list">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Technologist</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Adventurer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Geek</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Entrepreneur</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Writer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Artist</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Explorer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Thinker</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Tree Hugger</span></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-btn">
-                    <span class="icon"><i class="icon-arrow-spring"></i></span>
-                    <a href="#" title="Next">Next</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- sec personal survey end-->
-    <!--sec progress-->
-    <section class="sec-progress">
-        <div class="container">
-            <h2>My Progress</h2>
-            <div class="bg-white my-progress profile-tab">
-                <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                    <li class="active custom-tab col-xs-4 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Achievements <span class="count">(10)</span></span></span></a></li>
-                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">(18)</span></span></span></a></li>
-                    <li class="custom-tab col-xs-4 tab-color-3"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">My Connections <span class="count">(56)</span></span></span></a></li>
-                </ul>
-                <div class="tab-content">
-                    <div id="menu1" class="tab-pane fade in active">
-                        <ul class="badge-list clearfix">
-                            <li class="point-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>Points <br>achieved</p>
-                            </li>
-                            <li class="point-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>Points <br>achieved</p>
-                            </li>
-                            <li class="point-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>Points <br>achieved</p>
-                            </li>
-                            <li class="point-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>Points <br>achieved</p>
-                            </li>
-                            <li>
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>Points <br>achieved</p>
-                            </li>
-                        </ul>
-                        <ul class="badge-list clearfix">
-                            <li class="career-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>careers<br> completed</p>
-                            </li>
-                            <li class="career-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>careers<br> completed</p>
-                            </li>
-                            <li class="career-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>careers<br> completed</p>
-                            </li>
-                            <li>
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>careers<br> completed</p>
-                            </li>
-                            <li>
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>careers<br> completed</p>
-                            </li>
-                        </ul>
-                        <ul class="badge-list clearfix">
-                            <li class="connection-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>connections<br> made</p>
-                            </li>
-                            <li class="connection-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>connections<br> made</p>
-                            </li>
-                            <li class="connection-cl">
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>connections<br> made</p>
-                            </li>
-                            <li>
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>connections<br> made</p>
-                            </li>
-                            <li>
-                                <div class="point-tab">
-                                    <i class="icon-badge"></i>
-                                    <span class="point">100</span>
-                                </div>
-                                <p>connections<br> made</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="menu2" class="tab-pane fade">
-                        <div class="careers-tab">
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu3" class="tab-pane fade">
-                        <div class="team-list">
-                            <div class="flex-item">
-                                <div class="team-detail">
-                                    <div class="team-img">
-                                        <img src="{{Storage::url('img/ellen.jpg')}}" alt="team">
-                                    </div>
-                                    <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <div class="team-point">
-                                    520,000 points
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-list">
-                            <div class="flex-item">
-                                <div class="team-detail">
-                                    <div class="team-img">
-                                        <img src="{{Storage::url('img/alex.jpg')}}" alt="team">
-                                    </div>
-                                    <a href="#" title="Alex Murphy">Alex Murphy</a>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <div class="team-point">
-                                    515,000 points
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--sec progress end-->
-    <!--sec learning guidance-->
-    <section class="sec-guidance">
-        <div class="container">
-            <h2>Learning Guidance</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat eros libero, et sagittis metus posuere id. Mauris mattis velit risus, nec tristique erat mattis sit amet. Integer lobortis vestibulum ipsum id commodo. Curabitur non turpis eget turpis laoreet mattis ac sit amet turpis. Proin a neque hendrerit, molestie lacus non, elementum velit. Nunc mattis justo magna, tempor faucibus diam commodo sit amet. Vestibulum id lectus eget dui rutrum tristique quis eget nulla. Vivamus mattis aliquet est. Mauris dapibus, magna sagittis pharetra suscipit, felis tortor mollis metus, non commodo erat arcu finibus risus. Mauris id ante eget lectus iaculis pellentesque eu efficitur nisl. Proin sagittis nec orci ut tincidunt. Aliquam sed turpis mauris. Cras nisl quam, vulputate ac sapien ut, hendrerit faucibus ligula.</p>
-            <p>Maecenas fringilla eros vitae eros volutpat, quis mattis metus dictum. Etiam ac rhoncus elit, ac consequat urna. Morbi nec dignissim urna. Phasellus non laoreet dui. Nullam id auctor nibh, eu porta lorem. In eleifend elit quis ante interdum, mollis interdum erat condimentum. Aliquam porta turpis justo.</p>
-            <p class="text-center"><a href="{{ url('/teenager/learning-guidance') }}" title="learn more" class="btn btn-primary">learn more</a></p>
-        </div>
-    </section>
-    <div class="sec-record">
-        <div class="panel-group" id="accordion">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed achievement">Achievement Record
-                            <span>
-                            @if (isset($teenagerMeta['achievement'][0]['meta_value']))
-                                <?php
-                                    $achievementStr = preg_replace("/&nbsp;/",'', $teenagerMeta['achievement'][0]['meta_value']);
-                                ?> 
-                                {!! $achievementStr !!}
-                            @endif
-                            </span>
-                            <span>Edit</span>
-                        </a>
-                    </h4>
-                </div>
-                <div class="panel-collapse collapse" id="accordion1">
-                    <div class="panel-body">
-                        <div class="list clearfix">
-                            <form id="teenager_achievement" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-teenager-achievement-info') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                            {{ csrf_field() }}
-                                <div class="col-sm-12">
-                                    <textarea name="meta_value" id="achievement">{{ isset($teenagerMeta['achievement'][0]['meta_value']) ? $teenagerMeta['achievement'][0]['meta_value'] : "" }}</textarea>
-                                    <span class="achievement_error"></span>
-                                </div>
-                                <div class="text-center">
-                                    <button class="btn btn-primary" type="submit">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed academic">Academic Record
-                            <span>
-                            @if(isset($teenagerMeta['education'][0]['meta_value']))
-                                <?php
-                                    $academicStr = preg_replace("/&nbsp;/",'', $teenagerMeta['education'][0]['meta_value']);
-                                ?> 
-                                {!! $academicStr !!}
-                            @endif
-                            </span>
-                            <span>Edit</span>
-                        </a>
-                    </h4>
-                </div>
-                <div class="panel-collapse collapse" id="accordion2">
-                    <div class="panel-body">
-                        <div class="list clearfix">
-                            <form id="teenager_academic" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-teenager-academic-info') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                            {{ csrf_field() }}
-                                <div class="col-sm-12">
-                                    <textarea name="meta_value" id="academic">{{ isset($teenagerMeta['education'][0]['meta_value']) ? $teenagerMeta['education'][0]['meta_value'] : "" }}</textarea>
-                                    <span class="academic_error"></span>
-                                </div>
-                                <div class="text-center">
-                                    <button class="btn btn-primary" type="submit">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 @stop
 
 @section('script')
-<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script>
 
     $('.onlyNumber').on('keyup', function() {
@@ -749,25 +330,6 @@
     }
         
     $(document).ready(function() {
-        getFirstLevelData();
-        $('.mentor-list ul').owlCarousel({
-            loop: false,
-            margin: 0,
-            items: 4,
-            autoplay: false,
-            autoplayTimeout: 3000,
-            smartSpeed: 1000,
-            nav: false,
-            dots: true,
-            responsive: {
-                0: {
-                    items: 2
-                },
-                768: {
-                    items: 4
-                },
-            }
-        });
         $('.sponsor-list').owlCarousel({
             loop: false,
             margin: 20,
@@ -792,7 +354,7 @@
         jQuery.validator.addMethod("mobilelength", function(value, element) {
             return this.optional(element) || /^\d{10}$/i.test(value);
         }, "Please enter valid mobile number");
-        var updateProfileRules = {
+        var setUpProfileRules = {
             name: {
                 required: true,
                 minlength: 3,
@@ -846,8 +408,8 @@
             }
         };
         
-        $("#teenager_my_profile_form").validate({
-            rules: updateProfileRules,
+        $("#teenager_set_profile_form").validate({
+            rules: setUpProfileRules,
             messages: {
                 name: {
                     required: "First name is required",
@@ -893,35 +455,7 @@
                 }
             },
         });
-        var parentInviteRules = {
-            parent_email: {
-                required: true,
-                email: true,
-                maxlength: 100
-            },
-            p_user_type: {
-                required: true
-            }
-        };
-        $("#teenager_parent_pair_form").validate({
-            rules: parentInviteRules,
-            messages: {
-                parent_email: {
-                    required: "Email is required"
-                },
-                p_user_type: {
-                    required: "Please select user type"
-                }
-            }
-        });
-
-        CKEDITOR.replace('achievement');
-        CKEDITOR.replace('academic');
-
-        CKEDITOR.config.toolbar = [
-            ['Bold', 'Italic', 'BulletedList', 'Source']
-        ] ;
-
+        
         // Cache the toggle button
         var $toggle = $(".visibility-pwd");
         var $field = $(".pass-visi");
@@ -942,71 +476,6 @@
             getPhoneCodeByCountry(countryCode);
         }
         $('#email').attr('readonly', true);
-    });
-    
-    function getFirstLevelData() {
-        $.ajax({
-            url: "{{url('teenager/play-first-level-activity')}}",
-            type : 'POST',
-            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
-            success: function(data){
-                $('#opinionSection').fadeIn(3000);
-                $('#opinionSection').html(data);
-            },
-            // error: function (xhr, ajaxOptions, thrownError) {
-            //     var errorMsg = 'Ajax request failed: ' + xhr.responseText;
-            //     $('#content').html(errorMsg);
-            // }
-        });
-    }
-
-    function saveAnswer(answer, question) {
-        answer = $.trim(answer);
-        question = $.trim(question);
-        if(typeof question !== "undefined" && typeof answer !== "undefined" && !isNaN(answer)) {
-            $('.opinion-ans-functional').fadeOut();
-            $('.opinion-result').fadeIn(3000);
-            
-            //Save one by one records
-            var form_data = 'answerId=' + answer + '&questionId=' + question;
-            $.ajax({
-                type: 'POST',
-                data: form_data,
-                dataType: 'html',
-                url: "{{ url('/teenager/save-first-level-activity')}}",
-                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                cache: false,
-                success: function(data) {
-                    setTimeout(function() {
-                        $('#opinionSection').hide();
-                        getFirstLevelData();
-                    }, 5000);
-                }
-            });
-
-
-        } else {
-            location.reload(true);
-        }
-    }
-
-    $("#teenager_achievement").submit(function(event) {
-        var myContent = CKEDITOR.instances.achievement.getData();
-        if(myContent == "")
-        {
-            $(".achievement_error").text("Please add achievement!").show().fadeOut(5000);
-            return false;
-        }
-        return true;
-    });
-    $("#teenager_academic").submit(function(event) {
-        var myContent = CKEDITOR.instances.academic.getData();
-        if(myContent == "")
-        {
-            $(".academic_error").text("Please add academic detail!").show().fadeOut(5000);
-            return false;
-        }
-        return true;
     });
     
     $("input[type=password]").keyup(function() {
@@ -1061,9 +530,9 @@
             }
         });
     }
-    $("#teenager_my_profile_form").submit(function() {
+    $("#teenager_set_profile_form").submit(function() {
             $("#saveProfile").toggleClass('sending').blur();
-            var form = $("#teenager_my_profile_form");
+            var form = $("#teenager_set_profile_form");
             form.validate();
             if (form.valid()) {
                 return true;
