@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="email *" tabindex="3" value="{{ $user->t_email }}">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="email *" tabindex="3" value="{{ $user->t_email }}" readonly>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -129,7 +129,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group custom-select">
-                                    <select tabindex="7" class="form-control" id="country"name="country" onchange="getPhoneCodeByCountry(this.value);" required>
+                                    <select tabindex="7" class="form-control" id="country" name="country" onchange="getPhoneCodeByCountry(this.value);" required>
                                         <option value="">country</option>
                                         @forelse($countries as $val)
                                             <option value="{{$val->id}}" <?php echo ($user->t_country == $val->id ) ? "selected='selected'" : ''; ?> > {{$val->c_name}} </option>
@@ -952,6 +952,7 @@
         if (countryCode) {
             getPhoneCodeByCountry(countryCode);
         }
+        $('#email').attr('readonly', true);
     });
     
     function saveAnswer(answerId, questionId) {

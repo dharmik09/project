@@ -135,7 +135,7 @@ class DashboardController extends Controller
             exit;
         }
         $teenagerDetail['t_gender'] = (isset($body['gender']) && $body['gender'] != '') ? $body['gender'] : '';
-        $teenagerDetail['t_email'] = (isset($body['email']) && $body['email'] != '') ? $body['email'] : '';
+        $t_email = (isset($body['email']) && $body['email'] != '') ? $body['email'] : '';
         $teenagerDetail['password'] = (isset($body['password']) && $body['password'] != '') ? bcrypt($body['password']) : $user->password;
         $teenagerDetail['t_phone'] = (isset($body['mobile']) && $body['mobile'] != '') ? $body['mobile'] : '';
         //Added new phone name field
@@ -150,7 +150,7 @@ class DashboardController extends Controller
         $teenagerDetail['t_view_information'] = (isset($body['t_view_information']) && $body['t_view_information'] != '') ? $body['t_view_information'] : '0';
 
         //Check all default field value -> If those are entered dummy by users
-        if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['t_phone'] == '' || $teenagerDetail['t_email'] == '') {
+        if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['t_phone'] == '' || $t_email == '') {
             return Redirect::to("teenager/my-profile")->withErrors(trans('validation.someproblems'))->withInput();
             exit;
         }
@@ -166,8 +166,8 @@ class DashboardController extends Controller
         $teenagerMobileExist = false;
         $teenagerEmailExist = false;
         
-        if ($teenagerDetail['t_email'] != '' && $user->t_social_provider == 'Normal') {
-            $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenagerDetail['t_email'], $user->id);
+        if ($t_email != '' && $user->t_social_provider == 'Normal') {
+            $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($t_email, $user->id);
         }
         if ($teenagerDetail['t_phone'] != '' && $user->t_social_provider == 'Normal') {
             $teenagerMobileExist = $this->teenagersRepository->checkActivePhoneExist($teenagerDetail['t_phone'], $user->id);

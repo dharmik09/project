@@ -2640,8 +2640,8 @@ Class Helpers {
                         $personalityName = $detail[0]->pt_slug;
                         $APIdata['personality'][] = $detail[0]->pt_slug;
                     }
-                    if ($detail[0]->it_name != '') {
-                        $interest = $detail[0]->it_name;
+                    if ($detail[0]->it_slug != '') {
+                        $interest = $detail[0]->it_slug;
                         $APIdata['interest'][] = $detail[0]->it_slug;
                     }
                 }
