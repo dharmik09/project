@@ -6,11 +6,14 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <div class="col-md-11">
+        <div class="col-md-9">
             {{trans('labels.professionwisecertification')}}
         </div>
         <div class="col-md-1">
             <a href="{{ url('admin/addProfessionWiseCertification') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
+        </div>
+        <div class="col-md-2">
+            <a href="{{ url('admin/addProfessionWiseCertificationBulk') }}" class="btn btn-block btn-primary">{{trans('labels.bulkupload')}}</a>
         </div>
     </h1>
 </section>

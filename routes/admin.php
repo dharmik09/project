@@ -430,6 +430,8 @@ Route::get('/deleteProfessionCertification/{id}', 'Admin\CertificationManagement
 Route::get('/professionWiseCertifications', 'Admin\CertificationManagementController@professionWiseCertificationIndex')->name('pwc_index');
 Route::get('/addProfessionWiseCertification', 'Admin\CertificationManagementController@professionWiseCertificationAdd')->name('pwc_add');
 Route::post('/saveProfessionWiseCertification', 'Admin\CertificationManagementController@professionWiseCertificationSave')->name('pwc_save');
+Route::get('/addProfessionWiseCertificationBulk', 'Admin\CertificationManagementController@professionWiseCertificationAddBulk')->name('pwc_add_bulk');
+Route::post('/saveProfessionWiseCertificationBulk', 'Admin\CertificationManagementController@professionWiseCertificationSaveBulk')->name('pwc_add_bulk');
 Route::get('/editProfessionWiseCertification/{id}', 'Admin\CertificationManagementController@professionWiseCertificationEdit')->name('pwc_edit');
 Route::get('/deleteProfessionWiseCertification/{id}', 'Admin\CertificationManagementController@professionWiseCertificationDelete')->name('pwc_delete');
 
