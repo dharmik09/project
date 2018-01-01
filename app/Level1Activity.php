@@ -21,7 +21,11 @@ class Level1Activity extends Model
         return $level1activities;
     }
 
-    public function questionA() {
+    public function options() {
         return $this->hasMany(Level1Options::class, 'l1op_activity');
+    }
+
+    public function questionOptions($questionId) {
+        return $this->where('id', $questionId)->with('options')->get();
     }
 }

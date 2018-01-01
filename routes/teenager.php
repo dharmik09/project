@@ -46,7 +46,8 @@ Route::post('/consume-coupon', 'Teenager\CouponManagementController@consumeCoupo
 Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
 
 //Profile Level 1 Questions related route
-Route::post('/playLevel1Activity', 'Teenager\level1ActivityController@playLevel1Activity');
+Route::post('/play-first-level-activity', 'Teenager\level1ActivityController@playLevel1Activity');
+Route::post('/save-first-level-activity', 'Teenager\level1ActivityController@saveFirstLevelActivity');
 
 //Career
 Route::get('/my-careers', function() {

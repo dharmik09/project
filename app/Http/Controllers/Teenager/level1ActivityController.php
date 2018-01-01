@@ -12,6 +12,7 @@ use Input;
 use Redirect;
 use Image;
 use Helpers;
+use App\Level1Activity;
 
 class level1ActivityController extends Controller
 {
@@ -23,6 +24,7 @@ class level1ActivityController extends Controller
     public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository)
     {
         $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->objLevel1Activity = new Level1Activity;
     }
 
     /*
@@ -35,5 +37,24 @@ class level1ActivityController extends Controller
         return view('teenager.basic.level1Question', compact('level1Activities'));
     }
 
-    
+    public function saveFirstLevelActivity(Request $request) {
+        $userId = Auth::guard('teenager')->user()->id;
+        $questionOption = $this->objLevel1Activity->questionOptions($request->questionId);
+        
+        if($questionOption->toArray() && isset($questionOption[0]->options) && in_array($request->answerId, array_column($questionOption[0]->options->toArray(), 'id')) ) {
+            $answers = [];
+            $answers['answerID'] = $request->answerId;
+            $answers['questionID'] = $questionOption[0]->id;
+            $answers['points'] = $questionOption[0]->l1ac_points;
+            $questionsArray = $this->level1ActivitiesRepository->saveTeenagerActivityResponseOneByOne($userId, $answers);
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['dataOfLastAttempt'] = $questionsArray;
+        } else {
+            $response['status'] == 0;
+            $response['message'] = trans('appmessages.invalid_userid_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
 }

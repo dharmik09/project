@@ -372,7 +372,7 @@
             </div>
             <h2>Personal Survey</h2>
             <div class="survey-list">
-                <div class="opinion-sec show" id="opinionSection">
+                <div class="opinion-sec show" id="opinionSection" style="display:none;">
                     <!-- @include('teenager/basic/level1Question') -->
                 </div>
             </div>
@@ -749,18 +749,7 @@
     }
         
     $(document).ready(function() {
-        $.ajax({
-            url: "{{url('teenager/playLevel1Activity')}}",
-            type : 'POST',
-            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
-            success: function(data){
-                $('#opinionSection').html(data);
-            },
-            // error: function (xhr, ajaxOptions, thrownError) {
-            //     var errorMsg = 'Ajax request failed: ' + xhr.responseText;
-            //     $('#content').html(errorMsg);
-            // }
-        });
+        getFirstLevelData();
         $('.mentor-list ul').owlCarousel({
             loop: false,
             margin: 0,
@@ -954,16 +943,50 @@
         }
     });
     
-    function saveAnswer(answerId, questionId) {
-        $('.opinion-questionnaire').fadeOut();
-        $('.opinion-result').fadeIn();
-        var answerId = $("#answerId").val();
-        var questionId = $("#questionId").val();
-        //$('#trend_popup').modal('show');
-        $("#trend_popup").on("hidden.bs.modal", function () {
-
+    function getFirstLevelData() {
+        $.ajax({
+            url: "{{url('teenager/play-first-level-activity')}}",
+            type : 'POST',
+            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+            success: function(data){
+                $('#opinionSection').fadeIn(3000);
+                $('#opinionSection').html(data);
+            },
+            // error: function (xhr, ajaxOptions, thrownError) {
+            //     var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+            //     $('#content').html(errorMsg);
+            // }
         });
-        console.log("data");
+    }
+
+    function saveAnswer(answer, question) {
+        answer = $.trim(answer);
+        question = $.trim(question);
+        if(typeof question !== "undefined" && typeof answer !== "undefined" && !isNaN(answer)) {
+            $('.opinion-ans-functional').fadeOut();
+            $('.opinion-result').fadeIn(3000);
+            
+            //Save one by one records
+            var form_data = 'answerId=' + answer + '&questionId=' + question;
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-first-level-activity')}}",
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                cache: false,
+                success: function(data) {
+                    setTimeout(function() {
+                        $('#opinionSection').hide();
+                        getFirstLevelData();
+                    }, 5000);
+                }
+            });
+
+
+        } else {
+            location.reload(true);
+        }
     }
 
     $("#teenager_achievement").submit(function(event) {
