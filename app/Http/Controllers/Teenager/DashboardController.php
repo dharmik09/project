@@ -378,5 +378,24 @@ class DashboardController extends Controller
             }
         }
     }
+
+    //Set profile form
+    public function setProfile()
+    {
+        $data = [];
+        $teenSponsorIds = [];
+        $user = Auth::guard('teenager')->user();
+        $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "") ? Storage::url($this->teenProfileImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenProfileImageUploadPath.'proteen-logo.png');
+        $countries = $this->objCountry->getAllCounries();
+        $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
+        $teenagerSponsors = $this->teenagersRepository->getTeenagerSelectedSponsor($user->id);
+        $teenagerParents = $this->teenagersRepository->getTeenParents($user->id);
+        foreach($teenagerSponsors as $teenagerSponsor) {
+            $teenSponsorIds[] = $teenagerSponsor->ts_sponsor;
+        }
+        $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities(Auth::guard('teenager')->user()->id);
+        $teenagerMeta = Helpers::getTeenagerMetaData(Auth::guard('teenager')->user()->id);
+        return view('teenager.setUpProfile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta'));   
+    }
    
 }
