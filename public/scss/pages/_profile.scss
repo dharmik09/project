@@ -1771,16 +1771,23 @@ span.password-info {
         }
     }
     .radio_item {
-        display: none !important;
+        //display: none !important;
+        position: absolute;
+        width: 110px;
+        height: 121px;
+        opacity: 0;
+        cursor: pointer;
+        transition: 0.3s all ease-out;
     }
 
     /*.label_item {
     opacity: 0.1;
     }*/
-    .radio_item:checked + label {
-        opacity: 1;
+    .radio_item:checked + label img,.radio_item:hover + label img
+    {
+        transform: scale(1.1);
+        transition: 0.3s all ease-out;
     }
-
     label {
         cursor: pointer;
     }

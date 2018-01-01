@@ -24,6 +24,7 @@ use App\TeenParentRequest;
 use App\Services\Parents\Contracts\ParentsRepository;
 use Input;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
 use Image;
 use App\Http\Requests\TeenagerPairRequest;
 
@@ -41,7 +42,7 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function __construct(SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository)
+    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
@@ -49,6 +50,7 @@ class DashboardController extends Controller
         $this->objCountry = new Country();
         $this->objTeenParentRequest = new TeenParentRequest;
         $this->templateRepository = $templatesRepository;
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
@@ -102,8 +104,9 @@ class DashboardController extends Controller
         foreach($teenagerSponsors as $teenagerSponsor) {
             $teenSponsorIds[] = $teenagerSponsor->ts_sponsor;
         }
+        $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities(Auth::guard('teenager')->user()->id);
         $teenagerMeta = Helpers::getTeenagerMetaData(Auth::guard('teenager')->user()->id);
-        return view('teenager.profile', compact('data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta'));   
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta'));   
     }
 
     public function chat()

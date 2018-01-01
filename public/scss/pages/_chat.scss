@@ -21,7 +21,7 @@ a:hover {
 }
 
 .sec-chat {
-    padding-bottom: 110px;
+    padding: 60px 0;
     display: flex;
     flex-wrap: wrap;
     position: relative;
@@ -53,7 +53,9 @@ a:hover {
             height: 116px;
             top: 0;
             right: 0px;
-            @include maxsm{display: none;}
+            @include maxsm {
+                display: none;
+            }
         }
         /*.arrow {
             width: 0;
@@ -81,7 +83,7 @@ a:hover {
             border-right: 1px solid $cl-complete;
             margin-bottom: 0;
             position: relative; // width: 94% !important;
-            @include maxsm{
+            @include maxsm {
                 border-right: none;
             }
             &.active {
@@ -491,6 +493,68 @@ a:hover {
                         }
                         @include maxms {
                             font-size: 30px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.sec-notification{margin-bottom: 60px;}
+.notification-list{overflow-y: scroll;height: 480px;}
+.notification-block {
+    display: table;
+    width: 100%;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    &:first-child{
+        border-top: 1px solid #ccc;
+        margin-top: 40px;
+    }
+    .notification-img {
+        display: table-cell;
+        width: 50px;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .notification-content {
+        display: table-cell;
+        padding:0 20px;
+        font-size: 17px;
+        font-family: hl;
+        color: $r-cl;
+        vertical-align: middle;
+        a{
+            color: $r-cl;
+        }
+        strong{
+            font-family: hn-b;
+        }
+        .date{
+            font-size: 14px;
+            color: #a29f9f;
+            padding-left: 5px;
+        }
+        .btn-list{
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+            li{
+                display: inline-block;
+                margin-right: 10px;
+                a{
+                    padding:7px 15px;
+                    font-size: 15px;
+                    color: $white;
+                    background: $i-cl;
+                    display: inline-block;
+                    &:hover{
+                        background: $h-cl;
+                    }
+                    &.decline{
+                        background: $cl-complete;
+                        &:hover{
+                            background: #f14d37;
                         }
                     }
                 }

@@ -371,6 +371,11 @@
                 </div>
             </div>
             <h2>Personal Survey</h2>
+            <div class="survey-list">
+                <div class="opinion-sec show" id="opinionSection">
+                    <!-- @include('teenager/basic/level1Question') -->
+                </div>
+            </div>
             <p>Choose three traits that you feel describe you:</p>
             <div class="survey-list">
                 <div class="row">
@@ -712,6 +717,7 @@
 @section('script')
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script>
+
     $('.onlyNumber').on('keyup', function() {
             this.value = this.value.replace(/[^0-9]/gi, '');
         });
@@ -743,6 +749,18 @@
     }
         
     $(document).ready(function() {
+        $.ajax({
+            url: "{{url('teenager/playLevel1Activity')}}",
+            type : 'POST',
+            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+            success: function(data){
+                $('#opinionSection').html(data);
+            },
+            // error: function (xhr, ajaxOptions, thrownError) {
+            //     var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+            //     $('#content').html(errorMsg);
+            // }
+        });
         $('.mentor-list ul').owlCarousel({
             loop: false,
             margin: 0,
@@ -915,8 +933,6 @@
             ['Bold', 'Italic', 'BulletedList', 'Source']
         ] ;
 
-
-
         // Cache the toggle button
         var $toggle = $(".visibility-pwd");
         var $field = $(".pass-visi");
@@ -937,6 +953,19 @@
             getPhoneCodeByCountry(countryCode);
         }
     });
+    
+    function saveAnswer(answerId, questionId) {
+        $('.opinion-questionnaire').fadeOut();
+        $('.opinion-result').fadeIn();
+        var answerId = $("#answerId").val();
+        var questionId = $("#questionId").val();
+        //$('#trend_popup').modal('show');
+        $("#trend_popup").on("hidden.bs.modal", function () {
+
+        });
+        console.log("data");
+    }
+
     $("#teenager_achievement").submit(function(event) {
         var myContent = CKEDITOR.instances.achievement.getData();
         if(myContent == "")
@@ -1020,6 +1049,6 @@
             } else {
                 $("#saveProfile").removeClass('sending').blur();
             }
-        });
+    });
 </script>
 @stop

@@ -17,6 +17,14 @@ class Professions extends Model {
                 ->get();
         return $result;
     }
+
+    public function getProfessionByName($name) {
+        $result = $this->select('*')
+                ->where('deleted', '1')
+                ->where('pf_name', $name)
+                ->first();
+        return $result;
+    }
     
     public function getProfessionDetail($professionId) {
         $result = $this->select('*')
