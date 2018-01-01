@@ -185,19 +185,28 @@
                                             <i class="fa fa-circle-o"></i>{{trans('labels.baskets')}}
                                         </a>
                                     </li>
-                                    <li class="{{ (Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*')) ? 'active' : '' }}">
+                                    <li class="{{ (Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*') || Request::is('admin/headers') || Request::is('admin/addHeaders') || Request::is('admin/editHeaders/*') || Request::is('admin/saveHeaders') || Request::is('admin/deleteHeaders/*')) ? 'active' : '' }}">
                                         <a href="{{ url('admin/professions') }}">
-                                            <i class="fa fa-circle-o"></i>{{trans('labels.professions')}}
+                                            <i class="fa fa-circle-o"></i>{{trans('labels.professions')}}<i class="fa fa-angle-left pull-right"></i>
                                         </a>
-                                    </li>
-                                    <li class="{{ (Request::is('admin/headers') || Request::is('admin/addHeaders') || Request::is('admin/editHeaders/*') || Request::is('admin/saveHeaders') || Request::is('admin/deleteHeaders/*')) ? 'active' : '' }}">
-                                        <a href="{{ url('admin/headers') }}">
-                                            <i class="fa fa-circle-o"></i>{{trans('labels.headers')}}
-                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li class="{{ (Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*')) ? 'active' : '' }}">
+                                                <a href="{{ url('admin/professions') }}">
+                                                    <i class="fa fa-dot-circle-o"></i>{{trans('labels.professions')}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="treeview-menu">
+                                            <li class="{{ (Request::is('admin/headers') || Request::is('admin/addHeaders') || Request::is('admin/editHeaders/*') || Request::is('admin/saveHeaders') || Request::is('admin/deleteHeaders/*')) ? 'active' : '' }}">
+                                                <a href="{{ url('admin/headers') }}">
+                                                    <i class="fa fa-dot-circle-o"></i>{{trans('labels.headers')}}
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li class="{{ (Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*') || Request::is('admin/importExcel') || Request::is('admin/addImportExcel')) ? 'active' : '' }} treeview">
                                         <a href="{{ url('admin/careerMapping') }}">
-                                            <i class="fa fa-circle-o"></i> <span>Career HML Mapping</span>
+                                            <i class="fa fa-circle-o"></i><span>Career HML Mapping</span>
                                         </a>
                                     </li>
                                 </ul>
