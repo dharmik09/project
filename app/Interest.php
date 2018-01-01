@@ -71,7 +71,7 @@ class Interest extends Model
     //Get interest record by slug
     public function getInterestDetailBySlug($slug)
     {
-        $interest = Interest::where('deleted', Config::get('constant.ACTIVE_FLAG'))->where('it_slug',$slug)->first();
+        $interest = Interest::where('deleted', Config::get('constant.ACTIVE_FLAG'))->where('it_slug', $slug)->first();
         return $interest;
     }
 
