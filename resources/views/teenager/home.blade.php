@@ -5,7 +5,6 @@
 @endpush
 
 @section('content')
-
     <div class="dashbord_view">
         <div class="container">
             <div class="row">
@@ -131,42 +130,44 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
-                            <h2>My Careers <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="my_career_tab">
                                 <div class="panel-group" id="accordion">
                                     <div class="panel panel-default factual">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a href="#" class="career-cl collapsed">Career 1</a>
+                                                <a href="{{ url('/teenager/career-detail/1') }}" class="career-cl collapsed">Career 1</a>
                                             </h4>
                                         </div>
                                     </div>
                                     <div class="panel panel-default factual">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a href="#" class="career-cl collapsed">Career 2</a>
+                                                <a href="{{ url('/teenager/career-detail/2') }}" class="career-cl collapsed">Career 2</a>
                                             </h4>
                                         </div>
                                     </div>
                                     <div class="panel panel-default factual">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a href="#" class="career-lc collapsed">Career 3</a>
+                                                <a href="{{ url('/teenager/career-detail/3') }}" class="career-lc collapsed">Career 3</a>
                                             </h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <p><a href="">Expand</a></p>
+                            <p><a href="#">Expand</a></p>
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests my_network_cont">
-                            <h2>My Network</h2>
+                            <h2>
+                            <a href="{{ url('/teenager/my-network') }}" title="My Careers" class="heading-tag">My Network</a>
+                            </h2>
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <div class="my_net_view">
                                         <img src="{{ Storage::url('img/alex.jpg') }}" alt="my_net_view">
-                                        <h4>Joe</h4>
+                                        <h4><a href="{{ url('/teenager/network-member') }}">Joe</a></h4>
                                     </div>
                                     <!-- my_net_view End -->
                                 </div>

@@ -106,3 +106,6 @@ CREATE TABLE `pro_pwc_professions_wise_certificates` (
  `deleted` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+//Change meta value field text ## 29-12-2017
+ALTER TABLE `pro_tmd_teenager_meta_data` CHANGE `tmd_meta_value` `tmd_meta_value` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;

@@ -988,7 +988,7 @@ Class Helpers {
             $genericAds = $objGenericAds->getGenericAds();
             if (isset($genericAds) && !empty($genericAds)) {
                 foreach ($genericAds as $key => $ads) {
-                    if ($ads->ga_image != '' && file_exists(Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->ga_image)) {
+                    if ($ads->ga_image != "") {
                         //$AdsArr['ads_image'][] = asset(Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->ga_image);
                         $AdsArr['ads_image'][] = Storage::url(Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->ga_image);
                     } else {
@@ -2452,7 +2452,7 @@ Class Helpers {
 
     public static function getActiveTeenagersForCoupon($id,$slot) {
         $objTeenager = new Teenagers();
-        $teenager = $objTeenager->getActiveTeenagersForCoupon($id,$slot);
+        $teenager = $objTeenager->getActiveTeenagersForCoupon($id, $slot);
         return $teenager;
     }
 
