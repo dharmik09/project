@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="email *" tabindex="3" value="{{ $user->t_email }}">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="email *" tabindex="3" value="{{ $user->t_email }}" readonly>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -952,6 +952,7 @@
         if (countryCode) {
             getPhoneCodeByCountry(countryCode);
         }
+        $('#email').attr('readonly', true);
     });
     
     function saveAnswer(answerId, questionId) {
