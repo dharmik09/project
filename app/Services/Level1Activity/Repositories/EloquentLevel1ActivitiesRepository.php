@@ -144,7 +144,7 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
                                             GROUP BY
                                             	L1AC.id) AS tmp
                                             LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS L1ANS ON L1ANS.l1ans_activity = tmp.activityID AND L1ANS.l1ans_teenager = $teenagerId
-                                            WHERE tmp.deleted=1 and L1ANS.id IS NULL AND L1ANS.l1ans_teenager IS NULL AND L1ANS.l1ans_activity IS NULL AND L1ANS.l1ans_answer IS NULL"), array());
+                                            WHERE tmp.deleted=1 and L1ANS.id IS NULL AND L1ANS.l1ans_teenager IS NULL AND L1ANS.l1ans_activity IS NULL AND L1ANS.l1ans_answer IS NULL LIMIT 1"), array());
 
         foreach ($activities as $key => $activity) {
             $optionIds = explode(",", $activity->optionIds);

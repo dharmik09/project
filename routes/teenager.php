@@ -44,3 +44,5 @@ Route::get('/save-coin-purchased-data/{id}', 'Teenager\CoinManagementController@
 Route::get('/coupons/', 'Teenager\CouponManagementController@coupons');
 Route::post('/consume-coupon', 'Teenager\CouponManagementController@consumeCoupon');
 Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
+
+Route::get('/playLevel1Activity', 'Teenager\level1ActivityController@playLevel1Activity');
