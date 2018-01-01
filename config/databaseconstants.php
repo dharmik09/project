@@ -99,4 +99,6 @@ return [
     'TBL_V_VIDEO' => 'pro_v_video',
     'TBL_TEENAGER_LOGIN_TOKEN' => 'pro_tlt_teenager_login_token',
     'TBL_F_FAQ' => 'pro_f_faq',
+    'TBL_PROFESSION_CERTIFICATIONS' => 'pro_pc_profession_certifications',
+    'TBL_PROFESSIONS_WISE_CERTIFICATES' => 'pro_pwc_professions_wise_certificates',
 ];
