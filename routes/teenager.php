@@ -45,4 +45,39 @@ Route::get('/coupons/', 'Teenager\CouponManagementController@coupons');
 Route::post('/consume-coupon', 'Teenager\CouponManagementController@consumeCoupon');
 Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
 
+//Profile Level 1 Questions related route
 Route::get('/playLevel1Activity', 'Teenager\level1ActivityController@playLevel1Activity');
+
+//Career
+Route::get('/my-careers', function() {
+	return view('teenager.myCareers');
+});
+Route::get('/career-detail/{id}', function() {
+	return view('teenager.careerDetail');
+});
+Route::get('/list-career', function() {
+	return view('teenager.careersListing');
+});
+Route::get('/career-grid', function() {
+	return view('teenager.careerGrid');
+});
+Route::get('/career-tag', function() {
+	return view('teenager.careerTag');
+});
+
+//Community
+Route::get('/community', function() {
+	return view('teenager.community');
+});
+
+Route::get('/learning-guidance', function() {
+	return view('teenager.learningGuidance');
+});
+
+//Network
+Route::get('/my-network', function() {
+	return view('teenager.network');
+});
+Route::get('/network-member', function() {
+	return view('teenager.networkMember');
+});

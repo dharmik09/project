@@ -22,7 +22,7 @@
         <nav>
             <div class="container">
                 <div class="logo pull-left">
-                	<a href="<?php if (Auth::guard('teenager')->check()) { url('teenager/home'); } else { url('/'); } ?>">
+                	<a href="@if(Auth::guard('teenager')->check()) {{ url('teenager/home') }} @else {{ url('/') }} @endif">
                 		<img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}">
                 	</a>
                 </div>
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="n-window"><a href="javascript:void(0);"><i class="icon-window"></i></a></li>
+                        <li class="n-window"><a href="{{ url('/teenager/list-career') }}"><i class="icon-window"></i></a></li>
                         <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
                     </ul>
                 </div>
@@ -80,7 +80,7 @@
                     <ul>
                         <li><a href="{{ url('/teenager/home') }}" title="Dashboard" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/home']) ? 'active' : ''}}">Dashboard</a></li>
                         <li><a href="{{ url('/teenager/home') }}" title="Careers" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/careers']) ? 'active' : ''}}">Careers</a></li>
-                        <li><a href="{{ url('/teenager/home') }}" title="Community" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/careers']) ? 'active' : ''}}">Community</a></li>
+                        <li><a href="{{ url('/teenager/community') }}" title="Community" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/community']) ? 'active' : ''}}">Community</a></li>
                         <li><a href="{{ url('/teenager/my-profile') }}" title="Profile" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/my-profile', 'teenager/edit-profile']) ? 'active' : ''}}">Profile</a></li>
                         <li><a href="{{ url('/teenager/coupons') }}" title="Coupons" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/coupons']) ? 'active' : ''}}">Coupons</a></li>
                         <li><a href="{{ url('/teenager/chat') }}" title="Chat" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/chat']) ? 'active' : ''}}">Chat</a></li>

@@ -57,7 +57,7 @@
                             <div class="checkbox">
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
                             </div>
-                            <button type="button" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
+                            <button type="submit" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
                         </form>
                         <p><a href="{{ url('parent/forgot-password') }}" title="Forgot username/password?">Forgot username/password?</a></p>
                         <p>Not enrolled? <a href="{{ url('parent/signup') }}" title="Sign up now.">Sign up now.</a></p>
@@ -83,10 +83,22 @@
     <section class="sec-content">
         <div class="container-small">
             <div class="row">
-                <div class="col-md-12">
-                    <?php $cmsDetails = Helpers::getCmsBySlug('landing-page-info'); ?>
+                <div class="col-md-6">
+                    <?php
+                        $cmsDetails = Helpers::getCmsBySlug('landing-page-info');
+                    ?>
                     @if (isset($cmsDetails->cms_body) && !empty($cmsDetails->cms_body))
-                        {!! $cmsDetails->cms_body !!}
+                        <?php $landingPageText = explode("###", preg_replace("/&nbsp;/", '', $cmsDetails->cms_body)); ?>
+                        @if(isset($landingPageText[0]) && !empty($landingPageText[0]))
+                            {!! $landingPageText[0] !!}
+                        @else
+                            {!! $$cmsDetails->cms_body !!}
+                        @endif
+                    @endif
+                </div>
+                <div class="col-md-6">
+                    @if(isset($landingPageText[1]) && !empty($landingPageText[1]))
+                        {!! $landingPageText[1] !!}
                     @endif
                 </div>
             </div>

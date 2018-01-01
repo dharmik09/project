@@ -92,8 +92,9 @@ a {
     @include maxsm {
         height: 400px;
     }
-    @include maxsm {
+    @include maxms {
         height: 340px;
+        background-image: url(../img/teen-mob.jpg);
     }
     iframe {
         display: none;
@@ -155,8 +156,7 @@ a {
             font-family: h;
             font-size: 18px;
             color: $p-cl;
-            font-weight: 500;
-
+            font-weight: 600;
         }
         .hand-img {
             position: absolute;

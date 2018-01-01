@@ -95,3 +95,6 @@ ALTER TABLE `pro_t_teenagers` ADD `t_view_information` TINYINT(1) NOT NULL DEFAU
 
 //Make nickname nullable ## 27-12-2017 BD
 ALTER TABLE `pro_t_teenagers` CHANGE `t_nickname` `t_nickname` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+//Change meta value field text ## 29-12-2017
+ALTER TABLE `pro_tmd_teenager_meta_data` CHANGE `tmd_meta_value` `tmd_meta_value` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
