@@ -1342,6 +1342,12 @@
             padding: 9px 10px;
             margin: 0 3px 3px 0px;
             background: rgba(255, 255, 255, 0.52);
+            a {
+                color: $r-cl;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
             @include maxms {
                 font-size: 14px;
             }
@@ -1361,7 +1367,11 @@
     height: 800px;
     background: $white;
 }
-.teaser-content{filter: blur(3px);}
+
+.teaser-content {
+    filter: blur(3px);
+}
+
 .teaser-overlay {
     z-index: 99;
     position: absolute;
@@ -1418,6 +1428,15 @@
         background-color: $white !important;
     }
 }
-#menu4 .team-point i{color: $h-cl !important;}
-#menu4 .load-more{color: $h-cl !important;}
-.alert-s{color:$white;}
+
+#menu4 .team-point i {
+    color: $h-cl !important;
+}
+
+#menu4 .load-more {
+    color: $h-cl !important;
+}
+
+.alert-s {
+    color: $white;
+}
