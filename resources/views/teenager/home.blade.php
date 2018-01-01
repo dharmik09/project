@@ -160,12 +160,14 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests my_network_cont">
-                            <h2>My Network</h2>
+                            <h2>
+                            <a href="{{ url('/teenager/my-network') }}" title="My Careers" class="heading-tag">My Network</a>
+                            </h2>
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <div class="my_net_view">
                                         <img src="{{ Storage::url('img/alex.jpg') }}" alt="my_net_view">
-                                        <h4>Joe</h4>
+                                        <h4><a href="{{ url('/teenager/network-member') }}">Joe</a></h4>
                                     </div>
                                     <!-- my_net_view End -->
                                 </div>
