@@ -19,7 +19,7 @@
     $firstLevelAnswerTrend = Helpers::calculateTrendForLevel1($level1Activities[0]->activityID,1);
     $totalTrend = Helpers::calculateTotalTrendForLevel1($level1Activities[0]->activityID,1);
 ?>
-<div class="opinion-result">
+<div class="opinion-result" style="display:none;">
     <p class="que-sec" id="opinion_question">{{$level1Activities[0]->l1ac_text}}</p>
     <div class="row">
         <div class="col-xs-12">
@@ -27,9 +27,9 @@
                 <div class="left-selection-box">
                     Total Votes<br> {{$totalTrend}}
                 </div>
-                <div class="right-button">
+                <!-- <div class="right-button">
                     <button type="submit" class="btn-primary" title="Next">Next</button>
-                </div>
+                </div> -->
             </div>
         </div>
         @foreach($firstLevelAnswerTrend as $trend)

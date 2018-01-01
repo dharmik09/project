@@ -955,11 +955,13 @@
     });
     
     function saveAnswer(answerId, questionId) {
+        $('.opinion-questionnaire').fadeOut();
+        $('.opinion-result').fadeIn();
         var answerId = $("#answerId").val();
         var questionId = $("#questionId").val();
         //$('#trend_popup').modal('show');
         $("#trend_popup").on("hidden.bs.modal", function () {
-            
+
         });
         console.log("data");
     }
