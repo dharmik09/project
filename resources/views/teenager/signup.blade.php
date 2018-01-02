@@ -234,8 +234,10 @@
                 minlength: 3,
                 maxlength: 100
             },
-            birth_date: {
-                required: true
+            t_lastname: {
+                required: true,
+                minlength: 3,
+                maxlength: 100
             },
             gender: {
                 required: true
@@ -293,37 +295,41 @@
             rules: signupRules,
             messages: {
                 name: {
-                  required: "{{ trans('validation.namerequiredfield') }}"
+                    required: "First name is required"
                 },
-                birth_date: {
-                    required: '<?php echo trans('validation.bdaterequiredfield') ?>'
+                t_lastname: {
+                    required: "Last name is required"
                 },
                 gender: {
-                    required: 'Gender is required'
+                    required: "Gender is required"
                 },
-                email: {required: '<?php echo trans('validation.emailrequired') ?>'
+                email: {
+                    required: "Email is required"
                 },
                 email_confirmation: {
                     required: "Confirm email is required",
                     equalTo: "Confirm email is not matched"
                 },
-                password: {required: '<?php echo trans('validation.passwordrequired') ?>'
+                password: {
+                    required: "Password is required"
                 },
                 password_confirmation: {
                     required: "Confirm password is required",
                     equalTo: "Confirm password is not matched"
                 },
-                country: {required: 'Country is required'
+                country: {
+                    required: "Country is required"
                 },
-                pincode: {required: '<?php echo trans('validation.pincoderequired') ?>'
+                pincode: {
+                    required: "Zipcode is required"
                 },
-                'selected_sponsor[]': {required: 'Please select atleast one sponsor'
+                'selected_sponsor[]': {
+                    required: "Please select atleast one sponsor"
                 },
-                // mobile: {required: 'Mobile number is required'
-                // },                                                   
+                mobile: {
+                    required: 'Mobile number is required'
+                },                                                   
                 terms_condition: { required: 'Please select terms and conditions'
-                },
-                gender:{ required: 'Please select gender'
                 },
                 day: { required: 'Date is required',
                 },

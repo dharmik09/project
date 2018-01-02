@@ -137,7 +137,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="postal (zip) code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="zip code *" tabindex="8" value="{{ $user->t_pincode }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -424,7 +424,7 @@
                     required: "Country is required"
                 },
                 pincode: {
-                    required: "Pincode is required",
+                    required: "Zipcode is required",
                 },
                 gender: {
                     required: "Gender is required",
@@ -439,7 +439,7 @@
                     required: "Day is required",
                 },
                 'selected_sponsor[]': {
-                    required: "Select at least one sponsor",
+                    required: "Please select atleast one sponsor",
                 },
                 mobile: {
                     required: "Mobile is required",

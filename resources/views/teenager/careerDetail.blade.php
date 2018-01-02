@@ -786,7 +786,7 @@
                                 </div>
                             </div>
                             <ul class="tag-list">
-                                <li><a href="{{ url('/teenager/career-tag') }}">Lorem ipsum</a></li>
+                                <li><a href="{{ url('/teenager/career-tag') }}" title="Lorem ipsum">Lorem ipsum</a></li>
                                 <li>Dolore</li>
                                 <li>Curabitur</li>
                                 <li>Vulputate</li>
