@@ -39,27 +39,32 @@
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
                                 </div>
                             </div>
-                            <div class="row">
-                                <?php $countInterest = 0; ?>
+                            <div class="row expandInterest">
+                                <?php $c = 0; ?>
                                 @forelse($teenagerInterest as $interestKey => $interestValue)
-                                    <?php if($interestValue < 1) { continue; } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
-                                    <?php 
-                                        if(isset($countInterest) && $countInterest == 4) { ?>
-                                            <div class="expandInterest">
-                                        <?php } ?>
-                                        <div class="col-md-6 col-sm-6 col-xs-6"> 
+                                    <?php
+                                        $c++; 
+                                        if($interestValue < 1) {
+                                            $c--; 
+                                            $elementClass = '';
+                                            $key = 'none';
+                                            continue; 
+                                        } else {
+                                            if ($c > 4) {
+                                                $key = 'none';
+                                                $elementClass = "expandElement";
+                                            } else {
+                                                $key = 'block';
+                                                $elementClass = '';
+                                            }
+                                        } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
+                                        <div class="col-md-6 col-sm-6 col-xs-6 {{ $elementClass }}" style="display: {{ $key }};" > 
                                             <div class="my_chart">
-                                                <!-- <img src="{{ Storage::url($imageSelection) }}" alt="{{ $interestKey }}" title="{{ $interestKey }}"> -->
                                                 <div class="progress-radial progress-20">
                                                 </div>
                                                 <h4><a href="{{ url('teenager/interest/') }}"><?php echo Helpers::getInterestBySlug($interestKey); ?></h4>
                                             </div>
                                         </div>
-                                        <?php 
-                                            if(isset($countInterest) && $countInterest == 3) { ?>
-                                            </div>
-                                        <?php } ?>
-                                    <?php $countInterest++; ?>
                                 @empty
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <div class="my_chart">
@@ -81,7 +86,7 @@
                                     </div>
                                 @endforelse
                             </div>
-                            <p><a id="interest" href="javascript:void(0);" onclick="expandInterest();">Expand</a></p>
+                            <p><a id="interest" href="javascript:void(0);" class="intranet-folder">Expand</a></p>
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
@@ -373,7 +378,8 @@
                     //saveBoosterPoints(teenagerId, professionId, 2, isyoutube);
                 }
             }
-            $(".expandInterest").hide();
+            //$('.expandInterest').hide();
+
             $(".expandStrength").hide();
         });
         function expandInterest() {
@@ -385,6 +391,14 @@
                 $("#interest").text("Collapse");
             }
         }
+        $('.intranet-folder').click(function() {
+            $('.expandElement').slideToggle('medium', function() {
+                if ($(this).is(':visible')) {
+                    $(this).css('display','block');
+                }
+            });
+            return false;
+        });
         function expandStrength() {
             if ($('.expandStrength').is(':visible')) {
                 $(".expandStrength").slideUp();
