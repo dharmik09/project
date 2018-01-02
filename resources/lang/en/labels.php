@@ -689,4 +689,6 @@ return [
     'professionwisecertificationbulkuploadsuccess' => 'Profession wise certificate excel uploaded successfully',
     'professionwisecertificationbulkuploadcertificatenotfound' => 'Certificate not found. Please add new certificate or check certificate name in excel',
     'professionwisecertificationbulkuploadprofessionnotfound' => 'Profession not found. Please add new profession or check profession name in excel',
+    'professionwisecertificatebulkupload' => 'Profession Wise Certificate Bulk Upload',
+    'professionbulkupload' => 'Profession Bulk Upload',
 ];

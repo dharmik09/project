@@ -155,27 +155,31 @@
                         <?php
                         if (isset($professionDetail) && !empty($professionDetail))
                         {
-                            if($professionDetail->pf_certifications != '' && $professionDetail->pf_certifications != 0){
-                                $pf_certification_arr = explode(',',$professionDetail->pf_certifications);
+                            if($professionDetail->certificate_id != '' && $professionDetail->certificate_id != 0){
+                                $value = explode(',',$professionDetail->certificate_id);
                             }else{
-                                $pf_certification_arr = array(); 
+                                $value = array(); 
                             }
                         }
                         else
                         {
-                            $pf_certification_arr = array(); 
+                            $value = array(); 
                         } 
                         ?>
 
                         <div class="form-group">
-                            <label for="pf_certifications" class="col-sm-2 control-label">Enter Certifications</label>
+                            <label for="certificate_id" class="col-sm-2 control-label">Enter Certifications</label>
                             <div class="col-sm-10">
-                                <select class="form-control chosen-select" id="pf_certifications" name="pf_certifications[]" multiple="multiple" data-placeholder="Choose a Certifications...">
-                                    <option value="">Select Certifications</option>
-                                    <?php foreach ($certifications as $key => $value) { ?>
-                                        <option value="{{$value->id}}" <?php if(in_array($value->id, $pf_certification_arr)) echo 'selected'; ?>>{{$value->pc_name}}</option>
-                                    <?php } ?>
-                                </select>
+                                <div class="form-check form-check-inline">
+                                    <select class="form-control chosen-select" id="certificate_id" name="certificate_id[]" multiple="multiple" data-placeholder="Choose a Certifications...">
+                                        <option value="">Select Certifications</option>
+                                        @forelse ($certificateList as $certificateData)
+                                            <option value="{{$certificateData->id}}" <?php foreach($value as $certificate_id){ if(isset($certificate_id) && ($certificate_id == $certificateData->id)){ echo 'selected'; }} ?>>{{ucfirst($certificateData->pc_name)}}</option>
+                                        @empty
+                                            <label>{{trans('labels.lblnocertificateavailable')}}</label>
+                                        @endforelse
+                                    </select>
+                                </div>
                             </div>
                         </div>
 

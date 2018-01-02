@@ -195,29 +195,25 @@
                                                     <i class="fa fa-dot-circle-o"></i>{{trans('labels.professions')}}
                                                 </a>
                                             </li>
-                                        </ul>
-                                        <ul class="treeview-menu">
+                                       
                                             <li class="{{ (Request::is('admin/headers') || Request::is('admin/addHeaders') || Request::is('admin/editHeaders/*') || Request::is('admin/saveHeaders') || Request::is('admin/deleteHeaders/*')) ? 'active' : '' }}">
                                                 <a href="{{ url('admin/headers') }}">
                                                     <i class="fa fa-dot-circle-o"></i>{{trans('labels.headers')}}
                                                 </a>
                                             </li>
-                                        </ul>
-                                        <ul class="treeview-menu">
+                                        
                                             <li class="{{ (Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*') || Request::is('admin/importExcel') || Request::is('admin/addImportExcel')) ? 'active' : '' }} treeview">
                                                 <a href="{{ url('admin/careerMapping') }}">
                                                     <i class="fa fa-circle-o"></i><span>Profession HML Mapping</span>
                                                 </a>
                                             </li>
-                                        </ul>
-                                        <ul class="treeview-menu">
+                                        
                                             <li class="treeview">
                                                 <a href="{{ url('admin/professionCertifications') }}">
                                                     <i class="fa fa-circle-o"></i><span>{{trans('labels.professioncertification')}}</span>
                                                 </a>
                                             </li>
-                                        </ul>
-                                        <ul class="treeview-menu">
+                                       
                                             <li class="{{ (Request::is('admin/professionSubjects') || Request::is('admin/addProfessionSubject') || Request::is('admin/editProfessionSubject/*') || Request::is('admin/saveProfessionSubject') || Request::is('admin/deleteProfessionSubject/*')) ? 'active' : '' }} treeview">
                                                 <a href="{{ url('admin/professionSubjects') }}">
                                                     <i class="fa fa-dashboard"></i> <span>{{trans('labels.professionsubject')}}</span>
