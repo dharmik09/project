@@ -172,7 +172,7 @@
                             <div class="col-sm-10">
                                 <div class="form-check form-check-inline">
                                     <select class="form-control chosen-select" id="certificate_id" name="certificate_id[]" multiple="multiple" data-placeholder="Choose a Certifications...">
-                                        <option value="">Select Certifications</option>
+                                        <option disabled>Select Certifications</option>
                                         @forelse ($certificateList as $certificateData)
                                             <option value="{{$certificateData->id}}" <?php foreach($value as $certificate_id){ if(isset($certificate_id) && ($certificate_id == $certificateData->id)){ echo 'selected'; }} ?>>{{ucfirst($certificateData->pc_name)}}</option>
                                         @empty
@@ -184,36 +184,38 @@
                         </div>
 
                         <?php
-                        if (old('pf_subjects'))
-                            $pf_subjects = old('pf_subjects');
-                        elseif ($professionDetail)
-                            $pf_subjects = $professionDetail->pf_subjects;
-                        else
-                            $pf_subjects = '';
-                        ?>
-                        <?php
                         if (isset($professionDetail) && !empty($professionDetail))
                         {
-                            if($professionDetail->pf_subjects != '' && $professionDetail->pf_subjects != 0){
-                                $pf_subject_arr = explode(',',$professionDetail->pf_subjects);
+                            if($professionDetail->subject_id != '' && $professionDetail->subject_id != 0){
+                                $subjectValue = explode(',',$professionDetail->subject_id);
                             }else{
-                                $pf_subject_arr = array(); 
+                                $subjectValue = array(); 
                             }
                         }
                         else
                         {
-                            $pf_subject_arr = array(); 
+                            $subjectValue = array(); 
                         } 
                         ?>
+
                         <div class="form-group">
-                            <label for="pf_subjects" class="col-sm-2 control-label">Enter Subjects</label>
+                            <label for="subject_id" class="col-sm-2 control-label">Enter Subject</label>
                             <div class="col-sm-10">
-                                <select class="form-control chosen-select" id="pf_subjects" name="pf_subjects[]" multiple="multiple" data-placeholder="Choose a subjects...">
-                                    <option value="">Select Subjects</option>
-                                    <?php foreach ($subjects as $key => $value) { ?>
-                                        <option value="{{$value->id}}" <?php if(in_array($value->id, $pf_subject_arr)) echo 'selected'; ?>>{{$value->ps_name}}</option>
-                                    <?php } ?>
-                                </select>
+                                <div class="form-check form-check-inline">
+                                    <select class="form-control chosen-select" id="subject_id" name="subject_id[]" multiple="multiple" data-placeholder="Choose a Subjects...">
+                                        <option disabled>Select Subject</option>
+                                        @forelse ($subjectData as $keyData => $valueData)
+                                        <optgroup label="{{$valueData->ps_name}}">
+                                            @forelse ($valueData['data'] as $key => $val)
+                                                <option value="{{$key}}" <?php foreach($subjectValue as $k=>$v){ if(isset($v) && ($v == $key)){ echo 'selected'; }} ?>>{{ucfirst($val)}}</option>
+                                            @empty
+                                                <label>{{trans('labels.lblnosubjectavailable')}}</label>
+                                            @endforelse
+                                        </optgroup>
+                                        @empty
+                                        @endforelse
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         

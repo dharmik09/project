@@ -24,6 +24,7 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 use App\ProfessionSubject;
 use App\Certification;
 use App\ProfessionWiseCertification;
+use App\ProfessionWiseSubject;
 
 class ProfessionManagementController extends Controller {
 
@@ -48,6 +49,7 @@ class ProfessionManagementController extends Controller {
         $this->objSubject = new ProfessionSubject;
         $this->objCertification = new Certification;
         $this->objProfessionWiseCertification = new ProfessionWiseCertification;
+        $this->objProfessionWiseSubject = new ProfessionWiseSubject;
         $this->loggedInUser = Auth::guard('admin');
     }
 
@@ -62,8 +64,19 @@ class ProfessionManagementController extends Controller {
         $professionDetail = [];
         $subjects = $this->objSubject->getAllProfessionSubjects();
         $certificateList = $this->objCertification->getAllProfessionCertifications();
+        $subjectData = $this->objSubject->getAllProfessionSubjects();
+
+        $parameterGrade = ['H','M','L'];
+        foreach ($subjectData as $key => $value) {
+            $data = array();
+            for($i=0;$i<3;$i++){
+                $data[$value->id.'_'.$parameterGrade[$i]] = $value->ps_name.'('.$parameterGrade[$i].')';
+            }
+            $subjectData[$key]['data'] = $data;
+        }
+
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.EditProfession', compact('professionDetail', 'subjects', 'certificateList'));
+        return view('admin.EditProfession', compact('professionDetail', 'subjects', 'certificateList','subjectList','subjectData'));
     }
 
     public function edit($id) {
@@ -71,14 +84,30 @@ class ProfessionManagementController extends Controller {
         $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
         $uploadVideoPath = $this->professionVideoUploadPath;
         $subjects = $this->objSubject->getAllProfessionSubjects();
+        
         $certificateList = $this->objCertification->getAllProfessionCertifications();
-        $data = $this->objProfessionWiseCertification->getProfessionWiseCertificationByProfessionId($id);
-        $professionDetail['certificate_id'] = $data['certificate_id'];
+        $professionWiseCertificationData = $this->objProfessionWiseCertification->getProfessionWiseCertificationByProfessionId($id);
+        $professionDetail['certificate_id'] = $professionWiseCertificationData['certificate_id'];
+
+        $subjectData = $this->objSubject->getAllProfessionSubjects();
+        $professionWiseSubjectData = $this->objProfessionWiseSubject->getProfessionWiseSubjectByProfessionId($id);
+        $professionDetail['subject_id'] = $professionWiseSubjectData['subject_id'];
+
+        $parameterGrade = ['H','M','L'];
+        foreach ($subjectData as $key => $value) {
+            $data = array();
+            for($i=0;$i<3;$i++){
+                $data[$value->id.'_'.$parameterGrade[$i]] = $value->ps_name.'('.$parameterGrade[$i].')';
+            }
+            $subjectData[$key]['data'] = $data;
+        }
+
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath', 'subjects', 'certificateList'));
+        return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath', 'subjects', 'certificateList','subjectData'));
     }
 
     public function save(ProfessionRequest $professionRequest) {
+
         $professionDetail = [];
 
         $professionDetail['id'] = e(input::get('id'));
@@ -109,7 +138,6 @@ class ProfessionManagementController extends Controller {
         $professionDetail['deleted'] = e(input::get('deleted'));
         $professionDetail['pf_profession_alias'] = input::get('pf_profession_alias');
         $professionDetail['pf_profession_tags'] = input::get('pf_profession_tags');
-        $professionDetail['pf_subjects'] = implode(',', input::get('pf_subjects'));
         $secondary_baskets = input::get('pf_related_basket');
             
         if (Input::file()) {
@@ -161,9 +189,11 @@ class ProfessionManagementController extends Controller {
         $response = $this->professionsRepository->saveProfessionDetail($professionDetail); 
         Cache::forget('professions');
         if ($response) {
+
             if(isset($professionDetail['id']) && $professionDetail['id'] != '' && $professionDetail['id'] > 0){
                 $profession_Id = Input::get('id');
                 $this->objProfessionWiseCertification->deleteProfessionWiseCertificationByProfessionId($profession_Id);
+                $this->objProfessionWiseSubject->deleteProfessionWiseSubjectByProfessionId($profession_Id);
             }
             else{
                 $profession_Id = $response->id;
@@ -172,6 +202,7 @@ class ProfessionManagementController extends Controller {
                     return Redirect::to("admin/professions".$postData['pageRank'])->with('error',trans('labels.professionwisecertificationdataalreadyaddedforprofession'));
                 }
             }
+
             $certificateId = Input::get('certificate_id');
             if(!empty($certificateId)){
                 foreach ($certificateId as $value) {
@@ -181,6 +212,19 @@ class ProfessionManagementController extends Controller {
                     $response = $this->objProfessionWiseCertification->insertUpdate($professionWiseCertificationData);
                 }
             }
+
+            $subjectId = Input::get('subject_id');
+            if(!empty($subjectId)){
+                foreach ($subjectId as $value) {
+                    $valueArray = explode('_', $value);
+                    $ProfessionWiseSubjectData = [];
+                    $ProfessionWiseSubjectData['profession_id'] = $profession_Id;
+                    $ProfessionWiseSubjectData['subject_id'] = $valueArray[0];
+                    $ProfessionWiseSubjectData['parameter_grade'] = $valueArray[1];
+                    $response = $this->objProfessionWiseSubject->insertUpdate($ProfessionWiseSubjectData);
+                }
+            }
+            
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_PROFESSIONS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.professionupdatesuccess'), serialize($professionDetail), $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/professions".$postData['pageRank'])->with('success', trans('labels.professionupdatesuccess'));
         } else {
