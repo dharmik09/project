@@ -77,15 +77,17 @@
                             </div>
                             <div class="flex-item">
                                 <div class="team-point">
-                                    {{ $newConnection->t_coins }}
+                                    {{ $newConnection->t_coins }} points
                                     <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
                                 </div>
                             </div>
                         </div>
                         @empty
-                        No Connections found.
+                            No Connections found.
                         @endforelse
-                        <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                        @if (!empty($newConnections->toArray()) && count($newConnections) > 10)
+                            <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                        @endif
                     </div>
                     <div id="menu2" class="tab-pane fade">
                        <div class="sec-popup">
@@ -101,39 +103,36 @@
                                 </div>
                             </div>
                         </div>
+                        @forelse($myConnections as $myConnection)
                         <div class="team-list">
                             <div class="flex-item">
                                 <div class="team-detail">
                                     <div class="team-img">
-                                        <img src="{{ Storage::url('img/ellen.jpg') }}" alt="team">
+                                        <?php
+                                            if(isset($myConnection->t_photo) && $myConnection->t_photo != '') {
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$newConnection->t_photo;
+                                            } else {
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+                                            }
+                                        ?>
+                                        <img src="{{ Storage::url($teenImage) }}" alt="team">
                                     </div>
-                                    <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
+                                    <a href="#" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
                                 </div>
                             </div>
                             <div class="flex-item">
                                 <div class="team-point">
-                                    520,000 points
+                                    {{ $myConnection->t_coins }} points
                                     <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="team-list">
-                            <div class="flex-item">
-                                <div class="team-detail">
-                                    <div class="team-img">
-                                        <img src="{{ Storage::url('img/alex.jpg') }}" alt="team">
-                                    </div>
-                                    <a href="#" title="Alex Murphy">Alex Murphy</a>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <div class="team-point">
-                                    515,000 points
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                        @empty
+                            No Record Found
+                        @endforelse
+                        @if (!empty($myConnections->toArray()) && count($myConnections) >= 10)
+                            <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                        @endif
                     </div>
                 </div>
             </div>

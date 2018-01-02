@@ -279,6 +279,7 @@ return [
     'APPTITUDE_TYPE' => 'apptitude',
     'PERSONALITY_TYPE' => 'personality',
     'CONNECTION_REJECT_STATUS' => '2',
+    'CONNECTION_ACCEPT_STATUS' => '1',
 
 
 ];

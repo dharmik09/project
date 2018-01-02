@@ -24,7 +24,8 @@ class CommunityManagementController extends Controller {
     {
         $loggedInTeen = Auth::guard('teenager')->user()->id;
         $newConnections = $this->communityRepository->getNewConnections($loggedInTeen);
-        return view('teenager.community', compact('newConnections'));
+        $myConnections = $this->communityRepository->getMyConnections($loggedInTeen);
+        return view('teenager.community', compact('newConnections', 'myConnections'));
     }
 
 }
