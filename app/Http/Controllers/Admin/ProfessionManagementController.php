@@ -23,6 +23,7 @@ use App\Notifications;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use App\ProfessionSubject;
 use App\Certification;
+use App\ProfessionWiseCertification;
 
 class ProfessionManagementController extends Controller {
 
@@ -46,6 +47,7 @@ class ProfessionManagementController extends Controller {
         $this->getProfessionImagePath = Config::get('constant.GET_PROFESSION_IMAGES');
         $this->objSubject = new ProfessionSubject;
         $this->objCertification = new Certification;
+        $this->objProfessionWiseCertification = new ProfessionWiseCertification;
         $this->loggedInUser = Auth::guard('admin');
     }
 
@@ -59,9 +61,9 @@ class ProfessionManagementController extends Controller {
     public function add() {
         $professionDetail = [];
         $subjects = $this->objSubject->getAllProfessionSubjects();
-        $certifications = $this->objCertification->getAllProfessionCertifications();
+        $certificateList = $this->objCertification->getAllProfessionCertifications();
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.EditProfession', compact('professionDetail', 'subjects', 'certifications'));
+        return view('admin.EditProfession', compact('professionDetail', 'subjects', 'certificateList'));
     }
 
     public function edit($id) {
@@ -69,9 +71,11 @@ class ProfessionManagementController extends Controller {
         $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
         $uploadVideoPath = $this->professionVideoUploadPath;
         $subjects = $this->objSubject->getAllProfessionSubjects();
-        $certifications = $this->objCertification->getAllProfessionCertifications();
+        $certificateList = $this->objCertification->getAllProfessionCertifications();
+        $data = $this->objProfessionWiseCertification->getProfessionWiseCertificationByProfessionId($id);
+        $professionDetail['certificate_id'] = $data['certificate_id'];
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath', 'subjects', 'certifications'));
+        return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath', 'subjects', 'certificateList'));
     }
 
     public function save(ProfessionRequest $professionRequest) {
@@ -105,7 +109,6 @@ class ProfessionManagementController extends Controller {
         $professionDetail['deleted'] = e(input::get('deleted'));
         $professionDetail['pf_profession_alias'] = input::get('pf_profession_alias');
         $professionDetail['pf_profession_tags'] = input::get('pf_profession_tags');
-        $professionDetail['pf_certifications'] = implode(',', input::get('pf_certifications'));
         $professionDetail['pf_subjects'] = implode(',', input::get('pf_subjects'));
         $secondary_baskets = input::get('pf_related_basket');
             
@@ -158,11 +161,26 @@ class ProfessionManagementController extends Controller {
         $response = $this->professionsRepository->saveProfessionDetail($professionDetail); 
         Cache::forget('professions');
         if ($response) {
-            // $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
-            // foreach ($teenagers AS $key => $value) {
-            //     $message = 'Profession "' .$professionDetail['pf_name'].'" has been added/updated in ProTeen!';
-            //     $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
-            // }
+            if(isset($professionDetail['id']) && $professionDetail['id'] != '' && $professionDetail['id'] > 0){
+                $profession_Id = Input::get('id');
+                $this->objProfessionWiseCertification->deleteProfessionWiseCertificationByProfessionId($profession_Id);
+            }
+            else{
+                $profession_Id = $response->id;
+                $checkProfessionWiseCertificationByProfessionId = $this->objProfessionWiseCertification->getProfessionWiseCertificationByProfessionId($profession_Id);
+                if(count($checkProfessionWiseCertificationByProfessionId)>0){
+                    return Redirect::to("admin/professions".$postData['pageRank'])->with('error',trans('labels.professionwisecertificationdataalreadyaddedforprofession'));
+                }
+            }
+            $certificateId = Input::get('certificate_id');
+            if(!empty($certificateId)){
+                foreach ($certificateId as $value) {
+                    $professionWiseCertificationData = [];
+                    $professionWiseCertificationData['profession_id'] = $profession_Id;
+                    $professionWiseCertificationData['certificate_id'] = $value;
+                    $response = $this->objProfessionWiseCertification->insertUpdate($professionWiseCertificationData);
+                }
+            }
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_PROFESSIONS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.professionupdatesuccess'), serialize($professionDetail), $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/professions".$postData['pageRank'])->with('success', trans('labels.professionupdatesuccess'));
         } else {
