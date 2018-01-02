@@ -127,3 +127,15 @@ CREATE TABLE `pro_v_versions` (
 
 //Add new table for Profession Wise Subjects ## 02-01-2018
 CREATE TABLE `proteen`.`pro_pws_professions_wise_subjects` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key' , `profession_id` INT NOT NULL , `subject_id` INT NOT NULL , `parameter_grade` ENUM('H','M','L') NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP NOT NULL , `deleted` TINYINT UNSIGNED NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted' , PRIMARY KEY (`id`)) ENGINE = MyISAM;
+
+//Add new table for teenager connections ##02-01-2018
+CREATE TABLE IF NOT EXISTS `pro_tc_teen_connections` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `tc_sender_id` bigint(20) UNSIGNED NOT NULL,
+  `tc_receiver_id` bigint(20) UNSIGNED NOT NULL,
+  `tc_read_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 - Unread, 1 - Read',
+  `tc_status` int(1) NOT NULL DEFAULT '0' COMMENT '0 - Pending, 1 - Accept, 2 - Reject',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

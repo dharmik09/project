@@ -21,14 +21,29 @@
             <div class="profile-detail member-detail">
                 <div class="row">
                     <div class="col-sm-3">
-                        <div class="profile-img" style="background-image: url('{{ Storage::url('img/alex.jpg') }}')">
-
+                        <?php
+                        if(isset($teenDetails->t_photo) && $teenDetails->t_photo != '') {
+                            $teenPhoto = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH').$teenDetails->t_photo;
+                        } else {
+                            $teenPhoto = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+                        }
+                        ?>
+                        <div class="profile-img" style="background-image: url('{{ Storage::url($teenPhoto) }}')">
                         </div>
                     </div>
+                    <?php
+                        if($teenDetails->t_pincode != "")
+                        {
+                            $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$teenDetails->t_pincode.'&sensor=true');
+                            $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+                        } else {
+                            $getCityArea = ( $teenDetails->getCountry->c_name != "" ) ? $teenDetails->getCountry->c_name : "Default";
+                        }
+                        ?>
                     <div class="col-sm-9">
-                        <h1>Alex Murphy</h1>
+                        <h1>{{$teenDetails->t_name}}</h1>
                         <ul class="area-detail">
-                            <li>Miami Area</li>
+                            <li>{{ $getCityArea }} Area</li>
                             <li>87 Connections </li>
                         </ul>
                         <ul class="social-media">
@@ -148,86 +163,20 @@
                             </div>
                         </div>
                         <ul class="badge-list interest-list clearfix">
+                            @forelse($teenagerInterest as $interestKey => $interestValue)
+                            <?php if($interestValue < 1) { continue; } ?>
                             <li>
                                 <figure>
-                                    <!--<img src="img/my-interest.png" alt="interest img">-->
                                     <div class="progress-radial progress-90 progress-orange">
                                     </div>
-                                    <figcaption>Interest 1</figcaption>
+                                    <figcaption><?php echo Helpers::getInterestBySlug($interestKey); ?></figcaption>
                                 </figure>
                             </li>
+                            @empty
                             <li>
-                                <figure>
-                                    <!--<img src="img/my-interest.png" alt="interest img">-->
-                                    <div class="progress-radial progress-95 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 2</figcaption>
-                                </figure>
+                                No Records found.
                             </li>
-                            <li>
-                                <figure>
-                                    <!-- <img src="img/my-interest-1.png" alt="interest img">-->
-                                    <div class="progress-radial progress-75 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 3</figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure>
-                                    <!--<img src="img/my-interest-1.png" alt="interest img">-->
-                                    <div class="progress-radial progress-95 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 4</figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure>
-                                    <!--<img src="img/my-interest-1.png" alt="interest img">-->
-                                    <div class="progress-radial progress-60 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 5</figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure>
-                                    <!--<img src="img/my-interest-1.png" alt="interest img">-->
-                                    <div class="progress-radial progress-65 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 6</figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure>
-                                    <!--<img src="img/my-interest-1.png" alt="interest img">-->
-                                    <div class="progress-radial progress-30 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 7</figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure>
-                                    <!--<img src="img/my-interest-2.png" alt="interest img">-->
-                                    <div class="progress-radial progress-80 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 8</figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure>
-                                    <!--<img src="img/my-interest-2.png" alt="interest img">-->
-                                    <div class="progress-radial progress-75 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 9</figcaption>
-                                </figure>
-                            </li>
-                            <li>
-                                <figure>
-                                    <!--<img src="img/my-interest-2.png" alt="interest img">-->
-                                    <div class="progress-radial progress-80 progress-orange">
-                                    </div>
-                                    <figcaption>Interest 10</figcaption>
-                                </figure>
-                            </li>
+                            @endforelse
                         </ul>
                     </div>
                     <div id="menu2" class="tab-pane fade">
@@ -241,81 +190,21 @@
                         </div>
                         <div class="strength-list">
                             <ul class="badge-list interest-list clearfix">
+                                @forelse($teenagerStrength as $strengthKey => $strengthValue)
+                                <?php $imageChart = "img/My_chart-".$strengthValue['score'].".png"; ?>
                                 <li>
                                     <figure>
                                         <!--<img src="img/My_chart.png" alt="interest img">-->
                                         <div class="progress-radial progress-90">
                                         </div>
-                                        <figcaption>Strength 1</figcaption>
+                                        <figcaption>{{ $strengthValue['name'] }}</figcaption>
                                     </figure>
                                 </li>
+                                @empty
                                 <li>
-                                    <figure>
-                                        <!--<img src="img/My_chart.png" alt="interest img">--><div class="progress-radial progress-25">
-                                        </div>
-                                        <figcaption>Strength 2</figcaption>
-                                    </figure>
+                                    No Records found.
                                 </li>
-                                <li>
-                                    <figure>
-                                        <!--<img src="img/My_chart2.png" alt="interest img">-->
-                                        <div class="progress-radial progress-70">
-                                        </div>
-                                        <figcaption>Strength 3</figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                       <!--<img src="img/My_chart2.png" alt="interest img">-->
-                                       <div class="progress-radial progress-65">
-                                        </div>
-                                        <figcaption>Strength 4</figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                        <!--<img src="img/My_chart2.png" alt="interest img">-->
-                                        <div class="progress-radial progress-85">
-                                        </div>
-                                        <figcaption>Strength 5</figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                        <!--<img src="img/My_chart2.png" alt="interest img">-->
-                                        <div class="progress-radial progress-55">
-                                        </div>
-                                        <figcaption>Strength 6</figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                        <!--<img src="img/My_chart2.png" alt="interest img">--><div class="progress-radial progress-90">
-                                        </div>
-                                        <figcaption>Strength 7</figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                        <!--<img src="img/My_chart3.png" alt="interest img">--><div class="progress-radial progress-95">
-                                        </div>
-                                        <figcaption>Strength 8</figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                        <!--<img src="img/My_chart3.png" alt="interest img">--><div class="progress-radial progress-85">
-                                        </div>
-                                        <figcaption>Strength 9</figcaption>
-                                    </figure>
-                                </li>
-                                <li>
-                                    <figure>
-                                        <!--<img src="img/My_chart3.png" alt="interest img">--><div class="progress-radial progress-80">
-                                        </div>
-                                        <figcaption>Strength 10</figcaption>
-                                    </figure>
-                                </li>
+                                @endforelse
                             </ul>
                         </div>
                     </div>
@@ -328,39 +217,33 @@
                                 </div>
                             </div>
                         </div>
+                        @forelse($myConnections as $myConnection)
                         <div class="team-list">
                             <div class="flex-item">
                                 <div class="team-detail">
                                     <div class="team-img">
-                                        <img src="{{ Storage::url('img/ellen.jpg') }}" alt="team">
+                                        <?php
+                                            if(isset($myConnection->t_photo) && $myConnection->t_photo != '') {
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$newConnection->t_photo;
+                                            } else {
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+                                            }
+                                        ?>
+                                        <img src="{{ Storage::url($teenImage) }}" alt="team">
                                     </div>
-                                    <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
+                                    <a href="#" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
                                 </div>
                             </div>
                             <div class="flex-item">
                                 <div class="team-point">
-                                    520,000 points
+                                    {{ $myConnection->t_coins }} points
                                     <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="team-list">
-                            <div class="flex-item">
-                                <div class="team-detail">
-                                    <div class="team-img">
-                                        <img src="{{ Storage::url('img/alex.jpg') }}" alt="team">
-                                    </div>
-                                    <a href="#" title="Alex Murphy">Alex Murphy</a>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <div class="team-point">
-                                    515,000 points
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                                </div>
-                            </div>
-                        </div>
-
+                        @empty
+                            No Connections found.
+                        @endforelse
                     </div>
                 </div>
             </div>
