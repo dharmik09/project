@@ -39,6 +39,14 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
 	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
 	Route::post('/getParentList', 'Webservice\ParentController@getParentList');
+	//First Level Part 1 Question/Answer Route
+	Route::post('/getLevel1Questions', 'Webservice\level1ActivityController@getFirstLevelActivity');
+	Route::post('/submitLevel1Answers', 'Webservice\level1ActivityController@saveFirstLevelActivity');
+	//Education & Achievement Route
+	Route::post('/getTeenagerAcademicInfo', 'Webservice\DashboardController@getTeenagerAcademicInfo');
+	Route::post('/saveTeenagerAcademicInfo', 'Webservice\DashboardController@saveTeenagerAcademicInfo');
+	Route::post('/getTeenagerAchievementInfo', 'Webservice\DashboardController@getTeenagerAchievementInfo');
+	Route::post('/saveTeenagerAchievementInfo', 'Webservice\DashboardController@saveTeenagerAchievementInfo');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

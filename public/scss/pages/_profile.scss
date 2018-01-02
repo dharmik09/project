@@ -1774,7 +1774,7 @@ span.password-info {
         //display: none !important;
         position: absolute;
         width: 110px;
-        height: 121px;
+        height: 100%;
         opacity: 0;
         cursor: pointer;
         transition: 0.3s all ease-out;
@@ -1853,7 +1853,13 @@ span.password-info {
 
     }
     .top-status {
-        margin: 40px 0;
+        margin: 70px 0;
+        @include maxsm{
+            margin: 0px 0 30px;
+        }
+        @include maxms{
+            margin: 20px 0;
+        }
     }
     .left-selection-box {
         // float: left;

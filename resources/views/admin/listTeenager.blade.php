@@ -1,8 +1,6 @@
 @extends('layouts.admin-master')
 
-
 @section('content')
-
 <section class="content-header">
     <h1>
         <div class="col-md-7">
