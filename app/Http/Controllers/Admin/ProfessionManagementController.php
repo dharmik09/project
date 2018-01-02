@@ -201,16 +201,16 @@ class ProfessionManagementController extends Controller {
                     
                     $professtionDetail = [];
                     $professtionDetail['pf_name'] = trim($row['profession_name']);
-                    $professtionDetail['pf_video'] = trim($row['profession_video']);
+                  //  $professtionDetail['pf_video'] = trim($row['profession_video']);
 
                     $basketDetail = [];
                     $basketDetail['b_name'] = $row['basket_name'];
-                    $basketDetail['b_video'] = $row['basket_video'];
+                 //   $basketDetail['b_video'] = $row['basket_video'];
 
                     $headerTitle = [];
                     $headerDetail = [];
                     foreach ($row as $key => $value) {
-                        if($key != "profession_name" && $key != "profession_video" && $key != "basket_name" && $key != "basket_video"){
+                        if($key != "profession_name" && $key != "basket_name"){
                             $headerTitle[] = $key;
                             $headerDetail[] = $value;
                         }
