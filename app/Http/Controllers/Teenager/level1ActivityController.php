@@ -14,7 +14,7 @@ use Image;
 use Helpers;
 use App\Level1Activity;
 
-class level1ActivityController extends Controller
+class Level1ActivityController extends Controller
 {
     /**
      * Create a new controller instance.
