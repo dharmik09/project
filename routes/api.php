@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::group([ 'middleware' => ['api-outside'] ], function () {
+	Route::post('/apiVersion', 'Webservice\RestLessController@apiVersion');
 	Route::post('/login', 'Webservice\LoginController@login');
 	Route::post('/getCountryList', 'Webservice\RestLessController@getCountryList');
 	Route::post('/getSponsors', 'Webservice\RestLessController@getSponsors');

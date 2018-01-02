@@ -11,8 +11,11 @@ use Helpers;
 use Config;
 use Storage;
 use App\Country;
+use App\VersionsList;
 use App\State;
 use App\City;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class RestLessController extends Controller
 {
@@ -23,9 +26,39 @@ class RestLessController extends Controller
         $this->objCountry = new Country();
         $this->objState = new State();
         $this->objCity = new City();
+        $this->objVersionsList = new VersionsList();
         $this->sponsorsRepository = $sponsorsRepository;
         $this->sponsorOriginalImageUploadPath = Config::get('constant.SPONSOR_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->sponsorThumbImageUploadPath = Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH');
+        $this->log = new Logger('api-restless-controller');
+        $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
+    }
+
+    /* Request Params : apiVersion
+    *  loginToken //If service call from update profile
+    *  Maintain force-update and upddate availables using response params
+    */
+    public function apiVersion(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $this->log->info('Get Versions list from table', array('api-name'=> 'apiVersion'));
+        $getVersionsList = $this->objVersionsList->first(['force_update', 'ios_version', 'android_version', 'web_version']);
+        
+        if($getVersionsList) {
+            $response['data'] = $getVersionsList->toArray();
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+        } else {
+            $response['message'] = "Versions list not found!";
+        }
+
+        if(isset($request->loginToken) && $request->loginToken != "") {
+            $this->log->info('Get Versions list with login - apiVersion', array('api-name'=> 'apiVersion'));
+            $response['login'] = 1;
+        }
+        $this->log->info('Api - response', array('api-name'=> 'apiVersion'));
+        return response()->json($response, 200);
+        exit;
     }
 
     /* Request Params : getCountryList
