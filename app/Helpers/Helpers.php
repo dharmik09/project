@@ -1103,6 +1103,14 @@ Class Helpers {
         return $finalData;
     }
 
+    public static function getTeenagerEducationData($teenagerId) {
+        return DB::table(config::get('databaseconstants.TBL_TEENAGER_META_DATA'))->where(['tmd_teenager' => $teenagerId, 'tmd_meta_id' => 2])->first();
+    }
+
+    public static function getTeenagerAchievementData($teenagerId) {
+        return DB::table(config::get('databaseconstants.TBL_TEENAGER_META_DATA'))->where(['tmd_teenager' => $teenagerId, 'tmd_meta_id' => 1])->first();
+    }
+
     public static function getPriviouslyAttemptedQuestionId($teenagerId) {
 
         $answers = DB::table(config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " AS answer")

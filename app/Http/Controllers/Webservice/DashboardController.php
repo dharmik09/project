@@ -19,6 +19,8 @@ use Storage;
 use Carbon\Carbon;
 use Image;
 use Input;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class DashboardController extends Controller
 {
@@ -36,11 +38,12 @@ class DashboardController extends Controller
         $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
+        $this->log = new Logger('api-restless-controller');
+        $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
 
     /* Request Params : updateProfile
     *  loginToken, userId, name, lastname, email, country, pincode, gender, month, day, year, selected_sponsor, mobile, phone, proteen_code, photo, password, public_profile, share_with_members, share_with_parents, notifications, share_with_teachers, t_view_information
-    *  No loginToken required because it's call without loggedin user
     */
     public function updateProfile(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
@@ -182,4 +185,114 @@ class DashboardController extends Controller
         return response()->json($response, 200);
         exit;
     }
+
+    /* Request Params : getTeenagerAcademicInfo
+    *  loginToken, userId
+    */
+    public function getTeenagerAcademicInfo(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
+        if($checkUserExist) {
+            $teenagerMeta = Helpers::getTeenagerEducationData($request->userId);
+            $data = ($teenagerMeta) ? $teenagerMeta : [];
+            $response['data'] = $data;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['status'] = 1;
+        } else {
+            $response['message'] = "Something went wrong!";
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getTeenagerAchievementInfo
+    *  loginToken, userId
+    */
+    public function getTeenagerAchievementInfo(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
+        if($checkUserExist) {
+            $teenagerMeta = Helpers::getTeenagerAchievementData($request->userId);
+            $data = ($teenagerMeta) ? $teenagerMeta : [];
+            $response['data'] = $data;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['status'] = 1;
+        } else {
+            $response['message'] = "Something went wrong!";
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : saveTeenagerAcademicInfo
+    *  loginToken, userId, metaValue, metaValueId, metaId = 2
+    */
+    public function saveTeenagerAcademicInfo(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
+        
+        if($checkUserExist && $request->metaValueId != "") {
+            $request->metaValue = trim($request->metaValue);
+            if($request->metaValue == "") {
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['message'] = 'Please enter the data';
+                return response()->json($response, 200);
+                exit;
+            }
+            $data['tmd_teenager'] = $request->userId;
+            $data['tmd_meta_id'] = 2; //Use '2' for education
+            $data['tmd_meta_value'] = $request->metaValue;
+            $data['id'] = $request->metaValueId;
+            $this->teenagersRepository->saveTeenagerMetaData($data);
+            
+            $teenagerMeta = Helpers::getTeenagerEducationData($request->userId);
+            $data = ($teenagerMeta) ? $teenagerMeta : [];
+            $response['data'] = $data;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['status'] = 1;
+        } else {
+            $response['message'] = "Something went wrong!";
+        }
+        return response()->json($response, 200);
+        exit;
+    } 
+
+    /* Request Params : saveTeenagerAchievementInfo
+    *  loginToken, userId, metaValue, metaValueId, metaId = 1
+    */
+    public function saveTeenagerAchievementInfo(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
+        
+        if($checkUserExist && $request->metaValueId != "") {
+            $request->metaValue = trim($request->metaValue);
+            if($request->metaValue == "") {
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['message'] = 'Please enter the data';
+                return response()->json($response, 200);
+                exit;
+            }
+            $data['tmd_teenager'] = $request->userId;
+            $data['tmd_meta_id'] = 1; //Use '1' for Achievement
+            $data['tmd_meta_value'] = $request->metaValue;
+            $data['id'] = $request->metaValueId;
+            $this->teenagersRepository->saveTeenagerMetaData($data);
+            
+            $teenagerMeta = Helpers::getTeenagerAchievementData($request->userId);
+            $data = ($teenagerMeta) ? $teenagerMeta : [];
+            $response['data'] = $data;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['status'] = 1;
+        } else {
+            $response['message'] = "Something went wrong!";
+        }
+        return response()->json($response, 200);
+        exit;
+    }    
 }
