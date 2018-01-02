@@ -21,15 +21,8 @@
 ?>
 <div class="opinion-result" style="display:none;">
     <div class="row">
-        <div class="col-xs-12">
-            <div class="top-status clearfix">
-                <div class="left-selection-box">
-                    Total Votes<br> {{$totalTrend}}
-                </div>
-            </div>
-        </div>
         @foreach($firstLevelAnswerTrend as $trend)
-        <div class="col-xs-4">
+        <div class="col-sm-3 col-xs-4">
             <div class="progress progress-bar-vertical">
                 <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="height: {{round($trend['percentage'])}}%;">
                     <span class="sr-only">{{round($trend['percentage'])}}%</span>
@@ -38,6 +31,13 @@
             <span class="bottom">{{$trend['label']}}</span>
         </div>
         @endforeach
+        <div class="col-sm-3 col-xs-12">
+            <div class="top-status clearfix">
+                <div class="left-selection-box">
+                    Total Votes<br> {{$totalTrend}}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endif

@@ -1778,6 +1778,13 @@ span.password-info {
         opacity: 0;
         cursor: pointer;
         transition: 0.3s all ease-out;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999;
+        top: -7px;
+        @include maxms{
+            width:73%;
+        }
     }
 
     /*.label_item {
@@ -1788,8 +1795,14 @@ span.password-info {
         transform: scale(1.1);
         transition: 0.3s all ease-out;
     }
+    .radio_item:checked + label span,.radio_item:hover + label span{
+        color: $cl-complete;
+    }
     label {
-        cursor: pointer;
+        cursor: pointer;z-index: -9;
+        img{
+            transition: 0.3s all ease-out;
+        }
     }
     [class*=col-] {
         &:nth-of-type(2) {
@@ -1864,6 +1877,9 @@ span.password-info {
         font-family: hn-b;
         margin: 15px 0 50px;
         color: $lightgrey;
+        @include maxms{
+            margin: 15px 0 10px;
+        }
     }
 }
 
@@ -2025,6 +2041,7 @@ span.password-info {
                     background: rgba(255, 95, 68, .7);
                     opacity: 0;
                     transition: all 0.5s;
+                    border-radius: 10px;
                 }
             }
             .title {

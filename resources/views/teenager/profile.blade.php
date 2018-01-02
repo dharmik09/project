@@ -141,7 +141,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="postal (zip) code*" tabindex="8" value="{{ $user->t_pincode }}">
+                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="zip code *" tabindex="8" value="{{ $user->t_pincode }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
@@ -372,12 +372,12 @@
             </div>
             <h2>Personal Survey</h2>
             <div class="survey-list">
-                <div class="opinion-sec show" id="opinionSection" style="display:none;">
-                    <!-- @include('teenager/basic/level1Question') -->
+                <div class="opinion-sec" id="opinionSection" style="display:none;">
+                
                 </div>
             </div>
-            <p>Choose three traits that you feel describe you:</p>
-            <div class="survey-list">
+            <!-- <p>Choose three traits that you feel describe you:</p> -->
+            <!-- <div class="survey-list">
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-xs-6">
                         <div class="ck-button">
@@ -429,7 +429,7 @@
                     <span class="icon"><i class="icon-arrow-spring"></i></span>
                     <a href="#" title="Next">Next</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- sec personal survey end-->
@@ -862,7 +862,7 @@
                     required: "Country is required"
                 },
                 pincode: {
-                    required: "Pincode is required",
+                    required: "Zipcode is required",
                 },
                 gender: {
                     required: "Gender is required",
@@ -877,7 +877,7 @@
                     required: "Day is required",
                 },
                 'selected_sponsor[]': {
-                    required: "Select at least one sponsor",
+                    required: "Please select atleast one sponsor",
                 },
                 mobile: {
                     required: "Mobile is required",

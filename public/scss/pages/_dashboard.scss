@@ -199,6 +199,12 @@ h6 {
                 @include maxms{
                     min-height: auto;
                 }
+                a{
+                    color: $r-cl;
+                    &:hover{
+                        color: $cl-complete;
+                    }
+                }
             }
         }
         p {
