@@ -97,6 +97,10 @@ use App\Services\Reports\Contracts\ReportsRepository;
 use App\Reports;
 use App\Services\Reports\Repositories\EloquentReportsRepository;
 
+use App\Services\Community\Contracts\CommunityRepository;
+use App\Community;
+use App\Services\Community\Repositories\EloquentCommunityRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -206,6 +210,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ReportsRepository::class, function () {
             return new EloquentReportsRepository(new Reports());
+        });
+
+        $this->app->bind(CommunityRepository::class, function () {
+            return new EloquentCommunityRepository(new Community());
         });
     }
 }
