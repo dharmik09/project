@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::group([ 'middleware' => ['api-outside'] ], function () {
+	Route::post('/apiVersion', 'Webservice\RestLessController@apiVersion');
 	Route::post('/login', 'Webservice\LoginController@login');
 	Route::post('/getCountryList', 'Webservice\RestLessController@getCountryList');
 	Route::post('/getSponsors', 'Webservice\RestLessController@getSponsors');
@@ -38,6 +39,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
 	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
 	Route::post('/getParentList', 'Webservice\ParentController@getParentList');
+
+	Route::post('/getLevel1Questions', 'Webservice\level1ActivityController@getFirstLevelActivity');
+	Route::post('/submitLevel1Answers', 'Webservice\level1ActivityController@saveFirstLevelActivity');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -1132,7 +1132,7 @@ Class Helpers {
     }
 
     //Calculate Level1 question trend
-    public static function calculateTrendForLevel1($activityId,$type) {
+    public static function calculateTrendForLevel1($activityId, $type) {
         $Percenticon = '';
         $questionArray = ['1' => ['No', 'Not Sure'], '2' => ['As per my expectations', 'Below my expectations'], '3' => ['Yes', 'Sometimes'],
             '4' => ['Sometimes', 'No'], '5' => ['Sometimes', 'Rarely'], '6' => ['Sometimes', 'Rarely'], '7' => ['Maybe', 'No'],

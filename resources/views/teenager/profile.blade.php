@@ -372,12 +372,12 @@
             </div>
             <h2>Personal Survey</h2>
             <div class="survey-list">
-                <div class="opinion-sec show" id="opinionSection" style="display:none;">
-                    <!-- @include('teenager/basic/level1Question') -->
+                <div class="opinion-sec" id="opinionSection" style="display:none;">
+                
                 </div>
             </div>
-            <p>Choose three traits that you feel describe you:</p>
-            <div class="survey-list">
+            <!-- <p>Choose three traits that you feel describe you:</p> -->
+            <!-- <div class="survey-list">
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-xs-6">
                         <div class="ck-button">
@@ -429,7 +429,7 @@
                     <span class="icon"><i class="icon-arrow-spring"></i></span>
                     <a href="#" title="Next">Next</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- sec personal survey end-->

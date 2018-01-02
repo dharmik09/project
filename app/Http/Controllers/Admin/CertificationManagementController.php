@@ -131,13 +131,17 @@ class CertificationManagementController extends Controller
     }
 
     public function professionWiseCertificationSave(ProfessionWiseCertificationRequest $professionWiseCertificationRequest) {
-        $checkProfessionWiseCertificationByProfessionId = $this->objProfessionWiseCertification->getProfessionWiseCertificationByProfessionId(Input::get('profession_id'));
-        if(count($checkProfessionWiseCertificationByProfessionId)>0){
-            return Redirect::to("admin/professionWiseCertifications")->with('error',trans('labels.professionwisecertificationdataalreadyaddedforprofession'));
-        }
+
         if(Input::get('delete_id'))
         {
             $this->objProfessionWiseCertification->deleteProfessionWiseCertificationByProfessionId(Input::get('delete_id'));
+        }
+        else
+        {
+            $checkProfessionWiseCertificationByProfessionId = $this->objProfessionWiseCertification->getProfessionWiseCertificationByProfessionId(Input::get('profession_id'));
+            if(count($checkProfessionWiseCertificationByProfessionId)>0){
+                return Redirect::to("admin/professionWiseCertifications")->with('error',trans('labels.professionwisecertificationdataalreadyaddedforprofession'));
+            }
         }
         $certificateId = Input::get('certificate_id');
         foreach ($certificateId as $value) {
@@ -158,12 +162,13 @@ class CertificationManagementController extends Controller
         $path = Input::file('p_bulk')->getRealPath();
 
         $results = Excel::load($path, function($reader) {})->get();
-        
-        foreach ($results[0] as $key => $value) {
-            if($key != 'profession_name'){
-                $certificateData = $this->objCertification->getProfessionCertificationByName($key);
+        $data = Excel::load($path, function($reader) { $reader->noHeading = true; }, 'ISO-8859-1')->get();
+
+        foreach ($data[0] as $key => $value) {
+            if($value != 'profession_name'){
+                $certificateData = $this->objCertification->getProfessionCertificationByName($value);
                 if (!$certificateData){
-                    return Redirect::to("admin/professionWiseCertifications")->with('error',$key.' '.trans('labels.professionwisecertificationbulkuploadcertificatenotfound'));
+                    return Redirect::to("admin/professions")->with('error',$value.' '.trans('labels.professionwisecertificationbulkuploadcertificatenotfound'));
                 }
             }
         }
@@ -171,7 +176,7 @@ class CertificationManagementController extends Controller
         foreach ($results as $key => $value) {
                 $professionsData = $this->objProfessions->getProfessionByName($value['profession_name']);
                 if (!$professionsData){
-                    return Redirect::to("admin/professionWiseCertifications")->with('error',$value['profession_name'].' '.trans('labels.professionwisecertificationbulkuploadprofessionnotfound'));
+                    return Redirect::to("admin/professions")->with('error',$value['profession_name'].' '.trans('labels.professionwisecertificationbulkuploadprofessionnotfound'));
                 }
         }
 
@@ -191,9 +196,9 @@ class CertificationManagementController extends Controller
         }
         
         if($response) {
-            return Redirect::to("admin/professionWiseCertifications")->with('success', trans('labels.professionwisecertificationbulkuploadsuccess'));
+            return Redirect::to("admin/professions")->with('success', trans('labels.professionwisecertificationbulkuploadsuccess'));
         } else {
-            return Redirect::to("admin/professionWiseCertifications")->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("admin/professions")->with('error', trans('labels.commonerrormessage'));
         }
     }
 
