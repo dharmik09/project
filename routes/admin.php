@@ -330,7 +330,7 @@ Route::post('/headers', 'Admin\ProfessionHeadersManagementController@index')->na
 //Route::get('/headers/{page}', 'Admin\ProfessionHeadersManagementController@index')->name('');
 //Route::post('/headers/{page}', 'Admin\ProfessionHeadersManagementController@index')->name('');
 Route::get('/addHeader', 'Admin\ProfessionHeadersManagementController@add')->name('addHeader');
-Route::get('/editHeader/{id}', 'Admin\ProfessionHeadersManagementController@edit')->name('editHeader');
+Route::get('/editHeader/{id}/{countryId}', 'Admin\ProfessionHeadersManagementController@edit')->name('editHeader');
 Route::get('/deleteHeader/{id}', 'Admin\ProfessionHeadersManagementController@delete')->name('deleteHeader');
 Route::post('/saveHeader', 'Admin\ProfessionHeadersManagementController@save')->name('saveHeader');
 

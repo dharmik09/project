@@ -330,6 +330,7 @@ return [
     'header' => 'Profession Header',
     'headerblheadprofession' => 'Profession',
     'headerblheadtitle' => 'Title',
+    'headerblheadcountry' => 'Country',
     'headerblheadstatus' => 'Status',
     'headerblheadaction' => 'Actions',
     'formlbltitle' => 'Title',
