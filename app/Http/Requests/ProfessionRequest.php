@@ -52,7 +52,7 @@ class ProfessionRequest extends Request
             'pf_logo.required' => trans('validation.photorequired'),
             'pf_logo.mimes' => trans('validation.validphotorequired'),
             'normal.mimes' => trans('validation.validvideorequired'),
-            'youtube.required' => trans('validation.statusrequired'),
+            'youtube.required' => trans('validation.youtuberequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }
