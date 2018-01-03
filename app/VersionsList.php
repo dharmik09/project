@@ -7,7 +7,7 @@ use DB;
 
 class VersionsList extends Model {
 
-    protected $table = 'pro_v_versions';
+    protected $table = 'pro_av_app_versions';
     protected $guarded = [];
 
 }
