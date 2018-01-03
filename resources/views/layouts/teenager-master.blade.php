@@ -33,7 +33,7 @@
                             <div class="submenu">
                                 <div class="user-snapshot">
                                     <div class="user-avatar">
-                                        <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size(Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : asset('uploads/teenager/thumb/proteen-logo.png'); ?>
+                                        <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : asset('uploads/teenager/thumb/proteen-logo.png'); ?>
                                         <a href="{{ url('teenager/home') }}" title="My Dashboard">
                                             <img src="{{ $user_profile_thumb_image }}">
                                         </a>

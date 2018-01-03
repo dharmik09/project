@@ -328,7 +328,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <button class="btn btn-submit" type="submit" title="a=Add">Add</button>
+                            <button class="btn btn-submit" type="submit" title="Add">Add</button>
                         </div>
                     </div>
                 </form>

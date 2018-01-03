@@ -128,29 +128,35 @@
                         </div>
 
                         <?php
-                        if (old('pf_profession_tags'))
-                            $pf_profession_tags = old('pf_profession_tags');
-                        elseif ($professionDetail)
-                            $pf_profession_tags = $professionDetail->pf_profession_tags;
+                        if (isset($professionDetail) && !empty($professionDetail))
+                        {
+                            if($professionDetail->tag_id != '' && $professionDetail->tag_id != 0){
+                                $value = explode(',',$professionDetail->tag_id);
+                            }else{
+                                $value = array(); 
+                            }
+                        }
                         else
-                            $pf_profession_tags = '';
+                        {
+                            $value = array(); 
+                        } 
                         ?>
-                        
+
                         <div class="form-group">
-                            <label for="pf_tags" class="col-sm-2 control-label">Enter Tags</label>
+                            <label for="tag_id" class="col-sm-2 control-label">Enter Tags</label>
                             <div class="col-sm-10">
-                                <textarea name="pf_profession_tags" class="form-control" id="pf_profession_tags" >{{$pf_profession_tags}}</textarea>
+                                <div class="form-check form-check-inline">
+                                    <select class="form-control chosen-select" id="tag_id" name="tag_id[]" multiple="multiple" data-placeholder="Choose a Tags...">
+                                        <option disabled>Select Tags</option>
+                                        @forelse ($tagList as $tagData)
+                                            <option value="{{$tagData->id}}" <?php foreach($value as $tag_id){ if(isset($tag_id) && ($tag_id == $tagData->id)){ echo 'selected'; }} ?>>{{ucfirst($tagData->pt_name)}}</option>
+                                        @empty
+                                            <label>{{trans('labels.lblnocertificateavailable')}}</label>
+                                        @endforelse
+                                    </select>
+                                </div>
                             </div>
                         </div>
-
-                        <?php
-                        if (old('pf_certifications'))
-                            $pf_certifications = old('pf_certifications');
-                        elseif ($professionDetail)
-                            $pf_certifications = $professionDetail->pf_certifications;
-                        else
-                            $pf_certifications = '';
-                        ?>
                         
                         <?php
                         if (isset($professionDetail) && !empty($professionDetail))
@@ -368,10 +374,10 @@
                 placeholder: 'Enter alias ...',
                 maxLength : 255
             });
-        $('#pf_profession_tags').tagEditor({
-                placeholder: 'Enter tags ...',
-                maxLength : 255
-            });
+        // $('#pf_profession_tags').tagEditor({
+        //         placeholder: 'Enter tags ...',
+        //         maxLength : 255
+        //     });
             
         var config = {
             '.chosen-select'           : {},
@@ -392,13 +398,10 @@
                 pf_basket : {
                     required : true
                 },
-                pf_profession_tags : {
+                pf_video_type : {
                     required : true
                 },
-                pf_certifications : {
-                    required : true
-                },
-                pf_subjects : {
+                youtube : {
                     required : true
                 },
                 deleted : {
@@ -413,13 +416,13 @@
                 pf_basket : {
                     required : true
                 },
-                pf_profession_tags : {
+                pf_video_type : {
                     required : true
                 },
-                pf_certifications : {
+                youtube : {
                     required : true
                 },
-                pf_subjects : {
+                pf_logo : {
                     required : true
                 },
                 deleted : {
@@ -438,13 +441,13 @@
                 pf_basket : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
-                pf_profession_tags : {
+                pf_video_type : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
-                pf_certifications : {
+                youtube : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
-                pf_subjects : {
+                pf_logo : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {

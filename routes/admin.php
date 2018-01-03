@@ -321,8 +321,8 @@ Route::get('/addProfessionWiseCertificationBulk', 'Admin\ProfessionManagementCon
 Route::post('/saveProfessionWiseCertificationBulk', 'Admin\ProfessionManagementController@professionWiseCertificationSaveBulk');
 Route::get('/addProfessionWiseSubjectBulk', 'Admin\ProfessionManagementController@professionWiseSubjectAddBulk');
 Route::post('/saveProfessionWiseSubjectBulk', 'Admin\ProfessionManagementController@professionWiseSubjectSaveBulk');
-
-
+Route::get('/addProfessionWiseTagBulk', 'Admin\ProfessionManagementController@professionWiseTagAddBulk');
+Route::post('/saveProfessionWiseTagBulk', 'Admin\ProfessionManagementController@professionWiseTagSaveBulk');
 
 //Profession Headers
 Route::get('/headers', 'Admin\ProfessionHeadersManagementController@index')->name('headers');
