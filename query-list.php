@@ -158,8 +158,8 @@ DROP TABLE `pro_v_versions`;
 //Added new table for manage app versions pro_av_app_versions #03-01-2018 BD
 CREATE TABLE `pro_av_app_versions` (
   `id` int(11) NOT NULL,
-  `force_update` tinyint(1) DEFAULT '0',
-  `device_type` varchar(100) DEFAULT NULL,
+  `force_update` tinyint(1) NOT NULL DEFAULT '0',
+  `device_type` tinyint(1) DEFAULT NULL,
   `message` text,
   `app_version` varchar(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -167,8 +167,8 @@ CREATE TABLE `pro_av_app_versions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `pro_av_app_versions` (`id`, `force_update`, `device_type`, `message`, `app_version`, `created_at`, `updated_at`) VALUES
-(1, 0, 'android', 'Success', '1', '2018-01-03 11:33:07', '2018-01-03 11:33:07'),
-(2, 0, 'ios', 'Success', '1', '2018-01-03 11:33:47', '2018-01-03 11:33:47');
+(1, 0, 1, 'Success', '1', '2018-01-03 11:33:07', '2018-01-03 12:49:13'),
+(2, 0, 2, 'Success', '1', '2018-01-03 11:33:47', '2018-01-03 12:49:21');
 
 ALTER TABLE `pro_av_app_versions`
   ADD PRIMARY KEY (`id`);
@@ -184,4 +184,3 @@ ALTER TABLE `pro_pf_profession`
   DROP `pf_profession_tags`,
   DROP `pf_certifications`,
   DROP `pf_subjects`;
-
