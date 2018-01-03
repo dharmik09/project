@@ -28,7 +28,7 @@ class LoginController extends Controller
     }
 
     /* Request Params : login
-    *  email, password, deviceId, deviceType
+    *  email, password, deviceId, deviceType, pushToken //pushToken is optional
     *  No loginToken required because it's call without loggedin user
     */
     public function login(Request $request)
@@ -75,7 +75,7 @@ class LoginController extends Controller
                         $userTokenDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
                         //Save Device Token Data
                         $saveData['tdt_user_id'] = $teenager->id;
-                        $saveData['tdt_device_token'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
+                        $saveData['tdt_device_token'] = ($request->pushToken != "") ? $request->pushToken : base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
                         $saveData['tdt_device_type'] = $request->deviceType;
                         $saveData['tdt_device_id'] = $request->deviceId;
                         $userDeviceDetails = $this->objDeviceToken->saveDeviceToken($saveData);
