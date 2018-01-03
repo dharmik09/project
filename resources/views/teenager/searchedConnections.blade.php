@@ -1,66 +1,14 @@
-@extends('layouts.teenager-master')
-
-@push('script-header')
-    <title>Community</title>
-@endpush
-
-@section('content')
-    <!-- mid section starts-->
-    <div class="bg-offwhite">
-    <div class="container">
-        <div class="top-heading text-center">
-            <h1>community</h1>
-            <p>You have <strong class="font-blue">23</strong> connections</p>
-        </div>
-        <div class="sec-filter network-filter">
-            <div class="row">
-                <div class="col-md-4 col-xs-6 sort-feild">
-                    <label>Sort by:</label>
-                    <div class="form-group custom-select">
-                        <select tabindex="1" class="form-control">
-                                <option value="high score">high score</option>
-                                <option value="moderate">moderate</option>
-                                <option value="low">low</option>
-                            </select>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-6 sort-feild sort-filter">
-                    <label>Filter by:</label>
-                    <div class="form-group custom-select w-cl">
-                        <select tabindex="8" class="form-control">
-                                  <option value="all interest">all interest</option>
-                                  <option value="Strong match">Strong match</option>
-                                  <option value="Potential match">Potential match</option>
-                                  <option value="Unlikely match">Unlikely match</option>
-                                </select>
-                    </div>
-                </div>
-                <form id="community_search_form" role="form" method="POST" action="{{ url('/teenager/search-community') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                    {{csrf_field()}}
-                    <div class="col-md-4 col-sm-12 sort-filter">
-                        <div class="form-group search-bar clearfix">
-                            <input type="text" id="search_community" name="search_community" placeholder="search" tabindex="1" class="form-control search-feild">
-                            <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!--sec progress-->
-    <section class="sec-progress sec-connection">
-        <div class="container">
-            <div class="bg-white my-progress existing-connection">
+<div class="bg-white my-progress">
                 <!--<ul class="nav nav-tabs progress-tab clearfix">
                     <li class="acheivement active col-md-6"><a data-toggle="tab" href="#menu1">Find New Connections </a></li>
                     <li class="career col-md-6"><a data-toggle="tab" href="#menu2">My Connections </a></li>
                 </ul>-->
                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                    <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Find New Connections</span></span></a></li>
-                    <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
+                    <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Find New Connections</span></span></a></li>
+                    <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu4"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="menu1" class="tab-pane fade in active">
+                    <div id="menu3" class="tab-pane fade in active">
                         @forelse($newConnections as $newConnection)
                         <div class="team-list">
                             <div class="flex-item">
@@ -92,7 +40,7 @@
                             <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
                         @endif
                     </div>
-                    <div id="menu2" class="tab-pane fade">
+                    <div id="menu4" class="tab-pane fade">
                        <div class="sec-popup">
                             <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
                                 <i class="icon-question">
@@ -139,35 +87,3 @@
                     </div>
                 </div>
             </div>
-            <div class="mySearch_area"></div>
-        </div>
-    </section>
-    <!--sec progress end-->
-    </div>
-    <!-- mid section end-->
-@stop
-
-@section('script')
-    <script>
-        $( "#search_community" ).keyup(function() {
-            search_keyword = $(this).val();
-            searchConnections = (search_keyword).trim();
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form_data = 'searchConnections=' + searchConnections;
-            $.ajax({
-                type: 'POST',
-                data: form_data,
-                url: "{{ url('/teenager/search-community') }}",
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN
-                },
-                cache: false,
-                success: function(data) {
-                    $('.existing-connection').hide();
-                    $('.mySearch_area').show();
-                    $('.mySearch_area').html(data);
-                }
-            });
-        });
-    </script>
-@stop

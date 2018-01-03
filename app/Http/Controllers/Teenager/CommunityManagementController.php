@@ -25,9 +25,17 @@ class CommunityManagementController extends Controller {
     public function index()
     {
         $loggedInTeen = Auth::guard('teenager')->user()->id;
-        $newConnections = $this->communityRepository->getNewConnections($loggedInTeen);
-        $myConnections = $this->communityRepository->getMyConnections($loggedInTeen);
-        return view('teenager.community', compact('newConnections', 'myConnections'));
+        $searchConnections = Input::get('searchConnections');
+        if (isset($searchConnections) && !empty($searchConnections)) {
+            $newConnections = $this->communityRepository->getNewConnections($loggedInTeen, $searchConnections);
+            $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, $searchConnections);
+            return view('teenager.searchedConnections', compact('newConnections', 'myConnections'));
+
+        } else {
+            $newConnections = $this->communityRepository->getNewConnections($loggedInTeen, array());
+            $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, array());
+            return view('teenager.community', compact('newConnections', 'myConnections'));
+        }
     }
 
     public function getMemberDetails($teenId)
@@ -54,6 +62,11 @@ class CommunityManagementController extends Controller {
         }
         $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
         return view('teenager.networkMember', compact('teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest'));
+    }
+
+    public function searchConnections()
+    {
+
     }
 
 }

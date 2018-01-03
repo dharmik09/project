@@ -69,6 +69,7 @@ Route::get('/career-tag', function() {
 
 //Community
 Route::get('/community', 'Teenager\CommunityManagementController@index');
+Route::post('/search-community', 'Teenager\CommunityManagementController@index')->name('search-community');
 
 Route::get('/learning-guidance', function() {
 	return view('teenager.learningGuidance');
