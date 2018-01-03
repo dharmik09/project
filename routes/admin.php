@@ -437,7 +437,7 @@ Route::get('/professionWiseCertifications', 'Admin\CertificationManagementContro
 Route::get('/addProfessionWiseCertification', 'Admin\CertificationManagementController@professionWiseCertificationAdd')->name('pwc_add');
 Route::post('/saveProfessionWiseCertification', 'Admin\CertificationManagementController@professionWiseCertificationSave')->name('pwc_save');
 // Route::post('/saveProfessionWiseCertificationBulk', 'Admin\CertificationManagementController@professionWiseCertificationSaveBulk')->name('pwc_add_bulk');
-// Route::get('/editProfessionWiseCertification/{id}', 'Admin\CertificationManagementController@professionWiseCertificationEdit')->name('pwc_edit');
+Route::get('/editProfessionWiseCertification/{id}', 'Admin\CertificationManagementController@professionWiseCertificationEdit')->name('pwc_edit');
 Route::get('/deleteProfessionWiseCertification/{id}', 'Admin\CertificationManagementController@professionWiseCertificationDelete')->name('pwc_delete');
 
 //Profession Subjects
@@ -448,3 +448,9 @@ Route::post('/saveProfessionSubject', 'Admin\ProfessionSubjectManagementControll
 Route::get('/editProfessionSubject/{id}', 'Admin\ProfessionSubjectManagementController@edit')->name('editProfessionSubject');
 Route::get('/deleteProfessionSubject/{id}', 'Admin\ProfessionSubjectManagementController@delete')->name('deleteProfessionSubject');
 
+//Profession Tags
+Route::get('/professionTags', 'Admin\ProfessionTagManagementController@index');
+Route::get('/addProfessionTag', 'Admin\ProfessionTagManagementController@add');
+Route::post('/saveProfessionTag', 'Admin\ProfessionTagManagementController@save');
+Route::get('/editProfessionTag/{id}', 'Admin\ProfessionTagManagementController@edit');
+Route::get('/deleteProfessionTag/{id}', 'Admin\ProfessionTagManagementController@delete');

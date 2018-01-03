@@ -696,4 +696,12 @@ return [
     'formprofessionwisesubjectbulkupload' => 'Profession wise subject bulk upload',
     'professionwiseSubjectbulkuploadcertificatenotfound' => 'Subejct not found. Please add new Subejct or check certificate name in excel',
     'professionwisesubjectbulkuploadsuccess' => 'Profession wise Subject uploaded successfully',
+    'professiontagname' => 'Name',
+    'professiontagimage' => 'Image',
+    'professiontagdescription' => 'Description',
+    'professiontagaction' => 'Actions',
+    'professiontag' => 'Profession Tag',
+    'professiontags' => 'Profession Tags',
+    'professiontagupdatesuccess' => 'Profession tag updated successfully',
+    'professiontagdeletesuccess' => 'Profession tag deleted successfully',
 ];
