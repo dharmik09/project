@@ -78,6 +78,4 @@ Route::get('/learning-guidance', function() {
 Route::get('/my-network', function() {
 	return view('teenager.network');
 });
-Route::get('/network-member', function() {
-	return view('teenager.networkMember');
-});
+Route::get('/network-member/{id}', 'Teenager\CommunityManagementController@getMemberDetails');

@@ -72,7 +72,7 @@
                                         ?>
                                         <img src="{{ Storage::url($teenPhoto) }}" alt="team">
                                     </div>
-                                    <a href="#" title="{{ $newConnection->t_name }}"> {{ $newConnection->t_name }}</a>
+                                    <a href="{{ url('teenager/network-member') }}/{{$newConnection->id}}" title="{{ $newConnection->t_name }}"> {{ $newConnection->t_name }}</a>
                                 </div>
                             </div>
                             <div class="flex-item">
@@ -117,7 +117,7 @@
                                         ?>
                                         <img src="{{ Storage::url($teenImage) }}" alt="team">
                                     </div>
-                                    <a href="#" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
+                                    <a href="{{ url('teenager/network-member') }}/{{$myConnection->id}}" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
                                 </div>
                             </div>
                             <div class="flex-item">
