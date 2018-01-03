@@ -268,115 +268,210 @@ class DashboardController extends Controller
     }
 
     //Save parent/mentor and teen pair data
-    public function savepair(TeenagerPairRequest $request) {
+    public function savePair(TeenagerPairRequest $request) {
         $teenager = Auth::guard('teenager')->user();
-        $postData = Input::all();
-        if (!empty($postData)) {
-            $parentEmailExist = '';
-            $parentDetail = [];
-            //$parentDetail['id'] = (isset($postData['p_id']) && $postData['p_id'] != '') ? $postData['p_id'] : 0;
-            $parentDetail['p_email'] = (isset($postData['parent_email']) && $postData['parent_email'] != '') ? $postData['parent_email'] : '';
-            $parentDetail['p_user_type'] = (isset($postData['p_user_type']) && $postData['p_user_type'] != '') ? $postData['p_user_type'] : '';
-            $parentDetail['deleted'] = '1';
-            //$password = str_random(10);
-            //$parentDetail['password'] = bcrypt($password);
-            //Check if parent email exist
-            $getParentDetailByEmailId = '';
-            $checkPairAvailability = [];
-            if ($parentDetail['p_email'] != '') {
-                $parentEmailExist = $this->parentsRepository->checkActiveEmailExist($parentDetail['p_email']);
-                if ($parentEmailExist) {
-                    $getParentDetailByEmailId = $this->parentsRepository->getParentDetailByEmailId($parentDetail['p_email']);
-                    $checkPairAvailability = $this->parentsRepository->checkPairAvailability($teenager->id, $getParentDetailByEmailId->id);
-                }
+        
+        $parentDetail = [];
+        $parentDetail['p_email'] = $request->parent_email;
+        $parentDetail['p_user_type'] = $request->p_user_type;
+        $parentDetail['deleted'] = '1';
+        
+        $parentTeenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($request->parent_email);
+        if ($parentTeenagerEmailExist) {
+            return Redirect::to("teenager/my-profile")->with('error', 'Same email already exist for teenager, Please use different one.')->withInput();
+            exit;
+        } else {
+            $parentEmailExist = $this->parentsRepository->checkActiveEmailExist($request->parent_email);
+            $checkPairAvailability = $getParentDetailByEmailId = [];
+            
+            if ($parentEmailExist) {
+                $getParentDetailByEmailId = $this->parentsRepository->getParentDetailByEmailId($request->parent_email);
+                $checkPairAvailability = $this->parentsRepository->checkPairAvailability($teenager->id, $getParentDetailByEmailId->id);
             }
-
-            //Check if teenager email exist
-            if ($parentDetail['p_email'] != '') {
-                $parentteenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($parentDetail['p_email']);
-            }
-            if (isset($parentteenagerEmailExist) && $parentteenagerEmailExist) {
-                return Redirect::to("teenager/my-profile")->with('error', 'Same email already exist for teenager, Please use different one.')->withInput();
-                exit;
-            } else {
-                if (isset($checkPairAvailability) && !empty($checkPairAvailability) && count($checkPairAvailability) > 0) {
-                    if ($checkPairAvailability->ptp_is_verified == 0) {
-                        if ($checkPairAvailability->ptp_sent_by == "parent") {
-                            $response['message'] = trans('Invitation already sent by them. Verification link emailed to you. Please, complete verification process.');
-                        } else {
-                            $response['message'] = trans('Invitation already sent by you. Verification link emailed to them. Please, complete verification process.');
-                        }
-                        return Redirect::to("teenager/my-profile")->with('error', $response['message'])->withInput();
-                        exit;
+            
+            if ($checkPairAvailability && count($checkPairAvailability) > 0) {
+                if ($checkPairAvailability->ptp_is_verified == 0) {
+                    if ($checkPairAvailability->ptp_sent_by == "parent") {
+                        $response['message'] = trans('Invitation already sent by them. Verification link emailed to you. Please, complete verification process.');
                     } else {
-                        $response['message'] = trans('You already paired with this user');
-                        return Redirect::to("teenager/my-profile")->with('error', $response['message'])->withInput();
-                        exit;
+                        $response['message'] = trans('Invitation already sent by you. Verification link emailed to them. Please, complete verification process.');
                     }
+                    return Redirect::to("teenager/my-profile")->with('error', $response['message'])->withInput();
+                    exit;
                 } else {
-                    if (!$parentEmailExist) {
-                        // Save data in database
-                        $parentData = $this->parentsRepository->saveParentDetail($parentDetail);
-                        if (!empty($parentData)) {
-                            $parentData = $parentData->toArray();
-                            $parentId = $parentData['id'];
-                        }
-                    } else {
-                        $parentData = $this->parentsRepository->getParentDetailByEmailId($parentDetail['p_email']);
+                    $response['message'] = trans('You already paired with this user');
+                    return Redirect::to("teenager/my-profile")->with('error', $response['message'])->withInput();
+                    exit;
+                }
+            } else {
+                if (!$parentEmailExist) {
+                    // Save data in database
+                    $parentData = $this->parentsRepository->saveParentDetail($parentDetail);
+                    if (!empty($parentData)) {
                         $parentData = $parentData->toArray();
                         $parentId = $parentData['id'];
                     }
-                    // --------------------start sending mail -----------------------------//
-                    $replaceArray = array();
-                    $replaceArray['PARENT_NAME'] = (isset($parentData['p_first_name']) && !empty($parentData['p_first_name'])) ? $parentData['p_first_name'] : "";
-                    if($parentDetail['p_user_type'] == 1){
-                        $replaceArray['PARENT_SET_PROFILE_URL'] = url("parent/set-profile");
-                    }else{
-                        $replaceArray['PARENT_SET_PROFILE_URL'] = url("counselor/set-profile");
-                    }
-                    //$replaceArray['PARENT_EMAIL'] = $parentData['p_email'];
-                    //$replaceArray['PARENT_PASSWORD'] = $password;
-                    $replaceArray['PARENT_UNIQUEID'] = Helpers::getParentUniqueId();
-                    $replaceArray['VERIFICATION_URL'] = url("parent/verify-parent-teen-pair-registration?token=" . $replaceArray['PARENT_UNIQUEID']);
-                    $replaceArray['USERNAME'] = Auth::guard('teenager')->user()->t_name;
-                    if (isset($parentEmailExist) && $parentEmailExist) {
-                        $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEEN_SECOND_TIME'));
-                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-                    } else {
-                        $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEENAGER_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
-                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-                    }
-
-                    $data = array();
-                    $data['subject'] = $emailTemplateContent->et_subject;
-                    $data['toEmail'] = $parentData['p_email'];
-                    $data['toName'] = (isset($parentData['p_first_name']) && !empty($parentData['p_first_name'])) ? $parentData['p_first_name'] : "";
-                    $data['content'] = $content;
-                    $data['ptp_token'] = $replaceArray['PARENT_UNIQUEID'];
-                    $data['parent_id'] = $parentData['id'];
-                    $data['parent_token'] = $replaceArray['PARENT_UNIQUEID'];
-                    $data['teen_id'] = Auth::guard('teenager')->user()->id;
-                    //$data['teen_id'] = $teenagerDetailbyId->id;
-
-                    Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
-                                $message->subject($data['subject']);
-                                $message->to($data['toEmail'], $data['toName']);
-
-                                // Save parent-teen id in verification table
-                                $parentTeenVerificationData['ptp_parent_id'] = $data['parent_id'];
-                                $parentTeenVerificationData['ptp_teenager'] = $data['teen_id'];
-                                $parentTeenVerificationData['ptp_is_verified'] = 0;
-                                $parentTeenVerificationData['ptp_sent_by'] = 'teen';
-                                $parentTeenVerificationData['ptp_token'] = $data['parent_token'];
-
-                                $this->teenagersRepository->saveParentTeenVerification($parentTeenVerificationData);
-                            });
-                    // ------------------------end sending mail ----------------------------//
-                    return Redirect::to("teenager/my-profile")->with('success', 'Your invitation has been sent successfully.');
-                    exit;
+                } else {
+                    $parentData = $this->parentsRepository->getParentDetailByEmailId($parentDetail['p_email']);
+                    $parentData = $parentData->toArray();
+                    $parentId = $parentData['id'];
                 }
+                // --------------------start sending mail -----------------------------//
+                $replaceArray = array();
+                $replaceArray['PARENT_NAME'] = (isset($parentData['p_first_name']) && !empty($parentData['p_first_name'])) ? $parentData['p_first_name'] : "";
+                
+                if($parentDetail['p_user_type'] == 1){
+                    $replaceArray['PARENT_SET_PROFILE_URL'] = url("parent/set-profile");
+                }else{
+                    $replaceArray['PARENT_SET_PROFILE_URL'] = url("counselor/set-profile");
+                }
+                
+                $replaceArray['PARENT_UNIQUEID'] = Helpers::getParentUniqueId();
+                $replaceArray['VERIFICATION_URL'] = url("parent/verify-parent-teen-pair-registration?token=" . $replaceArray['PARENT_UNIQUEID']);
+                $replaceArray['USERNAME'] = Auth::guard('teenager')->user()->t_name;
+                
+                if (isset($parentEmailExist) && $parentEmailExist) {
+                    $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEEN_SECOND_TIME'));
+                    $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                } else {
+                    $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEENAGER_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
+                    $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                }
+                
+                $data = array();
+                $data['subject'] = $emailTemplateContent->et_subject;
+                $data['toEmail'] = $parentData['p_email'];
+                $data['toName'] = (isset($parentData['p_first_name']) && !empty($parentData['p_first_name'])) ? $parentData['p_first_name'] : "";
+                $data['content'] = $content;
+                $data['ptp_token'] = $replaceArray['PARENT_UNIQUEID'];
+                $data['parent_id'] = $parentData['id'];
+                $data['parent_token'] = $replaceArray['PARENT_UNIQUEID'];
+                $data['teen_id'] = Auth::guard('teenager')->user()->id;
+               
+                Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
+                    $message->subject($data['subject']);
+                    $message->to($data['toEmail'], $data['toName']);
+
+                    // Save parent-teen id in verification table
+                    $parentTeenVerificationData['ptp_parent_id'] = $data['parent_id'];
+                    $parentTeenVerificationData['ptp_teenager'] = $data['teen_id'];
+                    $parentTeenVerificationData['ptp_is_verified'] = 0;
+                    $parentTeenVerificationData['ptp_sent_by'] = 'teen';
+                    $parentTeenVerificationData['ptp_token'] = $data['parent_token'];
+
+                    $this->teenagersRepository->saveParentTeenVerification($parentTeenVerificationData);
+                });
+                // ------------------------end sending mail ----------------------------//
+                return Redirect::to("teenager/my-profile")->with('success', 'Your invitation has been sent successfully.');
+                exit; 
             }
         }
+
+        $parentEmailExist = '';
+        $parentDetail = [];
+        //$parentDetail['id'] = (isset($postData['p_id']) && $postData['p_id'] != '') ? $postData['p_id'] : 0;
+        $parentDetail['p_email'] = (isset($postData['parent_email']) && $postData['parent_email'] != '') ? $postData['parent_email'] : '';
+        $parentDetail['p_user_type'] = (isset($postData['p_user_type']) && $postData['p_user_type'] != '') ? $postData['p_user_type'] : '';
+        $parentDetail['deleted'] = '1';
+        //$password = str_random(10);
+        //$parentDetail['password'] = bcrypt($password);
+        //Check if parent email exist
+        $getParentDetailByEmailId = '';
+        $checkPairAvailability = [];
+        if ($parentDetail['p_email'] != '') {
+            $parentEmailExist = $this->parentsRepository->checkActiveEmailExist($parentDetail['p_email']);
+            if ($parentEmailExist) {
+                $getParentDetailByEmailId = $this->parentsRepository->getParentDetailByEmailId($parentDetail['p_email']);
+                $checkPairAvailability = $this->parentsRepository->checkPairAvailability($teenager->id, $getParentDetailByEmailId->id);
+            }
+        }
+
+        //Check if teenager email exist
+        if ($parentDetail['p_email'] != '') {
+            $parentteenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($parentDetail['p_email']);
+        }
+        if (isset($parentteenagerEmailExist) && $parentteenagerEmailExist) {
+            return Redirect::to("teenager/my-profile")->with('error', 'Same email already exist for teenager, Please use different one.')->withInput();
+            exit;
+        } else {
+            if (isset($checkPairAvailability) && !empty($checkPairAvailability) && count($checkPairAvailability) > 0) {
+                if ($checkPairAvailability->ptp_is_verified == 0) {
+                    if ($checkPairAvailability->ptp_sent_by == "parent") {
+                        $response['message'] = trans('Invitation already sent by them. Verification link emailed to you. Please, complete verification process.');
+                    } else {
+                        $response['message'] = trans('Invitation already sent by you. Verification link emailed to them. Please, complete verification process.');
+                    }
+                    return Redirect::to("teenager/my-profile")->with('error', $response['message'])->withInput();
+                    exit;
+                } else {
+                    $response['message'] = trans('You already paired with this user');
+                    return Redirect::to("teenager/my-profile")->with('error', $response['message'])->withInput();
+                    exit;
+                }
+            } else {
+                if (!$parentEmailExist) {
+                    // Save data in database
+                    $parentData = $this->parentsRepository->saveParentDetail($parentDetail);
+                    if (!empty($parentData)) {
+                        $parentData = $parentData->toArray();
+                        $parentId = $parentData['id'];
+                    }
+                } else {
+                    $parentData = $this->parentsRepository->getParentDetailByEmailId($parentDetail['p_email']);
+                    $parentData = $parentData->toArray();
+                    $parentId = $parentData['id'];
+                }
+                // --------------------start sending mail -----------------------------//
+                $replaceArray = array();
+                $replaceArray['PARENT_NAME'] = (isset($parentData['p_first_name']) && !empty($parentData['p_first_name'])) ? $parentData['p_first_name'] : "";
+                if($parentDetail['p_user_type'] == 1){
+                    $replaceArray['PARENT_SET_PROFILE_URL'] = url("parent/set-profile");
+                }else{
+                    $replaceArray['PARENT_SET_PROFILE_URL'] = url("counselor/set-profile");
+                }
+                //$replaceArray['PARENT_EMAIL'] = $parentData['p_email'];
+                //$replaceArray['PARENT_PASSWORD'] = $password;
+                $replaceArray['PARENT_UNIQUEID'] = Helpers::getParentUniqueId();
+                $replaceArray['VERIFICATION_URL'] = url("parent/verify-parent-teen-pair-registration?token=" . $replaceArray['PARENT_UNIQUEID']);
+                $replaceArray['USERNAME'] = Auth::guard('teenager')->user()->t_name;
+                if (isset($parentEmailExist) && $parentEmailExist) {
+                    $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEEN_SECOND_TIME'));
+                    $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                } else {
+                    $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEENAGER_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
+                    $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                }
+
+                $data = array();
+                $data['subject'] = $emailTemplateContent->et_subject;
+                $data['toEmail'] = $parentData['p_email'];
+                $data['toName'] = (isset($parentData['p_first_name']) && !empty($parentData['p_first_name'])) ? $parentData['p_first_name'] : "";
+                $data['content'] = $content;
+                $data['ptp_token'] = $replaceArray['PARENT_UNIQUEID'];
+                $data['parent_id'] = $parentData['id'];
+                $data['parent_token'] = $replaceArray['PARENT_UNIQUEID'];
+                $data['teen_id'] = Auth::guard('teenager')->user()->id;
+                //$data['teen_id'] = $teenagerDetailbyId->id;
+
+                Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
+                            $message->subject($data['subject']);
+                            $message->to($data['toEmail'], $data['toName']);
+
+                            // Save parent-teen id in verification table
+                            $parentTeenVerificationData['ptp_parent_id'] = $data['parent_id'];
+                            $parentTeenVerificationData['ptp_teenager'] = $data['teen_id'];
+                            $parentTeenVerificationData['ptp_is_verified'] = 0;
+                            $parentTeenVerificationData['ptp_sent_by'] = 'teen';
+                            $parentTeenVerificationData['ptp_token'] = $data['parent_token'];
+
+                            $this->teenagersRepository->saveParentTeenVerification($parentTeenVerificationData);
+                        });
+                // ------------------------end sending mail ----------------------------//
+                return Redirect::to("teenager/my-profile")->with('success', 'Your invitation has been sent successfully.');
+                exit;
+            }
+        }
+        
     }
 
     //Set profile form
