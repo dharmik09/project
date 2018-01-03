@@ -275,11 +275,16 @@ return [
     'PROFESSION_SUBJECT_THUMB_IMAGE_UPLOAD_PATH' => "uploads/professionSubject/thumb/",
     'PROFESSION_SUBJECT_THUMB_IMAGE_HEIGHT' => '300',
     'PROFESSION_SUBJECT_THUMB_IMAGE_WIDTH' => '300',
+    
     'MULTI_INTELLIGENCE_TYPE' => 'mi',
     'APPTITUDE_TYPE' => 'apptitude',
     'PERSONALITY_TYPE' => 'personality',
     'CONNECTION_REJECT_STATUS' => '2',
     'CONNECTION_ACCEPT_STATUS' => '1',
 
+    'PROFESSION_TAG_ORIGINAL_IMAGE_UPLOAD_PATH' => "uploads/professionTag/original/",
+    'PROFESSION_TAG_THUMB_IMAGE_UPLOAD_PATH' => "uploads/professionTag/thumb/",
+    'PROFESSION_TAG_THUMB_IMAGE_HEIGHT' => '300',
+    'PROFESSION_TAG_THUMB_IMAGE_WIDTH' => '300',
 
 ];

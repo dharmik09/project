@@ -38,4 +38,10 @@ class ProfessionSubject extends Model
             return false;
         }
     }
+
+
+    public function getProfessionSubjectByName($name) {
+        $certifications = $this->where('ps_name', $name)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
+        return $certifications;
+    }
 }
