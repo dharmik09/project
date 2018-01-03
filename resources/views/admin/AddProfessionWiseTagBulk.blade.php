@@ -7,7 +7,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        {{trans('labels.professionwisecertification')}}
+        {{trans('labels.professionwisetag')}}
     </h1>
 </section>
 
@@ -19,7 +19,7 @@
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{trans('labels.add')}} {{trans('labels.professionwisecertification')}}</h3>
+                    <h3 class="box-title">{{trans('labels.add')}} {{trans('labels.professionwisetag')}}</h3>
                 </div><!-- /.box-header -->
                 @if (count($errors) > 0)
                 <div class="alert alert-danger">
@@ -32,7 +32,7 @@
                 </div>
                 @endif
 
-                <form id="addProfessionBulk" class="form-horizontal" method="post" files="true" action="{{ url('/admin/saveProfessionWiseCertificationBulk') }}" enctype="multipart/form-data">
+                <form id="addProfessionBulk" class="form-horizontal" method="post" files="true" action="{{ url('/admin/saveProfessionWiseTagBulk') }}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="box-body">
 

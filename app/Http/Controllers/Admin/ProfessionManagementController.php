@@ -25,6 +25,8 @@ use App\ProfessionSubject;
 use App\Certification;
 use App\ProfessionWiseCertification;
 use App\ProfessionWiseSubject;
+use App\ProfessionTag;
+use App\ProfessionWiseTag;
 
 class ProfessionManagementController extends Controller {
 
@@ -50,6 +52,8 @@ class ProfessionManagementController extends Controller {
         $this->objCertification = new Certification;
         $this->objProfessionWiseCertification = new ProfessionWiseCertification;
         $this->objProfessionWiseSubject = new ProfessionWiseSubject;
+        $this->objTag = new ProfessionTag;
+        $this->objProfessionWiseTag = new ProfessionWiseTag;
         $this->loggedInUser = Auth::guard('admin');
     }
 
@@ -64,6 +68,7 @@ class ProfessionManagementController extends Controller {
         $professionDetail = [];
         $subjects = $this->objSubject->getAllProfessionSubjects();
         $certificateList = $this->objCertification->getAllProfessionCertifications();
+        $tagList = $this->objTag->getAllProfessionTags();
         $subjectData = $this->objSubject->getAllProfessionSubjects();
 
         $parameterGrade = ['H','M','L'];
@@ -76,7 +81,7 @@ class ProfessionManagementController extends Controller {
         }
 
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@add", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.EditProfession', compact('professionDetail', 'subjects', 'certificateList','subjectList','subjectData'));
+        return view('admin.EditProfession', compact('professionDetail', 'subjects', 'certificateList','subjectList','subjectData','tagList'));
     }
 
     public function edit($id) {
@@ -102,8 +107,12 @@ class ProfessionManagementController extends Controller {
             $subjectData[$key]['data'] = $data;
         }
 
+        $tagList = $this->objTag->getAllProfessionTags();
+        $professionWiseTagData = $this->objProfessionWiseTag->getProfessionWiseTagByProfessionId($id);
+        $professionDetail['tag_id'] = $professionWiseTagData['tag_id'];
+
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath', 'subjects', 'certificateList','subjectData'));
+        return view('admin.EditProfession', compact('professionDetail', 'uploadProfessionThumbPath', 'uploadVideoPath', 'subjects', 'certificateList','subjectData','tagList'));
     }
 
     public function save(ProfessionRequest $professionRequest) {
@@ -194,6 +203,7 @@ class ProfessionManagementController extends Controller {
                 $profession_Id = Input::get('id');
                 $this->objProfessionWiseCertification->deleteProfessionWiseCertificationByProfessionId($profession_Id);
                 $this->objProfessionWiseSubject->deleteProfessionWiseSubjectByProfessionId($profession_Id);
+                $this->objProfessionWiseTag->deleteProfessionWiseTagByProfessionId($profession_Id);
             }
             else{
                 $profession_Id = $response->id;
@@ -222,6 +232,16 @@ class ProfessionManagementController extends Controller {
                     $ProfessionWiseSubjectData['subject_id'] = $valueArray[0];
                     $ProfessionWiseSubjectData['parameter_grade'] = $valueArray[1];
                     $response = $this->objProfessionWiseSubject->insertUpdate($ProfessionWiseSubjectData);
+                }
+            }
+
+            $tagId = Input::get('tag_id');
+            if(!empty($tagId)){
+                foreach ($tagId as $value) {
+                    $professionWiseTagData = [];
+                    $professionWiseTagData['profession_id'] = $profession_Id;
+                    $professionWiseTagData['tag_id'] = $value;
+                    $response = $this->objProfessionWiseTag->insertUpdate($professionWiseTagData);
                 }
             }
             
@@ -451,6 +471,58 @@ class ProfessionManagementController extends Controller {
         
         if($response) {
             return Redirect::to("admin/professions")->with('success', trans('labels.professionwisesubjectbulkuploadsuccess'));
+        } else {
+            return Redirect::to("admin/professions")->with('error', trans('labels.commonerrormessage'));
+        }
+    }
+
+    public function professionWiseTagAddBulk() {
+        return view('admin.AddProfessionWiseTagBulk');
+    }
+    
+    public function professionWiseTagSaveBulk() {
+        $response = '';        
+        $path = Input::file('p_bulk')->getRealPath();
+
+        $results = Excel::load($path, function($reader) {})->get();
+        $excelHeaderData = Excel::load($path, function($reader) { $reader->noHeading = true; }, 'ISO-8859-1')->get();
+
+        foreach ($excelHeaderData[0] as $key => $value) {
+            if($value != 'profession_name'){
+                $tagData = $this->objTag->getProfessionTagByName($value);
+                if (!$tagData){
+                    return Redirect::to("admin/professions")->with('error',$value.' '.trans('labels.professionwisetagbulkuploadtagnotfound'));
+                }
+            }
+        }
+
+        foreach ($results as $key => $value) {
+                $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
+                if (!$professionsData){
+                    return Redirect::to("admin/professions")->with('error',$value['profession_name'].' '.trans('labels.professionwiseTagbulkuploadprofessionnotfound'));
+                }
+        }
+
+        foreach ($results as $key => $value) {
+                $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
+                $data = [];
+                $count = 1;
+                foreach ($value as $k => $v) {
+                    if($k != 'profession_name' && $v == "Yes"){
+                        $tagData = $this->objTag->getProfessionTagByName($excelHeaderData[0][$count]);
+                        if ($tagData){
+                            $data = [];
+                            $data['profession_id'] = $professionsData->id;
+                            $data['tag_id'] = $tagData->id;
+                            $response = $this->objProfessionWiseTag->insertUpdate($data);
+                        }
+                        $count++;
+                    }
+                }
+        }
+        
+        if($response) {
+            return Redirect::to("admin/professions")->with('success', trans('labels.professionwisetagbulkuploadsuccess'));
         } else {
             return Redirect::to("admin/professions")->with('error', trans('labels.commonerrormessage'));
         }
