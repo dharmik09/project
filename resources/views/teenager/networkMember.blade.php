@@ -51,7 +51,7 @@
                             <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                         </ul>
                         <div class="chat-icon add-icon">
-                            <a href="#" title="Add"><i class="icon-add-circle"></i></a>
+                            <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add"><i class="icon-add-circle"></i></a>
                         </div>
                         <div class="chat-icon">
                             <a href="#" title="Chat"><i class="icon-chat"></i></a>

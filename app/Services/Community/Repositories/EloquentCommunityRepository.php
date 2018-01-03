@@ -122,4 +122,17 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                 ->count();
         return $myConnectionsCount;
     }
+
+    /**
+     * Save connection request data
+     */    
+    public function saveConnectionRequest($connectionRequestData)
+    {
+        if(isset($connectionRequestData['id']) && $connectionRequestData['id'] != '' && $connectionRequestData['id'] > 0) {
+            $return = $this->model->where('id', $connectionRequestData['id'])->update($connectionRequestData);
+        } else {
+            $return = $this->model->create($connectionRequestData);
+        }
+        return $return;
+    }
 }

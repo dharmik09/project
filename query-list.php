@@ -150,3 +150,6 @@ CREATE TABLE IF NOT EXISTS `pro_pt_profession_tags` (
 
 //Add new table for Profession Wise Tags ## 03-01-2018
 CREATE TABLE `proteen`.`pro_pwt_professions_wise_tags` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key' , `profession_id` INT NOT NULL , `tag_id` INT NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP NOT NULL , `deleted` TINYINT UNSIGNED NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted' , PRIMARY KEY (`id`)) ENGINE = MyISAM;
+
+//Add extra field in teenager connection request table ##03/01/2018
+ALTER TABLE `pro_tc_teen_connections` ADD `tc_unique_id` VARCHAR(23) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL AFTER `id`, ADD UNIQUE (`tc_unique_id`);
