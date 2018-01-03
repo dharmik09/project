@@ -5,26 +5,34 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>
-        <div class="col-md-1">
-            {{trans('labels.professions')}}
-        </div>
-        <div class="col-md-1">
-            <a href="{{ url('admin/addProfession') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
-        </div>
-        <div class="col-md-2">
-            <a href="{{ url('admin/exportProfessoin') }}" class="btn btn-block btn-primary">{{trans('labels.exportdata')}}</a>
-        </div>
-        <div class="col-md-2">
-            <a href="{{ url('admin/addProfessionBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionbulkupload')}}</a>
-        </div>
-        <div class="col-md-3">
-            <a href="{{ url('admin/addProfessionWiseCertificationBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionwisecertificatebulkupload')}}</a>
-        </div>
-        <div class="col-md-3">
-            <a href="{{ url('admin/addProfessionWiseSubjectBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionwisesubjectbulkupload')}}</a>
-        </div>
-    </h1>
+    <div class="col-md-12">
+        <h1>
+            <div class="col-md-7">
+                {{trans('labels.professions')}}
+            </div>
+            <div class="col-md-1">
+                <a href="{{ url('admin/addProfession') }}" class="btn btn-block btn-primary pull-right">{{trans('labels.add')}}</a>
+            </div>
+            <div class="col-md-2">
+                <a href="{{ url('admin/exportProfessoin') }}" class="btn btn-block btn-primary">{{trans('labels.exportdata')}}</a>
+            </div>
+            <div class="col-md-2">
+                <a href="{{ url('admin/addProfessionBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionbulkupload')}}</a>
+            </div>
+        </h1>
+    </div>
+    <div class="col-md-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <a href="{{ url('admin/addProfessionWiseCertificationBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionwisecertificatebulkupload')}}</a>
+            </div>
+            <div class="col-md-3">
+                <a href="{{ url('admin/addProfessionWiseSubjectBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionwisesubjectbulkupload')}}</a>
+            </div>
+            <div class="col-md-3">
+                <a href="{{ url('admin/addProfessionWiseTagBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionwisetagbulkupload')}}</a>
+            </div>
+    </div>
 </section>
 
 <section class="content">

@@ -103,4 +103,6 @@ return [
     'TBL_PROFESSIONS_WISE_CERTIFICATES' => 'pro_pwc_professions_wise_certificates',
     'TBL_PROFESSION_SUBJECT' => 'pro_ps_profession_subjects',
     'TBL_PROFESSIONS_WISE_SUBJECT' => 'pro_pws_professions_wise_subjects',
+    'TBL_PROFESSIONS_TAG' => 'pro_pt_profession_tags',
+    'TBL_PROFESSIONS_WISE_TAG' => 'pro_pwt_professions_wise_tags',
 ];
