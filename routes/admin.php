@@ -317,6 +317,12 @@ Route::post('/saveProfessionBulk', 'Admin\ProfessionManagementController@savepro
 Route::get('/exportProfessoin', 'Admin\ProfessionManagementController@exportData');
 Route::post('/getUserCompetitorsData','Admin\ProfessionManagementController@getUserCompetitorsData');
 Route::get('/exportCompetitors/{id}', 'Admin\ProfessionManagementController@exportCompetotorsData');
+Route::get('/addProfessionWiseCertificationBulk', 'Admin\ProfessionManagementController@professionWiseCertificationAddBulk');
+Route::post('/saveProfessionWiseCertificationBulk', 'Admin\ProfessionManagementController@professionWiseCertificationSaveBulk');
+Route::get('/addProfessionWiseSubjectBulk', 'Admin\ProfessionManagementController@professionWiseSubjectAddBulk');
+Route::post('/saveProfessionWiseSubjectBulk', 'Admin\ProfessionManagementController@professionWiseSubjectSaveBulk');
+
+
 
 //Profession Headers
 Route::get('/headers', 'Admin\ProfessionHeadersManagementController@index')->name('headers');
@@ -430,9 +436,8 @@ Route::get('/deleteProfessionCertification/{id}', 'Admin\CertificationManagement
 Route::get('/professionWiseCertifications', 'Admin\CertificationManagementController@professionWiseCertificationIndex')->name('pwc_index');
 Route::get('/addProfessionWiseCertification', 'Admin\CertificationManagementController@professionWiseCertificationAdd')->name('pwc_add');
 Route::post('/saveProfessionWiseCertification', 'Admin\CertificationManagementController@professionWiseCertificationSave')->name('pwc_save');
-Route::get('/addProfessionWiseCertificationBulk', 'Admin\CertificationManagementController@professionWiseCertificationAddBulk')->name('pwc_add_bulk');
-Route::post('/saveProfessionWiseCertificationBulk', 'Admin\CertificationManagementController@professionWiseCertificationSaveBulk')->name('pwc_add_bulk');
-Route::get('/editProfessionWiseCertification/{id}', 'Admin\CertificationManagementController@professionWiseCertificationEdit')->name('pwc_edit');
+// Route::post('/saveProfessionWiseCertificationBulk', 'Admin\CertificationManagementController@professionWiseCertificationSaveBulk')->name('pwc_add_bulk');
+// Route::get('/editProfessionWiseCertification/{id}', 'Admin\CertificationManagementController@professionWiseCertificationEdit')->name('pwc_edit');
 Route::get('/deleteProfessionWiseCertification/{id}', 'Admin\CertificationManagementController@professionWiseCertificationDelete')->name('pwc_delete');
 
 //Profession Subjects
