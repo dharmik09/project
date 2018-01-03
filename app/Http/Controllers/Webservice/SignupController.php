@@ -40,7 +40,7 @@ class SignupController extends Controller
     }
 
     /* Request Params : signup
-    *  email, password, device_id, device_type
+    *  email, password, 
     *  No loginToken required because it's call without loggedin user
     */
     public function signup(Request $request)

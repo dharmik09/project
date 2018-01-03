@@ -28,13 +28,13 @@ class LoginController extends Controller
     }
 
     /* Request Params : login
-    *  email, password, device_id, device_type
+    *  email, password, deviceId, deviceType
     *  No loginToken required because it's call without loggedin user
     */
     public function login(Request $request)
     {
 		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-    	if($request->email != "" && $request->password != "" && $request->device_id != "" && $request->device_type != "") {
+    	if($request->email != "" && $request->password != "" && $request->deviceId != "" && $request->deviceType != "") {
     		if (!filter_var($request->email, FILTER_VALIDATE_EMAIL) && is_numeric($request->email) && $request->email > 0 && $request->email == round($request->email, 0)) {
     			$teenager = $this->teenagersRepository->getTeenagerByMobile($request->email);
     			if(!$teenager) {
@@ -71,13 +71,13 @@ class LoginController extends Controller
     					//Save Login Token Data
     					$loginDetail['tlt_teenager_id'] = $teenager->id;
                         $loginDetail['tlt_login_token'] = base64_encode($teenager->t_email.':'.$teenager->password.':'.mt_rand());
-                        $loginDetail['tlt_device_id'] = $request->device_id;
+                        $loginDetail['tlt_device_id'] = $request->deviceId;
                         $userTokenDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
                         //Save Device Token Data
                         $saveData['tdt_user_id'] = $teenager->id;
                         $saveData['tdt_device_token'] = base64_encode($teenager->t_email.':'.$teenager->password.':'.mt_rand());
-                        $saveData['tdt_device_type'] = $request->device_type;
-                        $saveData['tdt_device_id'] = $request->device_id;
+                        $saveData['tdt_device_type'] = $request->deviceType;
+                        $saveData['tdt_device_id'] = $request->deviceId;
                         $userDeviceDetails = $this->objDeviceToken->saveDeviceToken($saveData);
 
                         $teenager->payment_status = $teenager->t_payment_status;
@@ -105,18 +105,18 @@ class LoginController extends Controller
     }
 
     /* Request Params : userLogout
-    *  userId, token, device_id
+    *  userId, token, deviceId
     *  No loginToken required because it's call without loggedin user
     */
     public function userLogout(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-        if($request->userId != "" && $request->device_id != "" && $request->token != "") {
+        if($request->userId != "" && $request->deviceId != "" && $request->token != "") {
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
             if ($checkuserexist) {
                 $userId = $request->userId;
                 $token = $request->token;
                 $result = $this->objDeviceToken->deleteDeviceToken($request->userId, $token);
-                $return = $this->objTeenagerLoginToken->deletedTeenagerLoginDetail($request->userId, $request->device_id);
+                $return = $this->objTeenagerLoginToken->deletedTeenagerLoginDetail($request->userId, $request->deviceId);
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
             } else {
@@ -131,25 +131,25 @@ class LoginController extends Controller
     }
     
     /* Request Params : saveUpdatedDeviceToken
-    *  userId, token, device_id, device_type
+    *  userId, token, deviceId, deviceType
     *  No loginToken required because it's call without loggedin user
     */
     public function saveUpdatedDeviceToken(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-        if($request->userId != "" && $request->device_id != "" && $request->token != "" && $request->device_type != "") {
+        if($request->userId != "" && $request->deviceId != "" && $request->token != "" && $request->deviceType != "") {
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
             if ($checkuserexist) {
                 $saveData['tdt_user_id'] = ($request->userId != '') ? $request->userId : '0';
                 $saveData['tdt_device_token'] = $request->token;
-                $saveData['tdt_device_type'] = $request->device_type;
-                $saveData['tdt_device_id'] = $request->device_id;
+                $saveData['tdt_device_type'] = $request->deviceType;
+                $saveData['tdt_device_id'] = $request->deviceId;
                 $result = $this->objDeviceToken->saveDeviceToken($saveData);
                 
                 $teenagerDetail = $this->teenagersRepository->getTeenagerById($request->userId);
                 $loginDetail = [];
                 $loginDetail['tlt_teenager_id'] = $teenagerDetail->id;
                 $loginDetail['tlt_login_token'] = base64_encode($teenagerDetail->t_email.':'.$teenagerDetail->password.':'.mt_rand());
-                $loginDetail['tlt_device_id'] = $request->device_id;
+                $loginDetail['tlt_device_id'] = $request->deviceId;
                 $userLoginDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
                 $response['loginToken'] = base64_encode($teenagerDetail->t_email.':'.$teenagerDetail->password.':'.mt_rand());
 
@@ -166,15 +166,15 @@ class LoginController extends Controller
     }
 
     /* Request Params : updateTeenagerLoginToken
-    *  userId, device_id
+    *  userId, deviceId
     *  No loginToken required because it's call without loggedin user
     */
     public function updateTeenagerLoginToken(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-        if($request->userId != "" && $request->device_id != "") {
+        if($request->userId != "" && $request->deviceId != "") {
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
             if ($checkuserexist) {
-                $userLoginDetails = $this->objTeenagerLoginToken->updateTeenagerLoginDetail($request->userId, $request->device_id);
+                $userLoginDetails = $this->objTeenagerLoginToken->updateTeenagerLoginDetail($request->userId, $request->deviceId);
                 if($userLoginDetails) {
                     $response['status'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');
