@@ -42,7 +42,7 @@ class RestLessController extends Controller
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $this->log->info('Get Versions list from table', array('api-name'=> 'apiVersion'));
-        if($request->deviceType != "" && in_array($request->deviceType, ['android', 'ios']) && $request->appVersion != "") {
+        if($request->deviceType != "" && in_array($request->deviceType, ['1', '2']) && $request->appVersion != "") {
             $getVersionsList = $this->objVersionsList->where('device_type', $request->deviceType)->first(['force_update', 'device_type', 'message', 'app_version']);
             if($getVersionsList) {
                 $response['status'] = 1;
