@@ -70,19 +70,19 @@ class LoginController extends Controller
     					}
     					//Save Login Token Data
     					$loginDetail['tlt_teenager_id'] = $teenager->id;
-                        $loginDetail['tlt_login_token'] = base64_encode($teenager->t_email.':'.$teenager->password);
+                        $loginDetail['tlt_login_token'] = base64_encode($teenager->t_email.':'.$teenager->password.':'.mt_rand());
                         $loginDetail['tlt_device_id'] = $request->device_id;
                         $userTokenDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
                         //Save Device Token Data
                         $saveData['tdt_user_id'] = $teenager->id;
-                        $saveData['tdt_device_token'] = base64_encode($teenager->t_email.':'.$teenager->password);
+                        $saveData['tdt_device_token'] = base64_encode($teenager->t_email.':'.$teenager->password.':'.mt_rand());
                         $saveData['tdt_device_type'] = $request->device_type;
                         $saveData['tdt_device_id'] = $request->device_id;
                         $userDeviceDetails = $this->objDeviceToken->saveDeviceToken($saveData);
 
                         $teenager->payment_status = $teenager->t_payment_status;
 
-                        $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->password);
+                        $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->password.':'.mt_rand());
                         $response['message'] = trans('appmessages.default_success_msg');
     					$response['status'] = 1;
     					$response['login'] = 1;
@@ -148,10 +148,10 @@ class LoginController extends Controller
                 $teenagerDetail = $this->teenagersRepository->getTeenagerById($request->userId);
                 $loginDetail = [];
                 $loginDetail['tlt_teenager_id'] = $teenagerDetail->id;
-                $loginDetail['tlt_login_token'] = base64_encode($teenagerDetail->t_email.':'.$teenagerDetail->password);
+                $loginDetail['tlt_login_token'] = base64_encode($teenagerDetail->t_email.':'.$teenagerDetail->password.':'.mt_rand());
                 $loginDetail['tlt_device_id'] = $request->device_id;
                 $userLoginDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
-                $response['loginToken'] = base64_encode($teenagerDetail->t_email.':'.$teenagerDetail->password);
+                $response['loginToken'] = base64_encode($teenagerDetail->t_email.':'.$teenagerDetail->password.':'.mt_rand());
 
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');

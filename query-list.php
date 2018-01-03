@@ -110,11 +110,7 @@ CREATE TABLE `pro_pwc_professions_wise_certificates` (
 //Change meta value field text ## 29-12-2017
 ALTER TABLE `pro_tmd_teenager_meta_data` CHANGE `tmd_meta_value` `tmd_meta_value` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 
-//Added new table pro_v_version #02-01-2018 BD
---
--- Table structure for table `pro_v_versions`
---
-
+//Added new table for manage app versions pro_v_version #02-01-2018 BD
 CREATE TABLE `pro_v_versions` (
   `id` int(10) UNSIGNED NOT NULL,
   `force_update` tinyint(1) NOT NULL DEFAULT '0',
