@@ -42,10 +42,9 @@ class ProfessionHeadersManagementController extends Controller
         return view('admin.EditProfessionHeader', compact('headerDetail'));
     }
 
-    public function edit($id)
+    public function edit($id, $countryId)
     {
-        $headerDetail = $this->objProfessionHeaders->getActiveProfessionHeader($id);
-        //echo "<pre>"; print_r($headerDetail); exit;
+        $headerDetail = $this->objProfessionHeaders->getActiveProfessionHeader($id, $countryId);
         Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@edit", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
         return view('admin.EditProfessionHeader', compact('headerDetail','id'));
     }
