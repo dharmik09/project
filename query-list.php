@@ -185,3 +185,5 @@ ALTER TABLE `pro_pf_profession`
   DROP `pf_certifications`,
   DROP `pf_subjects`;
 
+//Alter table pro_pfic_profession_intro_content add Country Id field ## 03-01-2018
+ALTER TABLE `pro_pfic_profession_intro_content` ADD `country_id` INT NULL DEFAULT NULL AFTER `pfic_content`;
