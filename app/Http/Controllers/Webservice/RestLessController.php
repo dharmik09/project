@@ -35,27 +35,29 @@ class RestLessController extends Controller
     }
 
     /* Request Params : apiVersion
-    *  loginToken //If service call from update profile
-    *  Maintain force-update and upddate availables using response params
+    *  deviceType, appVersion
+    *  Maintain force-update and update availables using response params
     */
     public function apiVersion(Request $request)
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $this->log->info('Get Versions list from table', array('api-name'=> 'apiVersion'));
-        $getVersionsList = $this->objVersionsList->first(['force_update', 'ios_version', 'android_version', 'web_version']);
-        
-        if($getVersionsList) {
-            $response['data'] = $getVersionsList->toArray();
-            $response['status'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+        if($request->deviceType != "" && in_array($request->deviceType, ['android', 'ios']) && $request->appVersion != "") {
+            $getVersionsList = $this->objVersionsList->where('device_type', $request->deviceType)->first(['force_update', 'device_type', 'message', 'app_version']);
+            if($getVersionsList) {
+                $response['status'] = 1;
+                $response['message'] = $getVersionsList->message;
+                
+                $data['force_update'] = ($getVersionsList->force_update == 1) ? true : false;
+                $data['update_available'] = ((int)$getVersionsList->app_version > (int)$request->appVersion) ? true : false;
+                $response['data'] = $data;
+            } else {
+                $response['message'] = "Versions list not found!";
+            }
         } else {
-            $response['message'] = "Versions list not found!";
+            $response['message'] = trans('appmessages.missing_data_msg');
         }
 
-        if(isset($request->loginToken) && $request->loginToken != "") {
-            $this->log->info('Get Versions list with login - apiVersion', array('api-name'=> 'apiVersion'));
-            $response['login'] = 1;
-        }
         $this->log->info('Api - response', array('api-name'=> 'apiVersion'));
         return response()->json($response, 200);
         exit;
