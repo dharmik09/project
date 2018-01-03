@@ -145,7 +145,7 @@ class ProfessionManagementController extends Controller {
         $professionDetail['pf_basket'] = e(input::get('pf_basket'));
         $professionDetail['deleted'] = e(input::get('deleted'));
         $professionDetail['pf_profession_alias'] = e(input::get('pf_profession_alias'));
-        $secondary_baskets = e(input::get('pf_related_basket'));
+        $secondary_baskets = input::get('pf_related_basket');
             
         if (Input::file()) {
             $file = Input::file('pf_logo');

@@ -50,7 +50,7 @@ class ProfessionWiseSubject extends Model
      * Delete Profession Wise Subject
      */
     public function deleteProfessionWiseSubjectByProfessionId($id) {
-        $return = ProfessionWiseSubject::where('profession_id',$id)->update(['deleted' => Config::get('constant.DELETED_FLAG')]);
+        $return = ProfessionWiseSubject::where('profession_id',$id)->delete();
         return $return;
     }
 }

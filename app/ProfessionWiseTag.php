@@ -50,7 +50,7 @@ class ProfessionWiseTag extends Model
      * Delete Profession Wise Tag
      */
     public function deleteProfessionWiseTagByProfessionId($id) {
-        $return = ProfessionWiseTag::where('profession_id',$id)->update(['deleted' => Config::get('constant.DELETED_FLAG')]);
+        $return = ProfessionWiseTag::where('profession_id',$id)->delete();
         return $return;
     }
 }

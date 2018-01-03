@@ -51,7 +51,7 @@ class ProfessionWiseCertification extends Model
      * Delete Profession Wise Certification
      */
     public function deleteProfessionWiseCertificationByProfessionId($id) {
-        $return = ProfessionWiseCertification::where('profession_id',$id)->update(['deleted' => Config::get('constant.DELETED_FLAG')]);
+        $return = ProfessionWiseCertification::where('profession_id',$id)->delete();
         return $return;
     }
 }
