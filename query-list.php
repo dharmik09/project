@@ -150,3 +150,12 @@ CREATE TABLE IF NOT EXISTS `pro_pt_profession_tags` (
 
 //Add new table for Profession Wise Tags ## 03-01-2018
 CREATE TABLE `proteen`.`pro_pwt_professions_wise_tags` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key' , `profession_id` INT NOT NULL , `tag_id` INT NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP NOT NULL , `deleted` TINYINT UNSIGNED NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted' , PRIMARY KEY (`id`)) ENGINE = MyISAM;
+
+//Alter table pro_pf_profession for Alias field make nullable for ## 03-01-2018
+ALTER TABLE `pro_pf_profession` CHANGE `pf_profession_alias` `pf_profession_alias` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+//Alter table pro_pf_profession to Remove tags, certification and subjects field ## 03-01-2018
+ALTER TABLE `pro_pf_profession`
+  DROP `pf_profession_tags`,
+  DROP `pf_certifications`,
+  DROP `pf_subjects`;

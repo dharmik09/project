@@ -143,11 +143,9 @@ class ProfessionManagementController extends Controller {
         $professionDetail['pf_video_type'] = $videotype;
         $professionDetail['pf_name'] = trim(input::get('pf_name'));
         $professionDetail['pf_basket'] = e(input::get('pf_basket'));
-        /* $professionDetail['pf_intro']   = input::get('pf_intro');  */
         $professionDetail['deleted'] = e(input::get('deleted'));
-        $professionDetail['pf_profession_alias'] = input::get('pf_profession_alias');
-        $professionDetail['pf_profession_tags'] = input::get('pf_profession_tags');
-        $secondary_baskets = input::get('pf_related_basket');
+        $professionDetail['pf_profession_alias'] = e(input::get('pf_profession_alias'));
+        $secondary_baskets = e(input::get('pf_related_basket'));
             
         if (Input::file()) {
             $file = Input::file('pf_logo');

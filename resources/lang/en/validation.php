@@ -216,4 +216,5 @@ return [
     'subjectsrequired' => 'Select atleast one subject',
     'professionisrequired' => 'Please select profession',
     'certificateisrequired' => 'Please select atleast one certificate',
+    'youtuberequired' => 'Youtube is Required',
 ];

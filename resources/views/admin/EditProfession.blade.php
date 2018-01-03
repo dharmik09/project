@@ -398,6 +398,12 @@
                 pf_basket : {
                     required : true
                 },
+                pf_video_type : {
+                    required : true
+                },
+                youtube : {
+                    required : true
+                },
                 deleted : {
                     required : true
                 }
@@ -408,6 +414,15 @@
                     required : true
                 },
                 pf_basket : {
+                    required : true
+                },
+                pf_video_type : {
+                    required : true
+                },
+                youtube : {
+                    required : true
+                },
+                pf_logo : {
                     required : true
                 },
                 deleted : {
@@ -424,6 +439,15 @@
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 pf_basket : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                pf_video_type : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                youtube : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                pf_logo : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {
