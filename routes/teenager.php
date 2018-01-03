@@ -70,6 +70,8 @@ Route::get('/career-tag', function() {
 //Community
 Route::get('/community', 'Teenager\CommunityManagementController@index');
 Route::post('/search-community', 'Teenager\CommunityManagementController@index')->name('search-community');
+Route::post('/load-more-new-connections', 'Teenager\CommunityManagementController@loadMoreNewConnections')->name('load-more-new-connections');
+Route::post('/load-more-my-connections', 'Teenager\CommunityManagementController@loadMoreMyConnections')->name('load-more-my-connections');
 
 Route::get('/learning-guidance', function() {
 	return view('teenager.learningGuidance');
