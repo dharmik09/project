@@ -281,6 +281,7 @@ return [
     'PERSONALITY_TYPE' => 'personality',
     'CONNECTION_REJECT_STATUS' => '2',
     'CONNECTION_ACCEPT_STATUS' => '1',
+    'CONNECTION_PENDING_STATUS' => '0',
 
     'PROFESSION_TAG_ORIGINAL_IMAGE_UPLOAD_PATH' => "uploads/professionTag/original/",
     'PROFESSION_TAG_THUMB_IMAGE_UPLOAD_PATH' => "uploads/professionTag/thumb/",
