@@ -1,4 +1,4 @@
-<div class="bg-white my-progress">
+<div class="bg-white my-progress existing-connection">
                 <!--<ul class="nav nav-tabs progress-tab clearfix">
                     <li class="acheivement active col-md-6"><a data-toggle="tab" href="#menu1">Find New Connections </a></li>
                     <li class="career col-md-6"><a data-toggle="tab" href="#menu2">My Connections </a></li>
@@ -8,7 +8,7 @@
                     <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu4"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="menu3" class="tab-pane fade in active">
+                    <div id="menu3" class="tab-pane fade in active search-new-connection">
                         @forelse($newConnections as $newConnection)
                         <div class="team-list">
                             <div class="flex-item">
@@ -36,11 +36,11 @@
                         @empty
                             No Connections found.
                         @endforelse
-                        @if (!empty($newConnections->toArray()) && count($newConnections) > 10)
-                            <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                        @if (!empty($newConnections->toArray()) && $newConnectionsCount > 10)
+                            <p id="remove-row" class="text-center remove-row"><a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a></p>
                         @endif
                     </div>
-                    <div id="menu4" class="tab-pane fade">
+                    <div id="menu4" class="tab-pane fade my-connection">
                        <div class="sec-popup">
                             <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
                                 <i class="icon-question">
@@ -61,7 +61,7 @@
                                     <div class="team-img">
                                         <?php
                                             if(isset($myConnection->t_photo) && $myConnection->t_photo != '') {
-                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$newConnection->t_photo;
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo;
                                             } else {
                                                 $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                                             }
@@ -81,8 +81,8 @@
                         @empty
                             No Connections found.
                         @endforelse
-                        @if (!empty($myConnections->toArray()) && count($myConnections) >= 10)
-                            <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                        @if (!empty($myConnections->toArray()) && $myConnectionsCount > 10)
+                            <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" data-id="{{ $myConnection->id }}" title="load more" class="load-more">load more</a></p>
                         @endif
                     </div>
                 </div>
