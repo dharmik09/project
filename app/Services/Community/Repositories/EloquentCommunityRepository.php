@@ -15,7 +15,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getNewConnections($loggedInTeen)
+    public function getNewConnections($loggedInTeen, $searchedConnections)
     {
         $activeFlag = Config::get('constant.ACTIVE_FLAG');
         $connectionRequests = $this->getAcceptedAndPendingConnectionsBySenderId($loggedInTeen);
@@ -23,6 +23,12 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                 ->whereNotIn('id', $connectionRequests->toArray())
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', $activeFlag)
+                                ->where(function($query) use ($searchedConnections)  {
+                                    if(isset($searchedConnections) && !empty($searchedConnections)) {
+                                        $query->where('t_name', 'like', '%'.$searchedConnections.'%');
+                                        $query->orWhere('t_email', 'like', '%'.$searchedConnections.'%');
+                                    }
+                                 })
                                 ->orderBy('created_at', 'desc')
                                 ->limit(10)
                                 ->get();
@@ -35,13 +41,19 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         return $receiverId;
     }
 
-    public function getMyConnections($loggedInTeen)
+    public function getMyConnections($loggedInTeen, $searchedConnections)
     {
         $connectedTeenIds = $this->getAcceptedConnectionsBySenderId($loggedInTeen);
         $myConnections = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
                                 ->whereIn('id', $connectedTeenIds->toArray())
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->where(function($query) use ($searchedConnections)  {
+                                    if(isset($searchedConnections) && !empty($searchedConnections)) {
+                                        $query->where('t_name', 'like', '%'.$searchedConnections.'%');
+                                        $query->orWhere('t_email', 'like', '%'.$searchedConnections.'%');
+                                    }
+                                 })
                                 ->orderBy('created_at', 'desc')
                                 ->limit(10)
                                 ->get();

@@ -69,6 +69,7 @@ Route::get('/career-tag', function() {
 
 //Community
 Route::get('/community', 'Teenager\CommunityManagementController@index');
+Route::post('/search-community', 'Teenager\CommunityManagementController@index')->name('search-community');
 
 Route::get('/learning-guidance', function() {
 	return view('teenager.learningGuidance');
@@ -78,6 +79,4 @@ Route::get('/learning-guidance', function() {
 Route::get('/my-network', function() {
 	return view('teenager.network');
 });
-Route::get('/network-member', function() {
-	return view('teenager.networkMember');
-});
+Route::get('/network-member/{id}', 'Teenager\CommunityManagementController@getMemberDetails');
