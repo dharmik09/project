@@ -72,6 +72,7 @@ Route::get('/community', 'Teenager\CommunityManagementController@index');
 Route::post('/search-community', 'Teenager\CommunityManagementController@index')->name('search-community');
 Route::post('/load-more-new-connections', 'Teenager\CommunityManagementController@loadMoreNewConnections')->name('load-more-new-connections');
 Route::post('/load-more-my-connections', 'Teenager\CommunityManagementController@loadMoreMyConnections')->name('load-more-my-connections');
+Route::get('/send-request-to-teenager/{uniqueId}', 'Teenager\CommunityManagementController@sendRequest')->name('send-request-to-teenager');
 
 Route::get('/learning-guidance', function() {
 	return view('teenager.learningGuidance');
@@ -81,4 +82,4 @@ Route::get('/learning-guidance', function() {
 Route::get('/my-network', function() {
 	return view('teenager.network');
 });
-Route::get('/network-member/{id}', 'Teenager\CommunityManagementController@getMemberDetails');
+Route::get('/network-member/{uniqueId}', 'Teenager\CommunityManagementController@getMemberDetails');

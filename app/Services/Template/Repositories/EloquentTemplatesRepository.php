@@ -62,7 +62,7 @@ implements TemplatesRepository
     */
     public  function getEmailTemplateDataByName($pseudoName) 
     {
-        $data = $this->model->where('et_templatepseudoname',$pseudoName)->where('deleted','1')->first();
+        $data = $this->model->where('et_templatepseudoname', $pseudoName)->where('deleted','1')->first();
         return $data;
     }
 
