@@ -351,4 +351,108 @@ class ProfessionManagementController extends Controller {
         })->export('xlsx');
     }
 
+    public function professionWiseCertificationAddBulk() {
+        return view('admin.AddProfessionWiseCertificateBulk');
+    }
+    
+    public function professionWiseCertificationSaveBulk() {
+        $response = '';        
+        $path = Input::file('p_bulk')->getRealPath();
+
+        $results = Excel::load($path, function($reader) {})->get();
+        $excelHeaderData = Excel::load($path, function($reader) { $reader->noHeading = true; }, 'ISO-8859-1')->get();
+
+        foreach ($excelHeaderData[0] as $key => $value) {
+            if($value != 'profession_name'){
+                $certificateData = $this->objCertification->getProfessionCertificationByName($value);
+                if (!$certificateData){
+                    return Redirect::to("admin/professions")->with('error',$value.' '.trans('labels.professionwisecertificationbulkuploadcertificatenotfound'));
+                }
+            }
+        }
+
+        foreach ($results as $key => $value) {
+                $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
+                if (!$professionsData){
+                    return Redirect::to("admin/professions")->with('error',$value['profession_name'].' '.trans('labels.professionwisecertificationbulkuploadprofessionnotfound'));
+                }
+        }
+
+        foreach ($results as $key => $value) {
+                $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
+                $data = [];
+                $count = 1;
+                foreach ($value as $k => $v) {
+                    if($k != 'profession_name' && $v == "Yes"){
+                        $certificateData = $this->objCertification->getProfessionCertificationByName($excelHeaderData[0][$count]);
+                        if ($certificateData){
+                            $data = [];
+                            $data['profession_id'] = $professionsData->id;
+                            $data['certificate_id'] = $certificateData->id;
+                            $response = $this->objProfessionWiseCertification->insertUpdate($data);
+                        }
+                        $count++;
+                    }
+                }
+        }
+        
+        if($response) {
+            return Redirect::to("admin/professions")->with('success', trans('labels.professionwisecertificationbulkuploadsuccess'));
+        } else {
+            return Redirect::to("admin/professions")->with('error', trans('labels.commonerrormessage'));
+        }
+    }
+
+    public function professionWiseSubjectAddBulk() {
+        return view('admin.AddProfessionWiseSubjectBulk');
+    }
+
+    public function professionWiseSubjectSaveBulk() {
+        $response = '';        
+        $path = Input::file('p_bulk')->getRealPath();
+
+        $results = Excel::load($path, function($reader) {})->get();
+        $excelHeaderData = Excel::load($path, function($reader) { $reader->noHeading = true; }, 'ISO-8859-1')->get();
+        // echo "<pre>"; print_r($results); exit;
+        foreach ($excelHeaderData[0] as $key => $value) {
+            if($value != 'profession_name'){
+                $certificateData = $this->objSubject->getProfessionSubjectByName($value);
+                if (!$certificateData){
+                    return Redirect::to("admin/professions")->with('error',$value.' '.trans('labels.professionwiseSubjectbulkuploadcertificatenotfound'));
+                }
+            }
+        }
+
+        foreach ($results as $key => $value) {
+                $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
+                if (!$professionsData){
+                    return Redirect::to("admin/professions")->with('error',$value['profession_name'].' '.trans('labels.professionwiseSubjectbulkuploadprofessionnotfound'));
+                }
+        }
+
+        foreach ($results as $key => $value) {
+                $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
+                $data = [];
+                $count = 1;
+                foreach ($value as $k => $v) {
+                    if($k != 'profession_name'){
+                        $subjectData = $this->objSubject->getProfessionSubjectByName($excelHeaderData[0][$count]);
+                        if ($subjectData){
+                            $data = [];
+                            $data['profession_id'] = $professionsData->id;
+                            $data['subject_id'] = $subjectData->id;
+                            $data['parameter_grade'] = $v;
+                            $response = $this->objProfessionWiseSubject->insertUpdate($data);
+                        }
+                        $count++;
+                    }
+                }
+        }
+        
+        if($response) {
+            return Redirect::to("admin/professions")->with('success', trans('labels.professionwisesubjectbulkuploadsuccess'));
+        } else {
+            return Redirect::to("admin/professions")->with('error', trans('labels.commonerrormessage'));
+        }
+    }
 }

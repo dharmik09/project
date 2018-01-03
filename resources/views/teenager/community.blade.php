@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-md-4 col-sm-12 sort-filter">
                     <div class="form-group search-bar clearfix">
-                        <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
+                        <input type="text" id="search_community" name="search_community" placeholder="search" tabindex="1" class="form-control search-feild">
                         <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
     <!--sec progress-->
     <section class="sec-progress sec-connection">
         <div class="container">
-            <div class="bg-white my-progress">
+            <div class="bg-white my-progress existing-connection">
                 <!--<ul class="nav nav-tabs progress-tab clearfix">
                     <li class="acheivement active col-md-6"><a data-toggle="tab" href="#menu1">Find New Connections </a></li>
                     <li class="career col-md-6"><a data-toggle="tab" href="#menu2">My Connections </a></li>
@@ -57,7 +57,7 @@
                     <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="menu1" class="tab-pane fade in active">
+                    <div id="menu1" class="tab-pane fade in active search-new-connection">
                         @forelse($newConnections as $newConnection)
                         <div class="team-list">
                             <div class="flex-item">
@@ -85,11 +85,11 @@
                         @empty
                             No Connections found.
                         @endforelse
-                        @if (!empty($newConnections->toArray()) && count($newConnections) > 10)
-                            <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                        @if (!empty($newConnections->toArray()) && $newConnectionsCount > 10)
+                            <p id="remove-row" class="text-center remove-row"><a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a></p>
                         @endif
                     </div>
-                    <div id="menu2" class="tab-pane fade">
+                    <div id="menu2" class="tab-pane fade my-connection">
                        <div class="sec-popup">
                             <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
                                 <i class="icon-question">
@@ -110,7 +110,7 @@
                                     <div class="team-img">
                                         <?php
                                             if(isset($myConnection->t_photo) && $myConnection->t_photo != '') {
-                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$newConnection->t_photo;
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo;
                                             } else {
                                                 $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                                             }
@@ -128,17 +128,95 @@
                             </div>
                         </div>
                         @empty
-                            No Record Found
+                            No Connections found.
                         @endforelse
-                        @if (!empty($myConnections->toArray()) && count($myConnections) >= 10)
-                            <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                        @if (!empty($myConnections->toArray()) && $myConnectionsCount > 10)
+                            <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myConnection->id }}">load more</a></p>
                         @endif
                     </div>
                 </div>
             </div>
+            <div class="mySearch_area"></div>
         </div>
     </section>
     <!--sec progress end-->
     </div>
     <!-- mid section end-->
+@stop
+
+@section('script')
+    <script>
+        $( "#search_community" ).keyup(function() {
+            search_keyword = $(this).val();
+            searchConnections = (search_keyword).trim();
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var form_data = 'searchConnections=' + searchConnections;
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                url: "{{ url('/teenager/search-community') }}",
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                cache: false,
+                success: function(data) {
+                    $('.existing-connection').hide();
+                    $('.mySearch_area').show();
+                    $('.mySearch_area').html(data);
+                }
+            });
+        });
+        $(document).on('click','#load-more',function(){
+                var lastTeenId = $(this).data('id');
+                //$("#btn-more").html("Loading....");
+                search_keyword = $("#search_community").val();
+                searchConnections = (search_keyword).trim();
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var form_data = 'searchConnections=' + searchConnections + '&lastTeenId=' + lastTeenId;
+                $.ajax({
+                    url : '{{ url("teenager/load-more-new-connections") }}',
+                    method : "POST",
+                    data: form_data,
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN
+                    },
+                    dataType : "text",
+                    success : function (data) {
+                        if(data != '') {
+                            //$('#remove-row').remove();
+                            $('.remove-row').remove();
+                            $('.search-new-connection').append(data);
+                        } else {
+                            //$('#btn-more').html("No Data");
+                        }
+                    }
+                });
+            });
+        $(document).on('click','#load-more-connection',function(){
+                var lastTeenId = $(this).data('id');
+                //$("#btn-more").html("Loading....");
+                search_keyword = $("#search_community").val();
+                searchConnections = (search_keyword).trim();
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var form_data = 'searchConnections=' + searchConnections + '&lastTeenId=' + lastTeenId;
+                $.ajax({
+                    url : '{{ url("teenager/load-more-my-connections") }}',
+                    method : "POST",
+                    data: form_data,
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN
+                    },
+                    dataType : "text",
+                    success : function (data) {
+                        if(data != '') {
+                            //$('#remove-row').remove();
+                            $('.remove-my-connection-row').remove();
+                            $('.my-connection').append(data);
+                        } else {
+                            //$('#btn-more').html("No Data");
+                        }
+                    }
+                });
+            });  
+    </script>
 @stop
