@@ -150,3 +150,27 @@ CREATE TABLE IF NOT EXISTS `pro_pt_profession_tags` (
 
 //Add new table for Profession Wise Tags ## 03-01-2018
 CREATE TABLE `proteen`.`pro_pwt_professions_wise_tags` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key' , `profession_id` INT NOT NULL , `tag_id` INT NOT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP NOT NULL , `deleted` TINYINT UNSIGNED NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted' , PRIMARY KEY (`id`)) ENGINE = MyISAM;
+
+//Drop versions tables. We made new table for that
+DROP TABLE `pro_v_versions`;
+
+//Added new table for manage app versions pro_av_app_versions #03-01-2018 BD
+CREATE TABLE `pro_av_app_versions` (
+  `id` int(11) NOT NULL,
+  `force_update` tinyint(1) DEFAULT '0',
+  `device_type` varchar(100) DEFAULT NULL,
+  `message` text,
+  `app_version` varchar(20) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+INSERT INTO `pro_av_app_versions` (`id`, `force_update`, `device_type`, `message`, `app_version`, `created_at`, `updated_at`) VALUES
+(1, 0, 'android', 'Success', '1', '2018-01-03 11:33:07', '2018-01-03 11:33:07'),
+(2, 0, 'ios', 'Success', '1', '2018-01-03 11:33:47', '2018-01-03 11:33:47');
+
+ALTER TABLE `pro_av_app_versions`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `pro_av_app_versions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
