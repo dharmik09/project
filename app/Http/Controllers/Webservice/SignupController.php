@@ -19,6 +19,7 @@ use Storage;
 use Carbon\Carbon;
 use Input;
 use Mail;
+use Image;
 
 class SignupController extends Controller
 {
@@ -32,6 +33,8 @@ class SignupController extends Controller
         $this->objDeviceToken = new DeviceToken();
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
+        
         $this->sponsorOriginalImageUploadPath = Config::get('constant.SPONSOR_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->sponsorThumbImageUploadPath = Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
@@ -50,21 +53,21 @@ class SignupController extends Controller
             $teenagerDetail['t_uniqueid'] = Helpers::getTeenagerUniqueId();
             $teenagerDetail['t_name'] = $request->name;
             $teenagerDetail['t_lastname'] = $request->lastname;
-            $teenagerDetail['t_nickname'] = $request->proteen_code;
+            $teenagerDetail['t_nickname'] = $request->proteenCode;
             $teenagerDetail['t_gender'] = (in_array($request->gender, ['1','2'])) ? $request->gender : '1';
             $teenagerDetail['password'] = ($request->password != "") ? bcrypt($request->password) : "";
             $teenagerDetail['t_phone_new'] = $request->phone;
             $teenagerDetail['t_country'] = $request->country;
             $teenagerDetail['t_pincode'] = $request->pincode;
-            $teenagerDetail['t_device_type'] = $request->t_device_type;
+            $teenagerDetail['t_device_type'] = $request->deviceType;
             $teenagerDetail['t_photo'] = '';
             $teenagerDetail['deleted'] = '1';
 
             //Social Providers
-            $teenagerDetail['t_social_provider'] = ($request->social_provider != "") ? $request->social_provider : '';
-            $teenagerDetail['t_social_identifier'] = ($request->social_id && $request->social_id != '') ? $request->social_id : '';
-            $teenagerDetail['t_social_accesstoken'] = ($request->social_accesstoken && $request->social_accesstoken != '') ? $request->social_accesstoken : '';
-            $teenagerDetail['t_sponsor_choice'] = ($request->sponsor_choice != '') ? $request->sponsor_choice : '2';
+            $teenagerDetail['t_social_provider'] = ($request->socialProvider != "") ? $request->socialProvider : 'Normal';
+            $teenagerDetail['t_social_identifier'] = ($request->socialId && $request->socialId != '') ? $request->socialId : '';
+            $teenagerDetail['t_social_accesstoken'] = ($request->socialAccessToken && $request->socialAccessToken != '') ? $request->socialAccessToken : '';
+            $teenagerDetail['t_sponsor_choice'] = '2';
 
             //Birthdate
             $day = $request->day;
@@ -81,13 +84,13 @@ class SignupController extends Controller
             }
 
             //On-Off Buttons
-            $teenagerDetail['is_search_on'] = ( $request->public_profile != "") ? $request->public_profile : "0";
-            $teenagerDetail['is_share_with_teachers'] = ( $request->share_with_teachers != "") ? $request->share_with_teachers : "0";
-            $teenagerDetail['is_share_with_other_members'] = ( $request->share_with_members != "") ? $request->share_with_members : "0";
-            $teenagerDetail['is_share_with_parents'] = ( $request->share_with_parents != "") ? $request->share_with_parents : "0";
+            $teenagerDetail['is_search_on'] = ( $request->publicProfile != "") ? $request->publicProfile : "0";
+            $teenagerDetail['is_share_with_teachers'] = ( $request->shareWithTeachers != "") ? $request->shareWithTeachers : "0";
+            $teenagerDetail['is_share_with_other_members'] = ( $request->shareWithMembers != "") ? $request->shareWithMembers : "0";
+            $teenagerDetail['is_share_with_parents'] = ( $request->shareWithParents != "") ? $request->shareWithParents : "0";
             $teenagerDetail['is_notify'] = ( $request->notifications != "") ? $request->notifications : "0";
-            $teenagerDetail['t_view_information'] = ( $request->t_view_information != "") ? $request->t_view_information : "0";
-            $teenagerDetail['is_sound_on'] = ( $request->is_sound_on != "") ? $request->is_sound_on : "0";
+            $teenagerDetail['t_view_information'] = ( $request->viewInformation != "") ? $request->viewInformation : "0";
+            $teenagerDetail['is_sound_on'] = ( $request->isSoundOn != "") ? $request->isSoundOn : "0";
 
             $teenagerDetail['t_email'] = $request->email;
             $teenagerDetail['t_phone'] = $request->mobile;
@@ -153,7 +156,7 @@ class SignupController extends Controller
                         if($recordData['t_photo'] == "" && Input::file())
                         {
                             if (Input::file()) {
-                                $file = Input::file('profile_pic');
+                                $file = Input::file('profilePic');
                                 if (!empty($file)) {
                                     $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
                                     $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
@@ -197,7 +200,7 @@ class SignupController extends Controller
                             $response['message'] = trans('appmessages.invalid_email_msg');
                         } else {
                             if (Input::file()) {
-                                $file = Input::file('profile_pic');
+                                $file = Input::file('profilePic');
                                 if (!empty($file)) {
                                     $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
                                     $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
