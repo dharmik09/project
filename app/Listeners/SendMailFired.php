@@ -34,7 +34,7 @@ class SendMailFired
             $subject = (isset($data['subject']) && $data['subject'] != "") ? $data['subject'] : Config::get('constant.NAME', 'ProTeenLife');
             $toEmail = (isset($data['toEmail']) && $data['toEmail'] != "") ? $data['toEmail'] : Config::get('constant.APP_EMAIL', 'info@proteenlife.com');
             $toName = (isset($data['toName']) && $data['toName'] != "") ? $data['toName'] : "";
-            //$toEmail = "bb.pambhar@gmail.com";
+            //send email
             $message->subject($subject);
             $message->to($toEmail, $toName);
         });
