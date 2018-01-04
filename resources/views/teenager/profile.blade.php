@@ -681,7 +681,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed">Academic Record
+                        <div class="academic">
+                            Academic Record 
                             <span>
                             @if(isset($teenagerMeta['education'][0]['meta_value']))
                                 <?php
@@ -690,8 +691,8 @@
                                 {!! $academicStr !!}
                             @endif
                             </span>
-                            <span>Edit</span>
-                        </a>
+                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed">Edit</a>
+                        </div>
                     </h4>
                 </div>
                 <div class="panel-collapse collapse" id="accordion2">
@@ -920,7 +921,7 @@
         CKEDITOR.replace('academic');
 
         CKEDITOR.config.toolbar = [
-            ['Bold', 'Italic', 'BulletedList', 'Source']
+            ['Bold', 'Italic', 'BulletedList']
         ] ;
 
         // Cache the toggle button
