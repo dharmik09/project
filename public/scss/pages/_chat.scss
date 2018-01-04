@@ -19,9 +19,20 @@ a:hover {
         transform: translate(-50%, -50%);
     }
 }
-
+.chat-heading{
+    padding: 40px 0 0;
+    @include maxms{
+        padding-top: 30px;
+    }
+    h2{
+        margin-bottom: 40px;
+        @include maxms{
+            margin-bottom: 30px;
+        }
+    }
+}
 .sec-chat {
-    padding: 60px 0;
+    padding:0 0 60px;
     display: flex;
     flex-wrap: wrap;
     position: relative;
@@ -507,6 +518,9 @@ a:hover {
     @include maxsm {
         margin: 40px 0;
     }
+    h2{
+        margin-bottom: 40px;
+    }
 }
 
 .notification-list {
@@ -527,7 +541,7 @@ a:hover {
     border-bottom: 1px solid #ccc;
     &:first-child {
         border-top: 1px solid #ccc;
-        margin-top: 40px;
+       
         @include maxsm {
             margin-top: 25px;
         }

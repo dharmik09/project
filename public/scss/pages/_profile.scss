@@ -542,11 +542,11 @@
                         background-image: url(../img/next-icon-dark.png);
                         @include maxlg {
                             right: -30px;
-                             left: auto;
+                            left: auto;
                         }
                         @include maxmd {
                             right: -50px;
-                             left: auto;
+                            left: auto;
                         }
                     }
                 }
@@ -1029,6 +1029,7 @@ input:checked + .slider:before {
                     }
                     @include maxms {
                         padding: 10px;
+                        line-height: 1;
                     }
                 }
                 input {
@@ -1085,6 +1086,138 @@ input:checked + .slider:before {
     border-color: $cl-complete;
     color: #fff;
 }
+
+.personal-survey.sec-survey {
+    padding-top: 0;
+    .survey-list {
+        margin-top: 0;
+    }
+}
+
+/*---icon voted---*/
+
+.icon-voted {
+    padding-bottom: 60px;
+    text-align: center;
+    @include maxmd{
+        padding-bottom: 30px;
+    }
+    h2 {
+        font-size: 54px;
+        text-transform: capitalize;
+        color: $cl-complete;
+        text-align: center;
+        margin-bottom: 30px;
+        @include maxlg {
+            font-size: 44px;
+        }
+        @include maxsm {
+            font-size: 34px;
+        }
+        @include maxms {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+    }
+    p {
+        font-size: 20px;
+        font-family: h;
+        @include maxmd{
+            font-size: 18px;
+        }
+        @include maxsm{
+            font-size: 15px;
+        }
+    }
+    .voted-list {
+        width: 75%;
+        margin: 50px auto;
+        @include maxsm{
+            margin-bottom: 30px;
+            width: 90%;
+        }
+        @include maxms{
+            margin: 30px auto 10px;
+        }
+        ul {
+            padding: 0;
+            @include maxms{
+                margin: 0;
+            }
+        }
+        li {
+            list-style-type: none;
+            width: 100%;
+            .icon-img {
+                height: 100px;
+                width: 100px;
+                margin: 0 auto;
+                @include maxsm{
+                    height: 90px;
+                    width: 90px;
+                }
+                img {
+                    height: 100%;
+                    /*width: 100%;*/
+                }
+            }
+        }
+        .owl-nav {
+            position: absolute;
+            top: 25%;
+            transform: translateY(-50%);
+            width: 100%;
+            .owl-prev,
+            .owl-next {
+                position: absolute;
+                left: -100px;
+                font-size: 0;
+                background-image: url(../img/prev-icon-dark.png);
+                width: 30px;
+                height: 45px;
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                &:hover{
+                    opacity: 0.6;
+                }
+                @include maxlg {
+                    left: -60px;
+                }
+                @include maxmd {
+                    left: -50px;
+                }
+                @include maxsm{
+                    left: 0;
+                }
+                @include maxms {
+                    width: 20px;
+                    height: 35px;
+                }
+            }
+            .owl-next {
+                left: auto;
+                right: -50px;
+                background-image: url(../img/next-icon-dark.png);
+                @include maxlg {
+                    right: -30px;
+                    left: auto;
+                }
+                @include maxmd {
+                    right: -50px;
+                    left: auto;
+                }
+                @include maxsm{
+                    right: 0;
+                    left: auto;
+                }
+                
+            }
+        }
+    }
+}
+
+/*---icon voted---*/
 
 .sec-progress {
     background: $bg-offwhite;
@@ -1290,7 +1423,7 @@ input:checked + .slider:before {
             width: 20%;
             margin-left: -4px;
             display: inline-block;
-            vertical-align: middle;
+            vertical-align: top;
             text-align: center;
             padding: 0 10px;
             color: $badge-cl;
@@ -1431,8 +1564,8 @@ input:checked + .slider:before {
                 }
             }
             .team-img {
-                max-width: 83px;
-                max-height: 83px;
+                width: 83px;
+                height: 83px;
                 display: inline-block;
                 vertical-align: middle;
                 margin-right: 10%;
@@ -1440,8 +1573,8 @@ input:checked + .slider:before {
                     margin-right: 40px;
                 }
                 @include maxms {
-                    max-width: 63px;
-                    max-height: 63px;
+                    width: 63px;
+                    height: 63px;
                     margin-right: 20px;
                 }
             }
@@ -1598,14 +1731,22 @@ input:checked + .slider:before {
                     margin-top: 22px;
                 }
             }
-            ul,ol{
+            ul,
+            ol {
                 /*list-style-position: inside;
                 text-align: center;
                 padding: 0;*/
                 display: table;
                 margin: 0 auto;
             }
-            h1,h2,h3,h4,h5,h6{color: #fff;}
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                color: #fff;
+            }
         }
     }
     .panel-default {
@@ -1674,6 +1815,7 @@ input:checked + .slider:before {
             @include maxms {
                 font-size: 14px;
                 padding: 11px 15px;
+                line-height: 1;
             }
         }
         .record-form {
@@ -1782,25 +1924,27 @@ span.password-info {
         transform: translateX(-50%);
         z-index: 999;
         top: -7px;
-        @include maxms{
-            width:73%;
+        @include maxms {
+            width: 73%;
         }
     }
 
     /*.label_item {
     opacity: 0.1;
     }*/
-    .radio_item:checked + label img,.radio_item:hover + label img
-    {
+    .radio_item:checked + label img,
+    .radio_item:hover + label img {
         transform: scale(1.1);
         transition: 0.3s all ease-out;
     }
-    .radio_item:checked + label span,.radio_item:hover + label span{
+    .radio_item:checked + label span,
+    .radio_item:hover + label span {
         color: $cl-complete;
     }
     label {
-        cursor: pointer;z-index: -9;
-        img{
+        cursor: pointer;
+        z-index: -9;
+        img {
             transition: 0.3s all ease-out;
         }
     }
@@ -1854,10 +1998,10 @@ span.password-info {
     }
     .top-status {
         margin: 70px 0;
-        @include maxsm{
+        @include maxsm {
             margin: 0px 0 30px;
         }
-        @include maxms{
+        @include maxms {
             margin: 20px 0;
         }
     }
@@ -1883,7 +2027,7 @@ span.password-info {
         font-family: hn-b;
         margin: 15px 0 50px;
         color: $lightgrey;
-        @include maxms{
+        @include maxms {
             margin: 15px 0 10px;
         }
     }
