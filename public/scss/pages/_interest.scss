@@ -195,7 +195,7 @@
             margin-right: 3px;
             vertical-align: middle;
             @include maxms {
-                line-height: 20px;
+                line-height: 1.3;
                 width: 20px;
                 height: 20px;
                 font-size: 14px;
@@ -395,8 +395,8 @@
                 }
             }
             .team-img {
-                max-width: 83px;
-                max-height: 83px;
+                width: 83px;
+                height: 83px;
                 display: inline-block;
                 vertical-align: middle;
                 margin-right: 10%;
@@ -404,8 +404,8 @@
                     margin-right: 40px;
                 }
                 @include maxms {
-                    max-width: 63px;
-                    max-height: 63px;
+                    width: 63px;
+                    height: 63px;
                     margin-right: 20px;
                 }
             }
