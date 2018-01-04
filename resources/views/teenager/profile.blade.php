@@ -647,7 +647,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed achievement">Achievement Record
+                        <div class="achievement">
+                            Achievement Record 
                             <span>
                             @if (isset($teenagerMeta['achievement'][0]['meta_value']))
                                 <?php
@@ -656,8 +657,8 @@
                                 {!! $achievementStr !!}
                             @endif
                             </span>
-                            <span>Edit</span>
-                        </a>
+                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed achievement">Edit</a>
+                        </div>
                     </h4>
                 </div>
                 <div class="panel-collapse collapse" id="accordion1">

@@ -64,4 +64,12 @@ class ParentController extends Controller
     	return response()->json($response, 200);
     	exit;
     }
+    /* Request Params : getParentList
+    *  userId, loginToken, userType
+    *  
+    */
+    public function getParentList(Request $request)
+    {
+        
+    }
 }
