@@ -117,7 +117,7 @@ class PasswordController extends Controller
             $bool = $this->teenagersRepository->verifyOTPAgainstTeenagerId($request->userId, $request->otp);
             if($bool) {
                 $response['status'] = 1;
-                $response['message'] = trans('Password set successfully!');
+                $response['message'] = trans('OTP verify successfully!');
                 $response['data'] = ['userId' => $request->userId ];
             } else {
                 $response['message'] = trans('appmessages.invalidOTP');
