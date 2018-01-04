@@ -39,7 +39,7 @@
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
                                 </div>
                             </div>
-                            <div class="row expandInterest">
+                            <div class="row expandInterest flex-container">
                                 <?php $c = 0; ?>
                                 @forelse($teenagerInterest as $interestKey => $interestValue)
                                     <?php
@@ -58,7 +58,7 @@
                                                 $elementClass = '';
                                             }
                                         } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
-                                        <div class="col-md-6 col-sm-6 col-xs-6 {{ $elementClass }}" style="display: {{ $key }};" > 
+                                        <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};" > 
                                             <div class="my_chart">
                                                 <div class="progress-radial progress-20">
                                                 </div>
@@ -91,14 +91,14 @@
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
                             <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
-                            <div class="row">
+                            <div class="row flex-container">
                                 <?php $countStrength = 0; ?>
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
                                     <?php $imageChart = "img/My_chart-".$strengthValue['score'].".png";
                                     if(isset($countStrength) && $countStrength == 4) { ?>
                                         <div class="expandStrength">
                                     <?php } ?>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
                                         <div class="my_chart">
                                             <div class="progress-radial progress-20">
                                             </div>
@@ -265,7 +265,7 @@
                                                             <label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label>
                                                             <label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label>
                                                         </div>
-                                                        <div class="clearfix"><a href="#" class="next-que pull-right"><i class="icon-hand"></i></a></div>
+                                                        <div class="clearfix"><span class="next-que pull-right"><i class="icon-hand"></i></span></div>
                                                     </div>
                                                 </div>
                                             </div>
