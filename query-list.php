@@ -183,5 +183,9 @@ ALTER TABLE `pro_pf_profession`
   DROP `pf_certifications`,
   DROP `pf_subjects`;
 
+//Alter table pro_pfic_profession_intro_content add Country Id field ## 03-01-2018
+ALTER TABLE `pro_pfic_profession_intro_content` ADD `country_id` INT NULL DEFAULT NULL AFTER `pfic_content`;
+
 // Add new field in teenager connection request table ## 03/01/2018
 ALTER TABLE `pro_tc_teen_connections` ADD `tc_unique_id` VARCHAR(23) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL AFTER `id`, ADD UNIQUE (`tc_unique_id`);
+

@@ -20,7 +20,7 @@
                         <thead>
                             <tr>
                                 <th>{{trans('labels.headerblheadprofession')}}</th>
-                                <th>{{trans('labels.headerblheadtitle')}}</th>
+                                <th>{{trans('labels.headerblheadcountry')}}</th>
                                 <th>{{trans('labels.headerblheadaction')}}</th>
                             </tr>
                         </thead>
@@ -33,19 +33,24 @@
                                     {{$header->pf_name}}
                                 </td>
                                 <td>
+                                    <select class="form-control" id="p_country{{$header->pfic_profession}}" name="p_country">
+                                      <option value="demo">{{trans('labels.formlblselectcountry')}}</option>
                                     <?php
-                                       $title = $header->pfic_title;
-                                       $newTitle = explode(",", $title);
-                                       foreach($newTitle as $title)
-                                       {
-                                            echo $title;
-                                            echo '<br/>';
-                                       }
+                                        $countryId = explode(',', $header->country_id);
+                                        $countryName = explode(',', $header->country_name);
+                                        for($i=0;$i<count($countryId);$i++)
+                                        {
                                     ?>
+                                            <option value="{{$countryId[$i]}}">{{$countryName[$i]}}</option>
+                                    <?php
+                                        }
+                                    ?>
+                                    </select>
                                 </td>
                                 <td>
                                     <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
-                                    <a href="{{ url('/admin/editHeader') }}/{{$header->pfic_profession}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
+                                    <input type="hidden" id="url{{$header->pfic_profession}}" value="{{ url('/admin/editHeader') }}/{{$header->pfic_profession}}">
+                                    <a id="editUrl{{$header->pfic_profession}}" href="{{ url('/admin/editHeader') }}/{{$header->pfic_profession}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
                                     <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteHeader') }}/{{$header->pfic_profession}}"><i class="i_delete fa fa-trash"></i></a>
                                 </td>
                             </tr>
@@ -68,5 +73,18 @@
     $(document).ready(function() {
         $('#listHeader').DataTable();
     });
+    <?php foreach ($headers as $header) { ?>
+    $('#p_country{{$header->pfic_profession}}').on('change', function (e) {
+        var attr = $('#url{{$header->pfic_profession}}').val() + "/" + this.value;
+        $('#editUrl{{$header->pfic_profession}}').attr('href', attr);    
+    });
+
+    $('#editUrl{{$header->pfic_profession}}').on('click', function (e) {
+        if($('#p_country{{$header->pfic_profession}}').val() =='demo'){
+            alert("{{trans('validation.selectcountryforprofessionedit')}}");
+            return false;
+        }
+    });
+    <?php } ?>
 </script>
 @stop

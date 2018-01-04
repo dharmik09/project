@@ -37,6 +37,19 @@
                     <div class="box-body">
 
                     <div class="form-group">
+                        <label for="p_country" class="col-sm-2 control-label">Country</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="p_country" name="p_country">
+                              <option value="">{{trans('labels.formlblselectcountry')}}</option>
+                                @forelse($countryList as $key => $value)
+                                    <option value="{{$value->id}}">{{$value->c_name}}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="p_bulk" class="col-sm-2 control-label">{{trans('labels.formprofessionbulkupload')}}</label>
                         <div class="col-sm-6">
                             <input type="file" id="p_bulk" name="p_bulk" />

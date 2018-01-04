@@ -27,6 +27,7 @@ use App\ProfessionWiseCertification;
 use App\ProfessionWiseSubject;
 use App\ProfessionTag;
 use App\ProfessionWiseTag;
+use App\Country;
 
 class ProfessionManagementController extends Controller {
 
@@ -54,6 +55,7 @@ class ProfessionManagementController extends Controller {
         $this->objProfessionWiseSubject = new ProfessionWiseSubject;
         $this->objTag = new ProfessionTag;
         $this->objProfessionWiseTag = new ProfessionWiseTag;
+        $this->objCountry = new Country;
         $this->loggedInUser = Auth::guard('admin');
     }
 
@@ -269,7 +271,8 @@ class ProfessionManagementController extends Controller {
     }
 
     public function addbulk() {
-        return view('admin.AddProfessionBulk');
+        $countryList = $this->objCountry->getAllCounries();
+        return view('admin.AddProfessionBulk',compact('countryList'));
     }
 
     public function saveprofessionbulk() {
@@ -281,11 +284,11 @@ class ProfessionManagementController extends Controller {
                     
                     $professtionDetail = [];
                     $professtionDetail['pf_name'] = trim($row['profession_name']);
-                  //  $professtionDetail['pf_video'] = trim($row['profession_video']);
+                    // $professtionDetail['pf_video'] = trim($row['profession_video']);
 
                     $basketDetail = [];
                     $basketDetail['b_name'] = $row['basket_name'];
-                 //   $basketDetail['b_video'] = $row['basket_video'];
+                    // $basketDetail['b_video'] = $row['basket_video'];
 
                     $headerTitle = [];
                     $headerDetail = [];
@@ -295,8 +298,7 @@ class ProfessionManagementController extends Controller {
                             $headerDetail[] = $value;
                         }
                     }
-
-                    $response = $this->professionsRepository->saveProfessionBulkDetail($professtionDetail, $basketDetail, $headerTitle, $headerDetail);
+                    $response = $this->professionsRepository->saveProfessionBulkDetail($professtionDetail, $basketDetail, $headerTitle, $headerDetail, Input::get('p_country'));
                 }
             }
         });

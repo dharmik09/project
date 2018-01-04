@@ -133,7 +133,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         return $professionData;
     }
 
-    public function saveProfessionBulkDetail($professionDetail, $basketDetail, $headerTitle, $headerDetail) {
+    public function saveProfessionBulkDetail($professionDetail, $basketDetail, $headerTitle, $headerDetail, $countryId) {
 
         $result = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_PROFESSIONS')));
         $objBasket = New Baskets();
@@ -182,12 +182,13 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         }
 
         $j = 0;
-        $headerData = $objHeader->where('pfic_profession', $headerDetail['pfic_profession'])->get();
+        $headerData = $objHeader->where('pfic_profession', $headerDetail['pfic_profession'])->where('country_id', $countryId)->get();
         for ($i = 0; $i < count($headerTitle); ++$i) {
             $headerDataNew = [];
             $headerDataNew['pfic_profession'] = $headerDetail['pfic_profession'];
             $headerDataNew['pfic_title'] = $headerTitle[$i];
             $headerDataNew['pfic_content'] = $headerDetail[$i];
+            $headerDataNew['country_id'] = $countryId;
             if ($j < count($headerData)) {
                 $return = $objHeader->where('id', $headerData[$i]['id'])->update($headerDataNew);
             } else {

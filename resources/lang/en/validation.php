@@ -217,4 +217,5 @@ return [
     'professionisrequired' => 'Please select profession',
     'certificateisrequired' => 'Please select atleast one certificate',
     'youtuberequired' => 'Youtube is Required',
+    'selectcountryforprofessionedit' => 'Please select country for you want to edit profession header',
 ];
