@@ -70,17 +70,11 @@ class SignupController extends Controller
             $teenagerDetail['t_sponsor_choice'] = '2';
 
             //Birthdate
-            $day = $request->day;
-            $month = $request->month;
-            $year = $request->year;
             $teenagerDetail['t_birthdate'] = '';
-            if($day != "" && $month != "" && $year != "") {
-                $stringVariable = $year."-".$month."-".$day;
-                $birthDate = Carbon::createFromFormat("Y-m-d", $stringVariable);
-                $todayDate = Carbon::now();
-                if (Helpers::validateDate($stringVariable, "Y-m-d") && $todayDate->gt($birthDate) ) {
-                    $teenagerDetail['t_birthdate'] = $stringVariable;
-                }
+            if (isset($request->birthDate) && $request->birthDate != '') {
+                $dob = $request->birthDate;
+                $dobDate = str_replace('/', '-', $dob);
+                $teenagerDetail['t_birthdate'] = date("Y-m-d", strtotime($dobDate));
             }
 
             //On-Off Buttons
@@ -182,10 +176,7 @@ class SignupController extends Controller
                         $teenagerDetailSaved->t_photo = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerOriginalImageUrl($teenagerDetailSaved->t_photo) : "";
                         $teenagerDetailSaved->t_photo_thumb = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerThumbImageUrl($teenagerDetailSaved->t_photo) : "";
                         //IF require then birthdate will be seprate in day,month,year in response
-                        $teenagerDetailSaved->t_birthdate = ($teenagerDetailSaved->t_birthdate != '0000-00-00' ) ? $teenagerDetailSaved->t_birthdate : '';
-                        $teenagerDetailSaved->year = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->year : "";
-                        $teenagerDetailSaved->day = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->day : "";
-                        $teenagerDetailSaved->month = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->month : "";
+                        $teenagerDetailSaved->t_birthdate = ($teenagerDetailSaved->t_birthdate != '0000-00-00' ) ? Carbon::parse($teenagerDetailSaved->t_birthdate)->format('d/m/Y') : '';
                         $teenagerDetailSaved->t_sponsors = $this->teenagersRepository->getSelfSponserListData($teenagerDetailSaved->id);
                         $response['status'] = 1;
                         //$response['login'] = 1;
@@ -222,13 +213,10 @@ class SignupController extends Controller
                             }
                             $teenagerDetailSaved = $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
                             /* save sponser by teenager id if sponsor id is not blank */
-                            $sponserDetailSave = $this->teenagersRepository->saveTeenagerSponserId($teenagerDetailSaved->id, $request->sponsor_id);
-                            //Get Collection of teena and sponsors
+                            $sponserDetailSave = $this->teenagersRepository->saveTeenagerSponserId($teenagerDetailSaved->id, $request->sponsorIds);
+                            //Get Collection of teen and sponsors
                             $teenagerDetailbyId = $this->teenagersRepository->getTeenagerById($teenagerDetailSaved->id);
-                            $teenagerDetailbyId->t_birthdate = (isset($teenagerDetailbyId->t_birthdate) && $teenagerDetailbyId->t_birthdate != '0000-00-00') ? $teenagerDetailbyId->t_birthdate : '';
-                            $teenagerDetailbyId->year = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->year : "";
-                            $teenagerDetailbyId->day = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->day : "";
-                            $teenagerDetailbyId->month = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->month : "";
+                            $teenagerDetailbyId->t_birthdate = (isset($teenagerDetailbyId->t_birthdate) && $teenagerDetailbyId->t_birthdate != '0000-00-00') ? Carbon::parse($teenagerDetailbyId->t_birthdate)->format('d/m/Y') : '';
                             
                             if ($teenagerDetailbyId->t_photo != '') {
                                 $teenPhoto = $teenagerDetailbyId->t_photo;
@@ -237,7 +225,7 @@ class SignupController extends Controller
                             }
                             if (isset($teenagerDetailbyId->t_sponsors)) {
                                 foreach ($teenagerDetailbyId->t_sponsors as $sponsor) {
-                                    $sponsorPhoto = $sponsor->sp_logo;
+                                    $sponsorPhoto = ($sponsor->sp_logo != "") ? $sponsor->sp_logo : "proteen-logo.png";
                                     $sponsor->sp_logo = Storage::url($this->sponsorOriginalImageUploadPath . $sponsorPhoto);
                                     $sponsor->sp_logo_thumb = Storage::url($this->sponsorThumbImageUploadPath . $sponsorPhoto);
                                 }
