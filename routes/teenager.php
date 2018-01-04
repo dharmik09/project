@@ -73,6 +73,8 @@ Route::post('/search-community', 'Teenager\CommunityManagementController@index')
 Route::post('/load-more-new-connections', 'Teenager\CommunityManagementController@loadMoreNewConnections')->name('load-more-new-connections');
 Route::post('/load-more-my-connections', 'Teenager\CommunityManagementController@loadMoreMyConnections')->name('load-more-my-connections');
 Route::get('/send-request-to-teenager/{uniqueId}', 'Teenager\CommunityManagementController@sendRequest')->name('send-request-to-teenager');
+//Route::get('/accept-connection-request', 'Teenager\CommunityManagementController@acceptRequest')->name('accept-connection-request');
+//Route::get('/reject-connection-request', 'Teenager\CommunityManagementController@rejectRequest')->name('reject-connection-request');
 
 Route::get('/learning-guidance', function() {
 	return view('teenager.learningGuidance');

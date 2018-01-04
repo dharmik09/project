@@ -126,13 +126,30 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
     /**
      * Save connection request data
      */    
-    public function saveConnectionRequest($connectionRequestData)
+    public function saveConnectionRequest($connectionRequestData, $token)
     {
-        if(isset($connectionRequestData['id']) && $connectionRequestData['id'] != '' && $connectionRequestData['id'] > 0) {
-            $return = $this->model->where('id', $connectionRequestData['id'])->update($connectionRequestData);
+        if(isset($token) && $token != '' && !empty($token)) {
+            $return = $this->model->where('tc_unique_id', $token)->update($connectionRequestData);
         } else {
             $return = $this->model->create($connectionRequestData);
         }
         return $return;
+    }
+
+    public function checkTeenAlreadyConnected($receiverId, $senderId)
+    {
+        $flag = '';
+        $availableRequest = $this->model->where('tc_receiver_id', $receiverId)->where('tc_sender_id', $senderId)->first();
+        if (isset($availableRequest) && !empty($availableRequest)) {
+            $checkRequestStatus = $this->model->select('tc_status')->where('tc_receiver_id', $receiverId)->where('tc_sender_id', $senderId)->first();
+            if(in_array($checkRequestStatus->tc_status, array(Config::get('constant.CONNECTION_PENDING_STATUS'), Config::get('constant.CONNECTION_ACCEPT_STATUS')))) {
+                $flag = false;
+            } else {
+                $flag = true;
+            }
+        } else {
+            $flag = true;
+        }
+        return $flag;
     }
 }

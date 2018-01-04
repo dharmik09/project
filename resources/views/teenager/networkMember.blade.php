@@ -9,6 +9,46 @@
     <!-- profile section-->
     <section class="sec-profile sec-member">
         <div class="container">
+            <div class="col-xs-12">
+                @if ($message = Session::get('success'))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <div class="alert alert-success alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if ($message = Session::get('error'))
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 invalid_pass_error">
+                        <div class="box-body">
+                            <div class="alert alert-error alert-dismissable danger">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if (count($errors) > 0)
+                <div class="alert alert-danger danger">
+                    <strong>{{trans('validation.whoops')}}</strong>
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                    {{trans('validation.someproblems')}}<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+            </div>
             <div class="sec-popup">
                 <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                 <div class="hide" id="pop1">
@@ -50,9 +90,11 @@
                             <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
                             <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                         </ul>
+                        @if (!empty($connectedTeen) && $connectedTeen == true)
                         <div class="chat-icon add-icon">
                             <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add"><i class="icon-add-circle"></i></a>
                         </div>
+                        @endif
                         <div class="chat-icon">
                             <a href="#" title="Chat"><i class="icon-chat"></i></a>
                         </div>

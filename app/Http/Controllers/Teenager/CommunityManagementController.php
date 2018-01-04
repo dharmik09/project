@@ -48,6 +48,7 @@ class CommunityManagementController extends Controller {
     {
         $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($uniqueId);
         if (isset($teenDetails) && !empty($teenDetails)) {
+            $connectedTeen = $this->communityRepository->checkTeenAlreadyConnected($teenDetails->id, Auth::guard('teenager')->user()->id);
             $myConnections = $this->communityRepository->getMyConnections($teenDetails->id, array(), '');
             $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($teenDetails->id);
             $teenagerInterest = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
@@ -68,7 +69,7 @@ class CommunityManagementController extends Controller {
                 $teenagerPersonality[$personalityKey] = (array('score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
             }
             $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
-            return view('teenager.networkMember', compact('teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest'));
+            return view('teenager.networkMember', compact('teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectedTeen'));
         } else {
             return Redirect::back()->with('error', 'Member not found');
         }
@@ -119,8 +120,8 @@ class CommunityManagementController extends Controller {
         $connectionUniqueId = uniqid("", TRUE);
         $replaceArray['RECEIVER_TEEN_NAME'] = $receiverTeenDetails->t_name;
         $replaceArray['SENDER_TEEN_NAME'] = $senderTeenDetails->t_name;
-        $replaceArray['ACCEPT_URL'] = url('teenager/accept-connection-request?token='.$connectionUniqueId);
-        $replaceArray['REJECT_URL'] = url("teenager/reject-connection-request?token=".$connectionUniqueId);
+        //$replaceArray['ACCEPT_URL'] = url('teenager/accept-connection-request?token='.$connectionUniqueId);
+        //$replaceArray['REJECT_URL'] = url("teenager/reject-connection-request?token=".$connectionUniqueId);
         $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
         if (isset($emailTemplateContent) && !empty($emailTemplateContent)) {
             $data['subject'] = $emailTemplateContent->et_subject;
@@ -139,12 +140,26 @@ class CommunityManagementController extends Controller {
                         $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
                         $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
 
-                        $this->communityRepository->saveConnectionRequest($connectionRequestData);
+                        $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
                             });
                     // ------------------------end sending mail ----------------------------//
             return Redirect::back()->with('success', 'Connection request sent successfully');
         } else {
             return Redirect::back()->with('error', trans('validation.somethingwrong'));
         }
+    }
+
+    public function acceptRequest()
+    {
+        $token=input::get('token');
+        $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_ACCEPT_STATUS');
+        $recordUpdate = $this->communityRepository->saveConnectionRequest($connectionRequestData, $token);
+    }
+
+    public function rejectRequest()
+    {
+        $token=input::get('token');
+        $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_REJECT_STATUS');
+        $this->communityRepository->saveConnectionRequest($connectionRequestData, $token);
     }
 }
