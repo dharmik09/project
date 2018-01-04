@@ -265,7 +265,7 @@
                                                             <label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label>
                                                             <label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label>
                                                         </div>
-                                                        <div class="clearfix"><a href="#" class="next-que pull-right"><i class="icon-hand"></i></a></div>
+                                                        <div class="clearfix"><span class="next-que pull-right"><i class="icon-hand"></i></span></div>
                                                     </div>
                                                 </div>
                                             </div>

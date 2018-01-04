@@ -205,20 +205,38 @@
                             </div>
                         </div>
                         <ul class="badge-list interest-list clearfix">
-                            @forelse($teenagerInterest as $interestKey => $interestValue)
-                            <?php if($interestValue < 1) { continue; } ?>
-                            <li>
-                                <figure>
-                                    <div class="progress-radial progress-90 progress-orange">
-                                    </div>
-                                    <figcaption><?php echo Helpers::getInterestBySlug($interestKey); ?></figcaption>
-                                </figure>
-                            </li>
-                            @empty
-                            <li>
-                                No Records found.
-                            </li>
-                            @endforelse
+                            <?php 
+                                $interestFlag = ''; 
+                                if (!empty(array_filter($teenagerInterest))) {
+                                    $interestFlag = true;
+                                } else {
+                                    $interestFlag = false;
+                                }
+                            ?>
+                            @if ($interestFlag == true)
+                                @forelse($teenagerInterest as $interestKey => $interestValue)
+                                <?php if ($interestValue < 1) { continue; } ?> 
+                                <li>
+                                    <figure>
+                                        <div class="progress-radial progress-90 progress-orange">
+                                        </div>
+                                        <figcaption><?php echo Helpers::getInterestBySlug($interestKey); ?></figcaption>
+                                    </figure>
+                                </li>
+                                @empty
+                                <center>
+                                    <li>
+                                        <h3>No Records found.</h3>
+                                    </li>
+                                </center>
+                                @endforelse
+                            @else
+                                <center>
+                                    <li>
+                                        <h3>No Records found.</h3>
+                                    </li>
+                                </center>
+                            @endif
                         </ul>
                     </div>
                     <div id="menu2" class="tab-pane fade">
@@ -243,9 +261,11 @@
                                     </figure>
                                 </li>
                                 @empty
-                                <li>
-                                    No Records found.
-                                </li>
+                                <center>
+                                    <li>
+                                        <h3>No Records found.</h3>
+                                    </li>
+                                </center>
                                 @endforelse
                             </ul>
                         </div>
@@ -284,7 +304,9 @@
                             </div>
                         </div>
                         @empty
-                            No Connections found.
+                            <center>
+                                <h3>No Records found.</h3>
+                            </center>
                         @endforelse
                     </div>
                 </div>
