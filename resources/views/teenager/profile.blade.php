@@ -657,7 +657,7 @@
                                 {!! $achievementStr !!}
                             @endif
                             </span>
-                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed achievement">Edit</a>
+                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed">Edit</a>
                         </div>
                     </h4>
                 </div>
@@ -681,7 +681,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed academic">Academic Record
+                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed">Academic Record
                             <span>
                             @if(isset($teenagerMeta['education'][0]['meta_value']))
                                 <?php
