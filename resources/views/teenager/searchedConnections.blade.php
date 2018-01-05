@@ -34,7 +34,9 @@
                             </div>
                         </div>
                         @empty
-                            No Connections found.
+                            <center>
+                                <h3>No Connections found.</h3>
+                            </center>
                         @endforelse
                         @if (!empty($newConnections->toArray()) && $newConnectionsCount > 10)
                             <p id="remove-row" class="text-center remove-row"><a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a></p>
@@ -79,7 +81,9 @@
                             </div>
                         </div>
                         @empty
-                            No Connections found.
+                            <center>
+                                <h3>No Connections found.</h3>
+                            </center>
                         @endforelse
                         @if (!empty($myConnections->toArray()) && $myConnectionsCount > 10)
                             <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" data-id="{{ $myConnection->id }}" title="load more" class="load-more">load more</a></p>

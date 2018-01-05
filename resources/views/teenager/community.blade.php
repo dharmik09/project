@@ -83,7 +83,9 @@
                             </div>
                         </div>
                         @empty
-                            No Connections found.
+                            <center>
+                                <h3>No Connections found.</h3>
+                            </center>
                         @endforelse
                         @if (!empty($newConnections->toArray()) && $newConnectionsCount > 10)
                             <p id="remove-row" class="text-center remove-row"><a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a></p>
@@ -128,7 +130,9 @@
                             </div>
                         </div>
                         @empty
-                            No Connections found.
+                            <center>
+                                <h3>No Connections found.</h3>
+                            </center>
                         @endforelse
                         @if (!empty($myConnections->toArray()) && $myConnectionsCount > 10)
                             <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myConnection->id }}">load more</a></p>
@@ -150,31 +154,53 @@
             search_keyword = $(this).val();
             searchConnections = (search_keyword).trim();
             var filter_by = $("#filter_by").val();
-            var filter_option = $("#sub_filter").val();
+            if (filter_by == 't_pincode') {
+                var filter_option = $("#search_pincode").val();
+            } else {
+                var filter_option = $("#sub_filter").val();
+            }
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var form_data = 'searchConnections=' + searchConnections + '&filter_by=' + filter_by + '&filter_option=' + filter_option;
-            $.ajax({
-                type: 'POST',
-                data: form_data,
-                url: "{{ url('/teenager/search-community') }}",
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN
-                },
-                cache: false,
-                success: function(data) {
-                    $('.existing-connection').hide();
-                    $('.mySearch_area').show();
-                    $('.mySearch_area').html(data);
-                }
-            });
+            if (searchConnections.length > 3) {
+                $.ajax({
+                    type: 'POST',
+                    data: form_data,
+                    url: "{{ url('/teenager/search-community') }}",
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN
+                    },
+                    cache: false,
+                    success: function(data) {
+                        if (data != '') {
+                            $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+                            $('#loading-wrapper-sub').show();
+                            $('.existing-connection').hide();
+                            $('.mySearch_area').show();
+                            $('.mySearch_area').html(data);
+                        } else {
+                            $('#loading-wrapper-sub').hide();
+                            $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                        }
+                    }
+                });
+            } else {
+                $('#loading-wrapper-sub').hide();
+                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+            }
         });
         $(document).on('click','#load-more',function(){
                 var lastTeenId = $(this).data('id');
                 //$("#btn-more").html("Loading....");
                 search_keyword = $("#search_community").val();
                 searchConnections = (search_keyword).trim();
+                var filter_by = $("#filter_by").val();
+                if (filter_by == 't_pincode') {
+                    var filter_option = $("#search_pincode").val();
+                } else {
+                    var filter_option = $("#sub_filter").val();
+                }
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var form_data = 'searchConnections=' + searchConnections + '&lastTeenId=' + lastTeenId;
+                var form_data = 'searchConnections=' + searchConnections + '&lastTeenId=' + lastTeenId + '&filter_by=' + filter_by + '&filter_option=' + filter_option;
                 $.ajax({
                     url : '{{ url("teenager/load-more-new-connections") }}',
                     method : "POST",
@@ -199,8 +225,14 @@
                 //$("#btn-more").html("Loading....");
                 search_keyword = $("#search_community").val();
                 searchConnections = (search_keyword).trim();
+                var filter_by = $("#filter_by").val();
+                if (filter_by == 't_pincode') {
+                    var filter_option = $("#search_pincode").val();
+                } else {
+                    var filter_option = $("#sub_filter").val();
+                }
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var form_data = 'searchConnections=' + searchConnections + '&lastTeenId=' + lastTeenId;
+                var form_data = 'searchConnections=' + searchConnections + '&lastTeenId=' + lastTeenId + '&filter_by=' + filter_by + '&filter_option=' + filter_option;
                 $.ajax({
                     url : '{{ url("teenager/load-more-my-connections") }}',
                     method : "POST",
@@ -296,11 +328,15 @@
             });
 
             $(document).on('keyup','#search_pincode',function() {
+                $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+                $('#loading-wrapper-sub').show();
                 var filter_by = $("#filter_by").val();
                 var filter_option = this.value;
+                var search_keyword = $("#search_community").val();
+                var searchConnections = (search_keyword).trim();
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var form_data = 'filter_by=' + filter_by + '&filter_option=' + filter_option;
-                if (filter_option != '' && filter_by != '') {
+                var form_data = 'filter_by=' + filter_by + '&filter_option=' + filter_option + '&searchConnections=' + searchConnections;
+                if (filter_option != '' && filter_by != '' && filter_option.length > 3) {
                     $.ajax({
                         url : '{{ url("teenager/get-teenagers-by-filter") }}',
                         method : "POST",
@@ -311,16 +347,21 @@
                         dataType : "text",
                         success : function (data) {
                             if(data != '') {
+                                $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                                 $('.existing-connection').hide();
                                 $('.mySearch_area').show();
                                 $('.mySearch_area').html(data);
                             } else {
+                                $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                                 //$('.existing-connection').show();
                             }
                         }
                     });
-                } else {
-                    //$('.existing-connection').show();
+                } else { 
+                    $('#loading-wrapper-sub').hide();
+                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 }
             });
     </script>

@@ -40,7 +40,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                         if ($filterBy != 't_birthdate' && $filterBy != 't_pincode') {
                                             $qryFilter->where($filterBy, $filterOption);
                                         } else if ($filterBy == 't_pincode') {
-                                            $qryFilter->where($filterBy, 'like', '%'.$filterOption.'%');
+                                            $qryFilter->where('t_pincode', 'like', '%'.$filterOption.'%');
                                         } else {
                                             if (is_array($filterOption)) {
                                                 $qryFilter->whereBetween($filterBy, [$filterOption['fromDate'], $filterOption['toDate']]);
