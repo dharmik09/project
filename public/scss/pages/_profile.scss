@@ -1254,6 +1254,7 @@ input:checked + .slider:before {
     }
     .tab-content {
         padding: 0 42px;
+        position: relative;
         @include maxmd {
             padding: 0 32px;
         }

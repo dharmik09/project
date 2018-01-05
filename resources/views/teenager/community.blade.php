@@ -51,6 +51,12 @@
                     <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
                 </ul>
                 <div class="tab-content">
+                    <div id="loading-wrapper-sub" class="loading-screen">
+                        <div id="loading-text">
+                            <img src="{{ asset('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                        <div id="loading-content">
+                        </div>
+                    </div>
                     <div id="menu1" class="tab-pane fade in active search-new-connection">
                         @forelse($newConnections as $newConnection)
                         <div class="team-list">
@@ -216,36 +222,70 @@
             });
             
             $(document).on('change','#filter_by',function(){
+                $('#loading-wrapper-sub').show();
                 var filter_option = this.value;
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                 var form_data = 'filter_option=' + filter_option;
                 if (filter_option != '') {
-                    if (filter_option != 't_pincode') {
-                        $.ajax({
-                            url : '{{ url("teenager/get-sub-filter") }}',
-                            method : "POST",
-                            data: form_data,
-                            headers: {
-                                'X-CSRF-TOKEN': CSRF_TOKEN
-                            },
-                            dataType : "text",
-                            success : function (data) {
-                                if(data != '') {
-                                    $('.remove-sub-filter').remove();
-                                    $('.sub-filter').append(data);
-                                } 
+                    $.ajax({
+                        url : '{{ url("teenager/get-sub-filter") }}',
+                        method : "POST",
+                        data: form_data,
+                        headers: {
+                            'X-CSRF-TOKEN': CSRF_TOKEN
+                        },
+                        dataType : "text",
+                        success : function (data) {
+                            if(data != '') {
+                                $('#loading-wrapper-sub').hide();
+                                $('.remove-sub-filter').remove();
+                                $('.sub-filter').append(data);
+                            } else {
+                                $('#loading-wrapper-sub').hide();
+                                $('.remove-sub-filter').remove();
                             }
-                        });
-                    } else {
-                        $('.remove-sub-filter').remove();
-                        $('.sub-filter').append('<div class="form-group search-bar clearfix remove-sub-filter"><input type="text" id="search_pincode" name="search_pincode" placeholder="search" tabindex="1" class="form-control search-feild  search_pincode"></div>');
-                    }
+                        }
+                    });
                 } else {
+                    $('#loading-wrapper-sub').hide();
                     $('.remove-sub-filter').remove();
                 }
             });
 
             $(document).on('change','#sub_filter',function() {
+                $('#loading-wrapper-sub').show();
+                var filter_by = $("#filter_by").val();
+                var filter_option = this.value;
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var form_data = 'filter_by=' + filter_by + '&filter_option=' + filter_option;
+                if (filter_option != '' && filter_by != '') {
+                    $.ajax({
+                        url : '{{ url("teenager/get-teenagers-by-filter") }}',
+                        method : "POST",
+                        data: form_data,
+                        headers: {
+                            'X-CSRF-TOKEN': CSRF_TOKEN
+                        },
+                        dataType : "text",
+                        success : function (data) {
+                            if(data != '') {
+                                $('#loading-wrapper-sub').hide();
+                                $('.existing-connection').hide();
+                                $('.mySearch_area').show();
+                                $('.mySearch_area').html(data);
+                            } else {
+                                $('#loading-wrapper-sub').hide();
+                                $('.existing-connection').show();
+                            }
+                        }
+                    });
+                } else {
+                    $('#loading-wrapper-sub').hide();
+                    $('.existing-connection').show();
+                }
+            });
+
+            $(document).on('keyup','#search_pincode',function() {
                 var filter_by = $("#filter_by").val();
                 var filter_option = this.value;
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -272,31 +312,6 @@
                 } else {
                     $('.existing-connection').show();
                 }
-            });
-
-            $( ".search_pincode" ).keyup(function() {
-                var filter_by = $("#filter_by").val();
-                var filter_option = this.value;
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var form_data = 'filter_by=' + filter_by + '&filter_option=' + filter_option;
-                $.ajax({
-                    url : '{{ url("teenager/get-teenagers-by-filter") }}',
-                    method : "POST",
-                    data: form_data,
-                    headers: {
-                        'X-CSRF-TOKEN': CSRF_TOKEN
-                    },
-                    dataType : "text",
-                    success : function (data) {
-                        if(data != '') {
-                            $('.existing-connection').hide();
-                            $('.mySearch_area').show();
-                            $('.mySearch_area').html(data);
-                        } else {
-                            $('.existing-connection').show();
-                        }
-                    }
-                });
             });
     </script>
 @stop

@@ -37,13 +37,13 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                  })
                                 ->where(function($qryFilter) use ($filterBy, $filterOption)  {
                                     if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
-                                        if ($filterBy != 't_birthdate') {
+                                        if ($filterBy != 't_birthdate' && $filterBy != 't_pincode') {
                                             $qryFilter->where($filterBy, $filterOption);
+                                        } else if ($filterBy == 't_pincode') {
+                                            $qryFilter->where($filterBy, 'like', '%'.$filterOption.'%');
                                         } else {
                                             if (is_array($filterOption)) {
                                                 $qryFilter->whereBetween($filterBy, [$filterOption['fromDate'], $filterOption['toDate']]);
-                                                //$qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
-                                                //$qryFilter->where($filterBy, '<=', $filterOption['toDate']);
                                             } else if($filterOption == 13) {
                                                 $filterDate = Carbon::now()->subYears($filterOption);
                                                 $qryFilter->where($filterBy, '>=', $filterDate->format('Y-m-d'));
@@ -86,16 +86,19 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                  })
                                 ->where(function($qryFilter) use ($filterBy, $filterOption)  {
                                     if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
-                                        if ($filterOption != 't_age') {
+                                        if ($filterBy != 't_birthdate' && $filterBy != 't_pincode') {
                                             $qryFilter->where($filterBy, $filterOption);
+                                        } else if ($filterBy == 't_pincode') {
+                                            $qryFilter->where($filterBy, 'like', '%'.$filterOption.'%');
                                         } else {
                                             if (is_array($filterOption)) {
-                                                $qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
-                                                $qryFilter->where($filterBy, '<=', $filterOption['toDate']);
+                                                $qryFilter->whereBetween($filterBy, [$filterOption['fromDate'], $filterOption['toDate']]);
                                             } else if($filterOption == 13) {
-                                                $qryFilter->where($filterBy, '<=', $filterOption);
+                                                $filterDate = Carbon::now()->subYears($filterOption);
+                                                $qryFilter->where($filterBy, '>=', $filterDate->format('Y-m-d'));
                                             } else {
-                                                $qryFilter->where($filterBy, '>=', $filterOption);
+                                                $filterDate = Carbon::now()->subYears($filterOption);
+                                                $qryFilter->where($filterBy, '<=', $filterDate->format('Y-m-d'));
                                             }
                                         }
                                     }
@@ -133,16 +136,19 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                  })
                                 ->where(function($qryFilter) use ($filterBy, $filterOption)  {
                                     if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
-                                        if ($filterOption != 't_age') {
+                                        if ($filterBy != 't_birthdate' && $filterBy != 't_pincode') {
                                             $qryFilter->where($filterBy, $filterOption);
+                                        } else if ($filterBy == 't_pincode') {
+                                            $qryFilter->where($filterBy, 'like', '%'.$filterOption.'%');
                                         } else {
                                             if (is_array($filterOption)) {
-                                                $qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
-                                                $qryFilter->where($filterBy, '<=', $filterOption['toDate']);
+                                                $qryFilter->whereBetween($filterBy, [$filterOption['fromDate'], $filterOption['toDate']]);
                                             } else if($filterOption == 13) {
-                                                $qryFilter->where($filterBy, '<=', $filterOption);
+                                                $filterDate = Carbon::now()->subYears($filterOption);
+                                                $qryFilter->where($filterBy, '>=', $filterDate->format('Y-m-d'));
                                             } else {
-                                                $qryFilter->where($filterBy, '>=', $filterOption);
+                                                $filterDate = Carbon::now()->subYears($filterOption);
+                                                $qryFilter->where($filterBy, '<=', $filterDate->format('Y-m-d'));
                                             }
                                         }
                                     }
@@ -172,16 +178,19 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                  })
                                 ->where(function($qryFilter) use ($filterBy, $filterOption)  {
                                     if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
-                                        if ($filterOption != 't_age') {
+                                        if ($filterBy != 't_birthdate' && $filterBy != 't_pincode') {
                                             $qryFilter->where($filterBy, $filterOption);
+                                        } else if ($filterBy == 't_pincode') {
+                                            $qryFilter->where($filterBy, 'like', '%'.$filterOption.'%');
                                         } else {
                                             if (is_array($filterOption)) {
-                                                $qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
-                                                $qryFilter->where($filterBy, '<=', $filterOption['toDate']);
+                                                $qryFilter->whereBetween($filterBy, [$filterOption['fromDate'], $filterOption['toDate']]);
                                             } else if($filterOption == 13) {
-                                                $qryFilter->where($filterBy, '<=', $filterOption);
+                                                $filterDate = Carbon::now()->subYears($filterOption);
+                                                $qryFilter->where($filterBy, '>=', $filterDate->format('Y-m-d'));
                                             } else {
-                                                $qryFilter->where($filterBy, '>=', $filterOption);
+                                                $filterDate = Carbon::now()->subYears($filterOption);
+                                                $qryFilter->where($filterBy, '<=', $filterDate->format('Y-m-d'));
                                             }
                                         }
                                     }
