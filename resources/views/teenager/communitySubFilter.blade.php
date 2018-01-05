@@ -30,4 +30,8 @@
         </select>
     </div>
     @endif
+@elseif (empty($filterData) && $filterOption == 't_pincode')
+    <div class="form-group search-bar clearfix remove-sub-filter">
+        <input type="text" id="search_pincode" name="search_pincode" placeholder="search" tabindex="1" class="form-control search-feild pincode_div">
+    </div>
 @endif
