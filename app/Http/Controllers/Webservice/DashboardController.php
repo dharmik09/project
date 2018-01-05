@@ -200,7 +200,7 @@ class DashboardController extends Controller
             $response['message'] = trans('appmessages.default_success_msg');
             $response['status'] = 1;
         } else {
-            $response['message'] = "Something went wrong!";
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
         return response()->json($response, 200);
         exit;
@@ -220,7 +220,7 @@ class DashboardController extends Controller
             $response['message'] = trans('appmessages.default_success_msg');
             $response['status'] = 1;
         } else {
-            $response['message'] = "Something went wrong!";
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
         return response()->json($response, 200);
         exit;
@@ -255,7 +255,7 @@ class DashboardController extends Controller
             $response['message'] = trans('appmessages.default_success_msg');
             $response['status'] = 1;
         } else {
-            $response['message'] = "Something went wrong!";
+            $response['message'] = "Something went wrong or missing data!";
         }
         return response()->json($response, 200);
         exit;
@@ -290,7 +290,7 @@ class DashboardController extends Controller
             $response['message'] = trans('appmessages.default_success_msg');
             $response['status'] = 1;
         } else {
-            $response['message'] = "Something went wrong!";
+            $response['message'] = "Something went wrong or missing data!";
         }
         return response()->json($response, 200);
         exit;

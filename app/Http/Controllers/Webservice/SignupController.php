@@ -178,8 +178,15 @@ class SignupController extends Controller
                         //IF require then birthdate will be seprate in day,month,year in response
                         $teenagerDetailSaved->t_birthdate = ($teenagerDetailSaved->t_birthdate != '0000-00-00' ) ? Carbon::parse($teenagerDetailSaved->t_birthdate)->format('d/m/Y') : '';
                         $teenagerDetailSaved->t_sponsors = $this->teenagersRepository->getSelfSponserListData($teenagerDetailSaved->id);
+                        if (isset($teenagerDetailSaved->t_sponsors)) {
+                            foreach ($teenagerDetailSaved->t_sponsors as $sponsor) {
+                                $sponsorPhoto = ($sponsor->sp_logo != "") ? $sponsor->sp_logo : "proteen-logo.png";
+                                $sponsor->sp_logo = Storage::url($this->sponsorOriginalImageUploadPath . $sponsorPhoto);
+                                $sponsor->sp_logo_thumb = Storage::url($this->sponsorThumbImageUploadPath . $sponsorPhoto);
+                            }
+                        }
                         $response['status'] = 1;
-                        //$response['login'] = 1;
+                        $response['login'] = 1;
                         $response['message'] = trans('appmessages.default_success_msg');
                         $response['data'] = $teenagerDetailSaved->toArray();
                     } else {
@@ -255,7 +262,6 @@ class SignupController extends Controller
                                 $teenagerTokenDetail['tev_teenager'] = $data['teen_id'];
                                 $this->teenagersRepository->addTeenagerEmailVarifyToken($teenagerTokenDetail);
                             });
-
                             $response['status'] = 1;
                             $response['message'] = trans('appmessages.signupmail_success_msg');
                             $response['data'] = $teenagerDetailbyId;

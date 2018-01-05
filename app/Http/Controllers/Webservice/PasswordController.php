@@ -49,7 +49,7 @@ class PasswordController extends Controller
     */
     public function changePassword(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->newPassword != "" && strlen($request->newPassword) < 6) {
             $response['message'] = "Password length should be 6 digit long!";
             $response['status'] = 0;
