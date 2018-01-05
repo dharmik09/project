@@ -222,6 +222,7 @@
             });
             
             $(document).on('change','#filter_by',function(){
+                $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
                 $('#loading-wrapper-sub').show();
                 var filter_option = this.value;
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -238,21 +239,25 @@
                         success : function (data) {
                             if(data != '') {
                                 $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                                 $('.remove-sub-filter').remove();
                                 $('.sub-filter').append(data);
                             } else {
                                 $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                                 $('.remove-sub-filter').remove();
                             }
                         }
                     });
                 } else {
                     $('#loading-wrapper-sub').hide();
+                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                     $('.remove-sub-filter').remove();
                 }
             });
 
             $(document).on('change','#sub_filter',function() {
+                $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
                 $('#loading-wrapper-sub').show();
                 var filter_by = $("#filter_by").val();
                 var filter_option = this.value;
@@ -270,18 +275,21 @@
                         success : function (data) {
                             if(data != '') {
                                 $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                                 $('.existing-connection').hide();
                                 $('.mySearch_area').show();
                                 $('.mySearch_area').html(data);
                             } else {
                                 $('#loading-wrapper-sub').hide();
-                                $('.existing-connection').show();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                                //$('.existing-connection').show();
                             }
                         }
                     });
                 } else {
                     $('#loading-wrapper-sub').hide();
-                    $('.existing-connection').show();
+                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    //$('.existing-connection').show();
                 }
             });
 
@@ -305,12 +313,12 @@
                                 $('.mySearch_area').show();
                                 $('.mySearch_area').html(data);
                             } else {
-                                $('.existing-connection').show();
+                                //$('.existing-connection').show();
                             }
                         }
                     });
                 } else {
-                    $('.existing-connection').show();
+                    //$('.existing-connection').show();
                 }
             });
     </script>
