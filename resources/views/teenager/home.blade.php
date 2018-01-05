@@ -62,7 +62,10 @@
                                             <div class="my_chart">
                                                 <div class="progress-radial progress-20">
                                                 </div>
-                                                <h4><a href="{{ url('teenager/interest/') }}"><?php echo Helpers::getInterestBySlug($interestKey); ?></h4>
+                                                <h4>
+                                                    <a href="{{ url('teenager/interest/') }}/{{$interestKey}}"><?php echo Helpers::getInterestBySlug($interestKey); ?>
+                                                    </a>
+                                                </h4>
                                             </div>
                                         </div>
                                 @empty

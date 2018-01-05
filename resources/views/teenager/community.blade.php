@@ -261,8 +261,10 @@
                 $('#loading-wrapper-sub').show();
                 var filter_by = $("#filter_by").val();
                 var filter_option = this.value;
+                var search_keyword = $("#search_community").val();
+                var searchConnections = (search_keyword).trim();
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var form_data = 'filter_by=' + filter_by + '&filter_option=' + filter_option;
+                var form_data = 'filter_by=' + filter_by + '&filter_option=' + filter_option + '&searchConnections=' + searchConnections;
                 if (filter_option != '' && filter_by != '') {
                     $.ajax({
                         url : '{{ url("teenager/get-teenagers-by-filter") }}',
