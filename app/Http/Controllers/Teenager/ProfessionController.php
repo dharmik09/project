@@ -23,13 +23,23 @@ class ProfessionController extends Controller {
         $this->baskets = new Baskets();
     }
 
-    public function index(){
+    public function listIndex(){
         $userid = Auth::guard('teenager')->user()->id;
+        $totalProfessionCount = $this->professionsRepository->getAllProfessionsCount($userid);
+        $teenagerTotalProfessionAttemptedCount = $this->professionsRepository->getTeenagerTotalProfessionAttempted($userid);
         $basketsData = $this->baskets->with('profession')->where('deleted',config::get('constant.ACTIVE_FLAG'))->get();
-        return view('teenager.careersListing', compact('basketsData'));
+        return view('teenager.careersListing', compact('basketsData','totalProfessionCount','teenagerTotalProfessionAttemptedCount'));
     }
 
-    public function getIndex(){
+    public function gridIndex(){
+        $userid = Auth::guard('teenager')->user()->id;
+        $totalProfessionCount = $this->professionsRepository->getAllProfessionsCount($userid);
+        $teenagerTotalProfessionAttemptedCount = $this->professionsRepository->getTeenagerTotalProfessionAttempted($userid);
+        $basketsData = $this->baskets->with('profession')->where('deleted',config::get('constant.ACTIVE_FLAG'))->get();
+        return view('teenager.careersGrid', compact('basketsData','totalProfessionCount','teenagerTotalProfessionAttemptedCount'));
+    }
+
+    public function listGetIndex(){
         $userid = Auth::guard('teenager')->user()->id;
         $basketsData = $this->baskets->with('profession')->find(Input::get('basket_id'));
 

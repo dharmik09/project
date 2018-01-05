@@ -99,14 +99,4 @@ class EloquentBasketsRepository extends EloquentBaseRepository implements Basket
         $basketDetail = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_BASKETS') . " WHERE id='" . $basketId . "'"));
         return $basketDetail;
     }
-
-    /**
-    * Parameter : $userid
-    * return : array od basket attempt of teenager
-    */
-    public function getTeenagerTotalProfessionAttempted($userid)
-    {
-        $basketattempt = DB::table(config::get('databaseconstants.TBL_TEENAGER_BASKET_ATTEMPTED'))->where('tba_teenager',$userid)->where('tba_basket_id',$basketid)->first();
-        return $basketattempt;
-    }
 }

@@ -12,7 +12,7 @@
     <div class="careers-list">
         <div class="top-heading text-center listing-heading">
             <h1>careers</h1>
-            <p>You have completed <strong class="font-blue">212 of 550</strong> careers</p>
+            <p>You have completed <strong class="font-blue">{{$teenagerTotalProfessionAttemptedCount->professionAttemptCount}} of {{$totalProfessionCount}}</strong> careers</p>
         </div>
         <div class="sec-filter listing-filter">
             <div class="row">
@@ -67,7 +67,7 @@
             var CSRF_TOKEN = "{{ csrf_token() }}";
             $.ajax({
                 type: 'POST',
-                url: "{{url('teenager/career')}}",
+                url: "{{url('teenager/career-list')}}",
                 dataType: 'html',
                 headers: {
                     'X-CSRF-TOKEN': CSRF_TOKEN
