@@ -25,7 +25,7 @@ class ProfessionController extends Controller {
 
     public function index(){
         $userid = Auth::guard('teenager')->user()->id;
-        $basketsData = $this->baskets->with('profession')->get();
+        $basketsData = $this->baskets->with('profession')->where('deleted',config::get('constant.ACTIVE_FLAG'))->get();
         return view('teenager.careersListing', compact('basketsData'));
     }
 
