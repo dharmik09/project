@@ -35,24 +35,24 @@ class ParentController extends Controller
         $this->parentThumbImageUploadPath = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH');
     }
 
-    /* Request Params : getParentList
-    *  userId, loginToken, userType
+    /* Request Params : getParentMentorList
+    *  userId, loginToken
     *  
     */
-    public function getParentList(Request $request)
+    public function getParentMentorList(Request $request)
     {
 		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
     	if($request->userId != "") {
             $teenager = $this->teenagersRepository->getTeenagerDetailById($request->userId);
             if($request->userId != "" && $teenager) {
-                $type = ($request->userType != "") ? $request->userType : '0';
-                $parentDetail = $this->teenagersRepository->getParentListByTeenagerId($request->userId, $type);
+                $parentDetail = $this->teenagersRepository->getParentMentorListByTeenagerId($request->userId);
                 $data = [];
                 foreach ($parentDetail AS $key => $value) {
                     $parentData = [];
                     $parentData['parent_id'] = $value->ptp_parent_id;
                     $parentData['teenager_id'] = $value->ptp_teenager;
                     $parentData['parent_name'] = $value->p_first_name." ".$value->p_last_name;
+                    $parentData['user_type'] = $value->user_type;
                     $parentPhoto = $value->p_photo;
                     if ($parentPhoto != '') {
                         $parentData['p_photo'] = Storage::url($this->parentOriginalImageUploadPath . $parentPhoto);
