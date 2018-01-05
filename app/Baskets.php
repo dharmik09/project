@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Professions;
 
 class Baskets extends Model
 {
@@ -15,5 +16,10 @@ class Baskets extends Model
                         ->where('deleted' ,'1')
                         ->get();
         return $result;
+    }
+
+
+    public function profession(){
+        return $this->hasMany(Professions::class, 'pf_basket');
     }
 }

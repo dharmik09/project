@@ -57,9 +57,13 @@ Route::get('/my-careers', function() {
 Route::get('/career-detail/{id}', function() {
 	return view('teenager.careerDetail');
 });
-Route::get('/list-career', function() {
-	return view('teenager.careersListing');
-});
+// Route::get('/list-career', function() {
+// 	return view('teenager.careersListing');
+// });
+Route::get('/list-career', 'Teenager\ProfessionController@listIndex');
+Route::post('/career-list', 'Teenager\ProfessionController@listGetIndex');
+// Route::get('/career-grid', 'Teenager\ProfessionController@gridIndex');
+// Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
 Route::get('/career-grid', function() {
 	return view('teenager.careerGrid');
 });
