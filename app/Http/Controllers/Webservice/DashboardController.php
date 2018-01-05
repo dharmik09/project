@@ -43,18 +43,18 @@ class DashboardController extends Controller
     }
 
     /* Request Params : updateProfile
-    *  loginToken, userId, name, lastname, email, country, pincode, gender, month, day, year, selected_sponsor, mobile, phone, proteen_code, photo, password, public_profile, share_with_members, share_with_parents, notifications, share_with_teachers, t_view_information
+    *  loginToken, userId, name, lastname, email, country, pincode, gender, month, day, year, sponsorIds, mobile, phone, proteenCode, photo, password, publicProfile, shareWithMembers, share_with_parents, notifications, shareWithTeachers, t_view_information
     */
     public function updateProfile(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         
-        if($request->userId != "" && $request->name != "" && $request->lastname != "" && $request->country != "" && $request->pincode != "" && $request->gender != "" && $request->selected_sponsor != "" && $request->month != "" && $request->day != "" && $request->year != "") {
+        if($request->userId != "" && $request->name != "" && $request->lastname != "" && $request->country != "" && $request->pincode != "" && $request->gender != "" && $request->sponsorIds != "" && $request->birthDate != "") {
             $checkuserexist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
             if ($checkuserexist) {
                 $teenagerDetail['id'] = $request->userId;
                 $teenagerDetail['t_name'] = $request->name;
                 $teenagerDetail['t_lastname'] = $request->lastname;
-                $teenagerDetail['t_nickname'] = $request->proteen_code;
+                $teenagerDetail['t_nickname'] = $request->proteenCode;
                 $teenagerDetail['t_gender'] = (in_array($request->gender, ['1','2'])) ? $request->gender : '1';
                 
                 $teenagerDetail['t_email'] = $request->email;
@@ -83,41 +83,34 @@ class DashboardController extends Controller
                     $teenagerDetail['password'] = bcrypt($request->password); 
                 }
                 
-                $day = $request->day;
-                $month = $request->month;
-                $year = $request->year;
-                $stringVariable = $year."-".$month."-".$day;
-                $birthDate = Carbon::createFromFormat("Y-m-d", $stringVariable);
-                $todayDate = Carbon::now();
-                if (Helpers::validateDate($stringVariable, "Y-m-d") && $todayDate->gt($birthDate) ) {
-                    $teenagerDetail['t_birthdate'] = $stringVariable;
-                } else {
-                    $response['message'] = "Birthdate is invalid";
-                    $response['login'] = 1;
-                    return response()->json($response, 200);
-                    exit;
+                //Birthdate
+                $teenagerDetail['t_birthdate'] = '';
+                if (isset($request->birthDate) && $request->birthDate != '') {
+                    $dob = $request->birthDate;
+                    $dobDate = str_replace('/', '-', $dob);
+                    $teenagerDetail['t_birthdate'] = date("Y-m-d", strtotime($dobDate));
                 }
 
                 $teenagerDetail['t_phone_new'] = $request->phone;
                 $teenagerDetail['t_country'] = $request->country;
                 $teenagerDetail['t_pincode'] = $request->pincode;
                 //On-Off Buttons
-                $teenagerDetail['is_search_on'] = ( $request->public_profile != "") ? $request->public_profile : "0";
-                $teenagerDetail['is_share_with_teachers'] = ( $request->share_with_teachers != "") ? $request->share_with_teachers : "0";
-                $teenagerDetail['is_share_with_other_members'] = ( $request->share_with_members != "") ? $request->share_with_members : "0";
-                $teenagerDetail['is_share_with_parents'] = ( $request->share_with_parents != "") ? $request->share_with_parents : "0";
+                $teenagerDetail['is_search_on'] = ( $request->publicProfile != "") ? $request->publicProfile : "0";
+                $teenagerDetail['is_share_with_teachers'] = ( $request->shareWithTeachers != "") ? $request->shareWithTeachers : "0";
+                $teenagerDetail['is_share_with_other_members'] = ( $request->shareWithMembers != "") ? $request->shareWithMembers : "0";
+                $teenagerDetail['is_share_with_parents'] = ( $request->shareWithParents != "") ? $request->shareWithParents : "0";
                 $teenagerDetail['is_notify'] = ( $request->notifications != "") ? $request->notifications : "0";
-                $teenagerDetail['t_view_information'] = ( $request->t_view_information != "") ? $request->t_view_information : "0";
-                $teenagerDetail['is_sound_on'] = ( $request->is_sound_on != "") ? $request->is_sound_on : "0";
+                $teenagerDetail['t_view_information'] = ( $request->viewInformation != "") ? $request->viewInformation : "0";
+                $teenagerDetail['is_sound_on'] = ( $request->isSoundOn != "") ? $request->isSoundOn : "0";
 
-                if($request->selected_sponsor == "") {
+                if($request->sponsorIds == "") {
                     $response['message'] = "Please, select at-least one sponsor";
                     $response['login'] = 1;
                     return response()->json($response, 200);
                     exit;
                 }
                 if (Input::file()) {
-                    $file = Input::file('profile_pic');
+                    $file = Input::file('profilePic');
                     if (!empty($file)) {
                         //Delete old uploaded file
                         if(isset($checkuserexist['t_photo']) && $checkuserexist['t_photo'] != "") {
@@ -144,18 +137,21 @@ class DashboardController extends Controller
                     }
                 }
                 $teenager = $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
-                $saveSponsors = $this->teenagersRepository->saveTeenagerSponserId($teenagerDetail['id'], $request->selected_sponsor);
+                $saveSponsors = $this->teenagersRepository->saveTeenagerSponserId($teenagerDetail['id'], $request->sponsorIds);
                 if($teenager) {
-                    if (count($teenager->teenagerSponsors) > 0) {
-                        foreach ($teenager->teenagerSponsors as $sponsor) {
-                            $sponsor->sp_logo_thumb = (isset($sponsor->sponsor->sp_photo) && $sponsor->sponsor->sp_photo != "") ? Storage::url($this->sponsorThumbImageUploadPath . $sponsor->sponsor->sp_photo) : Storage::url($this->sponsorThumbImageUploadPath . "proteen-logo.png");
-                            $sponsor->sp_logo = (isset($sponsor->sponsor->sp_photo) && $sponsor->sponsor->sp_photo != "") ? Storage::url($this->sponsorOriginalImageUploadPath . $sponsor->sponsor->sp_photo) : Storage::url($this->sponsorOriginalImageUploadPath . "proteen-logo.png");
-                            $sponsor->sponsor_id = (isset($sponsor->sponsor->id)) ? $sponsor->sponsor->id : 0;
-                            $sponsor->sp_email = (isset($sponsor->sponsor->sp_email)) ? $sponsor->sponsor->sp_email : "";
-                            $sponsor->sp_admin_name = (isset($sponsor->sponsor->sp_admin_name)) ? $sponsor->sponsor->sp_admin_name : "";
-                            $sponsor->sp_company_name = (isset($sponsor->sponsor->sp_company_name)) ? $sponsor->sponsor->sp_company_name : ""; 
+                    $teenager->t_sponsors = $this->teenagersRepository->getSelfSponserListData($teenager->id);
+                    if (isset($teenager->t_sponsors)) {
+                        foreach ($teenager->t_sponsors as $sponsor) {
+                            $sponsorPhoto = ($sponsor->sp_logo != "") ? $sponsor->sp_logo : "proteen-logo.png";
+                            $sponsor->sp_logo = Storage::url($this->sponsorOriginalImageUploadPath . $sponsorPhoto);
+                            $sponsor->sp_logo_thumb = Storage::url($this->sponsorThumbImageUploadPath . $sponsorPhoto);
                         }
                     }
+                    //Country related info
+                    $teenager->c_code = ( isset(Country::getCountryDetail($teenager->t_country)->c_code) ) ? Country::getCountryDetail($teenager->t_country)->c_code : "";
+                    $teenager->c_name = ( isset(Country::getCountryDetail($teenager->t_country)->c_name) ) ? Country::getCountryDetail($teenager->t_country)->c_name : "";
+                    $teenager->country_id = $teenager->t_country;
+
                     $teenager->t_photo_thumb = "";
                     if ($teenager->t_photo != '') {
                         $teenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);

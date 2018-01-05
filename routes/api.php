@@ -39,7 +39,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
 	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
 	//Parent&Mentor invitation section
-	Route::post('/getParentList', 'Webservice\ParentController@getParentList');
+	Route::post('/getParentMentorList', 'Webservice\ParentController@getParentMentorList');
 	Route::post('/parentTeenPair', 'Webservice\ParentController@parentTeenPair');
 	//First Level Part 1 Question/Answer Route
 	Route::post('/getLevel1Questions', 'Webservice\Level1ActivityController@getFirstLevelActivity');

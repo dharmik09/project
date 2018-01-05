@@ -257,6 +257,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                                             left join " . config::get('databaseconstants.TBL_COUNTRIES') . " AS country on country.id = teenager.t_country
                                            where teenager.id = " . $id . " and teenager.deleted = 1"));
         if (isset($TeenagerDetails) && isset($TeenagerDetails[0])) {
+            if(isset($TeenagerDetails[0]->password)) {
+                unset($TeenagerDetails[0]->password);
+            }
             if (count($TeenagerSponsorDetails) > 0) {
                 $TeenagerDetails[0]->t_sponsors = $TeenagerSponsorDetails;
             }
@@ -1874,6 +1877,18 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 ->where('parent_teen.ptp_teenager', $teenId)
                 ->where('parent_teen.ptp_is_verified', 1)
                 ->where('parent.p_user_type', $type)
+                ->where('parent_teen.deleted', 1)
+                ->get();
+
+        return $result;
+    }
+
+    public function getParentMentorListByTeenagerId($teenId) {
+        $result = DB::table(config::get('databaseconstants.TBL_PARENT_TEEN_PAIR') . " AS parent_teen")
+                ->join(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'parent.id', '=', 'parent_teen.ptp_parent_id')
+                ->select(DB::raw('parent_teen.*,parent.p_first_name,parent.p_last_name,parent.p_photo, parent.p_user_type AS user_type'))
+                ->where('parent_teen.ptp_teenager', $teenId)
+                ->where('parent_teen.ptp_is_verified', 1)
                 ->where('parent_teen.deleted', 1)
                 ->get();
 
