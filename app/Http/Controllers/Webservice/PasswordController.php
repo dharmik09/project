@@ -49,7 +49,7 @@ class PasswordController extends Controller
     */
     public function changePassword(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->newPassword != "" && strlen($request->newPassword) < 6) {
             $response['message'] = "Password length should be 6 digit long!";
             $response['status'] = 0;
@@ -88,7 +88,7 @@ class PasswordController extends Controller
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->newPassword != "" && $request->userId != "" && $request->otp != "") {
-            $bool = $this->teenagersRepository->verifyOTPAgainstTeenagerId($request->userId, $request->otp);
+            $bool = $this->teenagersRepository->isUserPasswordOTPMatch($request->userId, $request->otp);
             if($bool) {
                 $teenagerDetail['id'] = $request->userId;
                 $teenagerDetail['password'] = bcrypt($request->newPassword);
@@ -117,7 +117,7 @@ class PasswordController extends Controller
             $bool = $this->teenagersRepository->verifyOTPAgainstTeenagerId($request->userId, $request->otp);
             if($bool) {
                 $response['status'] = 1;
-                $response['message'] = trans('Password set successfully!');
+                $response['message'] = trans('OTP verified successfully!');
                 $response['data'] = ['userId' => $request->userId ];
             } else {
                 $response['message'] = trans('appmessages.invalidOTP');

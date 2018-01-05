@@ -11,12 +11,12 @@ interface CommunityRepository extends BaseRepository
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getNewConnections($loggedInTeen, $searchedConnections, $lastTeenId);
+    public function getNewConnections($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '');
 
     /**
      * @return array of my connections
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getMyConnections($loggedInTeen, $searchedConnections, $lastTeenId);
+    public function getMyConnections($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '');
 }

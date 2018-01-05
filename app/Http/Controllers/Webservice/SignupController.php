@@ -19,6 +19,7 @@ use Storage;
 use Carbon\Carbon;
 use Input;
 use Mail;
+use Image;
 
 class SignupController extends Controller
 {
@@ -32,6 +33,8 @@ class SignupController extends Controller
         $this->objDeviceToken = new DeviceToken();
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
+        
         $this->sponsorOriginalImageUploadPath = Config::get('constant.SPONSOR_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->sponsorThumbImageUploadPath = Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
@@ -50,44 +53,38 @@ class SignupController extends Controller
             $teenagerDetail['t_uniqueid'] = Helpers::getTeenagerUniqueId();
             $teenagerDetail['t_name'] = $request->name;
             $teenagerDetail['t_lastname'] = $request->lastname;
-            $teenagerDetail['t_nickname'] = $request->proteen_code;
+            $teenagerDetail['t_nickname'] = $request->proteenCode;
             $teenagerDetail['t_gender'] = (in_array($request->gender, ['1','2'])) ? $request->gender : '1';
             $teenagerDetail['password'] = ($request->password != "") ? bcrypt($request->password) : "";
             $teenagerDetail['t_phone_new'] = $request->phone;
             $teenagerDetail['t_country'] = $request->country;
             $teenagerDetail['t_pincode'] = $request->pincode;
-            $teenagerDetail['t_device_type'] = $request->t_device_type;
+            $teenagerDetail['t_device_type'] = $request->deviceType;
             $teenagerDetail['t_photo'] = '';
             $teenagerDetail['deleted'] = '1';
 
             //Social Providers
-            $teenagerDetail['t_social_provider'] = ($request->social_provider != "") ? $request->social_provider : '';
-            $teenagerDetail['t_social_identifier'] = ($request->social_id && $request->social_id != '') ? $request->social_id : '';
-            $teenagerDetail['t_social_accesstoken'] = ($request->social_accesstoken && $request->social_accesstoken != '') ? $request->social_accesstoken : '';
-            $teenagerDetail['t_sponsor_choice'] = ($request->sponsor_choice != '') ? $request->sponsor_choice : '2';
+            $teenagerDetail['t_social_provider'] = ($request->socialProvider != "") ? $request->socialProvider : 'Normal';
+            $teenagerDetail['t_social_identifier'] = ($request->socialId && $request->socialId != '') ? $request->socialId : '';
+            $teenagerDetail['t_social_accesstoken'] = ($request->socialAccessToken && $request->socialAccessToken != '') ? $request->socialAccessToken : '';
+            $teenagerDetail['t_sponsor_choice'] = '2';
 
             //Birthdate
-            $day = $request->day;
-            $month = $request->month;
-            $year = $request->year;
             $teenagerDetail['t_birthdate'] = '';
-            if($day != "" && $month != "" && $year != "") {
-                $stringVariable = $year."-".$month."-".$day;
-                $birthDate = Carbon::createFromFormat("Y-m-d", $stringVariable);
-                $todayDate = Carbon::now();
-                if (Helpers::validateDate($stringVariable, "Y-m-d") && $todayDate->gt($birthDate) ) {
-                    $teenagerDetail['t_birthdate'] = $stringVariable;
-                }
+            if (isset($request->birthDate) && $request->birthDate != '') {
+                $dob = $request->birthDate;
+                $dobDate = str_replace('/', '-', $dob);
+                $teenagerDetail['t_birthdate'] = date("Y-m-d", strtotime($dobDate));
             }
 
             //On-Off Buttons
-            $teenagerDetail['is_search_on'] = ( $request->public_profile != "") ? $request->public_profile : "0";
-            $teenagerDetail['is_share_with_teachers'] = ( $request->share_with_teachers != "") ? $request->share_with_teachers : "0";
-            $teenagerDetail['is_share_with_other_members'] = ( $request->share_with_members != "") ? $request->share_with_members : "0";
-            $teenagerDetail['is_share_with_parents'] = ( $request->share_with_parents != "") ? $request->share_with_parents : "0";
+            $teenagerDetail['is_search_on'] = ( $request->publicProfile != "") ? $request->publicProfile : "0";
+            $teenagerDetail['is_share_with_teachers'] = ( $request->shareWithTeachers != "") ? $request->shareWithTeachers : "0";
+            $teenagerDetail['is_share_with_other_members'] = ( $request->shareWithMembers != "") ? $request->shareWithMembers : "0";
+            $teenagerDetail['is_share_with_parents'] = ( $request->shareWithParents != "") ? $request->shareWithParents : "0";
             $teenagerDetail['is_notify'] = ( $request->notifications != "") ? $request->notifications : "0";
-            $teenagerDetail['t_view_information'] = ( $request->t_view_information != "") ? $request->t_view_information : "0";
-            $teenagerDetail['is_sound_on'] = ( $request->is_sound_on != "") ? $request->is_sound_on : "0";
+            $teenagerDetail['t_view_information'] = ( $request->viewInformation != "") ? $request->viewInformation : "0";
+            $teenagerDetail['is_sound_on'] = ( $request->isSoundOn != "") ? $request->isSoundOn : "0";
 
             $teenagerDetail['t_email'] = $request->email;
             $teenagerDetail['t_phone'] = $request->mobile;
@@ -153,7 +150,7 @@ class SignupController extends Controller
                         if($recordData['t_photo'] == "" && Input::file())
                         {
                             if (Input::file()) {
-                                $file = Input::file('profile_pic');
+                                $file = Input::file('profilePic');
                                 if (!empty($file)) {
                                     $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
                                     $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
@@ -179,13 +176,17 @@ class SignupController extends Controller
                         $teenagerDetailSaved->t_photo = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerOriginalImageUrl($teenagerDetailSaved->t_photo) : "";
                         $teenagerDetailSaved->t_photo_thumb = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerThumbImageUrl($teenagerDetailSaved->t_photo) : "";
                         //IF require then birthdate will be seprate in day,month,year in response
-                        $teenagerDetailSaved->t_birthdate = ($teenagerDetailSaved->t_birthdate != '0000-00-00' ) ? $teenagerDetailSaved->t_birthdate : '';
-                        $teenagerDetailSaved->year = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->year : "";
-                        $teenagerDetailSaved->day = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->day : "";
-                        $teenagerDetailSaved->month = ($teenagerDetailSaved->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailSaved->t_birthdate)->month : "";
+                        $teenagerDetailSaved->t_birthdate = ($teenagerDetailSaved->t_birthdate != '0000-00-00' ) ? Carbon::parse($teenagerDetailSaved->t_birthdate)->format('d/m/Y') : '';
                         $teenagerDetailSaved->t_sponsors = $this->teenagersRepository->getSelfSponserListData($teenagerDetailSaved->id);
+                        if (isset($teenagerDetailSaved->t_sponsors)) {
+                            foreach ($teenagerDetailSaved->t_sponsors as $sponsor) {
+                                $sponsorPhoto = ($sponsor->sp_logo != "") ? $sponsor->sp_logo : "proteen-logo.png";
+                                $sponsor->sp_logo = Storage::url($this->sponsorOriginalImageUploadPath . $sponsorPhoto);
+                                $sponsor->sp_logo_thumb = Storage::url($this->sponsorThumbImageUploadPath . $sponsorPhoto);
+                            }
+                        }
                         $response['status'] = 1;
-                        //$response['login'] = 1;
+                        $response['login'] = 1;
                         $response['message'] = trans('appmessages.default_success_msg');
                         $response['data'] = $teenagerDetailSaved->toArray();
                     } else {
@@ -197,7 +198,7 @@ class SignupController extends Controller
                             $response['message'] = trans('appmessages.invalid_email_msg');
                         } else {
                             if (Input::file()) {
-                                $file = Input::file('profile_pic');
+                                $file = Input::file('profilePic');
                                 if (!empty($file)) {
                                     $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
                                     $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
@@ -219,13 +220,10 @@ class SignupController extends Controller
                             }
                             $teenagerDetailSaved = $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
                             /* save sponser by teenager id if sponsor id is not blank */
-                            $sponserDetailSave = $this->teenagersRepository->saveTeenagerSponserId($teenagerDetailSaved->id, $request->sponsor_id);
-                            //Get Collection of teena and sponsors
+                            $sponserDetailSave = $this->teenagersRepository->saveTeenagerSponserId($teenagerDetailSaved->id, $request->sponsorIds);
+                            //Get Collection of teen and sponsors
                             $teenagerDetailbyId = $this->teenagersRepository->getTeenagerById($teenagerDetailSaved->id);
-                            $teenagerDetailbyId->t_birthdate = (isset($teenagerDetailbyId->t_birthdate) && $teenagerDetailbyId->t_birthdate != '0000-00-00') ? $teenagerDetailbyId->t_birthdate : '';
-                            $teenagerDetailbyId->year = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->year : "";
-                            $teenagerDetailbyId->day = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->day : "";
-                            $teenagerDetailbyId->month = ($teenagerDetailbyId->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenagerDetailbyId->t_birthdate)->month : "";
+                            $teenagerDetailbyId->t_birthdate = (isset($teenagerDetailbyId->t_birthdate) && $teenagerDetailbyId->t_birthdate != '0000-00-00') ? Carbon::parse($teenagerDetailbyId->t_birthdate)->format('d/m/Y') : '';
                             
                             if ($teenagerDetailbyId->t_photo != '') {
                                 $teenPhoto = $teenagerDetailbyId->t_photo;
@@ -234,7 +232,7 @@ class SignupController extends Controller
                             }
                             if (isset($teenagerDetailbyId->t_sponsors)) {
                                 foreach ($teenagerDetailbyId->t_sponsors as $sponsor) {
-                                    $sponsorPhoto = $sponsor->sp_logo;
+                                    $sponsorPhoto = ($sponsor->sp_logo != "") ? $sponsor->sp_logo : "proteen-logo.png";
                                     $sponsor->sp_logo = Storage::url($this->sponsorOriginalImageUploadPath . $sponsorPhoto);
                                     $sponsor->sp_logo_thumb = Storage::url($this->sponsorThumbImageUploadPath . $sponsorPhoto);
                                 }
@@ -264,7 +262,6 @@ class SignupController extends Controller
                                 $teenagerTokenDetail['tev_teenager'] = $data['teen_id'];
                                 $this->teenagersRepository->addTeenagerEmailVarifyToken($teenagerTokenDetail);
                             });
-
                             $response['status'] = 1;
                             $response['message'] = trans('appmessages.signupmail_success_msg');
                             $response['data'] = $teenagerDetailbyId;

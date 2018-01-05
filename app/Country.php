@@ -32,4 +32,11 @@ class Country extends Model {
         $countries = $this->select('*')->where('id', $id)->get();
         return $countries;
     }
+
+    /* method : getCountryDetail
+    *  param : contryId
+    */
+    public static function getCountryDetail($countryId) {
+        return Country::find($countryId);
+    }
 }

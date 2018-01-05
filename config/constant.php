@@ -288,4 +288,6 @@ return [
     'PROFESSION_TAG_THUMB_IMAGE_HEIGHT' => '300',
     'PROFESSION_TAG_THUMB_IMAGE_WIDTH' => '300',
 
+    'APP_NAME' => "ProTeenLife",
+    'APP_EMAIL' => "info@proteenlife.com",
 ];

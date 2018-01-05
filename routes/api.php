@@ -38,15 +38,19 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/deleteTeenagerData', 'Webservice\ProfileController@deleteTeenagerData');
 	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
 	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
-	Route::post('/getParentList', 'Webservice\ParentController@getParentList');
+	//Parent&Mentor invitation section
+	Route::post('/getParentMentorList', 'Webservice\ParentController@getParentMentorList');
+	Route::post('/parentTeenPair', 'Webservice\ParentController@parentTeenPair');
 	//First Level Part 1 Question/Answer Route
-	Route::post('/getLevel1Questions', 'Webservice\level1ActivityController@getFirstLevelActivity');
-	Route::post('/submitLevel1Answers', 'Webservice\level1ActivityController@saveFirstLevelActivity');
+	Route::post('/getLevel1Questions', 'Webservice\Level1ActivityController@getFirstLevelActivity');
+	Route::post('/submitLevel1Answers', 'Webservice\Level1ActivityController@saveFirstLevelActivity');
 	//Education & Achievement Route
 	Route::post('/getTeenagerAcademicInfo', 'Webservice\DashboardController@getTeenagerAcademicInfo');
 	Route::post('/saveTeenagerAcademicInfo', 'Webservice\DashboardController@saveTeenagerAcademicInfo');
 	Route::post('/getTeenagerAchievementInfo', 'Webservice\DashboardController@getTeenagerAchievementInfo');
 	Route::post('/saveTeenagerAchievementInfo', 'Webservice\DashboardController@saveTeenagerAchievementInfo');
+	//Help
+	Route::post('/help', 'Webservice\HomeController@help');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

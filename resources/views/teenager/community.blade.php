@@ -14,26 +14,20 @@
         </div>
         <div class="sec-filter network-filter">
             <div class="row">
-                <div class="col-md-4 col-xs-6 sort-feild">
-                    <label>Sort by:</label>
-                    <div class="form-group custom-select">
-                        <select tabindex="1" class="form-control">
-                                <option value="high score">high score</option>
-                                <option value="moderate">moderate</option>
-                                <option value="low">low</option>
-                            </select>
-                    </div>
-                </div>
                 <div class="col-md-4 col-xs-6 sort-feild sort-filter">
                     <label>Filter by:</label>
                     <div class="form-group custom-select w-cl">
-                        <select tabindex="8" class="form-control">
-                                  <option value="all interest">all interest</option>
-                                  <option value="Strong match">Strong match</option>
-                                  <option value="Potential match">Potential match</option>
-                                  <option value="Unlikely match">Unlikely match</option>
-                                </select>
+                        <select tabindex="8" class="form-control" id="filter_by" name="filter_by">
+                            <option value="">Select</option>
+                            <option value="t_school">School</option>
+                            <option value="t_gender">Gender</option>
+                            <option value="t_age">Age</option>
+                            <option value="t_pincode">Pincode</option>
+                        </select>
                     </div>
+                </div>
+                <div class="col-md-4 col-xs-6 sort-feild sub-filter">
+                    
                 </div>
                 <div class="col-md-4 col-sm-12 sort-filter">
                     <div class="form-group search-bar clearfix">
@@ -57,6 +51,12 @@
                     <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
                 </ul>
                 <div class="tab-content">
+                    <div id="loading-wrapper-sub" class="loading-screen">
+                        <div id="loading-text">
+                            <img src="{{ asset('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                        <div id="loading-content">
+                        </div>
+                    </div>
                     <div id="menu1" class="tab-pane fade in active search-new-connection">
                         @forelse($newConnections as $newConnection)
                         <div class="team-list">
@@ -149,8 +149,10 @@
         $( "#search_community" ).keyup(function() {
             search_keyword = $(this).val();
             searchConnections = (search_keyword).trim();
+            var filter_by = $("#filter_by").val();
+            var filter_option = $("#sub_filter").val();
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form_data = 'searchConnections=' + searchConnections;
+            var form_data = 'searchConnections=' + searchConnections + '&filter_by=' + filter_by + '&filter_option=' + filter_option;
             $.ajax({
                 type: 'POST',
                 data: form_data,
@@ -217,6 +219,109 @@
                         }
                     }
                 });
-            });  
+            });
+            
+            $(document).on('change','#filter_by',function(){
+                $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+                $('#loading-wrapper-sub').show();
+                var filter_option = this.value;
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var form_data = 'filter_option=' + filter_option;
+                if (filter_option != '') {
+                    $.ajax({
+                        url : '{{ url("teenager/get-sub-filter") }}',
+                        method : "POST",
+                        data: form_data,
+                        headers: {
+                            'X-CSRF-TOKEN': CSRF_TOKEN
+                        },
+                        dataType : "text",
+                        success : function (data) {
+                            if(data != '') {
+                                $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                                $('.remove-sub-filter').remove();
+                                $('.sub-filter').append(data);
+                            } else {
+                                $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                                $('.remove-sub-filter').remove();
+                            }
+                        }
+                    });
+                } else {
+                    $('#loading-wrapper-sub').hide();
+                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    $('.remove-sub-filter').remove();
+                }
+            });
+
+            $(document).on('change','#sub_filter',function() {
+                $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+                $('#loading-wrapper-sub').show();
+                var filter_by = $("#filter_by").val();
+                var filter_option = this.value;
+                var search_keyword = $("#search_community").val();
+                var searchConnections = (search_keyword).trim();
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var form_data = 'filter_by=' + filter_by + '&filter_option=' + filter_option + '&searchConnections=' + searchConnections;
+                if (filter_option != '' && filter_by != '') {
+                    $.ajax({
+                        url : '{{ url("teenager/get-teenagers-by-filter") }}',
+                        method : "POST",
+                        data: form_data,
+                        headers: {
+                            'X-CSRF-TOKEN': CSRF_TOKEN
+                        },
+                        dataType : "text",
+                        success : function (data) {
+                            if(data != '') {
+                                $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                                $('.existing-connection').hide();
+                                $('.mySearch_area').show();
+                                $('.mySearch_area').html(data);
+                            } else {
+                                $('#loading-wrapper-sub').hide();
+                                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                                //$('.existing-connection').show();
+                            }
+                        }
+                    });
+                } else {
+                    $('#loading-wrapper-sub').hide();
+                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    //$('.existing-connection').show();
+                }
+            });
+
+            $(document).on('keyup','#search_pincode',function() {
+                var filter_by = $("#filter_by").val();
+                var filter_option = this.value;
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var form_data = 'filter_by=' + filter_by + '&filter_option=' + filter_option;
+                if (filter_option != '' && filter_by != '') {
+                    $.ajax({
+                        url : '{{ url("teenager/get-teenagers-by-filter") }}',
+                        method : "POST",
+                        data: form_data,
+                        headers: {
+                            'X-CSRF-TOKEN': CSRF_TOKEN
+                        },
+                        dataType : "text",
+                        success : function (data) {
+                            if(data != '') {
+                                $('.existing-connection').hide();
+                                $('.mySearch_area').show();
+                                $('.mySearch_area').html(data);
+                            } else {
+                                //$('.existing-connection').show();
+                            }
+                        }
+                    });
+                } else {
+                    //$('.existing-connection').show();
+                }
+            });
     </script>
 @stop

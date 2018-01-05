@@ -1,6 +1,10 @@
 .banner-career {
     background-image: url(../img/career-banner.jpg);
     margin-bottom: 44px;
+    @include maxmd{margin-top: 20px;}
+    @include maxms{
+        height: 220px;
+    }
 }
 .careers-map{max-width: 100%;
     .sec-filter{
@@ -15,8 +19,9 @@
         color: #727476;
     }
 }
+.grid-view.listing-content .panel-heading .panel-title a:before{content: "\e91d";}
 .career-content{
-    margin-bottom: 90px;
+    margin-bottom: 30px;
     h2{
         font-size: 45px;
         color:$h-cl;  

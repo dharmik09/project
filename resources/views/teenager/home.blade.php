@@ -39,7 +39,7 @@
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
                                 </div>
                             </div>
-                            <div class="row expandInterest">
+                            <div class="row expandInterest flex-container">
                                 <?php $c = 0; ?>
                                 @forelse($teenagerInterest as $interestKey => $interestValue)
                                     <?php
@@ -58,11 +58,14 @@
                                                 $elementClass = '';
                                             }
                                         } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
-                                        <div class="col-md-6 col-sm-6 col-xs-6 {{ $elementClass }}" style="display: {{ $key }};" > 
+                                        <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};" > 
                                             <div class="my_chart">
                                                 <div class="progress-radial progress-20">
                                                 </div>
-                                                <h4><a href="{{ url('teenager/interest/') }}"><?php echo Helpers::getInterestBySlug($interestKey); ?></h4>
+                                                <h4>
+                                                    <a href="{{ url('teenager/interest/') }}/{{$interestKey}}"><?php echo Helpers::getInterestBySlug($interestKey); ?>
+                                                    </a>
+                                                </h4>
                                             </div>
                                         </div>
                                 @empty
@@ -91,14 +94,14 @@
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
                             <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
-                            <div class="row">
+                            <div class="row flex-container">
                                 <?php $countStrength = 0; ?>
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
                                     <?php $imageChart = "img/My_chart-".$strengthValue['score'].".png";
                                     if(isset($countStrength) && $countStrength == 4) { ?>
                                         <div class="expandStrength">
                                     <?php } ?>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
                                         <div class="my_chart">
                                             <div class="progress-radial progress-20">
                                             </div>

@@ -37,9 +37,7 @@ class ProfileController extends Controller
 		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
     	$teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-    		$teenager->year = ($teenager->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenager->t_birthdate)->year : "";
-            $teenager->day = ($teenager->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenager->t_birthdate)->day : "";
-            $teenager->month = ($teenager->t_birthdate != "") ? Carbon::createFromFormat('Y-m-d', $teenager->t_birthdate)->month : "";
+    		$teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
             if (count($teenager->t_sponsors) > 0) {
                 foreach ($teenager->t_sponsors as $sponsor) {
                     $sponsor->sp_logo_thumb = (isset($sponsor->sp_photo) && $sponsor->sp_photo != "") ? Storage::url($this->sponsorThumbImageUploadPath . $sponsor->sp_photo) : Storage::url($this->sponsorThumbImageUploadPath . "proteen-logo.png");

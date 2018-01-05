@@ -18,7 +18,7 @@ use App\Level1Activity;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-class level1ActivityController extends Controller
+class Level1ActivityController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -74,7 +74,6 @@ class level1ActivityController extends Controller
             $this->log->info('Response for Level1questions' , array('api-name'=> 'getLevel1Questions'));
         } else {
             $this->log->error('Parameter missing error' , array('api-name'=> 'getFirstLevelActivity'));
-            $response['login'] = 1;
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         

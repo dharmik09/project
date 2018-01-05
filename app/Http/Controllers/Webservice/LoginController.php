@@ -10,9 +10,11 @@ use Helpers;
 use Config;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Teenagers;
+use App\Country;
 use App\TeenagerLoginToken;
 use App\DeviceToken;
 use Storage;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -52,23 +54,28 @@ class LoginController extends Controller
     			if(isset($teenager->t_isverified) && $teenager->t_isverified == 1) {
     				if (Auth::guard('teenager')->attempt(['t_email' => $teenager->t_email, 'password' => $request->password, 'deleted' => 1])) {
     					//Get/Format Sponsor Detail
-    					if (count($teenager->teenagerSponsors) > 0) {
-    						foreach ($teenager->teenagerSponsors as $sponsor) {
-    							$sponsor->sp_logo_thumb = (isset($sponsor->sponsor->sp_photo) && $sponsor->sponsor->sp_photo != "") ? Storage::url($this->sponsorThumbImageUploadPath . $sponsor->sponsor->sp_photo) : Storage::url($this->sponsorThumbImageUploadPath . "proteen-logo.png");
-    							$sponsor->sp_logo = (isset($sponsor->sponsor->sp_photo) && $sponsor->sponsor->sp_photo != "") ? Storage::url($this->sponsorOriginalImageUploadPath . $sponsor->sponsor->sp_photo) : Storage::url($this->sponsorOriginalImageUploadPath . "proteen-logo.png");
-    							$sponsor->sponsor_id = (isset($sponsor->sponsor->id)) ? $sponsor->sponsor->id : 0;
-    							$sponsor->sp_email = (isset($sponsor->sponsor->sp_email)) ? $sponsor->sponsor->sp_email : "";
-    							$sponsor->sp_admin_name = (isset($sponsor->sponsor->sp_admin_name)) ? $sponsor->sponsor->sp_admin_name : "";
-    							$sponsor->sp_company_name = (isset($sponsor->sponsor->sp_company_name)) ? $sponsor->sponsor->sp_company_name : ""; 
-    						}
-    					}
+                        $teenager->t_sponsors = $this->teenagersRepository->getSelfSponserListData($teenager->id);
+                        if (isset($teenager->t_sponsors)) {
+                            foreach ($teenager->t_sponsors as $sponsor) {
+                                $sponsorPhoto = ($sponsor->sp_logo != "") ? $sponsor->sp_logo : "proteen-logo.png";
+                                $sponsor->sp_logo = Storage::url($this->sponsorOriginalImageUploadPath . $sponsorPhoto);
+                                $sponsor->sp_logo_thumb = Storage::url($this->sponsorThumbImageUploadPath . $sponsorPhoto);
+                            }
+                        }
+                        
     					//Teenager Image
     					$teenager->t_photo_thumb = "";
     					if ($teenager->t_photo != '') {
     						$teenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
     						$teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
     					}
-    					//Save Login Token Data
+                        //Country related info
+                        $teenager->c_code = ( isset(Country::getCountryDetail($teenager->t_country)->c_code) ) ? Country::getCountryDetail($teenager->t_country)->c_code : "";
+                        $teenager->c_name = ( isset(Country::getCountryDetail($teenager->t_country)->c_name) ) ? Country::getCountryDetail($teenager->t_country)->c_name : "";
+                        $teenager->country_id = $teenager->t_country;
+                        $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
+            
+                        //Save Login Token Data
     					$loginDetail['tlt_teenager_id'] = $teenager->id;
                         $loginDetail['tlt_login_token'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
                         $loginDetail['tlt_device_id'] = $request->deviceId;
@@ -79,8 +86,6 @@ class LoginController extends Controller
                         $saveData['tdt_device_type'] = $request->deviceType;
                         $saveData['tdt_device_id'] = $request->deviceId;
                         $userDeviceDetails = $this->objDeviceToken->saveDeviceToken($saveData);
-
-                        $teenager->payment_status = $teenager->t_payment_status;
 
                         $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
                         $response['message'] = trans('appmessages.default_success_msg');
@@ -131,16 +136,16 @@ class LoginController extends Controller
     }
     
     /* Request Params : saveUpdatedDeviceToken
-    *  userId, token, deviceId, deviceType
+    *  userId, pushToken, deviceId, deviceType
     *  No loginToken required because it's call without loggedin user
     */
     public function saveUpdatedDeviceToken(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-        if($request->userId != "" && $request->deviceId != "" && $request->token != "" && $request->deviceType != "") {
+        if($request->userId != "" && $request->deviceId != "" && $request->pushToken != "" && $request->deviceType != "") {
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
             if ($checkuserexist) {
                 $saveData['tdt_user_id'] = ($request->userId != '') ? $request->userId : '0';
-                $saveData['tdt_device_token'] = $request->token;
+                $saveData['tdt_device_token'] = $request->pushToken;
                 $saveData['tdt_device_type'] = $request->deviceType;
                 $saveData['tdt_device_id'] = $request->deviceId;
                 $result = $this->objDeviceToken->saveDeviceToken($saveData);
@@ -154,6 +159,7 @@ class LoginController extends Controller
                 $response['loginToken'] = base64_encode($teenagerDetail->t_email.':'.$teenagerDetail->t_uniqueid);
 
                 $response['status'] = 1;
+                $response['login'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
             } else {
                 $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
@@ -177,6 +183,7 @@ class LoginController extends Controller
                 $userLoginDetails = $this->objTeenagerLoginToken->updateTeenagerLoginDetail($request->userId, $request->deviceId);
                 if($userLoginDetails) {
                     $response['status'] = 1;
+                    $response['login'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');
                 } else {
                     $response['message'] = trans('appmessages.default_error_msg');
