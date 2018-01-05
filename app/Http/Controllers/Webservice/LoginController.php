@@ -10,6 +10,7 @@ use Helpers;
 use Config;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Teenagers;
+use App\Country;
 use App\TeenagerLoginToken;
 use App\DeviceToken;
 use Storage;
@@ -67,7 +68,12 @@ class LoginController extends Controller
     						$teenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
     						$teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
     					}
-    					//Save Login Token Data
+                        //Country related info
+                        $teenager->c_code = ( isset(Country::getCountryDetail($teenager->t_country)->c_code) ) ? Country::getCountryDetail($teenager->t_country)->c_code : "";
+                        $teenager->c_name = ( isset(Country::getCountryDetail($teenager->t_country)->c_name) ) ? Country::getCountryDetail($teenager->t_country)->c_name : "";
+                        $teenager->country_id = $teenager->t_country;
+
+                        //Save Login Token Data
     					$loginDetail['tlt_teenager_id'] = $teenager->id;
                         $loginDetail['tlt_login_token'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
                         $loginDetail['tlt_device_id'] = $request->deviceId;
@@ -78,8 +84,6 @@ class LoginController extends Controller
                         $saveData['tdt_device_type'] = $request->deviceType;
                         $saveData['tdt_device_id'] = $request->deviceId;
                         $userDeviceDetails = $this->objDeviceToken->saveDeviceToken($saveData);
-
-                        $teenager->payment_status = $teenager->t_payment_status;
 
                         $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
                         $response['message'] = trans('appmessages.default_success_msg');

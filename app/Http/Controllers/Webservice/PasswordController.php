@@ -88,7 +88,7 @@ class PasswordController extends Controller
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->newPassword != "" && $request->userId != "" && $request->otp != "") {
-            $bool = $this->teenagersRepository->verifyOTPAgainstTeenagerId($request->userId, $request->otp);
+            $bool = $this->teenagersRepository->isUserPasswordOTPMatch($request->userId, $request->otp);
             if($bool) {
                 $teenagerDetail['id'] = $request->userId;
                 $teenagerDetail['password'] = bcrypt($request->newPassword);

@@ -257,6 +257,9 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                                             left join " . config::get('databaseconstants.TBL_COUNTRIES') . " AS country on country.id = teenager.t_country
                                            where teenager.id = " . $id . " and teenager.deleted = 1"));
         if (isset($TeenagerDetails) && isset($TeenagerDetails[0])) {
+            if(isset($TeenagerDetails[0]->password)) {
+                unset($TeenagerDetails[0]->password);
+            }
             if (count($TeenagerSponsorDetails) > 0) {
                 $TeenagerDetails[0]->t_sponsors = $TeenagerSponsorDetails;
             }
