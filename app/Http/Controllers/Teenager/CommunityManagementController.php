@@ -13,33 +13,38 @@ use Mail;
 use Helpers;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Redirect;
-use Request;    
+use Request;
+use App\Services\Schools\Contracts\SchoolsRepository;  
+use Carbon\Carbon;  
 
 class CommunityManagementController extends Controller {
 
-    public function __construct(TemplatesRepository $templateRepository, CommunityRepository $communityRepository, TeenagersRepository $teenagersRepository) 
+    public function __construct(TemplatesRepository $templateRepository, CommunityRepository $communityRepository, TeenagersRepository $teenagersRepository, SchoolsRepository $schoolsRepository) 
     {
         $this->templateRepository = $templateRepository;
         $this->communityRepository = $communityRepository;
         $this->teenagersRepository = $teenagersRepository;
+        $this->schoolsRepository = $schoolsRepository;
     }
 
     public function index()
     {
         $loggedInTeen = Auth::guard('teenager')->user()->id;
         $searchConnections = Input::get('searchConnections');
+        $filterBy = Input::get('filter_by');
+        $filterOption = Input::get('filter_option');
         if (isset($searchConnections) && !empty($searchConnections)) {
-            $newConnections = $this->communityRepository->getNewConnections($loggedInTeen, $searchConnections, '');
-            $newConnectionsCount = $this->communityRepository->getNewConnectionsCount($loggedInTeen, $searchConnections, '');
-            $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, $searchConnections, '');
-            $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen, $searchConnections, '');
+            $newConnections = $this->communityRepository->getNewConnections($loggedInTeen, $searchConnections, '', $filterBy, $filterOption);
+            $newConnectionsCount = $this->communityRepository->getNewConnectionsCount($loggedInTeen, $searchConnections, '', $filterBy, $filterOption);
+            $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, $searchConnections, '', $filterBy, $filterOption);
+            $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen, $searchConnections, '', $filterBy, $filterOption);
             return view('teenager.searchedConnections', compact('newConnections', 'myConnections', 'newConnectionsCount', 'myConnectionsCount'));
 
         } else {
-            $newConnections = $this->communityRepository->getNewConnections($loggedInTeen, array(), '');
-            $newConnectionsCount = $this->communityRepository->getNewConnectionsCount($loggedInTeen, array(), '');
-            $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, array(), '');
-            $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen, array(), '');
+            $newConnections = $this->communityRepository->getNewConnections($loggedInTeen, array(), '', $filterBy, $filterOption);
+            $newConnectionsCount = $this->communityRepository->getNewConnectionsCount($loggedInTeen, array(), '', $filterBy, $filterOption);
+            $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, array(), '', $filterBy, $filterOption);
+            $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen, array(), '', $filterBy, $filterOption);
             return view('teenager.community', compact('newConnections', 'myConnections', 'newConnectionsCount', 'myConnectionsCount'));
         }
     }
@@ -161,5 +166,43 @@ class CommunityManagementController extends Controller {
         $token=input::get('token');
         $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_REJECT_STATUS');
         $this->communityRepository->saveConnectionRequest($connectionRequestData, $token);
+    }
+
+    public function getSubFilter()
+    {
+        $filterData = array();
+        $filterOption = Input::get('filter_option');
+        if ($filterOption == 't_school') {
+            $filterData = $this->schoolsRepository->getApprovedSchools();
+        } else if ($filterOption == 't_gender') {
+            $filterData = Helpers::gender();
+        } else if ($filterOption == 't_age') {
+            $filterData = array('1' => '13', '2' => '13-14', '3' => '14-15', '4' => '15-16', '5' => '16-17', '6' => '17-18', '7' => '18-19', '8' => '19-20', '9' => '20');
+        } else {
+            $filterData = array();
+        }
+        return view('teenager.communitySubFilter', compact('filterData', 'filterOption'));
+    }
+
+    public function getTeenagersByFiltering()
+    {
+        $loggedInTeen = Auth::guard('teenager')->user()->id;
+        $filterBy = Input::get('filter_by');
+        $filterOption = Input::get('filter_option');
+        if ($filterBy == 't_age') {
+            $filterBy = 't_birthdate';
+            if (strpos($filterOption, '-') !== false) {
+                $ageArr = explode("-", $filterOption);
+                $filterOption['fromDate'] = Carbon::now()->subYears($ageArr[0]);
+                $filterOption['toDate'] = Carbon::now()->subYears($ageArr[1]);
+            } else {
+                $filterOption = Carbon::now()->subYears($filterOption);
+            }
+        }
+        $newConnections = $this->communityRepository->getNewConnections($loggedInTeen, array(), '', $filterBy, $filterOption);
+        $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, array(), '', $filterBy, $filterOption);
+        $newConnectionsCount = $this->communityRepository->getNewConnectionsCount($loggedInTeen, array(), '', $filterBy, $filterOption);
+        $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen, array(), '', $filterBy, $filterOption);
+        return view('teenager.searchedConnections', compact('newConnections', 'myConnections', 'newConnectionsCount', 'myConnectionsCount'));
     }
 }

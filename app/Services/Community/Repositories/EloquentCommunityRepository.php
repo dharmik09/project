@@ -15,7 +15,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getNewConnections($loggedInTeen, $searchedConnections, $lastTeenId)
+    public function getNewConnections($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '')
     {
         $activeFlag = Config::get('constant.ACTIVE_FLAG');
         $connectionRequests = $this->getAcceptedAndPendingConnectionsBySenderId($loggedInTeen);
@@ -34,6 +34,22 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                         $qry->where('id', '<', $lastTeenId);
                                     }
                                  })
+                                ->where(function($qryFilter) use ($filterBy, $filterOption)  {
+                                    if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
+                                        if ($filterOption != 't_age') {
+                                            $qryFilter->where($filterBy, $filterOption);
+                                        } else {
+                                            if (is_array($filterOption)) {
+                                                $qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
+                                                $qryFilter->where($filterBy, '<=', $filterOption['toDate']);
+                                            } else if($filterOption == 13) {
+                                                $qryFilter->where($filterBy, '<=', $filterOption);
+                                            } else {
+                                                $qryFilter->where($filterBy, '>=', $filterOption);
+                                            }
+                                        }
+                                    }
+                                 })
                                 ->orderBy('created_at', 'desc')
                                 ->limit(10)
                                 ->get();
@@ -46,7 +62,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         return $receiverId;
     }
 
-    public function getMyConnections($loggedInTeen, $searchedConnections, $lastTeenId)
+    public function getMyConnections($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '')
     {
         $connectedTeenIds = $this->getAcceptedConnectionsBySenderId($loggedInTeen);
         $myConnections = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
@@ -64,6 +80,22 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                         $qry->where('id', '<', $lastTeenId);
                                     }
                                  })
+                                ->where(function($qryFilter) use ($filterBy, $filterOption)  {
+                                    if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
+                                        if ($filterOption != 't_age') {
+                                            $qryFilter->where($filterBy, $filterOption);
+                                        } else {
+                                            if (is_array($filterOption)) {
+                                                $qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
+                                                $qryFilter->where($filterBy, '<=', $filterOption['toDate']);
+                                            } else if($filterOption == 13) {
+                                                $qryFilter->where($filterBy, '<=', $filterOption);
+                                            } else {
+                                                $qryFilter->where($filterBy, '>=', $filterOption);
+                                            }
+                                        }
+                                    }
+                                 })
                                 ->orderBy('created_at', 'desc')
                                 ->limit(10)
                                 ->get();
@@ -76,7 +108,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         return $receiverId;
     }
 
-    public function getNewConnectionsCount($loggedInTeen, $searchedConnections, $lastTeenId)
+    public function getNewConnectionsCount($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '')
     {
         $activeFlag = Config::get('constant.ACTIVE_FLAG');
         $connectionRequests = $this->getAcceptedAndPendingConnectionsBySenderId($loggedInTeen);
@@ -95,12 +127,28 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                         $qry->where('id', '<', $lastTeenId);
                                     }
                                  })
+                                ->where(function($qryFilter) use ($filterBy, $filterOption)  {
+                                    if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
+                                        if ($filterOption != 't_age') {
+                                            $qryFilter->where($filterBy, $filterOption);
+                                        } else {
+                                            if (is_array($filterOption)) {
+                                                $qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
+                                                $qryFilter->where($filterBy, '<=', $filterOption['toDate']);
+                                            } else if($filterOption == 13) {
+                                                $qryFilter->where($filterBy, '<=', $filterOption);
+                                            } else {
+                                                $qryFilter->where($filterBy, '>=', $filterOption);
+                                            }
+                                        }
+                                    }
+                                 })
                                 ->orderBy('created_at', 'desc')
                                 ->count();
         return $newConnectionsCount;
     }
 
-    public function getMyConnectionsCount($loggedInTeen, $searchedConnections, $lastTeenId)
+    public function getMyConnectionsCount($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '')
     {
         $connectedTeenIds = $this->getAcceptedConnectionsBySenderId($loggedInTeen);
         $myConnectionsCount = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
@@ -116,6 +164,22 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                 ->where(function($qry) use ($lastTeenId)  {
                                     if(isset($lastTeenId) && !empty($lastTeenId)) {
                                         $qry->where('id', '<', $lastTeenId);
+                                    }
+                                 })
+                                ->where(function($qryFilter) use ($filterBy, $filterOption)  {
+                                    if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
+                                        if ($filterOption != 't_age') {
+                                            $qryFilter->where($filterBy, $filterOption);
+                                        } else {
+                                            if (is_array($filterOption)) {
+                                                $qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
+                                                $qryFilter->where($filterBy, '<=', $filterOption['toDate']);
+                                            } else if($filterOption == 13) {
+                                                $qryFilter->where($filterBy, '<=', $filterOption);
+                                            } else {
+                                                $qryFilter->where($filterBy, '>=', $filterOption);
+                                            }
+                                        }
                                     }
                                  })
                                 ->orderBy('created_at', 'desc')
