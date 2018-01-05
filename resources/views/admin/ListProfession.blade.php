@@ -7,16 +7,16 @@
 <section class="content-header">
     <div class="col-md-12">
         <h1>
-            <div class="col-md-7">
+            <div class="col-md-3">
                 {{trans('labels.professions')}}
             </div>
-            <div class="col-md-1">
-                <a href="{{ url('admin/addProfession') }}" class="btn btn-block btn-primary pull-right">{{trans('labels.add')}}</a>
+            <div class="col-md-3">
+                <a href="{{ url('admin/addProfession') }}" class="btn btn-block btn-primary pull-right">Add Profession</a>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <a href="{{ url('admin/exportProfessoin') }}" class="btn btn-block btn-primary">{{trans('labels.exportdata')}}</a>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <a href="{{ url('admin/addProfessionBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionbulkupload')}}</a>
             </div>
         </h1>

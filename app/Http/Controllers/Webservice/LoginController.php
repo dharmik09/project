@@ -131,16 +131,16 @@ class LoginController extends Controller
     }
     
     /* Request Params : saveUpdatedDeviceToken
-    *  userId, token, deviceId, deviceType
+    *  userId, pushToken, deviceId, deviceType
     *  No loginToken required because it's call without loggedin user
     */
     public function saveUpdatedDeviceToken(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-        if($request->userId != "" && $request->deviceId != "" && $request->token != "" && $request->deviceType != "") {
+        if($request->userId != "" && $request->deviceId != "" && $request->pushToken != "" && $request->deviceType != "") {
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
             if ($checkuserexist) {
                 $saveData['tdt_user_id'] = ($request->userId != '') ? $request->userId : '0';
-                $saveData['tdt_device_token'] = $request->token;
+                $saveData['tdt_device_token'] = $request->pushToken;
                 $saveData['tdt_device_type'] = $request->deviceType;
                 $saveData['tdt_device_id'] = $request->deviceId;
                 $result = $this->objDeviceToken->saveDeviceToken($saveData);

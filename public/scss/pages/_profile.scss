@@ -1099,7 +1099,7 @@ input:checked + .slider:before {
 .icon-voted {
     padding-bottom: 60px;
     text-align: center;
-    @include maxmd{
+    @include maxmd {
         padding-bottom: 30px;
     }
     h2 {
@@ -1122,26 +1122,26 @@ input:checked + .slider:before {
     p {
         font-size: 20px;
         font-family: h;
-        @include maxmd{
+        @include maxmd {
             font-size: 18px;
         }
-        @include maxsm{
+        @include maxsm {
             font-size: 15px;
         }
     }
     .voted-list {
         width: 75%;
         margin: 50px auto;
-        @include maxsm{
+        @include maxsm {
             margin-bottom: 30px;
             width: 90%;
         }
-        @include maxms{
+        @include maxms {
             margin: 30px auto 10px;
         }
         ul {
             padding: 0;
-            @include maxms{
+            @include maxms {
                 margin: 0;
             }
         }
@@ -1152,7 +1152,7 @@ input:checked + .slider:before {
                 height: 100px;
                 width: 100px;
                 margin: 0 auto;
-                @include maxsm{
+                @include maxsm {
                     height: 90px;
                     width: 90px;
                 }
@@ -1178,7 +1178,7 @@ input:checked + .slider:before {
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
-                &:hover{
+                &:hover {
                     opacity: 0.6;
                 }
                 @include maxlg {
@@ -1187,7 +1187,7 @@ input:checked + .slider:before {
                 @include maxmd {
                     left: -50px;
                 }
-                @include maxsm{
+                @include maxsm {
                     left: 0;
                 }
                 @include maxms {
@@ -1207,11 +1207,11 @@ input:checked + .slider:before {
                     right: -50px;
                     left: auto;
                 }
-                @include maxsm{
+                @include maxsm {
                     right: 0;
                     left: auto;
                 }
-                
+
             }
         }
     }
@@ -1694,7 +1694,8 @@ input:checked + .slider:before {
     .panel-heading {
         padding: 0;
         .panel-title {
-            a {
+            .achievement,
+            .academic {
                 font-size: 42px;
                 text-transform: capitalize;
                 color: $white;
@@ -1703,6 +1704,7 @@ input:checked + .slider:before {
                 text-decoration: none;
                 display: block;
                 padding: 45px 0;
+                background: $cl-complete;
                 @include maxlg {
                     font-size: 38px;
                 }
@@ -1714,9 +1716,9 @@ input:checked + .slider:before {
                     font-size: 24px;
                     padding: 20px 0;
                 }
-                &.achievement {
+                /*&.achievement {
                     background: $cl-complete
-                }
+                }*/
                 &.academic {
                     background: $h-cl;
                 }
@@ -1724,28 +1726,72 @@ input:checked + .slider:before {
                 &:focus {
                     text-decoration: none;
                 }
-                span {
+                a {
                     display: block;
                     font-family: hn-b;
                     font-size: 16px;
                     margin-top: 22px;
+                    color: $white;
+                    border: 1px solid #fff;
+                    /* display: inline-block; */
+                    width: 150px;
+                    margin: 30px auto 0;
+                    padding: 12px 50px;
+                    &:hover {
+                        border-color: $dark;
+                        color: $dark
+                    }
+                    @include maxms{
+                        width: 110px;
+                        padding: 10px 30px;
+                    }
                 }
+
             }
-            ul,
-            ol {
-                /*list-style-position: inside;
+            span {
+                font-family: hl !important;
+                font-size: 16px;
+                color: $white !important;
+                display: block;
+                line-height: 1.4;
+                margin-top: 15px;
+                width: 50%;
+                margin: 15px auto 0;
+                text-align: left;
+                @include maxms {
+                    width: 80% ;
+                }
+                ul,
+
+                ol {
+                    /*list-style-position: inside;
                 text-align: center;
                 padding: 0;*/
-                display: table;
-                margin: 0 auto;
-            }
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                color: #fff;
+                    text-align: left;
+                    padding: 0;
+
+                    li {
+                        margin-bottom: 10px;
+                        font-family: hl !important;
+                        font-size: 16px;
+                        color: $white !important;
+                        line-height: 1.4;
+                        span {
+                            margin-top: 0;
+                        }
+                    }
+                }
+                h1,
+                h2,
+                h3,
+                h4,
+                h5,
+                h6 {
+                    color: $white !important;
+                    font-family: hl !important;
+                    font-size: 16px!important;
+                    color: $white;
+                }
             }
         }
     }

@@ -491,14 +491,18 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         $this->deleteTeenagerSponsors($teenagerId);
         $explodeSponser = explode(",", $sponsorId);
 
-        foreach ($explodeSponser as $sponserId) {
-            $sponserArray = array();
-            $sponserArray['ts_sponsor'] = $sponserId;
-            $sponserArray['ts_teenager'] = $teenagerId;
-            $sponserArray['deleted'] = '1';
-            $sponsorDetail = DB::table(config::get('databaseconstants.TBL_TEENAGERS_SPONSERS'))->insert($sponserArray);
+        if(count($explodeSponser) > 0) {
+            foreach ($explodeSponser as $sponserId) {
+                $sponserArray = array();
+                $sponserArray['ts_sponsor'] = $sponserId;
+                $sponserArray['ts_teenager'] = $teenagerId;
+                $sponserArray['deleted'] = '1';
+                $sponsorDetail = DB::table(config::get('databaseconstants.TBL_TEENAGERS_SPONSERS'))->insert($sponserArray);
+            }
+        } else {
+            $sponsorDetail = [];
         }
-
+        
         return $sponsorDetail;
     }
 

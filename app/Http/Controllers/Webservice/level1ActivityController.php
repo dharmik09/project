@@ -18,7 +18,7 @@ use App\Level1Activity;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-class level1ActivityController extends Controller
+class Level1ActivityController extends Controller
 {
     /**
      * Create a new controller instance.

@@ -35,7 +35,7 @@ class RestLessController extends Controller
     }
 
     /* Request Params : apiVersion
-    *  deviceType, appVersion
+    *  deviceType, appVersion // "1" => iOS, "2" => Android
     *  Maintain force-update and update availables using response params
     */
     public function apiVersion(Request $request)
