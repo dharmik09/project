@@ -73,6 +73,9 @@ Route::post('/search-community', 'Teenager\CommunityManagementController@index')
 Route::post('/load-more-new-connections', 'Teenager\CommunityManagementController@loadMoreNewConnections')->name('load-more-new-connections');
 Route::post('/load-more-my-connections', 'Teenager\CommunityManagementController@loadMoreMyConnections')->name('load-more-my-connections');
 Route::get('/send-request-to-teenager/{uniqueId}', 'Teenager\CommunityManagementController@sendRequest')->name('send-request-to-teenager');
+Route::post('/get-sub-filter', 'Teenager\CommunityManagementController@getSubFilter')->name('get-sub-filter');
+Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@getTeenagersByFiltering')->name('get-teenagers-by-school');
+
 //Route::get('/accept-connection-request', 'Teenager\CommunityManagementController@acceptRequest')->name('accept-connection-request');
 //Route::get('/reject-connection-request', 'Teenager\CommunityManagementController@rejectRequest')->name('reject-connection-request');
 
@@ -85,3 +88,5 @@ Route::get('/my-network', function() {
 	return view('teenager.network');
 });
 Route::get('/network-member/{uniqueId}', 'Teenager\CommunityManagementController@getMemberDetails');
+
+
