@@ -491,7 +491,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         $this->deleteTeenagerSponsors($teenagerId);
         $explodeSponser = explode(",", $sponsorId);
 
-        if(count($explodeSponser) > 0) {
+        if(isset($explodeSponser[0]) && count($explodeSponser) > 0) {
             foreach ($explodeSponser as $sponserId) {
                 $sponserArray = array();
                 $sponserArray['ts_sponsor'] = $sponserId;
