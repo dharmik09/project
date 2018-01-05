@@ -157,7 +157,8 @@ class DashboardController extends Controller
                         $teenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
                         $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
                     }
-
+                    $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
+                    
                     $ads = Helpers::getAds($teenager->id);
                     $response['ads'] = $ads;
                     $response['status'] = 1;

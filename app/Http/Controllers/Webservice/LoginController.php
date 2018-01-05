@@ -14,6 +14,7 @@ use App\Country;
 use App\TeenagerLoginToken;
 use App\DeviceToken;
 use Storage;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -72,7 +73,8 @@ class LoginController extends Controller
                         $teenager->c_code = ( isset(Country::getCountryDetail($teenager->t_country)->c_code) ) ? Country::getCountryDetail($teenager->t_country)->c_code : "";
                         $teenager->c_name = ( isset(Country::getCountryDetail($teenager->t_country)->c_name) ) ? Country::getCountryDetail($teenager->t_country)->c_name : "";
                         $teenager->country_id = $teenager->t_country;
-
+                        $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
+            
                         //Save Login Token Data
     					$loginDetail['tlt_teenager_id'] = $teenager->id;
                         $loginDetail['tlt_login_token'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
