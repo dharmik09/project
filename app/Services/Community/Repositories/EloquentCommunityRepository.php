@@ -7,6 +7,7 @@ use Config;
 use App\Community;
 use App\Services\Community\Contracts\CommunityRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
+use Carbon\Carbon;
 
 class EloquentCommunityRepository extends EloquentBaseRepository implements CommunityRepository {
 
@@ -36,16 +37,19 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                  })
                                 ->where(function($qryFilter) use ($filterBy, $filterOption)  {
                                     if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
-                                        if ($filterOption != 't_age') {
+                                        if ($filterBy != 't_birthdate') {
                                             $qryFilter->where($filterBy, $filterOption);
                                         } else {
                                             if (is_array($filterOption)) {
-                                                $qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
-                                                $qryFilter->where($filterBy, '<=', $filterOption['toDate']);
+                                                $qryFilter->whereBetween($filterBy, [$filterOption['fromDate'], $filterOption['toDate']]);
+                                                //$qryFilter->where($filterBy, '>=', $filterOption['fromDate']);
+                                                //$qryFilter->where($filterBy, '<=', $filterOption['toDate']);
                                             } else if($filterOption == 13) {
-                                                $qryFilter->where($filterBy, '<=', $filterOption);
+                                                $filterDate = Carbon::now()->subYears($filterOption);
+                                                $qryFilter->where($filterBy, '>=', $filterDate->format('Y-m-d'));
                                             } else {
-                                                $qryFilter->where($filterBy, '>=', $filterOption);
+                                                $filterDate = Carbon::now()->subYears($filterOption);
+                                                $qryFilter->where($filterBy, '<=', $filterDate->format('Y-m-d'));
                                             }
                                         }
                                     }

@@ -193,11 +193,12 @@ class CommunityManagementController extends Controller {
             $filterBy = 't_birthdate';
             if (strpos($filterOption, '-') !== false) {
                 $ageArr = explode("-", $filterOption);
-                $filterOption['fromDate'] = Carbon::now()->subYears($ageArr[0]);
-                $filterOption['toDate'] = Carbon::now()->subYears($ageArr[1]);
-            } else {
-                $filterOption = Carbon::now()->subYears($filterOption);
-            }
+                $toDate = Carbon::now()->subYears($ageArr[0]);
+                $fromDate = Carbon::now()->subYears($ageArr[1]);
+                $filterOptionArr['fromDate'] = $fromDate->format('Y-m-d');
+                $filterOptionArr['toDate'] = $toDate->format('Y-m-d');
+                $filterOption = $filterOptionArr;
+            } 
         }
         $newConnections = $this->communityRepository->getNewConnections($loggedInTeen, array(), '', $filterBy, $filterOption);
         $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, array(), '', $filterBy, $filterOption);

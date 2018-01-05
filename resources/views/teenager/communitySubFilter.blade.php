@@ -9,7 +9,17 @@
             @endforeach
         </select>
     </div>
-    @else 
+    @elseif ($filterOption == 't_age') 
+    <label class="remove-sub-filter">Filter by:</label>
+    <div class="form-group custom-select remove-sub-filter">
+        <select id="sub_filter" tabindex="1" class="form-control">
+            <option value="">Select</option>
+            @foreach ($filterData as $age)
+                <option value="{{ $age }}">{{ $age }}</option>
+            @endforeach
+        </select>
+    </div>
+    @else
     <label class="remove-sub-filter">Filter by:</label>
     <div class="form-group custom-select remove-sub-filter">
         <select id="sub_filter" tabindex="1" class="form-control">
