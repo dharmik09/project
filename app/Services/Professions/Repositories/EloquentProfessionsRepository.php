@@ -68,7 +68,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 ->selectRaw('profession.*, basket.b_name')
                 ->whereRaw('profession.deleted = 1')
                 ->whereRaw('profession.pf_basket =' . $basketid)
-                ->orWhereRaw('FIND_IN_SET(' . $basketid . ',pf_related_basket)')
+                // ->orWhereRaw('FIND_IN_SET(' . $basketid . ',pf_related_basket)')
                 //->orWhere('profession.pf_related_basket', $basketid)                
                 ->get();
         return $professions;
