@@ -186,7 +186,7 @@ class SignupController extends Controller
                             }
                         }
                         $response['status'] = 1;
-                        //$response['login'] = 1;
+                        $response['login'] = 1;
                         $response['message'] = trans('appmessages.default_success_msg');
                         $response['data'] = $teenagerDetailSaved->toArray();
                     } else {

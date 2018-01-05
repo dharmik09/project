@@ -153,6 +153,7 @@ class LoginController extends Controller
                 $response['loginToken'] = base64_encode($teenagerDetail->t_email.':'.$teenagerDetail->t_uniqueid);
 
                 $response['status'] = 1;
+                $response['login'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
             } else {
                 $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
@@ -176,6 +177,7 @@ class LoginController extends Controller
                 $userLoginDetails = $this->objTeenagerLoginToken->updateTeenagerLoginDetail($request->userId, $request->deviceId);
                 if($userLoginDetails) {
                     $response['status'] = 1;
+                    $response['login'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');
                 } else {
                     $response['message'] = trans('appmessages.default_error_msg');

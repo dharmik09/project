@@ -40,7 +40,7 @@ class RestLessController extends Controller
     */
     public function apiVersion(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg')];
         $this->log->info('Get Versions list from table', array('api-name'=> 'apiVersion'));
         if($request->deviceType != "" && in_array($request->deviceType, ['1', '2']) && $request->appVersion != "") {
             $getVersionsList = $this->objVersionsList->where('device_type', $request->deviceType)->first(['force_update', 'device_type', 'message', 'app_version']);
@@ -68,7 +68,7 @@ class RestLessController extends Controller
     */
     public function getCountryList(Request $request)
     {
-		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+		$response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
     	$countryList = $this->objCountry->getAllCounries();
         if($countryList->count() > 0) {
             $response['status'] = 1;
@@ -77,10 +77,8 @@ class RestLessController extends Controller
         } else {
             $response['message'] = trans('appmessages.data_empty_msg');
         }
-        if(isset($request->loginToken) && $request->loginToken != "") {
-            $response['login'] = 1;
-        }
-    	return response()->json($response, 200);
+        
+        return response()->json($response, 200);
     	exit;
     }
     /* Request Params : getSponsors
@@ -88,7 +86,7 @@ class RestLessController extends Controller
     */
     public function getSponsors(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
         if($sponsorDetail->count() > 0) {
             foreach ($sponsorDetail as $sponsor) {
@@ -104,9 +102,6 @@ class RestLessController extends Controller
             $response['data'] = $sponsorDetail->toArray();
         } else {
             $response['message'] = trans('appmessages.data_empty_msg');
-        }
-        if(isset($request->loginToken) && $request->loginToken != "") {
-            $response['login'] = 1;
         }
         return response()->json($response, 200);
         exit;
