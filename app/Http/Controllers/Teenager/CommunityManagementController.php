@@ -146,38 +146,43 @@ class CommunityManagementController extends Controller {
     {
         $receiverTeenDetails = $this->teenagersRepository->getTeenagerByUniqueId($uniqueId);
         $senderTeenDetails = $this->teenagersRepository->getTeenagerDetailById(Auth::guard('teenager')->user()->id);
-        $data = array();
-        $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName('send-connection-request-to-teen');
-        $replaceArray = array();
-        $connectionUniqueId = uniqid("", TRUE);
-        $replaceArray['RECEIVER_TEEN_NAME'] = $receiverTeenDetails->t_name;
-        $replaceArray['SENDER_TEEN_NAME'] = $senderTeenDetails->t_name;
-        //$replaceArray['ACCEPT_URL'] = url('teenager/accept-connection-request?token='.$connectionUniqueId);
-        //$replaceArray['REJECT_URL'] = url("teenager/reject-connection-request?token=".$connectionUniqueId);
-        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-        if (isset($emailTemplateContent) && !empty($emailTemplateContent)) {
-            $data['subject'] = $emailTemplateContent->et_subject;
-            $data['toEmail'] = $receiverTeenDetails->t_email;
-            $data['toName'] = (isset($receiverTeenDetails->t_name) && !empty($receiverTeenDetails->t_name)) ? $receiverTeenDetails->t_name : "";
-            $data['content'] = $content;
-            $data['tc_unique_id'] = $connectionUniqueId;
-            $data['tc_sender_id'] = Auth::guard('teenager')->user()->id;
-            $data['tc_receiver_id'] = $receiverTeenDetails->id;
-            Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
-                        $message->subject($data['subject']);
-                        $message->to($data['toEmail'], $data['toName']);
-                        // Save connection request data
-                        $connectionRequestData['tc_unique_id'] = $data['tc_unique_id'];
-                        $connectionRequestData['tc_sender_id'] = $data['tc_sender_id'];
-                        $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
-                        $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
+        $connectedTeen = $this->communityRepository->checkTeenAlreadyConnected($receiverTeenDetails->id, Auth::guard('teenager')->user()->id);
+        if (!empty($connectedTeen) && $connectedTeen == true) {
+            $data = array();
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName('send-connection-request-to-teen');
+            $replaceArray = array();
+            $connectionUniqueId = uniqid("", TRUE);
+            $replaceArray['RECEIVER_TEEN_NAME'] = $receiverTeenDetails->t_name;
+            $replaceArray['SENDER_TEEN_NAME'] = $senderTeenDetails->t_name;
+            //$replaceArray['ACCEPT_URL'] = url('teenager/accept-connection-request?token='.$connectionUniqueId);
+            //$replaceArray['REJECT_URL'] = url("teenager/reject-connection-request?token=".$connectionUniqueId);
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            if (isset($emailTemplateContent) && !empty($emailTemplateContent)) {
+                $data['subject'] = $emailTemplateContent->et_subject;
+                $data['toEmail'] = $receiverTeenDetails->t_email;
+                $data['toName'] = (isset($receiverTeenDetails->t_name) && !empty($receiverTeenDetails->t_name)) ? $receiverTeenDetails->t_name : "";
+                $data['content'] = $content;
+                $data['tc_unique_id'] = $connectionUniqueId;
+                $data['tc_sender_id'] = Auth::guard('teenager')->user()->id;
+                $data['tc_receiver_id'] = $receiverTeenDetails->id;
+                Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
+                            $message->subject($data['subject']);
+                            $message->to($data['toEmail'], $data['toName']);
+                            // Save connection request data
+                            $connectionRequestData['tc_unique_id'] = $data['tc_unique_id'];
+                            $connectionRequestData['tc_sender_id'] = $data['tc_sender_id'];
+                            $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
+                            $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
 
-                        $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
-                            });
-                    // ------------------------end sending mail ----------------------------//
-            return Redirect::back()->with('success', 'Connection request sent successfully');
+                            $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+                                });
+                        // ------------------------end sending mail ----------------------------//
+                return Redirect::back()->with('success', 'Connection request sent successfully');
+            } else {
+                return Redirect::back()->with('error', trans('validation.somethingwrong'));
+            }
         } else {
-            return Redirect::back()->with('error', trans('validation.somethingwrong'));
+            return Redirect::back()->with('error', 'Request already sent');
         }
     }
 
