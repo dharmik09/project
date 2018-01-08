@@ -291,5 +291,40 @@ class DashboardController extends Controller
         }
         return response()->json($response, 200);
         exit;
-    }    
+    }  
+
+    /* Request Params : getDashboardDetail
+    *  loginToken, userId
+    */
+    public function getDashboardDetail(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        
+        if($teenager) {
+            $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
+            //Teenager Image
+            $teenager->t_photo_thumb = "";
+            if ($teenager->t_photo != '') {
+                $teenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
+                $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
+            }
+            
+            $teenager->c_code = ( isset(Country::getCountryDetail($teenager->t_country)->c_code) ) ? Country::getCountryDetail($teenager->t_country)->c_code : "";
+            $teenager->c_name = ( isset(Country::getCountryDetail($teenager->t_country)->c_name) ) ? Country::getCountryDetail($teenager->t_country)->c_name : "";
+            $teenager->country_id = $teenager->t_country;
+
+            $teenager->progress = 23;
+            $teenager->total_points = 10000;
+            $teenager->recent_progress = "You advanced 7% on your last visit. Well done you!";
+
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $teenager;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }  
 }

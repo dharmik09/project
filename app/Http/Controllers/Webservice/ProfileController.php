@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Helpers;
 use Config;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
+use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
 use App\Teenagers;
 use App\TeenagerLoginToken;
 use App\DeviceToken;
@@ -17,11 +18,12 @@ use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
-    public function __construct(TeenagersRepository $teenagersRepository)
+    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->objTeenagerLoginToken = new TeenagerLoginToken();
         $this->objDeviceToken = new DeviceToken();
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->sponsorOriginalImageUploadPath = Config::get('constant.SPONSOR_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -37,7 +39,14 @@ class ProfileController extends Controller
 		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
     	$teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-    		$teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
+    		$totalQuestion = $this->level1ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($request->userId);
+            $response['NoOfTotalQuestions'] = (isset($totalQuestion[0]->NoOfTotalQuestions)) ? $totalQuestion[0]->NoOfTotalQuestions : 0;
+            $response['NoOfAttemptedQuestions'] = (isset($totalQuestion[0]->NoOfAttemptedQuestions)) ? $totalQuestion[0]->NoOfAttemptedQuestions : 0;
+            $response['l1_question_attempted'] = 0;
+            if($response['NoOfTotalQuestions'] > 0 && (int)$response['NoOfAttemptedQuestions'] >= (int)$response['NoOfTotalQuestions']) {
+               $response['l1_question_attempted'] = 1;
+            }
+            $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
             if (count($teenager->t_sponsors) > 0) {
                 foreach ($teenager->t_sponsors as $sponsor) {
                     $sponsor->sp_logo_thumb = (isset($sponsor->sp_photo) && $sponsor->sp_photo != "") ? Storage::url($this->sponsorThumbImageUploadPath . $sponsor->sp_photo) : Storage::url($this->sponsorThumbImageUploadPath . "proteen-logo.png");
