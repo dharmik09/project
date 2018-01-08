@@ -195,7 +195,7 @@ class CommunityManagementController extends Controller {
         } else if ($filterOption == 't_gender') {
             $filterData = Helpers::gender();
         } else if ($filterOption == 't_age') {
-            $filterData = array('1' => '13', '2' => '13-14', '3' => '14-15', '4' => '15-16', '5' => '16-17', '6' => '17-18', '7' => '18-19', '8' => '19-20', '9' => '20');
+            $filterData = Helpers::age();
         } else {
             $filterData = array();
         }

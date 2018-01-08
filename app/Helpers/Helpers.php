@@ -2744,16 +2744,41 @@ Class Helpers {
         return $personality->pt_name;
     }
 
+    public static function age() {
+        $age = array('1' => '13', '2' => '13-14', '3' => '14-15', '4' => '15-16', '5' => '16-17', '6' => '17-18', '7' => '18-19', '8' => '19-20', '9' => '20');
+        return $age;
+    }
+
     public static function getCommunitySortByArray()
     {
         $sortArray = array(1 => 'School', 2 => 'Gender', 3 => 'Age', 4 => 'Pincode');
-        $sortElement = [];
-        $sortBy = [];
-        foreach ($sortArray as $sortKey => $sortValue) {
-            $sortElement['id'] = $sortKey; 
-            $sortElement['name'] = $sortValue;
-            $sortBy[] = $sortElement;
+        $sortByArr = [];
+        $objSchool = new Schools;
+        $schools = $objSchool->select('id', 'sc_name')->where('deleted', '1')->where('sc_isapproved','1')->get();
+        foreach($schools as $school) {
+            $schoolArr[] = array('id' => $school->id, 'name' => $school->sc_name);
         }
-        return $sortBy;
+        $age = Self::age();
+        foreach($age as $ageKey => $ageValue) {
+            $ageArr[] = array('id' => $ageKey, 'name' => $ageValue);
+        }
+        $gender = Self::gender();
+        foreach($gender as $genderKey => $genderValue) {
+            $genderArr[] = array('id' => $genderKey, 'name' => $genderValue);
+        }
+        foreach ($sortArray as $sortKey => $sortValue) {
+            if ($sortKey == 1) {
+                $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => $schoolArr); 
+            } else if ($sortKey == 2) {
+                $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => $genderArr);
+            } else if ($sortKey == 3) {
+                $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => $ageArr);
+            } else {
+                $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => '');
+            }
+        }
+        return $sortByArr;
     }
+
+
 }
