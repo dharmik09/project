@@ -51,6 +51,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/saveTeenagerAchievementInfo', 'Webservice\DashboardController@saveTeenagerAchievementInfo');
 	//Help
 	Route::post('/help', 'Webservice\HomeController@help');
+	Route::post('/helpSearch', 'Webservice\HomeController@helpSearch');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -13,6 +13,7 @@ use App\Testimonial;
 use App\FAQ;
 use Config;
 use Input;
+use Storage;
 
 class HomeController extends Controller
 {
@@ -49,29 +50,51 @@ class HomeController extends Controller
                     $data[] = $help;
                 }
             }
-            $response['message'] = trans('appmessages.missing_data_msg');
-            $response['data'] = trans('appmessages.missing_data_msg');
-            print_r($helps->toArray()); die();
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data;
         } else {
-            $response['message'] = trans('appmessages.missing_data_msg');
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
         
         return response()->json($response, 200);
         exit;
 
-        //$faqThumbImageUploadPath = $this->faqThumbImageUploadPath;
     }
 
-    /**
-     * Returns More video on Index page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function loadMoreVideo(Request $request)
+    /* Request Params : helpSearch
+    *  loginToken, userId, searchText
+    *  Service after loggedIn user
+    */
+    public function helpSearch(Request $request)
     {
-        $id = $request->id;
-        $videoDetail = $this->objVideo->getMoreVideos($id);
-        $videoCount = $this->objVideo->loadMoreVideoCount($id);
-        return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            if($request->searchText != "") {
+                $helps = $this->objFAQ->getSearchedFAQ(trim($request->searchText));
+            } else {
+                $helps = $this->objFAQ->getAllFAQ();
+            }
+
+            $data = [];
+            if(isset($helps[0]->id) && !empty($helps[0])) {
+                foreach($helps as $help) {
+                    $help->f_photo  = ($help->f_photo != "") ? Storage::url($this->faqThumbImageUploadPath.$help->f_photo) : Storage::url($this->faqThumbImageUploadPath."proteen-logo.png");
+                    $data[] = $help;
+                }
+            }
+            $response['searchText'] = $request->searchText;
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        
+        return response()->json($response, 200);
+        exit;
     }
 }
