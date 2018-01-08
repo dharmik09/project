@@ -33,7 +33,7 @@ class PasswordController extends Controller
             $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
             $response['status'] = 1;
             $response['login'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+            $response['message'] = "Password set successfully!";
     	} else {
             $response['login'] = 1;
             $response['message'] = trans('appmessages.missing_data_msg');
@@ -177,7 +177,7 @@ class PasswordController extends Controller
                                 });
 
                         $response['status'] = 1;
-                        $response['message'] = trans('appmessages.mail_success_msg');
+                        $response['message'] = trans('appmessages.forgotPasswordSent');
                         $response['data'] = ["userId" => $teenagerDetail->id];
                     }
                 } else {

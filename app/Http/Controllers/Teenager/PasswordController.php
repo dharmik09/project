@@ -152,7 +152,7 @@ class PasswordController extends Controller {
                                 });
 
                         $response['status'] = 1;
-                        $response['message'] = trans('appmessages.mail_success_msg');
+                        $response['message'] = trans('appmessages.forgotPasswordSent');
                         $response['data'] = ["userid" => $teenagerDetail->id, "email" => $teenagerDetail->t_email, "OTP" => $OTP, 'u_token' => $teenagerDetail->t_uniqueid];
                         return view('teenager.forgotPasswordOTP', compact('response'));
                         exit;

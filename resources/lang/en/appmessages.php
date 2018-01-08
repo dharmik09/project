@@ -36,7 +36,7 @@ return [
     'no_basic_question' => "Profession Doesn't have any basic questions",
     'mail_success_msg' => 'Successfully send',
     'signupmail_success_msg' => 'Successfully sign up and sending mail for verified',
-    'invalidOTP' => 'OTP you have enter is invalid',
+    'invalidOTP' => 'OTP you have entered is invalid',
     'invalidoldpassword' => 'Invalid Old Password',
     'usernotexistwithemail' => 'User do not exist with such email',
     'success' => 'Success',
@@ -53,4 +53,5 @@ return [
     'invalid_parentid_msg' => 'Invalid ParentId',
     'invalid_professinid_msg' => 'Invalid ProfessionId or Profession does not exist',
     'emailisnotreal' => 'Email id is not real',
+    'forgotPasswordSent' => 'OTP(One Time Password) is sent successfully to your email',
 ];
