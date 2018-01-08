@@ -93,7 +93,9 @@
                                 <a href="#" title="Chat"><i class="icon-chat"></i>
                                     <span>3</span></a>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. Nunc fringilla mattis mi, sit amet hendrerit nibh euismod in. Praesent ut vulputate sem. Vestibulum odio quam, sagittis vitae pellentesque sit amet, rhoncus sit amet ipsum. Ut eros risus, molestie sed sapien at, euismod dignissim velit.</p>
+                            <p id="display-about-info">{{ $user->t_about_info }}</p>
+                            <input type="text" class="form-control" id="t_about_info" name="t_about_info" placeholder="describe yourself" value="{{ $user->t_about_info }}" >
+                            <a id="editInfo" href="javascript:void(0);" title="Edit Info">Describe Yourself</a>
                         </div>
                     </div>
                     <!--profile form-->
@@ -944,6 +946,7 @@
             getPhoneCodeByCountry(countryCode);
         }
         $('#email').attr('readonly', true);
+        $("#t_about_info").hide();
     });
     
     function getFirstLevelData() {
@@ -1075,6 +1078,15 @@
             } else {
                 $("#saveProfile").removeClass('sending').blur();
             }
+    });
+    $(document).on('click','#editInfo',function() {
+        if ($("#t_about_info").is(':visible')) {
+            $("#t_about_info").hide();
+            $("#display-about-info").show();
+        } else {
+            $("#display-about-info").hide();
+            $("#t_about_info").show();
+        }
     });
 </script>
 @stop

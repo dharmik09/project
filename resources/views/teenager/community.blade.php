@@ -53,7 +53,7 @@
                 <div class="tab-content">
                     <div id="loading-wrapper-sub" class="loading-screen">
                         <div id="loading-text">
-                            <img src="{{ asset('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                            <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
                         <div id="loading-content">
                         </div>
                     </div>
