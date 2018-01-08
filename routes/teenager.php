@@ -62,11 +62,11 @@ Route::get('/career-detail/{id}', function() {
 // });
 Route::get('/list-career', 'Teenager\ProfessionController@listIndex');
 Route::post('/career-list', 'Teenager\ProfessionController@listGetIndex');
-// Route::get('/career-grid', 'Teenager\ProfessionController@gridIndex');
-// Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
-Route::get('/career-grid', function() {
-	return view('teenager.careerGrid');
-});
+Route::get('/career-grid', 'Teenager\ProfessionController@gridIndex');
+Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
+// Route::get('/career-grid', function() {
+	// return view('teenager.careerGrid');
+// });
 Route::get('/career-tag', function() {
 	return view('teenager.careerTag');
 });
