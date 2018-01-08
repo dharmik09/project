@@ -57,9 +57,13 @@ Route::get('/my-careers', function() {
 Route::get('/career-detail/{id}', function() {
 	return view('teenager.careerDetail');
 });
-Route::get('/list-career', function() {
-	return view('teenager.careersListing');
-});
+// Route::get('/list-career', function() {
+// 	return view('teenager.careersListing');
+// });
+Route::get('/list-career', 'Teenager\ProfessionController@listIndex');
+Route::post('/career-list', 'Teenager\ProfessionController@listGetIndex');
+// Route::get('/career-grid', 'Teenager\ProfessionController@gridIndex');
+// Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
 Route::get('/career-grid', function() {
 	return view('teenager.careerGrid');
 });
@@ -74,7 +78,7 @@ Route::post('/load-more-new-connections', 'Teenager\CommunityManagementControlle
 Route::post('/load-more-my-connections', 'Teenager\CommunityManagementController@loadMoreMyConnections')->name('load-more-my-connections');
 Route::get('/send-request-to-teenager/{uniqueId}', 'Teenager\CommunityManagementController@sendRequest')->name('send-request-to-teenager');
 Route::post('/get-sub-filter', 'Teenager\CommunityManagementController@getSubFilter')->name('get-sub-filter');
-Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@getTeenagersByFiltering')->name('get-teenagers-by-school');
+Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@index')->name('get-teenagers-by-school');
 
 //Route::get('/accept-connection-request', 'Teenager\CommunityManagementController@acceptRequest')->name('accept-connection-request');
 //Route::get('/reject-connection-request', 'Teenager\CommunityManagementController@rejectRequest')->name('reject-connection-request');

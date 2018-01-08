@@ -39,54 +39,64 @@
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
                                 </div>
                             </div>
-                            <div class="row expandInterest flex-container">
-                                <?php $c = 0; ?>
-                                @forelse($teenagerInterest as $interestKey => $interestValue)
-                                    <?php
-                                        $c++; 
-                                        if($interestValue < 1) {
-                                            $c--; 
-                                            $elementClass = '';
-                                            $key = 'none';
-                                            continue; 
-                                        } else {
-                                            if ($c > 4) {
-                                                $key = 'none';
-                                                $elementClass = "expandElement";
-                                            } else {
-                                                $key = 'block';
-                                                $elementClass = '';
-                                            }
-                                        } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
-                                        <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};" > 
-                                            <div class="my_chart">
-                                                <div class="progress-radial progress-20">
-                                                </div>
-                                                <h4><a href="{{ url('teenager/interest/') }}"><?php echo Helpers::getInterestBySlug($interestKey); ?></h4>
-                                            </div>
-                                        </div>
-                                @empty
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <div class="my_chart">
-                                            <!-- <img src="{{ Storage::url('img/my-interest-2.png') }}" alt="My_chart"> -->
-                                            <div class="progress-radial progress-5">
-                                            </div>
-                                            <h4>Interest 1</h4>
-                                        </div>
-                                        <!-- my_chart End -->
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <div class="my_chart">
-                                            <!-- <img src="{{ Storage::url('img/my-interest-1.png') }}" alt="My_chart"> -->
-                                            <div class="progress-radial progress-15">
-                                            </div>
-                                            <h4>Interest 2</h4>
-                                        </div>
-                                        <!-- my_chart End -->
-                                    </div>
-                                @endforelse
+                            <div class="row flex-container">
+                            	<?php 
+                            		$interestFlag = ''; 
+		                            if (!empty(array_filter($teenagerInterest))) {
+		                            	$interestFlag = true;
+		                            } else {
+		                            	$interestFlag = false;
+		                            }
+		                        ?>
+		                        @if (isset($interestFlag) && $interestFlag == true)
+	                                <?php $countInterest = 0; ?>
+	                                @forelse($teenagerInterest as $interestKey => $interestValue)
+	                                <?php
+	                                    $countInterest++; 
+	                                    if($interestValue < 1) {
+	                                        $countInterest--; 
+	                                        $elementClass = '';
+	                                        $key = 'none';
+	                                        continue; 
+	                                    } else {
+	                                        if ($countInterest > 4) {
+	                                            $key = 'none';
+	                                            $elementClass = "expandElement";
+	                                        } else {
+	                                            $key = 'block';
+	                                            $elementClass = '';
+	                                        }
+	                                    } $imageSelection = "img/my-interest-".$interestValue.".png"; ?>
+	                                    <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};" > 
+	                                        <div class="my_chart">
+	                                            <div class="progress-radial progress-20">
+	                                            </div>
+	                                            <h4>
+	                                                <a href="{{ url('teenager/interest/') }}/{{$interestKey}}"><?php echo Helpers::getInterestBySlug($interestKey); ?>
+	                                                </a>
+	                                            </h4>
+	                                        </div>
+	                                    </div>
+	                                @empty
+	                                	<div class="col-md-6 col-sm-6 col-xs-6 flex-items">
+		                                	<center>
+		                                		<h3>No Records Found</h3>
+		                                	</center>
+	                                	</div>
+	                                @endforelse
+                                @else
+                                	<div class="col-md-6 col-sm-6 col-xs-6 flex-items">
+	                                	<center>
+	                                		<h3>No Records Found</h3>
+	                                	</center>
+                                	</div>
+                                @endif
                             </div>
-                            <p><a id="interest" href="javascript:void(0);" class="intranet-folder">Expand</a></p>
+                            @if (count(array_filter($teenagerInterest)) > 4 && !empty($teenagerInterest))
+                            	<p>
+                            		<a id="interest" href="javascript:void(0);" class="interest-section">Expand</a>
+                            	</p>
+                            @endif
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
@@ -94,44 +104,35 @@
                             <div class="row flex-container">
                                 <?php $countStrength = 0; ?>
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
-                                    <?php $imageChart = "img/My_chart-".$strengthValue['score'].".png";
-                                    if(isset($countStrength) && $countStrength == 4) { ?>
-                                        <div class="expandStrength">
-                                    <?php } ?>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
+                                	<?php
+                                		$countStrength++;
+                                		if ($countStrength > 4) {
+                                            $key = 'none';
+                                            $elementClass = "expandStrength";
+                                        } else {
+                                            $key = 'block';
+                                            $elementClass = '';
+                                        } ?>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};">
                                         <div class="my_chart">
                                             <div class="progress-radial progress-20">
                                             </div>
-                                            <!-- <img src="{{ Storage::url($imageChart) }}" alt="{{ $strengthKey }}" title="{{ $strengthKey }}"> -->
                                             <h4><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}"> {{ $strengthValue['name'] }}</a></h4>
                                         </div>
                                     </div>
-                                    <?php
-                                        end($teenagerStrength); 
-                                        if(isset($countStrength) && $countStrength > 4 && $strengthKey == key($teenagerStrength)) { ?>
-                                        </div>
-                                    <?php }  
-                                    $countStrength++; ?>
                                 @empty
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <div class="my_chart">
-                                            <div class="progress-radial progress-5">
-                                            </div>
-                                            <!-- <img src="{{ Storage::url('img/My_chart2.png') }}" alt="My_chart"> -->
-                                            <h4>Strength 1</h4>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <div class="my_chart">
-                                            <div class="progress-radial progress-10">
-                                            </div>
-                                            <!-- <img src="{{ Storage::url('img/My_chart3.png') }}" alt="My_chart"> -->
-                                            <h4>Strength 2</h4>
-                                        </div>
-                                    </div>
+                                	<div class="col-md-6 col-sm-6 col-xs-6 flex-items">
+	                                	<center>
+	                                		<h3>No Records Found</h3>
+	                                	</center>
+                                	</div>
                                 @endforelse
                             </div>
-                            <p><a id="strength" href="javascript:void(0);" onclick="expandStrength();">Expand</a></p>
+                            @if(count($teenagerStrength) > 4 && !empty($teenagerStrength))
+                            	<p>
+                            		<a id="strength" href="javascript:void(0);" >Expand</a>
+                            	</p>
+                            @endif
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
@@ -378,35 +379,29 @@
                     //saveBoosterPoints(teenagerId, professionId, 2, isyoutube);
                 }
             }
-            //$('.expandInterest').hide();
-
             $(".expandStrength").hide();
         });
-        function expandInterest() {
-            if ($('.expandInterest').is(':visible')) {
-                $(".expandInterest").slideUp();
-                $("#interest").text("Expand");
-            } else {
-                $(".expandInterest").slideDown();
-                $("#interest").text("Collapse");
-            }
-        }
-        $('.intranet-folder').click(function() {
+        $('.interest-section').click(function() {
             $('.expandElement').slideToggle('medium', function() {
                 if ($(this).is(':visible')) {
                     $(this).css('display','block');
+                    $("#interest").text("Collapse");
+                } else {
+                	$("#interest").text("Expand");
                 }
             });
             return false;
         });
-        function expandStrength() {
-            if ($('.expandStrength').is(':visible')) {
-                $(".expandStrength").slideUp();
-                $("#strength").text("Expand");
-            } else {
-                $(".expandStrength").slideDown();
-                $("#strength").text("Collapse");
-            }
-        }
+        $('#strength').click(function() {
+            $('.expandStrength').slideToggle('medium', function() {
+                if ($(this).is(':visible')) {
+                    $(this).css('display','block');
+                    $("#strength").text("Collapse");
+                } else {
+                	$("#strength").text("Expand");
+                }
+            });
+            return false;
+        });
     </script>
 @stop

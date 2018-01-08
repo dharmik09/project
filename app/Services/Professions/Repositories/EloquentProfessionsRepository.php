@@ -27,6 +27,19 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
     }
 
     /**
+     * @return array of all the active Professions Count
+      Parameters
+      @$searchParamArray : Array of Searching and Sorting parameters
+     */
+
+    public function getAllProfessionsCount() {
+        $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
+                ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                ->count();
+        return $professions;
+    }
+
+    /**
      * @return Profession details object
       Parameters
       @$professionDetail : Array of professions detail from front
@@ -68,7 +81,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 ->selectRaw('profession.*, basket.b_name')
                 ->whereRaw('profession.deleted = 1')
                 ->whereRaw('profession.pf_basket =' . $basketid)
-                ->orWhereRaw('FIND_IN_SET(' . $basketid . ',pf_related_basket)')
+                // ->orWhereRaw('FIND_IN_SET(' . $basketid . ',pf_related_basket)')
                 //->orWhere('profession.pf_related_basket', $basketid)                
                 ->get();
         return $professions;
@@ -458,6 +471,23 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         } else {
             return false;
         }
+    }
+
+    /**
+    * Parameter : $userid
+    * return : array od basket attempt of teenager
+    */
+    public function getTeenagerTotalProfessionAttempted($userid)
+    {
+        $profession = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS p")
+                ->join(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS pa", 'pa.tpa_peofession_id', '=', 'p.id')
+                ->selectRaw('count(pa.tpa_peofession_id) as professionAttemptCount')
+                ->where('pa.tpa_teenager', '=', $userid)
+                ->first();
+
+        // $profession = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS pa")
+                // ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS p", 'pa.tpa_peofession_id', '=', 'p.id')
+        return $profession;
     }
 
 }

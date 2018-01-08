@@ -160,9 +160,8 @@ $(document).ready(function () {
     setTimeout(function () {
     $('#loading-wrapper').hide();
     }, 2500);
-    setTimeout(function () {
-    $('#loading-wrapper-sub').hide();
-    }, 2500);
+    /*$('#loading-wrapper-sub').hide();
+    }, 2500);*/
     $('body').removeClass('overflw-hide');
     //expand
     $('.expand').click(function () {

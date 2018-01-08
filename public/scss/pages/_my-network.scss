@@ -82,8 +82,10 @@
 
 .connection-list {
     max-width: 960px;
-    margin: 0 auto;
-    padding: 28px 0 40px;
+    margin: 0 auto 40px;
+    padding: 28px 0 0;
+    //position: relative;
+    //min-height: 400px;
     @include maxlg {
         padding-top: 15px;
     }

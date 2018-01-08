@@ -1,6 +1,9 @@
 .overflw-hide {
     overflow: hidden;
 }
+.loading-screen-parent{
+    position: relative;min-height: 400px;
+}
 #loading-wrapper-sub {
     position: absolute;
     width: 100%;
@@ -10,11 +13,12 @@
     background: $white;
     z-index: 99999;
     overflow: hidden;
+   display: none;
     #loading-text {
-        top: 100px;
+        top: 200px;
     }
     #loading-content {
-        top: 100px;
+        top: 200px;
     }
 }
 

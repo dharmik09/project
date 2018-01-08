@@ -40,7 +40,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                         if ($filterBy != 't_birthdate' && $filterBy != 't_pincode') {
                                             $qryFilter->where($filterBy, $filterOption);
                                         } else if ($filterBy == 't_pincode') {
-                                            $qryFilter->where($filterBy, 'like', '%'.$filterOption.'%');
+                                            $qryFilter->where('t_pincode', 'like', '%'.$filterOption.'%');
                                         } else {
                                             if (is_array($filterOption)) {
                                                 $qryFilter->whereBetween($filterBy, [$filterOption['fromDate'], $filterOption['toDate']]);
@@ -208,7 +208,13 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         if(isset($token) && $token != '' && !empty($token)) {
             $return = $this->model->where('tc_unique_id', $token)->update($connectionRequestData);
         } else {
-            $return = $this->model->create($connectionRequestData);
+            $availableRequest = $this->model->where('tc_receiver_id', $connectionRequestData['tc_receiver_id'])->where('tc_sender_id', $connectionRequestData['tc_sender_id'])->first();
+            if (isset($availableRequest) && !empty($availableRequest)) {
+                $connectionRequestDetails['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
+                $return = $this->model->where('id', $availableRequest->id)->update($connectionRequestDetails);
+            } else {
+                $return = $this->model->create($connectionRequestData);
+            }
         }
         return $return;
     }
