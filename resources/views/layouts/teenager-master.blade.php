@@ -29,11 +29,11 @@
                 <div class="menu-toggle pull-right">
                     <ul class="nav-bar clearfix">
                         <li class="n-user submenu-container">
-                            <a href="javascript:void(0);"><i class="icon-user"></i><span class="badge">12</span></a>
+                            <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png'); ?>
+                            <a href="javascript:void(0);"><i class="i-user"><img src="{{ $user_profile_thumb_image }}" alt="user icon"></i><span class="badge">12</span></a>
                             <div class="submenu">
                                 <div class="user-snapshot">
                                     <div class="user-avatar">
-                                        <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : asset('uploads/teenager/thumb/proteen-logo.png'); ?>
                                         <a href="{{ url('teenager/home') }}" title="My Dashboard">
                                             <img src="{{ $user_profile_thumb_image }}">
                                         </a>

@@ -716,6 +716,17 @@
             position: inherit;
         }
     }
+    a, #editInfo{
+        color: $white;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+    .about-info {
+    border-color: #fff;
+    color: #fff;
+    margin: 30px 0;
+}
 }
 
 input:checked + .slider {
@@ -1547,6 +1558,7 @@ input:checked + .slider:before {
             color: $r-cl;
             position: relative;
             width: 100%;
+            display: table;
             @include maxsm {
                 width: auto;
                 font-size: 17px;
@@ -1567,8 +1579,8 @@ input:checked + .slider:before {
             .team-img {
                 width: 83px;
                 height: 83px;
-                display: inline-block;
-                vertical-align: middle;
+                display: table-cell;
+                vertical-align: top;
                 margin-right: 10%;
                 @include maxsm {
                     margin-right: 40px;
@@ -1584,11 +1596,11 @@ input:checked + .slider:before {
             font-family: hn-b;
             @include maxsm {
                 width: 100%;
-                margin-left: 128px;
+                margin-left: 88px;
                 margin-top: -30px;
             }
             @include maxms {
-                margin-left: 88px;
+                margin-left: 66px;
                 margin-top: -25px;
                 font-size: 14px;
             }

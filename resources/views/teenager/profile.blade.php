@@ -94,8 +94,8 @@
                                     <span>3</span></a>
                             </div>
                             <p id="display-about-info">{{ $user->t_about_info }}</p>
-                            <input type="text" class="form-control" id="t_about_info" name="t_about_info" placeholder="describe yourself" value="{{ $user->t_about_info }}" >
-                            <a id="editInfo" href="javascript:void(0);" title="Edit Info">Describe Yourself</a>
+                            <input type="text" class="form-control about-info" id="t_about_info" name="t_about_info" placeholder="describe yourself" value="{{ $user->t_about_info }}" >
+                            <a id="editInfo" href="javascript:void(0);" title="Edit Info">Edit</a>
                         </div>
                     </div>
                     <!--profile form-->

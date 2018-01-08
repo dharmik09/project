@@ -225,17 +225,13 @@
                                 </li>
                                 @empty
                                 <center>
-                                    <li>
-                                        <h3>No Records found.</h3>
-                                    </li>
+                                    <h3>No Records found.</h3>
                                 </center>
                                 @endforelse
                             @else
-                                <center>
-                                    <li>
-                                        <h3>No Records found.</h3>
-                                    </li>
-                                </center>
+                            <center>
+                                <h3>No Records found.</h3>
+                            </center>
                             @endif
                         </ul>
                     </div>
@@ -262,9 +258,7 @@
                                 </li>
                                 @empty
                                 <center>
-                                    <li>
-                                        <h3>No Records found.</h3>
-                                    </li>
+                                    <h3>No Records found.</h3>
                                 </center>
                                 @endforelse
                             </ul>

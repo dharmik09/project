@@ -145,3 +145,6 @@
     opacity: 0.5;
     pointer-events: none;
 }
+.loader_con, .loader_con.gif-none {
+    display: none;text-align: center;margin-bottom: 7px;
+}

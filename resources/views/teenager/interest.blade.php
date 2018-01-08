@@ -231,6 +231,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="loader_con" ><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}"></div>
                     <p class="text-center"><a href="#" title="see more">see more</a></p>
                 </div>
             </div>
