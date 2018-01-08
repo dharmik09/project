@@ -48,8 +48,8 @@
                             <label for="force_update" class="col-sm-2 control-label">{{trans('labels.appversionforceupdate')}}</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="force_update" name="force_update">
-                                    <option value="0" <?php if ($force_update == 0) echo 'selected'; ?>>{{trans('labels.lbltrue')}}</option>
-                                    <option value="1" <?php if ($force_update == 1) echo 'selected'; ?>>{{trans('labels.lblfalse')}}</option>
+                                    <option value="1" <?php if ($force_update == 1) echo 'selected'; ?>>{{trans('labels.lbltrue')}}</option>
+                                    <option value="0" <?php if ($force_update == 0) echo 'selected'; ?>>{{trans('labels.lblfalse')}}</option>
                                 </select>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label for="device_type" class="col-sm-2 control-label">{{trans('labels.appversiondevicetype')}}</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" placeholder="<?php echo ($device_type == 1) ? trans('labels.formblandroid') : trans('labels.formblios') ?>" disabled />
+                                <input type="text" class="form-control" placeholder="<?php echo ($device_type == 1) ? trans('labels.formblios') : trans('labels.formblandroid') ?>" disabled />
                                 <input type="hidden" name="device_type" value="{{$device_type}}" />
                             </div>
                         </div>

@@ -35,13 +35,13 @@
                             @forelse($data as $value)
                             <tr>
                                 <td>
-                                    <?php echo ($value->device_type == 1) ? trans('labels.formblandroid') : trans('labels.formblios') ?>
+                                    <?php echo ($value->device_type == 1) ? trans('labels.formblios') : trans('labels.formblandroid') ?>
                                 </td>
                                 <td>
                                     {{$value->app_version}}
                                 </td>
                                 <td>
-                                    <?php echo ($value->force_update == 0) ? trans('labels.lbltrue') : trans('labels.lblfalse') ?>
+                                    <?php echo ($value->force_update == 1) ? trans('labels.lbltrue') : trans('labels.lblfalse') ?>
                                 </td>
                                 <td>
                                     {{$value->message}}
