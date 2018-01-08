@@ -54,8 +54,12 @@ class FAQ extends Model
 
     public function getSearchedFAQ($searchText)
     {
-        $faqDetail = FAQ::where('f_question_text', 'like', '%'.$searchText.'%')
-                        ->orWhere('f_que_answer', 'like', '%'.$searchText.'%')
+        $faqDetail = FAQ::where(function($query) use ($searchText)  {
+                            if(isset($searchText) && !empty($searchText)) {
+                                $query->where('f_question_text', 'like', '%'.$searchText.'%');
+                                $query->orWhere('f_que_answer', 'like', '%'.$searchText.'%');
+                            }
+                         })
                         ->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))
                         ->get();
         return $faqDetail;
