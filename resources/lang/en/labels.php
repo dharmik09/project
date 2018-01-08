@@ -709,4 +709,11 @@ return [
     'professionwisetagbulkupload' => 'Profession Tag Bulk Upload',
     'professionwisetagbulkuploadtagnotfound' => 'Tag not found. Please add new tag or check tag name in excel',
     'professionwisetagbulkuploadsuccess' => 'Profession wise tags uploaded successfully',
+    'appversion' => 'App Version',
+    'appversionforceupdate' => 'Force Update',
+    'appversiondevicetype' => 'Device Type',
+    'appversionmessage' => 'Version Message',
+    'appversionversion' => 'Version',
+    'lbltrue' => 'True',
+    'lblfalse' => 'False',
 ];
