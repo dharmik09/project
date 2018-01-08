@@ -54,6 +54,11 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/helpSearch', 'Webservice\HomeController@helpSearch');
 	//Dashboard
 	Route::post('/getDashboardDetail', 'Webservice\DashboardController@getDashboardDetail');
+	//Community
+	Route::post('/communityNewConnections', 'Webservice\CommunityController@communityNewConnections');
+	Route::post('/communityMyConnections', 'Webservice\CommunityController@communityMyConnections');
+	Route::post('/searchCommunityNewConnections', 'Webservice\CommunityController@searchCommunityNewConnections');
+	Route::post('/searchCommunityMyConnections', 'Webservice\CommunityController@searchCommunityMyConnections');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
