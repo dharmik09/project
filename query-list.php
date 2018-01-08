@@ -189,3 +189,5 @@ ALTER TABLE `pro_pfic_profession_intro_content` ADD `country_id` INT NULL DEFAUL
 // Add new field in teenager connection request table ## 03/01/2018
 ALTER TABLE `pro_tc_teen_connections` ADD `tc_unique_id` VARCHAR(23) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL AFTER `id`, ADD UNIQUE (`tc_unique_id`);
 
+//Add new field in teenagers table ## 06/01/2018
+ALTER TABLE `pro_t_teenagers` ADD `t_about_info` TEXT NULL AFTER `t_view_information`;

@@ -149,6 +149,7 @@ class DashboardController extends Controller
         $teenagerDetail['is_share_with_teachers'] = (isset($body['share_with_teachers']) && $body['share_with_teachers'] != '') ? $body['share_with_teachers'] : '0';
         $teenagerDetail['is_notify'] = (isset($body['notifications']) && $body['notifications'] != '') ? $body['notifications'] : '0';
         $teenagerDetail['t_view_information'] = (isset($body['t_view_information']) && $body['t_view_information'] != '') ? $body['t_view_information'] : '0';
+        $teenagerDetail['t_about_info'] = (isset($body['t_about_info']) && $body['t_about_info'] != '') ? $body['t_about_info'] : '';
 
         //Check all default field value -> If those are entered dummy by users
         if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['t_phone'] == '' || $t_email == '') {
