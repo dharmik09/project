@@ -454,3 +454,10 @@ Route::get('/addProfessionTag', 'Admin\ProfessionTagManagementController@add');
 Route::post('/saveProfessionTag', 'Admin\ProfessionTagManagementController@save');
 Route::get('/editProfessionTag/{id}', 'Admin\ProfessionTagManagementController@edit');
 Route::get('/deleteProfessionTag/{id}', 'Admin\ProfessionTagManagementController@delete');
+
+//App Version
+Route::get('/appVersions', 'Admin\AppVersionManagementController@index');
+Route::get('/addAppVersion', 'Admin\AppVersionManagementController@add');
+Route::post('/saveAppVersion', 'Admin\AppVersionManagementController@save');
+Route::get('/editAppVersion/{id}', 'Admin\AppVersionManagementController@edit');
+Route::get('/deleteAppVersion/{id}', 'Admin\AppVersionManagementController@delete');
