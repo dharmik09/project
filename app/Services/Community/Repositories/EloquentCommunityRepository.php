@@ -16,7 +16,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
        Parameters
        @$searchParamArray : Array of Searching and Sorting parameters
      */
-    public function getNewConnections($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '')
+    public function getNewConnections($loggedInTeen, $searchedConnections = array(), $lastTeenId = '', $filterBy = '', $filterOption = '')
     {
         $activeFlag = Config::get('constant.ACTIVE_FLAG');
         $connectionRequests = $this->getAcceptedAndPendingConnectionsBySenderId($loggedInTeen);
@@ -66,7 +66,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         return $receiverId;
     }
 
-    public function getMyConnections($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '')
+    public function getMyConnections($loggedInTeen, $searchedConnections = array(), $lastTeenId = '', $filterBy = '', $filterOption = '')
     {
         $connectedTeenIds = $this->getAcceptedConnectionsBySenderId($loggedInTeen);
         $myConnections = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
@@ -115,7 +115,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         return $receiverId;
     }
 
-    public function getNewConnectionsCount($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '')
+    public function getNewConnectionsCount($loggedInTeen, $searchedConnections = array(), $lastTeenId = '', $filterBy = '', $filterOption = '')
     {
         $activeFlag = Config::get('constant.ACTIVE_FLAG');
         $connectionRequests = $this->getAcceptedAndPendingConnectionsBySenderId($loggedInTeen);
@@ -158,7 +158,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         return $newConnectionsCount;
     }
 
-    public function getMyConnectionsCount($loggedInTeen, $searchedConnections, $lastTeenId, $filterBy = '', $filterOption = '')
+    public function getMyConnectionsCount($loggedInTeen, $searchedConnections = array(), $lastTeenId = '', $filterBy = '', $filterOption = '')
     {
         $connectedTeenIds = $this->getAcceptedConnectionsBySenderId($loggedInTeen);
         $myConnectionsCount = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))

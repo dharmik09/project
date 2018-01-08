@@ -2743,4 +2743,17 @@ Class Helpers {
 
         return $personality->pt_name;
     }
+
+    public static function getCommunitySortByArray()
+    {
+        $sortArray = array(1 => 'School', 2 => 'Gender', 3 => 'Age', 4 => 'Pincode');
+        $sortElement = [];
+        $sortBy = [];
+        foreach ($sortArray as $sortKey => $sortValue) {
+            $sortElement['id'] = $sortKey; 
+            $sortElement['name'] = $sortValue;
+            $sortBy[] = $sortElement;
+        }
+        return $sortBy;
+    }
 }
