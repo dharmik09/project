@@ -51,7 +51,7 @@
                     <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="loading-wrapper-sub" class="loading-screen">
+                    <div id="loading-wrapper-sub" class="loading-screen remove-loader">
                         <div id="loading-text">
                             <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
                         <div id="loading-content">
@@ -175,6 +175,7 @@
                             $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
                             $('#loading-wrapper-sub').show();
                             $('.existing-connection').hide();
+                            $('.remove-loader').remove();
                             $('.mySearch_area').show();
                             $('.mySearch_area').html(data);
                         } else {
@@ -310,6 +311,7 @@
                             if(data != '') {
                                 $('#loading-wrapper-sub').hide();
                                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                                $('.remove-loader').remove();
                                 $('.existing-connection').hide();
                                 $('.mySearch_area').show();
                                 $('.mySearch_area').html(data);
@@ -349,6 +351,7 @@
                             if(data != '') {
                                 $('#loading-wrapper-sub').hide();
                                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                                $('.remove-loader').remove();
                                 $('.existing-connection').hide();
                                 $('.mySearch_area').show();
                                 $('.mySearch_area').html(data);

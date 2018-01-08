@@ -239,6 +239,35 @@ $(document).ready(function () {
             });
         });
     });
+        $('.btnLoad').click(function() {
+        $(".loader_con").show();
+        var offset = $(this).val();
+        //alert(offset);
+        $('.loader_con').removeClass('gif-none');
+        $('.btnLoad').removeClass('btn-none');
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                action: 'loadmore_posts',
+                offset1: offset
+            },
+            success: function(response) {
+                var response = $.parseJSON(response);
+                console.log(response);
+                $('.loader_con').addClass('gif-none');
+                $('.btnLoad').addClass('btn-none');
+                $('#loadmore').append(response.html);
+                $('.btnLoad').val(response.key);
+                //$("#btnLoad").removeClass('loading');
+                if (response.flag == 'set') {
+                    // alert('hi');
+                    $("#btnLoad").hide();
+                }
+                // alert(response.html);
+            }
+        });
+    });
 });
 //menu close
 $(document).keydown(function (e) {

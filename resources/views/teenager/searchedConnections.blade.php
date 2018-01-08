@@ -8,12 +8,12 @@
                     <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu4"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
                 </ul>
                 <div class="tab-content">
-                    <!-- <div id="loading-wrapper-sub" class="loading-screen">
+                    <div id="loading-wrapper-sub" class="loading-screen">
                         <div id="loading-text">
                             <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
                         <div id="loading-content">
                         </div>
-                    </div> -->
+                    </div>
                     <div id="menu3" class="tab-pane fade in active search-new-connection">
                         @forelse($newConnections as $newConnection)
                         <div class="team-list">
