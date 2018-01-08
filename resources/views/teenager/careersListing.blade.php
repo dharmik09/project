@@ -35,9 +35,9 @@
                     @forelse($basketsData as $key => $value)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}" onclick="fetchProfessionData(this.id)"class="collapsed">{{$value->b_name}}</a> <a href="{{ url('teenager/career-grid') }}" title="Grid view" class="grid"><i class="icon-grid"></i></a></h4>
+                            <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}" onclick="fetchProfessionData(this.id)" class="collapsed">{{$value->b_name}}</a> <a href="{{ url('teenager/career-grid') }}" title="Grid view" class="grid"><i class="icon-grid"></i></a></h4>
                         </div>
-                        <div class="panel-collapse collapse" id="accordion{{$value->id}}">
+                        <div class="panel-collapse collapse <?php if($key == 0){echo 'in'; $firstId = $value->id;} ?>" id="accordion{{$value->id}}">
                             <div id="profession{{$value->id}}"></div>
                         </div>
                     </div>
@@ -80,6 +80,8 @@
             });
         }
     }
+
+    fetchProfessionData({{$firstId}});    
 
 </script>
 @stop
