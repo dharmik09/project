@@ -335,12 +335,12 @@ class DashboardController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             //Dummy Records
-            $array = array ('People' => 15, 'Nature' => 15, 'Technical' => 35, 'Creative Fine Arts' => 35, 'Numerical' => 35, 'Computers' => 45, 'Research' => 45, 'Performing Arts' => 45, 'Social' => 95, 'Sports' => 95, 'Language' => 95, 'Artistic' => 0, 'Musical' => 0);
+            $array = array ( 'people' => "People", 'nature' => "Nature", 'technical' => "Technical", 'creative-fine-arts' => "Creative Fine Arts", 'numerical' => "Numerical", 'computers' => "Computers", 'research' => "Research", 'performing-arts' => "Performing Arts", 'social' => "Social", 'sports' => "Sports", 'language' => "Language", 'artistic' => "Artistic", 'musical' => "Musical");
             
             $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->userId);
             $teenagerInterest = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : $array;
-            foreach($array as $tiNameKey => $tiPoint) {
-                $dataArray[] = (array('points' => $tiPoint, 'name' => $tiNameKey));
+            foreach($teenagerInterest as $tiNameKey => $tiPoint) {
+                $dataArray[] = (array('points' => rand(0,100), 'slug' => $tiNameKey, 'link' => url('teenager/interest/').'/'.$tiNameKey, 'name' => $array[$tiNameKey]) );
             }
             
             $response['login'] = 1;
@@ -368,7 +368,7 @@ class DashboardController extends Controller
             $teenagerMI = isset($teenagerAPIData['APIscale']['MI']) ? $teenagerAPIData['APIscale']['MI'] : [];
             foreach($teenagerMI as $miKey => $miVal) {
                 $mitName = Helpers::getMIBySlug($miKey);
-                $teenagerMI[$miKey] = (array('points' => 0, 'score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
+                $teenagerMI[$miKey] = (array('slug' => $miKey, 'points' => 0, 'score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
             }
 
             $teenagerAptitude = isset($teenagerAPIData['APIscale']['aptitude']) ? $teenagerAPIData['APIscale']['aptitude'] : [];
@@ -385,30 +385,31 @@ class DashboardController extends Controller
             $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
             //Dummy array
             $array = array ('scientific-reasoning' => array ('points' => 0,'score' => '','name' => 'Scientific Reasoning','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/scientific-reasoning',
-    ),'verbal-reasoning' => array ('points' => 25,'score' => '','name' => 'Verbal Reasoning','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/verbal-reasoning',
-    ),'numerical-ability' => array ('points' => 25,'score' => '','name' => 'Numerical Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/numerical-ability',
-    ),'logical-reasoning' => array ('points' => 25,'score' => '','name' => 'Logical Reasoning','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/logical-reasoning',
-    ),'social-ability' => array ('points' => 15,'score' => '','name' => 'Social Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/social-ability',
-    ),'artistic-ability' => array ('points' => 15,'score' => '','name' => 'Artistic Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/artistic-ability',
-    ),'spatial-ability' => array ('points' => 35,'score' => '','name' => 'Spatial Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/spatial-ability',
-    ),'creativity' => array ('points' => 35,'score' => '','name' => 'Creativity','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/creativity',
-    ),'clerical-ability' => array ('points' => 35,'score' => '','name' => 'Clerical Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/clerical-ability',
-    ),'conventional' => array ('points' => 85,'score' => 'H','name' => 'Conventional','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/conventional',
-    ),'enterprising' => array ('points' => 85,'score' => 'H','name' => 'Enterprising','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/enterprising',
-    ),'investigative' => array ('points' => 85,'score' => 'H','name' => 'Investigative','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/investigative',
-    ),'social' => array ('points' => 85,'score' => 'H','name' => 'Social','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/social',
-    ),'artistic' => array ('points' => 90,'score' => 'H','name' => 'Artistic','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/artistic',
-    ),'mechanical' => array ('points' => 90,'score' => 'H','name' => 'Mechanical','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/mechanical',
-    ),'interpersonal' => array ('points' => 90,'score' => '','name' => 'Interpersonal','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/interpersonal',
-    ),'logical' => array ('points' => 75,'score' => '','name' => 'Logical','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/logical',
-    ),'linguistic' => array ('points' => 75,'score' => '','name' => 'Linguistic','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/linguistic',
-    ),'intrapersonal' => array ('points' => 75,'score' => '','name' => 'Intrapersonal','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/intrapersonal',
-    ),'musical' => array ('points' => 10,'score' => '','name' => 'Musical','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/musical',
-    ),'spatial' => array ('points' => 10,'score' => '','name' => 'Spatial','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/spatial',
-    ),'bodilykinesthetic' => array ('points' => 10,'score' => '','name' => 'Bodily-Kinesthetic','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/bodilykinesthetic',
-    ),'naturalist' => array ('points' => 0,'score' => '','name' => 'Naturalist','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/naturalist',
-    ),'existential' => array ('points' => 0,'score' => '','name' => 'Existential','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/existential',
-    ));
+                    ),'verbal-reasoning' => array ('points' => 25,'score' => '','name' => 'Verbal Reasoning','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/verbal-reasoning',
+                    ),'numerical-ability' => array ('points' => 25,'score' => '','name' => 'Numerical Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/numerical-ability',
+                    ),'logical-reasoning' => array ('points' => 25,'score' => '','name' => 'Logical Reasoning','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/logical-reasoning',
+                    ),'social-ability' => array ('points' => 15,'score' => '','name' => 'Social Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/social-ability',
+                    ),'artistic-ability' => array ('points' => 15,'score' => '','name' => 'Artistic Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/artistic-ability',
+                    ),'spatial-ability' => array ('points' => 35,'score' => '','name' => 'Spatial Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/spatial-ability',
+                    ),'creativity' => array ('points' => 35,'score' => '','name' => 'Creativity','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/creativity',
+                    ),'clerical-ability' => array ('points' => 35,'score' => '','name' => 'Clerical Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/clerical-ability',
+                    ),'conventional' => array ('points' => 85,'score' => 'H','name' => 'Conventional','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/conventional',
+                    ),'enterprising' => array ('points' => 85,'score' => 'H','name' => 'Enterprising','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/enterprising',
+                    ),'investigative' => array ('points' => 85,'score' => 'H','name' => 'Investigative','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/investigative',
+                    ),'social' => array ('points' => 85,'score' => 'H','name' => 'Social','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/social',
+                    ),'artistic' => array ('points' => 90,'score' => 'H','name' => 'Artistic','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/artistic',
+                    ),'mechanical' => array ('points' => 90,'score' => 'H','name' => 'Mechanical','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/mechanical',
+                    ),'interpersonal' => array ('points' => 90,'score' => '','name' => 'Interpersonal','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/interpersonal',
+                    ),'logical' => array ('points' => 75,'score' => '','name' => 'Logical','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/logical',
+                    ),'linguistic' => array ('points' => 75,'score' => '','name' => 'Linguistic','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/linguistic',
+                    ),'intrapersonal' => array ('points' => 75,'score' => '','name' => 'Intrapersonal','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/intrapersonal',
+                    ),'musical' => array ('points' => 10,'score' => '','name' => 'Musical','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/musical',
+                    ),'spatial' => array ('points' => 10,'score' => '','name' => 'Spatial','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/spatial',
+                    ),'bodilykinesthetic' => array ('points' => 10,'score' => '','name' => 'Bodily-Kinesthetic','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/bodilykinesthetic',
+                    ),'naturalist' => array ('points' => 0,'score' => '','name' => 'Naturalist','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/naturalist',
+                    ),'existential' => array ('points' => 0,'score' => '','name' => 'Existential','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/existential',
+                    ));
+            
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -418,5 +419,5 @@ class DashboardController extends Controller
         }
         return response()->json($response, 200);
         exit;
-    } 
+    }
 }
