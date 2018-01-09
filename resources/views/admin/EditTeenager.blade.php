@@ -31,8 +31,8 @@
                 <form id="addTeenager" class="form-horizontal" method="post" action="{{ url('/admin/save-teenager') }}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="id" value="<?php echo (isset($teenagerDetail) && !empty($teenagerDetail)) ? $teenagerDetail->id : '0' ?>">
-                    <input type="hidden" name="hidden_profile" value="<?php echo (isset($teenagerDetail) && !empty($teenagerDetail)) ? $teenagerDetail->t_photo : '' ?>">
-                    <input type="hidden" name="hidden_password" value="<?php echo (isset($teenagerDetail) && !empty($teenagerDetail)) ? $teenagerDetail->password : '' ?>">
+                    <input type="hidden" name="hidden_profile" value="<?php echo (isset($teenagerDetail->t_photo) && !empty($teenagerDetail)) ? $teenagerDetail->t_photo : '' ?>">
+                    <input type="hidden" name="hidden_password" value="<?php echo (isset($teenagerDetail->password) && !empty($teenagerDetail)) ? $teenagerDetail->password : '' ?>">
                     <input type="hidden" name="sid" value="<?php echo (isset($sid) && !empty($sid)) ? $sid : '' ?>">
                     <input type="hidden" name="pageRank" value="<?php echo $page ?>">
                     <div class="box-body">
