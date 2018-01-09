@@ -283,7 +283,7 @@ class SignupController extends Controller
                             $loginDetail['tlt_device_id'] = $request->deviceId;
                             $userTokenDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
                             //Save Device Token Data
-                            $saveData['tdt_user_id'] = $teenager->id;
+                            $saveData['tdt_user_id'] = $teenagerDetailbyId->id;
                             $saveData['tdt_device_token'] = ($request->pushToken != "") ? $request->pushToken : base64_encode($teenagerDetailbyId->t_email.':'.$teenagerDetailbyId->t_uniqueid);
                             $saveData['tdt_device_type'] = $request->deviceType;
                             $saveData['tdt_device_id'] = $request->deviceId;
