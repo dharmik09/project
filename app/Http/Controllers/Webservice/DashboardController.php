@@ -299,7 +299,6 @@ class DashboardController extends Controller
     public function getDashboardDetail(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        
         if($teenager) {
             $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
             //Teenager Image
@@ -326,5 +325,69 @@ class DashboardController extends Controller
         }
         return response()->json($response, 200);
         exit;
-    }  
+    }
+
+    /* Request Params : getInterestDetail
+    *  loginToken, userId
+    */
+    public function getInterestDetail(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            //Dummy Records
+            $array = array ( 'people' => 0, 'nature' => 0, 'technical' => 0, 'creative-fine-arts' => 0, 'numerical' => 0, 'computers' => 0, 'research' => 0, 'performing-arts' => 0, 'social' => 0, 'sports' => 0, 'language' => 0, 'artistic' => 0, 'musical' => 0);
+            
+            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->userId);
+            $teenagerInterest = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : $array;
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $teenagerInterest;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getStrengthDetail
+    *  loginToken, userId
+    */
+    public function getStrengthDetail(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            //Dummy Records
+            $array = array ( 'people' => 0, 'nature' => 0, 'technical' => 0, 'creative-fine-arts' => 0, 'numerical' => 0, 'computers' => 0, 'research' => 0, 'performing-arts' => 0, 'social' => 0, 'sports' => 0, 'language' => 0, 'artistic' => 0, 'musical' => 0);
+            
+            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->userId);
+            $teenagerMI = isset($teenagerAPIData['APIscale']['MI']) ? $teenagerAPIData['APIscale']['MI'] : [];
+            foreach($teenagerMI as $miKey => $miVal) {
+                $mitName = Helpers::getMIBySlug($miKey);
+                $teenagerMI[$miKey] = (array('score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
+            }
+
+            $teenagerAptitude = isset($teenagerAPIData['APIscale']['aptitude']) ? $teenagerAPIData['APIscale']['aptitude'] : [];
+            foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
+                $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
+                $teenagerAptitude[$apptitudeKey] = (array('score' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
+            }
+            $teenagerPersonality = isset($teenagerAPIData['APIscale']['personality']) ? $teenagerAPIData['APIscale']['personality'] : [];
+            foreach($teenagerPersonality as $personalityKey => $personalityVal) {
+                $ptName = Helpers::getPersonalityBySlug($personalityKey);
+                $teenagerPersonality[$personalityKey] = (array('score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
+            }
+
+            $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
+            
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $teenagerStrength;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    } 
 }

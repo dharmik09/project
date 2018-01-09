@@ -54,6 +54,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/helpSearch', 'Webservice\HomeController@helpSearch');
 	//Dashboard
 	Route::post('/getDashboardDetail', 'Webservice\DashboardController@getDashboardDetail');
+	Route::post('/getInterestDetail', 'Webservice\DashboardController@getInterestDetail');
+	Route::post('/getStrengthDetail', 'Webservice\DashboardController@getStrengthDetail');
+	Route::post('/getTeenagerNetwork', 'Webservice\DashboardController@getTeenagerNetwork');
 	//Community
 	Route::post('/communityNewConnections', 'Webservice\CommunityController@communityNewConnections');
 	Route::post('/communityMyConnections', 'Webservice\CommunityController@communityMyConnections');

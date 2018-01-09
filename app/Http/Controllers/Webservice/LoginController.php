@@ -172,7 +172,7 @@ class LoginController extends Controller
     }
 
     /* Request Params : updateTeenagerLoginToken
-    *  userId, deviceId
+    *  userId, deviceId, pushToken, deviceType
     *  No loginToken required because it's call without loggedin user
     */
     public function updateTeenagerLoginToken(Request $request) {
@@ -182,6 +182,13 @@ class LoginController extends Controller
             if ($checkuserexist) {
                 $userLoginDetails = $this->objTeenagerLoginToken->updateTeenagerLoginDetail($request->userId, $request->deviceId);
                 if($userLoginDetails) {
+                    //Updating pushToken meanwhile
+                    $saveData['tdt_user_id'] = ($request->userId != '') ? $request->userId : '0';
+                    $saveData['tdt_device_token'] = $request->pushToken;
+                    $saveData['tdt_device_type'] = $request->deviceType;
+                    $saveData['tdt_device_id'] = $request->deviceId;
+                    $result = $this->objDeviceToken->saveDeviceToken($saveData);
+                    
                     $response['status'] = 1;
                     $response['login'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');
