@@ -64,6 +64,7 @@ class ProfileController extends Controller
                 $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
             }
 
+            print_r($teenager); die();
             $ads = Helpers::getAds($request->userId);
             $response['status'] = 1;
             $response['login'] = 1;
@@ -91,6 +92,29 @@ class ProfileController extends Controller
             $response['status'] = 1;
             $response['message'] = 'Successfully deleted!';
             $response['data'] = [];
+        } else {
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : saveTeenagerAboutInfo
+    *  loginToken, userId
+    *  Service after loggedIn user
+    */
+    public function saveTeenagerAboutInfo(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerDetailById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $teenager->t_about_info = $request->aboutInfo;
+            $teenager->save();
+            
+            $response['status'] = 1;
+            $response['login'] = 1;
+            $response['message'] = 'Successfully updated!';
+            $response['data'] = $teenager;
         } else {
             $response['message'] = trans('appmessages.missing_data_msg');
         }

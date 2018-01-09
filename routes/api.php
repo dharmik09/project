@@ -34,8 +34,11 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/setPassword', 'Webservice\PasswordController@setPassword');
 	Route::post('/changePassword', 'Webservice\PasswordController@changePassword');
 	Route::post('/updateProfile', 'Webservice\DashboardController@updateProfile');
+	
 	Route::post('/getTeenagerProfileData', 'Webservice\ProfileController@getTeenagerProfileData');
 	Route::post('/deleteTeenagerData', 'Webservice\ProfileController@deleteTeenagerData');
+	Route::post('/saveTeenagerAboutInfo', 'Webservice\ProfileController@saveTeenagerAboutInfo');
+	
 	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
 	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
 	//Parent&Mentor invitation section
