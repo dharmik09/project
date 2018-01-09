@@ -78,7 +78,6 @@ class ProfileController extends Controller
                 $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
             }
 
-            print_r($teenager); die();
             $ads = Helpers::getAds($request->userId);
             $response['status'] = 1;
             $response['login'] = 1;
