@@ -60,6 +60,9 @@ class DashboardController extends Controller
         $this->fileStorageRepository = $fileStorageRepository;
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
+        $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
+        $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
     }
 
     //Dashboard data
@@ -107,7 +110,38 @@ class DashboardController extends Controller
         }
         $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities(Auth::guard('teenager')->user()->id);
         $teenagerMeta = Helpers::getTeenagerMetaData(Auth::guard('teenager')->user()->id);
-        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta'));   
+        $teenagerMyIcons = array();
+        //Get teenager choosen Icon
+        $teenagerIcons = $this->teenagersRepository->getTeenagerSelectedIcon(Auth::guard('teenager')->user()->id);
+        $relationIcon = array();
+        $fictionIcon = array();
+        $nonFiction = array();
+        if (isset($teenagerIcons) && !empty($teenagerIcons)) {
+            foreach ($teenagerIcons as $key => $icon) {
+                if ($icon->ti_icon_type == 1) {
+                    if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
+                        $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
+                    } else {
+                        $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                    }
+                } else if ($icon->ti_icon_type == 2) {
+                    if ($icon->nonfiction_image != '' && Storage::size($this->humanThumbImageUploadPath . $icon->nonfiction_image) > 0) {
+                        $nonFiction[] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
+                    } else {
+                        $nonFiction[] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                    }
+                } else {
+                    if ($icon->ti_icon_image != '' && Storage::size($this->relationIconThumbImageUploadPath . $icon->ti_icon_image) > 0) {
+                        $relationIcon[] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
+                    }
+                }
+            }
+            $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
+        } else {
+            $teenagerMyIcons = array();
+        }
+        $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance'));   
     }
 
     public function chat()
