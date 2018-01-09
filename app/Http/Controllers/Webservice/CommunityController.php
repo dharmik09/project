@@ -36,7 +36,34 @@ class CommunityController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-            $newConnections = $this->communityRepository->getNewConnections($request->userId);
+            if (isset($request->sortBy) && $request->sortBy != '' && isset($request->sortOption) && $request->sortOption != '') {
+                $sortBy = Helpers::getSortByColumn($request->sortBy);
+                if ($sortBy == 't_birthdate') {
+                    $ageVal = Helpers::age($request->sortOption);
+                    if (strpos($ageVal, '-') !== false) {
+                        $sortOption = Helpers::getDateRangeByAge($ageVal);
+                    } else {
+                        $sortOption = $ageVal;
+                    }
+                } else {
+                    $sortOption = $request->sortOption;
+                }
+            } else {
+                $sortBy = '';
+                $sortOption = '';
+            }
+            if (isset($request->searchText) && $request->searchText != '') {
+                $searchText = $request->searchText;
+            } else {
+                $searchText = '';
+            }
+            if (isset($request->lastTeenId) && $request->lastTeenId != '') {
+                $lastTeenId = $request->lastTeenId;
+            } else {
+                $lastTeenId = '';
+            }
+            $newConnections = $this->communityRepository->getNewConnections($request->userId, $searchText, $lastTeenId, $sortBy, $sortOption);
+            $newConnectionsCount = $this->communityRepository->getNewConnectionsCount($request->userId, $searchText, $lastTeenId, $sortBy, $sortOption);
             $data = [];
             $data['sortBy'] = Helpers::getCommunitySortByArray();
             $data['newConnections'] = [];
@@ -45,6 +72,11 @@ class CommunityController extends Controller
                     $newConnection->t_photo  = ($newConnection->t_photo != "") ? Storage::url($this->teenagerThumbImageUploadPath.$newConnection->t_photo) : Storage::url($this->teenagerThumbImageUploadPath."proteen-logo.png");
                     $data['newConnections'][] = $newConnection;
                 }
+            }
+            if (isset($newConnectionsCount) && $newConnectionsCount > 10) {
+                $data['loadMoreFlag'] = 1;
+            } else {
+                $data['loadMoreFlag'] = 0;
             }
             $response['login'] = 1;
             $response['status'] = 1;
@@ -67,7 +99,34 @@ class CommunityController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-            $myConnections = $this->communityRepository->getMyConnections($request->userId);
+            if (isset($request->sortBy) && $request->sortBy != '' && isset($request->sortOption) && $request->sortOption != '') {
+                $sortBy = Helpers::getSortByColumn($request->sortBy);
+                if ($sortBy == 't_birthdate') {
+                    $ageVal = Helpers::age($request->sortOption);
+                    if (strpos($ageVal, '-') !== false) {
+                        $sortOption = Helpers::getDateRangeByAge($ageVal);
+                    } else {
+                        $sortOption = $ageVal;
+                    }
+                } else {
+                    $sortOption = $request->sortOption;
+                }
+            } else {
+                $sortBy = '';
+                $sortOption = '';
+            }
+            if (isset($request->searchText) && $request->searchText != '') {
+                $searchText = $request->searchText;
+            } else {
+                $searchText = '';
+            }
+            if (isset($request->lastTeenId) && $request->lastTeenId != '') {
+                $lastTeenId = $request->lastTeenId;
+            } else {
+                $lastTeenId = '';
+            }
+            $myConnections = $this->communityRepository->getMyConnections($request->userId, $searchText, $lastTeenId, $sortBy, $sortOption);
+            $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($request->userId, $searchText, $lastTeenId, $sortBy, $sortOption);
             $data = [];
             $data['sortBy'] = Helpers::getCommunitySortByArray();
             $data['myConnections'] = [];
@@ -76,6 +135,11 @@ class CommunityController extends Controller
                     $myConnection->t_photo  = ($myConnection->t_photo != "") ? Storage::url($this->teenagerThumbImageUploadPath.$myConnection->t_photo) : Storage::url($this->teenagerThumbImageUploadPath."proteen-logo.png");
                     $data['myConnections'][] = $myConnection;
                 }
+            }
+            if (isset($myConnectionsCount) && $myConnectionsCount > 10) {
+                $data['loadMoreFlag'] = 1;
+            } else {
+                $data['loadMoreFlag'] = 0;
             }
             $response['login'] = 1;
             $response['status'] = 1;
