@@ -44,6 +44,7 @@ use App\ProfileViewDeductedCoins;
 use App\Notifications;
 use Illuminate\Support\Facades\Storage;
 use App\CMS;
+use Carbon\Carbon;
 
 Class Helpers {
     /*
@@ -2744,8 +2745,11 @@ Class Helpers {
         return $personality->pt_name;
     }
 
-    public static function age() {
+    public static function age($ageVal = '') {
         $age = array('1' => '13', '2' => '13-14', '3' => '14-15', '4' => '15-16', '5' => '16-17', '6' => '17-18', '7' => '18-19', '8' => '19-20', '9' => '20');
+        if (isset($ageVal) && !empty($ageVal)) {
+            $age = $age[$ageVal];
+        }
         return $age;
     }
 
@@ -2780,5 +2784,28 @@ Class Helpers {
         return $sortByArr;
     }
 
+    public static function getSortByColumn($sortBy) 
+    {
+        $sortColumn = '';
+        if ($sortBy == 1) {
+            $sortColumn = 't_school';
+        } else if ($sortBy == 2) {
+            $sortColumn = 't_gender';
+        } else if ($sortBy == 3) {
+            $sortColumn = 't_birthdate';
+        } else {
+            $sortColumn = 't_pincode';
+        }
+        return $sortColumn;
+    }
 
+    public static function getDateRangeByAge($sortOption) 
+    {
+        $ageArr = explode("-", $sortOption);
+        $toDate = Carbon::now()->subYears($ageArr[0]);
+        $fromDate = Carbon::now()->subYears($ageArr[1]);
+        $filterOptionArr['fromDate'] = $fromDate->format('Y-m-d');
+        $filterOptionArr['toDate'] = $toDate->format('Y-m-d');
+        return $filterOptionArr;
+    }
 }
