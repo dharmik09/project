@@ -65,7 +65,7 @@ class CommunityManagementController extends Controller {
         $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($uniqueId);
         if (isset($teenDetails) && !empty($teenDetails)) {
             $connectedTeen = $this->communityRepository->checkTeenAlreadyConnected($teenDetails->id, Auth::guard('teenager')->user()->id);
-            $myConnections = $this->communityRepository->getMyConnections($teenDetails->id, array(), '');
+            $myConnections = $this->communityRepository->getMyConnections($teenDetails->id);
             $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($teenDetails->id);
             $teenagerInterest = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
             $teenagerMI = isset($teenagerAPIData['APIscale']['MI']) ? $teenagerAPIData['APIscale']['MI'] : [];
@@ -85,7 +85,8 @@ class CommunityManagementController extends Controller {
                 $teenagerPersonality[$personalityKey] = (array('score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
             }
             $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
-            return view('teenager.networkMember', compact('teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectedTeen'));
+            $myConnectionCount = $this->communityRepository->getMyConnectionsCount($teenDetails->id);
+            return view('teenager.networkMember', compact('teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectedTeen', 'myConnectionCount'));
         } else {
             return Redirect::back()->with('error', 'Member not found');
         }

@@ -83,7 +83,7 @@
                             <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                             <ul class="area-detail">
                                 <li>{{ $getCityArea }} Area</li>
-                                <li>87 Connections </li>
+                                <li>{{ $myConnectionCount }} {{ ($myConnectionCount == 1) ? "Connection" : "Connections" }} </li>
                             </ul>
                             <ul class="social-media">
                                 <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>

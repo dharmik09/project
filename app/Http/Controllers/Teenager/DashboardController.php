@@ -29,6 +29,7 @@ use Image;
 use App\Http\Requests\TeenagerPairRequest;
 use Event;
 use App\Events\SendMail;
+use App\Services\Community\Contracts\CommunityRepository;
 
 class DashboardController extends Controller
 {
@@ -44,7 +45,7 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository)
+    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository, CommunityRepository $communityRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
@@ -63,6 +64,7 @@ class DashboardController extends Controller
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
+        $this->communityRepository = $communityRepository;
     }
 
     //Dashboard data
@@ -141,7 +143,8 @@ class DashboardController extends Controller
             $teenagerMyIcons = array();
         }
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
-        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance'));   
+        $myConnectionCount = $this->communityRepository->getMyConnectionsCount($user->id);
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionCount'));   
     }
 
     public function chat()
