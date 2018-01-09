@@ -48,8 +48,13 @@ class SignupController extends Controller
     */
     public function signup(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-    	if($request->email != "") {
+        $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+    	if($request->deviceId == "" || $request->deviceType == "") {
+            $response['message'] = "DeviceId and Device Type can not be null.";
+            return response()->json($response, 200);
+            exit;
+        }
+        if($request->email != "") {
             $teenagerDetail['t_uniqueid'] = Helpers::getTeenagerUniqueId();
             $teenagerDetail['t_name'] = $request->name;
             $teenagerDetail['t_lastname'] = $request->lastname;
@@ -283,7 +288,7 @@ class SignupController extends Controller
                             $loginDetail['tlt_device_id'] = $request->deviceId;
                             $userTokenDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
                             //Save Device Token Data
-                            $saveData['tdt_user_id'] = $teenager->id;
+                            $saveData['tdt_user_id'] = $teenagerDetailbyId->id;
                             $saveData['tdt_device_token'] = ($request->pushToken != "") ? $request->pushToken : base64_encode($teenagerDetailbyId->t_email.':'.$teenagerDetailbyId->t_uniqueid);
                             $saveData['tdt_device_type'] = $request->deviceType;
                             $saveData['tdt_device_id'] = $request->deviceId;
