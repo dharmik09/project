@@ -944,6 +944,58 @@ Class Helpers {
         return false;
     }
 
+    /**
+     * get Strength Type Related Info
+     *
+     * @param string $strengthType, $strengthSlug
+     * @return array of collection
+     */
+    public static function getStrengthTypeRelatedInfo($strengthType, $strengthSlug) {
+        $multipleIntelligence = [];
+        if (!empty($strengthType) || !empty($strengthSlug)) {
+            switch($strengthType) {
+                case Config::get('constant.MULTI_INTELLIGENCE_TYPE'):
+                    $objMultipleIntelligent = new MultipleIntelligent();
+                    $mi = $objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($strengthSlug);
+                    $multipleIntelligence['id'] = $mi->id;
+                    $multipleIntelligence['title'] = $mi->mit_name;
+                    $multipleIntelligence['slug'] = $mi->mi_slug;
+                    $multipleIntelligence['logo'] = ( $mi->mit_logo != "" ) ? Storage::url(Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH') . $mi->mit_logo) : Storage::url(Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    $multipleIntelligence['video'] = ($mi->mi_video != "") ? self::youtube_id_from_url($mi->mi_video) : "";
+                    $multipleIntelligence['description'] = $mi->mi_information;
+                    break;
+
+                case Config::get('constant.APPTITUDE_TYPE'):
+                    $objApptitude = new Apptitude();
+                    $apptitude = $objApptitude->getApptitudeDetailBySlug($strengthSlug);
+                    $multipleIntelligence['id'] = $apptitude->id;
+                    $multipleIntelligence['title'] = $apptitude->apt_name;
+                    $multipleIntelligence['slug'] = $apptitude->apt_slug;
+                    $multipleIntelligence['logo'] = ( $apptitude->apt_logo != "") ? Storage::url(Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH') . $apptitude->apt_logo) : Storage::url(Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    $multipleIntelligence['video'] = ($apptitude->apt_video != "") ? self::youtube_id_from_url($apptitude->apt_video) : "";
+                    $multipleIntelligence['description'] = $apptitude->ap_information;
+                    break;
+
+                case Config::get('constant.PERSONALITY_TYPE'):
+                    $objPersonality = new Personality();
+                    $personality = $objPersonality->getPersonalityDetailBySlug($strengthSlug);
+                    $multipleIntelligence['id'] = $personality->id;
+                    $multipleIntelligence['title'] = $personality->pt_name;
+                    $multipleIntelligence['slug'] = $personality->pt_slug;
+                    $multipleIntelligence['logo'] = ($personality->pt_logo != "") ? Storage::url(Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH') . $personality->pt_logo) : Storage::url(Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    $multipleIntelligence['video'] = ($personality->pt_video != "") ? self::youtube_id_from_url($personality->pt_video) : "";
+                    $multipleIntelligence['description'] = $personality->pt_information;
+                    break;
+
+                default:
+                    $multipleIntelligence = [];
+            }
+        } else {
+            $multipleIntelligence = [];
+        }
+        return $multipleIntelligence;
+    }
+
     public static function getAds($teenagerId,$type='ios') {
         $teenagerSponsor = DB::table('pro_ts_teenager_sponsors')->where('ts_teenager', $teenagerId)->get();
         $objSponsor = new Sponsors();

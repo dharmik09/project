@@ -65,6 +65,10 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/communityMyConnections', 'Webservice\CommunityController@communityMyConnections');
 	Route::post('/searchCommunityNewConnections', 'Webservice\CommunityController@searchCommunityNewConnections');
 	Route::post('/searchCommunityMyConnections', 'Webservice\CommunityController@searchCommunityMyConnections');
+	//Interest Management
+	Route::post('/getInterestDetailPage', 'Webservice\DashboardController@getInterestDetailPage');
+	Route::post('/getStrengthDetailPage', 'Webservice\DashboardController@getStrengthDetailPage');
+	
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
