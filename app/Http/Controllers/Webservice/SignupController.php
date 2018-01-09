@@ -49,7 +49,12 @@ class SignupController extends Controller
     public function signup(Request $request)
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-    	if($request->email != "") {
+    	if($request->deviceId == "" || $request->deviceType == "") {
+            $response['message'] = "DeviceId and Device Type can not be null.";
+            return response()->json($response, 200);
+            exit;
+        }
+        if($request->email != "") {
             $teenagerDetail['t_uniqueid'] = Helpers::getTeenagerUniqueId();
             $teenagerDetail['t_name'] = $request->name;
             $teenagerDetail['t_lastname'] = $request->lastname;
