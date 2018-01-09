@@ -49,7 +49,7 @@ class RestLessController extends Controller
                 $response['message'] = $getVersionsList->message;
                 
                 $data['force_update'] = ($getVersionsList->force_update == 1) ? true : false;
-                $data['update_available'] = ((int)$getVersionsList->app_version > (int)$request->appVersion) ? true : false;
+                $data['update_available'] = ($data['force_update']) ? true : ((int)$getVersionsList->app_version > (int)$request->appVersion) ? true : false;
                 $response['data'] = $data;
             } else {
                 $response['message'] = "Versions list not found!";
