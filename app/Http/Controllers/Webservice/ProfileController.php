@@ -42,6 +42,9 @@ class ProfileController extends Controller
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
         $this->log = new Logger('api-restless-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
+        $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
+        $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
     }
 
     /* Request Params : getTeenagerProfileData
@@ -352,8 +355,8 @@ class ProfileController extends Controller
     } 
 
     /* Request Params : saveTeenagerAchievementInfo
-    *  loginToken, userId, metaValue, metaValueId, metaId = 1
-    */
+     *  loginToken, userId, metaValue, metaValueId, metaId = 1
+     */
     public function saveTeenagerAchievementInfo(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
@@ -381,6 +384,57 @@ class ProfileController extends Controller
             $response['status'] = 1;
         } else {
             $response['message'] = "Something went wrong or missing data!";
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getTeenagerProfileIcons
+     *  loginToken, userId
+     *  Service after loggedIn user
+     */
+    public function getTeenagerProfileIcons(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $data = array();
+            $iconsArray = array();
+            $teenagerMyIcons = array();
+            //Get teenager choosen Icon
+            $teenagerIcons = $this->teenagersRepository->getTeenagerSelectedIcon($request->userId);
+            $relationIcon = array();
+            $fictionIcon = array();
+            $nonFiction = array();
+            if (isset($teenagerIcons) && !empty($teenagerIcons)) {
+                foreach ($teenagerIcons as $key => $icon) {
+                    if ($icon->ti_icon_type == 1) {
+                        if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
+                        $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
+                        } else {
+                            $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                        }
+                    } else if ($icon->ti_icon_type == 2) {
+                        if ($icon->nonfiction_image != '' && Storage::size($this->humanThumbImageUploadPath . $icon->nonfiction_image) > 0) {
+                            $nonFiction[] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
+                        } else {
+                            $nonFiction[] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                        }
+                    } else {
+                        if ($icon->ti_icon_image != '' && Storage::size($this->relationIconThumbImageUploadPath . $icon->ti_icon_image) > 0) {
+                            $relationIcon[] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
+                        }
+                    }
+                }
+                $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
+            }
+            $data['description'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.";
+            $data['icons'] = $teenagerMyIcons;
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data; 
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
         return response()->json($response, 200);
         exit;
