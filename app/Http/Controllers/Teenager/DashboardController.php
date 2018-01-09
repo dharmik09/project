@@ -97,7 +97,7 @@ class DashboardController extends Controller
         $data = [];
         $teenSponsorIds = [];
         $user = Auth::guard('teenager')->user();
-        $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "") ? Storage::url($this->teenProfileImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenProfileImageUploadPath.'proteen-logo.png');
+        $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "") ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenThumbImageUploadPath.'proteen-logo.png');
         $countries = $this->objCountry->getAllCounries();
         $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
         $teenagerSponsors = $this->teenagersRepository->getTeenagerSelectedSponsor($user->id);
