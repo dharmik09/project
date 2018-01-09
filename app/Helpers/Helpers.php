@@ -2778,7 +2778,7 @@ Class Helpers {
             } else if ($sortKey == 3) {
                 $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => $ageArr);
             } else {
-                $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => '');
+                $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => array());
             }
         }
         return $sortByArr;
