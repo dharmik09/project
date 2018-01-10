@@ -93,4 +93,5 @@ Route::get('/my-network', function() {
 });
 Route::get('/network-member/{uniqueId}', 'Teenager\CommunityManagementController@getMemberDetails');
 
-
+Route::post('get-level2-activity', 'Teenager\level2ActivityController@index')->name('getLevel2Activity');
+Route::post('save-level2-activity', 'Teenager\level2ActivityController@saveLevel2Ans')->name('saveLevel2Activity');
