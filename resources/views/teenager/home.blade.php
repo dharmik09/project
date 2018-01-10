@@ -41,7 +41,7 @@
                             </div>
                             <div class="row flex-container">
                             	<?php 
-                            		$interestFlag = ''; 
+                                    $interestFlag = ''; 
 		                            if (!empty(array_filter($teenagerInterest))) {
 		                            	$interestFlag = true;
 		                            } else {
@@ -170,50 +170,40 @@
                             <a href="{{ url('/teenager/my-network') }}" title="My Careers" class="heading-tag">My Network</a>
                             </h2>
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <?php $countNetwork = 0;
+                                echo "<pre>"; print_r($teenagerNetwork); exit; ?>
+                                @forelse ($teenagerNetwork as $network)
+                                <?php 
+                                    $countNetwork++;
+                                    if ($countNetwork > 6) {
+                                        $networkStyle = 'none';
+                                        $networkClass = "expandNetwork";
+                                    } else {
+                                        $networkStyle = 'block';
+                                        $networkClass = '';
+                                    } ?>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="display: {{ $networkStyle }};">
                                     <div class="my_net_view">
-                                        <img src="{{ Storage::url('img/alex.jpg') }}" alt="my_net_view">
-                                        <h4><a href="{{ url('/teenager/network-member') }}">Joe</a></h4>
+                                        <?php 
+                                            if ($network->t_photo != '' && Storage::size($teenThumbImageUploadPath . $network->t_photo) > 0) {
+                                                $teenPhoto = Storage::url($teenThumbImageUploadPath . $network->t_photo);
+                                            } else {
+                                                $teenPhoto = Storage::url($teenThumbImageUploadPath . 'proteen-logo.png');
+                                            } ?>
+                                        <img src="{{ $teenPhoto }}" alt="my_net_view">
+                                        <h4><a href="{{ url('/teenager/network-member') }}/{{$network->id}}">{{ $network->t_name }}</a></h4>
                                     </div>
                                     <!-- my_net_view End -->
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <div class="my_net_view">
-                                        <img src="{{ Storage::url('img/mike.jpg') }}" alt="my_net_view">
-                                        <h4>Mike</h4>
-                                    </div>
-                                    <!-- my_net_view End -->
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <div class="my_net_view">
-                                        <img src="{{ Storage::url('img/ellen.jpg') }}" alt="my_net_view">
-                                        <h4>Maria</h4>
-                                    </div>
-                                    <!-- my_net_view End -->
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <div class="my_net_view">
-                                        <img src="{{ Storage::url('img/alex.jpg') }}" alt="my_net_view">
-                                        <h4>Sarah</h4>
-                                    </div>
-                                    <!-- my_net_view End -->
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <div class="my_net_view">
-                                        <img src="{{ Storage::url('img/mike.jpg') }}" alt="my_net_view">
-                                        <h4>Ben</h4>
-                                    </div>
-                                    <!-- my_net_view End -->
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <div class="my_net_view">
-                                        <img src="{{ Storage::url('img/ellen.jpg') }}" alt="my_net_view">
-                                        <h4>Juan</h4>
-                                    </div>
-                                    <!-- my_net_view End -->
-                                </div>
+                                @empty
+                                    <h3>No Records Found</h3>
+                                @endforelse
                             </div>
-                            <p><a href="">Expand</a></p>
+                            @if(count($teenagerNetwork) > 6 && !empty($teenagerNetwork))
+                            <p>
+                                <a id="network" href="javascript:void(0);" >Expand</a>
+                            </p>
+                            @endif
                         </div>
                         <!-- das_your_profile End -->
                     </div>
@@ -399,6 +389,17 @@
                     $("#strength").text("Collapse");
                 } else {
                 	$("#strength").text("Expand");
+                }
+            });
+            return false;
+        });
+        $('#network').click(function() {
+            $('.expandNetwork').slideToggle('medium', function() {
+                if ($(this).is(':visible')) {
+                    $(this).css('display','block');
+                    $("#network").text("Collapse");
+                } else {
+                    $("#network").text("Expand");
                 }
             });
             return false;
