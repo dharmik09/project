@@ -70,6 +70,8 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//Interest Management
 	Route::post('/getInterestDetailPage', 'Webservice\DashboardController@getInterestDetailPage');
 	Route::post('/getStrengthDetailPage', 'Webservice\DashboardController@getStrengthDetailPage');
+	//Dashboard Network Section
+	Route::post('/getNetworkDetails', 'Webservice\DashboardController@getNetworkDetails');
 	
 });
 

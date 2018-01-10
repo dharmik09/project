@@ -169,7 +169,7 @@
                             <h2>
                             <a href="{{ url('/teenager/my-network') }}" title="My Careers" class="heading-tag">My Network</a>
                             </h2>
-                            <div class="row">
+                            <div class="row flex-container">
                                 <?php $countNetwork = 0; ?>
                                 @forelse ($teenagerNetwork as $network)
                                 <?php 
@@ -181,7 +181,7 @@
                                         $networkStyle = 'block';
                                         $networkClass = '';
                                     } ?>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 {{ $networkClass }}" style="display: {{ $networkStyle }};">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 flex-items {{ $networkClass }}" style="display: {{ $networkStyle }};">
                                     <div class="my_net_view">
                                         <?php 
                                             if ($network->t_photo != '' && Storage::size($teenThumbImageUploadPath . $network->t_photo) > 0) {
