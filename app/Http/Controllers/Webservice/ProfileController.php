@@ -81,10 +81,13 @@ class ProfileController extends Controller
                 $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
             }
 
-//            $ads = Helpers::getAds($request->userId);
+
+            //$ads = Helpers::getAds($request->userId);
+            $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
             $response['status'] = 1;
             $response['login'] = 1;
-//            $response['ads'] = $ads;
+            //$response['ads'] = $ads;
+            $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $teenager;
         } else {
