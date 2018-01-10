@@ -350,11 +350,42 @@ class DashboardController extends Controller
         if($teenager) {
             $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession(3);
             if($getTeenagerAttemptedProfession) {
+                $array = ["strong", "potential", "unlikely"];
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
-                    $getTeenagerAttemptedProfession[$key]['matched'] = 
+                    $getTeenagerAttemptedProfession[$key]->matched = $array[rand(0,2)];
+                    $getTeenagerAttemptedProfession[$key]->attempted = 1;
                 }
             }
-            print_r($getTeenagerAttemptedProfession); die();
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $getTeenagerAttemptedProfession;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getTeenagerCareersConsider
+    *  loginToken, userId
+    */
+    public function getTeenagerCareersConsider(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession(3);
+            if($getTeenagerAttemptedProfession) {
+                $array = ["strong", "potential", "unlikely"];
+                foreach($getTeenagerAttemptedProfession as $key => $profession) {
+                    $getTeenagerAttemptedProfession[$key]->matched = $array[rand(0,2)];
+                    $getTeenagerAttemptedProfession[$key]->attempted = rand(0,1);
+                }
+            }
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $getTeenagerAttemptedProfession;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
