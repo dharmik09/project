@@ -99,10 +99,20 @@ class DashboardController extends Controller
         $section1Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,1);
         $section2Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,2);
         $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,3);
+
+        $section1Percentage = 0;
+        $section2Percentage = 0;
+        $section3Percentage = 0;
         
-        $section1Percentage = ($section1Collection[0]->NoOfAttemptedQuestions*100)/$section1Collection[0]->NoOfTotalQuestions;
-        $section2Percentage = ($section2Collection[0]->NoOfAttemptedQuestions*100)/$section2Collection[0]->NoOfTotalQuestions;
-        $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
+        if($section1Collection[0]->NoOfTotalQuestions != 0){
+            $section1Percentage = ($section1Collection[0]->NoOfAttemptedQuestions*100)/$section1Collection[0]->NoOfTotalQuestions;
+        }
+        if($section2Collection[0]->NoOfTotalQuestions != 0){
+            $section2Percentage = ($section2Collection[0]->NoOfAttemptedQuestions*100)/$section2Collection[0]->NoOfTotalQuestions;
+        }
+        if($section3Collection[0]->NoOfTotalQuestions != 0){
+            $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
+        }
 
         if($section1Percentage == 0){
             $section1 = 'Begin now';
