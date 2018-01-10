@@ -716,17 +716,18 @@
             position: inherit;
         }
     }
-    a, #editInfo{
+    a,
+    #editInfo {
         color: $white;
-        &:hover{
+        &:hover {
             text-decoration: underline;
         }
     }
     .about-info {
-    border-color: #fff;
-    color: #fff;
-    margin: 30px 0;
-}
+        border-color: #fff;
+        color: #fff;
+        margin: 30px 0;
+    }
 }
 
 input:checked + .slider {
@@ -1539,7 +1540,7 @@ input:checked + .slider:before {
             margin-bottom: 40px;
         }
         @include maxsm {
-            max-width: 100%;
+            max-width: 100%;font-size: 18px;
         }
         .flex-item {
             flex-basis: 50%;
@@ -1580,27 +1581,41 @@ input:checked + .slider:before {
                 width: 83px;
                 height: 83px;
                 display: table-cell;
-                vertical-align: top;
-                margin-right: 10%;
+                //vertical-align: top; //margin-right: 10%;
                 @include maxsm {
-                    margin-right: 40px;
+                    // margin-right: 40px;
                 }
                 @include maxms {
                     width: 63px;
-                    height: 63px;
-                    margin-right: 20px;
+                    height: 63px; // margin-right: 20px;
                 }
+            }
+            a {
+                display: table;
+                margin: 0 10px 0 20px;
+                line-height: 1.2;
+                @include maxmd{
+                    font-size: 18px;
+                }
+                @inlcude maxms{
+                    margin-bottom: 30px;
+                }
+                @include maxms{
+                    font-size: 17px;
+                    margin-bottom: 25px;
+                }
+                    
             }
         }
         .team-point {
             font-family: hn-b;
             @include maxsm {
                 width: 100%;
-                margin-left: 88px;
+                margin-left: 104px;
                 margin-top: -30px;
             }
             @include maxms {
-                margin-left: 66px;
+                margin-left: 83px;
                 margin-top: -25px;
                 font-size: 14px;
             }
@@ -1754,7 +1769,7 @@ input:checked + .slider:before {
                         border-color: $dark;
                         color: $dark
                     }
-                    @include maxms{
+                    @include maxms {
                         width: 110px;
                         padding: 10px 30px;
                     }
@@ -1772,7 +1787,7 @@ input:checked + .slider:before {
                 margin: 15px auto 0;
                 text-align: left;
                 @include maxms {
-                    width: 80% ;
+                    width: 80%;
                 }
                 ul,
 
@@ -2491,4 +2506,16 @@ a:focus {
     .active.tab-color-3 a span {
         color: $w-cl !important;
     }
+}
+.about-info::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: $white;
+}
+.about-info::-moz-placeholder { /* Firefox 19+ */
+  color: $white;
+}
+.about-info:-ms-input-placeholder { /* IE 10+ */
+  color: $white;
+}
+.about-info:-moz-placeholder { /* Firefox 18- */
+  color: $white;
 }
