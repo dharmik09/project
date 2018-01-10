@@ -10,6 +10,7 @@ use Helpers;
 use Config;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
+use App\Services\Community\Contracts\CommunityRepository;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use App\Http\Requests\TeenagerProfileUpdateRequest;
 use App\Teenagers;
@@ -25,10 +26,11 @@ use Monolog\Handler\StreamHandler;
 
 class ProfileController extends Controller
 {
-    public function __construct(FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
+    public function __construct(CommunityRepository $communityRepository, FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->fileStorageRepository = $fileStorageRepository;
+        $this->communityRepository = $communityRepository;
         $this->objTeenagerLoginToken = new TeenagerLoginToken();
         $this->objDeviceToken = new DeviceToken();
         $this->objCountry = new Country();
@@ -80,14 +82,30 @@ class ProfileController extends Controller
                 $teenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
                 $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
             }
+            //Country info
+            $teenager->c_code = ( isset(Country::getCountryDetail($teenager->t_country)->c_code) ) ? Country::getCountryDetail($teenager->t_country)->c_code : "";
+            $teenager->c_name = ( isset(Country::getCountryDetail($teenager->t_country)->c_name) ) ? Country::getCountryDetail($teenager->t_country)->c_name : "";
+            $teenager->country_id = $teenager->t_country;
+            
+            //Get Location Area
+            if($teenager->t_pincode != "") {
+                $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$teenager->t_pincode.'&sensor=true');
+                $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+            } else {
+                $getCityArea = ( $teenager->c_name != "" ) ? $teenager->c_name : "Default";
+            }
+            
+            $response['teenagerLocationArea'] = $getCityArea. " Area";
+            $response['profileComplete'] = "Profile 62% complete";
+            $response['facebookUrl'] = "https://facebook.com";
+            $response['googleUrl'] = "https://google.com";
+            $response['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->userId);
 
-
-            //$ads = Helpers::getAds($request->userId);
             $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
+            $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
+            
             $response['status'] = 1;
             $response['login'] = 1;
-            //$response['ads'] = $ads;
-            $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $teenager;
         } else {
@@ -119,7 +137,7 @@ class ProfileController extends Controller
     }
 
     /* Request Params : saveTeenagerAboutInfo
-    *  loginToken, userId
+    *  loginToken, userId, aboutInfo
     *  Service after loggedIn user
     */
     public function saveTeenagerAboutInfo(Request $request)
@@ -257,6 +275,23 @@ class ProfileController extends Controller
                         $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
                     }
                     $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
+                    
+                    //Get Location Area
+                    if($teenager->t_pincode != "") {
+                        $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$teenager->t_pincode.'&sensor=true');
+                        $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+                    } else {
+                        $getCityArea = ( $teenager->c_name != "" ) ? $teenager->c_name : "Default";
+                    }
+                    
+                    $response['teenagerLocationArea'] = $getCityArea. " Area";
+                    $response['profileComplete'] = "Profile 62% complete";
+                    $response['facebookUrl'] = "https://facebook.com";
+                    $response['googleUrl'] = "https://google.com";
+                    $response['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->userId);
+
+                    $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
+                    $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
                     
                     //$ads = Helpers::getAds($teenager->id);
                     //$response['ads'] = $ads;
