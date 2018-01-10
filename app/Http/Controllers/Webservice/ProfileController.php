@@ -486,7 +486,49 @@ class ProfileController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-            
+            $array =[
+                        [
+                            'type' => "points_achieved",
+                            'name' => "Points Achieved",
+                            'color' => "#FFEEDB",
+                            'child_data' => [
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 10000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                            ]
+                        ],
+                        [
+                            'type' => "careers_completed",
+                            'name' => "Careers Completed",
+                            'color' => "#BBEEDB",
+                            'child_data' => [
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                            ]
+                        ],
+                        [
+                            'type' => "connections_made",
+                            'name' => "Connections Made",
+                            'color' => "#AACCEF",
+                            'child_data' => [
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 3500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                            ]
+                        ]
+
+                    ];
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $array;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
