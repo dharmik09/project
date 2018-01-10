@@ -38,7 +38,9 @@ class Level1ActivityController extends Controller
         if($level1Activities && isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && $totalQuestion[0]->NoOfAttemptedQuestions >= $totalQuestion[0]->NoOfTotalQuestions) {
             return view('teenager.basic.level1Question', compact('level1Activities'));
         } else {
-            return view('teenager.basic.level1ActivityWorld', compact('totalQuestion'));
+            $qualityDetail = $this->level1ActivitiesRepository->getLevel1qualities();
+            
+            return view('teenager.basic.level1ActivityWorld', compact('qualityDetail'));
         }
     }
 

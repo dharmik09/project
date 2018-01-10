@@ -81,12 +81,13 @@ class ProfileController extends Controller
                 $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
             }
 
-            $ads = Helpers::getAds($request->userId);
+
+            //$ads = Helpers::getAds($request->userId);
             $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
             $response['status'] = 1;
             $response['login'] = 1;
-            $response['ads'] = $ads;
-            $response['learningGuidenceDescription'] = strip_tags($learningGuidance->cms_body);
+            //$response['ads'] = $ads;
+            $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $teenager;
         } else {
@@ -257,8 +258,8 @@ class ProfileController extends Controller
                     }
                     $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
                     
-                    $ads = Helpers::getAds($teenager->id);
-                    $response['ads'] = $ads;
+                    //$ads = Helpers::getAds($teenager->id);
+                    //$response['ads'] = $ads;
                     $response['status'] = 1;
                     $response['login'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');
