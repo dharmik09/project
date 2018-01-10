@@ -287,7 +287,7 @@ class ProfileController extends Controller
         $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
         if($checkUserExist) {
             $teenagerMeta = Helpers::getTeenagerEducationData($request->userId);
-            $data = ($teenagerMeta) ? $teenagerMeta->toArray() : [];
+            $data = ($teenagerMeta) ? array($teenagerMeta) : [];
             $response['data'] = $data;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -307,7 +307,7 @@ class ProfileController extends Controller
         $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
         if($checkUserExist) {
             $teenagerMeta = Helpers::getTeenagerAchievementData($request->userId);
-            $data = ($teenagerMeta) ? $teenagerMeta->toArray() : [];
+            $data = ($teenagerMeta) ? array($teenagerMeta) : [];
             $response['data'] = $data;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');

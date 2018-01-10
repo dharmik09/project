@@ -3,11 +3,14 @@
     <p class="que-sec">{{$level1Activities[0]->l1ac_text}}</p>
     <div class="opinion-ans opinion-ans-functional">
         <div class="row">
+            <?php
+                $dasignSetArray = ['4', '3', '5', '4', '5', '3'];
+            ?>
             @foreach($level1Activities[0]->options as $key => $option)
                 <div class="col-xs-4">
                     <input type="radio" class="radio_item" value="{{$option['optionId']}}" name="option" id="option{{$option['optionId']}}" onchange="saveAnswer({{$option['optionId']}}, {{$level1Activities[0]->activityID}})">
                     <label class="label_item" for="radio{{$option['optionId']}}">
-                        <img class="emojis-icon-4" alt="{{$option['optionText']}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAAB5AQMAAADiRoabAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABdJREFUeNpjYBgFo2AUjIJRMApGARQAAAcXAAFgwRYIAAAAAElFTkSuQmCC"> 
+                        <img class="emojis-icon-{{ ( isset($dasignSetArray[$key]) ) ? $dasignSetArray[$key] : '4' }}" alt="{{$option['optionText']}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAAB6AQMAAABk0vQ1AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABdJREFUeNpjYBgFo2AUjIJRMApGAXYAAAcmAAFZQcRjAAAAAElFTkSuQmCC"> 
                         <span onClick="saveAnswer({{$option['optionId']}}, {{$level1Activities[0]->activityID}})">{{$option['optionText']}}</span>
                     </label>
                 </div>
