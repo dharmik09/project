@@ -170,8 +170,7 @@
                             <a href="{{ url('/teenager/my-network') }}" title="My Careers" class="heading-tag">My Network</a>
                             </h2>
                             <div class="row">
-                                <?php $countNetwork = 0;
-                                echo "<pre>"; print_r($teenagerNetwork); exit; ?>
+                                <?php $countNetwork = 0; ?>
                                 @forelse ($teenagerNetwork as $network)
                                 <?php 
                                     $countNetwork++;
