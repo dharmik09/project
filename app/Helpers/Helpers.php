@@ -44,6 +44,7 @@ use App\ProfileViewDeductedCoins;
 use App\Notifications;
 use Illuminate\Support\Facades\Storage;
 use App\CMS;
+use Carbon\Carbon;
 
 Class Helpers {
     /*
@@ -941,6 +942,58 @@ Class Helpers {
             return $matches[1];
         }
         return false;
+    }
+
+    /**
+     * get Strength Type Related Info
+     *
+     * @param string $strengthType, $strengthSlug
+     * @return array of collection
+     */
+    public static function getStrengthTypeRelatedInfo($strengthType, $strengthSlug) {
+        $multipleIntelligence = [];
+        if (!empty($strengthType) || !empty($strengthSlug)) {
+            switch($strengthType) {
+                case Config::get('constant.MULTI_INTELLIGENCE_TYPE'):
+                    $objMultipleIntelligent = new MultipleIntelligent();
+                    $mi = $objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($strengthSlug);
+                    $multipleIntelligence['id'] = $mi->id;
+                    $multipleIntelligence['title'] = $mi->mit_name;
+                    $multipleIntelligence['slug'] = $mi->mi_slug;
+                    $multipleIntelligence['logo'] = ( $mi->mit_logo != "" ) ? Storage::url(Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH') . $mi->mit_logo) : Storage::url(Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    $multipleIntelligence['video'] = ($mi->mi_video != "") ? self::youtube_id_from_url($mi->mi_video) : "";
+                    $multipleIntelligence['description'] = $mi->mi_information;
+                    break;
+
+                case Config::get('constant.APPTITUDE_TYPE'):
+                    $objApptitude = new Apptitude();
+                    $apptitude = $objApptitude->getApptitudeDetailBySlug($strengthSlug);
+                    $multipleIntelligence['id'] = $apptitude->id;
+                    $multipleIntelligence['title'] = $apptitude->apt_name;
+                    $multipleIntelligence['slug'] = $apptitude->apt_slug;
+                    $multipleIntelligence['logo'] = ( $apptitude->apt_logo != "") ? Storage::url(Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH') . $apptitude->apt_logo) : Storage::url(Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    $multipleIntelligence['video'] = ($apptitude->apt_video != "") ? self::youtube_id_from_url($apptitude->apt_video) : "";
+                    $multipleIntelligence['description'] = $apptitude->ap_information;
+                    break;
+
+                case Config::get('constant.PERSONALITY_TYPE'):
+                    $objPersonality = new Personality();
+                    $personality = $objPersonality->getPersonalityDetailBySlug($strengthSlug);
+                    $multipleIntelligence['id'] = $personality->id;
+                    $multipleIntelligence['title'] = $personality->pt_name;
+                    $multipleIntelligence['slug'] = $personality->pt_slug;
+                    $multipleIntelligence['logo'] = ($personality->pt_logo != "") ? Storage::url(Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH') . $personality->pt_logo) : Storage::url(Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    $multipleIntelligence['video'] = ($personality->pt_video != "") ? self::youtube_id_from_url($personality->pt_video) : "";
+                    $multipleIntelligence['description'] = $personality->pt_information;
+                    break;
+
+                default:
+                    $multipleIntelligence = [];
+            }
+        } else {
+            $multipleIntelligence = [];
+        }
+        return $multipleIntelligence;
     }
 
     public static function getAds($teenagerId,$type='ios') {
@@ -2744,8 +2797,11 @@ Class Helpers {
         return $personality->pt_name;
     }
 
-    public static function age() {
+    public static function age($ageVal = '') {
         $age = array('1' => '13', '2' => '13-14', '3' => '14-15', '4' => '15-16', '5' => '16-17', '6' => '17-18', '7' => '18-19', '8' => '19-20', '9' => '20');
+        if (isset($ageVal) && !empty($ageVal)) {
+            $age = $age[$ageVal];
+        }
         return $age;
     }
 
@@ -2774,11 +2830,34 @@ Class Helpers {
             } else if ($sortKey == 3) {
                 $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => $ageArr);
             } else {
-                $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => '');
+                $sortByArr[] = array('id' => $sortKey, 'name' => $sortValue, 'sortData' => array());
             }
         }
         return $sortByArr;
     }
 
+    public static function getSortByColumn($sortBy) 
+    {
+        $sortColumn = '';
+        if ($sortBy == 1) {
+            $sortColumn = 't_school';
+        } else if ($sortBy == 2) {
+            $sortColumn = 't_gender';
+        } else if ($sortBy == 3) {
+            $sortColumn = 't_birthdate';
+        } else {
+            $sortColumn = 't_pincode';
+        }
+        return $sortColumn;
+    }
 
+    public static function getDateRangeByAge($sortOption) 
+    {
+        $ageArr = explode("-", $sortOption);
+        $toDate = Carbon::now()->subYears($ageArr[0]);
+        $fromDate = Carbon::now()->subYears($ageArr[1]);
+        $filterOptionArr['fromDate'] = $fromDate->format('Y-m-d');
+        $filterOptionArr['toDate'] = $toDate->format('Y-m-d');
+        return $filterOptionArr;
+    }
 }

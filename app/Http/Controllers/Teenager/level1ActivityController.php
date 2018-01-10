@@ -34,7 +34,14 @@ class Level1ActivityController extends Controller
     public function playLevel1Activity(Request $request) {
         $userId = Auth::guard('teenager')->user()->id;
         $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities($userId);
-        return view('teenager.basic.level1Question', compact('level1Activities'));
+        $totalQuestion = $this->level1ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId);
+        if($level1Activities && isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && $totalQuestion[0]->NoOfAttemptedQuestions >= $totalQuestion[0]->NoOfTotalQuestions) {
+            return view('teenager.basic.level1Question', compact('level1Activities'));
+        } else {
+            $qualityDetail = $this->level1ActivitiesRepository->getLevel1qualities();
+            
+            return view('teenager.basic.level1ActivityWorld', compact('qualityDetail'));
+        }
     }
 
     public function saveFirstLevelActivity(Request $request) {

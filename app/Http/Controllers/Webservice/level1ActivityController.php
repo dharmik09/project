@@ -47,12 +47,29 @@ class Level1ActivityController extends Controller
         if($request->userId != "" && $teenager) {
             $activities = $this->level1ActivitiesRepository->getNotAttemptedActivities($request->userId);
             if($activities) {
+                $imageArray = ['icon-4.png', 'icon-3.png', 'icon-5.png'];
                 foreach ($activities as $key => $activity) {
                     $activities[$key]->l1ac_image = ($activities[$key]->l1ac_image != "") ? Storage::url($this->level1ActivityOriginalImageUploadPath . $activity->l1ac_image) : $this->level1ActivityOriginalImageUploadPath . "proteen-logo.png";
+                    if(isset($activity->options) && $activity->options) {
+                        foreach($activity->options as $optionsKey => $optionsValue) {
+                            $activity->options[$optionsKey]['optionImage'] =  (isset($imageArray[$optionsKey])) ?  Storage::url('img/Original-image/' . $imageArray[$optionsKey]) : Storage::url('img/Original-image/icon-4.png');
+                        }
+                    }
                     $hintData = [];
                     $hintText = $totalTrend = "";
                     if ($activity->activityID > 0) {
                         $level1AnswerTrend = Helpers::calculateTrendForLevel1($activity->activityID, 1);
+                        if($level1AnswerTrend) {
+                            $points = 0;
+                            foreach($level1AnswerTrend as $keyTrend => $trendValue) {
+                                if($keyTrend + 1 == count($level1AnswerTrend)) {
+                                    $level1AnswerTrend[$keyTrend]['percentage'] = 100 - $points;
+                                } else {
+                                    $points = $points + round($trendValue['percentage']);
+                                    $level1AnswerTrend[$keyTrend]['percentage'] = round($trendValue['percentage']);
+                                }
+                            }
+                        }
                         $totalTrend = Helpers::calculateTotalTrendForLevel1($activity->activityID, 1);
                         $activityQuestionText = $activity->l1ac_text;
                         $hintText = $activity->l1ac_text;

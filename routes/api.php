@@ -33,9 +33,12 @@ Route::group([ 'middleware' => ['api-outside'] ], function () {
 Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/setPassword', 'Webservice\PasswordController@setPassword');
 	Route::post('/changePassword', 'Webservice\PasswordController@changePassword');
-	Route::post('/updateProfile', 'Webservice\DashboardController@updateProfile');
+	
+	Route::post('/updateProfile', 'Webservice\ProfileController@updateProfile');
 	Route::post('/getTeenagerProfileData', 'Webservice\ProfileController@getTeenagerProfileData');
 	Route::post('/deleteTeenagerData', 'Webservice\ProfileController@deleteTeenagerData');
+	Route::post('/saveTeenagerAboutInfo', 'Webservice\ProfileController@saveTeenagerAboutInfo');
+
 	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
 	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
 	//Parent&Mentor invitation section
@@ -45,20 +48,31 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getLevel1Questions', 'Webservice\Level1ActivityController@getFirstLevelActivity');
 	Route::post('/submitLevel1Answers', 'Webservice\Level1ActivityController@saveFirstLevelActivity');
 	//Education & Achievement Route
-	Route::post('/getTeenagerAcademicInfo', 'Webservice\DashboardController@getTeenagerAcademicInfo');
-	Route::post('/saveTeenagerAcademicInfo', 'Webservice\DashboardController@saveTeenagerAcademicInfo');
-	Route::post('/getTeenagerAchievementInfo', 'Webservice\DashboardController@getTeenagerAchievementInfo');
-	Route::post('/saveTeenagerAchievementInfo', 'Webservice\DashboardController@saveTeenagerAchievementInfo');
+	Route::post('/getTeenagerAcademicInfo', 'Webservice\ProfileController@getTeenagerAcademicInfo');
+	Route::post('/saveTeenagerAcademicInfo', 'Webservice\ProfileController@saveTeenagerAcademicInfo');
+	Route::post('/getTeenagerAchievementInfo', 'Webservice\ProfileController@getTeenagerAchievementInfo');
+	Route::post('/saveTeenagerAchievementInfo', 'Webservice\ProfileController@saveTeenagerAchievementInfo');
+	//Icons Route
+	Route::post('/getTeenagerProfileIcons', 'Webservice\ProfileController@getTeenagerProfileIcons');
 	//Help
 	Route::post('/help', 'Webservice\HomeController@help');
 	Route::post('/helpSearch', 'Webservice\HomeController@helpSearch');
 	//Dashboard
 	Route::post('/getDashboardDetail', 'Webservice\DashboardController@getDashboardDetail');
+	Route::post('/getInterestDetail', 'Webservice\DashboardController@getInterestDetail');
+	Route::post('/getStrengthDetail', 'Webservice\DashboardController@getStrengthDetail');
+	Route::post('/getTeenagerNetwork', 'Webservice\DashboardController@getTeenagerNetwork');
 	//Community
 	Route::post('/communityNewConnections', 'Webservice\CommunityController@communityNewConnections');
 	Route::post('/communityMyConnections', 'Webservice\CommunityController@communityMyConnections');
 	Route::post('/searchCommunityNewConnections', 'Webservice\CommunityController@searchCommunityNewConnections');
 	Route::post('/searchCommunityMyConnections', 'Webservice\CommunityController@searchCommunityMyConnections');
+	//Interest Management
+	Route::post('/getInterestDetailPage', 'Webservice\DashboardController@getInterestDetailPage');
+	Route::post('/getStrengthDetailPage', 'Webservice\DashboardController@getStrengthDetailPage');
+	//Dashboard Network Section
+	Route::post('/getNetworkDetails', 'Webservice\DashboardController@getNetworkDetails');
+	
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

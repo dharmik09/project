@@ -48,8 +48,13 @@ class SignupController extends Controller
     */
     public function signup(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-    	if($request->email != "") {
+        $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+    	if($request->deviceId == "" || $request->deviceType == "") {
+            $response['message'] = "DeviceId and Device Type can not be null.";
+            return response()->json($response, 200);
+            exit;
+        }
+        if($request->email != "") {
             $teenagerDetail['t_uniqueid'] = Helpers::getTeenagerUniqueId();
             $teenagerDetail['t_name'] = $request->name;
             $teenagerDetail['t_lastname'] = $request->lastname;
@@ -185,6 +190,20 @@ class SignupController extends Controller
                                 $sponsor->sp_logo_thumb = Storage::url($this->sponsorThumbImageUploadPath . $sponsorPhoto);
                             }
                         }
+                        //Save Login Token Data
+                        $loginDetail['tlt_teenager_id'] = $teenagerDetailSaved->id;
+                        $loginDetail['tlt_login_token'] = base64_encode($teenagerDetailSaved->t_email.':'.$teenagerDetailSaved->t_uniqueid);
+                        $loginDetail['tlt_device_id'] = $request->deviceId;
+                        $userTokenDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
+                        //Save Device Token Data
+                        $saveData['tdt_user_id'] = $teenagerDetailSaved->id;
+                        $saveData['tdt_device_token'] = ($request->pushToken != "") ? $request->pushToken : base64_encode($teenagerDetailSaved->t_email.':'.$teenagerDetailSaved->t_uniqueid);
+                        $saveData['tdt_device_type'] = $request->deviceType;
+                        $saveData['tdt_device_id'] = $request->deviceId;
+                        $userDeviceDetails = $this->objDeviceToken->saveDeviceToken($saveData);
+
+                        $response['loginToken'] = base64_encode($teenagerDetailSaved->t_email.':'.$teenagerDetailSaved->t_uniqueid);
+                        
                         $response['status'] = 1;
                         $response['login'] = 1;
                         $response['message'] = trans('appmessages.default_success_msg');
@@ -262,6 +281,21 @@ class SignupController extends Controller
                                 $teenagerTokenDetail['tev_teenager'] = $data['teen_id'];
                                 $this->teenagersRepository->addTeenagerEmailVarifyToken($teenagerTokenDetail);
                             });
+
+                            //Save Login Token Data
+                            $loginDetail['tlt_teenager_id'] = $teenagerDetailbyId->id;
+                            $loginDetail['tlt_login_token'] = base64_encode($teenagerDetailbyId->t_email.':'.$teenagerDetailbyId->t_uniqueid);
+                            $loginDetail['tlt_device_id'] = $request->deviceId;
+                            $userTokenDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
+                            //Save Device Token Data
+                            $saveData['tdt_user_id'] = $teenagerDetailbyId->id;
+                            $saveData['tdt_device_token'] = ($request->pushToken != "") ? $request->pushToken : base64_encode($teenagerDetailbyId->t_email.':'.$teenagerDetailbyId->t_uniqueid);
+                            $saveData['tdt_device_type'] = $request->deviceType;
+                            $saveData['tdt_device_id'] = $request->deviceId;
+                            $userDeviceDetails = $this->objDeviceToken->saveDeviceToken($saveData);
+
+                            $response['loginToken'] = base64_encode($teenagerDetailbyId->t_email.':'.$teenagerDetailbyId->t_uniqueid);
+                            
                             $response['status'] = 1;
                             $response['message'] = trans('appmessages.signupmail_success_msg');
                             $response['data'] = $teenagerDetailbyId;
@@ -274,7 +308,7 @@ class SignupController extends Controller
                 }
             }
     	} else {
-    		$response['message'] = trans('appmessages.missing_data_msg');
+    		$response['message'] = "Email Id is must be required!";
     	}
     	return response()->json($response, 200);
     	exit;

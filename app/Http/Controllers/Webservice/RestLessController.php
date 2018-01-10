@@ -49,7 +49,7 @@ class RestLessController extends Controller
                 $response['message'] = $getVersionsList->message;
                 
                 $data['force_update'] = ($getVersionsList->force_update == 1) ? true : false;
-                $data['update_available'] = ((int)$getVersionsList->app_version > (int)$request->appVersion) ? true : false;
+                $data['update_available'] = ($data['force_update']) ? true : ((int)$getVersionsList->app_version > (int)$request->appVersion) ? true : false;
                 $response['data'] = $data;
             } else {
                 $response['message'] = "Versions list not found!";
@@ -92,7 +92,7 @@ class RestLessController extends Controller
             foreach ($sponsorDetail as $sponsor) {
                 $sponsor->sp_logo_thumb = (isset($sponsor->sp_photo) && $sponsor->sp_photo != "") ? Storage::url($this->sponsorThumbImageUploadPath . $sponsor->sp_photo) : Storage::url($this->sponsorThumbImageUploadPath . "proteen-logo.png");
                 $sponsor->sp_logo = (isset($sponsor->sp_photo) && $sponsor->sp_photo != "") ? Storage::url($this->sponsorOriginalImageUploadPath . $sponsor->sp_photo) : Storage::url($this->sponsorOriginalImageUploadPath . "proteen-logo.png");
-                $sponsor->sponsor_id = (isset($sponsor->id)) ? $sponsor->id : 0;
+                $sponsor->sponsor_id = (isset($sponsor->sponsor_id)) ? $sponsor->sponsor_id : 0;
                 $sponsor->sp_email = (isset($sponsor->sp_email)) ? $sponsor->sp_email : "";
                 $sponsor->sp_admin_name = (isset($sponsor->sponsor->sp_admin_name)) ? $sponsor->sp_admin_name : "";
                 $sponsor->sp_company_name = (isset($sponsor->sp_company_name)) ? $sponsor->sp_company_name : ""; 

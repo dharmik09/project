@@ -83,7 +83,7 @@
                             <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                             <ul class="area-detail">
                                 <li>{{ $getCityArea }} Area</li>
-                                <li>87 Connections </li>
+                                <li>{{ $myConnectionCount }} {{ ($myConnectionCount == 1) ? "Connection" : "Connections" }} </li>
                             </ul>
                             <ul class="social-media">
                                 <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
@@ -435,6 +435,31 @@
         </div>
     </div>
     <!-- sec personal survey end-->
+    <!-- icon voted sec start-->
+    <div class="icon-voted bg-offwhite">
+        <div class="container">
+            <h2>Icon Voted in L1</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.</p>
+            <div class="voted-list">
+                @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
+                <ul class="row owl-carousel">
+                    @forelse($teenagerMyIcons as $teenagerMyIcon)
+                    <li class="col-sm-3 col-xs-6">
+                        <figure>
+                            <div class="icon-img"><img src="{{ $teenagerMyIcon }}"></div>
+                        </figure>
+                    </li>
+                    @empty
+                    No Icons Found
+                    @endforelse
+                </ul>
+                @else
+                    <h3>No Icons Found</h3>
+                @endif
+            </div>
+        </div>
+    </div>
+    <!-- icon voted sec end-->
     <!--sec progress-->
     <section class="sec-progress">
         <div class="container">
@@ -639,8 +664,7 @@
     <section class="sec-guidance">
         <div class="container">
             <h2>Learning Guidance</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat eros libero, et sagittis metus posuere id. Mauris mattis velit risus, nec tristique erat mattis sit amet. Integer lobortis vestibulum ipsum id commodo. Curabitur non turpis eget turpis laoreet mattis ac sit amet turpis. Proin a neque hendrerit, molestie lacus non, elementum velit. Nunc mattis justo magna, tempor faucibus diam commodo sit amet. Vestibulum id lectus eget dui rutrum tristique quis eget nulla. Vivamus mattis aliquet est. Mauris dapibus, magna sagittis pharetra suscipit, felis tortor mollis metus, non commodo erat arcu finibus risus. Mauris id ante eget lectus iaculis pellentesque eu efficitur nisl. Proin sagittis nec orci ut tincidunt. Aliquam sed turpis mauris. Cras nisl quam, vulputate ac sapien ut, hendrerit faucibus ligula.</p>
-            <p>Maecenas fringilla eros vitae eros volutpat, quis mattis metus dictum. Etiam ac rhoncus elit, ac consequat urna. Morbi nec dignissim urna. Phasellus non laoreet dui. Nullam id auctor nibh, eu porta lorem. In eleifend elit quis ante interdum, mollis interdum erat condimentum. Aliquam porta turpis justo.</p>
+            {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
             <p class="text-center"><a href="{{ url('/teenager/learning-guidance') }}" title="learn more" class="btn btn-primary">learn more</a></p>
         </div>
     </section>
@@ -790,6 +814,27 @@
                 },
             }
         });
+        $('.voted-list ul').owlCarousel({
+                loop: true,
+                margin: 0,
+                items: 4,
+                autoplay: false,
+                autoplayTimeout: 3000,
+                smartSpeed: 1000,
+                nav: true,
+                dots: false,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    480:{
+                      items:2  
+                    },
+                    768: {
+                        items: 4
+                    },
+                }
+            });
         jQuery.validator.addMethod("lettersonly", function(value, element) {
             return this.optional(element) || /^[a-z_'\s]+$/i.test(value);
         }, "Letters only please");

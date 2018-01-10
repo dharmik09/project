@@ -10,7 +10,7 @@
     <div class="container">
         <div class="top-heading text-center">
             <h1>community</h1>
-            <p>You have <strong class="font-blue">23</strong> connections</p>
+            <p>You have <strong class="font-blue">{{ $myConnectionsCount }}</strong> {{ ($myConnectionsCount == 1) ? "Connection" : "Connections" }}</p>
         </div>
         <div class="sec-filter network-filter">
             <div class="row">

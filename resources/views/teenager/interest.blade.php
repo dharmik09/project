@@ -130,7 +130,7 @@
         <section class="sec-team">
             <div class="container">
                 <div class="bg-white">
-                    <h4>Meet the (Interest name) gurus:</h4>
+                    <h4>Meet the {{ $interest->it_name }} gurus:</h4>
                     <div class="team-list">
                         <div class="flex-item">
                             <div class="team-detail">
