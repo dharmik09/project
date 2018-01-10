@@ -2898,7 +2898,7 @@ Class Helpers {
                                 'name' => 'Factual',
                                 'slug' => Config::get('constant.FACTUAL_SLUG'),
                                 'panelColor' => '#ff5f44',
-                                'image' => Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png'),
+                                'image' => Storage::url('img/user.png'),
                                 'subPanelData' => $subPanelData
                             );
         $conceptualPanelArray = array(
@@ -2906,7 +2906,7 @@ Class Helpers {
                                 'name' => 'Conceptual',
                                 'slug' => Config::get('constant.CONSEPTUAL_SLUG'),
                                 'panelColor' => '#27a6b5',
-                                'image' => Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png'),
+                                'image' => Storage::url('img/user.png'),
                                 'subPanelData' => $subPanelData
                             );
         $proceduralPanelArray = array(
@@ -2914,7 +2914,7 @@ Class Helpers {
                                 'name' => 'Procedural',
                                 'slug' => Config::get('constant.PROCEDURAL_SLUG'),
                                 'panelColor' => '#65c6e6',
-                                'image' => Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png'),
+                                'image' => Storage::url('img/user.png'),
                                 'subPanelData' => $subPanelData
                             );
         $metacognitivePanelArray = array(
@@ -2922,7 +2922,7 @@ Class Helpers {
                                 'name' => 'Meta-Cognitive',
                                 'slug' => Config::get('constant.META_SLUG'),
                                 'panelColor' => '#73376d',
-                                'image' => Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png'),
+                                'image' => Storage::url('img/user.png'),
                                 'subPanelData' => $subPanelData
                             );
         

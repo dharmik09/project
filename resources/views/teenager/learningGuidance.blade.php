@@ -61,7 +61,7 @@
                             <div class="panel panel-default {{$panelClass}}">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$learningGuidanceData['id']}}" class="{{$tagClass}}"><span class="icon"><i class="icon-brain"><!-- --></i></span>{{$learningGuidanceData['name']}}</a></h4>
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$learningGuidanceData['id']}}" class="{{$tagClass}}"><span class="icon"><img src="{{ $learningGuidanceData['image'] }}" alt="icon img"></span>{{$learningGuidanceData['name']}}</a></h4>
                                 </div>
                                 <?php $panelStyle = (isset($learningGuidanceData['id']) && $learningGuidanceData['id'] == 1) ? "in" : ""; ?>
                                 <div class="panel-collapse collapse {{$panelStyle}}" id="accordion{{$learningGuidanceData['id']}}">
