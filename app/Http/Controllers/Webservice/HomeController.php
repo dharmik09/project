@@ -14,6 +14,7 @@ use App\FAQ;
 use Config;
 use Input;
 use Storage;
+use Helpers;
 
 class HomeController extends Controller
 {
@@ -107,14 +108,8 @@ class HomeController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-            $helps = $this->objFAQ->getAllFAQ();
             $data = [];
-            if(isset($helps[0]->id) && !empty($helps[0])) {
-                foreach($helps as $help) {
-                    $help->f_photo  = ($help->f_photo != "") ? Storage::url($this->faqThumbImageUploadPath.$help->f_photo) : Storage::url($this->faqThumbImageUploadPath."proteen-logo.png");
-                    $data[] = $help;
-                }
-            }
+            $data = Helpers::learningGuidance();
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
