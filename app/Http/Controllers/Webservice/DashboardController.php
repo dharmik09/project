@@ -26,10 +26,11 @@ use App\Apptitude;
 use App\Personality;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use App\Services\Community\Contracts\CommunityRepository;
 
 class DashboardController extends Controller
 {
-    public function __construct(ProfessionsRepository $professionsRepository, TeenagersRepository $teenagersRepository, FileStorageRepository $fileStorageRepository)
+    public function __construct(ProfessionsRepository $professionsRepository, TeenagersRepository $teenagersRepository, FileStorageRepository $fileStorageRepository, CommunityRepository $communityRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->professionsRepository = $professionsRepository;
@@ -55,7 +56,7 @@ class DashboardController extends Controller
         $this->miThumbImageUploadPath = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
         $this->apptitudeThumbImageUploadPath = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
         $this->personalityThumbImageUploadPath = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
-
+        $this->communityRepository = $communityRepository;
         $this->log = new Logger('api-restless-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
@@ -295,6 +296,44 @@ class DashboardController extends Controller
             $response['login'] = 1;
             $response['status'] = 1;
             $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getNetworkDetails
+    *  loginToken, userId
+    */
+    public function getNetworkDetails(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            $networkArray = [];
+            $teenagerNetwork = $this->communityRepository->getMyConnections($request->userId);
+            foreach ($teenagerNetwork as $network) {
+                //Teenager thumb Image
+                $teenagerThumbImage = '';
+                if ($teenager->t_photo != '' && Storage::size($this->teenThumbImageUploadPath . $teenager->t_photo) > 0) {
+                    $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
+                } else {
+                    $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . 'proteen-logo.png');
+                }
+                //Teenager original image
+                $teenagerOriginalImage = '';
+                if ($teenager->t_photo != '' && Storage::size($this->teenOriginalImageUploadPath . $teenager->t_photo) > 0) {
+                    $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
+                } else {
+                    $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');
+                }
+                
+                $networkArray[] = array('id' => $network->id, 'uniqueId' => $network->t_uniqueid, 'name' => $network->t_name, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage); 
+            }
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $networkArray;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }

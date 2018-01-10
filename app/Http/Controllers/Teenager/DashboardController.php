@@ -93,7 +93,9 @@ class DashboardController extends Controller
             $teenagerPersonality[$personalityKey] = (array('score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
         }
         $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
-        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest'));
+        $teenagerNetwork = $this->communityRepository->getMyConnections($user->id);
+        $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
+        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest', 'teenagerNetwork', 'teenThumbImageUploadPath'));
     }
 
     //My profile data

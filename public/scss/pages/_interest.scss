@@ -126,18 +126,20 @@
         }
     }
     .popover-content {
-        padding:0;
+        padding: 0;
     }
     .popover-data {
         padding: 35px 10px
     }
 }
-.popover-closer{
+
+.popover-closer {
     position: absolute;
     top: 5px;
     right: 5px;
-    color:#000 !important;
+    color: #000 !important;
 }
+
 .match-strong {
     background: $strong;
     color: $white;
@@ -156,7 +158,7 @@
 .match-list {
     float: right;
     padding: 0;
-    &.paddng-right{
+    &.paddng-right {
         padding-right: 40px;
     }
     @include maxmd {
@@ -175,7 +177,7 @@
         color: $r-cl;
         margin-right: 10px;
         margin-bottom: 10px;
-        &:last-child{
+        &:last-child {
             margin-right: 0;
         }
         @include maxsm {
@@ -313,7 +315,7 @@
     }
     p {
         margin-bottom: 0;
-        a{
+        a {
             font-family: hn-b;
             color: $cl-complete;
         }
@@ -360,6 +362,7 @@
         }
         @include maxsm {
             max-width: 100%;
+            font-size: 18px;
         }
         .flex-item {
             flex-basis: 50%;
@@ -399,15 +402,28 @@
                 width: 83px;
                 height: 83px;
                 display: table-cell;
-                vertical-align: top;
-                margin-right: 10%;
+                //vertical-align: top; //margin-right: 10%;
                 @include maxsm {
-                    margin-right: 40px;
+                    margin-right: 102px;
                 }
                 @include maxms {
                     width: 63px;
-                    height: 63px;
-                    margin-right: 20px;
+                    height: 63px; // margin-right: 20px;
+                }
+            }
+            a {
+                display: table;
+                margin: 0 10px 0 20px;
+                line-height: 1.2;
+                @include maxmd{
+                    font-size: 18px;
+                }
+                @include maxsm{
+                    margin-bottom: 30px;
+                }
+                @include maxms{
+                    font-size: 17px;
+                    margin-bottom: 25px;
                 }
             }
         }
@@ -415,11 +431,11 @@
             font-family: hn-b;
             @include maxsm {
                 width: 100%;
-                margin-left: 88px;
+                margin-left: 103px;
                 margin-top: -30px;
             }
             @include maxms {
-                margin-left: 66px;
+                margin-left: 83px;
                 margin-top: -25px;
                 font-size: 14px;
             }
@@ -520,6 +536,7 @@
         }
     }
 }
+
 .close {
     font-size: 22px !important;
     opacity: 0.5;
