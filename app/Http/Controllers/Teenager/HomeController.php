@@ -12,6 +12,7 @@ use App\Testimonial;
 use App\FAQ;
 use Config;
 use Input;
+use Helpers;
 
 class HomeController extends Controller
 {
@@ -95,4 +96,16 @@ class HomeController extends Controller
         $videoCount = $this->objVideo->loadMoreVideoCount($id);
         return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
     }
+
+    /**
+     * Returns learning Guidance page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function learningGuidance()
+    {
+        $learningGuidance = Helpers::learningGuidance();
+        return view('teenager.learningGuidance', compact('learningGuidance'));
+    }
+
 }

@@ -293,4 +293,11 @@ return [
 
     'APP_NAME' => "ProTeenLife",
     'APP_EMAIL' => "info@proteenlife.com",
+    'FACTUAL_SLUG' => 'factual',
+    'CONSEPTUAL_SLUG' => 'conceptual',
+    'PROCEDURAL_SLUG' => 'procedural',
+    'META_SLUG' => 'metacognitive',
+    'EASY_FLAG' => 'Easy',
+    'MEDIUM_FLAG' => 'Medium',
+    'CHALLENGING_FLAG' => 'Challenging',
 ];

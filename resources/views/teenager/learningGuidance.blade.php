@@ -28,146 +28,87 @@
                     <li><span class="number match-potential"><!-- --></span>Medium</li>
                     <li><span class="number match-unlikely"><!-- --></span>Challenging</li>
                 </ul>
+                @if (isset($learningGuidance) && !empty($learningGuidance))
                 <div class="learning-guidance">
                     <div class="panel-group" id="accordion">
-                        <div class="panel panel-default factual">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="factual-cl"><span class="icon"><i class="icon-brain"><!-- --></i></span>Factual</a></h4>
-                            </div>
-                            <div class="panel-collapse collapse in" id="accordion1">
-                                <div class="panel-body">
-                                    <ul class="factual-list">
-                                        <li class="remember">
-                                            <h5>Remembering</h5>
-                                            <p>Recalling terminology, dates, or any information previously learned relevant to a subject.</p>
-                                            <p><strong>Example:</strong> To be able to list primary and secondary colors, list numbers.</p>
-                                        </li>
-                                        <li class="understanding">
-                                            <h5>Understanding</h5>
-                                            <p>Interpretting or summarizing facts into something simpler to understand. </p>
-                                            <p><strong>Example:</strong> To be able to summarize features of a new product, para-phrase lines from a poem.</p>
-                                        </li>
-                                        <li class="analyzing">
-                                            <h5>Applying Analyzing</h5>
-                                            <p>Applying facts and terminology in any situation.</p>
-                                           <p><strong>Example 1:</strong> To be able to respond to FAQ’s, classify species of birds and animals. Analyzing facts and terminology in any situation.</p>
-                                            <p><strong>Example 2:</strong> To be able to select the most complete list of activities, outline admission steps.</p>
-                                        </li>
-                                        <li class="analyzing">
-                                            <h5>Evaluating Creating</h5>
-                                            <p>Evaluating given facts or creating new facts as relevant to the subject.<p>
-                                           <p><strong>Example 1:</strong> TTo be able to check for consistency amongst sources, rank students by age. Creating new facts as relevant to a subject.</p>
-                                            <p><strong>Example 2:</strong> To be able to generate a log of daily activities, categorize by age groups.</p>
-                                        </li>
-                                    </ul>
+                        @forelse ($learningGuidance['panelData'] as $learningGuidanceData) 
+                            <?php 
+                            switch($learningGuidanceData['slug']) {
+                                case Config::get('constant.FACTUAL_SLUG'):
+                                    $panelClass = 'factual';
+                                    $tagClass = 'factual-cl';
+                                    break;
+
+                                case Config::get('constant.CONSEPTUAL_SLUG'):
+                                    $panelClass = 'conceptual-cl';
+                                    $tagClass = 'conceptual';
+                                    break;
+
+                                case Config::get('constant.PROCEDURAL_SLUG'):
+                                    $panelClass = 'procedural-cl';
+                                    $tagClass = 'procedural';
+                                    break;
+
+                                case Config::get('constant.META_SLUG'):
+                                    $panelClass = 'meta-cl';
+                                    $tagClass = 'meta';
+                                    break;
+
+                                default: 
+                                    $panelClass = '';
+                                    break;
+                            }; ?>
+                            <div class="panel panel-default {{$panelClass}}">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$learningGuidanceData['id']}}" class="{{$tagClass}}"><span class="icon"><img src="{{ $learningGuidanceData['image'] }}" alt="icon img"></span>{{$learningGuidanceData['name']}}</a></h4>
+                                </div>
+                                <?php $panelStyle = (isset($learningGuidanceData['id']) && $learningGuidanceData['id'] == 1) ? "in" : ""; ?>
+                                <div class="panel-collapse collapse {{$panelStyle}}" id="accordion{{$learningGuidanceData['id']}}">
+                                    <div class="panel-body">
+                                        @if (isset($learningGuidanceData['subPanelData']) && !empty($learningGuidanceData['subPanelData']))
+                                        <ul class="factual-list">
+                                            @forelse ($learningGuidanceData['subPanelData'] as $subPanelData)
+                                            <?php 
+                                                switch($subPanelData['titleType']) {
+                                                    case Config::get('constant.EASY_FLAG'):
+                                                        $subPanelClass = "understanding";
+                                                        break;
+
+                                                    case Config::get('constant.MEDIUM_FLAG'):
+                                                        $subPanelClass = "remember";
+                                                        break;
+
+                                                    case Config::get('constant.CHALLENGING_FLAG'):
+                                                        $subPanelClass = "analyzing";
+                                                        break;
+
+                                                    default:
+                                                        $subPanelClass = '';
+                                                        break;
+                                                }; ?>
+                                            <li class="{{ $subPanelClass }}">
+                                                <h5>{{ $subPanelData['title'] }}</h5>
+                                                <p>{!! $subPanelData['description'] !!}</p>
+                                            </li>
+                                            @empty
+                                                No Records Found
+                                            @endforelse
+                                        </ul>
+                                        @else
+                                            No Records Found
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="panel panel-default conceptual-cl">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="conceptual collapsed"><span class="icon"><i class="icon-bulb"></i></span>Conceptual</a></h4>
-                            </div>
-                            <div class="panel-collapse collapse" id="accordion2">
-                                <div class="panel-body">
-                                    <ul class="factual-list">
-                                        <li class="remember">
-                                            <h5>Remembering</h5>
-                                            <p>Recalling terminology, dates, or any information previously learned relevant to a subject.</p>
-                                            <p><strong>Example:</strong> To be able to list primary and secondary colors, list numbers.</p>
-                                        </li>
-                                        <li class="understanding">
-                                            <h5>Understanding</h5>
-                                            <p>Interpretting or summarizing facts into something simpler to understand. </p>
-                                            <p><strong>Example:</strong> To be able to summarize features of a new product, para-phrase lines from a poem.</p>
-                                        </li>
-                                        <li class="analyzing">
-                                            <h5>Applying Analyzing</h5>
-                                            <p>Applying facts and terminology in any situation.</p>
-                                           <p><strong>Example 1:</strong> To be able to respond to FAQ’s, classify species of birds and animals. Analyzing facts and terminology in any situation.</p>
-                                            <p><strong>Example 2:</strong> To be able to select the most complete list of activities, outline admission steps.</p>
-                                        </li>
-                                        <li class="analyzing">
-                                            <h5>Evaluating Creating</h5>
-                                            <p>Evaluating given facts or creating new facts as relevant to the subject.p>
-                                           <p><strong>Example 1:</strong> TTo be able to check for consistency amongst sources, rank students by age. Creating new facts as relevant to a subject.</p>
-                                            <p><strong>Example 2:</strong> To be able to generate a log of daily activities, categorize by age groups.</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default procedural-cl">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-parent="#accordion" data-toggle="collapse" href="#accordion3" class="procedural collapsed"><span class="icon"><i class="icon-puzzle-piese"></i></span>Procedural</a></h4>
-                            </div>
-                            <div class="panel-collapse collapse" id="accordion3">
-                                <div class="panel-body">
-                                   <ul class="factual-list">
-                                        <li class="remember">
-                                            <h5>Remembering</h5>
-                                            <p>Recalling terminology, dates, or any information previously learned relevant to a subject.</p>
-                                            <p><strong>Example:</strong> To be able to list primary and secondary colors, list numbers.</p>
-                                        </li>
-                                        <li class="understanding">
-                                            <h5>Understanding</h5>
-                                            <p>Interpretting or summarizing facts into something simpler to understand. </p>
-                                            <p><strong>Example:</strong> To be able to summarize features of a new product, para-phrase lines from a poem.</p>
-                                        </li>
-                                        <li class="analyzing">
-                                            <h5>Applying Analyzing</h5>
-                                            <p>Applying facts and terminology in any situation.</p>
-                                           <p><strong>Example 1:</strong> To be able to respond to FAQ’s, classify species of birds and animals. Analyzing facts and terminology in any situation.</p>
-                                            <p><strong>Example 2:</strong> To be able to select the most complete list of activities, outline admission steps.</p>
-                                        </li>
-                                        <li class="analyzing">
-                                            <h5>Evaluating Creating</h5>
-                                            <p>Evaluating given facts or creating new facts as relevant to the subject.<p>
-                                           <p><strong>Example 1:</strong> TTo be able to check for consistency amongst sources, rank students by age. Creating new facts as relevant to a subject.</p>
-                                            <p><strong>Example 2:</strong> To be able to generate a log of daily activities, categorize by age groups.</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default meta-cl">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-parent="#accordion" data-toggle="collapse" href="#accordion4" class="meta collapsed"><span class="icon"><i class="icon-atom"></i></span>Meta-Cognitive</a></h4>
-                            </div>
-                            <div class="panel-collapse collapse" id="accordion4">
-                                <div class="panel-body">
-                                   <ul class="factual-list">
-                                        <li class="remember">
-                                            <h5>Remembering</h5>
-                                            <p>Recalling terminology, dates, or any information previously learned relevant to a subject.</p>
-                                            <p><strong>Example:</strong> To be able to list primary and secondary colors, list numbers.</p>
-                                        </li>
-                                        <li class="understanding">
-                                            <h5>Understanding</h5>
-                                            <p>Interpretting or summarizing facts into something simpler to understand. </p>
-                                            <p><strong>Example:</strong> To be able to summarize features of a new product, para-phrase lines from a poem.</p>
-                                        </li>
-                                        <li class="analyzing">
-                                            <h5>Applying Analyzing</h5>
-                                            <p>Applying facts and terminology in any situation.</p>
-                                           <p><strong>Example 1:</strong> To be able to respond to FAQ’s, classify species of birds and animals. Analyzing facts and terminology in any situation.</p>
-                                            <p><strong>Example 2:</strong> To be able to select the most complete list of activities, outline admission steps.</p>
-                                        </li>
-                                        <li class="analyzing">
-                                            <h5>Evaluating Creating</h5>
-                                            <p>Evaluating given facts or creating new facts as relevant to the subject.<p>
-                                           <p><strong>Example 1:</strong> TTo be able to check for consistency amongst sources, rank students by age. Creating new facts as relevant to a subject.</p>
-                                            <p><strong>Example 2:</strong> To be able to generate a log of daily activities, categorize by age groups.</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        @empty
+                            No Records Found
+                        @endforelse
                     </div>
                 </div>
+                @else
+                    No Records Found
+                @endif
             </div>
         </div>
         <!-- accordian section end-->
