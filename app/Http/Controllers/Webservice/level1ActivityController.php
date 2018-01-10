@@ -105,6 +105,7 @@ class Level1ActivityController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $questionOption = $this->objLevel1Activity->questionOptions($request->questionId);
+        
         $this->log->info('Get teenager & level 1 question detail for userId'.$request->userId , array('api-name'=> 'saveFirstLevelActivity'));
         if( $questionOption->toArray() && isset($questionOption[0]->options) && in_array($request->answerId, array_column($questionOption[0]->options->toArray(), 'id')) && $request->userId != "" && $teenager) {
             
@@ -114,7 +115,10 @@ class Level1ActivityController extends Controller
             $answers['points'] = $questionOption[0]->l1ac_points;
 
             $questionsArray = $this->level1ActivitiesRepository->saveTeenagerActivityResponseOneByOne($request->userId, $answers);
-            
+            if(isset($questionsArray['questionsID'][0])) {
+                $questionsArray['questionsID'] = $questionsArray['questionsID'][0];
+            }
+
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');

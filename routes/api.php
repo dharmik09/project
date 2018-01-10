@@ -33,11 +33,12 @@ Route::group([ 'middleware' => ['api-outside'] ], function () {
 Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/setPassword', 'Webservice\PasswordController@setPassword');
 	Route::post('/changePassword', 'Webservice\PasswordController@changePassword');
-	
+	//profile page
 	Route::post('/updateProfile', 'Webservice\ProfileController@updateProfile');
 	Route::post('/getTeenagerProfileData', 'Webservice\ProfileController@getTeenagerProfileData');
 	Route::post('/deleteTeenagerData', 'Webservice\ProfileController@deleteTeenagerData');
 	Route::post('/saveTeenagerAboutInfo', 'Webservice\ProfileController@saveTeenagerAboutInfo');
+	Route::post('/getTeenagerEarnAchievement', 'Webservice\ProfileController@getTeenagerEarnAchievement');
 
 	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
 	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
@@ -62,6 +63,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getInterestDetail', 'Webservice\DashboardController@getInterestDetail');
 	Route::post('/getStrengthDetail', 'Webservice\DashboardController@getStrengthDetail');
 	Route::post('/getTeenagerNetwork', 'Webservice\DashboardController@getTeenagerNetwork');
+	Route::post('/getTeenagerCareers', 'Webservice\DashboardController@getTeenagerCareers');
+	Route::post('/getTeenagerCareersConsider', 'Webservice\DashboardController@getTeenagerCareersConsider');
+	
 	//Community
 	Route::post('/communityNewConnections', 'Webservice\CommunityController@communityNewConnections');
 	Route::post('/communityMyConnections', 'Webservice\CommunityController@communityMyConnections');

@@ -477,4 +477,20 @@ class ProfileController extends Controller
         return response()->json($response, 200);
         exit;
     }
+
+    /* Request Params : getTeenagerEarnAchievement
+     *  loginToken, userId
+     *  Service after loggedIn user
+     */
+    public function getTeenagerEarnAchievement(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
 }
