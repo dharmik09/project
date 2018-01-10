@@ -315,15 +315,15 @@ class DashboardController extends Controller
             foreach ($teenagerNetwork as $network) {
                 //Teenager thumb Image
                 $teenagerThumbImage = '';
-                if ($teenager->t_photo != '' && Storage::size($this->teenThumbImageUploadPath . $teenager->t_photo) > 0) {
-                    $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
+                if ($network->t_photo != '' && Storage::size($this->teenThumbImageUploadPath . $network->t_photo) > 0) {
+                    $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . $network->t_photo);
                 } else {
                     $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . 'proteen-logo.png');
                 }
                 //Teenager original image
                 $teenagerOriginalImage = '';
-                if ($teenager->t_photo != '' && Storage::size($this->teenOriginalImageUploadPath . $teenager->t_photo) > 0) {
-                    $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
+                if ($network->t_photo != '' && Storage::size($this->teenOriginalImageUploadPath . $network->t_photo) > 0) {
+                    $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . $network->t_photo);
                 } else {
                     $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');
                 }
