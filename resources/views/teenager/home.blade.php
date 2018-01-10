@@ -181,7 +181,7 @@
                                         $networkStyle = 'block';
                                         $networkClass = '';
                                     } ?>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="display: {{ $networkStyle }};">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 {{ $networkClass }}" style="display: {{ $networkStyle }};">
                                     <div class="my_net_view">
                                         <?php 
                                             if ($network->t_photo != '' && Storage::size($teenThumbImageUploadPath . $network->t_photo) > 0) {
@@ -190,12 +190,14 @@
                                                 $teenPhoto = Storage::url($teenThumbImageUploadPath . 'proteen-logo.png');
                                             } ?>
                                         <img src="{{ $teenPhoto }}" alt="my_net_view">
-                                        <h4><a href="{{ url('/teenager/network-member') }}/{{$network->id}}">{{ $network->t_name }}</a></h4>
+                                        <h4><a href="{{ url('/teenager/network-member') }}/{{$network->t_uniqueid}}">{{ $network->t_name }}</a></h4>
                                     </div>
                                     <!-- my_net_view End -->
                                 </div>
                                 @empty
+                                <div class="col-sm-12">
                                     <h3>No Records Found</h3>
+                                </div>
                                 @endforelse
                             </div>
                             @if(count($teenagerNetwork) > 6 && !empty($teenagerNetwork))
