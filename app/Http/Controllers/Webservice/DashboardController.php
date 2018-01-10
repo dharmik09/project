@@ -340,4 +340,25 @@ class DashboardController extends Controller
         return response()->json($response, 200);
         exit;
     }
+
+    /* Request Params : getTeenagerCareers
+    *  loginToken, userId
+    */
+    public function getTeenagerCareers(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession(3);
+            if($getTeenagerAttemptedProfession) {
+                foreach($getTeenagerAttemptedProfession as $key => $profession) {
+                    $getTeenagerAttemptedProfession[$key]['matched'] = 
+                }
+            }
+            print_r($getTeenagerAttemptedProfession); die();
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
 }

@@ -167,7 +167,7 @@
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests my_network_cont">
                             <h2>
-                            <a href="{{ url('/teenager/my-network') }}" title="My Careers" class="heading-tag">My Network</a>
+                            <a href="{{ url('/teenager/my-network') }}" title="My Network" class="heading-tag">My Network</a>
                             </h2>
                             <div class="row flex-container">
                                 <?php $countNetwork = 0; ?>
