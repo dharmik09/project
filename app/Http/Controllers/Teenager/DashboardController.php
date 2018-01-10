@@ -29,6 +29,7 @@ use Image;
 use App\Http\Requests\TeenagerPairRequest;
 use Event;
 use App\Events\SendMail;
+use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\Community\Contracts\CommunityRepository;
 
 class DashboardController extends Controller
@@ -45,7 +46,7 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository, CommunityRepository $communityRepository)
+    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository, CommunityRepository $communityRepository, Level2ActivitiesRepository $Level2ActivitiesRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
@@ -54,6 +55,7 @@ class DashboardController extends Controller
         $this->objTeenParentRequest = new TeenParentRequest;
         $this->templateRepository = $templatesRepository;
         $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->Level2ActivitiesRepository = $Level2ActivitiesRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
@@ -93,9 +95,40 @@ class DashboardController extends Controller
             $teenagerPersonality[$personalityKey] = (array('score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
         }
         $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
+
+        $section1Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,1);
+        $section2Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,2);
+        $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,3);
+        
+        $section1Percentage = ($section1Collection[0]->NoOfAttemptedQuestions*100)/$section1Collection[0]->NoOfTotalQuestions;
+        $section2Percentage = ($section2Collection[0]->NoOfAttemptedQuestions*100)/$section2Collection[0]->NoOfTotalQuestions;
+        $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
+
+        if($section1Percentage == 0){
+            $section1 = 'Begin now';
+        }
+        else{
+            $section1 = $section1Percentage.'% Complete';
+        }
+
+        if($section2Percentage == 0){
+            $section2 = 'Begin now';
+        }
+        else{
+            $section2 = $section2Percentage.'% Complete';
+        }
+
+        if($section3Percentage == 0){
+            $section3 = 'Begin now';
+        }
+        else{
+            $section3 = $section3Percentage.'% Complete';
+        }
+
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
-        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest', 'teenagerNetwork', 'teenThumbImageUploadPath'));
+
+        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath'));
     }
 
     //My profile data

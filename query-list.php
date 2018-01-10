@@ -191,3 +191,6 @@ ALTER TABLE `pro_tc_teen_connections` ADD `tc_unique_id` VARCHAR(23) CHARACTER S
 
 //Add new field in teenagers table ## 06/01/2018
 ALTER TABLE `pro_t_teenagers` ADD `t_about_info` TEXT NULL AFTER `t_view_information`;
+
+//Add new field in pro_l2ac_level2_activities table ## 09-jan-2018
+ALTER TABLE `pro_l2ac_level2_activities` ADD `section_type` TINYINT(4) NOT NULL DEFAULT '1' AFTER `l2ac_image`;

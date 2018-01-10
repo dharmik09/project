@@ -219,11 +219,11 @@
                                 <div class="panel panel-default factual quiz1">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion10" class="collapsed career-cl">Quiz 1<span>100% Complete</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_1')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_1')}}" onclick="fetch2ActiityQuestion(this.id)">Quiz 1<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_1')}}">{{$section1}}</span></a>
                                         </h4>
                                     </div>
-                                    <div class="panel-collapse collapse" id="accordion10">
-                                        <div class="panel-body">
+                                    <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_1')}}">
+                                        <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_1')}}">
                                             Quiz 1
                                         </div>
                                     </div>
@@ -231,48 +231,24 @@
                                 <div class="panel panel-default factual quiz2">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion20" class="collapsed career-cl">Quiz 2<span>35% Complete</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_2')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_2')}}" onclick="fetch2ActiityQuestion(this.id)">Quiz 2<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_2')}}">{{$section2}}</span></a>
                                         </h4>
                                     </div>
-                                    <div class="panel-collapse collapse in" id="accordion20">
-                                        <div class="panel-body">
-                                            <div class="quiz_view">
-                                                <div class="clearfix time_noti_view">
-                                                    <span class="time_type pull-left">
-                                                    <i class="icon-alarm"></i>
-                                                    <span class="time-tag">58:32</span>
-                                                    </span>
-                                                    <span class="sec-popup help_noti"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
-                                                    <div class="hide popoverContent">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
-                                                    </div>
-                                                </div>
-                                                <div class="quiz-que">
-                                                    <p class="que">
-                                                        <i class="icon-arrow-simple"></i>Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor?
-                                                    </p>
-                                                    <div class="quiz-ans">
-                                                        <div class="radio">
-                                                            <label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label>
-                                                            <label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label>
-                                                            <label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label>
-                                                        </div>
-                                                        <div class="clearfix"><span class="next-que pull-right"><i class="icon-hand"></i></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_2')}}">
+                                        <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_2')}}">
+                                            Quiz 2
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel panel-default factual quiz3">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion30" class="collapsed career-lc">Quiz 3<span>Begin now</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_3')}}" class="collapsed career-lc" id="{{Config::get('constant.LEVEL2_SECTION_3')}}" onclick="fetch2ActiityQuestion(this.id)">Quiz 3<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_3')}}">{{$section3}}</span></a>
                                         </h4>
                                     </div>
-                                    <div class="panel-collapse collapse" id="accordion30">
-                                        <div class="panel-body">
-                                            Career 3
+                                    <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_3')}}">
+                                        <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_3')}}">
+                                            Quiz 3
                                         </div>
                                     </div>
                                 </div>
@@ -345,55 +321,111 @@
 @stop
 
 @section('script')
-    <script>
-        // timer
-        jQuery(document).ready(function($) {
-            var count = 1;
-            var counter = setInterval(timer, 1000);
+<script>
+    
+    var timeCount = '600';
+    var count = timeCount;
 
-            function secondPassed() {
-                var minutes = Math.round((count - 30) / 60);
-                var remainingcount = count % 60;
-                if (remainingcount < 10) {
-                    remainingcount = "0" + remainingcount;
-                }
-                $('.time-tag,.time-tag').text(minutes + ":" + remainingcount);
-                $('.time-tag').show();
-            }
+    jQuery(document).ready(function($) {
+        var counter = setInterval(timer, 1000);
 
-            function timer() {
-                if (count < 0) {} else {
-                    secondPassed();
-                }
-                count = count + 1;
-                if (count == 60) {
-                    //saveBoosterPoints(teenagerId, professionId, 2, isyoutube);
-                }
+        function secondPassed() {
+            var minutes = Math.round((count - 30) / 60);
+            var remainingcount = count % 60;
+            if (remainingcount < 10) {
+                remainingcount = "0" + remainingcount;
             }
-            $(".expandStrength").hide();
-        });
-        $('.interest-section').click(function() {
-            $('.expandElement').slideToggle('medium', function() {
-                if ($(this).is(':visible')) {
-                    $(this).css('display','block');
-                    $("#interest").text("Collapse");
-                } else {
-                	$("#interest").text("Expand");
+            $('.time-tag,.time-tag').text(minutes + ":" + remainingcount);
+            $('.time-tag').show();
+        }
+
+        function timer() {
+            if (count < 0) {} else {
+                secondPassed();
+            }
+            count = count - 1;
+            if (count == 60) {
+                //saveBoosterPoints(teenagerId, professionId, 2, isyoutube);
+            }
+        }
+        $(".expandStrength").hide();
+
+    });
+
+    function fetch2ActiityQuestion(id) {
+        if ( !$("#accordion"+id).hasClass("in") ) {
+            $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#section"+id).addClass('loading-screen-parent');
+
+            var CSRF_TOKEN = "{{ csrf_token() }}";
+            $.ajax({
+                type: 'POST',
+                url: "{{url('teenager/get-level2-activity')}}",
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                data: {'section_id':id},
+                success: function (response) {
+                    count = response.timer;
+                    $("#section"+id).removeClass('loading-screen-parent');
+                    $("#section"+id).html(response.activities);
+                    $("#percentageSection"+id).html(response.sectionPercentage);
                 }
             });
-            return false;
+        }
+    }
+    function saveAns(queId) {
+
+        var section = $('#'+queId+'l2AnsSection').val();
+        var answerId = $('input[name='+queId+'l2AnsId]:checked').val();
+        var timer = count;
+        $("#section"+section).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#section"+section).addClass('loading-screen-parent');
+
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/save-level2-activity')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'section_id':section,'answerID':answerId,'questionID':queId,'timer':timer},
+            success: function (response) {
+                count = response.timer;
+                $("#section"+section).removeClass('loading-screen-parent');
+                $("#section"+section).html(response.activities);
+                $("#percentageSection"+section).html(response.sectionPercentage);
+            }
         });
-        $('#strength').click(function() {
-            $('.expandStrength').slideToggle('medium', function() {
-                if ($(this).is(':visible')) {
-                    $(this).css('display','block');
-                    $("#strength").text("Collapse");
-                } else {
-                	$("#strength").text("Expand");
-                }
-            });
-            return false;
+    }
+
+
+
+    $('.interest-section').click(function() {
+        $('.expandElement').slideToggle('medium', function() {
+            if ($(this).is(':visible')) {
+                $(this).css('display','block');
+                $("#interest").text("Collapse");
+            } else {
+            	$("#interest").text("Expand");
+            }
         });
+        return false;
+    });
+    $('#strength').click(function() {
+        $('.expandStrength').slideToggle('medium', function() {
+            if ($(this).is(':visible')) {
+                $(this).css('display','block');
+                $("#strength").text("Collapse");
+            } else {
+            	$("#strength").text("Expand");
+            }
+        });
+        return false;
+    });
+</script>
         $('#network').click(function() {
             $('.expandNetwork').slideToggle('medium', function() {
                 if ($(this).is(':visible')) {
