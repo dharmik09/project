@@ -287,7 +287,7 @@ class ProfileController extends Controller
         $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
         if($checkUserExist) {
             $teenagerMeta = Helpers::getTeenagerEducationData($request->userId);
-            $data = ($teenagerMeta) ? $teenagerMeta : [];
+            $data = ($teenagerMeta) ? $teenagerMeta->toArray() : [];
             $response['data'] = $data;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -307,7 +307,7 @@ class ProfileController extends Controller
         $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
         if($checkUserExist) {
             $teenagerMeta = Helpers::getTeenagerAchievementData($request->userId);
-            $data = ($teenagerMeta) ? $teenagerMeta : [];
+            $data = ($teenagerMeta) ? $teenagerMeta->toArray() : [];
             $response['data'] = $data;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -409,7 +409,7 @@ class ProfileController extends Controller
                 foreach ($teenagerIcons as $key => $icon) {
                     if ($icon->ti_icon_type == 1) {
                         if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
-                        $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
+                            $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
                         } else {
                             $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
                         }
