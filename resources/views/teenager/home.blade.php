@@ -13,7 +13,7 @@
                         <h2 class="das_title">Your Profile</h2>
                         <div class="das_your_profile">
                             <div class="your_profile_img">
-                                <img src="{{ $data['user_profile'] }}" alt="{{ $user->t_name }} {{ $user->t_lastname }}">
+                                <img src="{{ $data['user_profile_thumb'] }}" alt="{{ $user->t_name }} {{ $user->t_lastname }}">
                                 <h6>{{ $user->t_name }} {{ $user->t_lastname }}</h6>
                             </div>
                             <!-- your_profile_img End -->

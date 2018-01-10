@@ -664,7 +664,7 @@
     <section class="sec-guidance">
         <div class="container">
             <h2>Learning Guidance</h2>
-            {!! $learningGuidance->cms_body !!}
+            {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
             <p class="text-center"><a href="{{ url('/teenager/learning-guidance') }}" title="learn more" class="btn btn-primary">learn more</a></p>
         </div>
     </section>
