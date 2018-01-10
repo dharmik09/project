@@ -78,6 +78,7 @@ class CommunityController extends Controller
             } else {
                 $data['loadMoreFlag'] = 0;
             }
+            $data['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->userId);
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -141,6 +142,7 @@ class CommunityController extends Controller
             } else {
                 $data['loadMoreFlag'] = 0;
             }
+            $data['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->userId);
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
