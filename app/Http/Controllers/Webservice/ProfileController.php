@@ -82,9 +82,11 @@ class ProfileController extends Controller
             }
 
             $ads = Helpers::getAds($request->userId);
+            $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
             $response['status'] = 1;
             $response['login'] = 1;
             $response['ads'] = $ads;
+            $response['learningGuidenceDescription'] = strip_tags($learningGuidance->cms_body);
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $teenager;
         } else {
