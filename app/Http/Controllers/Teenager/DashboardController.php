@@ -128,7 +128,7 @@ class DashboardController extends Controller
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
 
-        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', , 'teenagerNetwork', 'teenThumbImageUploadPath'));
+        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath'));
     }
 
     //My profile data
