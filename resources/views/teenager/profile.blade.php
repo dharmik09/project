@@ -68,6 +68,7 @@
                                 <span style="background-image: url({{ $data['user_profile'] }})"></span>
                                 <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
                             </div>
+                            <div class="photo-error"></div>
                             <span class="complete-detail">Profile 62% complete</span>
                         </div>
                         <?php
@@ -768,13 +769,18 @@
             var reader = new FileReader();
             reader.onload = function(e) {
                 var a = document.querySelector("#img-preview");
-                if (input.files[0].size > 3000000) {
-                    alert("File size is too large. Maximum 3MB allowed");
-                    $(this).val('');
+                if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
+                    if (input.files[0].size > 3000000) {
+                        alert("File size is too large. Maximum 3MB allowed");
+                        $(this).val('');
+                    } else {
+                        a.style.backgroundImage = "url('" + e.target.result + "')";
+                        // document.getElementById("#").className = "activated";
+                        a.className = "upload-img activated";
+                    }
                 } else {
-                    a.style.backgroundImage = "url('" + e.target.result + "')";
-                    // document.getElementById("#").className = "activated";
-                    a.className = "upload-img activated";
+                    $(".photo-error").text("File type not allowed");
+                    $(this).val('');
                 }
             };
 
