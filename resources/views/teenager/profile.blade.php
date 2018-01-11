@@ -7,7 +7,7 @@
 @section('content')
     <!--mid section-->
     <!-- profile section-->
-    <section class="sec-profile sponsor-overflow">
+    <section class="sec-profile sponsor-overflow" id="profile-info">
         <div class="container">
             <div class="col-xs-12">
                 @if ($message = Session::get('success'))
@@ -68,6 +68,7 @@
                                 <span style="background-image: url({{ $data['user_profile'] }})"></span>
                                 <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
                             </div>
+                            <div class="photo-error"></div>
                             <span class="complete-detail">Profile 62% complete</span>
                         </div>
                         <?php
@@ -300,7 +301,7 @@
     </section>
     <!-- profile section-->
     <!--sec parents & mentors-->
-    <section class="sec-parents">
+    <section class="sec-parents" id="sec-parents">
         <div class="container">
             <div class="sec-popup">
                 <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop2" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
@@ -360,7 +361,7 @@
     </section>
     <!--sec parents & mentors end-->
     <!-- sec personal survey-->
-    <div class="sec-survey">
+    <div class="sec-survey" id="sec-survey">
         <div class="container">
 
             <div class="sec-popup">
@@ -374,8 +375,14 @@
             </div>
             <h2>Personal Survey</h2>
             <div class="survey-list">
+                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
+                    <div id="loading-text">
+                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+                    </div>
+                    <div id="loading-content"></div>
+                </div>
                 <div class="opinion-sec" id="opinionSection" style="display:none;">
-                
+                    
                 </div>
             </div>
             <!-- <p>Choose three traits that you feel describe you:</p> -->
@@ -436,7 +443,7 @@
     </div>
     <!-- sec personal survey end-->
     <!-- icon voted sec start-->
-    <div class="icon-voted bg-offwhite">
+    <div class="icon-voted bg-offwhite" id="icon-voted">
         <div class="container">
             <h2>Icon Voted in L1</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.</p>
@@ -461,7 +468,7 @@
     </div>
     <!-- icon voted sec end-->
     <!--sec progress-->
-    <section class="sec-progress">
+    <section class="sec-progress" id="sec-progress">
         <div class="container">
             <h2>My Progress</h2>
             <div class="bg-white my-progress profile-tab">
@@ -661,14 +668,14 @@
     </section>
     <!--sec progress end-->
     <!--sec learning guidance-->
-    <section class="sec-guidance">
+    <section class="sec-guidance" id="sec-guidance">
         <div class="container">
             <h2>Learning Guidance</h2>
             {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
             <p class="text-center"><a href="{{ url('/teenager/learning-guidance') }}" title="learn more" class="btn btn-primary">learn more</a></p>
         </div>
     </section>
-    <div class="sec-record">
+    <div class="sec-record" id="sec-record">
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -762,13 +769,18 @@
             var reader = new FileReader();
             reader.onload = function(e) {
                 var a = document.querySelector("#img-preview");
-                if (input.files[0].size > 3000000) {
-                    alert("File size is too large. Maximum 3MB allowed");
-                    $(this).val('');
+                if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
+                    if (input.files[0].size > 3000000) {
+                        alert("File size is too large. Maximum 3MB allowed");
+                        $(this).val('');
+                    } else {
+                        a.style.backgroundImage = "url('" + e.target.result + "')";
+                        // document.getElementById("#").className = "activated";
+                        a.className = "upload-img activated";
+                    }
                 } else {
-                    a.style.backgroundImage = "url('" + e.target.result + "')";
-                    // document.getElementById("#").className = "activated";
-                    a.className = "upload-img activated";
+                    $(".photo-error").text("File type not allowed");
+                    $(this).val('');
                 }
             };
 
@@ -995,14 +1007,23 @@
     });
     
     function getFirstLevelData() {
+        $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        $('#loading-wrapper-sub').show();
         $.ajax({
             url: "{{url('teenager/play-first-level-activity')}}",
             type : 'POST',
             headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
             success: function(data){
-                $('#opinionSection').fadeIn(3000);
+                //$('#opinionSection').fadeIn(3000);
+                $('#opinionSection').show();
                 $('#opinionSection').html(data);
+                $('#loading-wrapper-sub').hide();
+                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             },
+            error: function(){
+                $('#loading-wrapper-sub').hide();
+                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+            }
             // error: function (xhr, ajaxOptions, thrownError) {
             //     var errorMsg = 'Ajax request failed: ' + xhr.responseText;
             //     $('#content').html(errorMsg);
