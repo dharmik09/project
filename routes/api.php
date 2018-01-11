@@ -48,6 +48,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//First Level Part 1 Question/Answer Route
 	Route::post('/getLevel1Questions', 'Webservice\Level1ActivityController@getFirstLevelActivity');
 	Route::post('/submitLevel1Answers', 'Webservice\Level1ActivityController@saveFirstLevelActivity');
+	//First Level Part 2 Route
+	Route::post('/getLevel1Part2Options', 'Webservice\Level1ActivityController@getLevel1Part2Options');
+	Route::post('/submitLevel1Answers', 'Webservice\Level1ActivityController@saveFirstLevelActivity');
 	//Education & Achievement Route
 	Route::post('/getTeenagerAcademicInfo', 'Webservice\ProfileController@getTeenagerAcademicInfo');
 	Route::post('/saveTeenagerAcademicInfo', 'Webservice\ProfileController@saveTeenagerAcademicInfo');
