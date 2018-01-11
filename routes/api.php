@@ -56,6 +56,12 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/submitSelfIcon', 'Webservice\Level1ActivityController@submitSelfIcon');
 	Route::post('/submitRelationIcon', 'Webservice\Level1ActivityController@submitRelationIcon');
 	Route::post('/submitLevel1Part2QualitiesData', 'Webservice\Level1ActivityController@submitLevel1Part2QualitiesData');
+	//
+	Route::post('/addIcon', 'Webservice\Level1ActivityController@addIcon');
+
+// submitLevel1Part2Icon
+// submitLevel1Part2Qualities
+// teenagerUpdateImageAndNickname
 
 	//Education & Achievement Route
 	Route::post('/getTeenagerAcademicInfo', 'Webservice\ProfileController@getTeenagerAcademicInfo');

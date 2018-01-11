@@ -677,7 +677,8 @@ class Level1ActivityController extends Controller
                 $response['login'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
             } else {
-                $response['message'] = trans('appmessages.default_error_msg');
+                $response['login'] = 1;
+                $response['message'] = "Please, select at-least 5 qualities!";
             }
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
