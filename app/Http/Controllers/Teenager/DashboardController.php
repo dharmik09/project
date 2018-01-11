@@ -214,7 +214,7 @@ class DashboardController extends Controller
         if (Helpers::validateDate($stringVariable, "Y-m-d") && $todayDate->gt($birthDate) ) {
             $teenagerDetail['t_birthdate'] = $stringVariable;
         } else {
-            return Redirect::to("teenager/my-profile")->withErrors("Date is invalid")->withInput();
+            return Redirect::to("teenager/my-profile#profile-info")->withErrors("Date is invalid")->withInput();
             exit;
         }
         $teenagerDetail['t_gender'] = (isset($body['gender']) && $body['gender'] != '') ? $body['gender'] : '';
@@ -235,16 +235,16 @@ class DashboardController extends Controller
 
         //Check all default field value -> If those are entered dummy by users
         if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['t_phone'] == '' || $t_email == '') {
-            return Redirect::to("teenager/my-profile")->withErrors(trans('validation.someproblems'))->withInput();
+            return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('validation.someproblems'))->withInput();
             exit;
         }
         if (!isset($body['selected_sponsor']) || count($body['selected_sponsor']) < 1) {
-            return Redirect::to("teenager/my-profile")->withErrors("Please select atleast one sponsor choice")->withInput();
+            return Redirect::to("teenager/my-profile#profile-info")->withErrors("Please select atleast one sponsor choice")->withInput();
             exit;
         }
 
         if (!in_array($teenagerDetail['t_gender'], array("1", "2"))) {
-            return Redirect::to("teenager/my-profile")->withErrors(trans('validation.someproblems'))->withInput();
+            return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('validation.someproblems'))->withInput();
             exit;
         }
         $teenagerMobileExist = false;
@@ -259,11 +259,11 @@ class DashboardController extends Controller
 
         if ($teenagerEmailExist) {
             $response['message'] = trans('appmessages.userwithsameemailaddress');
-            return Redirect::to("teenager/my-profile")->withErrors(trans('appmessages.userwithsameemailaddress'))->withInput();
+            return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('appmessages.userwithsameemailaddress'))->withInput();
             exit;
         } else if ($teenagerMobileExist) {
             $response['message'] = trans('appmessages.userwithsamenumber');
-            return Redirect::to("teenager/my-profile")->withErrors(trans('appmessages.userwithsamenumber'))->withInput();
+            return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('appmessages.userwithsamenumber'))->withInput();
             exit;
         } else {
             /* save sponser by teenager id if sponsor id is not blank */
@@ -298,9 +298,9 @@ class DashboardController extends Controller
             }
             $teenUpdate = $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
             if (isset($teenUpdate) && !empty($teenUpdate)) {
-                return Redirect::to("teenager/my-profile")->with('success', 'Profile updated successfully.');
+                return Redirect::to("teenager/my-profile#profile-info")->with('success', 'Profile updated successfully.');
             } else {
-                return Redirect::to("teenager/my-profile")->withErrors(trans('validation.somethingwrong'));
+                return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('validation.somethingwrong'));
             }
             exit;
         }
@@ -362,7 +362,7 @@ class DashboardController extends Controller
         
         $parentTeenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($request->parent_email);
         if ($parentTeenagerEmailExist) {
-            return Redirect::to("teenager/my-profile")->with('error', 'Same email already exist for teenager, Please use different one.')->withInput();
+            return Redirect::to("teenager/my-profile#sec-parents")->with('error', 'Same email already exist for teenager, Please use different one.')->withInput();
             exit;
         } else {
             $parentEmailExist = $this->parentsRepository->checkActiveEmailExist($request->parent_email);
@@ -380,11 +380,11 @@ class DashboardController extends Controller
                     } else {
                         $response['message'] = trans('Invitation already sent by you. Verification link emailed to them. Please, complete verification process.');
                     }
-                    return Redirect::to("teenager/my-profile")->with('error', $response['message'])->withInput();
+                    return Redirect::to("teenager/my-profile#sec-parents")->with('error', $response['message'])->withInput();
                     exit;
                 } else {
                     $response['message'] = trans('You already paired with this user');
-                    return Redirect::to("teenager/my-profile")->with('error', $response['message'])->withInput();
+                    return Redirect::to("teenager/my-profile#sec-parents")->with('error', $response['message'])->withInput();
                     exit;
                 }
             } else {
@@ -453,7 +453,7 @@ class DashboardController extends Controller
                     
                 // });
                 // ------------------------end sending mail ----------------------------//
-                return Redirect::to("teenager/my-profile")->with('success', 'Your invitation has been sent successfully.');
+                return Redirect::to("teenager/my-profile#sec-parents")->with('success', 'Your invitation has been sent successfully.');
                 exit; 
             }
         }

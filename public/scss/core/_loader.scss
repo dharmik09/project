@@ -14,6 +14,9 @@
     z-index: 99999;
     overflow: hidden;
    display: none;
+    &.bg-offwhite{
+        background: $bg-offwhite;
+    }
     #loading-text {
         top: 200px;
     }
@@ -32,6 +35,9 @@
     z-index: 9999;
     overflow: hidden;
    display: none;
+    &.bg-offwhite{
+        background: $bg-offwhite;
+    }
     .refresh-text{
         top: 50%;left: 50%;transform: translate(-50%,-50%);position: absolute;
     }
