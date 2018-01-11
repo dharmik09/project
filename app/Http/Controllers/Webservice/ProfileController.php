@@ -94,7 +94,7 @@ class ProfileController extends Controller
             } else {
                 $getCityArea = ( $teenager->c_name != "" ) ? $teenager->c_name : "Default";
             }
-            
+            $teenager->t_about_info = (isset($teenager->t_about_info) && !empty($teenager->t_about_info)) ? $teenager->t_about_info : "";
             $response['teenagerLocationArea'] = $getCityArea. " Area";
             $response['profileComplete'] = "Profile 62% complete";
             $response['facebookUrl'] = "https://facebook.com";

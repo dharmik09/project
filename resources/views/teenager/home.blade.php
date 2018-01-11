@@ -425,17 +425,17 @@
         });
         return false;
     });
-</script>
-        $('#network').click(function() {
-            $('.expandNetwork').slideToggle('medium', function() {
-                if ($(this).is(':visible')) {
-                    $(this).css('display','block');
-                    $("#network").text("Collapse");
-                } else {
-                    $("#network").text("Expand");
-                }
-            });
-            return false;
+
+    $('#network').click(function() {
+        $('.expandNetwork').slideToggle('medium', function() {
+            if ($(this).is(':visible')) {
+                $(this).css('display','block');
+                $("#network").text("Collapse");
+            } else {
+                $("#network").text("Expand");
+            }
         });
-    </script>
+        return false;
+    });
+</script>
 @stop

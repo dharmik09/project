@@ -716,4 +716,7 @@ return [
     'appversionversion' => 'Version',
     'lbltrue' => 'True',
     'lblfalse' => 'False',
+    'formlblselectsection' => 'Select Section',
+    'formlblsection' => 'Section',
+    'activityblheadsection' => 'Section',
 ];
