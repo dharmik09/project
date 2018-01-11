@@ -53,6 +53,7 @@
                             $mit_name=$value->l2ac_mi_type;
                             $pt_name=$value->l2ac_personality_type;
                             $l2ac_image = $value->l2ac_image;
+                            $section = $value->section_type;
 
                             $option = explode("," , $l2op_option);
                             $l2op_fraction = explode("," , $l2op_fraction);
@@ -72,6 +73,7 @@
                         $mit_name='';
                         $pt_name='';
                         $l2ac_image = '';
+                        $section = '';
                         
                         $option=array();
                         $option[0]='';
@@ -234,8 +236,19 @@
                                 </select>
                             </div>
                         </div>
-                        
 
+
+                    <div class="form-group">
+                        <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblsection')}}</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="section_type" name="section_type">
+                                <option value="" disabled>{{trans('labels.formlblselectsection')}}</option>
+                                <option value="{{Config::get('constant.LEVEL2_SECTION_1')}}" <?php if($section == Config::get('constant.LEVEL2_SECTION_1')) echo 'selected'; ?>>{{trans('labels.formlblsection')}} {{Config::get('constant.LEVEL2_SECTION_1')}}</option>
+                                <option value="{{Config::get('constant.LEVEL2_SECTION_2')}}" <?php if($section == Config::get('constant.LEVEL2_SECTION_2')) echo 'selected'; ?>>{{trans('labels.formlblsection')}} {{Config::get('constant.LEVEL2_SECTION_2')}}</option>
+                                <option value="{{Config::get('constant.LEVEL2_SECTION_3')}}" <?php if($section == Config::get('constant.LEVEL2_SECTION_3')) echo 'selected'; ?>>{{trans('labels.formlblsection')}} {{Config::get('constant.LEVEL2_SECTION_3')}}</option>
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblstatus')}}</label>
@@ -345,6 +358,9 @@
                 'l2op_option[]' : {
                     required : true
                 },
+                section_type : {
+                    required : true
+                },
                 deleted : {
                     required : true
                 }
@@ -362,6 +378,9 @@
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 'l2op_option[]' : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                section_type : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {

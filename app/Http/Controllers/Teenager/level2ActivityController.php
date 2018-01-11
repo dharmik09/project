@@ -80,7 +80,7 @@ class level2ActivityController extends Controller {
             $response['sectionPercentage'] = 'Begin now';
         }
         else{
-            $response['sectionPercentage'] = $sectionPercentage.'% Complete';
+            $response['sectionPercentage'] = number_format((float)$sectionPercentage, 0, '.', '').'% Complete';
         }
         
         $activities = $this->Level2ActivitiesRepository->getNotAttemptedActivitiesBySection($user->id,$section);

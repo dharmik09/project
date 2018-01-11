@@ -78,9 +78,9 @@ class level2ActivityController extends Controller {
                 $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
             }
 
-            $data['section_1_Percentage'] = $section1Percentage;
-            $data['section_2_Percentage'] = $section2Percentage;
-            $data['section_3_Percentage'] = $section3Percentage;
+            $data['section_1_Percentage'] = number_format((float)$section1Percentage, 0, '.', '');
+            $data['section_2_Percentage'] = number_format((float)$section2Percentage, 0, '.', '');
+            $data['section_3_Percentage'] = number_format((float)$section3Percentage, 0, '.', '');
 
             $data['section_1'] = $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId,Config::get('constant.LEVEL2_SECTION_1'));
             $data['section_2'] = $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId,Config::get('constant.LEVEL2_SECTION_2'));
