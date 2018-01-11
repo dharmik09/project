@@ -30,6 +30,7 @@
                                 <th>{{trans('labels.activityblheadpoints')}}</th>
                                 <th>{{trans('labels.activityblheadoptions')}}</th>
                                 <th>{{trans('labels.activityblheadstatus')}}</th>
+                                <th>{{trans('labels.activityblheadsection')}}</th>
                                 <th>{{trans('labels.activityblheadaction')}}</th>
                             </tr>
                         </thead>
@@ -83,6 +84,9 @@
                                     @else
                                         <i class="s_inactive fa fa-square"></i>
                                     @endif
+                                </td>
+                                <td>
+                                     {{trans('labels.activityblheadsection')}}-{{$level2activity->section_type}}
                                 </td>
                                 <td>
                                     <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
