@@ -53,16 +53,22 @@ class level2ActivityController extends Controller {
             $getLastAttemptedQuestionData = $this->Level2ActivitiesRepository->getLastAttemptedQuestionData($user->id);
             if (isset($getLastAttemptedQuestionData->l2ans_answer_timer)) {
                 if($getLastAttemptedQuestionData->l2ans_answer_timer >= $level2TotalTime){
-                    $response['timer'] = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
+                    $timer = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
                 } else {
-                    $response['timer'] = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
+                    $timer = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
                 }
                 
             } else {
-                $response['timer'] = $level2TotalTime;
+                $timer = $level2TotalTime;
             }
         } else {
-            $response['timer'] = $level2TotalTime;
+            $timer = $level2TotalTime;
+        }
+
+        if($timer < 0){
+            $response['timer'] = 0;
+        } else{
+            $response['timer'] = $timer;
         }
 
         $sectionPercentageCollection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,$section);      

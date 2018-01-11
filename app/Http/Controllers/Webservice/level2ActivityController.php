@@ -42,16 +42,22 @@ class level2ActivityController extends Controller {
                 $getLastAttemptedQuestionData = $this->Level2ActivitiesRepository->getLastAttemptedQuestionData($request->userId);
                 if (isset($getLastAttemptedQuestionData->l2ans_answer_timer)) {
                     if($getLastAttemptedQuestionData->l2ans_answer_timer >= $level2TotalTime){
-                        $data['timer'] = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
+                        $timer = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
                     } else {
-                        $data['timer'] = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
+                        $timer = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
                     }
                     
                 } else {
-                    $data['timer'] = $level2TotalTime;
+                    $timer = $level2TotalTime;
                 }
             } else {
-                $data['timer'] = $level2TotalTime;
+                $timer = $level2TotalTime;
+            }
+
+            if($timer < 0){
+                $data['timer'] = 0;
+            } else{
+                $data['timer'] = $timer;
             }
 
             $section1Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($request->userId,Config::get('constant.LEVEL2_SECTION_1'));
