@@ -94,6 +94,16 @@
             width: 50%;
         }
     }
+    .row{
+        display: flex;
+        flex-wrap: wrap;
+        &:before, &:after{
+            display: block;
+        }
+        [class*="col-"]{
+            align-items: flex-start;
+        }
+    }
     .connection-block {
         figure {
             position: relative;

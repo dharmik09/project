@@ -8,6 +8,9 @@
   //border: 2px solid #c8cbce;
   background-color: #c8cbce;
     margin: 0 auto;
+    @include maxlg{
+        width: 150px;height: 150px;
+    }
     @include maxmd{
       width: 140px;height: 140px;
     }
