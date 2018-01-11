@@ -1503,17 +1503,21 @@ input:checked + .slider:before {
             width: 100%;
         }
         .careers-block {
+            margin-bottom: 50px;
             .careers-img {
                 display: inline-block;
                 width: 40%;
                 margin-left: -4px;
                 vertical-align: middle;
-                font-size: 80px;
+               // font-size: 80px;
+                span{
+                    width: 80px;display: inline-block;
+                }
                 @include maxmd {
-                    font-size: 60px;
+                  //  font-size: 60px;
                 }
                 @include maxsm {
-                    font-size: 50px;
+                   // font-size: 50px;
                 }
             }
             .careers-content {
@@ -1597,7 +1601,7 @@ input:checked + .slider:before {
                 @include maxmd{
                     font-size: 18px;
                 }
-                @inlcude maxms{
+                @include maxms{
                     margin-bottom: 30px;
                 }
                 @include maxms{
@@ -2066,6 +2070,7 @@ span.password-info {
             background-color: $h-cl;
             .sr-only {
                 position: relative;
+                top: -20px;
             }
         }
 

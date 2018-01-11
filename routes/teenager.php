@@ -83,10 +83,9 @@ Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@i
 //Route::get('/accept-connection-request', 'Teenager\CommunityManagementController@acceptRequest')->name('accept-connection-request');
 //Route::get('/reject-connection-request', 'Teenager\CommunityManagementController@rejectRequest')->name('reject-connection-request');
 
-Route::get('/learning-guidance', function() {
-	return view('teenager.learningGuidance');
-});
-
+//Learning Guidance
+Route::get('/learning-guidance', 'Teenager\HomeController@learningGuidance');
+	
 //Network
 Route::get('/my-network', function() {
 	return view('teenager.network');

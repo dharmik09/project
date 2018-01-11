@@ -33,11 +33,12 @@ Route::group([ 'middleware' => ['api-outside'] ], function () {
 Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/setPassword', 'Webservice\PasswordController@setPassword');
 	Route::post('/changePassword', 'Webservice\PasswordController@changePassword');
-	
+	//profile page
 	Route::post('/updateProfile', 'Webservice\ProfileController@updateProfile');
 	Route::post('/getTeenagerProfileData', 'Webservice\ProfileController@getTeenagerProfileData');
 	Route::post('/deleteTeenagerData', 'Webservice\ProfileController@deleteTeenagerData');
 	Route::post('/saveTeenagerAboutInfo', 'Webservice\ProfileController@saveTeenagerAboutInfo');
+	Route::post('/getTeenagerEarnAchievement', 'Webservice\ProfileController@getTeenagerEarnAchievement');
 
 	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
 	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
@@ -46,6 +47,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/parentTeenPair', 'Webservice\ParentController@parentTeenPair');
 	//First Level Part 1 Question/Answer Route
 	Route::post('/getLevel1Questions', 'Webservice\Level1ActivityController@getFirstLevelActivity');
+	Route::post('/submitLevel1Answers', 'Webservice\Level1ActivityController@saveFirstLevelActivity');
+	//First Level Part 2 Route
+	Route::post('/getLevel1Part2Options', 'Webservice\Level1ActivityController@getLevel1Part2Options');
 	Route::post('/submitLevel1Answers', 'Webservice\Level1ActivityController@saveFirstLevelActivity');
 	//Education & Achievement Route
 	Route::post('/getTeenagerAcademicInfo', 'Webservice\ProfileController@getTeenagerAcademicInfo');
@@ -62,6 +66,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getInterestDetail', 'Webservice\DashboardController@getInterestDetail');
 	Route::post('/getStrengthDetail', 'Webservice\DashboardController@getStrengthDetail');
 	Route::post('/getTeenagerNetwork', 'Webservice\DashboardController@getTeenagerNetwork');
+	Route::post('/getTeenagerCareers', 'Webservice\DashboardController@getTeenagerCareers');
+	Route::post('/getTeenagerCareersConsider', 'Webservice\DashboardController@getTeenagerCareersConsider');
+	
 	//Community
 	Route::post('/communityNewConnections', 'Webservice\CommunityController@communityNewConnections');
 	Route::post('/communityMyConnections', 'Webservice\CommunityController@communityMyConnections');
@@ -75,6 +82,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getLevel2Activity', 'Webservice\level2ActivityController@getLevel2Activity');
 	Route::post('/saveLevel2Activity', 'Webservice\level2ActivityController@saveLevel2Activity');
 	//Route::post('/getNetworkMemberDetails', 'Webservice\NetworkController@getNetworkMemberDetails');
+
+	//Learning Guidance
+	Route::post('/learningGuidance', 'Webservice\HomeController@learningGuidance');
 	
 });
 

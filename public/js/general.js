@@ -108,8 +108,8 @@ $(document).ready(function () {
     $('body').on('click', '.popover-closer', function (event) {
         $('.custompop').popover('hide');
     });
-    
-   
+
+
     /*// add iframe url for a map
 		function loadMap(iframeObject)
 		{
@@ -158,7 +158,7 @@ $(document).ready(function () {
     //loading page css
     //$('#loading-wrapper').remove();
     setTimeout(function () {
-    $('#loading-wrapper').hide();
+        $('#loading-wrapper').hide();
     }, 2500);
     /*$('#loading-wrapper-sub').hide();
     }, 2500);*/
@@ -239,7 +239,7 @@ $(document).ready(function () {
             });
         });
     });
-        $('.btnLoad').click(function() {
+    $('.btnLoad').click(function () {
         $(".loader_con").show();
         var offset = $(this).val();
         //alert(offset);
@@ -252,7 +252,7 @@ $(document).ready(function () {
                 action: 'loadmore_posts',
                 offset1: offset
             },
-            success: function(response) {
+            success: function (response) {
                 var response = $.parseJSON(response);
                 console.log(response);
                 $('.loader_con').addClass('gif-none');
@@ -268,7 +268,24 @@ $(document).ready(function () {
             }
         });
     });
+    //refresh loader
+    $('.refresh-text').click(function () {
+        $(".refresh-img").attr('src', "img/Reload.gif");
+    });
+    
 });
+/*$(document).ready(function () {
+    // Handler for .ready() called.
+    $('html, body').animate({
+       $('#' + divToScrollTo).offset().top
+    }, 'slow');
+});*/
+/*$(function(){
+  // get hash value
+  var hash = window.location.hash;
+  // now scroll to element with that id
+  $('window, body').animate({ scrollTop: $(hash).offset().top },2000);
+});*/
 //menu close
 $(document).keydown(function (e) {
     // ESCAPE key pressed

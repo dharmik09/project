@@ -2860,4 +2860,76 @@ Class Helpers {
         $filterOptionArr['toDate'] = $toDate->format('Y-m-d');
         return $filterOptionArr;
     }
+
+    public static function learningGuidance()
+    {
+        $learningGuidance = array();
+        $learningGuidance['learningGuidanceInfo'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lobortis vestibulum ipsum id commodo. Curabitur non turpis eget turpis laoreet mattisac sit amet turpismolestie lacus non, elementum velit.";
+        $subPanelData[0] = array(
+                                'id' => 1,
+                                'title' => 'Remembering',
+                                'titleColor' => '#f1c246',
+                                'titleType' => Config::get('constant.MEDIUM_FLAG'),
+                                'subPanelDescription' => 'Recalling terminology, dates, or any information previously learned relevant to a subject.<strong>Example:</strong> To be able to list primary and secondary colors, list numbers.',
+                            );
+        $subPanelData[1] = array(
+                                'id' => 2,
+                                'title' => 'Understanding',
+                                'titleColor' => '#07c9a7',
+                                'titleType' => Config::get('constant.EASY_FLAG'),
+                                'subPanelDescription' => 'Interpretting or summarizing facts into something simpler to understand.<strong>Example:</strong> To be able to summarize features of a new product, para-phrase lines from a poem.',
+                            );
+        $subPanelData[2] = array(
+                                'id' => 3,
+                                'title' => 'Applying Analyzing',
+                                'titleColor' => '#f58634',
+                                'titleType' => Config::get('constant.CHALLENGING_FLAG'),
+                                'subPanelDescription' => 'Applying facts and terminology in any situation.<strong>Example 1:</strong> To be able to respond to FAQ’s, classify species of birds and animals. Analyzing facts and terminology in any situation.<strong>Example 2:</strong> To be able to select the most complete list of activities, outline admission steps.',
+                            );
+        $subPanelData[3] = array(
+                                'id' => 4,
+                                'title' => 'Evaluating Creating',
+                                'titleColor' => '#f58634',
+                                'titleType' => Config::get('constant.CHALLENGING_FLAG'),
+                                'subPanelDescription' => 'Evaluating given facts or creating new facts as relevant to the subject.<strong>Example 1:</strong> TTo be able to check for consistency amongst sources, rank students by age. Creating new facts as relevant to a subject.<strong>Example 2:</strong> To be able to generate a log of daily activities, categorize by age groups.',
+                            );
+        $factualPanelArray = array(
+                                'id' => 1,
+                                'name' => 'Factual',
+                                'slug' => Config::get('constant.FACTUAL_SLUG'),
+                                'panelColor' => '#ff5f44',
+                                'image' => Storage::url('img/brain-img.png'),
+                                'subPanelData' => $subPanelData
+                            );
+        $conceptualPanelArray = array(
+                                'id' => 2,
+                                'name' => 'Conceptual',
+                                'slug' => Config::get('constant.CONSEPTUAL_SLUG'),
+                                'panelColor' => '#27a6b5',
+                                'image' => Storage::url('img/bulb-img.png'),
+                                'subPanelData' => $subPanelData
+                            );
+        $proceduralPanelArray = array(
+                                'id' => 3,
+                                'name' => 'Procedural',
+                                'slug' => Config::get('constant.PROCEDURAL_SLUG'),
+                                'panelColor' => '#65c6e6',
+                                'image' => Storage::url('img/puzzle-img.png'),
+                                'subPanelData' => $subPanelData
+                            );
+        $metacognitivePanelArray = array(
+                                'id' => 4,
+                                'name' => 'Meta-Cognitive',
+                                'slug' => Config::get('constant.META_SLUG'),
+                                'panelColor' => '#73376d',
+                                'image' => Storage::url('img/star-img.png'),
+                                'subPanelData' => $subPanelData
+                            );
+        
+        $learningGuidance['panelData'][0] = $factualPanelArray;
+        $learningGuidance['panelData'][1] = $conceptualPanelArray;
+        $learningGuidance['panelData'][2] = $proceduralPanelArray;
+        $learningGuidance['panelData'][3] = $metacognitivePanelArray;
+        return $learningGuidance;
+    }
 }

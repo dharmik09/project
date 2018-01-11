@@ -5,7 +5,7 @@
 
 .network-filter {
     label {
-        margin-right: 10px;
+        margin-right: 0px;
         @include maxsm {
             display: block;
             margin-right: 0;
@@ -92,6 +92,16 @@
     .col-xs-4{
         @include maxms{
             width: 50%;
+        }
+    }
+    .row{
+        display: flex;
+        flex-wrap: wrap;
+        &:before, &:after{
+            display: block;
+        }
+        [class*="col-"]{
+            align-items: flex-start;
         }
     }
     .connection-block {
