@@ -118,21 +118,21 @@ class DashboardController extends Controller
             $section1 = 'Begin now';
         }
         else{
-            $section1 = $section1Percentage.'% Complete';
+            $section1 = number_format((float)$section1Percentage, 0, '.', '').'% Complete';
         }
 
         if($section2Percentage == 0){
             $section2 = 'Begin now';
         }
         else{
-            $section2 = $section2Percentage.'% Complete';
+            $section2 = number_format((float)$section2Percentage, 0, '.', '').'% Complete';
         }
 
         if($section3Percentage == 0){
             $section3 = 'Begin now';
         }
         else{
-            $section3 = $section3Percentage.'% Complete';
+            $section3 = number_format((float)$section3Percentage, 0, '.', '').'% Complete';
         }
 
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id);
