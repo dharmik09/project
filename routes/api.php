@@ -58,10 +58,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/submitLevel1Part2QualitiesData', 'Webservice\Level1ActivityController@submitLevel1Part2QualitiesData');
 	//
 	Route::post('/addIcon', 'Webservice\Level1ActivityController@addIcon');
-
-// submitLevel1Part2Icon
-// submitLevel1Part2Qualities
-// teenagerUpdateImageAndNickname
+	Route::post('/submitLevel1Part2Icon', 'Webservice\Level1ActivityController@submitLevel1Part2Icon');
+	Route::post('/submitLevel1Part2Qualities', 'Webservice\Level1ActivityController@submitLevel1Part2Qualities');
+	Route::post('/teenagerUpdateImageAndNickname', 'Webservice\Level1ActivityController@teenagerUpdateImageAndNickname');
 
 	//Education & Achievement Route
 	Route::post('/getTeenagerAcademicInfo', 'Webservice\ProfileController@getTeenagerAcademicInfo');
@@ -97,9 +96,4 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 
 	//Learning Guidance
 	Route::post('/learningGuidance', 'Webservice\HomeController@learningGuidance');
-	
 });
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });

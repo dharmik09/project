@@ -123,7 +123,6 @@ class Level1ActivityController extends Controller
     }
     /* Request Params : saveFirstLevelActivity
     *  loginToken, userId, questionId, answerId
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function saveFirstLevelActivity(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -160,7 +159,6 @@ class Level1ActivityController extends Controller
 
     /* Request Params : getLevel1Part2Options
     *  loginToken, userId
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function getLevel1Part2Options(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -291,7 +289,6 @@ class Level1ActivityController extends Controller
 
     /* Request Params : getLevel1Part2Category
     *  loginToken, userId, categoryType
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function getLevel1Part2Category(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -384,7 +381,6 @@ class Level1ActivityController extends Controller
 
     /* Request Params : getLevel1Part2IconData
     *  loginToken, userId, categoryType, page, categoryId
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function getLevel1Part2IconData(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -436,7 +432,6 @@ class Level1ActivityController extends Controller
 
     /* Request Params : getSearchLevel1Part2IconData
     *  loginToken, userId, categoryType, page, categoryId, searchIcon
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function getSearchLevel1Part2IconData(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -489,7 +484,6 @@ class Level1ActivityController extends Controller
 
     /* Request Params : submitSelfIcon
     *  loginToken, userId, categoryType, nickname // lastname, name, selfIconType, selfIconId, profilePic
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function submitSelfIcon(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -562,7 +556,6 @@ class Level1ActivityController extends Controller
 
     /* Request Params : submitRelationIcon
     *  loginToken, userId, relationName, relationIconType, relationIconId, relationId, relativeImage
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function submitRelationIcon(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -615,7 +608,6 @@ class Level1ActivityController extends Controller
 
     /* Request Params : submitLevel1Part2QualitiesData
     *  loginToken, userId, qualitiesId, categoryId, categoryType, 
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function submitLevel1Part2QualitiesData(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -689,7 +681,6 @@ class Level1ActivityController extends Controller
 
     /* Request Params : addIcon
     *  loginToken, userId, categoryType, categoryId, characterName, image, 
-    *  Array of not attempted all level 1 part 1 questions
     */
     public function addIcon(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -774,4 +765,108 @@ class Level1ActivityController extends Controller
         return response()->json($response, 200);
         exit;
     }
+
+    /* Request Params : submitLevel1Part2Icon
+    *  loginToken, userId, fictionIconId, fictionIconType, nonfictionIconType, nonfictionIconId, relationIconType, relationIconId, relationName, relationId, selfIconType, selfIconId, nickname, lastname, relativeImage, profilePic
+    */
+    public function submitLevel1Part2Icon(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $teenagerID = $request->userId;
+            //For Fiction data
+            if ($request->fictionIconType != '' && $request->fictionIconId != '') {
+                $teenIconSelection[] = array("ti_teenager" => $teenagerID, "ti_icon_type" => $request->fictionIconType, "ti_icon_id" => $request->fictionIconId);
+            }
+
+            //For Non-Fiction data
+            if ($request->nonfictionIconType != '' && $request->nonfictionIconId != '') {
+                $teenIconSelection[] = array("ti_teenager" => $teenagerID, "ti_icon_type" => $request->nonfictionIconType, "ti_icon_id" => $request->nonfictionIconId);
+            }
+
+            //For Relation data
+            if ($request->relationIconType != '' && $request->relationIconId != '') {
+                $fileName = '';
+                if (Input::file('relativeImage')) {
+                    $file = Input::file('relativeImage');
+                    if (!empty($file)) {
+                        $fileName = 'relation_' . time() . '.' . $file->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->relationIconOriginalImageUploadPath . $fileName);
+                        $pathThumb = public_path($this->relationIconThumbImageUploadPath . $fileName);
+                        Image::make($file->getRealPath())->save($pathOriginal);
+                        Image::make($file->getRealPath())->resize($this->relationIconThumbWidth, $this->relationIconThumbHeight)->save($pathThumb);
+                        //Upload on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->relationIconOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->relationIconThumbImageUploadPath, $pathThumb, "s3");
+                        //Delete local files
+                        \File::delete($this->relationIconOriginalImageUploadPath . $fileName);
+                        \File::delete($this->relationIconThumbImageUploadPath . $fileName);
+                    }
+                    $teenIconSelection[] = array("ti_teenager" => $teenagerID, "ti_icon_type" => $request->relationIconType, "ti_icon_id" => $request->relationIconId, 'ti_icon_name' => $request->relationName, 'ti_icon_image' => $fileName, 'ti_icon_relation' => $request->relationId);
+                } elseif ($request->relationName != '' && $request->relationId != '') {
+                    $teenIconSelection[] = array("ti_teenager" => $teenagerID, "ti_icon_type" => $request->relationIconType, "ti_icon_id" => $request->relationIconId, 'ti_icon_name' => $request->relationName, 'ti_icon_image' => $fileName, 'ti_icon_relation' => $request->relationId);
+                } else {
+                    $teenIconSelection[] = array("ti_teenager" => $teenagerID, "ti_icon_type" => $request->relationIconType, "ti_icon_id" => $request->relationIconId, 'ti_icon_name' => '', 'ti_icon_image' => $fileName, 'ti_icon_relation' => '');
+                }
+            }
+
+            //For self data
+            $teenagerDetail['t_nickname'] = '';
+            if ($request->selfIconType != '' && $request->selfIconId != '') {
+                $teenagerDetail['t_nickname'] = ($request->nickname != "") ? $request->nickname : "";
+                $teenagerDetail['t_lastname'] = ($request->lastname != "") ? $request->lastname : "";
+                $fileName = '';
+                $self_user_image_url = '';
+                if (Input::file()) {
+                    $file = Input::file('profilePic');
+                    if (!empty($file)) {
+                        $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
+                        $pathThumb = public_path($this->teenThumbImageUploadPath . $fileName);
+
+                        Image::make($file->getRealPath())->save($pathOriginal);
+                        Image::make($file->getRealPath())->resize($this->teenThumbImageWidth, $this->teenThumbImageHeight)->save($pathThumb);
+                        //Upload on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                        //Delete local files
+                        \File::delete($this->teenOriginalImageUploadPath . $fileName);
+                        \File::delete($this->teenThumbImageUploadPath . $fileName);
+                        
+                        $teenagerDetail['t_photo'] = $fileName;
+                        $self_user_image_url = Storage::url($this->teenOriginalImageUploadPath . $fileName);
+                    }
+                }
+                $teenagerDetailSaved = $this->teenagersRepository->updateTeenagerImageAndNickname($teenagerID, $teenagerDetail);
+                $teenIconSelection[] = array("ti_teenager" => $teenagerID, "ti_icon_type" => $request->selfIconType, "ti_icon_id" => $request->selfIconId);
+            }
+
+            foreach ($teenIconSelection as $key => $val) {
+                $lastInterId[] = $this->Level1ActivitiesRepository->saveTeenagerLevel1Part2($val);
+            }
+            
+            $response['status'] = 1;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = array('iconDataID' => $lastInterId, 'user_self_image_url' => $self_user_image_url);
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : submitLevel1Part2Qualities
+    *  loginToken, userId, 
+    */
+    public function submitLevel1Part2Qualities(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
 }
