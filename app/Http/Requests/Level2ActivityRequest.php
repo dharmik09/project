@@ -27,6 +27,7 @@ class Level2ActivityRequest extends Request
             return [
                 'l2ac_text'          => 'required',
                 'l2op_option'  => 'required',
+                'section_type'         => 'required',
                 'deleted'         => 'required'
             ];
     }
@@ -35,6 +36,7 @@ class Level2ActivityRequest extends Request
         return [
             'l2ac_text.required' => trans('validation.activitytextrequired'),
             'l2op_option' => trans('validation.activityoptionrequired'),
+            'section_type.required' => trans('validation.sectionrequired'),
             'deleted.required' => trans('validation.statusrequired')
 
         ];

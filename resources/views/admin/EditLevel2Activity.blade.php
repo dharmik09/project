@@ -358,6 +358,9 @@
                 'l2op_option[]' : {
                     required : true
                 },
+                section_type : {
+                    required : true
+                },
                 deleted : {
                     required : true
                 }
@@ -375,6 +378,9 @@
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 'l2op_option[]' : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                section_type : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {
