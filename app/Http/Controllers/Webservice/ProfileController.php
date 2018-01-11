@@ -100,6 +100,7 @@ class ProfileController extends Controller
             $response['facebookUrl'] = "https://facebook.com";
             $response['googleUrl'] = "https://google.com";
             $response['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->userId);
+            $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
 
             $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
             $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
