@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Webservice;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Auth;
 use Illuminate\Http\Request;
 use Config;
@@ -25,9 +26,10 @@ class Level1ActivityController extends Controller
      *
      * @return void
      */
-    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
+    public function __construct(FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
     {
         $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->objLevel1Activity = new Level1Activity;
         $this->teenagersRepository = $teenagersRepository;
         $this->level1ActivityThumbImageUploadPath = Config::get('constant.LEVEL1_ACTIVITY_THUMB_IMAGE_UPLOAD_PATH');
@@ -44,6 +46,11 @@ class Level1ActivityController extends Controller
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
         $this->relationIconOriginalImageUploadPath = Config::get('constant.RELATION_ICON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
+        $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
+        $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
+        $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
         
     }
 
@@ -206,7 +213,7 @@ class Level1ActivityController extends Controller
                     $cartooniconList['imageOriginal'] = asset($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
                 }
 
-                $cartooniconList['categoryID'] = $cartoon->ci_category;
+                $cartooniconList['categoryId'] = $cartoon->ci_category;
                 $maincartoonIconArray[] = $cartooniconList;
             }
             $mainArray['fictional']['Characters'] = $maincartoonIconArray;
@@ -239,7 +246,7 @@ class Level1ActivityController extends Controller
                         $humaniconList['imageOriginal'] = asset($this->humanOriginalImageUploadPath . 'proteen-logo.png');
                     }
 
-                    $humaniconList['categoryID'] = $human->hi_category;
+                    $humaniconList['categoryId'] = $human->hi_category;
                     $mainhumanIconArray[] = $humaniconList;
                 }
                 $mainArray['nonfictional']['Characters'] = $mainhumanIconArray;
@@ -271,6 +278,309 @@ class Level1ActivityController extends Controller
         } else {
             $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel1Part2Options'));
             $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getLevel1Part2Category
+    *  loginToken, userId, categoryType
+    *  Array of not attempted all level 1 part 1 questions
+    */
+    public function getLevel1Part2Category(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $mainArray = [];
+                $type = ($request->categoryType != "") ? $request->categoryType : '0';
+                $qualityDetail = $this->level1ActivitiesRepository->getLevel1qualities();
+                $mainqualityArray = [];
+                foreach ($qualityDetail as $detail) {
+                    $qualityList = [];
+                    $qualityList['id'] = $detail->id;
+                    $qualityList['quality'] = $detail->l1qa_name;
+                    $mainqualityArray[] = $qualityList;
+                }
+                $mainArray['qualityList'] = $mainqualityArray;
+                //Get top trending images
+                $topTrendingImages = $this->level1ActivitiesRepository->getAllTopTrendingImages($type);
+                $topImages['image'] = $toptrending = [];
+                if (!empty($topTrendingImages)) {
+                    foreach ($topTrendingImages as $key => $val) {
+                        if ($type == 2) {
+                            $topImages['image'] = ($val->ci_image != "") ? Storage::url($this->humanThumbImageUploadPath . $val->ci_image) : Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                            $topImages['imageOriginal'] = ($val->ci_image != "") ? Storage::url($this->humanOriginalImageUploadPath . $val->ci_image) : Storage::url($this->humanOriginalImageUploadPath . 'proteen-logo.png'); 
+                        } else if($type == 1) {
+                            $topImages['image'] = ($val->ci_image != "") ? Storage::url($this->cartoonThumbImageUploadPath . $val->ci_image) : Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                            $topImages['image'] = ($val->ci_image != "") ? Storage::url($this->cartoonOriginalImageUploadPath . $val->ci_image) : Storage::url($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
+                        }
+                        $topImages['name'] = $val->ci_name;
+                        $topImages['category'] = $val->ci_name;
+                        $topImages['volts'] = $val->timesused;
+                        $topImages['rank'] = $key+1;
+                        $toptrending[] = $topImages;
+                    }
+                }
+
+                $mainArray['topTrendingImages'] = $toptrending;
+                $page = 0;
+                if ($type == 1) {
+                    $cartoonIconCategory = $this->level1ActivitiesRepository->getLevel1FictionCartoonCategory();
+                    $maincartoonIconCategoryArray = [];
+                    foreach ($cartoonIconCategory as $cartooncategory) {
+                        $cartooniconCategoryList = [];
+                        $cartooniconCategoryList['id'] = $cartooncategory->id;
+                        $cartooniconCategoryList['name'] = $cartooncategory->cic_name;
+                        $maincartoonIconCategoryArray[] = $cartooniconCategoryList;
+                    }
+                    $mainArray['fictional']['CategoryList'] = $maincartoonIconCategoryArray;
+                } else if ($type == 2) {
+                    $humanIconCategory = $this->level1ActivitiesRepository->getLevel1NonFictionHumanCategory();
+                    $mainhumanIconCategoryArray = [];
+                    foreach ($humanIconCategory as $humancategory) {
+                        $humaniconCategoryList = [];
+                        $humaniconCategoryList['id'] = $humancategory->id;
+                        $humaniconCategoryList['name'] = $humancategory->hic_name;
+                        $mainhumanIconCategoryArray[] = $humaniconCategoryList;
+                    }
+                    $mainArray['nonfictional']['CategoryList'] = $mainhumanIconCategoryArray;
+                } else if ($type == 3) {
+                    $relationDetail = $this->level1ActivitiesRepository->getLevel1Relation();
+                    $mainrelationArray = [];
+                    foreach ($relationDetail as $detail) {
+                        $relationList = [];
+                        $relationList['id'] = $detail->id;
+                        $relationList['name'] = $detail->rel_name;
+                        $mainrelationArray[] = $relationList;
+                    }
+                    $mainArray['relations']['CategoryList'] = $mainrelationArray;
+                }
+
+                $getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getLevel1AttemptedQuality($request->userId);
+
+                if (isset($getLevel1AttemptedQuality) && !empty($getLevel1AttemptedQuality)) {
+                    $response['qualityAttempted'] = "yes";
+                } else {
+                    $response['qualityAttempted'] = "no";
+                }
+                
+                $response['status'] = 1;
+                $response['page'] = 0;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['data'] = $mainArray;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getLevel1Part2IconData
+    *  loginToken, userId, categoryType, page, categoryId
+    *  Array of not attempted all level 1 part 1 questions
+    */
+    public function getLevel1Part2IconData(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $mainArray = [];
+                $type = ($request->categoryType != "") ? $request->categoryType : '0';
+                $page = ($request->page != "") ? $request->page : '0';
+                $category_id = ($request->categoryId != "") ? $request->categoryId : '0';
+                if ($type == 1) {
+                    $cartoonIconDetail = $this->level1ActivitiesRepository->getLevel1FictionCartoonById($page, $category_id);
+                    $maincartoonIconArray = [];
+                    foreach ($cartoonIconDetail as $cartoon) {
+                        $cartooniconList = [];
+                        $cartooniconList['id'] = $cartoon->id;
+                        $cartooniconList['name'] = $cartoon->ci_name;
+                        $cartooniconList['image'] = ($cartoon->ci_image != '') ? Storage::url($this->cartoonThumbImageUploadPath . $cartoon->ci_image) : Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                        $cartooniconList['imageOriginal'] = ($cartoon->ci_image != '') ? Storage::url($this->cartoonOriginalImageUploadPath . $cartoon->ci_image) : Storage::url($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
+                        $cartooniconList['categoryId'] = $cartoon->ci_category;
+                        $maincartoonIconArray[] = $cartooniconList;
+                    }
+                    $mainArray['fictional']['Characters'] = $maincartoonIconArray;
+
+                } else if ($type == 2) {
+
+                    $humanIconDetail = $this->level1ActivitiesRepository->getLevel1NonFictionhumanById($page,$category_id);
+                    $mainhumanIconArray = [];
+                    foreach ($humanIconDetail as $human) {
+                        $humaniconList = [];
+                        $humaniconList['id'] = $human->id;
+                        $humaniconList['name'] = $human->hi_name;
+                        $humaniconList['image'] = ($human->hi_image != '') ? Storage::url($this->humanThumbImageUploadPath . $human->hi_image) : Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                        $humaniconList['imageOriginal'] = ($human->hi_image != '') ? Storage::url($this->humanOriginalImageUploadPath . $human->hi_image) : Storage::url($this->humanOriginalImageUploadPath . 'proteen-logo.png');
+                        $humaniconList['categoryId'] = $human->hi_category;
+                        $mainhumanIconArray[] = $humaniconList;
+                    }
+                    $mainArray['nonfictional']['Characters'] = $mainhumanIconArray;
+                }
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['data'] = $mainArray;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getSearchLevel1Part2IconData
+    *  loginToken, userId, categoryType, page, categoryId, searchIcon
+    *  Array of not attempted all level 1 part 1 questions
+    */
+    public function getSearchLevel1Part2IconData(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $mainArray = [];
+                $type = ($request->categoryType != "") ? $request->categoryType : '0';
+                $page = ($request->page != "") ? $request->page : '0';
+                $category_id = ($request->categoryId != "") ? $request->categoryId : '0';
+                $search = ($request->searchIcon != "") ? $request->searchIcon : '0';
+                if ($type == 1) {
+                    $cartoonIconDetail = $this->level1ActivitiesRepository->getLevel1FictionCartoonByIdForSearch($page,$category_id,$search);
+                    $maincartoonIconArray = [];
+                    foreach ($cartoonIconDetail as $cartoon) {
+                        $cartooniconList = [];
+                        $cartooniconList['id'] = $cartoon->id;
+                        $cartooniconList['name'] = $cartoon->ci_name;
+                        $cartooniconList['image'] = ($cartoon->ci_image != "") ? Storage::url($this->cartoonThumbImageUploadPath . $cartoon->ci_image) : Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                        $cartooniconList['imageOriginal'] = ($cartoon->ci_image != "") ? Storage::url($this->cartoonOriginalImageUploadPath . $cartoon->ci_image) : Storage::url($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
+                        $cartooniconList['categoryId'] = $cartoon->ci_category;
+                        $maincartoonIconArray[] = $cartooniconList;
+                    }
+                    $mainArray['fictional']['Characters'] = $maincartoonIconArray;
+
+                } else if ($type == 2) {
+
+                    $humanIconDetail = $this->level1ActivitiesRepository->getLevel1NonFictionhumanByIdForSearch($page,$category_id,$search);
+                    $mainhumanIconArray = [];
+                    foreach ($humanIconDetail as $human) {
+                        $humaniconList = [];
+                        $humaniconList['id'] = $human->id;
+                        $humaniconList['name'] = $human->hi_name;
+                        $humaniconList['image'] = ($human->hi_image != "") ? Storage::url($this->humanThumbImageUploadPath . $human->hi_image) : Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                        $humaniconList['imageOriginal'] = ($human->hi_image != "") ? Storage::url($this->humanOriginalImageUploadPath . $human->hi_image) : Storage::url($this->humanOriginalImageUploadPath . 'proteen-logo.png');
+                        $humaniconList['categoryId'] = $human->hi_category;
+                        $mainhumanIconArray[] = $humaniconList;
+                    }
+                    $mainArray['nonfictional']['Characters'] = $mainhumanIconArray;
+                }
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['data'] = $mainArray;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : submitSelfIcon
+    *  loginToken, userId, categoryType, nickname // lastname, name, selfIconType, selfIconId, profilePic
+    *  Array of not attempted all level 1 part 1 questions
+    */
+    public function submitSelfIcon(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $teenagerID = $request->userId;
+            //For self data
+            $lastInterId = '';
+            $teenagerDetail['t_nickname'] = '';
+            $teenagerDetail['t_name'] = '';
+            $self_user_image_url = '';
+            $teenagerData = $this->teenagersRepository->getTeenagerById($request->userId);
+            if ($request->selfIconType != '' && $request->selfIconId != '') {
+                $teenagerDetail['t_nickname'] = ($request->nickname != '') ? $request->nickname : $teenagerData->t_nickname;
+                $teenagerDetail['t_lastname'] = ($request->lastname != '') ? $request->lastname : $teenagerData->t_lastname;
+                $teenagerDetail['t_name'] = ($request->name != '') ? $request->name : $teenagerData->t_name;
+                $fileName = '';
+                if (Input::file()) {
+                    $file = Input::file('profilePic');
+                    if (!empty($file)) {
+                        $fileName = 'teenager_' . time() . '.' . $file->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileName);
+                        $pathThumb = public_path($this->teenThumbImageUploadPath . $fileName);
+                        $pathProfile = public_path($this->teenProfileImageUploadPath . $fileName);
+                        Image::make($file->getRealPath())->save($pathOriginal);
+                        Image::make($file->getRealPath())->resize($this->teenThumbImageWidth, $this->teenThumbImageHeight)->save($pathThumb);
+                        Image::make($file->getRealPath())->resize(200, 200)->save($pathProfile);
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                        $profileImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->teenProfileImageUploadPath, $pathProfile, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->teenOriginalImageUploadPath . $fileName);
+                        \File::delete($this->teenThumbImageUploadPath . $fileName);
+                        \File::delete($this->teenProfileImageUploadPath . $fileName);
+                        if($teenagerData->t_photo != "") {
+                            $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($teenagerData->t_photo, $this->teenOriginalImageUploadPath, "s3");
+                            $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($teenagerData->t_photo, $this->teenThumbImageUploadPath, "s3");
+                            $profileImageDelete = $this->fileStorageRepository->deleteFileToStorage($teenagerData->t_photo, $this->teenProfileImageUploadPath, "s3");
+                        }
+                        $teenagerDetail['t_photo'] = $fileName;
+                        $self_user_image_url = asset($this->teenOriginalImageUploadPath . $fileName);
+                    }
+                } else {
+                    $self_user_image_url = ($teenagerData->t_photo != '') ? Storage::url($this->teenOriginalImageUploadPath . $teenagerData->t_photo) : Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');
+                }
+
+                $teenagerDetailSaved = $this->teenagersRepository->updateTeenagerImageAndNickname($teenagerID, $teenagerDetail);
+                $teenIconSelection[] = array("ti_teenager" => $teenagerID, "ti_icon_type" => $request->selfIconType, "ti_icon_id" => $request->selfIconId);
+
+                foreach ($teenIconSelection as $key => $val) {
+                    $lastInterId = $this->level1ActivitiesRepository->saveTeenagerLevel1Part2($val);
+                }
+            }
+
+            if ($teenagerDetail['t_name'] == '') {
+                $teenagerDetail['t_name'] = $teenagerData->t_name;
+                $teenagerDetail['t_lastname'] = $teenagerData->t_lastname;
+            }
+            $response['status'] = 1;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = array('iconDataID' => $lastInterId, 'user_self_image_url' => $self_user_image_url, 'teen_name' => $teenagerDetail['t_name'], 'teen_lastname' => $teenagerDetail['t_lastname']);
+        } else {
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : submitRelationIcon
+    *  loginToken, userId, categoryType
+    *  Array of not attempted all level 1 part 1 questions
+    */
+    public function submitRelationIcon(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+
+        } else {
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : submitLevel1Part2QualitiesData
+    *  loginToken, userId, categoryType
+    *  Array of not attempted all level 1 part 1 questions
+    */
+    public function submitLevel1Part2QualitiesData(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
         return response()->json($response, 200);
         exit;
