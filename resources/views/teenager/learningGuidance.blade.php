@@ -89,7 +89,7 @@
                                                 }; ?>
                                             <li class="{{ $subPanelClass }}">
                                                 <h5>{{ $subPanelData['title'] }}</h5>
-                                                <p>{!! $subPanelData['description'] !!}</p>
+                                                <p>{!! $subPanelData['subPanelDescription'] !!}</p>
                                             </li>
                                             @empty
                                                 No Records Found
