@@ -72,6 +72,8 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getStrengthDetailPage', 'Webservice\DashboardController@getStrengthDetailPage');
 	//Dashboard Network Section
 	Route::post('/getNetworkDetails', 'Webservice\DashboardController@getNetworkDetails');
+	Route::post('/getLevel2Activity', 'Webservice\level2ActivityController@getLevel2Activity');
+	Route::post('/saveLevel2Activity', 'Webservice\level2ActivityController@saveLevel2Activity');
 	//Route::post('/getNetworkMemberDetails', 'Webservice\NetworkController@getNetworkMemberDetails');
 	
 });
