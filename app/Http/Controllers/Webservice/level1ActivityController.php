@@ -869,4 +869,5 @@ class Level1ActivityController extends Controller
         }
         return response()->json($response, 200);
         exit;
+    }
 }
