@@ -857,13 +857,33 @@ class Level1ActivityController extends Controller
     }
 
     /* Request Params : submitLevel1Part2Qualities
-    *  loginToken, userId, 
+    *  loginToken, userId, qualitiesResponseData, ['iconDataId', 'response', 'qualityId']
     */
     public function submitLevel1Part2Qualities(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-
+            $teenagerID = $request->userId;
+            if (isset($request->qualitiesResponseData) && !empty($request->qualitiesResponseData)) {
+                foreach ($request->qualitiesResponseData as $key => $data) {
+                    if ($data['response'] == 1) {
+                        $qualityResponseData = array("tiqa_teenager" => $teenagerID, "tiqa_ti_id" => $data['iconDataId'], "tiqa_quality_id" => $data['qualityId'], "tiqa_response" => $data['response']);
+                        $this->level1ActivitiesRepository->saveTeenagerLevel1Part2Qualities($qualityResponseData);
+                    }
+                }
+            }
+            if (isset($request->iconCount) && $request->iconCount > 0) {
+                $noOfIconSelected = $request->iconCount;
+            } else {
+                $noOfIconSelected = 1;
+            }
+            // Save booster points which user get for Level1Part2
+            $this->teenagersRepository->saveLevel1Part2BoosterPoints($request->userId, ($noOfIconSelected * Helpers::getConfigValueByKey('LEVEL1_ICON_SELECTION_POINTS')));
+            $message = Helpers::sendMilestoneNotification(2000);
+            $response['displayMsg'] = $message;
+            $response['status'] = 1;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }

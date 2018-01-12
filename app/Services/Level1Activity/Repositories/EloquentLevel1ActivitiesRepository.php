@@ -6,6 +6,9 @@ use DB;
 use Config;
 use App\Level1Answers;
 use App\Level1Options;
+use App\Level1Traits;
+use App\Level1TraitsOptions;
+use App\Level1TraitsAnswers;
 use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
 
@@ -554,6 +557,107 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
                     ->skip($slot)
                     ->take(config::get('constant.RECORD_PER_PAGE_ICON'))
                     ->get();
+        return $result;
+    }
+
+    /**
+     * @return array of all the active level1 traits
+      Parameters
+      @$searchParamArray : Array of Searching and Sorting parameters
+     */
+    public function getAllLeve1Traits() {
+        $level1Traits = DB::table(config::get('databaseconstants.TBL_TRAITS_QUALITY_ACTIVITY') . " AS traits")
+                ->join(config::get('databaseconstants.TBL_TRAITS_QUALITY_OPTIONS') . " AS options", 'traits.id', '=', 'options.tqq_id')
+                ->selectRaw('traits.*, GROUP_CONCAT(options.tqo_option)  AS tqo_option')
+                ->where('traits.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                ->groupBy('traits.id')
+                ->get();
+        return $level1Traits;
+    }
+
+    /**
+     * @return Boolean True/False
+      Parameters
+      @$id : Level1 Trait ID
+     */
+    public function deleteLevel1Trait($id) {
+        $objTraits = new Level1Traits();
+        $objOption = new Level1TraitsOptions();
+        $flag = true;
+        $level1traits = $objTraits->find($id);
+        $level1traits->deleted = config::get('constant.DELETED_FLAG');
+        $response = $level1traits->save();
+        $deleted = config::get('constant.DELETED_FLAG');
+        $objOption = $objOption->where('tqq_id', $id)->update(['deleted' => $deleted]);
+        if ($response && $objOption) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * @return Level1 Traits details object
+      Parameters
+      @$traitsDetail : Array of Level1 Traits detail from front
+     */
+    public function saveLevel1TraitsDetail($traitsDetail, $optionDetail) {
+        $objTraits = new Level1Traits();
+        $objOption = new Level1TraitsOptions();
+        if ($traitsDetail['id'] != '' && $traitsDetail['id'] > 0) {
+            $return = $objTraits->where('id', $traitsDetail['id'])->update($traitsDetail);
+        } else {
+            $return = $objTraits->create($traitsDetail);
+        }
+
+        if ($return) {
+            if ($traitsDetail['id'] != '' && $traitsDetail['id'] > 0) {
+                $id = $traitsDetail['id'];
+                $deleted = $traitsDetail['deleted'];
+            } else {
+                $id = $return->id;
+                $deleted = $return->deleted;
+            }
+        }
+
+        $data = $objOption->where('tqq_id', $traitsDetail['id'])->get();
+        $j = 0;
+        $countOption = count($optionDetail['tqo_option']);
+        $countData = count($data);
+        $result = '';
+        if ($countOption >= $countData) {
+            for ($i = 0; $i < $countOption; ++$i) {
+                $optionData = [];
+                $optionData['tqq_id'] = $id;
+                $optionData['tqo_option'] = $optionDetail['tqo_option'][$i];
+                $optionData['deleted'] = $deleted;
+                if ($j < count($data)) {
+                    if ($traitsDetail['id'] != '' && $traitsDetail['id'] > 0) {
+                        $result = $objOption->where('id', $data[$i]->id)->update($optionData);
+                    }
+                    $j++;
+                } else {
+                    $result = $objOption->create($optionData);
+                }
+            }
+        } else {
+            for ($i = 0; $i < count($data); ++$i) {
+                for ($i = 0; $i < $countOption; ++$i) {
+                    $optionData = [];
+                    $optionData['tqq_id'] = $id;
+                    $optionData['tqo_option'] = $optionDetail['tqo_option'][$i];
+                    $optionData['deleted'] = $deleted;
+                    if ($j < count($data) - 1) {
+                        if ($traitsDetail['id'] != '' && $traitsDetail['id'] > 0) {
+                            $result = $objOption->where('id', $data[$i]->id)->update($optionData);
+                        }
+                        $j++;
+                    }
+                }
+                $result = $objOption->where('id', $data[$i]->id)->delete($optionData);
+            }
+        }
         return $result;
     }
 
