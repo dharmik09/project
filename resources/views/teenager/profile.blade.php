@@ -363,7 +363,6 @@
     <!-- sec personal survey-->
     <div class="sec-survey" id="sec-survey">
         <div class="container">
-
             <div class="sec-popup">
                 <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop3" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                 <div class="hide" id="pop3">
@@ -382,63 +381,11 @@
                     <div id="loading-content"></div>
                 </div>
                 <div class="opinion-sec" id="opinionSection" style="display:none;">
+                </div>
+                <div id="firstLevelWorldSection">
                     
                 </div>
             </div>
-            <!-- <p>Choose three traits that you feel describe you:</p> -->
-            <!-- <div class="survey-list">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Technologist</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Adventurer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Geek</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Entrepreneur</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Writer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Artist</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Explorer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Thinker</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Tree Hugger</span></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-btn">
-                    <span class="icon"><i class="icon-arrow-spring"></i></span>
-                    <a href="#" title="Next">Next</a>
-                </div>
-            </div> -->
         </div>
     </div>
     <!-- sec personal survey end-->
@@ -1154,5 +1101,28 @@
             $("#t_about_info").show();
         }
     });
+
+    function playFirstLevelWorldType(type) {
+        console.log(type);
+        $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        $('#loading-wrapper-sub').show();
+        $.ajax({
+            url: "{{url('teenager/play-first-level-world-type')}}",
+            type : 'POST',
+            data : {'type' : type},
+            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+            success: function(data){
+                $("#opinionSection").hide();
+                $('#firstLevelWorldSection').show();
+                $('#firstLevelWorldSection').html(data);
+                $('#loading-wrapper-sub').hide();
+                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+            },
+            error: function(){
+                $('#loading-wrapper-sub').hide();
+                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+            }
+        });
+    }
 </script>
 @stop

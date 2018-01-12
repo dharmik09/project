@@ -1,4 +1,4 @@
-<div class="real-world-survey clearfix show">
+<div class="real-world-survey clearfix">
     <div class="selection-container">
         <div class="row sec-filter">
             <div class="col-sm-4">

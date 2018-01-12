@@ -43,8 +43,50 @@ class Level1ActivityController extends Controller
             //$noOfTotalQuestions = $totalQuestion[0]->NoOfTotalQuestions;
             $isQuestionCompleted = 1;
 
-            return view('teenager.basic.level1ActivityWorld', compact('qualityDetail', 'isQuestionCompleted'));
+            return view('teenager.basic.level1ActivityWorldType', compact('qualityDetail', 'isQuestionCompleted'));
         }
+    }
+
+    /*
+    * Method : playLevel1WorldActivity
+    * Response : Not attempted questions collections
+    */
+    public function playLevel1WorldActivity(Request $request) {
+        $userId = Auth::guard('teenager')->user()->id;
+        $isQuestionCompleted = 0;
+        $type = ($request->type != "") ? $request->type : '0';
+        //Get top trending images
+        $topTrendingImages = $this->Level1ActivitiesRepository->getAllTopTrendingImages($type);
+        $topImages['image'] = $toptrending = [];
+        if (!empty($topTrendingImages)) {
+            foreach ($topTrendingImages as $key => $val) {
+                if ($type == 2) {
+                    $topImages['image'] = ($val->ci_image != "") ? Storage::url($this->humanThumbImageUploadPath . $val->ci_image) : Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                } else if($type == 1) {
+                    $topImages['image'] = ($val->ci_image != "") ? Storage::url($this->cartoonThumbImageUploadPath . $val->ci_image) : Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                } else {
+                    $topImages['image'] = [];
+                }
+                $topImages['name'] = $val->ci_name;
+                $topImages['category'] = $val->cic_name;
+                $topImages['votes'] = $val->timesused;
+                $topImages['rank'] = $key+1;
+                $toptrending[] = $topImages;
+            }
+        }
+        $mainArray['topTrendingImages'] = $toptrending;
+
+        if($type == 1) {
+
+            return view('teenager.basic.level1ActivityWorldFiction', compact('isQuestionCompleted', 'mainArray'));
+        } else if($type == 2) {
+            return view('teenager.basic.level1ActivityWorldNonFiction', compact('isQuestionCompleted'));
+        } else if($type == 3) {
+            return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted'));
+        } else {
+            return view('teenager.basic.level1ActivityWorldType', compact('isQuestionCompleted'));
+        }
+        return view('teenager.basic.level1ActivityWorldType', compact('isQuestionCompleted'));
     }
 
     public function saveFirstLevelActivity(Request $request) {
