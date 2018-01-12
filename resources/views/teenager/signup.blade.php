@@ -59,7 +59,7 @@
                                     <span>photo upload</span>
                                     <input type="file" name="photo"  onchange="readURL(this);" accept=".png, .jpg, .jpeg, .bmp" style="cursor:pointer;">
                                 </div>
-                                <div class="photo-error"></div>
+                                <div class="photo-error-register"></div>
                             </div>
                         </div>
                     </div>

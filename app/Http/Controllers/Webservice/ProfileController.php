@@ -493,11 +493,11 @@ class ProfileController extends Controller
                             'name' => "Points Achieved",
                             'color' => "#FFEEDB",
                             'child_data' => [
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 10000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#FFEEDB" ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#FFEEDB" ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 10000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#FFEEDB" ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#FFEEDB" ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#FFEEDB" ]
                                             ]
                         ],
                         [
@@ -505,11 +505,11 @@ class ProfileController extends Controller
                             'name' => "Careers Completed",
                             'color' => "#BBEEDB",
                             'child_data' => [
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#BBEEDB" ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#BBEEDB" ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#BBEEDB" ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#BBEEDB" ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#BBEEDB" ]
                                             ]
                         ],
                         [
@@ -517,11 +517,11 @@ class ProfileController extends Controller
                             'name' => "Connections Made",
                             'color' => "#AACCEF",
                             'child_data' => [
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 3500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#AACCEF" ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#AACCEF" ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#AACCEF" ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#AACCEF" ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 3500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#AACCEF" ]
                                             ]
                         ]
 
