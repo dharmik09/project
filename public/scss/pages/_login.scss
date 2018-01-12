@@ -298,3 +298,4 @@ em.invalid, span.invalid {
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     text-transform: none;
 }
+.sending-otp{color: $lightgrey !important;pointer-events: none !important;cursor: default !important;}
