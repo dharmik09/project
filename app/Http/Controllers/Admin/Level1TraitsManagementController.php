@@ -64,6 +64,7 @@ class Level1TraitsManagementController extends Controller
         $traitsDetail['id'] = e(input::get('id'));
         $traitsDetail['tqq_image']    = $hiddenLogo;
         $traitsDetail['tqq_text'] = e(input::get('tqq_text'));
+        $traitsDetail['tqq_is_multi_select'] = e(input::get('tqq_is_multi_select'));
 
         if (Input::get('tqq_active_date') != '') {
             $sdate = Input::get('tqq_active_date');
