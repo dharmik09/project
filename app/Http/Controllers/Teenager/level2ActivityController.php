@@ -17,7 +17,7 @@ use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Sponsors\Contracts\SponsorsRepository;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 
-class level2ActivityController extends Controller {
+class Level2ActivityController extends Controller {
 
     public function __construct(TeenagersRepository $TeenagersRepository, SponsorsRepository $SponsorsRepository, Level2ActivitiesRepository $Level2ActivitiesRepository) {
         $this->middleware('teenager');
