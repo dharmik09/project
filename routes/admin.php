@@ -285,6 +285,14 @@ Route::post('/deleteHumanIcon', 'Admin\Level1HumanIconManagementController@delet
 Route::get('/uploadHumanIcons', 'Admin\Level1HumanIconManagementController@uploadView');
 Route::post('/saveHumanIcons', 'Admin\Level1HumanIconManagementController@uploadHumanIcons');
 
+
+//Traits
+Route::get('/level1Traits', 'Admin\Level1TraitsManagementController@index')->name('level1Traits');
+Route::get('/deleteLevel1Traits/{id}', 'Admin\Level1TraitsManagementController@delete')->name('deleteLevel1Traits');
+Route::get('/addLevel1Traits', 'Admin\Level1TraitsManagementController@add')->name('addLevel1Traits');
+Route::get('/editLevel1Traits/{id}', 'Admin\Level1TraitsManagementController@edit')->name('editLevel1Traits');
+Route::post('/saveLevel1Traits', 'Admin\Level1TraitsManagementController@save')->name('saveLevel1Traits');
+
 //Level 2 Section
 
 //Activities

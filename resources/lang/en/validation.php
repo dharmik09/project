@@ -219,4 +219,7 @@ return [
     'youtuberequired' => 'Youtube is Required',
     'selectcountryforprofessionedit' => 'Please select country for you want to edit profession header',
     'sectionrequired' => 'Section is required',
+    'traitstextrequired' => 'Please enter Text. This is required.',
+    'traitspointsrequired' => 'Please enter Points.This is required.',
+    'traitsoptionrequired' => 'Please enter Options.This is required.',
 ];

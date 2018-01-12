@@ -161,6 +161,11 @@
                                             <i class="{{ (Request::is('admin/humanIcons')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.level1humanicon')}}
                                         </a>
                                     </li>
+                                    <li class="{{ (Request::is('admin/level1Traits') || Request::is('admin/addlevel1Traits') || Request::is('admin/editlevel1Traits/*') || Request::is('admin/savelevel1Traits') || Request::is('admin/deletelevel1Traits/*')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/level1Traits') }}">
+                                            <i class="{{ (Request::is('admin/level1Traits')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.traits')}}
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*')) ? 'active' : '' }} treeview">

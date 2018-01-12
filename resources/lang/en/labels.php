@@ -719,4 +719,13 @@ return [
     'formlblselectsection' => 'Select Section',
     'formlblsection' => 'Section',
     'activityblheadsection' => 'Section',
+    'level1traits' => 'Level 1 Traits',
+    'traits' => 'Traits',
+    'traitslblheadtext' => 'Text',
+    'traitslblheadpoints' => 'Points',
+    'traitslblheadoptions' => 'Options',
+    'traitslblheadstatus' => 'Status',
+    'traitslblheadaction' => 'Actions',
+    'level1traitdeletesuccess' => 'Level1 Trait deleted Successfully',
+    'level1traitupdatesuccess' => 'Level1 Trait updated Successfully',
 ];

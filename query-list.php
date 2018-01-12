@@ -194,3 +194,42 @@ ALTER TABLE `pro_t_teenagers` ADD `t_about_info` TEXT NULL AFTER `t_view_informa
 
 //Add new field in pro_l2ac_level2_activities table ## 09-jan-2018
 ALTER TABLE `pro_l2ac_level2_activities` ADD `section_type` TINYINT(4) NOT NULL DEFAULT '1' AFTER `l2ac_image`;
+
+//Added new table for manage traits question #12-01-2018 Jaimin
+CREATE TABLE `pro_tqq_traits_quality_activity` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `tqq_text` text NOT NULL,
+ `tqq_image` varchar(255) DEFAULT NULL,
+ `tqq_points` int(10) DEFAULT '0',
+ `tqq_active_date` date NOT NULL,
+ `tqq_is_multi_select` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0 - Single Select, 1 - Multiselect',
+ `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NULL DEFAULT NULL,
+ `deleted` tinyint(1) DEFAULT '1' COMMENT ' 1 - Active , 2 - Inactive, 3 - Deleted',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1
+
+//Added new table for manage traits question's option #12-01-2018 Jaimin
+CREATE TABLE `pro_tqo_traits_quality_options` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `tqq_id` bigint(20) NOT NULL,
+ `tqo_option` varchar(255) NOT NULL,
+ `tqo_is_true` tinyint(1) DEFAULT '1' COMMENT '0 - False, 1 - True',
+ `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NULL DEFAULT NULL,
+ `deleted` tinyint(1) DEFAULT '1' COMMENT ' 1 - Active , 2 - Inactive, 3 - Deleted',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+//Added new table for manage traits answer #12-01-2018 Jaimin
+CREATE TABLE `pro_tqa_traits_quality_answer` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `tqq_id` bigint(20) NOT NULL,
+ `tqo_id` bigint(20) NOT NULL,
+ `tqa_from` bigint(20) NOT NULL,
+ `tqa_to` bigint(20) NOT NULL,
+ `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+ `deleted` tinyint(1) DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
