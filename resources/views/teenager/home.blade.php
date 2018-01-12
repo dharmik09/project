@@ -139,30 +139,50 @@
                             <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="my_career_tab">
                                 <div class="panel-group" id="accordion">
-                                    <div class="panel panel-default factual">
+                                    <?php $countCareers = 0; ?>
+                                    @forelse ($teenagerCareers as $teenagerCareer)
+                                    <?php $teenagerCareer->matched = rand(0,2); 
+                                        switch($teenagerCareer->matched) {
+                                            case 0:
+                                                $careerClass = 'career-data-color-1';
+                                                break;
+
+                                            case 1:
+                                                $careerClass = 'career-data-color-2';
+                                                break;
+
+                                            case 2:
+                                                $careerClass = 'career-data-color-3';
+                                                break;
+
+                                            default:
+                                                $careerClass = '';
+                                                break; 
+                                        };
+                                        $countCareers++;
+                                        if ($countCareers > 3) {
+                                            $carrerStyle = 'none';
+                                            $careerExpandClass = "expandCareer";
+                                        } else {
+                                            $carrerStyle = 'block';
+                                            $careerExpandClass = '';
+                                        } 
+                                    ?>
+                                    <div class="panel panel-default actual {{ $careerExpandClass }}" style="display: {{ $carrerStyle }};">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a href="{{ url('/teenager/career-detail/1') }}" class="career-cl collapsed">Career 1</a>
+                                                <a href="{{ url('/teenager/career-detail') }}/{{$teenagerCareer->id}}" class="{{$careerClass}} collapsed" style="display: block;">{{$teenagerCareer->pf_name}}</a>
                                             </h4>
                                         </div>
                                     </div>
-                                    <div class="panel panel-default factual">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a href="{{ url('/teenager/career-detail/2') }}" class="career-cl collapsed">Career 2</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default factual">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a href="{{ url('/teenager/career-detail/3') }}" class="career-lc collapsed">Career 3</a>
-                                            </h4>
-                                        </div>
-                                    </div>
+                                    @empty
+                                        <h3>No Records Found.</h3>
+                                    @endforelse
                                 </div>
                             </div>
-                            <p><a href="#">Expand</a></p>
+                            @if(count($teenagerCareers) > 3 && !empty($teenagerCareers))
+                                <p><a id="career" href="javascript:void(0);" >Expand</a></p>
+                            @endif
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests my_network_cont">
@@ -433,6 +453,18 @@
                 $("#network").text("Collapse");
             } else {
                 $("#network").text("Expand");
+            }
+        });
+        return false;
+    });
+    
+    $('#career').click(function() {
+        $('.expandCareer').slideToggle('medium', function() {
+            if ($(this).is(':visible')) {
+                $(this).css('display','block');
+                $("#career").text("Collapse");
+            } else {
+                $("#career").text("Expand");
             }
         });
         return false;

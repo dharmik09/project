@@ -84,7 +84,7 @@
                             <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                             <ul class="area-detail">
                                 <li>{{ $getCityArea }} Area</li>
-                                <li>{{ $myConnectionCount }} {{ ($myConnectionCount == 1) ? "Connection" : "Connections" }} </li>
+                                <li>{{ $myConnectionsCount }} {{ ($myConnectionsCount == 1) ? "Connection" : "Connections" }} </li>
                             </ul>
                             <ul class="social-media">
                                 <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
@@ -421,8 +421,8 @@
             <div class="bg-white my-progress profile-tab">
                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
                     <li class="active custom-tab col-xs-4 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Achievements <span class="count">(10)</span></span></span></a></li>
-                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">(18)</span></span></span></a></li>
-                    <li class="custom-tab col-xs-4 tab-color-3"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">My Connections <span class="count">(56)</span></span></span></a></li>
+                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">({{count($myCareers)}})</span></span></span></a></li>
+                    <li class="custom-tab col-xs-4 tab-color-3"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">My Connections <span class="count">({{$myConnectionsCount}})</span></span></span></a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="menu1" class="tab-pane fade in active">
@@ -540,74 +540,55 @@
                     </div>
                     <div id="menu2" class="tab-pane fade">
                         <div class="careers-tab">
+                            @forelse ($myCareers as $myCareer)
                             <div class="careers-block">
                                 <div class="careers-img">
                                     <i class="icon-image"></i>
                                 </div>
                                 <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
+                                    <h4>{{ $myCareer->pf_name }}</h4>
                                 </div>
                             </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
+                            @empty
+                            <center>
+                                <h3>No Records found.</h3>
+                            </center>
+                            @endforelse
                         </div>
                     </div>
-                    <div id="menu3" class="tab-pane fade">
+                    <div id="menu3" class="tab-pane fade my-connection">
+                        @forelse($myConnections as $myConnection)
                         <div class="team-list">
                             <div class="flex-item">
                                 <div class="team-detail">
                                     <div class="team-img">
-                                        <img src="{{Storage::url('img/ellen.jpg')}}" alt="team">
+                                        <?php
+                                            if(isset($myConnection->t_photo) && $myConnection->t_photo != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo)) {
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo;
+                                            } else {
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+                                            }
+                                        ?>
+                                        <img src="{{ Storage::url($teenImage) }}" alt="team">
                                     </div>
-                                    <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
+                                    <a href="{{ url('teenager/network-member') }}/{{$myConnection->t_uniqueid }}" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
                                 </div>
                             </div>
                             <div class="flex-item">
                                 <div class="team-point">
-                                    520,000 points
+                                    {{ $myConnection->t_coins }} points
                                     <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="team-list">
-                            <div class="flex-item">
-                                <div class="team-detail">
-                                    <div class="team-img">
-                                        <img src="{{Storage::url('img/alex.jpg')}}" alt="team">
-                                    </div>
-                                    <a href="#" title="Alex Murphy">Alex Murphy</a>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <div class="team-point">
-                                    515,000 points
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                                </div>
-                            </div>
-                        </div>
-
+                        @empty
+                            <center>
+                                <h3>No Connections found.</h3>
+                            </center>
+                        @endforelse
+                        @if (!empty($myConnections->toArray()) && $myConnectionsCount > 10)
+                            <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myConnection->id }}">load more</a></p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -1101,7 +1082,6 @@
             $("#t_about_info").show();
         }
     });
-
     function playFirstLevelWorldType(type) {
         console.log(type);
         $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
@@ -1124,5 +1104,29 @@
             }
         });
     }
+
+    $(document).on('click','#load-more-connection',function(){
+                var lastTeenId = $(this).data('id');
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var form_data = 'lastTeenId=' + lastTeenId;
+                $.ajax({
+                    url : '{{ url("teenager/load-more-my-connections") }}',
+                    method : "POST",
+                    data: form_data,
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN
+                    },
+                    dataType : "text",
+                    success : function (data) {
+                        if(data != '') {
+                            //$('#remove-row').remove();
+                            $('.remove-my-connection-row').remove();
+                            $('.my-connection').append(data);
+                        } else {
+                            //$('#btn-more').html("No Data");
+                        }
+                    }
+                });
+    });
 </script>
 @stop
