@@ -50,7 +50,18 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/submitLevel1Answers', 'Webservice\Level1ActivityController@saveFirstLevelActivity');
 	//First Level Part 2 Route
 	Route::post('/getLevel1Part2Options', 'Webservice\Level1ActivityController@getLevel1Part2Options');
-	Route::post('/submitLevel1Answers', 'Webservice\Level1ActivityController@saveFirstLevelActivity');
+	Route::post('/getLevel1Part2Category', 'Webservice\Level1ActivityController@getLevel1Part2Category');
+	Route::post('/getLevel1Part2IconData', 'Webservice\Level1ActivityController@getLevel1Part2IconData');
+	Route::post('/getSearchLevel1Part2IconData', 'Webservice\Level1ActivityController@getSearchLevel1Part2IconData');
+	Route::post('/submitSelfIcon', 'Webservice\Level1ActivityController@submitSelfIcon');
+	Route::post('/submitRelationIcon', 'Webservice\Level1ActivityController@submitRelationIcon');
+	Route::post('/submitLevel1Part2QualitiesData', 'Webservice\Level1ActivityController@submitLevel1Part2QualitiesData');
+	//
+	Route::post('/addIcon', 'Webservice\Level1ActivityController@addIcon');
+	Route::post('/submitLevel1Part2Icon', 'Webservice\Level1ActivityController@submitLevel1Part2Icon');
+	Route::post('/submitLevel1Part2Qualities', 'Webservice\Level1ActivityController@submitLevel1Part2Qualities');
+	Route::post('/teenagerUpdateImageAndNickname', 'Webservice\Level1ActivityController@teenagerUpdateImageAndNickname');
+
 	//Education & Achievement Route
 	Route::post('/getTeenagerAcademicInfo', 'Webservice\ProfileController@getTeenagerAcademicInfo');
 	Route::post('/saveTeenagerAcademicInfo', 'Webservice\ProfileController@saveTeenagerAcademicInfo');
@@ -85,9 +96,4 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 
 	//Learning Guidance
 	Route::post('/learningGuidance', 'Webservice\HomeController@learningGuidance');
-	
 });
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });

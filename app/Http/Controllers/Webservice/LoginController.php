@@ -114,7 +114,7 @@ class LoginController extends Controller
     *  No loginToken required because it's call without loggedin user
     */
     public function userLogout(Request $request) {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->userId != "" && $request->deviceId != "" && $request->token != "") {
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
             if ($checkuserexist) {

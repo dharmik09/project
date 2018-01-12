@@ -43,7 +43,7 @@
                     <input type="hidden" name="u_token" value="{{$response['data']['u_token']}}" />
                     <div class="form-group">
                         <input type="password" name="OTP" class="form-control" placeholder="Enter OTP" tabindex="1">
-                        <a href="javascript:void(0)" onClick="resendOTP()" class="back_me left10">Resend OTP?</a>
+                        <a id="resend_otp" name="resend_otp" href="javascript:void(0)" onClick="resendOTP()" class="back_me left10">Resend OTP?</a>
                         <span id="resetMSG"></span>
                     </div>
                     <input type="submit" class="btn primary_btn" value="Reset My Password" tabindex="2">
@@ -74,6 +74,7 @@
     });
 
     function resendOTP() {
+        $("#resend_otp").text("Sending....");
         $.ajax({
             url: "{{ url('/teenager/resend-OTP') }}",
             type: 'POST',
@@ -82,9 +83,15 @@
                 "email" : "{{$response['data']['email'] or ''}}"
             },
             success: function(response) {
+                $("#resend_otp").text("Resend OTP?");
                 $("#resetMSG").html(response);
                 setTimeout(function(){$('#resetMSG').html(' ');},5000);
-            }
+            },
+            error: function(response) {
+                $("#resend_otp").text("Resend OTP?");
+                $("#resetMSG").html(response);
+                setTimeout(function(){$('#resetMSG').html(' ');},5000);
+            },
         });
     }
 

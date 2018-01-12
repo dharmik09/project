@@ -491,37 +491,37 @@ class ProfileController extends Controller
                         [
                             'type' => "points_achieved",
                             'name' => "Points Achieved",
-                            'color' => "#FFEEDB",
+                            'color' => "#ff5f44",
                             'child_data' => [
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 10000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png') ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 10000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
+                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ]
                                             ]
                         ],
                         [
                             'type' => "careers_completed",
                             'name' => "Careers Completed",
-                            'color' => "#BBEEDB",
+                            'color' => "#27a6b5",
                             'child_data' => [
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png') ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#27a6b5" ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#27a6b5" ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#27a6b5" ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ],
+                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ]
                                             ]
                         ],
                         [
                             'type' => "connections_made",
                             'name' => "Connections Made",
-                            'color' => "#AACCEF",
+                            'color' => "#73376d",
                             'child_data' => [
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png') ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 3500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png') ]
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#73376d" ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#73376d" ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#73376d" ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ],
+                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 3500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ]
                                             ]
                         ]
 
