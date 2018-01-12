@@ -74,6 +74,8 @@
     });
 
     function resendOTP() {
+        $("#resetMSG").html('');
+        $("#resend_otp").toggleClass('sending-otp');
         $("#resend_otp").text("Sending....");
         $.ajax({
             url: "{{ url('/teenager/resend-OTP') }}",
@@ -83,11 +85,13 @@
                 "email" : "{{$response['data']['email'] or ''}}"
             },
             success: function(response) {
+                $("#resend_otp").removeClass('sending-otp');
                 $("#resend_otp").text("Resend OTP?");
                 $("#resetMSG").html(response);
                 setTimeout(function(){$('#resetMSG').html(' ');},5000);
             },
             error: function(response) {
+                $("#resend_otp").removeClass('sending-otp');
                 $("#resend_otp").text("Resend OTP?");
                 $("#resetMSG").html(response);
                 setTimeout(function(){$('#resetMSG').html(' ');},5000);

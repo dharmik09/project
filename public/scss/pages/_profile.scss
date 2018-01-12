@@ -54,7 +54,7 @@
         max-width: 100%;
         width: 88%;
         min-height: 184px;
-        margin-bottom: 44px;
+        margin-bottom: 34px;
         cursor: pointer;
 
         span {
@@ -95,7 +95,7 @@
         min-height: 184px;
         cursor: pointer;
         border: none;
-        margin-bottom: 44px;
+        margin-bottom: 34px;
         transition: all 0.3s ease-out 0s;
         background-size: contain;
         &:before {
@@ -2024,6 +2024,9 @@ span.password-info {
         z-index: -9;
         img {
             transition: 0.3s all ease-out;
+            &.emojis-icon-5{
+                background-position: 0 11.8%;
+            }
         }
     }
     [class*=col-] {
@@ -2523,4 +2526,21 @@ a:focus {
 }
 .about-info:-moz-placeholder { /* Firefox 18- */
   color: $white;
+}
+.photo-error {
+    text-align: center;
+    margin-bottom: 10px;
+    color: red;
+    font-size: 13px;
+    margin-top: -15px;
+    display: block;
+}
+.photo-error-register {
+    margin-bottom: 10px;
+    color: red;
+    font-size: 13px;
+    margin-top: 10px;
+    @include maxsm{
+        text-align: center;
+    }
 }
