@@ -188,8 +188,10 @@ class DashboardController extends Controller
             $teenagerMyIcons = array();
         }
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
-        $myConnectionCount = $this->communityRepository->getMyConnectionsCount($user->id);
-        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionCount'));   
+        $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
+        $myConnections = $this->communityRepository->getMyConnections($user->id);
+        //$myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen);
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections'));   
     }
 
     public function chat()
