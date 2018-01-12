@@ -354,6 +354,8 @@ class DashboardController extends Controller
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
                     $getTeenagerAttemptedProfession[$key]->matched = $array[rand(0,2)];
                     $getTeenagerAttemptedProfession[$key]->attempted = 1;
+                    $getTeenagerAttemptedProfession[$key]->pf_logo = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                    $getTeenagerAttemptedProfession[$key]->pf_logo_thumb = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                 }
             }
             $response['login'] = 1;
@@ -380,6 +382,8 @@ class DashboardController extends Controller
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
                     $getTeenagerAttemptedProfession[$key]->matched = $array[rand(0,2)];
                     $getTeenagerAttemptedProfession[$key]->attempted = rand(0,1);
+                    $getTeenagerAttemptedProfession[$key]->pf_logo = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                    $getTeenagerAttemptedProfession[$key]->pf_logo_thumb = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                 }
             }
             $response['login'] = 1;
