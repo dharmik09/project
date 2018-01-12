@@ -54,4 +54,5 @@ return [
     'invalid_professinid_msg' => 'Invalid ProfessionId or Profession does not exist',
     'emailisnotreal' => 'Email id is not real',
     'forgotPasswordSent' => 'OTP(One Time Password) is sent successfully to your email',
+    'onlyoneoptionallowedforthisquestion' => 'Only one option allowed for this question',
 ];

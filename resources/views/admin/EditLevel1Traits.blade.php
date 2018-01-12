@@ -263,7 +263,7 @@
                 },
                 tqq_is_multi_select : {
                     required : true
-                }
+                },
                 deleted : {
                     required : true
                 }

@@ -18,6 +18,7 @@ use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Helpers;
 use Storage;
 use App\Level1Activity;
+use App\Level1Traits;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -35,6 +36,7 @@ class Level1ActivityController extends Controller
         $this->level1HumanIconRepository = $level1HumanIconRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->objLevel1Activity = new Level1Activity;
+        $this->objTraits = new Level1Traits;
         $this->teenagersRepository = $teenagersRepository;
         $this->level1ActivityThumbImageUploadPath = Config::get('constant.LEVEL1_ACTIVITY_THUMB_IMAGE_UPLOAD_PATH');
         $this->level1ActivityOriginalImageUploadPath = Config::get('constant.LEVEL1_ACTIVITY_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -890,4 +892,70 @@ class Level1ActivityController extends Controller
         return response()->json($response, 200);
         exit;
     }
+
+
+    public function getLevel1Traits(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel1Traits'));
+        if($request->userId != "" && $teenager) {
+            $data = $this->level1ActivitiesRepository->getAllNotAttemptedTraits($request->userId);
+            $response['status'] = 1;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data;
+            $this->log->info('Response for Level 1 Traits' , array('api-name'=> 'getLevel1Traits'));
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel1Traits'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        
+        return response()->json($response, 200);
+        
+    }
+
+    public function saveLevel1Traits(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
+        if($request->userId != "" && $request->activityID != "" && $request->optionId != "" && $teenager) {
+
+            $questionID = $request->activityID;
+            $answerArray = explode("," , $request->optionId);
+
+            if (isset($request->userId) && $request->userId > 0 && isset($questionID) && $questionID != 0) {
+                $answerType = $this->objTraits->find($questionID)->tqq_is_multi_select;
+                if($answerType == 0){
+                    if(count($answerArray)>1){
+                        $response['message'] = trans('appmessages.onlyoneoptionallowedforthisquestion');
+                        return response()->json($response, 200);
+                    }
+                }
+                $questionsArray = '';
+                foreach ($answerArray as $key => $value) {
+                    $answers = [];
+                    $answers['tqq_id'] = $questionID;
+                    $answers['tqo_id'] = $value;
+                    $answers['tqa_from'] = $request->userId;
+                    $answers['tqa_to'] = $request->userId;
+                    $questionsArray = $this->level1ActivitiesRepository->saveLevel1TraitsAnswer($answers);
+                }
+                if($questionsArray){
+                    $response['status'] = 1;
+                    $response['login'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                } else {
+                    $response['message'] = trans('appmessages.default_error_msg');
+                }
+            } else {
+                $response['message'] = trans('appmessages.default_error_msg');
+            }
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        
+        return response()->json($response, 200);
+    }
+
 }
