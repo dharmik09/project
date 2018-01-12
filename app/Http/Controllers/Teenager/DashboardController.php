@@ -193,7 +193,8 @@ class DashboardController extends Controller
         $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
         $myConnections = $this->communityRepository->getMyConnections($user->id);
         //$myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen);
-        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections'));   
+        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfession($user->id);
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers'));   
     }
 
     public function chat()

@@ -474,7 +474,7 @@
             <div class="bg-white my-progress profile-tab">
                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
                     <li class="active custom-tab col-xs-4 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Achievements <span class="count">(10)</span></span></span></a></li>
-                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">(18)</span></span></span></a></li>
+                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">({{count($myCareers)}})</span></span></span></a></li>
                     <li class="custom-tab col-xs-4 tab-color-3"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">My Connections <span class="count">({{$myConnectionsCount}})</span></span></span></a></li>
                 </ul>
                 <div class="tab-content">
@@ -593,38 +593,20 @@
                     </div>
                     <div id="menu2" class="tab-pane fade">
                         <div class="careers-tab">
+                            @forelse ($myCareers as $myCareer)
                             <div class="careers-block">
                                 <div class="careers-img">
                                     <i class="icon-image"></i>
                                 </div>
                                 <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
+                                    <h4>{{ $myCareer->pf_name }}</h4>
                                 </div>
                             </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <i class="icon-image"></i>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>lorem ipsum</h4>
-                                </div>
-                            </div>
+                            @empty
+                            <center>
+                                <h3>No Records found.</h3>
+                            </center>
+                            @endforelse
                         </div>
                     </div>
                     <div id="menu3" class="tab-pane fade my-connection">
