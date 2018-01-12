@@ -39,8 +39,11 @@ class Level1ActivityController extends Controller
             return view('teenager.basic.level1Question', compact('level1Activities'));
         } else {
             $qualityDetail = $this->level1ActivitiesRepository->getLevel1qualities();
-            
-            return view('teenager.basic.level1ActivityWorld', compact('qualityDetail'));
+            //$noOfAttemptedQuestions = $totalQuestion[0]->NoOfAttemptedQuestions;
+            //$noOfTotalQuestions = $totalQuestion[0]->NoOfTotalQuestions;
+            $isQuestionCompleted = 1;
+
+            return view('teenager.basic.level1ActivityWorld', compact('qualityDetail', 'isQuestionCompleted'));
         }
     }
 

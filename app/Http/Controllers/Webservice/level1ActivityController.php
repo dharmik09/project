@@ -485,7 +485,7 @@ class Level1ActivityController extends Controller
     }
 
     /* Request Params : submitSelfIcon
-    *  loginToken, userId, categoryType, nickname // lastname, name, selfIconType, selfIconId, profilePic
+    *  loginToken, userId, nickname // lastname, name, selfIconType, selfIconId, profilePic
     */
     public function submitSelfIcon(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -495,6 +495,7 @@ class Level1ActivityController extends Controller
             //For self data
             $lastInterId = '';
             $teenagerDetail['t_nickname'] = '';
+            $teenagerDetail['t_lastname'] = '';
             $teenagerDetail['t_name'] = '';
             $self_user_image_url = '';
             $teenagerData = $this->teenagersRepository->getTeenagerById($request->userId);

@@ -31,6 +31,7 @@ use Event;
 use App\Events\SendMail;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\Community\Contracts\CommunityRepository;
+use App\Services\Professions\Contracts\ProfessionsRepository;
 
 class DashboardController extends Controller
 {
@@ -46,7 +47,7 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository, CommunityRepository $communityRepository, Level2ActivitiesRepository $Level2ActivitiesRepository)
+    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templatesRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository, CommunityRepository $communityRepository, Level2ActivitiesRepository $Level2ActivitiesRepository, ProfessionsRepository $professionsRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
@@ -67,6 +68,7 @@ class DashboardController extends Controller
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
         $this->communityRepository = $communityRepository;
+        $this->professionsRepository = $professionsRepository;
     }
 
     //Dashboard data
@@ -137,8 +139,8 @@ class DashboardController extends Controller
 
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
-
-        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath'));
+        $teenagerCareers = $this->professionsRepository->getTeenagerAttemptedProfession($user->id);
+        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
     }
 
     //My profile data
@@ -188,8 +190,11 @@ class DashboardController extends Controller
             $teenagerMyIcons = array();
         }
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
-        $myConnectionCount = $this->communityRepository->getMyConnectionsCount($user->id);
-        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionCount'));   
+        $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
+        $myConnections = $this->communityRepository->getMyConnections($user->id);
+        //$myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen);
+        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfession($user->id);
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers'));   
     }
 
     public function chat()

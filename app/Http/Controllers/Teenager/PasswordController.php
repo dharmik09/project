@@ -19,6 +19,7 @@ use App\Country;
 use App\Services\Template\Contracts\TemplatesRepository;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Sponsors\Contracts\SponsorsRepository;
+use Session;
 
 class PasswordController extends Controller {
 
@@ -154,7 +155,9 @@ class PasswordController extends Controller {
                         $response['status'] = 1;
                         $response['message'] = trans('appmessages.forgotPasswordSent');
                         $response['data'] = ["userid" => $teenagerDetail->id, "email" => $teenagerDetail->t_email, "OTP" => $OTP, 'u_token' => $teenagerDetail->t_uniqueid];
-                        return view('teenager.forgotPasswordOTP', compact('response'));
+                        //return view('teenager.forgotPasswordOTP', compact('response'));
+                        
+                        return Redirect::to('/teenager/forgot-password-OTP-view')->with(['response' => $response]);
                         exit;
                     }
                 } else {
@@ -262,6 +265,15 @@ class PasswordController extends Controller {
             $response['message'] = trans('appmessages.missing_data_msg');
             return Redirect::to('/teenager/forgot-password')->with('error', trans('appmessages.missing_data_msg'));
             exit;
+        }
+    }
+
+    public function forgotPasswordOTPView() {
+        $response = \Session::get('response');
+        if (isset($response) && !empty($response)) {
+            return view('teenager.forgotPasswordOTP', compact('response'));
+        } else {
+            return view('teenager.forgotPassword');
         }
     }
 
