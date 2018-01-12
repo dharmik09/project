@@ -44,6 +44,7 @@
                             $tqq_text = $value->tqq_text;
                             $tqq_points = $value->tqq_points;
                             $tqq_image = $value->tqq_image;
+                            $tqq_is_multi_select = $value->tqq_is_multi_select;
                             $date = date('d/m/Y', strtotime($value->tqq_active_date));
                             $deleted = $value->deleted;
                             $tqo_option = $value->tqo_option;
@@ -55,6 +56,7 @@
                         $tqq_text = '';
                         $tqq_points = '';
                         $tqq_image = '';
+                        $tqq_is_multi_select = '';
                         $date = '';
                         $deleted = '';
                         $tqo_option = '';
@@ -154,6 +156,16 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblselectanswertype')}}</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="tqq_is_multi_select" name="tqq_is_multi_select">
+                                <option value="0" <?php if($tqq_is_multi_select == 0) echo 'selected'; ?>>{{trans('labels.lblsingleselect')}}</option>
+                                <option value="1" <?php if($tqq_is_multi_select == 1) echo 'selected'; ?>>{{trans('labels.lblmultiselect')}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblstatus')}}</label>
                         <div class="col-sm-6">
                             <?php $staus = Helpers::status(); ?>
@@ -168,7 +180,7 @@
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{trans('labels.savebtn')}}</button>
-                        <a class="btn btn-danger btn-flat pull-right" href="{{ url('admin/level1Activity') }}{{$page}}">{{trans('labels.cancelbtn')}}</a>
+                        <a class="btn btn-danger btn-flat pull-right" href="{{ url('admin/level1Traits') }}{{$page}}">{{trans('labels.cancelbtn')}}</a>
                     </div><!-- /.box-footer -->
                 </form>
             </div>   <!-- /.row -->
@@ -249,6 +261,9 @@
                 tqq_active_date : {
                     required : true
                 },
+                tqq_is_multi_select : {
+                    required : true
+                }
                 deleted : {
                     required : true
                 }
@@ -269,6 +284,9 @@
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 tqq_active_date : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                tqq_is_multi_select : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 deleted : {

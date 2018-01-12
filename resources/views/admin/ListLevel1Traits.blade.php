@@ -28,6 +28,7 @@
                                 <th>{{trans('labels.traitslblheadtext')}}</th>
                                 <th>{{trans('labels.traitslblheadpoints')}}</th>
                                 <th>{{trans('labels.traitslblheadoptions')}}</th>
+                                <th>{{trans('labels.traitslblheadanswertpye')}}</th>
                                 <th>{{trans('labels.traitslblheadstatus')}}</th>
                                 <th>{{trans('labels.traitslblheadaction')}}</th>
                             </tr>
@@ -58,7 +59,14 @@
                                     ?>
                                 </td>
                                 <td>
-                                     @if ($value->deleted == 1)
+                                    @if ($value->tqq_is_multi_select == 0)
+                                        {{trans('labels.lblsingleselect')}}
+                                    @elseif($value->tqq_is_multi_select == 1)
+                                        {{trans('labels.lblmultiselect')}}
+                                    @endif
+                                </td>
+                                <td>
+                                     @if ($value->tqq_is_multi_select == 1)
                                     <i class="s_active fa fa-square"></i>
                                     @else
                                         <i class="s_inactive fa fa-square"></i>
