@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <input type="text" class="form-control {eitherEmailPhone:true}" id="email" maxlength="100" name="email" placeholder="Your Email" value="" autocomplete="off" tabindex="1" value="{{old('email')}}}">
                     </div>
-                    <button type="submit" id="loginSubmit" value="Reset Password" class="btn btn-default" title="Reset Password" tabindex="2">Reset Password</button>
+                    <button type="submit" id="resetPassword" value="Reset Password" class="btn btn-default" title="Reset Password" tabindex="2">Reset Password</button>
                 </form>
                 <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
             </div>
@@ -75,6 +75,18 @@
     });
     AOS.init({
         duration: 1200,
+    });
+    $("#forgot_password").submit(function() {
+        $("#resetPassword").toggleClass('sending').blur();
+        var form = $("#forgot_password");
+        form.validate();
+        if (form.valid()) {
+            return true;
+        }
+        setTimeout(function () {
+            $("#resetPassword").removeClass('sending').blur();
+        }, 2500);
+        return true;
     });
 </script>
 @stop

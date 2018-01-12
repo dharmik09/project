@@ -300,4 +300,9 @@ return [
     'EASY_FLAG' => 'Easy',
     'MEDIUM_FLAG' => 'Medium',
     'CHALLENGING_FLAG' => 'Challenging',
+
+    'LEVEL1_TRAITS_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/level1Traits/original/',
+    'LEVEL1_TRAITS_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/level1Traits/thumb/',
+    'LEVEL1_TRAITS_THUMB_IMAGE_HEIGHT' => '300',
+    'LEVEL1_TRAITS_THUMB_IMAGE_WIDTH' => '300',
 ];

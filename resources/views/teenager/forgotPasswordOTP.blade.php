@@ -46,7 +46,7 @@
                         <a id="resend_otp" name="resend_otp" href="javascript:void(0)" onClick="resendOTP()" class="back_me left10">Resend OTP?</a>
                         <span id="resetMSG"></span>
                     </div>
-                    <input type="submit" class="btn primary_btn" value="Reset My Password" tabindex="2">
+                    <button type="submit" id="resetPasswordSubmit" class="btn btn-default primary_btn" value="Reset My Password" tabindex="2">Reset My Password</button>
                 </form>
                 <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
             </div>
@@ -97,6 +97,19 @@
 
     AOS.init({
         duration: 1200,
+    });
+
+    $("#forgot-password-OTP").submit(function() {
+        $("#resetPasswordSubmit").toggleClass('sending').blur();
+        var form = $("#forgot-password-OTP");
+        form.validate();
+        if (form.valid()) {
+            return true;
+        }
+        setTimeout(function () {
+            $("#resetPasswordSubmit").removeClass('sending').blur();
+        }, 2500);
+        return true;
     });
 </script>
 

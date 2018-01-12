@@ -122,7 +122,29 @@ class level2ActivityController extends Controller {
                 if($questionsArray){
                     $response['status'] = 1;
                     $response['login'] = 1;
+                    $section1Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($request->userId,Config::get('constant.LEVEL2_SECTION_1'));
+                    $section2Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($request->userId,Config::get('constant.LEVEL2_SECTION_2'));
+                    $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($request->userId,Config::get('constant.LEVEL2_SECTION_3'));
+
+                    $section1Percentage = 0;
+                    $section2Percentage = 0;
+                    $section3Percentage = 0;
+                    
+                    if($section1Collection[0]->NoOfTotalQuestions != 0){
+                        $section1Percentage = ($section1Collection[0]->NoOfAttemptedQuestions*100)/$section1Collection[0]->NoOfTotalQuestions;
+                    }
+                    if($section2Collection[0]->NoOfTotalQuestions != 0){
+                        $section2Percentage = ($section2Collection[0]->NoOfAttemptedQuestions*100)/$section2Collection[0]->NoOfTotalQuestions;
+                    }
+                    if($section3Collection[0]->NoOfTotalQuestions != 0){
+                        $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
+                    }
+
+                    $data['section_1_Percentage'] = number_format((float)$section1Percentage, 0, '.', '');
+                    $data['section_2_Percentage'] = number_format((float)$section2Percentage, 0, '.', '');
+                    $data['section_3_Percentage'] = number_format((float)$section3Percentage, 0, '.', '');
                     $response['message'] = trans('appmessages.default_success_msg');
+                    $response['data'] = $data;
                 } else {
                     $response['message'] = trans('appmessages.default_error_msg');
                 }
