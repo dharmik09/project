@@ -774,7 +774,17 @@
                         items: 4
                     },
                 }
-            });
+        });
+        $('.icon-slider').owlCarousel({
+            loop: true,
+            margin: 0,
+            items: 1,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: false,
+            dots: false,
+        });
         jQuery.validator.addMethod("lettersonly", function(value, element) {
             return this.optional(element) || /^[a-z_'\s]+$/i.test(value);
         }, "Letters only please");
@@ -1097,6 +1107,7 @@
                 $('#firstLevelWorldSection').html(data);
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                $('.icon-slider').owlCarousel('update');
             },
             error: function(){
                 $('#loading-wrapper-sub').hide();
