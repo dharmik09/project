@@ -63,7 +63,10 @@
     function fetchProfessionData(id) {
 
         if ( !$("#profession"+id).hasClass( "dataLoaded" ) ) {
-
+            
+            $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#profession"+id).addClass('loading-screen-parent');
+            
             var CSRF_TOKEN = "{{ csrf_token() }}";
             $.ajax({
                 type: 'POST',
@@ -76,6 +79,7 @@
                 success: function (response) {
                     $("#profession"+id).html(response);
                     $("#profession"+id).addClass("dataLoaded");
+                    $("#profession"+id).removeClass('loading-screen-parent');
                 }
             });
         }

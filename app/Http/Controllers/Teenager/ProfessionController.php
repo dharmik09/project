@@ -99,7 +99,14 @@ class ProfessionController extends Controller {
             }
         }
 
-        $return = '<div class="row">
+        $video = Helpers::youtube_id_from_url($basketsData->b_video);
+
+        $return = '<div class="banner-landing banner-career">
+                        <div class="">
+                            <div class="play-icon"><a id="link'.$basketsData->id.'" onclick="playVideo(this.id,\''.$video.'\');" class="play-btn" id="iframe-video"><img src="'.Storage::url('img/play-icon.png').'" alt="play icon"></a></div>
+                        </div><iframe width="100%" height="100%" frameborder="0" allowfullscreen class="iframe" id="iframe-video-link'.$basketsData->id.'"></iframe>
+                    </div>
+                    <section class="sec-category"><div class="row">
                         <div class="col-md-6">
                             <p>You have completed <strong>'.$professionAttemptedCount.' of '.count($basketsData->profession).'</strong> careers</p>
                         </div>
@@ -132,7 +139,7 @@ class ProfessionController extends Controller {
                 </div>';
         }
 
-        $return .= '</div></div>';
+        $return .= '</div></div></section>';
         
         return $return;
     }
