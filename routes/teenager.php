@@ -51,7 +51,7 @@ Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
 Route::post('/play-first-level-activity', 'Teenager\level1ActivityController@playLevel1Activity');
 Route::post('/save-first-level-activity', 'Teenager\level1ActivityController@saveFirstLevelActivity');
 Route::post('/play-first-level-world-type', 'Teenager\level1ActivityController@playLevel1WorldActivity');
-
+Route::post('/get-icon-name-new', 'Teenager\level1ActivityController@getIconNameNew');
 //Career
 Route::get('/my-careers', function() {
 	return view('teenager.myCareers');
@@ -96,3 +96,6 @@ Route::get('/network-member/{uniqueId}', 'Teenager\CommunityManagementController
 
 Route::post('get-level2-activity', 'Teenager\level2ActivityController@index')->name('getLevel2Activity');
 Route::post('save-level2-activity', 'Teenager\level2ActivityController@saveLevel2Ans')->name('saveLevel2Activity');
+
+Route::post('get-level1-trait', 'Teenager\level1ActivityController@getLevel1Trait')->name('get-level1-trait');
+Route::post('save-level1-trait', 'Teenager\level1ActivityController@saveLevel1Trait')->name('save-level1-trait');

@@ -363,6 +363,9 @@
     <!-- sec personal survey-->
     <div class="sec-survey" id="sec-survey">
         <div class="container">
+            <h2>Personal Survey Part - 1</h2>
+            <div id="traitsData"></div>
+            
             <div class="sec-popup">
                 <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop3" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                 <div class="hide" id="pop3">
@@ -786,7 +789,17 @@
                         items: 4
                     },
                 }
-            });
+        });
+        $('.icon-slider').owlCarousel({
+            loop: true,
+            margin: 0,
+            items: 1,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: false,
+            dots: false,
+        });
         jQuery.validator.addMethod("lettersonly", function(value, element) {
             return this.optional(element) || /^[a-z_'\s]+$/i.test(value);
         }, "Letters only please");
@@ -944,6 +957,7 @@
         }
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
+        fetchLevel1TraitQuestion();
     });
     
     function getFirstLevelData() {
@@ -1109,6 +1123,7 @@
                 $('#firstLevelWorldSection').html(data);
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                $('.icon-slider').owlCarousel('update');
             },
             error: function(){
                 $('#loading-wrapper-sub').hide();
@@ -1162,5 +1177,77 @@
             }
         });
     });
+
+    function fetchLevel1TraitQuestion() {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-level1-trait')}}",
+            dataType: 'html',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {},
+            success: function (response) {
+                $("#traitsData").html(response);
+            }
+        });
+    }
+
+    function saveLevel1TraitQuestion() {
+
+        var answerId = [];
+        $.each($("input[name='traitAns']:checked"), function(){            
+            answerId.push($(this).val());
+        });
+        var queId = $('#traitQue').val();
+        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#traitsData").addClass('loading-screen-parent');
+        
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/save-level1-trait')}}",
+            dataType: 'html',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'answerID':answerId,'questionID':queId},
+            success: function (response) {
+                $("#traitsData").html(response);
+                $("#traitsData").removeClass('loading-screen-parent');
+            }
+        });
+    }
+
+    function getIconName(categoryId, categoryType, page) {
+        var categoryId = categoryId;
+        var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType;
+        if (categoryId != 'pop_up' && categoryId != '') {
+            $.ajax({
+                type: 'POST',
+                data: dataString,
+                dataType: 'html',
+                url: "{{ url('/teenager/get-icon-name-new?page=') }}" + page,
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                cache: false,
+                success: function(data) {
+                    if (data == '') {
+                        $('.selected_category').hide();
+                        $('.no_selected_category').val(' ');
+                    } else {
+                        $(".selected_category").show();
+                        $('.no_selected_category').hide();
+                        $(".selected_category").html(data);
+                    }
+                }
+            });
+        } else {
+            $("#dataHtml").html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
+            $('#search_icon').hide();
+            $('#searchForIcon').val(' ');
+            $('#search_dataHtml').html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
+        }
+    }
 </script>
 @stop
