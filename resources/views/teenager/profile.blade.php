@@ -424,7 +424,7 @@
             <div class="bg-white my-progress profile-tab">
                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
                     <li class="active custom-tab col-xs-4 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Achievements <span class="count">(10)</span></span></span></a></li>
-                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">({{count($myCareers)}})</span></span></span></a></li>
+                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">({{$myCareersCount}})</span></span></span></a></li>
                     <li class="custom-tab col-xs-4 tab-color-3"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">My Connections <span class="count">({{$myConnectionsCount}})</span></span></span></a></li>
                 </ul>
                 <div class="tab-content">
@@ -542,7 +542,7 @@
                         </ul>
                     </div>
                     <div id="menu2" class="tab-pane fade">
-                        <div class="careers-tab">
+                        <div class="careers-tab my-career">
                             @forelse ($myCareers as $myCareer)
                             <div class="careers-block">
                                 <div class="careers-img">
@@ -564,6 +564,11 @@
                                 <h3>No Records found.</h3>
                             </center>
                             @endforelse
+                            @if (!empty($myCareers) && $myCareersCount > 10)
+                                <p class="text-center remove-my-careers-row">
+                                    <a id="load-more-career" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myCareer->attemptedId }}">load more</a>
+                                </p>
+                            @endif
                         </div>
                     </div>
                     <div id="menu3" class="tab-pane fade my-connection">
@@ -1146,6 +1151,28 @@
                     $('.my-connection').append(data);
                 } else {
                     //$('#btn-more').html("No Data");
+                }
+            }
+        });
+    });
+    
+    $(document).on('click','#load-more-career',function(){
+        var lastAttemptedId = $(this).data('id');
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'lastAttemptedId=' + lastAttemptedId;
+        $.ajax({
+            url : '{{ url("teenager/load-more-my-careers") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            dataType : "text",
+            success : function (data) {
+                if(data != '') {
+                    $('.remove-my-careers-row').remove();
+                    $('.my-career').append(data);
+                } else {
                 }
             }
         });

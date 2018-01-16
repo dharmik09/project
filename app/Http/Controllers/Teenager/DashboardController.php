@@ -192,9 +192,9 @@ class DashboardController extends Controller
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
         $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
         $myConnections = $this->communityRepository->getMyConnections($user->id);
-        //$myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen);
-        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfession($user->id);
-        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers'));   
+        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfessionsSlotWise($user->id);
+        $myCareersCount = $this->professionsRepository->getTeenagerAttemptedProfessionCount($user->id);
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount'));   
     }
 
     public function chat()
@@ -481,6 +481,17 @@ class DashboardController extends Controller
         $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities(Auth::guard('teenager')->user()->id);
         $teenagerMeta = Helpers::getTeenagerMetaData(Auth::guard('teenager')->user()->id);
         return view('teenager.setUpProfile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta'));   
+    }
+
+    //My careers data
+    public function loadMoreMyCareers() 
+    {
+        $lastAttemptedId = Input::get('lastAttemptedId');
+        $loggedInTeen = Auth::guard('teenager')->user()->id;
+        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfessionsSlotWise($loggedInTeen, $lastAttemptedId);
+        $myCareersCount = $this->professionsRepository->getTeenagerAttemptedProfessionCount($loggedInTeen, $lastAttemptedId);
+        return view('teenager.loadMoreCareers', compact('myCareers', 'myCareersCount'));
+        
     }
    
 }
