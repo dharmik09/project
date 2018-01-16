@@ -12,6 +12,15 @@
             </label>
         </div>
     @endforeach
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div style="text-align:center;margin: 10px 0;">
+                @if (isset($iconCategoryName) && !empty($iconCategoryName))
+                    <?php echo $iconCategoryName->appends(['categoryId' => $categoryId, 'categoryType' => $data_cat_type, 'searchText' => $textName])->render(); ?>
+                @endif
+            </div>
+        </div>
+    </div>
 </div>
 @else
 <div class="row">
