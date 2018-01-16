@@ -363,82 +363,8 @@
     <!-- sec personal survey-->
     <div class="sec-survey" id="sec-survey">
         <div class="container">
-
-            <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop3" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop3">
-                    <div class="popover-data">
-                        <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
-                    </div>
-                </div>
-            </div>
-            <h2>Personal Survey</h2>
-            <div class="survey-list">
-                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
-                    <div id="loading-text">
-                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                    </div>
-                    <div id="loading-content"></div>
-                </div>
-                <div class="opinion-sec" id="opinionSection" style="display:none;">
-                    
-                </div>
-            </div>
-            <!-- <p>Choose three traits that you feel describe you:</p> -->
-            <!-- <div class="survey-list">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Technologist</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Adventurer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Geek</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Entrepreneur</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Writer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Artist</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Explorer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Thinker</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Tree Hugger</span></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-btn">
-                    <span class="icon"><i class="icon-arrow-spring"></i></span>
-                    <a href="#" title="Next">Next</a>
-                </div>
-            </div> -->
+            <h2>Personal Survey Part - 1</h2>
+            <div id="traitsData"></div>
         </div>
     </div>
     <!-- sec personal survey end-->
@@ -985,6 +911,7 @@
         }
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
+        fetchLevel1TraitQuestion();
     });
     
     function getFirstLevelData() {
@@ -1137,27 +1064,69 @@
     });
 
     $(document).on('click','#load-more-connection',function(){
-                var lastTeenId = $(this).data('id');
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var form_data = 'lastTeenId=' + lastTeenId;
-                $.ajax({
-                    url : '{{ url("teenager/load-more-my-connections") }}',
-                    method : "POST",
-                    data: form_data,
-                    headers: {
-                        'X-CSRF-TOKEN': CSRF_TOKEN
-                    },
-                    dataType : "text",
-                    success : function (data) {
-                        if(data != '') {
-                            //$('#remove-row').remove();
-                            $('.remove-my-connection-row').remove();
-                            $('.my-connection').append(data);
-                        } else {
-                            //$('#btn-more').html("No Data");
-                        }
-                    }
-                });
-            });
+        var lastTeenId = $(this).data('id');
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'lastTeenId=' + lastTeenId;
+        $.ajax({
+            url : '{{ url("teenager/load-more-my-connections") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            dataType : "text",
+            success : function (data) {
+                if(data != '') {
+                    //$('#remove-row').remove();
+                    $('.remove-my-connection-row').remove();
+                    $('.my-connection').append(data);
+                } else {
+                    //$('#btn-more').html("No Data");
+                }
+            }
+        });
+    });
+
+    function fetchLevel1TraitQuestion() {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-level1-trait')}}",
+            dataType: 'html',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {},
+            success: function (response) {
+                $("#traitsData").html(response);
+            }
+        });
+    }
+
+    function saveLevel1TraitQuestion() {
+
+        var answerId = [];
+        $.each($("input[name='traitAns']:checked"), function(){            
+            answerId.push($(this).val());
+        });
+        var queId = $('#traitQue').val();
+        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#traitsData").addClass('loading-screen-parent');
+        
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/save-level1-trait')}}",
+            dataType: 'html',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'answerID':answerId,'questionID':queId},
+            success: function (response) {
+                $("#traitsData").html(response);
+                $("#traitsData").removeClass('loading-screen-parent');
+            }
+        });
+    }
 </script>
 @stop

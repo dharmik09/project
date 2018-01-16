@@ -732,4 +732,5 @@ return [
     'traitslblheadaction' => 'Actions',
     'level1traitdeletesuccess' => 'Level1 Trait deleted Successfully',
     'level1traitupdatesuccess' => 'Level1 Trait updated Successfully',
+    'traitscompletionmessage' => 'All traits completed',
 ];

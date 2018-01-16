@@ -94,3 +94,6 @@ Route::get('/network-member/{uniqueId}', 'Teenager\CommunityManagementController
 
 Route::post('get-level2-activity', 'Teenager\level2ActivityController@index')->name('getLevel2Activity');
 Route::post('save-level2-activity', 'Teenager\level2ActivityController@saveLevel2Ans')->name('saveLevel2Activity');
+
+Route::post('get-level1-trait', 'Teenager\level1ActivityController@getLevel1Trait')->name('get-level1-trait');
+Route::post('save-level1-trait', 'Teenager\level1ActivityController@saveLevel1Trait')->name('save-level1-trait');

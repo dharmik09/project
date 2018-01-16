@@ -710,6 +710,54 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
     }
 
     /**
+     * Parameter : $teenagerId
+     * Parameter : $section
+     * return : Traits which is not attempted by teenager passed
+    */
+    public function getLastNotAttemptedTraits($teenagerId)
+    {
+        $activities = DB::select(DB::raw("SELECT tmp.*
+                                            FROM (SELECT
+                                                tqq.id AS activityID,
+                                                tqq_text,
+                                                tqq_points,
+                                                tqq_image,
+                                                tqq_is_multi_select,
+                                                GROUP_CONCAT(tqo.id) AS optionIds,
+                                                GROUP_CONCAT(tqo_option) AS options,
+                                                tqq.deleted,
+                                                count(*) as 'NoOfTotalQuestions'
+                                                FROM
+                                                " . config::get('databaseconstants.TBL_TRAITS_QUALITY_ACTIVITY') . " AS tqq
+                                            INNER JOIN " . config::get('databaseconstants.TBL_TRAITS_QUALITY_OPTIONS') . " AS tqo ON tqo.tqq_id = tqq.id
+                                            GROUP BY
+                                                tqq.id) AS tmp
+                                            LEFT JOIN " . config::get('databaseconstants.TBL_TRAITS_QUALITY_ANSWER') . " AS tqa ON tqa.tqq_id = tmp.activityID AND tqa.tqa_from = $teenagerId
+                                            WHERE tmp.deleted=1 and tqa.id IS NULL AND tqa.tqa_from IS NULL AND tqa.tqq_id IS NULL AND tqa.tqa_to IS NULL LIMIT 1"));
+
+
+        foreach($activities as $key => $activity)
+        {
+            $optionIds = explode(",", $activity->optionIds);
+            $options = explode(",", $activity->options);
+            unset($activity->optionIds);
+            unset($activity->options);
+
+            $optionsWithId = [];
+            foreach($options as $key1 => $option)
+            {
+                $temp = [];
+                $temp['optionId'] = $optionIds[$key1];
+                $temp['optionText'] = $option;
+                $optionsWithId[] = $temp;
+            }
+            $activities[$key]->options = $optionsWithId;
+        }
+        
+        return $activities;  
+    }
+
+    /**
      * @return Level1 Traits details object
       Parameters
       @$traitsAnswerDetail : Array of Level1 Traits Answer Details from front
@@ -717,7 +765,6 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
     public function saveLevel1TraitsAnswer($traitsAnswerDetail) {
         $objLevel1TraitsAnswers = new Level1TraitsAnswers();
         $checkIfAnswered = $objLevel1TraitsAnswers->where([['tqq_id','=',$traitsAnswerDetail['tqq_id']],['tqo_id','=',$traitsAnswerDetail['tqo_id']],['tqa_from','=',$traitsAnswerDetail['tqa_from']],['tqa_to','=',$traitsAnswerDetail['tqa_to']]])->count();
-        echo $checkIfAnswered;
         $return = 1;
         if ($checkIfAnswered == 0){
             $return = $objLevel1TraitsAnswers->create($traitsAnswerDetail);
