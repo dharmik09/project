@@ -18,7 +18,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\RemoveNotificationData',
         'App\Console\Commands\InactiveUserNotification',
         'App\Console\Commands\expiredProCoinsForTeenager',
-        'App\Console\Commands\resetAdminGiftedProCoins'
+        'App\Console\Commands\resetAdminGiftedProCoins',
+        'App\Console\Commands\CreateSlug'
     ];
 
     /**

@@ -424,7 +424,7 @@
             <div class="bg-white my-progress profile-tab">
                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
                     <li class="active custom-tab col-xs-4 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Achievements <span class="count">(10)</span></span></span></a></li>
-                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">({{count($myCareers)}})</span></span></span></a></li>
+                    <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Careers <span class="count">({{$myCareersCount}})</span></span></span></a></li>
                     <li class="custom-tab col-xs-4 tab-color-3"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">My Connections <span class="count">({{$myConnectionsCount}})</span></span></span></a></li>
                 </ul>
                 <div class="tab-content">
@@ -542,7 +542,7 @@
                         </ul>
                     </div>
                     <div id="menu2" class="tab-pane fade">
-                        <div class="careers-tab">
+                        <div class="careers-tab my-career">
                             @forelse ($myCareers as $myCareer)
                             <div class="careers-block">
                                 <div class="careers-img">
@@ -564,6 +564,11 @@
                                 <h3>No Records found.</h3>
                             </center>
                             @endforelse
+                            @if (!empty($myCareers) && $myCareersCount > 10)
+                                <p class="text-center remove-my-careers-row">
+                                    <a id="load-more-career" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myCareer->attemptedId }}">load more</a>
+                                </p>
+                            @endif
                         </div>
                     </div>
                     <div id="menu3" class="tab-pane fade my-connection">
@@ -1218,9 +1223,32 @@
             }
         });
     });
+    
+    $(document).on('click','#load-more-career',function(){
+        var lastAttemptedId = $(this).data('id');
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'lastAttemptedId=' + lastAttemptedId;
+        $.ajax({
+            url : '{{ url("teenager/load-more-my-careers") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            dataType : "text",
+            success : function (data) {
+                if(data != '') {
+                    $('.remove-my-careers-row').remove();
+                    $('.my-career').append(data);
+                } else {
+                }
+            }
+        });
+    });
 
     function fetchLevel1TraitQuestion() {
         var CSRF_TOKEN = "{{ csrf_token() }}";
+        var toUserId = '';
         $.ajax({
             type: 'POST',
             url: "{{url('teenager/get-level1-trait')}}",
@@ -1228,7 +1256,7 @@
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
-            data: {},
+            data: {'toUserId':toUserId},
             success: function (response) {
                 $("#traitsData").html(response);
             }
@@ -1242,6 +1270,7 @@
             answerId.push($(this).val());
         });
         var queId = $('#traitQue').val();
+        var toUserId = '';
         $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
         $("#traitsData").addClass('loading-screen-parent');
         
@@ -1253,7 +1282,7 @@
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
-            data: {'answerID':answerId,'questionID':queId},
+            data: {'answerID':answerId,'questionID':queId,'toUserId':toUserId},
             success: function (response) {
                 $("#traitsData").html(response);
                 $("#traitsData").removeClass('loading-screen-parent');

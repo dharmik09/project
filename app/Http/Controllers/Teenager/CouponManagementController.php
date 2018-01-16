@@ -48,7 +48,7 @@ class CouponManagementController extends Controller {
                 } else {
                     $finalCoupons['type'] = 'inactive';
                 }
-                if (isset($coupon->cp_image) && $coupon->cp_image != '') {
+                if (isset($coupon->cp_image) && $coupon->cp_image != '' && Storage::size($this->couponOriginalImageUploadPath . $coupon->cp_image) > 0) {
                     $finalCoupons['coupon_logo'] = Storage::url($this->couponOriginalImageUploadPath . $coupon->cp_image);
                 } else {
                     $finalCoupons['coupon_logo'] = Storage::url($this->couponOriginalImageUploadPath . 'proteen-logo.png');

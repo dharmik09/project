@@ -8,6 +8,7 @@ use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use App\Services\Level1CartoonIcon\Contracts\Level1CartoonIconRepository;
 use App\Services\Level1HumanIcon\Contracts\Level1HumanIconRepository;
+use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Auth;
 use Illuminate\Http\Request;
 use Config;
@@ -26,7 +27,7 @@ class Level1ActivityController extends Controller
      *
      * @return void
      */
-    public function __construct(Level1HumanIconRepository $level1HumanIconRepository, Level1CartoonIconRepository $level1CartoonIconRepository, FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository)
+    public function __construct(Level1HumanIconRepository $level1HumanIconRepository, Level1CartoonIconRepository $level1CartoonIconRepository, FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
     {
         $this->level1ActivitiesRepository = $level1ActivitiesRepository;
         $this->level1CartoonIconRepository = $level1CartoonIconRepository;
@@ -34,6 +35,7 @@ class Level1ActivityController extends Controller
         $this->objLevel1Activity = new Level1Activity;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->objTraits = new Level1Traits;
+        $this->teenagersRepository = $teenagersRepository;
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
         $this->cartoonOriginalImageUploadPath = config::get('constant.CARTOON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->cartoonThumbImageWidth = Config::get('constant.CARTOON_THUMB_IMAGE_WIDTH');
@@ -134,7 +136,14 @@ class Level1ActivityController extends Controller
     }
     public function getLevel1Trait(){
         $userId = Auth::guard('teenager')->user()->id;
-        $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId);
+        $toUser = Input::get('toUserId');
+        if($toUser == ''){
+            $toUserId = $userId;
+        }
+        else{
+            $toUserId = $this->teenagersRepository->getTeenagerByUniqueId($toUser)->id;
+        }
+        $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId,$toUserId);
         if(count($traitQuestion)>0){
             $return = '<div class="survey-list">
                 <div class="qualities-sec">
@@ -166,6 +175,13 @@ class Level1ActivityController extends Controller
         $userId = Auth::guard('teenager')->user()->id;
         $questionID = Input::get('questionID');
         $answerArray = Input::get('answerID');
+        $toUser = Input::get('toUserId');
+        if($toUser == ''){
+            $toUserId = $userId;
+        }
+        else{
+            $toUserId = $this->teenagersRepository->getTeenagerByUniqueId($toUser)->id;
+        }
 
         if (isset($userId) && $userId > 0 && isset($questionID) && $questionID != 0) {
             $answerType = $this->objTraits->find($questionID)->tqq_is_multi_select;
@@ -181,7 +197,7 @@ class Level1ActivityController extends Controller
                 $answers['tqq_id'] = $questionID;
                 $answers['tqo_id'] = $value;
                 $answers['tqa_from'] = $userId;
-                $answers['tqa_to'] = $userId;
+                $answers['tqa_to'] = $toUserId;
                 $questionsArray = $this->level1ActivitiesRepository->saveLevel1TraitsAnswer($answers);
             }
             if($questionsArray){

@@ -682,7 +682,7 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
      * Parameter : $section
      * return : Traits which is not attempted by teenager passed
     */
-    public function getAllNotAttemptedTraits($teenagerId)
+    public function getAllNotAttemptedTraits($teenagerId,$toUserID)
     {
         $activities = DB::select(DB::raw("SELECT tmp.*
                                             FROM (SELECT
@@ -700,8 +700,8 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
                                             INNER JOIN " . config::get('databaseconstants.TBL_TRAITS_QUALITY_OPTIONS') . " AS tqo ON tqo.tqq_id = tqq.id
                                             GROUP BY
                                                 tqq.id) AS tmp
-                                            LEFT JOIN " . config::get('databaseconstants.TBL_TRAITS_QUALITY_ANSWER') . " AS tqa ON tqa.tqq_id = tmp.activityID AND tqa.tqa_from = $teenagerId
-                                            WHERE tmp.deleted=1 and tqa.id IS NULL AND tqa.tqa_from IS NULL AND tqa.tqq_id IS NULL AND tqa.tqa_to IS NULL "), array());
+                                            LEFT JOIN " . config::get('databaseconstants.TBL_TRAITS_QUALITY_ANSWER') . " AS tqa ON tqa.tqq_id = tmp.activityID AND tqa.tqa_from = $teenagerId AND tqa.tqa_to = $toUserID
+                                            WHERE tmp.deleted=1 and tqa.id IS NULL AND tqa.tqa_from IS NULL AND tqa.tqa_to IS NULL AND tqa.tqq_id IS NULL AND tqa.tqa_to IS NULL "), array());
 
 
         foreach($activities as $key => $activity)
@@ -730,7 +730,7 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
      * Parameter : $section
      * return : Traits which is not attempted by teenager passed
     */
-    public function getLastNotAttemptedTraits($teenagerId)
+    public function getLastNotAttemptedTraits($teenagerId,$toUserID)
     {
         $activities = DB::select(DB::raw("SELECT tmp.*
                                             FROM (SELECT
@@ -748,8 +748,8 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
                                             INNER JOIN " . config::get('databaseconstants.TBL_TRAITS_QUALITY_OPTIONS') . " AS tqo ON tqo.tqq_id = tqq.id
                                             GROUP BY
                                                 tqq.id) AS tmp
-                                            LEFT JOIN " . config::get('databaseconstants.TBL_TRAITS_QUALITY_ANSWER') . " AS tqa ON tqa.tqq_id = tmp.activityID AND tqa.tqa_from = $teenagerId
-                                            WHERE tmp.deleted=1 and tqa.id IS NULL AND tqa.tqa_from IS NULL AND tqa.tqq_id IS NULL AND tqa.tqa_to IS NULL LIMIT 1"));
+                                            LEFT JOIN " . config::get('databaseconstants.TBL_TRAITS_QUALITY_ANSWER') . " AS tqa ON tqa.tqq_id = tmp.activityID AND tqa.tqa_from = $teenagerId AND tqa.tqa_to = $toUserID
+                                            WHERE tmp.deleted=1 and tqa.id IS NULL AND tqa.tqa_from IS NULL AND tqa.tqa_to IS NULL AND tqa.tqq_id IS NULL AND tqa.tqa_to IS NULL LIMIT 1"));
 
 
         foreach($activities as $key => $activity)

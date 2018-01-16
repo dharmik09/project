@@ -898,9 +898,11 @@ class Level1ActivityController extends Controller
     public function getLevel1Traits(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $teenagerToUserID = $this->teenagersRepository->getTeenagerById($request->toUserID);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel1Traits'));
-        if($request->userId != "" && $teenager) {
-            $data = $this->level1ActivitiesRepository->getAllNotAttemptedTraits($request->userId);
+        if($request->userId != "" && $request->toUserID != "" && $teenager && $teenagerToUserID) {
+            $toUserID = $request->toUserID;
+            $data = $this->level1ActivitiesRepository->getAllNotAttemptedTraits($request->userId,$toUserID);
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -918,10 +920,12 @@ class Level1ActivityController extends Controller
     public function saveLevel1Traits(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $teenagerToUserID = $this->teenagersRepository->getTeenagerById($request->toUserID);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
-        if($request->userId != "" && $request->activityID != "" && $request->optionId != "" && $teenager) {
+        if($request->userId != "" && $request->activityID != "" && $request->optionId != "" && $request->toUserID != "" && $teenager && $teenagerToUserID) {
 
             $questionID = $request->activityID;
+            $toUserID = $request->toUserID;
             $answerArray = explode("," , $request->optionId);
 
             if (isset($request->userId) && $request->userId > 0 && isset($questionID) && $questionID != 0) {
@@ -938,7 +942,7 @@ class Level1ActivityController extends Controller
                     $answers['tqq_id'] = $questionID;
                     $answers['tqo_id'] = $value;
                     $answers['tqa_from'] = $request->userId;
-                    $answers['tqa_to'] = $request->userId;
+                    $answers['tqa_to'] = $toUserID;
                     $questionsArray = $this->level1ActivitiesRepository->saveLevel1TraitsAnswer($answers);
                 }
                 if($questionsArray){

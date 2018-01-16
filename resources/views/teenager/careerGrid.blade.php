@@ -40,13 +40,7 @@
                                     <div class="panel-body">
                                         <section class="career-content">
                                             <div class="bg-white">
-                                                <div class="banner-landing banner-career">
-                                                    <div class="">
-                                                        <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video"><img src="img/play-icon.png" alt="play icon"></a></div>
-                                                    </div><iframe width="100%" height="100%" src="{{$value->b_video}}" frameborder="0" allowfullscreen id="iframe-video"></iframe></div>
-                                                <section class="sec-category">
-                                                    <div id="profession{{$value->id}}"></div>
-                                                </section>
+                                                <div id="profession{{$value->id}}"></div>
                                             </div>
                                         </section>
                                     </div>
@@ -64,14 +58,20 @@
 @stop
 @section('script') 
 <script>
-    $('.play-icon').click(function() {
-        $(this).hide();
-        $('iframe').show();
-    })
+    function playVideo(id,link) {
+        $("#"+id).hide();
+        $('.iframe').attr('src', '');
+        $("#iframe-video-"+id).attr('src', 'https://www.youtube.com/embed/'+link+'?autoplay=1');
+        $("#iframe-video-"+id).show();
+    }
 
     function fetchProfessionData(id) {
-
+        $('.play-btn').show();
+        $('.iframe').attr('src', '');
         if ( !$("#profession"+id).hasClass( "dataLoaded" ) ) {
+            
+            $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#profession"+id).addClass('loading-screen-parent');
 
             var CSRF_TOKEN = "{{ csrf_token() }}";
             $.ajax({
@@ -85,6 +85,7 @@
                 success: function (response) {
                     $("#profession"+id).html(response);
                     $("#profession"+id).addClass("dataLoaded");
+                    $("#profession"+id).removeClass('loading-screen-parent');
                 }
             });
         }
