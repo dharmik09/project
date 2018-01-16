@@ -898,8 +898,9 @@ class Level1ActivityController extends Controller
     public function getLevel1Traits(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $teenagerToUserID = $this->teenagersRepository->getTeenagerById($request->toUserID);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel1Traits'));
-        if($request->userId != "" && $request->toUserID != "" && $teenager) {
+        if($request->userId != "" && $request->toUserID != "" && $teenager && $teenagerToUserID) {
             $toUserID = $request->toUserID;
             $data = $this->level1ActivitiesRepository->getAllNotAttemptedTraits($request->userId,$toUserID);
             $response['status'] = 1;
@@ -919,8 +920,9 @@ class Level1ActivityController extends Controller
     public function saveLevel1Traits(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $teenagerToUserID = $this->teenagersRepository->getTeenagerById($request->toUserID);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
-        if($request->userId != "" && $request->activityID != "" && $request->optionId != "" && $teenager) {
+        if($request->userId != "" && $request->activityID != "" && $request->optionId != "" && $request->toUserID != "" && $teenager && $teenagerToUserID) {
 
             $questionID = $request->activityID;
             $toUserID = $request->toUserID;
