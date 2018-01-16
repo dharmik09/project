@@ -233,3 +233,6 @@ CREATE TABLE `pro_tqa_traits_quality_answer` (
  `deleted` tinyint(1) DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted',
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+//Added new field in profession table for unique slug
+ALTER TABLE `pro_pf_profession` ADD `pf_slug` VARCHAR(255) NULL DEFAULT NULL AFTER `pf_profession_alias`, ADD UNIQUE `unique_slug` (`pf_slug`);
