@@ -1180,6 +1180,7 @@
 
     function fetchLevel1TraitQuestion() {
         var CSRF_TOKEN = "{{ csrf_token() }}";
+        var toUserId = '';
         $.ajax({
             type: 'POST',
             url: "{{url('teenager/get-level1-trait')}}",
@@ -1187,7 +1188,7 @@
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
-            data: {},
+            data: {'toUserId':toUserId},
             success: function (response) {
                 $("#traitsData").html(response);
             }
@@ -1201,6 +1202,7 @@
             answerId.push($(this).val());
         });
         var queId = $('#traitQue').val();
+        var toUserId = '';
         $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
         $("#traitsData").addClass('loading-screen-parent');
         
@@ -1212,7 +1214,7 @@
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
-            data: {'answerID':answerId,'questionID':queId},
+            data: {'answerID':answerId,'questionID':queId,'toUserId':toUserId},
             success: function (response) {
                 $("#traitsData").html(response);
                 $("#traitsData").removeClass('loading-screen-parent');

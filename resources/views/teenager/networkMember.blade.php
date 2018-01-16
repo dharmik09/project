@@ -128,60 +128,8 @@
     <!-- sec personal survey-->
     <div class="sec-survey describe-traits">
         <div class="container">
-            <p>Choose three traits you feel describe Alex:</p>
-            <div class="survey-list">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Technologist</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Adventurer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Geek</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Entrepreneur</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Writer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Artist</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Explorer</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Thinker</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="ck-button">
-                            <label><input type="checkbox" value="1"><span>Tree Hugger</span></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-btn">
-                    <span class="icon"><i class="icon-arrow-spring"></i></span>
-                    <a href="#" title="Submit">Submit</a>
-                </div>
-            </div>
+            <h2>{{ucfirst($teenDetails->t_name)}} {{ucfirst($teenDetails->t_lastname)}} Survey</h2>
+            <div id="traitsData"></div>
         </div>
     </div>
     <!-- sec personal survey end-->
@@ -309,4 +257,56 @@
     </section>
     <!--sec progress end-->
     <!--mid section end-->
+@stop
+@section('script')
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        fetchLevel1TraitQuestion();
+    });
+    
+    function fetchLevel1TraitQuestion() {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        var toUserId = '{{$teenDetails->t_uniqueid}}';
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-level1-trait')}}",
+            dataType: 'html',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'toUserId':toUserId},
+            success: function (response) {
+                $("#traitsData").html(response);
+            }
+        });
+    }
+
+    function saveLevel1TraitQuestion() {
+
+        var answerId = [];
+        $.each($("input[name='traitAns']:checked"), function(){            
+            answerId.push($(this).val());
+        });
+        var queId = $('#traitQue').val();
+        var toUserId = '{{$teenDetails->t_uniqueid}}';
+        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#traitsData").addClass('loading-screen-parent');
+        
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/save-level1-trait')}}",
+            dataType: 'html',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'answerID':answerId,'questionID':queId,'toUserId':toUserId},
+            success: function (response) {
+                $("#traitsData").html(response);
+                $("#traitsData").removeClass('loading-screen-parent');
+            }
+        });
+    }
+</script>
 @stop
