@@ -8,9 +8,11 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Coupons\Contracts\CouponsRepository;
+use App\Services\Template\Contracts\TemplatesRepository;
 use Config;
 use Storage;
 use Helpers;
+use Mail;
 
 class CouponController extends Controller
 {
@@ -19,11 +21,12 @@ class CouponController extends Controller
      *
      * @return void
      */
-    public function __construct(TeenagersRepository $teenagersRepository, CouponsRepository $couponsRepository)
+    public function __construct(TeenagersRepository $teenagersRepository, CouponsRepository $couponsRepository, TemplatesRepository $templateRepository)
     {
         //$this->middleware('admin.guest', ['except' => 'logout']);
         $this->couponsRepository = $couponsRepository;
         $this->teenagersRepository = $teenagersRepository;
+        $this->templateRepository = $templateRepository;
         $this->teenagerThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->couponOriginalImageUploadPath = Config::get('constant.COUPON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->couponThumbImageUploadPath = Config::get('constant.COUPON_THUMB_IMAGE_UPLOAD_PATH');
@@ -78,6 +81,94 @@ class CouponController extends Controller
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : consumeCoupon
+     *  loginToken, userId, couponId, consumedEmail, type
+     *  Service after loggedIn user
+     */
+    public function consumeCoupon(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            //Teenager selected sponsor array
+            $sponsorArr = array();
+            $teenagerSponsor = $this->teenagersRepository->getTeenagerSelectedSponsor($request->userId);
+            if (isset($teenagerSponsor) && !empty($teenagerSponsor)) {
+                foreach ($teenagerSponsor as $key => $val) {
+                    $sponsorArr[] = $val->ts_sponsor;
+                }
+            }
+            //Check if this is valid coupon id
+            $couponData = $this->couponsRepository->getCouponsById($request->couponId);
+            if (isset($couponData) && !empty($couponData)) {
+                if ($couponData->cp_limit == 0) {
+                    $response['status'] = 0;
+                    $response['message'] = 'Limit is reached of this coupon';
+                } else {
+                    //Check if user has already consumed or gifted this coupon
+                    $consumeCoupon = $this->couponsRepository->checkConsumeCoupon($request->couponId, $request->userId);
+                    if (isset($consumeCoupon) && !empty($consumeCoupon)) {
+                        $response['status'] = 0;
+                        $response['message'] = 'You have already consumed this coupon';
+                    } elseif (!in_array($couponData->cp_sponsor, $sponsorArr)) {
+                        $response['status'] = 0;
+                        $response['message'] = 'Unauthorised coupon';
+                    } else {
+                        if (isset($couponData->cp_image) && $couponData->cp_image != '' && Storage::size($this->couponOriginalImageUploadPath . $couponData->cp_image) > 0) {
+                                $coupon_image = Storage::url($this->couponOriginalImageUploadPath . $couponData->cp_image);
+                            } else {
+                                $coupon_image = Storage::url($this->couponOriginalImageUploadPath . 'proteen-logo.png');
+                            }
+
+                            //Send email to user for coupon
+                            $replaceArray = array();
+                            $replaceArray['TEEN_NAME'] = $request->consumedEmail;
+                            $replaceArray['SPONSOR_NAME'] = $couponData->sp_company_name;
+                            $replaceArray['COUPON_IMAGE_URL'] = '<img src="' . $coupon_image . '" alt="">';
+                            $replaceArray['COUPON_CODE'] = $couponData->cp_code;
+
+                            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.CONSUME_COUPON_TEMPLATE'));
+
+                            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+
+                            $data = array();
+                            $data['subject'] = $emailTemplateContent->et_subject;
+                            $data['toEmail'] = (isset($request->consumedEmail) && !empty($request->consumedEmail) && $request->consumedEmail != '' && $request->type == 'gift') ? $request->consumedEmail : $teenager->t_email;
+                            $data['toName'] = '';
+                            $data['content'] = $content;
+                            $data['teen_id'] = $request->userId;
+                            $data['tcu_coupon_id'] = $request->couponId;
+                            $data['tcu_allocated_email'] = $teenager->t_email;
+                            $data['tcu_consumed_email'] = (isset($request->consumedEmail) && !empty($request->consumedEmail) && $request->consumedEmail != '' && $request->type == 'gift') ? $request->consumedEmail : $teenager->t_email;
+                            $data['tcu_type'] = $request->type;
+
+                            Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
+                                $message->subject($data['subject']);
+                                $message->to($data['toEmail'], $data['toName']);
+
+                                $teenagerConsumeCouponData['tcu_teenager'] = $data['teen_id'];
+                                $teenagerConsumeCouponData['tcu_coupon_id'] = $data['tcu_coupon_id'];
+                                $teenagerConsumeCouponData['tcu_allocated_email'] = $data['tcu_allocated_email'];
+                                $teenagerConsumeCouponData['tcu_consumed_email'] = $data['tcu_consumed_email'];
+                                $teenagerConsumeCouponData['tcu_type'] = $data['tcu_type'];
+                                $this->couponsRepository->saveTeenagerConsumedCoupon($teenagerConsumeCouponData);
+                                    });
+                            $response['status'] = 1;
+                            $response['message'] = trans('appmessages.default_success_msg');
+                        }
+                    }
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = 'Invalid coupon';
+                }
+                $response['login'] = 1;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }

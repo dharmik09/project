@@ -172,7 +172,7 @@ ALTER TABLE `pro_av_app_versions`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `pro_av_app_versions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 //Alter table pro_pf_profession for Alias field make nullable for ## 03-01-2018
 ALTER TABLE `pro_pf_profession` CHANGE `pf_profession_alias` `pf_profession_alias` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
@@ -207,7 +207,7 @@ CREATE TABLE `pro_tqq_traits_quality_activity` (
  `updated_at` timestamp NULL DEFAULT NULL,
  `deleted` tinyint(1) DEFAULT '1' COMMENT ' 1 - Active , 2 - Inactive, 3 - Deleted',
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
 //Added new table for manage traits question's option #12-01-2018 Jaimin
 CREATE TABLE `pro_tqo_traits_quality_options` (

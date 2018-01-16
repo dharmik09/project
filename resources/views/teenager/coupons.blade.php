@@ -31,6 +31,12 @@
                         <?php $activeClass = ($val['type'] == 'active' && $val['is_consume'] == 0)?'':'deactive'; ?>
                         <div class="col-sm-4 flex-items {{ $activeClass }} coupon_div_{{$val['id']}}">
                             <div class="block-procoins">
+                                <div id="loading-wrapper-sub-{{$val['id']}}" class="loading-wrapper-sub loading-screen remove-loader">
+                                    <div id="loading-text">
+                                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                                        <div id="loading-content">
+                                        </div>
+                                </div>
                                 <div class="coin-info">
                                     <div class="icon">
                                         <img src="{{ $val['coupon_logo'] }}" alt="proteen-coupons">
@@ -82,7 +88,8 @@
     <script>
         function consumeCoupon(coupon_id, email, type)
         {
-            $('#loading-wrapper').show();
+            $("#loading-wrapper-sub-"+coupon_id).parent().toggleClass('loading-screen-parent');
+            $("#loading-wrapper-sub-"+coupon_id).show();
             $.ajax({
                 url: "{{ url('teenager/consume-coupon') }}",
                 type: 'post',
@@ -93,7 +100,8 @@
                     "usage_type": type
                 },
                 success: function(response) {
-                $('#loading-wrapper').hide();
+                    $("#loading-wrapper-sub-"+coupon_id).hide();
+                    $("#loading-wrapper-sub-"+coupon_id).parent().removeClass('loading-screen-parent');
                     if(response == 'invalid') {
                         $(window).scrollTop(0);
                         $('.box-body').show();
