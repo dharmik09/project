@@ -280,9 +280,47 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         $mainArray = [];
         $professionattempt = DB::select(DB::raw("select profession.pf_name,profession.pf_logo,profession.id from " . config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS attempted
                                                       join " . config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession on attempted.tpa_peofession_id = profession.id
-                                                      where attempted.tpa_teenager=" . $userid ." order BY attempted.id DESC"));
-
+                                                      where attempted.tpa_teenager=" . $userid ." AND profession.deleted=" . Config::get('constant.ACTIVE_FLAG') . " order BY attempted.id DESC"));
+        
         return $professionattempt;
+    }
+
+    /**
+     * Parameter : $userid
+     * return : array of attempted profession of teenager and level wise booster score
+     */
+    public function getTeenagerAttemptedProfessionsSlotWise($userId, $lastAttemptedId = '') {
+        $professionAttempt = $this->model->selectRaw('pro_pf_profession.pf_name, pro_pf_profession.pf_logo, pro_pf_profession.id, attempted.id as attemptedId')
+                                ->join(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED'). " AS attempted", 'attempted.tpa_peofession_id', '=', 'pro_pf_profession.id')
+                                ->where('attempted.tpa_teenager', $userId)
+                                ->where(function($query) use ($lastAttemptedId)  {
+                                    if(isset($lastAttemptedId) && !empty($lastAttemptedId)) {
+                                        $query->where('attempted.id', '<', $lastAttemptedId);
+                                    }
+                                 })
+                                ->where('pro_pf_profession.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('attempted.id', 'DESC')
+                                ->limit(10)
+                                ->get();
+
+        return $professionAttempt;
+    }
+
+    public function getTeenagerAttemptedProfessionCount($userId, $lastAttemptedId = '') {
+        $professionAttemptCount = $this->model->selectRaw('pro_pf_profession.pf_name, pro_pf_profession.pf_logo, pro_pf_profession.id, attempted.id as attemptedId')
+                                ->join(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED'). " AS attempted", 'attempted.tpa_peofession_id', '=', 'pro_pf_profession.id')
+                                ->where('attempted.tpa_teenager', $userId)
+                                ->where(function($query) use ($lastAttemptedId)  {
+                                    if(isset($lastAttemptedId) && !empty($lastAttemptedId)) {
+                                        $query->where('attempted.id', '<', $lastAttemptedId);
+                                    }
+                                 })
+                                ->where('pro_pf_profession.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('attempted.id', 'DESC')
+                                ->limit(10)
+                                ->count();
+
+        return $professionAttemptCount;
     }
 
     /**

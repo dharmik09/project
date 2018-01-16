@@ -8,6 +8,7 @@ Route::get('/set-profile', 'Teenager\DashboardController@setProfile')->name('set
 Route::post('/save-profile', 'Teenager\DashboardController@saveProfile')->name('save-profile');
 Route::post('/save-teenager-academic-info', 'Teenager\DashboardController@saveTeenagerAcademic');
 Route::post('/save-teenager-achievement-info', 'Teenager\DashboardController@saveTeenagerAchievement');
+Route::post('/load-more-my-careers', 'Teenager\DashboardController@loadMoreMyCareers')->name('load-more-my-careers');
 Route::get('/chat', 'Teenager\DashboardController@chat');
 Route::post('/get-phone-code-by-country-for-profile', 'Teenager\DashboardController@getPhoneCodeByCountry');
 Route::post('/save-pair', 'Teenager\DashboardController@savePair')->name('save-pair');
