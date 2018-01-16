@@ -105,4 +105,5 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 
 	//Coupon
 	Route::post('/getCoupons', 'Webservice\CouponController@getCoupons');
+	Route::post('/consumeCoupon', 'Webservice\CouponController@consumeCoupon');
 });

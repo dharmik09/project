@@ -4,7 +4,7 @@
 .loading-screen-parent{
     position: relative;min-height: 400px;
 }
-#loading-wrapper-sub {
+#loading-wrapper-sub, .loading-wrapper-sub {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -22,6 +22,11 @@
     }
     #loading-content {
         top: 200px;
+    }
+    &.loading-wrapper-sub{
+        #loading-text,#loading-content{
+        top: 50%;transform: translatey(-50%);
+        }
     }
 }
 .refresh-screen-parent{position: relative;min-height: 400px;}

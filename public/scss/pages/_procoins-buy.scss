@@ -205,12 +205,15 @@
                     height: 120px;
                     @include maxmd {
                         max-width: 110px;
+                        height: 100px;
                     }
                     @include maxsm {
                         max-width: 90px;
+                        height: 80px;
                     }
                     @include maxms{
                         max-width: 70px;
+                        height: 60px;
                     }
                 }
                 h4 {
