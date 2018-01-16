@@ -49,7 +49,8 @@ Route::post('/get-users', 'Teenager\CouponManagementController@getUsers');
 //Profile Level 1 Questions related route
 Route::post('/play-first-level-activity', 'Teenager\level1ActivityController@playLevel1Activity');
 Route::post('/save-first-level-activity', 'Teenager\level1ActivityController@saveFirstLevelActivity');
-
+Route::post('/play-first-level-world-type', 'Teenager\level1ActivityController@playLevel1WorldActivity');
+Route::post('/get-icon-name-new', 'Teenager\level1ActivityController@getIconNameNew');
 //Career
 Route::get('/my-careers', function() {
 	return view('teenager.myCareers');

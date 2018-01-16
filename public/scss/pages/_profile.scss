@@ -1511,7 +1511,7 @@ input:checked + .slider:before {
                 vertical-align: middle;
                // font-size: 80px;
                 span{
-                    width: 80px;display: inline-block;
+                    width: 80px;display: inline-block;margin-right: 10px;
                 }
                 @include maxmd {
                   //  font-size: 60px;
@@ -1524,10 +1524,11 @@ input:checked + .slider:before {
                 display: inline-block;
                 width: 60%;
                 text-align: left;
+                vertical-align: middle;
                 h4 {
                     text-transform: capitalize;
                     @include maxms {
-                        font-size: 18px;
+                        font-size: 16px;
                     }
                 }
             }

@@ -466,7 +466,7 @@ class ProfileController extends Controller
                 }
                 $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
             }
-            $data['description'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.";
+            $data['desc'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.";
             $data['icons'] = $teenagerMyIcons;
             $response['login'] = 1;
             $response['status'] = 1;

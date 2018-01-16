@@ -365,6 +365,30 @@
         <div class="container">
             <h2>Personal Survey Part - 1</h2>
             <div id="traitsData"></div>
+            
+            <div class="sec-popup">
+                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop3" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="pop3">
+                    <div class="popover-data">
+                        <a class="close popover-closer"><i class="icon-close"></i></a>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                    </div>
+                </div>
+            </div>
+            <h2>Personal Survey</h2>
+            <div class="survey-list">
+                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
+                    <div id="loading-text">
+                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+                    </div>
+                    <div id="loading-content"></div>
+                </div>
+                <div class="opinion-sec" id="opinionSection" style="display:none;">
+                </div>
+                <div id="firstLevelWorldSection">
+                    
+                </div>
+            </div>
         </div>
     </div>
     <!-- sec personal survey end-->
@@ -522,7 +546,14 @@
                             @forelse ($myCareers as $myCareer)
                             <div class="careers-block">
                                 <div class="careers-img">
-                                    <i class="icon-image"></i>
+                                    <!-- <i class="icon-image"></i> -->
+                                    <?php
+                                        if ($myCareer->pf_logo != "" && Storage::size(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo) > 0) {
+                                            $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo);
+                                        } else {
+                                            $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                                        } ?>
+                                <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
                                 </div>
                                 <div class="careers-content">
                                     <h4>{{ $myCareer->pf_name }}</h4>
@@ -753,7 +784,17 @@
                         items: 4
                     },
                 }
-            });
+        });
+        $('.icon-slider').owlCarousel({
+            loop: true,
+            margin: 0,
+            items: 1,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: false,
+            dots: false,
+        });
         jQuery.validator.addMethod("lettersonly", function(value, element) {
             return this.optional(element) || /^[a-z_'\s]+$/i.test(value);
         }, "Letters only please");
@@ -1062,6 +1103,29 @@
             $("#t_about_info").show();
         }
     });
+    function playFirstLevelWorldType(type) {
+        console.log(type);
+        $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        $('#loading-wrapper-sub').show();
+        $.ajax({
+            url: "{{url('teenager/play-first-level-world-type')}}",
+            type : 'POST',
+            data : {'type' : type},
+            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+            success: function(data){
+                $("#opinionSection").hide();
+                $('#firstLevelWorldSection').show();
+                $('#firstLevelWorldSection').html(data);
+                $('#loading-wrapper-sub').hide();
+                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                $('.icon-slider').owlCarousel('update');
+            },
+            error: function(){
+                $('#loading-wrapper-sub').hide();
+                $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+            }
+        });
+    }
 
     $(document).on('click','#load-more-connection',function(){
         var lastTeenId = $(this).data('id');
@@ -1127,6 +1191,36 @@
                 $("#traitsData").removeClass('loading-screen-parent');
             }
         });
+    }
+
+    function getIconName(categoryId, categoryType, page) {
+        var categoryId = categoryId;
+        var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType;
+        if (categoryId != 'pop_up' && categoryId != '') {
+            $.ajax({
+                type: 'POST',
+                data: dataString,
+                dataType: 'html',
+                url: "{{ url('/teenager/get-icon-name-new?page=') }}" + page,
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                cache: false,
+                success: function(data) {
+                    if (data == '') {
+                        $('.selected_category').hide();
+                        $('.no_selected_category').val(' ');
+                    } else {
+                        $(".selected_category").show();
+                        $('.no_selected_category').hide();
+                        $(".selected_category").html(data);
+                    }
+                }
+            });
+        } else {
+            $("#dataHtml").html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
+            $('#search_icon').hide();
+            $('#searchForIcon').val(' ');
+            $('#search_dataHtml').html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
+        }
     }
 </script>
 @stop
