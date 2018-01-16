@@ -1,7 +1,6 @@
 .coupons-heading {
     h1 {
-        margin-bottom: 11px;
-        // @include maxlg {
+        margin-bottom: 11px; // @include maxlg {
         //     font-size: 60px;
         // }
     }
@@ -28,7 +27,7 @@
     @include maxlg {
         padding-top: 20px;
     }
-    @include maxsm{
+    @include maxsm {
         padding: 10px 0;
     }
     .row {
@@ -54,7 +53,7 @@
         .block-procoins {
             background: $white;
             padding: 30px 20px;
-            @include maxmd{
+            @include maxmd {
                 padding: 20px;
             }
             .coin-info {
@@ -106,10 +105,10 @@
                         max-width: 162px;
                         padding: 6px 15px;
                     }
-                    @include maxsm{
+                    @include maxsm {
                         font-size: 17px;
                     }
-                    @include maxms{
+                    @include maxms {
                         font-size: 14px;
                         padding: 8px 15px;
                     }
@@ -121,5 +120,14 @@
                 }
             }
         }
+    }
+}
+
+#gift {
+    .btn-gift {
+        border: 2px solid $cl-complete;
+        color: $cl-complete;
+        background: $white;
+        padding: 6px 20px;
     }
 }

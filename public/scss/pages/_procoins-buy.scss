@@ -183,6 +183,7 @@
             padding: 50px 20px;
             position: relative;
             height: 100%;
+            width: 100%;
             @include maxmd {
                 padding: 40px 20px;
             }
@@ -201,6 +202,7 @@
                     margin-bottom: 30px;
                     max-width: 140px;
                     margin: 0 auto 30px;
+                    height: 120px;
                     @include maxmd {
                         max-width: 110px;
                     }
