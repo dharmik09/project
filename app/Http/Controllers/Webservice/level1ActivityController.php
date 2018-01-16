@@ -922,6 +922,7 @@ class Level1ActivityController extends Controller
         if($request->userId != "" && $request->activityID != "" && $request->optionId != "" && $teenager) {
 
             $questionID = $request->activityID;
+            $toID = $request->toUserID;
             $answerArray = explode("," , $request->optionId);
 
             if (isset($request->userId) && $request->userId > 0 && isset($questionID) && $questionID != 0) {
@@ -938,7 +939,7 @@ class Level1ActivityController extends Controller
                     $answers['tqq_id'] = $questionID;
                     $answers['tqo_id'] = $value;
                     $answers['tqa_from'] = $request->userId;
-                    $answers['tqa_to'] = $request->userId;
+                    $answers['tqa_to'] = $toID;
                     $questionsArray = $this->level1ActivitiesRepository->saveLevel1TraitsAnswer($answers);
                 }
                 if($questionsArray){
