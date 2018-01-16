@@ -1146,5 +1146,35 @@
                     }
                 });
     });
+
+    function getIconName(categoryId, categoryType, page) {
+        var categoryId = categoryId;
+        var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType;
+        if (categoryId != 'pop_up' && categoryId != '') {
+            $.ajax({
+                type: 'POST',
+                data: dataString,
+                dataType: 'html',
+                url: "{{ url('/teenager/get-icon-name-new?page=') }}" + page,
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                cache: false,
+                success: function(data) {
+                    if (data == '') {
+                        $('.selected_category').hide();
+                        $('.no_selected_category').val(' ');
+                    } else {
+                        $(".selected_category").show();
+                        $('.no_selected_category').hide();
+                        $(".selected_category").html(data);
+                    }
+                }
+            });
+        } else {
+            $("#dataHtml").html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
+            $('#search_icon').hide();
+            $('#searchForIcon').val(' ');
+            $('#search_dataHtml').html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
+        }
+    }
 </script>
 @stop

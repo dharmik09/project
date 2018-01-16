@@ -56,135 +56,14 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="icon-container">
-            <div class="no-data hide">
+        <div class="icon-container">
+            <div class="no-data no_selected_category">
                 <p>Please select one category</p>
             </div>
-            <div class="icon-container-inner">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Shaktimaan_Superhero_c2.jpeg" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Shaktimaan</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Mario_games_c4.png" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Mario</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/cartoon_1477831258.jpg" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Iron Man</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Roshesh%20Sarabhai_Wannabe%20Actor_c2.jpeg" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Rosesh Sarabhai</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Mario_games_c4.png" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Mario</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/cartoon_1477831258.jpg" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Iron Man</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Shaktimaan_Superhero_c2.jpeg" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Shaktimaan</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/cartoon_1477831258.jpg" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Ironman</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Roshesh%20Sarabhai_Wannabe%20Actor_c2.jpeg" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Rosesh Sarabhai</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Mario_games_c4.png" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Mario</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Shaktimaan_Superhero_c2.jpeg" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Shaktimaan</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <input class="icon-radio" type="radio" name="category_id">
-                        <label class="radio_img">
-                            <span class="icn">
-                                <img src="img/Mario_games_c4.png" alt="">
-                                <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
-                            </span>
-                            <span class="title">Mario</span>
-                        </label>
-                    </div>
-                </div>
+            <div class="icon-container-inner selected_category" style="display:none">
+                
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 

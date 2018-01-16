@@ -124,4 +124,39 @@ class Level1ActivityController extends Controller
         return response()->json($response, 200);
         exit;
     }
+
+    public function getIconNameNew() {
+        $categoryId = Input::get('categoryId');
+        $categoryType = Input::get('categoryType');
+
+        $textName = '';
+        $iconCategoryName = $data_cat_type = $data_name = $data_car_image = $image_path_location = $imagePath = '';
+        $iconCategoryNameArray = array();
+        if ($categoryType == "1" && $categoryId != '') {
+            $data_cat_type = 1;
+            $data_name = "ci_name";
+            $data_car_image = "ci_image";
+            $image_path_location = $this->cartoonThumbImageUploadPath;
+            $iconCategoryName = $this->level1ActivitiesRepository->getIconNameWithPagination($textName, $categoryId, "pro_ci_cartoon_icons");
+        } elseif ($categoryType == "2" && $categoryId != '') {
+            $iconCategoryName = $this->Level1ActivitiesRepository->getIconNameWithPagination($textName, $categoryId, "pro_hi_human_icons");
+            $data_cat_type = 2;
+            $data_name = "hi_name";
+            $image_path_location = $this->humanThumbImageUploadPath;
+            $data_car_image = "hi_image";
+        } else {
+            $iconCategoryName = '';
+        }
+
+        $html = '';
+        if (isset($iconCategoryName) && !empty($iconCategoryName) && count($iconCategoryName) > 0) {
+            foreach ($iconCategoryName as $value) {
+                $value->image = ($value->$data_car_image != '') ? Storage::url($image_path_location . $value->$data_car_image) : Storage::url($image_path_location . "proteen-logo.png");
+                $value->name = $value->$data_name;
+            }
+        }
+
+        return view('teenager.basic.level1ActivityIcon', compact('iconCategoryName','data_cat_type'));
+    }
+
 }
