@@ -129,44 +129,36 @@ class DashboardController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
-            //Dummy Records
-            $array = array ( 'people' => 0, 'nature' => 0, 'technical' => 0, 'creative-fine-arts' => 0, 'numerical' => 0, 'computers' => 0, 'research' => 0, 'performing-arts' => 0, 'social' => 0, 'sports' => 0, 'language' => 0, 'artistic' => 0, 'musical' => 0);
+            $teenagerStrength = [];
             
+            $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
             $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->userId);
-            $teenagerMI = isset($teenagerAPIData['APIscale']['MI']) ? $teenagerAPIData['APIscale']['MI'] : [];
+            $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
             foreach($teenagerMI as $miKey => $miVal) {
                 $mitName = Helpers::getMIBySlug($miKey);
-                $teenagerMI[$miKey] = (array('slug' => $miKey, 'points' => 0, 'score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
+                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
+                $teenagerStrength[] = (array('slug' => $miKey, 'points' => $teenMIScore, 'score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
             }
 
-            $teenagerAptitude = isset($teenagerAPIData['APIscale']['aptitude']) ? $teenagerAPIData['APIscale']['aptitude'] : [];
+            $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
+            $finalTeenagerAptitude = [];
             foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
                 $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-                $teenagerAptitude[$apptitudeKey] = (array('points' => 0, 'score' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeKey));
+                $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
+                $teenagerStrength[] = (array('slug' => $apptitudeKey, 'points' => $teenAptScore, 'score' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeKey));
             }
-            $teenagerPersonality = isset($teenagerAPIData['APIscale']['personality']) ? $teenagerAPIData['APIscale']['personality'] : [];
+            $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
+            $finalTeenagerPersonality = [];
             foreach($teenagerPersonality as $personalityKey => $personalityVal) {
                 $ptName = Helpers::getPersonalityBySlug($personalityKey);
-                $teenagerPersonality[$personalityKey] = (array('points' => 0, 'score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityKey));
+                $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
+                $teenagerStrength[] = (array('slug' => $personalityKey, 'points' => $teenPtScore, 'score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityKey));
             }
 
-            $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
-            //Dummy array
-            $array = array (array ('slug' => 'scientific-reasoning', 'points' => 0,'score' => '','name' => 'Scientific Reasoning','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/scientific-reasoning',
-                        ), array ('slug' => 'verbal-reasoning', 'points' => 25,'score' => '','name' => 'Verbal Reasoning','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/verbal-reasoning',
-                        ), array ('slug' => 'numerical-ability', 'points' => 25,'score' => '','name' => 'Numerical Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/numerical-ability',
-                        ), array ('slug' => 'logical-reasoning', 'points' => 25,'score' => '','name' => 'Logical Reasoning','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/logical-reasoning',
-                        ), array ('slug' => 'social-ability', 'points' => 15,'score' => '','name' => 'Social Ability','type' => 'apptitude','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/apptitude/social-ability',
-                        ), array ('slug' => 'artistic', 'points' => 90,'score' => 'H','name' => 'Artistic','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/artistic',
-                        ), array ('slug' => 'mechanical', 'points' => 90,'score' => 'H','name' => 'Mechanical','type' => 'personality','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/personality/mechanical',
-                        ), array('slug' => 'mechanical', 'points' => 90,'score' => '','name' => 'Interpersonal','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/interpersonal',
-                        ), array ('slug' => 'mechanical', 'points' => 75,'score' => '','name' => 'Logical','type' => 'mi','link_url' => 'http://local.inexture.com/teenager/multi-intelligence/mi/logical',
-                    ));
-            
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
-            $response['data'] = $array;
+            $response['data'] = $teenagerStrength;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
@@ -395,5 +387,13 @@ class DashboardController extends Controller
         }
         return response()->json($response, 200);
         exit;
+    }
+
+    //Calculate teenager strength and interest score percentage
+    public function getTeenScoreInPercentage($maxScore, $teenScore) 
+    {
+        $mul = 100*$teenScore;
+        $percentage = $mul/$maxScore;
+        return round($percentage);
     }
 }
