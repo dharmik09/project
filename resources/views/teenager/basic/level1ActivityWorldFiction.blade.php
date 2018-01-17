@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group custom-select">
-                                <select tabindex="8" class="form-control" onChange="getIconName(this.value, '1', 1, '')" data-category-type="1">
+                                <select tabindex="8" class="form-control" name="categoryId" id="categoryIdValue" onChange="getIconName(this.value, '1', 1, '')" data-category-type="1">
                                     @if(isset($maincartoonIconCategoryArray) && $maincartoonIconCategoryArray)
                                         <option value="">Select Category</option>
                                         @foreach($maincartoonIconCategoryArray as $mainIconArray)
@@ -67,7 +67,8 @@
                 </div>
                 <div class="form-btn">
                     <span class="icon"><i class="icon-arrow-spring"></i></span>
-                    <button type="submit" value="Submit" class="btn-search">Submit</button>
+                    <br/>
+                    <button type="submit" title="Next" class="btn btn-primary" id="nextSubmit">Next</button>
                 </div>
             </div>
         </form>

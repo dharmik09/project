@@ -1338,6 +1338,46 @@
             window.history.pushState("", "", url);
         });
 
+        $('body').on('click', '.fictional-world #nextSubmit', function(e) {
+            e.preventDefault();
+            var selectedIconId = $('input[name=category_id]:checked', '#level1ActivityWorldFiction').val();
+            var categoryId = $("#categoryIdValue").val();
+            var categoryType = $("#categoryIdValue").attr('data-category-type');
+            console.log(selectedIconId, categoryId, categoryType);
+            var dataSuccess = true;
+            if(selectedIconId == "" || typeof selectedIconId == 'undefined') {
+                alert("Please, select icon for category!");
+                dataSuccess = false
+            }
+            if(categoryId == "" || typeof categoryId == 'undefined') {
+                alert("Please, select category!");
+                dataSuccess = false
+            }
+            if(categoryType == "" || typeof categoryType == 'undefined') {
+                alert("Please, select any type from Fiction, Non-Fiction or Self - Relation.");
+                dataSuccess = false
+            }
+            if(dataSuccess) {
+                var dataString = 'categoryId=' + selectedIconId + '&categoryType=' + categoryType + '&selectedIconId=' + selectedIconId;
+                $.ajax({
+                    type: 'POST',
+                    data: dataString,
+                    dataType: 'html',
+                    url: "{{ url('/teenager/save-first-level-icon-category') }}",
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    cache: false,
+                    success: function(data) {
+                        if (data == '') {
+                            $('#search_icon').hide();
+                            $('#searchForIcon').val(' ');
+                        } else {
+                            $("#firstLevelWorldSection").html(data);
+                        }
+                    }
+                });
+            }
+        });
+
         function getArticles(url) {
             //var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType + '&searchText=' + searchText;
             $.ajax({
@@ -1356,5 +1396,19 @@
             });
         }
     });
+
+    function checkQualityData() {
+        var icon = $('input.iconCheck:checked').length;
+        var result = 1;
+        if (icon < 5 ) {
+        window.scrollTo(0,0);
+        if($("#useForClass").hasClass('r_after_click')){
+            $("#errorGoneMsg").html('');
+        }
+        $("#errorGoneMsg").append('<div class="col-md-8 col-md-offset-2 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select atleast five Qualities</span></div></div></div>');
+            return false;
+        }
+        return true;
+    }
 </script>
 @stop
