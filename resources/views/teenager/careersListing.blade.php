@@ -24,14 +24,14 @@
                     <div class="form-group custom-select bg-blue"><select tabindex="8" class="form-control"><option value="all careers">all careers</option><option value="agriculture">agriculture</option><option value="conservation">conservation</option><option value="Veterinarians">Veterinarians</option></select></div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12">
-                    <div class="form-group search-bar clearfix"><input type="text" placeholder="search" tabindex="1" class="form-control search-feild"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>
+                    <div class="form-group search-bar clearfix"><input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="search"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>
                 </div>
             </div>
         </div>
         <!-- mid section-->
         <section class="career-content listing-content">
             <div class="bg-white">
-                <div class="panel-group" id="accordion">
+                <div class="panel-group maindiv" id="accordion">
                     @forelse($basketsData as $key => $value)
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -85,7 +85,37 @@
         }
     }
 
-    fetchProfessionData({{$firstId}});    
+    fetchProfessionData({{$firstId}});
+
+    $(function() {
+
+        $('#search').keyup(function ()  {
+            if($("#search").val().length > 3) {                
+                $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+                $(".maindiv").addClass('loading-screen-parent');
+                var value = $("#search").val();
+                var CSRF_TOKEN = "{{ csrf_token() }}";
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('teenager/search-career-list')}}",
+                    dataType: 'html',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN
+                    },
+                    data: {'search_text':value},
+                    success: function (response) {
+                        $(".maindiv").html(response);
+                        $(".maindiv").addClass("dataLoaded");
+                        $(".maindiv").removeClass('loading-screen-parent');
+                        $('.maindiv').each(function(){
+                            var search_regexp = new RegExp(value, "gi");
+                            $(this).html($(this).html().replace(search_regexp,"<span style='font-weight:bold; color:green;'>"+value+"</span>"));
+                        });
+                    }
+                });
+            }
+        });
+    });
 
 </script>
 @stop

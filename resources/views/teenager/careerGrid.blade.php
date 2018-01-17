@@ -31,26 +31,24 @@
                 
                 <section class="career-content listing-content grid-view">
                     <div class="bg-white">
-                        <div class="panel-group" id="accordion">
-                            <div id="maindiv">
-                                @forelse($basketsData as $key => $value)
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}"  onclick="fetchProfessionData(this.id)" class="collapsed">{{$value->b_name}}</a> <a href="#" title="Grid view" class="grid"><i class="icon-list"></i></a></h4>
-                                    </div>
-                                    <div class="panel-collapse collapse <?php if($key == 0){echo 'in'; $firstId = $value->id;} ?>" id="accordion{{$value->id}}">
-                                        <div class="panel-body">
-                                            <section class="career-content">
-                                                <div class="bg-white">
-                                                    <div id="profession{{$value->id}}"></div>
-                                                </div>
-                                            </section>
-                                        </div>
+                        <div class="panel-group maindiv" id="accordion">
+                            @forelse($basketsData as $key => $value)
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}"  onclick="fetchProfessionData(this.id)" class="collapsed">{{$value->b_name}}</a> <a href="{{ url('teenager/list-career') }}" title="List view" class="grid"><i class="icon-list"></i></a></h4>
+                                </div>
+                                <div class="panel-collapse collapse <?php if($key == 0){echo 'in'; $firstId = $value->id;} ?>" id="accordion{{$value->id}}">
+                                    <div class="panel-body">
+                                        <section class="career-content">
+                                            <div class="bg-white">
+                                                <div id="profession{{$value->id}}"></div>
+                                            </div>
+                                        </section>
                                     </div>
                                 </div>
-                                @empty
-                                @endforelse
                             </div>
+                            @empty
+                            @endforelse
                         </div>
                     </div>
                 </section>
@@ -103,8 +101,8 @@
 
                 $('.iframe').attr('src', '');
                 
-                $("#maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
-                $("#maindiv").addClass('loading-screen-parent');
+                $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+                $(".maindiv").addClass('loading-screen-parent');
                 var value = $("#search").val();
                 var CSRF_TOKEN = "{{ csrf_token() }}";
                 $.ajax({
@@ -116,13 +114,21 @@
                     },
                     data: {'search_text':value},
                     success: function (response) {
-                        $("#maindiv").html(response);
-                        $("#maindiv").addClass("dataLoaded");
-                        $("#maindiv").removeClass('loading-screen-parent');
+                        $(".maindiv").html(response);
+                        $(".maindiv").addClass("dataLoaded");
+                        $(".maindiv").removeClass('loading-screen-parent');
+                        $('.maindiv').each(function(){
+                            var search_regexp = new RegExp(value, "gi");
+                            $(this).html($(this).html().replace(search_regexp,"<span style='font-weight:bold; color:green;'>"+value+"</span>"));
+                            // $(this).html($(this).html().replace(search_regexp,function(match){
+                            //     return '<span class="highlight">'+ match   +'</span>';
+                            // }));
+                        });
                     }
                 });
             }
-        }); //END dropdown change event
-    }); //END document.ready
+        });
+    });
+
 </script>
 @stop
