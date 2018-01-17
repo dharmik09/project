@@ -7,6 +7,7 @@
                 <span class="subtitle">Select Qualities For</span>
                 <span class="title">{{$data['icon_name']}}</span>
             </span>
+            <br/>
             <div class="row">
                 @if(isset($response['qualityList']) && count($response['qualityList']) > 0)
                     @foreach($response['qualityList'] as $key => $qualityValue)
@@ -34,7 +35,7 @@
         <div class="form-btn">
             <span class="icon"><i class="icon-arrow-spring"></i></span>
             <br/>
-            <input type="submit" class="btn primary_btn" value="Submit">
+            <button type="submit" title="Submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 </div>

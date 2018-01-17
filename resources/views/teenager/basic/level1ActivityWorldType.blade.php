@@ -1,6 +1,5 @@
 <div class="inner_container">
     <div class="landing_container">
-        <h1><span class="title_border">Select World Type</span></h1>
         <div>
             <div class="col-md-6 col-sm-6 col-xs-6 borderright">
                 <a href="<?php if($isQuestionCompleted == 0) { ?> {{ url('/teenager/playLevel1Activity') }} <?php } else { echo "javascript:void(0)"; }?>" class="landing_box landing_l1" onclick="checkLevel1Questions({{$isQuestionCompleted}});">
