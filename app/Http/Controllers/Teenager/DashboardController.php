@@ -512,7 +512,7 @@ class DashboardController extends Controller
     {
         $mul = 100*$teenScore;
         $percentage = $mul/$maxScore;
-        return round($percentage, 2);
+        return round($percentage);
     }
    
 }

@@ -54,7 +54,7 @@
 	                            ?>
                                 <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};" > 
                                     <div class="my_chart">
-                                        <div class="progress-radial progress-20">
+                                        <div class="progress-radial progress-{{$interestValue['score']}}">
                                         </div>
                                         <h4>
                                             <a href="{{ url('teenager/interest/') }}/{{$interestKey}}">{{ $interestValue['name']}}
@@ -93,7 +93,7 @@
                                         } ?>
                                     <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};">
                                         <div class="my_chart">
-                                            <div class="progress-radial progress-20">
+                                            <div class="progress-radial progress-{{$strengthValue['score']}}">
                                             </div>
                                             <h4><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}"> {{ $strengthValue['name'] }}</a></h4>
                                         </div>
