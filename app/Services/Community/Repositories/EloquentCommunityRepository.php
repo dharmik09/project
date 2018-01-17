@@ -21,7 +21,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         $activeFlag = Config::get('constant.ACTIVE_FLAG');
         $connectionRequests = $this->getAcceptedAndPendingConnectionsBySenderId($loggedInTeen);
         $newConnections = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
-                                ->whereNotIn('id', $connectionRequests->toArray())
+                                ->whereNotIn('id', $connectionRequests)
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', $activeFlag)
                                 ->where(function($query) use ($searchedConnections)  {
@@ -62,15 +62,23 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
 
     public function getAcceptedAndPendingConnectionsBySenderId($senderId)
     {
-        $receiverId = $this->model->select('tc_receiver_id')->where('tc_sender_id', $senderId)->where('tc_status', '<>', Config::get('constant.CONNECTION_REJECT_STATUS'))->get();
-        return $receiverId;
+        $connectedIds = [];
+        $receiverIdArr = $this->model->select('tc_receiver_id')->where('tc_sender_id', $senderId)->where('tc_status', '<>', Config::get('constant.CONNECTION_REJECT_STATUS'))->get();
+        $accptedIdArr = $this->model->select('tc_sender_id')->where('tc_receiver_id', $senderId)->where('tc_status', '<>', Config::get('constant.CONNECTION_REJECT_STATUS'))->get();
+        foreach ($receiverIdArr as $receiverId) {
+            $connectedIds[] =  $receiverId->tc_receiver_id;
+        }
+        foreach ($accptedIdArr as $accptedId) {
+            $connectedIds[] = $accptedId->tc_sender_id;
+        }
+        return $connectedIds;
     }
 
     public function getMyConnections($loggedInTeen, $searchedConnections = array(), $lastTeenId = '', $filterBy = '', $filterOption = '')
     {
         $connectedTeenIds = $this->getAcceptedConnectionsBySenderId($loggedInTeen);
         $myConnections = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
-                                ->whereIn('id', $connectedTeenIds->toArray())
+                                ->whereIn('id', $connectedTeenIds)
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
                                 ->where(function($query) use ($searchedConnections)  {
@@ -111,8 +119,16 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
 
     public function getAcceptedConnectionsBySenderId($senderId)
     {
-        $receiverId = $this->model->select('tc_receiver_id')->where('tc_sender_id', $senderId)->where('tc_status', Config::get('constant.CONNECTION_ACCEPT_STATUS'))->get();
-        return $receiverId;
+        $acceptedConnections = [];
+        $receiverIdArr = $this->model->select('tc_receiver_id')->where('tc_sender_id', $senderId)->where('tc_status', Config::get('constant.CONNECTION_ACCEPT_STATUS'))->get();
+        $accptedIdArr = $this->model->select('tc_sender_id')->where('tc_receiver_id', $senderId)->where('tc_status', Config::get('constant.CONNECTION_ACCEPT_STATUS'))->get();
+        foreach ($receiverIdArr as $receiverId) {
+            $acceptedConnections[] =  $receiverId->tc_receiver_id;
+        }
+        foreach ($accptedIdArr as $accptedId) {
+            $acceptedConnections[] = $accptedId->tc_sender_id;
+        }
+        return $acceptedConnections;
     }
 
     public function getNewConnectionsCount($loggedInTeen, $searchedConnections = array(), $lastTeenId = '', $filterBy = '', $filterOption = '')
@@ -120,7 +136,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         $activeFlag = Config::get('constant.ACTIVE_FLAG');
         $connectionRequests = $this->getAcceptedAndPendingConnectionsBySenderId($loggedInTeen);
         $newConnectionsCount = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
-                                ->whereNotIn('id', $connectionRequests->toArray())
+                                ->whereNotIn('id', $connectionRequests)
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', $activeFlag)
                                 ->where(function($query) use ($searchedConnections)  {
@@ -162,7 +178,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
     {
         $connectedTeenIds = $this->getAcceptedConnectionsBySenderId($loggedInTeen);
         $myConnectionsCount = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
-                                ->whereIn('id', $connectedTeenIds->toArray())
+                                ->whereIn('id', $connectedTeenIds)
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
                                 ->where(function($query) use ($searchedConnections)  {
