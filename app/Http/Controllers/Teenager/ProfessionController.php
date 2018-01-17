@@ -154,10 +154,9 @@ class ProfessionController extends Controller {
                             $query->where('pf_name', 'like', '%'.$this->value.'%');
                         })
                         ->get();
-        $return = '<p>Sorry!!! No result Found</p>';
-        if($basketsData)
+        $return = '';
+        if(count($basketsData)>0)
         {
-            $return = '';
         
             foreach ($basketsData as $key => $value) {
                 $professionAttemptedCount = 0;
@@ -170,7 +169,7 @@ class ProfessionController extends Controller {
                 }
                 $return .= '<div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion'.$value->id.'" id="'.$value->id.'" class="collapsed">'.$value->b_name.'</a> <a href="#" title="Grid view" class="grid"><i class="icon-list"></i></a></h4>
+                                    <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion'.$value->id.'" id="'.$value->id.'" class="collapsed">'.$value->b_name.'</a> <a href="'. url('teenager/list-career') .'" title="Grid view" class="grid"><i class="icon-list"></i></a></h4>
                                 </div>
                                 <div class="panel-collapse collapse in" id="accordion'.$value->id.'">
                                     <div class="panel-body">
@@ -229,6 +228,81 @@ class ProfessionController extends Controller {
                     </div>
                 </div>';
             }
+        }
+        else{
+            $return = '<center><h3>No result Found</h3></center>';
+        }
+        return $return;
+    }
+
+    public function listGetSearch(){
+        $userid = Auth::guard('teenager')->user()->id;
+        $this->value = Input::get('search_text');
+        $basketsData = $this->baskets
+                        ->with(['profession' => function ($query) {
+                            $query->where('pf_name', 'like', '%'.$this->value.'%');
+                        }])
+                        ->whereHas('profession', function ($query) {
+                            $query->where('pf_name', 'like', '%'.$this->value.'%');
+                        })
+                        ->get();
+        $return = '';
+        if(count($basketsData)>0)
+        {
+        
+            foreach ($basketsData as $key => $value) {
+                $professionAttemptedCount = 0;
+                foreach($value->profession as $k => $v){
+                    $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id,null);
+                    if(count($professionAttempted)>0){
+                        $basketsData[$key]['profession'][$k]['attempted'] = 'yes';
+                        $professionAttemptedCount++;
+                    }
+                }
+                $return .= '<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion'.$value->id.'" id="'.$value->id.'" class="collapsed">'.$value->b_name.'</a> <a href="'. url('teenager/career-grid') .'" title="Grid view" class="grid"><i class="icon-grid"></i></a></h4>
+                            </div>
+                            <div class="panel-collapse collapse in" id="accordion'.$value->id.'">
+                            <div id="profession'.$value->id.'">';
+
+                $return .= '<div class="panel-body">
+                                <div class="related-careers careers-tag">
+                                    <div class="career-heading clearfix">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>You have completed <strong>'.$professionAttemptedCount.' of '.count($value->profession).'</strong> careers</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="pull-right">
+                                                    <ul class="match-list">
+                                                        <li><span class="number match-strong">4</span> Strong match</li>
+                                                        <li><span class="number match-potential">5</span> Potential match</li>
+                                                        <li><span class="number match-unlikely">4</span> Unlikely match</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="career-list">';
+
+                foreach($value->profession as $k => $v){
+
+                    $return .= '<li class="match-strong complete-feild"><a href="#" title="'.$v->pf_name.'">'.$v->pf_name.'</a>';
+                        if(isset($v->attempted)){
+                            $return .= '<a class="complete"><span>Complete <i class="icon-thumb"></i></span></a>';
+                        }
+                    $return .= '</li>';
+                }
+
+                $return .= '</ul></div></div>';
+                $return .= '</div>
+                        </div>
+                    </div>';    
+            }
+        }
+        else{
+            $return = '<center><h3>No result Found</h3></center>';
         }
         return $return;
     }
