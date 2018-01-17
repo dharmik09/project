@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Teenager;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\Services\Level1CartoonIcon\Contracts\Level1CartoonIconRepository;
+use App\Services\Level1HumanIcon\Contracts\Level1HumanIconRepository;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Auth;
 use Illuminate\Http\Request;
@@ -24,10 +27,13 @@ class Level1ActivityController extends Controller
      *
      * @return void
      */
-    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
+    public function __construct(Level1HumanIconRepository $level1HumanIconRepository, Level1CartoonIconRepository $level1CartoonIconRepository, FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
     {
         $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->level1CartoonIconRepository = $level1CartoonIconRepository;
+        $this->level1HumanIconRepository = $level1HumanIconRepository;
         $this->objLevel1Activity = new Level1Activity;
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->objTraits = new Level1Traits;
         $this->teenagersRepository = $teenagersRepository;
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
@@ -210,7 +216,7 @@ class Level1ActivityController extends Controller
         $categoryId = Input::get('categoryId');
         $categoryType = Input::get('categoryType');
 
-        $textName = '';
+        $textName = ( Input::get('searchText') != "") ? Input::get('searchText') : "";
         $iconCategoryName = $data_cat_type = $data_name = $data_car_image = $image_path_location = $imagePath = '';
         $iconCategoryNameArray = array();
         if ($categoryType == "1" && $categoryId != '') {
@@ -218,9 +224,9 @@ class Level1ActivityController extends Controller
             $data_name = "ci_name";
             $data_car_image = "ci_image";
             $image_path_location = $this->cartoonThumbImageUploadPath;
-            $iconCategoryName = $this->level1ActivitiesRepository->getIconNameWithPagination($textName, $categoryId, "pro_ci_cartoon_icons");
+            $iconCategoryName = $this->level1ActivitiesRepository->searchIconNameWithPagination($categoryId, "pro_ci_cartoon_icons", $textName);
         } elseif ($categoryType == "2" && $categoryId != '') {
-            $iconCategoryName = $this->Level1ActivitiesRepository->getIconNameWithPagination($textName, $categoryId, "pro_hi_human_icons");
+            $iconCategoryName = $this->level1ActivitiesRepository->getIconNameWithPagination($textName, $categoryId, "pro_hi_human_icons");
             $data_cat_type = 2;
             $data_name = "hi_name";
             $image_path_location = $this->humanThumbImageUploadPath;
@@ -237,6 +243,106 @@ class Level1ActivityController extends Controller
             }
         }
 
-        return view('teenager.basic.level1ActivityIcon', compact('iconCategoryName','data_cat_type'));
+        return view('teenager.basic.level1ActivityIcon', compact('iconCategoryName','data_cat_type', 'categoryId', 'textName'));
+    }
+
+    public function addIconCategory() {
+        $response = [];
+        $response['status'] = 0;
+        $response['message'] = trans('appmessages.default_error_msg');
+        
+        $body['ci_category'] = Input::get('categoryId');
+        $body['userid'] = Auth::guard('teenager')->user()->id;
+        $body['categoryType'] = Input::get('categoryType');
+        $body['characterName'] = Input::get('characterName');
+        $fileName = $imagePath = '';
+
+        if (isset($body['userid']) && $body['userid'] > 0 && ($body['categoryType'] == 1 || $body['categoryType'] == 2)) {
+            $cartoonIconDetail['ci_image'] = '';
+            if (Input::file()) {
+                $file = Input::file('image');
+                if (!empty($file)) {
+                    if ($body['categoryType'] == 1) {
+                        $fileName = 'cartoon_' . time() . '.' . $file->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->cartoonOriginalImageUploadPath . $fileName);
+                        $pathThumb = public_path($this->cartoonThumbImageUploadPath . $fileName);
+                        Image::make($file->getRealPath())->save($pathOriginal);
+                        Image::make($file->getRealPath())->resize($this->cartoonThumbImageWidth, $this->cartoonThumbImageHeight)->save($pathThumb);
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->cartoonOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->cartoonThumbImageUploadPath, $pathThumb, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->cartoonOriginalImageUploadPath . $fileName);
+                        \File::delete($this->cartoonThumbImageUploadPath . $fileName);
+                        
+                        $imagePath = Storage::url($this->cartoonThumbImageUploadPath . $fileName);
+                    } else {
+                        $fileName = 'human_' . time() . '.' . $file->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->humanOriginalImageUploadPath . $fileName);
+                        $pathThumb = public_path($this->humanThumbImageUploadPath . $fileName);
+                        Image::make($file->getRealPath())->save($pathOriginal);
+                        Image::make($file->getRealPath())->resize($this->humanThumbImageWidth, $this->humanThumbImageHeight)->save($pathThumb);
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->humanOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->humanThumbImageUploadPath, $pathThumb, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->humanOriginalImageUploadPath . $fileName);
+                        \File::delete($this->humanThumbImageUploadPath . $fileName);
+                        
+                        $imagePath = Storage::url($this->humanThumbImageUploadPath . $fileName);
+                    }
+                }
+            } else {
+                if ($body['categoryType'] == 1) {
+                    $imagePath = Storage::url($this->cartoonThumbImageUploadPath . "proteen-logo.png");
+                } else {
+                    $imagePath = Storage::url($this->humanThumbImageUploadPath . "proteen-logo.png");
+                }
+            }
+            $iconDetail = $iconNameDetail = [];
+            $iconNameDetail['deleted'] = 1;
+            $saveCartoonIconCategory = $body['ci_category'];
+            if (isset($saveCartoonIconCategory) && $saveCartoonIconCategory != null && $saveCartoonIconCategory != 0) {
+                $iconDetail['deleted'] = 1;
+                if ($body['categoryType'] == 1) {
+                    $iconDetail['ci_name'] = $body['characterName'];
+                    $iconDetail['ci_category'] = $saveCartoonIconCategory;
+                    $iconDetail['ci_image'] = $fileName;
+                    $iconDetail['ci_added_by'] = Auth::guard('teenager')->user()->id;
+                    $categoryName = $this->level1CartoonIconRepository->getCartoonCategoryNameFromId($saveCartoonIconCategory);
+                    $saveCartoonIcons = $this->level1CartoonIconRepository->saveLevel1CartoonIconDetail($iconDetail, $professions = null);
+                } else {
+                    $iconDetail['hi_name'] = $body['characterName'];
+                    $iconDetail['hi_category'] = $saveCartoonIconCategory;
+                    $iconDetail['hi_image'] = $fileName;
+                    $iconDetail['hi_added_by'] = Auth::guard('teenager')->user()->id;
+                    $categoryName = $this->level1HumanIconRepository->getHumanCategoryNameFromId($saveCartoonIconCategory);
+                    $saveCartoonIcons = $this->level1HumanIconRepository->saveLevel1HumanIconDetail($iconDetail, $professions = null);
+                }
+                if ($saveCartoonIcons) {
+                    $response['status'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['characterid'] = $saveCartoonIcons->id;
+                    $response['categoryid'] = $saveCartoonIconCategory;
+                    $response['charactername'] = $body['characterName'];
+                    $response['Categoryname'] = $categoryName;
+                    $response['image'] = $imagePath;
+                    $response['categoryType'] = $body['categoryType'];
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = trans('appmessages.default_error_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.default_error_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+            }
+            
+        } else {
+            $response['status'] = 0;
+            $response['message'] = trans('appmessages.default_error_msg');
+        }
+
+        echo json_encode($response);
+        exit;
     }
 }

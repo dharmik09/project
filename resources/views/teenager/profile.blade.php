@@ -700,13 +700,13 @@
             this.value = this.value.replace(/[^0-9]/gi, '');
         });
     $('.alphaonly').bind('keyup blur', function() {
-            var node = $(this);
-            node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
-        });
+        var node = $(this);
+        node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
+    });
     $('.nospace').bind('keyup blur', function() {
-            var node = $(this);
-            node.val(node.val().replace(/\s/g, ''));
-        });
+        var node = $(this);
+        node.val(node.val().replace(/\s/g, ''));
+    });
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -733,6 +733,18 @@
         
     $(document).ready(function() {
         getFirstLevelData();
+        $('.sec-filter #icon-slider').owlCarousel({
+            loop: true,
+            margin: 0,
+            items: 1,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: false,
+            dots: false,
+            singleItem: true
+        });
+
         $('.mentor-list ul').owlCarousel({
             loop: false,
             margin: 0,
@@ -790,16 +802,7 @@
                     },
                 }
         });
-        $('.icon-slider').owlCarousel({
-            loop: true,
-            margin: 0,
-            items: 1,
-            autoplay: true,
-            autoplayTimeout: 3000,
-            smartSpeed: 1000,
-            nav: false,
-            dots: false,
-        });
+        
         jQuery.validator.addMethod("lettersonly", function(value, element) {
             return this.optional(element) || /^[a-z_'\s]+$/i.test(value);
         }, "Letters only please");
@@ -957,9 +960,74 @@
         }
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
-        fetchLevel1TraitQuestion();
+        //fetchLevel1TraitQuestion();
+
+        $("#fiction_modal_icon #fictionSave").on('click', (function(e) {
+            alert();
+            e.preventDefault();
+            $(".errorCode").text('');
+            var cat1Value = Number($("#categoryName1").val());
+            var cat1NameValue = $("#characterName1").val().trim();
+            var cat2Value = Number($("#categoryName2").val());
+            var cat2NameValue = $("#characterName2").val().trim();
+            var submitIconData = false;
+            var messageD = "Please, fillup all required data";
+            if(cat1Value > 0 && cat1NameValue != '' && cat1NameValue.length > 0){
+                submitIconData = true;
+            }else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
+                submitIconData = true;
+            }else{
+                submitIconData = false;
+            }
+            if(submitIconData){
+                $.ajax({
+                    url: "{{ url('/teenager/addIconCategory')}}",
+                    type: "POST",
+                    data: new FormData(this),
+                    dataType: 'json',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        if (data.status == 1) {
+                            if (data.categoryType == 1) {
+                                $("#icon_category").val(data.categoryid);
+                                $('#icon_category').trigger("change");
+                                $("#myModal1").modal('hide');
+                            } else if (data.categoryType == 2) {
+                                $("#icon_category").val(data.categoryid);
+                                $('#icon_category').trigger("change");
+                                $("#myModal2").modal('hide');
+                            } else {
+
+                            }
+                        } else {
+                            if($("#useForClassPopup").hasClass('r_after_click_popup')){
+                                $(".errorGoneMsgPopup").html('');
+                            }
+                            $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>Something went wrong, Please try it again</div></div></div>');
+                        }
+                    },
+                    error: function() {
+                        if($("#useForClassPopup").hasClass('r_after_click_popup')){
+                            $(".errorGoneMsgPopup").html('');
+                        }
+                        $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>Something went wrong, Please try it again</div></div></div>');
+
+                    }
+                });
+            }else{
+                if($("#useForClassPopup").hasClass('r_after_click_popup')){
+                    $(".errorGoneMsgPopup").html('');
+                }
+                $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>'+messageD+'</div></div></div>');
+            }
+        }));
+
+
     });
     
+
     function getFirstLevelData() {
         $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
         $('#loading-wrapper-sub').show();
@@ -1108,8 +1176,8 @@
             $("#t_about_info").show();
         }
     });
+    
     function playFirstLevelWorldType(type) {
-        console.log(type);
         $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
         $('#loading-wrapper-sub').show();
         $.ajax({
@@ -1123,7 +1191,7 @@
                 $('#firstLevelWorldSection').html(data);
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
-                $('.icon-slider').owlCarousel('update');
+                $('.sec-filter #icon-slider').owlCarousel('update');
             },
             error: function(){
                 $('#loading-wrapper-sub').hide();
@@ -1222,10 +1290,14 @@
         });
     }
 
-    function getIconName(categoryId, categoryType, page) {
+    function getIconName(categoryId, categoryType, page, searchText) {
         var categoryId = categoryId;
-        var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType;
+        var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType + '&searchText=' + searchText;
         if (categoryId != 'pop_up' && categoryId != '') {
+            $('.no_selected_category').hide();
+            $(".searchOnIcon").show();
+            if(searchText == "") { $('#searchForIcon').val(''); }
+            $("#searchForIcon").attr('onkeyup', "getIconName('"+categoryId+"', '"+categoryType+"', 1, this.value)");
             $.ajax({
                 type: 'POST',
                 data: dataString,
@@ -1245,11 +1317,44 @@
                 }
             });
         } else {
+            $(".searchOnIcon").hide();
             $("#dataHtml").html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
-            $('#search_icon').hide();
-            $('#searchForIcon').val(' ');
-            $('#search_dataHtml').html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
+            $('#searchForIcon').val('');
+            $('#searchForIcon').attr('onkeyup', "getIconName('', '1', 1, this.value)");
+            $('.no_selected_category').show();
         }
     }
+
+    $(function() {
+        $('body').on('click', '.selected_category .pagination a', function(e) {
+            e.preventDefault();
+            //$('#load a').css('color', '#dfecf6');
+            //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+            var categoryId = '2';
+            var categoryType = '1';
+            var searchText = $("#searchForIcon").val();
+            var url = $(this).attr('href');
+            getArticles(url);
+            window.history.pushState("", "", url);
+        });
+
+        function getArticles(url) {
+            //var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType + '&searchText=' + searchText;
+            $.ajax({
+                type: 'POST',
+            //    data: dataString,
+                dataType: 'html',
+                url: url,
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                cache: false,
+            }).done(function (data) {
+                $(".selected_category").show();
+                $('.no_selected_category').hide();
+                $(".selected_category").html(data);
+            }).fail(function () {
+                alert('Articles could not be loaded.');
+            });
+        }
+    });
 </script>
 @stop

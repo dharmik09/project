@@ -486,6 +486,22 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
         return $iconCategory;
     }
 
+    public function searchIconNameWithPagination($ci_category_id, $tableName, $search = null) {
+        if ($tableName == "pro_ci_cartoon_icons") {
+            $iconName = "ci_name";
+            $category = "ci_category";
+        } else {
+            $iconName = "hi_name";
+            $category = "hi_category";
+        }
+        if($search != "" && $search != null) {
+            $iconCategory = DB::table($tableName)->where($category, $ci_category_id)->where("deleted", 1)->where($iconName,'like', '%' . $search . '%')->paginate(Config::get('constant.RECORD_PER_PAGE_ICON'));
+        } else {
+            $iconCategory = DB::table($tableName)->where($category, $ci_category_id)->where("deleted", 1)->paginate(Config::get('constant.RECORD_PER_PAGE_ICON'));
+        }
+        return $iconCategory;
+    }
+
     public function getTeenagerLevel1Part2Icon($userId, $category) {
         $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->selectRaw('ti_icon_type')->where("deleted", 1)->where('ti_teenager',$userId)->whereIn('ti_icon_type',$category)->get();
         return $result;

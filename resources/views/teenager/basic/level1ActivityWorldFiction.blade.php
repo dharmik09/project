@@ -1,36 +1,93 @@
 <div class="real-world-survey clearfix fictional-world">
     <div class="selection-container">
-        <div class="row sec-filter">
-            <div class="col-sm-4">
-                <div class="icon-slider owl-carousel">
-                    @if(isset($mainArray['topTrendingImages'][0]))
-                        @foreach($mainArray['topTrendingImages'] as $trendingImages)
+        <form id="level1ActivityWorldFiction" action="{{ url('teenager/save-level1-fiction-world-data') }}" method="post">
+            {{csrf_field()}}
+            <div class="row sec-filter">
+                <div class="col-sm-4">
+                    <div class="icon-slider owl-carousel" id="icon-slider">
+                        @if(isset($mainArray['topTrendingImages'][0]))
+                            @foreach($mainArray['topTrendingImages'] as $trendingImages)
+                                <div class="icon-item">
+                                    <div class="icon-content">
+                                        <img src="{{$trendingImages['image']}}" alt="{{$trendingImages['name']}}">
+                                        <span class="rank-i">{{$trendingImages['rank']}}</span>
+                                        <div class="character-name"><span>{{$trendingImages['name']}}</span></div>
+                                    </div>
+                                    <span class="rank">Votes : {{$trendingImages['votes']}}</span>
+                                </div>
+                            @endforeach
+                        @else
                             <div class="icon-item">
                                 <div class="icon-content">
-                                    <img src="{{$trendingImages['image']}}" alt="{{$trendingImages['name']}}">
-                                    <span class="rank-i">{{$trendingImages['rank']}}</span>
-                                    <div class="character-name"><span>{{$trendingImages['name']}}</span></div>
+                                    <img src="img/Mario_games_c4.png" alt="Icon image">
+                                    <span class="rank-i">1</span>
+                                    <div class="character-name"><span>ProteenLife Default</span></div>
                                 </div>
-                                <span class="rank">Votes : {{$trendingImages['votes']}}</span>
+                                <span class="rank">Votes : 147</span>
                             </div>
-                        @endforeach
-                    @else
-                        <div class="icon-item">
-                            <div class="icon-content">
-                                <img src="img/Mario_games_c4.png" alt="Icon image">
-                                <span class="rank-i">1</span>
-                                <div class="character-name"><span>ProteenLife Default</span></div>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group custom-select">
+                                <select tabindex="8" class="form-control" onChange="getIconName(this.value, '1', 1, '')" data-category-type="1">
+                                    @if(isset($maincartoonIconCategoryArray) && $maincartoonIconCategoryArray)
+                                        <option value="">Select Category</option>
+                                        @foreach($maincartoonIconCategoryArray as $mainIconArray)
+                                            <option value="{{ $mainIconArray['id'] }}">{{$mainIconArray['name']}}</option>
+                                        @endforeach
+                                    @else
+                                        <option value="">Select Category</option>
+                                    @endif
+                                </select>
                             </div>
-                            <span class="rank">Votes : 147</span>
                         </div>
-                    @endif
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <a href="#" class="form-control add-icon" data-toggle="modal" data-target="#fiction_modal_icon">Add ICON <span class="micro_icon"><i class="icon-plus"></i></span></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 searchOnIcon" style="display:none">
+                            <div class="form-group search-bar clearfix">
+                                <input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="searchForIcon" onkeyup="getIconName('4', '1', 1, this.value)">
+                                <button type="submit" class="btn-search"><i class="icon-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-8">
-                <div class="row">
-                    <div class="col-sm-6">
+            <div class="icon-container">
+                <div class="no-data no_selected_category">
+                    <p>Please select one category</p>
+                </div>
+                <div class="icon-container-inner selected_category" style="display:none">
+                    
+                </div>
+                <div class="form-btn">
+                    <span class="icon"><i class="icon-arrow-spring"></i></span>
+                    <button type="submit" value="Submit" class="btn-search">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade custom-select" id="fiction_modal_icon" role="dialog">
+    <form method="post" action="{{ url('/teenager/add-icon-category') }}" enctype="multipart/form-data" id="fictionForm">
+        {{csrf_field()}}
+        <input type="hidden" name="categoryType" value="1"/>
+        <div class="modal-dialog">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    <h4 class="modal-title">Congratulations!</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="sec-filter">
+                        
                         <div class="form-group custom-select">
-                            <select tabindex="8" class="form-control" onChange="getIconName(this.value, '1', 1)">
+                            <select tabindex="8" class="form-control" data-category-type="1" id="categoryName1" name="categoryId">
                                 @if(isset($maincartoonIconCategoryArray) && $maincartoonIconCategoryArray)
                                     <option value="">Select Category</option>
                                     @foreach($maincartoonIconCategoryArray as $mainIconArray)
@@ -41,40 +98,22 @@
                                 @endif
                             </select>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
                         <div class="form-group">
-                            <a href="javascript:void(0)" class="form-control add-icon">Add ICON <span class="micro_icon"><i class="icon-plus"></i></span></a>
+                            <input type="text" class="form-control" placeholder="Name" id="characterName1" name="characterName">
                         </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group search-bar clearfix">
-                            <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
-                            <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                        <div class="upload-img" id="img-upload">
+                            <span><i class="icon-plus"></i></span>
+                            <input type="file" name="image" accept="image/*" onchange="readURL(this);">
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="submit" name="fiction" value="Save" class="btn btn-primary" id="fictionSave">Submit</button>
+                </div>
             </div>
         </div>
-        <div class="icon-container">
-            <div class="no-data no_selected_category">
-                <p>Please select one category</p>
-            </div>
-            <div class="icon-container-inner selected_category" style="display:none">
-                
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
-
-
-
-
-
-
-
-
-
 
 
 
