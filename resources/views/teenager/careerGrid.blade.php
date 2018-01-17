@@ -23,31 +23,34 @@
                             <div class="form-group custom-select bg-blue"><select tabindex="8" class="form-control"><option value="all careers">all careers</option><option value="agriculture">agriculture</option><option value="conservation">conservation</option><option value="Veterinarians">Veterinarians</option></select></div>
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
-                            <div class="form-group search-bar clearfix"><input type="text" placeholder="search" tabindex="1" class="form-control search-feild"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>
+                            <div class="form-group search-bar clearfix"><input type="text" placeholder="search" id="search" tabindex="1" class="form-control search-feild"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>
                         </div>
                     </div>
                 </div>
                 <!-- mid section-->
+                
                 <section class="career-content listing-content grid-view">
                     <div class="bg-white">
                         <div class="panel-group" id="accordion">
-                            @forelse($basketsData as $key => $value)
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}"  onclick="fetchProfessionData(this.id)" class="collapsed">{{$value->b_name}}</a> <a href="#" title="Grid view" class="grid"><i class="icon-list"></i></a></h4>
-                                </div>
-                                <div class="panel-collapse collapse <?php if($key == 0){echo 'in'; $firstId = $value->id;} ?>" id="accordion{{$value->id}}">
-                                    <div class="panel-body">
-                                        <section class="career-content">
-                                            <div class="bg-white">
-                                                <div id="profession{{$value->id}}"></div>
-                                            </div>
-                                        </section>
+                            <div id="maindiv">
+                                @forelse($basketsData as $key => $value)
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}"  onclick="fetchProfessionData(this.id)" class="collapsed">{{$value->b_name}}</a> <a href="#" title="Grid view" class="grid"><i class="icon-list"></i></a></h4>
+                                    </div>
+                                    <div class="panel-collapse collapse <?php if($key == 0){echo 'in'; $firstId = $value->id;} ?>" id="accordion{{$value->id}}">
+                                        <div class="panel-body">
+                                            <section class="career-content">
+                                                <div class="bg-white">
+                                                    <div id="profession{{$value->id}}"></div>
+                                                </div>
+                                            </section>
+                                        </div>
                                     </div>
                                 </div>
+                                @empty
+                                @endforelse
                             </div>
-                            @empty
-                            @endforelse
                         </div>
                     </div>
                 </section>
@@ -93,5 +96,33 @@
 
     fetchProfessionData({{$firstId}});
 
+    $(function() {
+
+        $('#search').keyup(function ()  {
+            if($("#search").val().length > 3) {
+
+                $('.iframe').attr('src', '');
+                
+                $("#maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+                $("#maindiv").addClass('loading-screen-parent');
+                var value = $("#search").val();
+                var CSRF_TOKEN = "{{ csrf_token() }}";
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('teenager/search-career-grid')}}",
+                    dataType: 'html',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN
+                    },
+                    data: {'search_text':value},
+                    success: function (response) {
+                        $("#maindiv").html(response);
+                        $("#maindiv").addClass("dataLoaded");
+                        $("#maindiv").removeClass('loading-screen-parent');
+                    }
+                });
+            }
+        }); //END dropdown change event
+    }); //END document.ready
 </script>
 @stop

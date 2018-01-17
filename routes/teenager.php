@@ -67,8 +67,10 @@ Route::get('/career-detail/{id}', function() {
 // });
 Route::get('/list-career', 'Teenager\ProfessionController@listIndex');
 Route::post('/career-list', 'Teenager\ProfessionController@listGetIndex');
+Route::post('/search-career-list', 'Teenager\ProfessionController@listGetSearch');
 Route::get('/career-grid', 'Teenager\ProfessionController@gridIndex');
 Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
+Route::post('/search-career-grid', 'Teenager\ProfessionController@gridGetSearch');
 // Route::get('/career-grid', function() {
 	// return view('teenager.careerGrid');
 // });
