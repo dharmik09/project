@@ -96,9 +96,14 @@
                     font-family: hl;
                     max-width: 222px;
                     padding: 10px 15px;
+                    text-transform: capitalize;
                     &.btn-consume {
                         background: $cl-complete;
                         color: $white;
+                        min-width: 222px;
+                        @include maxmd{
+                            min-width: 162px;
+                        }
                     }
                     @include maxmd {
                         font-size: 20px;
@@ -112,7 +117,7 @@
                         font-size: 14px;
                         padding: 8px 15px;
                     }
-                    &:hover {
+                    &:hover, &:focus , &.sending{
                         background: $i-cl;
                         border-color: $i-cl;
                         color: $white;
@@ -131,3 +136,4 @@
         padding: 6px 20px;
     }
 }
+.btn:focus, .btn:active{outline: none ;border: none ;box-shadow: none ;}

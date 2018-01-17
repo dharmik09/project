@@ -29,7 +29,7 @@
                         @if(isset($couponsArr) && !empty($couponsArr))
                         @foreach($couponsArr as $key=>$val)
                         <?php $activeClass = ($val['type'] == 'active' && $val['is_consume'] == 0)?'':'deactive'; ?>
-                        <div class="col-sm-4 flex-items {{ $activeClass }} coupon_div_{{$val['id']}}">
+                        <div class="col-sm-4 col-xs-12 flex-items {{ $activeClass }} coupon_div_{{$val['id']}}">
                             <div class="block-procoins">
                                 <div class="coin-info">
                                     <div class="icon">
