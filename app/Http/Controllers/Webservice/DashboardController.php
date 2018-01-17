@@ -102,19 +102,24 @@ class DashboardController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
-            //Dummy Records
-            $array = array ( 'people' => "People", 'nature' => "Nature", 'technical' => "Technical", 'creative-fine-arts' => "Creative Fine Arts", 'numerical' => "Numerical", 'computers' => "Computers", 'research' => "Research", 'performing-arts' => "Performing Arts", 'social' => "Social", 'sports' => "Sports", 'language' => "Language", 'artistic' => "Artistic", 'musical' => "Musical");
-            
+            $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
             $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->userId);
-            $teenagerInterest = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : $array;
-            foreach($teenagerInterest as $tiNameKey => $tiPoint) {
-                $dataArray[] = (array('type' => 'interest', 'points' => rand(0,100), 'slug' => $tiNameKey, 'link' => url('teenager/interest/').'/'.$tiNameKey, 'name' => $array[$tiNameKey]) );
+            $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
+            $teenagerInterest = [];
+            foreach($teenagerInterestArr as $interestKey => $interestVal){
+                if ($interestVal < 1) { 
+                    continue; 
+                } else {
+                    $itName = Helpers::getInterestBySlug($interestKey);
+                    $teenItScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['interest'][$interestKey], $interestVal);
+                    $teenagerInterest[] = (array('type' => 'interest', 'points' => $teenItScore, 'slug' => $interestKey, 'link' => url('teenager/interest/').'/'.$interestKey, 'name' => $itName));
+                }
             }
             
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
-            $response['data'] = $dataArray;
+            $response['data'] = $teenagerInterest;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
