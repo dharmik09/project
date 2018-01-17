@@ -117,13 +117,7 @@
                         $(".maindiv").html(response);
                         $(".maindiv").addClass("dataLoaded");
                         $(".maindiv").removeClass('loading-screen-parent');
-                        $('.maindiv').each(function(){
-                            var search_regexp = new RegExp(value, "gi");
-                            $(this).html($(this).html().replace(search_regexp,"<span style='font-weight:bold; color:green;'>"+value+"</span>"));
-                            // $(this).html($(this).html().replace(search_regexp,function(match){
-                            //     return '<span class="highlight">'+ match   +'</span>';
-                            // }));
-                        });
+                        $('.maindiv').removeHighlight().highlight($('#search').val());
                     }
                 });
             }

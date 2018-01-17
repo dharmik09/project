@@ -30,6 +30,12 @@
     @include maxsm {
         padding: 10px 0;
     }
+    .list-procoins{
+        padding: 0 5px;
+        @include maxmd{
+            padding: 0;
+        }
+    }
     .row {
         margin: 0 -20px;
         @include maxmd {
