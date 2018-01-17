@@ -29,14 +29,8 @@
                         @if(isset($couponsArr) && !empty($couponsArr))
                         @foreach($couponsArr as $key=>$val)
                         <?php $activeClass = ($val['type'] == 'active' && $val['is_consume'] == 0)?'':'deactive'; ?>
-                        <div class="col-sm-4 flex-items {{ $activeClass }} coupon_div_{{$val['id']}}">
+                        <div class="col-sm-4 col-xs-12 flex-items {{ $activeClass }} coupon_div_{{$val['id']}}">
                             <div class="block-procoins">
-                                <div id="loading-wrapper-sub-{{$val['id']}}" class="loading-wrapper-sub loading-screen remove-loader">
-                                    <div id="loading-text">
-                                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
-                                        <div id="loading-content">
-                                        </div>
-                                </div>
                                 <div class="coin-info">
                                     <div class="icon">
                                         <img src="{{ $val['coupon_logo'] }}" alt="proteen-coupons">
@@ -44,7 +38,7 @@
                                     <h4>{{ $val['code'] }}</h4>
                                     <p>{{ $val['description'] }}</p>
                                     @if($val['is_consume'] == 0)
-                                        <a href="javascript:void(0)" id="consume_coupon_{{$val['id']}}" onclick="consumeCoupon({{$val['id']}}, '{{Auth::guard('teenager')->user()->t_email}}', 'consume');" title="Consume" class="btn btn-consume">Consume</a>
+                                        <button id="consume_coupon_{{$val['id']}}" onclick="consumeCoupon({{$val['id']}}, '{{Auth::guard('teenager')->user()->t_email}}', 'consume');" title="Consume" class="btn btn-consume btn-default">Consume</button>
                                         <a href="javascript:void(0)" id="gift_coupon_{{$val['id']}}" onclick="showModal({{$val['id']}});" title="Gift" class="btn btn-gift">Gift</a>
                                     @else
                                         <a href="javascript:void(0)" title="Consume" class="btn btn-consume">Consumed</a>
@@ -88,8 +82,7 @@
     <script>
         function consumeCoupon(coupon_id, email, type)
         {
-            $("#loading-wrapper-sub-"+coupon_id).parent().toggleClass('loading-screen-parent');
-            $("#loading-wrapper-sub-"+coupon_id).show();
+            $("#consume_coupon_"+coupon_id).toggleClass('sending').blur();
             $.ajax({
                 url: "{{ url('teenager/consume-coupon') }}",
                 type: 'post',
@@ -100,8 +93,7 @@
                     "usage_type": type
                 },
                 success: function(response) {
-                    $("#loading-wrapper-sub-"+coupon_id).hide();
-                    $("#loading-wrapper-sub-"+coupon_id).parent().removeClass('loading-screen-parent');
+                    $("#consume_coupon_"+coupon_id).removeClass('sending').blur();
                     if(response == 'invalid') {
                         $(window).scrollTop(0);
                         $('.box-body').show();

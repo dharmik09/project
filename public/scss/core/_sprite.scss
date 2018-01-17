@@ -47,3 +47,28 @@
 .emojis-icon-7 { background-position: 0 87.31849%; background-size: 110.909091%; }
 .emojis-icon-9 { background-position: 0 100%; background-size: 110.909091%; }
 //Sprite image for emojis end
+
+// sprite image for vote icon
+.landing_icon .family, .landing_icon .fiction, .landing_icon .game, .landing_icon .indi, .landing_icon .pro, .landing_icon .real, .landing_icon .trend, .landing_icon .vote {
+    width: 100%;
+    height: 100%;
+    background-size: 100%;
+    background-image: url('../img/landing.png');
+    display: block;
+}
+.landing_icon .real {
+    background-position: 0 71.428571%;
+    background-size: 100%;
+}
+.landing_icon .vote {
+    background-position: 0 100%;
+    background-size: 100%;
+}
+.landing_icon .fiction {
+    background-position: 0 14.285714%;
+    background-size: 100%;
+}
+.landing_icon .family {
+    background-position: 0 0%;
+    background-size: 100%;
+}
