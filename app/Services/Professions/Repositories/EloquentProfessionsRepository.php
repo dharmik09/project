@@ -532,7 +532,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
     {
         $careers = $this->model
                     ->join('pro_srp_star_rated_professions AS ratedCareer', 'pro_pf_profession.id', '=', 'ratedCareer.srp_profession_id')
-                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo')
+                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo, pro_pf_profession.pf_slug')
                     ->where('srp_teenager_id', $teenId)
                     ->orderBy('ratedCareer.id', 'DESC')
                     ->get();
@@ -543,7 +543,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
     {
         $careersCount = $this->model
                     ->join('pro_srp_star_rated_professions AS ratedCareer', 'pro_pf_profession.id', '=', 'ratedCareer.srp_profession_id')
-                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo, ratedCareer.id as careerId')
+                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo, ratedCareer.id as careerId, pro_pf_profession.pf_slug')
                     ->where(function($query) use ($careerId)  {
                         if(isset($careerId) && !empty($careerId)) {
                             $query->where('ratedCareer.id', '<', $careerId);
@@ -559,7 +559,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
     {
         $careers = $this->model
                     ->join('pro_srp_star_rated_professions AS ratedCareer', 'pro_pf_profession.id', '=', 'ratedCareer.srp_profession_id')
-                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo, ratedCareer.id as careerId')
+                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo, ratedCareer.id as careerId, pro_pf_profession.pf_slug')
                     ->where(function($query) use ($careerId)  {
                         if(isset($careerId) && !empty($careerId)) {
                             $query->where('ratedCareer.id', '<', $careerId);

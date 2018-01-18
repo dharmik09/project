@@ -149,7 +149,7 @@
                                     <div class="panel panel-default actual {{ $careerExpandClass }}" style="display: {{ $carrerStyle }};">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a href="{{ url('/teenager/career-detail') }}/{{$teenagerCareer->id}}" class="{{$careerClass}} collapsed" style="display: block;">{{$teenagerCareer->pf_name}}</a>
+                                                <a href="{{ url('/teenager/career-detail') }}/{{$teenagerCareer->pf_slug}}" class="{{$careerClass}} collapsed" style="display: block;">{{$teenagerCareer->pf_name}}</a>
                                             </h4>
                                         </div>
                                     </div>
