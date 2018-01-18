@@ -13,6 +13,7 @@ use App\Teenagers;
 use App\Sponsors;
 use App\Country;
 use Helpers;
+use Storage;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Sponsors\Contracts\SponsorsRepository;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
@@ -101,16 +102,14 @@ class Level2ActivityController extends Controller {
             <div class="quiz-que">
                 <p class="que">
             <i class="icon-arrow-simple"></i>';
-
+            
+            $activitiesHTML .= $activities[0]->l2ac_text.'</p><div class="quiz-ans">';
             if ($activities[0]->l2ac_image) {
-                if ($activities[0]->l2ac_image != '' && file_exists($this->level2ActivityOriginalImageUploadPath . $activities[0]->l2ac_image)) {
-                    $activities[0]->l2ac_image = asset($this->level2ActivityOriginalImageUploadPath . $activities[0]->l2ac_image);
-                } else {
-                    $activities[0]->l2ac_image = asset('frontend/images/hero.png');
+                if ($activities[0]->l2ac_image != '' && Storage::url($this->level2ActivityOriginalImageUploadPath . $activities[0]->l2ac_image)) {
+                    $activitiesHTML .= '<div class="question-img"><img src="'.Storage::url($this->level2ActivityOriginalImageUploadPath . $activities[0]->l2ac_image).'" title="Click to enlarge image" class="pop-me"></div>';
                 }
             }
-            
-            $activitiesHTML .= $activities[0]->l2ac_text.'</p><div class="quiz-ans"><div class="radio">';
+            $activitiesHTML .= '<div class="radio">';
 
             foreach ($activities[0]->options as $key => $value) {
                 $activitiesHTML .= '<label><input type="radio" name="'.$activities[0]->activityID.'l2AnsId" onclick="saveAns('.$activities[0]->activityID.')" value="'.$value['optionId'].'" ><span class="checker"></span><em>'.$value['optionText'].'</em></label>';
