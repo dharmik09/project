@@ -352,7 +352,7 @@
 
     function fetch2ActiityQuestion(id) {
         if ( !$("#accordion"+id).hasClass("in") ) {
-            $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
             $("#section"+id).addClass('loading-screen-parent');
 
             var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -367,18 +367,22 @@
                 success: function (response) {
                     count = response.timer;
                     $("#section"+id).removeClass('loading-screen-parent');
-                    $("#section"+id).html(response.activities);
+                    $("#section"+id).hide().html(response.activities).fadeIn('slow');
                     $("#percentageSection"+id).html(response.sectionPercentage);
                 }
             });
         }
     }
+
     function saveAns(queId) {
 
         var section = $('#'+queId+'l2AnsSection').val();
         var answerId = $('input[name='+queId+'l2AnsId]:checked').val();
         var timer = count;
-        $("#section"+section).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#section"+section).fadeOut('slow', function() {
+            $("#section"+section).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#section"+section).fadeIn('slow');
+        });
         $("#section"+section).addClass('loading-screen-parent');
 
         var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -393,7 +397,7 @@
             success: function (response) {
                 count = response.timer;
                 $("#section"+section).removeClass('loading-screen-parent');
-                $("#section"+section).html(response.activities);
+                $("#section"+section).hide().html(response.activities).fadeIn('slow');
                 $("#percentageSection"+section).html(response.sectionPercentage);
             }
         });

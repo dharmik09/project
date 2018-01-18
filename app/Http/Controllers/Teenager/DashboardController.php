@@ -93,27 +93,21 @@ class DashboardController extends Controller
 
         foreach($teenagerMI as $miKey => $miVal) {
             $mitName = Helpers::getMIBySlug($miKey);
-            if(isset($teenagerAPIMaxScore['MI'][$miKey])) {
-                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
+            $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
                 $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
-            }
         }
 
         $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
         foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
             $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-            if(isset($teenagerAPIMaxScore['aptitude'][$apptitudeKey])) {
-	            $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
-	            $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
-        	}
+            $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
+            $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
         }
         $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
         foreach($teenagerPersonality as $personalityKey => $personalityVal) {
             $ptName = Helpers::getPersonalityBySlug($personalityKey);
-            if(isset($teenagerAPIMaxScore['personality'][$personalityKey])) {
-	            $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
-	            $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
-	        }
+            $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
+            $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
         }
         $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
 
@@ -158,7 +152,7 @@ class DashboardController extends Controller
 
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
-        $teenagerCareers = $this->professionsRepository->getTeenagerAttemptedProfession($user->id);
+        $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
         return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
     }
 
@@ -211,8 +205,8 @@ class DashboardController extends Controller
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
         $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
         $myConnections = $this->communityRepository->getMyConnections($user->id);
-        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfessionsSlotWise($user->id);
-        $myCareersCount = $this->professionsRepository->getTeenagerAttemptedProfessionCount($user->id);
+        $myCareers = $this->professionsRepository->getMyCareersSlotWise($user->id);
+        $myCareersCount = $this->professionsRepository->getMyCareersCount($user->id);
         return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount'));   
     }
 
@@ -507,8 +501,8 @@ class DashboardController extends Controller
     {
         $lastAttemptedId = Input::get('lastAttemptedId');
         $loggedInTeen = Auth::guard('teenager')->user()->id;
-        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfessionsSlotWise($loggedInTeen, $lastAttemptedId);
-        $myCareersCount = $this->professionsRepository->getTeenagerAttemptedProfessionCount($loggedInTeen, $lastAttemptedId);
+        $myCareers = $this->professionsRepository->getMyCareersSlotWise($loggedInTeen, $lastAttemptedId);
+        $myCareersCount = $this->professionsRepository->getMyCareersCount($loggedInTeen, $lastAttemptedId);
         return view('teenager.loadMoreCareers', compact('myCareers', 'myCareersCount'));
         
     }
