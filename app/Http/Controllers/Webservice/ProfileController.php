@@ -359,13 +359,15 @@ class ProfileController extends Controller
     }
 
     /* Request Params : saveTeenagerAcademicInfo
-    *  loginToken, userId, metaValue, metaValueId, metaId = 2
+    *  loginToken, userId, metaValue, metaId = 2
     */
     public function saveTeenagerAcademicInfo(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
         
-        if($checkUserExist && $request->metaValueId != "") {
+        if($checkUserExist) {
+            $dataPoint = Helpers::getTeenagerEducationData($request->userId);
+            $metaValueId = ( isset($dataPoint->id) ) ? $dataPoint->id : 0;
             $request->metaValue = trim($request->metaValue);
             if($request->metaValue == "") {
                 $response['login'] = 1;
@@ -377,7 +379,7 @@ class ProfileController extends Controller
             $data['tmd_teenager'] = $request->userId;
             $data['tmd_meta_id'] = 2; //Use '2' for education
             $data['tmd_meta_value'] = $request->metaValue;
-            $data['id'] = $request->metaValueId;
+            $data['id'] = $metaValueId;
             $this->teenagersRepository->saveTeenagerMetaData($data);
             
             $teenagerMeta = Helpers::getTeenagerEducationData($request->userId);
@@ -394,14 +396,16 @@ class ProfileController extends Controller
     } 
 
     /* Request Params : saveTeenagerAchievementInfo
-     *  loginToken, userId, metaValue, metaValueId, metaId = 1
+     *  loginToken, userId, metaValue, metaId = 1
      */
     public function saveTeenagerAchievementInfo(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $checkUserExist = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
         
-        if($checkUserExist && $request->metaValueId != "") {
+        if($checkUserExist) {
             $request->metaValue = trim($request->metaValue);
+            $dataPoint = Helpers::getTeenagerAchievementData($request->userId);
+            $metaValueId = ( isset($dataPoint->id) ) ? $dataPoint->id : 0;
             if($request->metaValue == "") {
                 $response['login'] = 1;
                 $response['status'] = 1;
@@ -412,7 +416,7 @@ class ProfileController extends Controller
             $data['tmd_teenager'] = $request->userId;
             $data['tmd_meta_id'] = 1; //Use '1' for Achievement
             $data['tmd_meta_value'] = $request->metaValue;
-            $data['id'] = $request->metaValueId;
+            $data['id'] = $metaValueId;
             $this->teenagersRepository->saveTeenagerMetaData($data);
             
             $teenagerMeta = Helpers::getTeenagerAchievementData($request->userId);
