@@ -567,7 +567,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                      })
                     ->where('srp_teenager_id', $teenId)
                     ->orderBy('ratedCareer.id', 'DESC')
-                    ->limit(2)
+                    ->limit(10)
                     ->get();
         return $careers;
     }

@@ -76,7 +76,7 @@ class ProfessionController extends Controller {
 
         foreach($basketsData->profession as $k => $v){
 
-            $return .= '<li class="match-strong complete-feild"><a href="#" title="'.$v->pf_name.'">'.$v->pf_name.'</a>';
+            $return .= '<li class="match-strong complete-feild"><a href="'.url('teenager/career-detail/'.$v->pf_slug).'" title="'.$v->pf_name.'">'.$v->pf_name.'</a>';
                 if(isset($v->attempted)){
                     $return .= '<a class="complete"><span>Complete <i class="icon-thumb"></i></span></a>';
                 }
@@ -127,7 +127,7 @@ class ProfessionController extends Controller {
         foreach($basketsData->profession as $k => $v){
 
             $return .= '<div class="col-md-4 col-sm-6">
-                            <div class="category match-strong"><a href="#" title="'.$v->pf_name.'">'.$v->pf_name.'</a>
+                            <div class="category match-strong"><a href="'.url('teenager/career-detail/'.$v->pf_slug).'" title="'.$v->pf_name.'">'.$v->pf_name.'</a>
                                                             ';
                 if(isset($v->attempted)){
                     $return .= ' <span class="complete"><a href="#" title="Completed"><i class="icon-thumb"></i></a></span>';
@@ -207,7 +207,7 @@ class ProfessionController extends Controller {
                 foreach($value->profession as $k => $v){
 
                     $return .= '<div class="col-md-4 col-sm-6">
-                                    <div class="category match-strong"><a href="#" title="'.$v->pf_name.'">'.$v->pf_name.'</a>
+                                    <div class="category match-strong"><a href="'.url('teenager/career-detail/'.$v->pf_slug).'" title="'.$v->pf_name.'">'.$v->pf_name.'</a>
                                                                     ';
                         if(isset($v->attempted)){
                             $return .= ' <span class="complete"><a href="#" title="Completed"><i class="icon-thumb"></i></a></span>';
@@ -290,7 +290,7 @@ class ProfessionController extends Controller {
 
                 foreach($value->profession as $k => $v){
 
-                    $return .= '<li class="match-strong complete-feild"><a href="#" title="'.$v->pf_name.'">'.$v->pf_name.'</a>';
+                    $return .= '<li class="match-strong complete-feild"><a href="'.url('teenager/career-detail/'.$v->pf_slug).'" title="'.$v->pf_name.'">'.$v->pf_name.'</a>';
                         if(isset($v->attempted)){
                             $return .= '<a class="complete"><span>Complete <i class="icon-thumb"></i></span></a>';
                         }

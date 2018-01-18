@@ -189,6 +189,9 @@
                 @include maxms {
                     font-size: 25px;
                 }
+                &.favourite-career{
+                    color: $p-cl;
+                }
             }
         }
     }
