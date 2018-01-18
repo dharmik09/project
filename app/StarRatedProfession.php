@@ -16,12 +16,12 @@ class StarRatedProfession extends Model
      */
     public function addStarToCareer($careerDetails)
     {
-        $return = false;
+        $return = [];
         $careerExist = $this->checkStarGivenToCareer($careerDetails);
         if (isset($careerExist) && !empty($careerExist) && count($careerExist) > 0) {
             return $return;
         } else {
-            $return = $this->insert($careerDetails);
+            $return = $this->create($careerDetails);
             return $return;
         }
     }

@@ -50,12 +50,12 @@
                 @endif
             </div>
         <section class="career-detail">
-            <h1>Career Title</h1>
-            <div class="banner-landing banner-detail">
+            <h1>{{$professionsData->pf_name}}</h1>
+            <div class="banner-landing banner-detail" style="background-image:url({{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}})">
                 <div>
                     <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                 </div>
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NpEaa2P7qZI?autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}" frameborder="0" allowfullscreen id="iframe-video"></iframe>
             </div>
             <div class="detail-content">
                 <div class="row">
@@ -65,8 +65,13 @@
                                 <div class="col-sm-6">
                                     <ul class="color-1">
                                         <li class="icon"><i class="icon-dollor"></i></li>
+                                        <?php
+                                            $average_per_year = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'average_per_year_salary_usa';
+                                            })->first();
+                                        ?>
                                         <li>
-                                            <h4>$40,000 - $60,000</h4>
+                                            <h4><?php echo (isset($average_per_year->pfic_content) && !empty($average_per_year->pfic_content)) ? $average_per_year->pfic_content : '' ?></h4>
                                             <p>average per year</p>
                                         </li>
                                     </ul>
@@ -74,8 +79,13 @@
                                 <div class="col-sm-6">
                                     <ul class="color-2">
                                         <li class="icon"><i class="icon-clock"></i></li>
+                                        <?php
+                                            $work_hours_per_week_usa = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'work_hours_per_week_usa';
+                                            })->first();
+                                        ?>
                                         <li>
-                                            <h4>35 - 40</h4>
+                                            <h4><?php echo (isset($work_hours_per_week_usa->pfic_content) && !empty($work_hours_per_week_usa->pfic_content)) ? $work_hours_per_week_usa->pfic_content : '' ?></h4>
                                             <p>hours per week</p>
                                         </li>
                                     </ul>
@@ -83,8 +93,13 @@
                                 <div class="col-sm-6">
                                     <ul class="color-3">
                                         <li class="icon"><i class="icon-pro-user"></i></li>
+                                        <?php
+                                            $positions_current_usa = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'positions_current_usa';
+                                            })->first();
+                                        ?>
                                         <li>
-                                            <h4>242,000 positions</h4>
+                                            <h4><?php echo (isset($positions_current_usa->pfic_content) && !empty($positions_current_usa->pfic_content)) ? $positions_current_usa->pfic_content : '' ?></h4>
                                             <p>US employment 2017</p>
                                         </li>
                                     </ul>
@@ -92,8 +107,13 @@
                                 <div class="col-sm-6">
                                     <ul class="color-4">
                                         <li class="icon"><i class="icon-pro-user"></i></li>
+                                        <?php
+                                            $positions_projected_usa = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'positions_projected_usa';
+                                            })->first();
+                                        ?>
                                         <li>
-                                            <h4>474,000 positions</h4>
+                                            <h4><?php echo (isset($positions_projected_usa->pfic_content) && !empty($positions_projected_usa->pfic_content)) ? $positions_projected_usa->pfic_content : '' ?></h4>
                                             <p>projected for 2027</p>
                                         </li>
                                     </ul>
@@ -103,7 +123,7 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>Career Title</h4>
-                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
+                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                         </div>
@@ -955,7 +975,7 @@
         });
         $(document).on('click','#add-to-star',function(){
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form_data = 'careerId=' + '{{$careerId}}';
+            var form_data = 'careerId=' + '{{$professionsData->id}}';
             $.ajax({
                 url : '{{ url("teenager/add-star-to-career") }}',
                 method : "POST",
@@ -965,10 +985,8 @@
                 },
                 dataType: "json",
                 success : function (response) {
-                    if (response == true) {
-                        
-                    } else {
-
+                    if (response != '') {
+                        $('#add-to-star').addClass('favourite-career');
                     }
                 }
             });
