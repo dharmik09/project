@@ -66,16 +66,16 @@ class ProfileController extends Controller
                $response['l1_question_attempted'] = 1;
             }
             $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
-            if (count($teenager->t_sponsors) > 0) {
+            
+            $teenager->t_sponsors = $this->teenagersRepository->getSelfSponserListData($teenager->id);
+            if (isset($teenager->t_sponsors)) {
                 foreach ($teenager->t_sponsors as $sponsor) {
-                    $sponsor->sp_logo_thumb = (isset($sponsor->sp_photo) && $sponsor->sp_photo != "") ? Storage::url($this->sponsorThumbImageUploadPath . $sponsor->sp_photo) : Storage::url($this->sponsorThumbImageUploadPath . "proteen-logo.png");
-                    $sponsor->sp_logo = (isset($sponsor->sp_photo) && $sponsor->sp_photo != "") ? Storage::url($this->sponsorOriginalImageUploadPath . $sponsor->sp_photo) : Storage::url($this->sponsorOriginalImageUploadPath . "proteen-logo.png");
-                    $sponsor->sponsor_id = (isset($sponsor->sponsor_id)) ? $sponsor->sponsor_id : 0;
-                    $sponsor->sp_email = (isset($sponsor->sp_email)) ? $sponsor->sp_email : "";
-                    $sponsor->sp_admin_name = (isset($sponsor->sp_admin_name)) ? $sponsor->sp_admin_name : "";
-                    $sponsor->sp_company_name = (isset($sponsor->sp_company_name)) ? $sponsor->sp_company_name : ""; 
+                    $sponsorPhoto = ($sponsor->sp_logo != "") ? $sponsor->sp_logo : "proteen-logo.png";
+                    $sponsor->sp_logo = Storage::url($this->sponsorOriginalImageUploadPath . $sponsorPhoto);
+                    $sponsor->sp_logo_thumb = Storage::url($this->sponsorThumbImageUploadPath . $sponsorPhoto);
                 }
             }
+
             //Teenager Image
             $teenager->t_photo_thumb = "";
             if ($teenager->t_photo != '') {
