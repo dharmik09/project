@@ -35,7 +35,7 @@ class LoginController extends Controller
     */
     public function login(Request $request)
     {
-		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+		$response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
     	if($request->email != "" && $request->password != "" && $request->deviceId != "" && $request->deviceType != "") {
     		if (!filter_var($request->email, FILTER_VALIDATE_EMAIL) && is_numeric($request->email) && $request->email > 0 && $request->email == round($request->email, 0)) {
     			$teenager = $this->teenagersRepository->getTeenagerByMobile($request->email);
@@ -90,7 +90,7 @@ class LoginController extends Controller
                         $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
                         $response['message'] = trans('appmessages.default_success_msg');
     					$response['status'] = 1;
-    					$response['login'] = 1;
+    					//$response['login'] = 1;
     					$response['data'] = $teenager;
     				} else {
     					$response['message'] = trans('appmessages.invalid_user_pwd_msg');
