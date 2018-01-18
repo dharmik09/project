@@ -2936,7 +2936,7 @@ Class Helpers {
     public static function getTeenInterestAndStregnthMaxScore()
     {
         $maxScore = [];
-        $maxScore['MI'] = array('interpersonal'=>8,'logical'=>20,'linguistic'=>10,'intrapersonal'=>7,'existential'=>4,'bodily-kinesthetic'=>5,'spatial'=>9,'musical'=>6,'naturalist'=>6);
+        $maxScore['MI'] = array('interpersonal'=>8,'logical'=>20,'linguistic'=>10,'intrapersonal'=>7,'existential'=>4,'bodilykinesthetic'=>5,'spatial'=>9,'musical'=>6,'naturalist'=>6);
         $maxScore['aptitude'] = array('verbal-reasoning'=>10,'logical-reasoning'=>15,'scientific-reasoning'=>5,'spatial-ability'=>3,'social-ability'=>5,'numerical-ability'=>4,'artistic-ability'=>1,'creativity'=>1,'clerical-ability'=>1);
         $maxScore['personality'] = array('social'=>2,'investigative'=>1,'conventional'=>2,'mechanical'=>1,'enterprising'=>1,'artistic'=>1);
         $maxScore['interest'] = array('computers'=>1,'sports'=>3,'language'=>1,'artistic'=>1,'musical'=>1,'people'=>1,'nature'=>5,'technical'=>1,'creative-fine-arts'=>1,'numerical'=>1,'research'=>1,'performing-arts'=>3,'social'=>1);

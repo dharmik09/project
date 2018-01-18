@@ -13,7 +13,8 @@ use Input;
 use Mail;
 use Helpers;
 use Redirect;
-use Request;    
+use Request;   
+use App\StarRatedProfession; 
 
 class ProfessionController extends Controller {
 
@@ -21,6 +22,7 @@ class ProfessionController extends Controller {
     {
         $this->professionsRepository = $professionsRepository;
         $this->baskets = new Baskets();
+        $this->objStarRatedProfession = new StarRatedProfession;
     }
 
     public function listIndex(){
@@ -305,6 +307,27 @@ class ProfessionController extends Controller {
             $return = '<center><h3>No result Found</h3></center>';
         }
         return $return;
+    }
+
+
+    public function careerDetails($careerId)
+    {
+        return view('teenager.careerDetail', compact('careerId'));
+    }
+
+    public function addStarToCareer(Request $request) 
+    {
+        $careerId = Input::get('careerId');
+        $careerDetails['srp_teenager_id'] = Auth::guard('teenager')->user()->id;
+        $careerDetails['srp_profession_id'] = $careerId;
+        $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
+        if ($return == true) {
+            session(['success' => 'Add start to career']);
+            return response()->json(['response' => $return]);
+        } else {
+            session(['error' => 'Something went wrong']);
+            return response()->json(['response' => $return]);
+        }
     }
 }
 
