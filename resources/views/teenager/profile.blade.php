@@ -960,7 +960,7 @@
         }
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
-        //fetchLevel1TraitQuestion();
+        fetchLevel1TraitQuestion();
 
         $("#fiction_modal_icon #fictionSave").on('click', (function(e) {
             alert();
@@ -1271,7 +1271,7 @@
         });
         var queId = $('#traitQue').val();
         var toUserId = '';
-        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
         $("#traitsData").addClass('loading-screen-parent');
         
         var CSRF_TOKEN = "{{ csrf_token() }}";
