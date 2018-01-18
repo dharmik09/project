@@ -516,9 +516,9 @@ a:hover {
 }
 
 .sec-notification {
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     @include maxsm {
-        margin: 40px 0;
+        margin: 10px 0;
     }
     h2 {
         margin-bottom: 40px;
@@ -627,16 +627,43 @@ a:hover {
 /*----forum module------*/
 
 .forum-module {
+    padding: 30px 0;
     .forum-container {
         max-width: 80%;
         margin: 0 auto;
         padding: 30px 0px;
+        .load-more {
+            font-size: 15px;
+            padding: 6px 15px;
+            display: inline-block;
+            margin: 15px 0;
+            color: $white;
+            text-decoration: none;
+            &:hover,
+            &:focus {
+                background: $i-cl;
+                border: 1px solid $i-cl;
+            }
+        }
     }
     .single-article {
         padding: 30px;
         background: $white;
-        /*border: 1px solid $lightgrey;*/
+        border-radius: 4px;
+        border: 1px solid #efefef;
+        margin-bottom: 12px;
+        .forum-que-block {
+            margin-bottom: 10px;
+        }
     }
+}
+
+.text-overflow {
+    height: 70px;
+    display: block;
+    overflow: hidden;
+    word-break: break-word;
+    word-wrap: break-word;
 }
 
 .forum-que {
@@ -644,6 +671,13 @@ a:hover {
         font-family: hn-b;
         font-size: 20px;
         color: $dark;
+        margin-bottom: 3px;
+        a {
+            @extend h4;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
     .que-detail {
         list-style-type: none;
@@ -655,12 +689,20 @@ a:hover {
             font-family: h;
             margin-right: 15px;
             position: relative;
-            &:first-child{
-                &:before{
+            a {
+                font-size: 13px;
+                color: #999999;
+                font-family: h;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            &:first-child {
+                &:before {
                     display: none;
                 }
             }
-            &:before{
+            &:before {
                 position: absolute;
                 content: "";
                 width: 1px;
@@ -672,12 +714,40 @@ a:hover {
         }
     }
 }
-.ans-author-detail{
-    h4{ font-family: ab;color: #333;margin-bottom: 3px;}
-    .ans-posted-date{font-size: 13px;
-            color: #999999;
-            font-family: h;}
+
+.ans-author-detail {
+    h4 {
+        font-family: hl;
+        color: #999;
+        margin-bottom: 3px;
+        font-size: 15px;
+        a {
+            @extend h4;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    .ans-posted-date {
+        font-size: 13px;
+        color: #999999;
+        font-family: h;
+    }
 }
+
+.forum-ans {
+    > span {
+        text-align: right;
+        display: block;
+        .read-more{
+            font-size: 14px;color: $h-cl;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
 .author-img,
 .answer-img {
     width: 40px;
@@ -685,23 +755,35 @@ a:hover {
     border-radius: 10px;
     overflow: hidden; //vertical-align: middle
 }
-.ans-detail{margin-bottom: 10px;}
-.forum-answer{
-    font-family: hl;font-size: 15px;color: $lightgrey;
-    p{
+
+.ans-detail {
+    margin-bottom: 10px;
+}
+
+.forum-answer {
+    font-family: hl;
+    font-size: 15px;
+    color: $lightgrey;
+    p {
         font-size: 15px;
     }
 }
+
 .ans-author-detail,
 .forum-que {
     padding: 0 20px;
 }
 
+.morecontent span {
+    display: none;
+
+}
 
 .t-table {
     display: table;
     .t-cell {
         display: table-cell;
         text-align: left;
+        vertical-align: top;
     }
 }
