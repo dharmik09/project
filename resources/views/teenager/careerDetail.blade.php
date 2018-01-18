@@ -65,8 +65,13 @@
                                 <div class="col-sm-6">
                                     <ul class="color-1">
                                         <li class="icon"><i class="icon-dollor"></i></li>
+                                        <?php
+                                            $average_per_year = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'average_per_year_salary_usa';
+                                            })->first();
+                                        ?>
                                         <li>
-                                            <h4>$40,000 - $60,000</h4>
+                                            <h4>{{$average_per_year->pfic_content}}</h4>
                                             <p>average per year</p>
                                         </li>
                                     </ul>
@@ -74,8 +79,13 @@
                                 <div class="col-sm-6">
                                     <ul class="color-2">
                                         <li class="icon"><i class="icon-clock"></i></li>
+                                        <?php
+                                            $work_hours_per_week_usa = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'work_hours_per_week_usa';
+                                            })->first();
+                                        ?>
                                         <li>
-                                            <h4>35 - 40</h4>
+                                            <h4>{{$work_hours_per_week_usa->pfic_content}}</h4>
                                             <p>hours per week</p>
                                         </li>
                                     </ul>
@@ -83,8 +93,13 @@
                                 <div class="col-sm-6">
                                     <ul class="color-3">
                                         <li class="icon"><i class="icon-pro-user"></i></li>
+                                        <?php
+                                            $positions_current_usa = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'positions_current_usa';
+                                            })->first();
+                                        ?>
                                         <li>
-                                            <h4>242,000 positions</h4>
+                                            <h4>{{$positions_current_usa->pfic_content}}</h4>
                                             <p>US employment 2017</p>
                                         </li>
                                     </ul>
@@ -92,8 +107,13 @@
                                 <div class="col-sm-6">
                                     <ul class="color-4">
                                         <li class="icon"><i class="icon-pro-user"></i></li>
+                                        <?php
+                                            $positions_projected_usa = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'positions_projected_usa';
+                                            })->first();
+                                        ?>
                                         <li>
-                                            <h4>474,000 positions</h4>
+                                            <h4>{{$positions_projected_usa->pfic_content}}</h4>
                                             <p>projected for 2027</p>
                                         </li>
                                     </ul>
@@ -955,7 +975,7 @@
         });
         $(document).on('click','#add-to-star',function(){
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form_data = 'careerId=' + '{{$slug}}';
+            var form_data = 'careerId=' + '{{$professionsData->id}}';
             $.ajax({
                 url : '{{ url("teenager/add-star-to-career") }}',
                 method : "POST",
