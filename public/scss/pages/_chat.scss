@@ -19,20 +19,22 @@ a:hover {
         transform: translate(-50%, -50%);
     }
 }
-.chat-heading{
+
+.chat-heading {
     padding: 40px 0 0;
-    @include maxms{
+    @include maxms {
         padding-top: 30px;
     }
-    h2{
+    h2 {
         margin-bottom: 40px;
-        @include maxms{
+        @include maxms {
             margin-bottom: 30px;
         }
     }
 }
+
 .sec-chat {
-    padding:0 0 60px;
+    padding: 0 0 60px;
     display: flex;
     flex-wrap: wrap;
     position: relative;
@@ -518,7 +520,7 @@ a:hover {
     @include maxsm {
         margin: 40px 0;
     }
-    h2{
+    h2 {
         margin-bottom: 40px;
     }
 }
@@ -526,9 +528,9 @@ a:hover {
 .notification-list {
     overflow-y: scroll;
     max-height: 480px;
-    .load-more{
-        margin:20px 0;
-        a{
+    .load-more {
+        margin: 20px 0;
+        a {
             text-transform: capitalize;
         }
     }
@@ -541,7 +543,7 @@ a:hover {
     border-bottom: 1px solid #ccc;
     &:first-child {
         border-top: 1px solid #ccc;
-       
+
         @include maxsm {
             margin-top: 25px;
         }
@@ -619,5 +621,87 @@ a:hover {
                 color: $dark;
             }
         }
+    }
+}
+
+/*----forum module------*/
+
+.forum-module {
+    .forum-container {
+        max-width: 80%;
+        margin: 0 auto;
+        padding: 30px 0px;
+    }
+    .single-article {
+        padding: 30px;
+        background: $white;
+        /*border: 1px solid $lightgrey;*/
+    }
+}
+
+.forum-que {
+    h4 {
+        font-family: hn-b;
+        font-size: 20px;
+        color: $dark;
+    }
+    .que-detail {
+        list-style-type: none;
+        padding: 0;
+        li {
+            display: inline-block;
+            font-size: 13px;
+            color: #999999;
+            font-family: h;
+            margin-right: 15px;
+            position: relative;
+            &:first-child{
+                &:before{
+                    display: none;
+                }
+            }
+            &:before{
+                position: absolute;
+                content: "";
+                width: 1px;
+                height: 15px;
+                left: -9px;
+                top: 1px;
+                background: #999999;
+            }
+        }
+    }
+}
+.ans-author-detail{
+    h4{ font-family: ab;color: #333;margin-bottom: 3px;}
+    .ans-posted-date{font-size: 13px;
+            color: #999999;
+            font-family: h;}
+}
+.author-img,
+.answer-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    overflow: hidden; //vertical-align: middle
+}
+.ans-detail{margin-bottom: 10px;}
+.forum-answer{
+    font-family: hl;font-size: 15px;color: $lightgrey;
+    p{
+        font-size: 15px;
+    }
+}
+.ans-author-detail,
+.forum-que {
+    padding: 0 20px;
+}
+
+
+.t-table {
+    display: table;
+    .t-cell {
+        display: table-cell;
+        text-align: left;
     }
 }

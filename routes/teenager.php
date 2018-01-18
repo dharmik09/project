@@ -54,7 +54,8 @@ Route::post('/play-first-level-world-type', 'Teenager\Level1ActivityController@p
 Route::post('/get-icon-name-new', 'Teenager\Level1ActivityController@getIconNameNew');
 Route::get('/get-icon-name-new', 'Teenager\DashboardController@profile');
 Route::post('/add-icon-category', 'Teenager\Level1ActivityController@addIconCategory');
-
+Route::post('/save-first-level-icon-category', 'Teenager\Level1ActivityController@saveFirstLevelIconCategory');
+Route::post('/save-first-level-icon-quality', 'Teenager\Level1ActivityController@saveLevel1Part2Ans');
 //Career
 Route::get('/my-careers', function() {
 	return view('teenager.myCareers');

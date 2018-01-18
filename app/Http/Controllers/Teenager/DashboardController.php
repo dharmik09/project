@@ -93,21 +93,27 @@ class DashboardController extends Controller
 
         foreach($teenagerMI as $miKey => $miVal) {
             $mitName = Helpers::getMIBySlug($miKey);
-            $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
-            $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
+            if(isset($teenagerAPIMaxScore['MI'][$miKey])) {
+                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
+                $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
+            }
         }
 
         $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
         foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
             $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-            $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
-            $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
+            if(isset($teenagerAPIMaxScore['aptitude'][$apptitudeKey])) {
+	            $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
+	            $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
+        	}
         }
         $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
         foreach($teenagerPersonality as $personalityKey => $personalityVal) {
             $ptName = Helpers::getPersonalityBySlug($personalityKey);
-            $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
-            $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
+            if(isset($teenagerAPIMaxScore['personality'][$personalityKey])) {
+	            $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
+	            $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
+	        }
         }
         $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
 

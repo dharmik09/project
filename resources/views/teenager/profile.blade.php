@@ -376,6 +376,7 @@
                 </div>
             </div>
             <h2>Personal Survey</h2>
+            <div id="errorGoneMsg"></div>
             <div class="survey-list">
                 <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
                     <div id="loading-text">
@@ -385,6 +386,7 @@
                 </div>
                 <div class="opinion-sec" id="opinionSection" style="display:none;">
                 </div>
+                <br/>
                 <div id="firstLevelWorldSection">
                     
                 </div>
@@ -711,7 +713,8 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                var a = document.querySelector("#img-preview");
+                //var a = document.querySelector("#img-preview");
+                var a = document.querySelector(".profile-img");
                 if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
                     if (input.files[0].size > 3000000) {
                         alert("File size is too large. Maximum 3MB allowed");
@@ -962,69 +965,68 @@
         $("#t_about_info").hide();
         //fetchLevel1TraitQuestion();
 
-        $("#fiction_modal_icon #fictionSave").on('click', (function(e) {
-            alert();
-            e.preventDefault();
-            $(".errorCode").text('');
-            var cat1Value = Number($("#categoryName1").val());
-            var cat1NameValue = $("#characterName1").val().trim();
-            var cat2Value = Number($("#categoryName2").val());
-            var cat2NameValue = $("#characterName2").val().trim();
-            var submitIconData = false;
-            var messageD = "Please, fillup all required data";
-            if(cat1Value > 0 && cat1NameValue != '' && cat1NameValue.length > 0){
-                submitIconData = true;
-            }else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
-                submitIconData = true;
-            }else{
-                submitIconData = false;
-            }
-            if(submitIconData){
-                $.ajax({
-                    url: "{{ url('/teenager/addIconCategory')}}",
-                    type: "POST",
-                    data: new FormData(this),
-                    dataType: 'json',
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(data) {
-                        if (data.status == 1) {
-                            if (data.categoryType == 1) {
-                                $("#icon_category").val(data.categoryid);
-                                $('#icon_category').trigger("change");
-                                $("#myModal1").modal('hide');
-                            } else if (data.categoryType == 2) {
-                                $("#icon_category").val(data.categoryid);
-                                $('#icon_category').trigger("change");
-                                $("#myModal2").modal('hide');
-                            } else {
+        
+        // $("#fictionSave").on('click', (function(e) {
+        //     console.log(); return false;
+        //     e.preventDefault();
+        //     $(".errorCode").text('');
+        //     var cat1Value = Number($("#categoryName1").val());
+        //     var cat1NameValue = $("#characterName1").val().trim();
+        //     var cat2Value = Number($("#categoryName2").val());
+        //     var cat2NameValue = $("#characterName2").val().trim();
+        //     var submitIconData = false;
+        //     var messageD = "Please, fillup all required data";
+        //     if(cat1Value > 0 && cat1NameValue != '' && cat1NameValue.length > 0){
+        //         submitIconData = true;
+        //     }else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
+        //         submitIconData = true;
+        //     }else{
+        //         submitIconData = false;
+        //     }
+        //     if(submitIconData){
+        //         $.ajax({
+        //             url: "{{ url('/teenager/addIconCategory')}}",
+        //             type: "POST",
+        //             data: new FormData(this),
+        //             dataType: 'json',
+        //             contentType: false,
+        //             cache: false,
+        //             processData: false,
+        //             success: function(data) {
+        //                 if (data.status == 1) {
+        //                     if (data.categoryType == 1) {
+        //                         $("#icon_category").val(data.categoryid);
+        //                         $('#icon_category').trigger("change");
+        //                         $("#myModal1").modal('hide');
+        //                     } else if (data.categoryType == 2) {
+        //                         $("#icon_category").val(data.categoryid);
+        //                         $('#icon_category').trigger("change");
+        //                         $("#myModal2").modal('hide');
+        //                     } else {
 
-                            }
-                        } else {
-                            if($("#useForClassPopup").hasClass('r_after_click_popup')){
-                                $(".errorGoneMsgPopup").html('');
-                            }
-                            $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>Something went wrong, Please try it again</div></div></div>');
-                        }
-                    },
-                    error: function() {
-                        if($("#useForClassPopup").hasClass('r_after_click_popup')){
-                            $(".errorGoneMsgPopup").html('');
-                        }
-                        $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>Something went wrong, Please try it again</div></div></div>');
+        //                     }
+        //                 } else {
+        //                     if($("#useForClassPopup").hasClass('r_after_click_popup')){
+        //                         $(".errorGoneMsgPopup").html('');
+        //                     }
+        //                     $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>Something went wrong, Please try it again</div></div></div>');
+        //                 }
+        //             },
+        //             error: function() {
+        //                 if($("#useForClassPopup").hasClass('r_after_click_popup')){
+        //                     $(".errorGoneMsgPopup").html('');
+        //                 }
+        //                 $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>Something went wrong, Please try it again</div></div></div>');
 
-                    }
-                });
-            }else{
-                if($("#useForClassPopup").hasClass('r_after_click_popup')){
-                    $(".errorGoneMsgPopup").html('');
-                }
-                $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>'+messageD+'</div></div></div>');
-            }
-        }));
-
-
+        //             }
+        //         });
+        //     }else{
+        //         if($("#useForClassPopup").hasClass('r_after_click_popup')){
+        //             $(".errorGoneMsgPopup").html('');
+        //         }
+        //         $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>'+messageD+'</div></div></div>');
+        //     }
+        // }));
     });
     
 
@@ -1291,6 +1293,8 @@
     }
 
     function getIconName(categoryId, categoryType, page, searchText) {
+        $('.set-icon-selection #loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        $('.set-icon-selection #loading-wrapper-sub').show();
         var categoryId = categoryId;
         var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType + '&searchText=' + searchText;
         if (categoryId != 'pop_up' && categoryId != '') {
@@ -1314,9 +1318,13 @@
                         $('.no_selected_category').hide();
                         $(".selected_category").html(data);
                     }
+                    $('.set-icon-selection #loading-wrapper-sub').hide();
+                    $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 }
             });
         } else {
+            $('.set-icon-selection #loading-wrapper-sub').hide();
+            $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             $(".searchOnIcon").hide();
             $("#dataHtml").html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
             $('#searchForIcon').val('');
@@ -1328,14 +1336,57 @@
     $(function() {
         $('body').on('click', '.selected_category .pagination a', function(e) {
             e.preventDefault();
-            //$('#load a').css('color', '#dfecf6');
-            //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+            $('.set-icon-selection #loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+            $('.set-icon-selection #loading-wrapper-sub').show();
+            
             var categoryId = '2';
             var categoryType = '1';
             var searchText = $("#searchForIcon").val();
             var url = $(this).attr('href');
             getArticles(url);
             window.history.pushState("", "", url);
+        });
+
+        $('body').on('click', '.fictional-world #nextSubmit', function(e) {
+            e.preventDefault();
+            var categoryId = $('input[name=category_id]:checked', '#level1ActivityWorldFiction').val();
+            var categoryType = $("#categoryIdValue").attr('data-category-type');
+            var mainCategory = $("#categoryIdValue").val();
+            if(mainCategory == "" || typeof mainCategory == 'undefined') {
+                if($("#useForClass").hasClass('r_after_click')){
+                    $("#errorGoneMsg").html('');
+                }
+                $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select any category!</span></div></div></div>');
+                return false;
+            }
+            if(categoryId == "" || typeof categoryId == 'undefined') {
+                if($("#useForClass").hasClass('r_after_click')){
+                    $("#errorGoneMsg").html('');
+                }
+                $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select icon for category!</span></div></div></div>');
+                return false;
+            }
+            var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType;
+            $('.set-icon-selection #loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+            $('.set-icon-selection #loading-wrapper-sub').show();
+            $.ajax({
+                type: 'POST',
+                data: dataString,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-first-level-icon-category') }}",
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                cache: false,
+                success: function(data) {
+                    if (data == '') {
+                        $('#search_icon').hide();
+                        $('#searchForIcon').val(' ');
+                    } else {
+                        $("#firstLevelWorldSection").html(data);
+                    }
+                    $('.set-icon-selection #loading-wrapper-sub').hide();
+                    $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                }
+            });
         });
 
         function getArticles(url) {
@@ -1348,13 +1399,80 @@
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                 cache: false,
             }).done(function (data) {
+                $('.set-icon-selection #loading-wrapper-sub').hide();
+                $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 $(".selected_category").show();
                 $('.no_selected_category').hide();
                 $(".selected_category").html(data);
             }).fail(function () {
+                $('.set-icon-selection #loading-wrapper-sub').hide();
+                $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 alert('Articles could not be loaded.');
             });
         }
     });
+
+    function checkQualityData() {
+        var icon = $('input.iconCheck:checked').length;
+        var result = 1;
+        if (icon < 5 ) {
+            if($("#useForClass").hasClass('r_after_click')){
+                $("#errorGoneMsg").html('');
+            }
+            $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select atleast five Qualities</span></div></div></div>');
+            return false;
+        }
+        return true;
+    }
+
+    function checkIconUploadData() {
+        $(".errorGoneMsgPopup").text("");
+        var cat1Value = Number($("#categoryName1").val());
+        var cat1NameValue = $("#characterName1").val();
+        var cat2Value = Number($("#categoryName2").val());
+        var cat2NameValue = $("#characterName2").val();
+        var submitIconData = false;
+        var messageD = "Please, fillup all required data";
+        if(cat1Value > 0 && cat1NameValue != '' && cat1NameValue.length > 0){
+            submitIconData = true;
+        }else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
+            submitIconData = true;
+        }else{
+            submitIconData = false;
+        }
+        if(submitIconData){
+            $.ajax({
+                url: "{{ url('/teenager/add-icon-category')}}",
+                type: "POST",
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(data) {
+                    if (data.status == 1) {
+                        if (data.categoryType == 1) {
+                            $("#icon_category").val(data.categoryid);
+                            $('#icon_category').trigger("change");
+                            $("#myModal1").modal('hide');
+                        } else if (data.categoryType == 2) {
+                            $("#icon_category").val(data.categoryid);
+                            $('#icon_category').trigger("change");
+                            $("#myModal2").modal('hide');
+                        } else {
+
+                        }
+                    } else {
+                        $(".errorGoneMsgPopup").text("Something went wrong, Please try it again!");
+                    }
+                },
+                error: function() {
+                    $(".errorGoneMsgPopup").text("Something went wrong, Please try it again!");
+                }
+            });
+        } else {
+            $(".errorGoneMsgPopup").text(messageD);
+        }
+    }
 </script>
 @stop

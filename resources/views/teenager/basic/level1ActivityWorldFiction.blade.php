@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group custom-select">
-                                <select tabindex="8" class="form-control" onChange="getIconName(this.value, '1', 1, '')" data-category-type="1">
+                                <select tabindex="8" class="form-control" name="categoryId" id="categoryIdValue" onChange="getIconName(this.value, '1', 1, '')" data-category-type="1">
                                     @if(isset($maincartoonIconCategoryArray) && $maincartoonIconCategoryArray)
                                         <option value="">Select Category</option>
                                         @foreach($maincartoonIconCategoryArray as $mainIconArray)
@@ -62,12 +62,21 @@
                 <div class="no-data no_selected_category">
                     <p>Please select one category</p>
                 </div>
-                <div class="icon-container-inner selected_category" style="display:none">
-                    
+                <div class="set-icon-selection">
+                    <div id="loading-wrapper-sub" style="display: block;" class="loading-screen-data">
+                        <div id="loading-text">
+                            <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
+                        </div>
+                        <div id="loading-content"></div>
+                    </div>
+                    <div class="icon-container-inner selected_category" style="display:none">
+                        
+                    </div>
                 </div>
                 <div class="form-btn">
                     <span class="icon"><i class="icon-arrow-spring"></i></span>
-                    <button type="submit" value="Submit" class="btn-search">Submit</button>
+                    <br/>
+                    <button type="submit" title="Next" class="btn btn-primary" id="nextSubmit">Next</button>
                 </div>
             </div>
         </form>
@@ -81,7 +90,7 @@
             <div class="modal-content custom-modal">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                    <h4 class="modal-title">Congratulations!</h4>
+                    <h4 class="modal-title errorGoneMsgPopup"></h4>
                 </div>
                 <div class="modal-body">
                     <div class="sec-filter">
@@ -99,16 +108,16 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name" id="characterName1" name="characterName">
+                            <input type="text" class="form-control" placeholder="Name *" id="characterName1" name="characterName">
                         </div>
-                        <div class="upload-img" id="img-upload">
+                        <div class="upload-img profile-img" id="img-upload">
                             <span><i class="icon-plus"></i></span>
                             <input type="file" name="image" accept="image/*" onchange="readURL(this);">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" name="fiction" value="Save" class="btn btn-primary" id="fictionSave">Submit</button>
+                    <button type="button" name="fiction" value="Save" class="btn btn-primary" id="fictionSave" onClick="checkIconUploadData()">Submit</button>
                 </div>
             </div>
         </div>

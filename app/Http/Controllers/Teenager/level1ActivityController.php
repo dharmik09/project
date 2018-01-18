@@ -19,6 +19,7 @@ use Helpers;
 use Storage;
 use App\Level1Activity;
 use App\Level1Traits;
+use App\Teenagers;
 
 class Level1ActivityController extends Controller
 {
@@ -344,5 +345,250 @@ class Level1ActivityController extends Controller
 
         echo json_encode($response);
         exit;
+    }
+
+    public function saveFirstLevelIconCategory() {
+        $qualityDetail = $this->level1ActivitiesRepository->getLevel1qualities();
+        $response = [];
+        $response['timer'] = 1;
+        $response['user_self_image'] = Auth::guard('teenager')->user()->t_photo;
+        $userid = Auth::guard('teenager')->user()->id;
+        $totalQuestion = $this->level1ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userid);
+        $relation_category = Input::get('relations_category');
+        $relation_name = Input::get('relations_name');
+        $categoryType = Input::get('categoryType');
+        $categoryId = Input::get('categoryId');
+        $nickName = Input::get('teen_nickname');
+        $selfName = Input::get('teen_name');
+
+        if ($relation_category != '') {
+          if ($relation_name == '') {
+              return redirect()->back()->withError('Relation name required.');
+              exit;
+          }
+        }
+        if ($categoryType == 4) {
+            if ($selfName == '' || strlen($nickName) < 3) {
+                return redirect()->back()->withError('Teenager name required.');
+                exit;
+            }
+        }
+
+        if ($categoryType == 1 && $categoryId != '') {
+            $data_cat_type = 1;
+            $data_name = "ci_name";
+            $data_car_image = "ci_image";
+            $image_path_location = $this->cartoonThumbImageUploadPath;
+            $iconCategoryName = $this->level1ActivitiesRepository->getIconNameById($categoryId, "pro_ci_cartoon_icons");
+        } elseif ($categoryType == 2 && $categoryId != '') {
+            $iconCategoryName = $this->level1ActivitiesRepository->getIconNameById($categoryId, "pro_hi_human_icons");
+            $data_cat_type = 2;
+            $data_name = "hi_name";
+            $image_path_location = $this->humanThumbImageUploadPath;
+            $data_car_image = "hi_image";
+        } else {
+            $iconCategoryName = '';
+        }
+
+        $html = '';
+        $iconDetail = [];
+        if (isset($iconCategoryName) && !empty($iconCategoryName) && count($iconCategoryName) > 0) {
+            foreach ($iconCategoryName as $value) {
+                $data = [];
+                if ($value->$data_car_image != '' && file_exists($image_path_location . $value->$data_car_image)) {
+                    $imagePath = Storage::url($image_path_location . $value->$data_car_image);
+                } else {
+                    $imagePath = Storage::url($image_path_location . "proteen-logo.png");
+                }
+                $value->$data_car_image = $imagePath;
+                $data['icon_name'] = $value->$data_name;
+                $data['icon_image'] = $imagePath;
+                $iconDetail[] = $data;
+            }
+        }
+
+        $lastInterIdRelation = '';
+        //For relations Icon
+        if ($categoryType == 3) {
+            $data = [];
+            $data['icon_name'] = $relation_name;
+            if ($categoryType != ''  && $relation_name != '') {
+                $fileName = '';
+                if (Input::file('relative_image')) {
+                    $file = Input::file('relative_image');
+                    if (!empty($file)) {
+                        $fileName = 'relation_' . time() . '.' . $file->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->relationIconOriginalImageUploadPath . $fileName);
+                        $pathThumb = public_path($this->relationIconThumbImageUploadPath . $fileName);
+                        $data['icon_image'] = Storage::url($this->relationIconOriginalImageUploadPath . $fileName);;
+                        Image::make($file->getRealPath())->save($pathOriginal);
+                        Image::make($file->getRealPath())->resize($this->relationIconThumbWidth, $this->relationIconThumbHeight)->save($pathThumb);
+                    }
+                    $teenIconSelection[] = array("ti_teenager" => $userid, "ti_icon_type" => $categoryType, "ti_icon_id" => 0, 'ti_icon_name' => $relation_name, 'ti_icon_image' => $fileName, 'ti_icon_relation' => $relation_category);
+                }else {
+                    $data['icon_image'] = Storage::url($this->relationIconOriginalImageUploadPath . "proteen-logo.png");
+                    $teenIconSelection[] = array("ti_teenager" => $userid, "ti_icon_type" => $categoryType, "ti_icon_id" => 0, 'ti_icon_name' => $relation_name, 'ti_icon_image' => $fileName, 'ti_icon_relation' => $relation_category);
+                }
+            }
+
+            $lastInterIdRelation = $this->level1ActivitiesRepository->saveTeenagerLevel1Part2($teenIconSelection[0]);
+            $iconDetail[] = $data;
+            if (!isset($lastInterIdRelation) && $lastInterIdRelation == '') {
+                return redirect()->back()->withError(trans('appmessages.default_error_msg'));
+                exit;
+            }
+        }
+        //For Self Icon
+        $lastInterIdSelf = '';
+        $self_icon_id = '0';
+        if ($categoryType == 4) {
+            $data = [];
+            $data['icon_name'] = $selfName;
+            if ($categoryType != '' && $self_icon_id != '') {
+                if (Input::file('self_image')) {
+                    $fileSelf = Input::file('self_image');
+                    if (!empty($fileSelf)) {
+                        $fileNameSelf = 'teenager_' . time() . '.' . $fileSelf->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->teenOriginalImageUploadPath . $fileNameSelf);
+                        $data['icon_image'] = Storage::url($this->teenOriginalImageUploadPath . $fileNameSelf);;
+                        $pathThumb = public_path($this->teenThumbImageUploadPath . $fileNameSelf);
+                        Image::make($fileSelf->getRealPath())->save($pathOriginal);
+                        Image::make($fileSelf->getRealPath())->resize($this->teenThumbImageWidth, $this->teenThumbImageHeight)->save($pathThumb);
+                    }
+                } else {
+                    $fileNameSelf = Input::get('hidden_self_image');
+                    $data['icon_image'] = Storage::url($this->teenOriginalImageUploadPath . $fileNameSelf);
+                    $iconDetail[] = $data;
+                }
+
+                $user = Teenagers::find($userid);
+                $user->t_nickname = $nickName;
+                $user->t_name = $selfName;
+                $user->t_photo = $fileNameSelf;
+                $user->save();
+                $response['user_self_image'] = $fileNameSelf;
+
+                $teenIconSelection[] = array("ti_teenager" => $userid, "ti_icon_type" => $categoryType, "ti_icon_id" => $self_icon_id);
+
+                $lastInterIdSelf = $this->level1ActivitiesRepository->saveTeenagerLevel1Part2($teenIconSelection[0]);
+                if (!isset($lastInterIdSelf) && $lastInterIdSelf == '') {
+                    return redirect()->back()->withError(trans('appmessages.default_error_msg'));
+                    exit;
+                }
+            }
+        }
+
+        $response['NoOfTotalQuestions'] = $totalQuestion[0]->NoOfTotalQuestions;
+        $response['NoOfAttemptedQuestions'] = $totalQuestion[0]->NoOfAttemptedQuestions;
+        
+        $mainqualityArray = [];
+        foreach ($qualityDetail as $detail) {
+            $qualityList = [];
+            $qualityList['id'] = $detail->id;
+            $qualityList['quality'] = $detail->l1qa_name;
+            $mainqualityArray[] = $qualityList;
+        }
+        $response['qualityList'] = $mainqualityArray;
+        $isQuestionCompleted = 0;
+        return view('teenager.basic.level1ActivityQuality',compact('isQuestionCompleted','response','relation_category','lastInterIdRelation','categoryType','categoryId','lastInterIdSelf','data'));
+    }
+
+    public function saveLevel1Part2Ans() {
+        $body['userid'] = Auth::guard('teenager')->user()->id;
+        $icon = Input::get('icon');
+        $category_id = Input::get('category_id');
+        $category_type = Input::get('category_type');
+        $relation_category = Input::get('relation_category');
+        $relation_id = Input::get('relation_id');
+        $self_id = Input::get('self_id');
+        $maximumCount = count($icon);
+
+        if ($maximumCount < 5) {
+            return redirect()->back()->withError('Please, select atleast five qualities Of any ICON');
+            exit;
+        }
+
+        if (isset($body['userid']) && $body['userid'] > 0) {
+            $checkuserexist = $this->teenagersRepository->checkActiveTeenager($body['userid']);
+            if (isset($checkuserexist) && $checkuserexist) {
+                $teenagerID = $body['userid'];
+                if ($category_type == 1 || $category_type == 2) {
+                    $teenIconSelection[] = array("ti_teenager" => $teenagerID, "ti_icon_type" => $category_type, "ti_icon_id" => $category_id);
+                    $lastInterId = $this->level1ActivitiesRepository->saveTeenagerLevel1Part2($teenIconSelection[0]);
+                }
+                $qualityDetail = $this->level1ActivitiesRepository->getLevel1qualities();
+
+                $iconCountArray = array();
+
+                foreach ($qualityDetail as $key => $data)
+                {
+                    $iconQualityValue = (isset($icon[$data->id]) && isset($icon[$data->id]) == 1) ? 1 : 0;
+
+                    if ($iconQualityValue == 1) {
+                        if ($category_type == 1 || $category_type == 2) {
+                            $qualityResponseData = array("tiqa_teenager" => $teenagerID, "tiqa_ti_id" => $lastInterId, "tiqa_quality_id" => $data->id, "tiqa_response" => $iconQualityValue);
+                        } else if ($category_type == 3) {
+                            $qualityResponseData = array("tiqa_teenager" => $teenagerID, "tiqa_ti_id" => $relation_id, "tiqa_quality_id" => $data->id, "tiqa_response" => $iconQualityValue);
+                        } else if ($category_type == 4) {
+                            $qualityResponseData = array("tiqa_teenager" => $teenagerID, "tiqa_ti_id" => $self_id, "tiqa_quality_id" => $data->id, "tiqa_response" => $iconQualityValue);
+                        }
+                        $this->level1ActivitiesRepository->saveTeenagerLevel1Part2Qualities($qualityResponseData);
+                        $iconCountArray[] = $category_type;
+                    }
+                }
+
+                if(isset($iconCountArray) && !empty($iconCountArray)){
+                    $iconCount = count(array_unique($iconCountArray));
+                }
+
+                $category = [1,2,3,4];
+                $UserData = $this->level1ActivitiesRepository->getTeenagerLevel1Part2Icon($teenagerID,$category);
+
+                $iconLength = 0;
+                if(isset($UserData) && !empty($UserData)){
+                    $UserData = json_decode(json_encode($UserData), true);
+                    $UserDetail = array_unique(array_column($UserData, 'ti_icon_type'));
+                    $iconLength = count($UserDetail);
+                }
+
+                $totalQuestion = $this->level1ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($teenagerID);
+                $response['NoOfTotalQuestions'] = $totalQuestion[0]->NoOfTotalQuestions;
+                $response['NoOfAttemptedQuestions'] = $totalQuestion[0]->NoOfAttemptedQuestions;
+
+                // if (isset($response['NoOfAttemptedQuestions']) && $response['NoOfAttemptedQuestions'] > 0) {
+                //     $response['boosterScale'] = (100 * ($response['NoOfAttemptedQuestions'])) / ($response['NoOfTotalQuestions']);
+                // } else {
+                //     $response['boosterScale'] = 0;
+                // }
+
+                if (($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfAttemptedQuestions'] > $response['NoOfTotalQuestions'])) {
+                    $isQuestionCompleted = 1;
+                } else {
+                    $isQuestionCompleted = 0;
+                }
+
+                //$this->teenagersRepository->saveLevel1Part2BoosterPoints($teenagerID, ($iconCount*Helpers::getConfigValueByKey('LEVEL1_ICON_SELECTION_POINTS')));
+                //$getTeenagerBoosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($teenagerID);
+                $response['level1'] = $this->teenagersRepository->getTeenagerTotalBoosterPointsForLevel1($teenagerID);
+
+                $response['status'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                // if ($iconLength >= 4) {
+                //     $response['qualityAttempted'] = 'yes';
+                //     return view('teenager.level1ActivityComplete', compact('response', 'isQuestionCompleted'));
+                // } else {
+                //     $response['qualityAttempted'] = 'no';
+                //     return view('teenager.level1Activitynew', compact('response', 'isQuestionCompleted'));
+                // }
+
+                return Redirect::to("teenager/my-profile")->with('success', "Qualities updated");
+                exit;
+
+            }
+        } else {
+            Auth::teenager()->logout();
+            return Redirect::to('/teenager')->with('error', trans('appmessages.invalid_userid_msg'));
+            exit;
+        }
     }
 }
