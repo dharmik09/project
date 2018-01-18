@@ -564,7 +564,7 @@
                                 <h3>No Records found.</h3>
                             </center>
                             @endforelse
-                            @if (!empty($myCareers) && $myCareersCount > 10)
+                            @if (!empty($myCareers) && $myCareersCount > 2)
                                 <p class="text-center remove-my-careers-row">
                                     <a id="load-more-career" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myCareer->attemptedId }}">load more</a>
                                 </p>

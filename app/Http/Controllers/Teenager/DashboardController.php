@@ -152,7 +152,7 @@ class DashboardController extends Controller
 
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
-        $teenagerCareers = $this->professionsRepository->getTeenagerAttemptedProfession($user->id);
+        $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
         return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
     }
 
@@ -205,8 +205,8 @@ class DashboardController extends Controller
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
         $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
         $myConnections = $this->communityRepository->getMyConnections($user->id);
-        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfessionsSlotWise($user->id);
-        $myCareersCount = $this->professionsRepository->getTeenagerAttemptedProfessionCount($user->id);
+        $myCareers = $this->professionsRepository->getMyCareersSlotWise($user->id);
+        $myCareersCount = $this->professionsRepository->getMyCareersCount($user->id);
         return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount'));   
     }
 
@@ -501,8 +501,8 @@ class DashboardController extends Controller
     {
         $lastAttemptedId = Input::get('lastAttemptedId');
         $loggedInTeen = Auth::guard('teenager')->user()->id;
-        $myCareers = $this->professionsRepository->getTeenagerAttemptedProfessionsSlotWise($loggedInTeen, $lastAttemptedId);
-        $myCareersCount = $this->professionsRepository->getTeenagerAttemptedProfessionCount($loggedInTeen, $lastAttemptedId);
+        $myCareers = $this->professionsRepository->getMyCareersSlotWise($loggedInTeen, $lastAttemptedId);
+        $myCareersCount = $this->professionsRepository->getMyCareersCount($loggedInTeen, $lastAttemptedId);
         return view('teenager.loadMoreCareers', compact('myCareers', 'myCareersCount'));
         
     }
