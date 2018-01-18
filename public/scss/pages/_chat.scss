@@ -764,8 +764,9 @@ a:hover {
     font-family: hl;
     font-size: 15px;
     color: $lightgrey;
+    line-height: 1.5;
     p {
-        font-size: 15px;
+        font-size: 15px;line-height: 1.5;
     }
 }
 
