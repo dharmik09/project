@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Services\Professions\Contracts\ProfessionsRepository;
 use App\Services\Baskets\Contracts\BasketsRepository;
 use App\Baskets;
+use App\Professions;
+use App\ProfessionHeaders;
 use Auth;
 use Config;
 use Storage;
@@ -22,6 +24,8 @@ class ProfessionController extends Controller {
     {
         $this->professionsRepository = $professionsRepository;
         $this->baskets = new Baskets();
+        $this->professions = new Professions();
+        $this->professionHeaders = new ProfessionHeaders();
         $this->objStarRatedProfession = new StarRatedProfession;
     }
 
@@ -310,9 +314,21 @@ class ProfessionController extends Controller {
     }
 
 
-    public function careerDetails($careerId)
+    public function careerDetails($slug)
     {
-        return view('teenager.careerDetail', compact('careerId'));
+        $user = Auth::guard('teenager')->user();
+        
+        if($user->t_view_information == 1){
+            $countryId = 2;
+        }else{
+            $countryId = 1;
+        }
+
+        $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId);
+        // echo "<pre>";
+        // print_r($professionsData);
+        // exit;
+        return view('teenager.careerDetail', compact('slug','professionsData'));
     }
 
     public function addStarToCareer(Request $request) 
