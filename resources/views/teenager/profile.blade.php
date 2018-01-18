@@ -1182,6 +1182,7 @@
     function playFirstLevelWorldType(type) {
         $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
         $('#loading-wrapper-sub').show();
+        $("#errorGoneMsg").html('');
         $.ajax({
             url: "{{url('teenager/play-first-level-world-type')}}",
             type : 'POST',
@@ -1194,6 +1195,8 @@
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 $('.sec-filter #icon-slider').owlCarousel('update');
+                $('.loaderSection .loading-wrapper-sub').hide();
+                $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             },
             error: function(){
                 $('#loading-wrapper-sub').hide();
@@ -1293,8 +1296,9 @@
     }
 
     function getIconName(categoryId, categoryType, page, searchText) {
-        $('.set-icon-selection #loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
-        $('.set-icon-selection #loading-wrapper-sub').show();
+        $('.loaderSection .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        $('.loaderSection .loading-wrapper-sub').show();
+        $("#errorGoneMsg").html('');
         var categoryId = categoryId;
         var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType + '&searchText=' + searchText;
         if (categoryId != 'pop_up' && categoryId != '') {
@@ -1318,13 +1322,13 @@
                         $('.no_selected_category').hide();
                         $(".selected_category").html(data);
                     }
-                    $('.set-icon-selection #loading-wrapper-sub').hide();
-                    $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    $('.loaderSection .loading-wrapper-sub').hide();
+                    $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 }
             });
         } else {
-            $('.set-icon-selection #loading-wrapper-sub').hide();
-            $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+            $('.loaderSection .loading-wrapper-sub').hide();
+            $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             $(".searchOnIcon").hide();
             $("#dataHtml").html('<div class="no_data_page"><span class="nodata_outer"><span class="nodata_middle">Please select one category</span></span</div>');
             $('#searchForIcon').val('');
@@ -1336,9 +1340,9 @@
     $(function() {
         $('body').on('click', '.selected_category .pagination a', function(e) {
             e.preventDefault();
-            $('.set-icon-selection #loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
-            $('.set-icon-selection #loading-wrapper-sub').show();
-            
+            $("#errorGoneMsg").html('');
+            $('.loaderSection .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+            $('.loaderSection .loading-wrapper-sub').show();
             var categoryId = '2';
             var categoryType = '1';
             var searchText = $("#searchForIcon").val();
@@ -1349,6 +1353,7 @@
 
         $('body').on('click', '.fictional-world #nextSubmit', function(e) {
             e.preventDefault();
+            $("#errorGoneMsg").html('');
             var categoryId = $('input[name=category_id]:checked', '#level1ActivityWorldFiction').val();
             var categoryType = $("#categoryIdValue").attr('data-category-type');
             var mainCategory = $("#categoryIdValue").val();
@@ -1367,8 +1372,8 @@
                 return false;
             }
             var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType;
-            $('.set-icon-selection #loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
-            $('.set-icon-selection #loading-wrapper-sub').show();
+            $('.loaderSection .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+            $('.loaderSection .loading-wrapper-sub').show();
             $.ajax({
                 type: 'POST',
                 data: dataString,
@@ -1383,8 +1388,8 @@
                     } else {
                         $("#firstLevelWorldSection").html(data);
                     }
-                    $('.set-icon-selection #loading-wrapper-sub').hide();
-                    $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    $('.loaderSection .loading-wrapper-sub').hide();
+                    $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 }
             });
         });
@@ -1399,14 +1404,14 @@
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                 cache: false,
             }).done(function (data) {
-                $('.set-icon-selection #loading-wrapper-sub').hide();
-                $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                $('.loaderSection .loading-wrapper-sub').hide();
+                $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 $(".selected_category").show();
                 $('.no_selected_category').hide();
                 $(".selected_category").html(data);
             }).fail(function () {
-                $('.set-icon-selection #loading-wrapper-sub').hide();
-                $('.set-icon-selection #loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                $('.loaderSection .loading-wrapper-sub').hide();
+                $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 alert('Articles could not be loaded.');
             });
         }
@@ -1414,6 +1419,7 @@
 
     function checkQualityData() {
         var icon = $('input.iconCheck:checked').length;
+        $("#errorGoneMsg").html('');
         var result = 1;
         if (icon < 5 ) {
             if($("#useForClass").hasClass('r_after_click')){
