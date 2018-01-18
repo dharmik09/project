@@ -67,7 +67,7 @@ class LoginController extends Controller
                         return Redirect::to('/teenager/login')->with('error', trans('appmessages.notvarified_user_msg'))->with('t_uniqueid', $teenager['t_uniqueid']);
                     }
                 } else {
-                    return Redirect::to('/teenager/login')->with('error', trans('appmessages.invalid_email_msg'));
+                    return Redirect::to('/teenager/login')->with('error', "Phone number is invalid!");
                 }
             } else {
                 if (Auth::guard('teenager')->attempt(['t_email' => $emailPhone, 'password' => $password, 'deleted' => 1], $rememberMe)) {
