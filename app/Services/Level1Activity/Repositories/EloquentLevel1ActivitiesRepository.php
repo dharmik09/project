@@ -316,6 +316,11 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
         $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->where(['ti_teenager' => $teenagerId , 'deleted' => 1])->first();
         return $result;
     }
+
+    public function getTeenAttemptedQualityType($teenagerId) {
+        $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->where(['ti_teenager' => $teenagerId , 'deleted' => 1])->groupBy('ti_icon_type')->pluck('ti_icon_type');
+        return $result;
+    }
     
     
     /**

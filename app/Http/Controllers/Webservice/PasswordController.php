@@ -86,7 +86,7 @@ class PasswordController extends Controller
     */
     public function resetPassword(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->newPassword != "" && $request->userId != "" && $request->otp != "") {
             $bool = $this->teenagersRepository->isUserPasswordOTPMatch($request->userId, $request->otp);
             if($bool) {
@@ -112,7 +112,7 @@ class PasswordController extends Controller
     */
     public function verifyOTP(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->userId != "" && $request->otp != "") {
             $bool = $this->teenagersRepository->verifyOTPAgainstTeenagerId($request->userId, $request->otp);
             if($bool) {
@@ -136,7 +136,7 @@ class PasswordController extends Controller
     */
     public function forgotPassword(Request $request)
     {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         if($request->email != "") {
             if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
                 if (is_numeric($request->email) && $request->email > 0 && $request->email == round($request->email, 0)) {
