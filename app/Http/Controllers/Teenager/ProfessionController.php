@@ -324,7 +324,7 @@ class ProfessionController extends Controller {
             $countryId = 1;
         }
 
-        $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId);
+        $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
         return view('teenager.careerDetail', compact('professionsData'));
     }
 

@@ -71,7 +71,7 @@
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4>{{$average_per_year->pfic_content}}</h4>
+                                            <h4><?php echo (isset($average_per_year->pfic_content) && !empty($average_per_year->pfic_content)) ? $average_per_year->pfic_content : '' ?></h4>
                                             <p>average per year</p>
                                         </li>
                                     </ul>
@@ -85,7 +85,7 @@
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4>{{$work_hours_per_week_usa->pfic_content}}</h4>
+                                            <h4><?php echo (isset($work_hours_per_week_usa->pfic_content) && !empty($work_hours_per_week_usa->pfic_content)) ? $work_hours_per_week_usa->pfic_content : '' ?></h4>
                                             <p>hours per week</p>
                                         </li>
                                     </ul>
@@ -99,7 +99,7 @@
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4>{{$positions_current_usa->pfic_content}}</h4>
+                                            <h4><?php echo (isset($positions_current_usa->pfic_content) && !empty($positions_current_usa->pfic_content)) ? $positions_current_usa->pfic_content : '' ?></h4>
                                             <p>US employment 2017</p>
                                         </li>
                                     </ul>
@@ -113,7 +113,7 @@
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4>{{$positions_projected_usa->pfic_content}}</h4>
+                                            <h4><?php echo (isset($positions_projected_usa->pfic_content) && !empty($positions_projected_usa->pfic_content)) ? $positions_projected_usa->pfic_content : '' ?></h4>
                                             <p>projected for 2027</p>
                                         </li>
                                     </ul>
@@ -123,7 +123,7 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>Career Title</h4>
-                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class=""><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
+                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (isset($professionsData->starRatedProfession) && !empty($professionsData->starRatedProfession)) ? "favourite-career" : '0' ?>"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                         </div>
