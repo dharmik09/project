@@ -325,10 +325,7 @@ class ProfessionController extends Controller {
         }
 
         $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId);
-        // echo "<pre>";
-        // print_r($professionsData);
-        // exit;
-        return view('teenager.careerDetail', compact('slug','professionsData'));
+        return view('teenager.careerDetail', compact('professionsData'));
     }
 
     public function addStarToCareer(Request $request) 
