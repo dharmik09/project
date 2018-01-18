@@ -221,7 +221,7 @@
                     }
                 });
             });
-        $(document).on('click','#load-more-connection',function(){
+            $(document).on('click','#load-more-connection',function(){
                 var lastTeenId = $(this).data('id');
                 //$("#btn-more").html("Loading....");
                 search_keyword = $("#search_community").val();

@@ -9,6 +9,46 @@
     <!-- mid section starts-->
     <!-- mid section-->
     <div class="container">
+        <div class="col-xs-12">
+                @if ($message = Session::get('success'))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <div class="alert alert-success alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if ($message = Session::get('error'))
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 invalid_pass_error">
+                        <div class="box-body">
+                            <div class="alert alert-error alert-dismissable danger">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if (count($errors) > 0)
+                <div class="alert alert-danger danger">
+                    <strong>{{trans('validation.whoops')}}</strong>
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                    {{trans('validation.someproblems')}}<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+            </div>
         <section class="career-detail">
             <h1>Career Title</h1>
             <div class="banner-landing banner-detail">
@@ -63,7 +103,7 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>Career Title</h4>
-                                <div class="list-icon"><span><a href="#" title="Like"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
+                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                         </div>
@@ -913,5 +953,21 @@
                 }
             }
         });
+        $(document).on('click','#add-to-star',function(){
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var form_data = 'careerId=' + '{{$careerId}}';
+            $.ajax({
+                url : '{{ url("teenager/add-star-to-career") }}',
+                method : "POST",
+                data: form_data,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN,
+                },
+                dataType: "json",
+                success : function (response) {
+
+                }
+            });
+            });
     </script>
 @stop

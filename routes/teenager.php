@@ -59,9 +59,8 @@ Route::post('/add-icon-category', 'Teenager\Level1ActivityController@addIconCate
 Route::get('/my-careers', function() {
 	return view('teenager.myCareers');
 });
-Route::get('/career-detail/{id}', function() {
-	return view('teenager.careerDetail');
-});
+Route::get('/career-detail/{id}', 'Teenager\ProfessionController@careerDetails');
+Route::post('/add-star-to-career', 'Teenager\ProfessionController@addStarToCareer');
 // Route::get('/list-career', function() {
 // 	return view('teenager.careersListing');
 // });
