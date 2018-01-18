@@ -596,12 +596,11 @@ h6 {
 .heading-tag:hover{color: $dark !important; }
 .profile_section .flex-container .flex-items{align-items: flex-start;justify-content: center;}
 .quiz-ans{
-    .quiz-img{
+    .question-img{
         width: auto;
         max-height: 300px;
-        margin: 0 auto 15px;
-        position: relative;
-        right: 15px;
+        margin: 0 auto 30px;
         max-width: 310px;
+        text-align: center;
     }
 }

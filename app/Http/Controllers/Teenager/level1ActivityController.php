@@ -164,7 +164,7 @@ class Level1ActivityController extends Controller
                 </div>
                 <div class="form-btn">
                     <span class="icon"><i class="icon-arrow-spring"></i></span>
-                    <a onclick="saveLevel1TraitQuestion();" title="Next">Next</a>
+                    <button onclick="saveLevel1TraitQuestion();" title="Next" class="btn btn-primary">Next</button>
                 </div>
             </div>';
         }
