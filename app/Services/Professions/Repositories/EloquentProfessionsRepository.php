@@ -528,4 +528,48 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         return $profession;
     }
 
+    public function getMyCareers($teenId)
+    {
+        $careers = $this->model
+                    ->join('pro_srp_star_rated_professions AS ratedCareer', 'pro_pf_profession.id', '=', 'ratedCareer.srp_profession_id')
+                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo')
+                    ->where('srp_teenager_id', $teenId)
+                    ->orderBy('ratedCareer.id', 'DESC')
+                    ->get();
+        return $careers;
+    }
+
+    public function getMyCareersCount($teenId, $careerId = '')
+    {
+        $careersCount = $this->model
+                    ->join('pro_srp_star_rated_professions AS ratedCareer', 'pro_pf_profession.id', '=', 'ratedCareer.srp_profession_id')
+                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo, ratedCareer.id as careerId')
+                    ->where(function($query) use ($careerId)  {
+                        if(isset($careerId) && !empty($careerId)) {
+                            $query->where('ratedCareer.id', '<', $careerId);
+                        }
+                     })
+                    ->where('srp_teenager_id', $teenId)
+                    ->orderBy('ratedCareer.id', 'DESC')
+                    ->count();
+        return $careersCount;
+    }
+
+    public function getMyCareersSlotWise($teenId, $careerId = '')
+    {
+        $careers = $this->model
+                    ->join('pro_srp_star_rated_professions AS ratedCareer', 'pro_pf_profession.id', '=', 'ratedCareer.srp_profession_id')
+                    ->selectRaw('pro_pf_profession.id, pro_pf_profession.pf_name, pro_pf_profession.pf_logo, ratedCareer.id as careerId')
+                    ->where(function($query) use ($careerId)  {
+                        if(isset($careerId) && !empty($careerId)) {
+                            $query->where('ratedCareer.id', '<', $careerId);
+                        }
+                     })
+                    ->where('srp_teenager_id', $teenId)
+                    ->orderBy('ratedCareer.id', 'DESC')
+                    ->limit(2)
+                    ->get();
+        return $careers;
+    }
+
 }

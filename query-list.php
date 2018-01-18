@@ -236,3 +236,13 @@ CREATE TABLE `pro_tqa_traits_quality_answer` (
 
 //Added new field in profession table for unique slug #17-01-2018 Jaimin
 ALTER TABLE `pro_pf_profession` ADD `pf_slug` VARCHAR(255) NULL DEFAULT NULL AFTER `pf_profession_alias`, ADD UNIQUE `unique_slug` (`pf_slug`);
+
+//Add new table ## 18-01-2018
+CREATE TABLE IF NOT EXISTS `pro_srp_star_rated_professions` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `srp_teenager_id` bigint(20) NOT NULL,
+  `srp_profession_id` bigint(20) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

@@ -322,10 +322,10 @@ class ProfessionController extends Controller {
         $careerDetails['srp_profession_id'] = $careerId;
         $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
         if ($return == true) {
-            session(['success' => 'Add start to career']);
+            \Session::flash('success', 'Added as favourite');
             return response()->json(['response' => $return]);
         } else {
-            session(['error' => 'Something went wrong']);
+            \Session::flash('error', 'Something went wrong');
             return response()->json(['response' => $return]);
         }
     }
