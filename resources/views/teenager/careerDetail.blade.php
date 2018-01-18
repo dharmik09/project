@@ -50,12 +50,12 @@
                 @endif
             </div>
         <section class="career-detail">
-            <h1>Career Title</h1>
-            <div class="banner-landing banner-detail">
+            <h1>{{$professionsData->pf_name}}</h1>
+            <div class="banner-landing banner-detail" style="background-image:url({{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}})">
                 <div>
                     <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                 </div>
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NpEaa2P7qZI?autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}" frameborder="0" allowfullscreen id="iframe-video"></iframe>
             </div>
             <div class="detail-content">
                 <div class="row">
@@ -955,7 +955,7 @@
         });
         $(document).on('click','#add-to-star',function(){
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form_data = 'careerId=' + '{{$careerId}}';
+            var form_data = 'careerId=' + '{{$slug}}';
             $.ajax({
                 url : '{{ url("teenager/add-star-to-career") }}',
                 method : "POST",

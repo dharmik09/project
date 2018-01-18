@@ -26,6 +26,41 @@ class Professions extends Model {
         return $result;
     }
     
+    public function getProfessionBySlug($slug) {
+        $result = $this->select('*')
+                ->where('deleted', '1')
+                ->where('pf_slug', $slug)
+                ->first();
+        return $result;
+    }    
+    
+    public function getProfessionBySlugWithHeadersAndCertificatesAndTags($slug,$countryId) {
+        $this->country_id = $countryId;
+        $result = $this->select('*')
+                // ->with('professionHeaders')
+                ->with(['professionHeaders' => function ($query) {
+                            $query->where('country_id',$this->country_id);
+                        }])
+                ->with('certificates')
+                ->with('tags')
+                ->where('deleted', '1')
+                ->where('pf_slug', $slug)
+                ->first();
+        return $result;
+    }
+
+    public function professionHeaders(){
+        return $this->hasMany(ProfessionHeaders::class, 'pfic_profession');
+    }
+
+    public function certificates(){
+        return $this->hasMany(ProfessionWiseCertification::class, 'profession_id');
+    }
+
+    public function tags(){
+        return $this->hasMany(ProfessionWiseTag::class, 'profession_id');
+    }
+
     public function getProfessionDetail($professionId) {
         $result = $this->select('*')
                 ->where('id', $professionId)

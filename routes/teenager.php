@@ -60,7 +60,7 @@ Route::post('/save-first-level-icon-quality', 'Teenager\Level1ActivityController
 Route::get('/my-careers', function() {
 	return view('teenager.myCareers');
 });
-Route::get('/career-detail/{id}', 'Teenager\ProfessionController@careerDetails');
+Route::get('/career-detail/{slug}', 'Teenager\ProfessionController@careerDetails');
 Route::post('/add-star-to-career', 'Teenager\ProfessionController@addStarToCareer');
 // Route::get('/list-career', function() {
 // 	return view('teenager.careersListing');
