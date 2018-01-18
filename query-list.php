@@ -246,3 +246,6 @@ CREATE TABLE IF NOT EXISTS `pro_srp_star_rated_professions` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+//Make t_phone field nullable in teenagers table ## 18-01-2018
+ALTER TABLE `pro_t_teenagers` CHANGE `t_phone` `t_phone` VARCHAR(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
