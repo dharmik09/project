@@ -321,13 +321,7 @@ class ProfessionController extends Controller {
         $careerDetails['srp_teenager_id'] = Auth::guard('teenager')->user()->id;
         $careerDetails['srp_profession_id'] = $careerId;
         $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
-        if ($return == true) {
-            \Session::flash('success', 'Added as favourite');
-            return response()->json(['response' => $return]);
-        } else {
-            \Session::flash('error', 'Something went wrong');
-            return response()->json(['response' => $return]);
-        }
+        return $return;
     }
 }
 

@@ -103,7 +103,7 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>Career Title</h4>
-                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
+                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class=""><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                         </div>
@@ -965,10 +965,8 @@
                 },
                 dataType: "json",
                 success : function (response) {
-                    if (response == true) {
-                        
-                    } else {
-
+                    if (response != '') {
+                        $('#add-to-star').addClass('favourite-career');
                     }
                 }
             });
