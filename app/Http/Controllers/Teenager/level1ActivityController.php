@@ -52,8 +52,17 @@ class Level1ActivityController extends Controller
     * Response : Not attempted questions collections
     */
     public function playLevel1Activity(Request $request) {
-    	$getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getLevel1AttemptedQuality(Auth::guard('teenager')->user()->id);
-        echo "<pre/>"; print_r($getLevel1AttemptedQuality); die();
+    	$getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getTeenAttemptedQualityType(5370);
+        if(isset($getLevel1AttemptedQuality[0]) && count($getLevel1AttemptedQuality[0]) > 0) {
+            echo "<pre/>"; print_r($getLevel1AttemptedQuality[0]); die();    
+        } else {
+            $response['attempt_level1_point'] = 1;
+        }
+        $array = ['1', '2'];
+        $array2 = ['1', '2', '4'];
+        $p = [];
+        $p = array_diff($array, $array2);
+        echo "<pre/>"; print_r($p); die();
         $userId = Auth::guard('teenager')->user()->id;
         $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities($userId);
         $totalQuestion = $this->level1ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId);
