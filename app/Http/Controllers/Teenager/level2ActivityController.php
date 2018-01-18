@@ -95,9 +95,9 @@ class Level2ActivityController extends Controller {
                 <span class="time-tag" id="blackhole"></span>
                 </span>
                 <span class="sec-popup help_noti"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
-                <div class="hide popoverContent">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
-                </div>
+                                                    <div class="hide popoverContent">
+                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                                                    </div>
             </div>
             <div class="quiz-que">
                 <p class="que">
