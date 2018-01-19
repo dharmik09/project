@@ -207,9 +207,9 @@ class Level1ActivityController extends Controller
                     <div class="qualities-sec">
                         <p>'.$traitQuestion[0]->tqq_text.'</p>
                         <input type="hidden" id="traitQue" value="'.$traitQuestion[0]->activityID.'">
-                        <div class="row">';
+                        <div class="row flex-container">';
                 foreach ($traitQuestion[0]->options as $key => $value) {
-                    $return .= '<div class="col-md-4 col-sm-6 col-xs-6">
+                    $return .= '<div class="col-md-4 col-sm-6 col-xs-6 flex-items">
                                     <div class="ck-button">
                                         <label><input type="checkbox" name="traitAns" value="'.$value['optionId'].'" onclick="checkAnswerChecked();"><span>'.$value['optionText'].'</span></label>
                                     </div>
