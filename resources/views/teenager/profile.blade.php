@@ -717,7 +717,7 @@
                 var a = document.querySelector(".profile-img");
                 if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
                     if (input.files[0].size > 3000000) {
-                        alert("File size is too large. Maximum 3MB allowed");
+                        $(".photo-error").text("File size is too large. Maximum 3MB allowed");
                         $(this).val('');
                     } else {
                         a.style.backgroundImage = "url('" + e.target.result + "')";
@@ -733,7 +733,32 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-        
+    
+    function readIconURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                //var a = document.querySelector("#img-preview");
+                var a = document.querySelector("#img-upload");
+                if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
+                    if (input.files[0].size > 3000000) {
+                        $(".errorGoneMsgPopup").text("File size is too large. Maximum 3MB allowed");
+                        $(this).val('');
+                    } else {
+                        a.style.backgroundImage = "url('" + e.target.result + "')";
+                        // document.getElementById("#").className = "activated";
+                        a.className = "upload-img activated";
+                    }
+                } else {
+                    $(".errorGoneMsgPopup").text("File type not allowed");
+                    $(this).val('');
+                }
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     $(document).ready(function() {
         getFirstLevelData();
         $('#icon-slider').owlCarousel({
@@ -1398,6 +1423,9 @@
                 if($("#useForClass").hasClass('r_after_click')){
                     $("#errorGoneMsg").html('');
                 }
+                $("html, body").animate({
+                    scrollTop: $('#errorGoneMsg').offset().top 
+                }, 300);
                 $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select any category!</span></div></div></div>');
                 return false;
             }
@@ -1405,6 +1433,9 @@
                 if($("#useForClass").hasClass('r_after_click')){
                     $("#errorGoneMsg").html('');
                 }
+                $("html, body").animate({
+                    scrollTop: $('#errorGoneMsg').offset().top 
+                }, 300);
                 $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select icon for category!</span></div></div></div>');
                 return false;
             }
@@ -1458,7 +1489,10 @@
             }).fail(function () {
                 $('.loaderSection .loading-wrapper-sub').hide();
                 $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
-                alert('Articles could not be loaded.');
+                $("html, body").animate({
+                    scrollTop: $('#errorGoneMsg').offset().top 
+                }, 300);
+                $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Page data not found!</span></div></div></div>');
             });
         }
     });
@@ -1471,6 +1505,9 @@
             if($("#useForClass").hasClass('r_after_click')){
                 $("#errorGoneMsg").html('');
             }
+            $("html, body").animate({
+                scrollTop: $('#errorGoneMsg').offset().top 
+            }, 300);
             $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select atleast five Qualities</span></div></div></div>');
             return false;
         }
@@ -1479,34 +1516,54 @@
 
     function checkIconUploadData() {
         $(".errorGoneMsgPopup").text("");
-        var cat1Value = Number($("#categoryName1").val());
+        var cat1Value = $("#categoryName1").val();
         var cat1NameValue = $("#characterName1").val();
         var cat2Value = Number($("#categoryName2").val());
         var cat2NameValue = $("#characterName2").val();
         var submitIconData = false;
-        var messageD = "Please, fillup all required data";
-        if(cat1Value > 0 && cat1NameValue != '' && cat1NameValue.length > 0){
-            submitIconData = true;
-        }else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
-            submitIconData = true;
-        }else{
+        if ($("#categoryName1").val() === "" && cat1NameValue == '') {
+            //submitIconData = true;
             submitIconData = false;
+            $(".errorGoneMsgPopup").text("Please, fillup all required data");
+            return false;
+        } else {
+            submitIconData = true;
         }
-        if(submitIconData){
+        if($("#categoryName1").val() === ""){
+            submitIconData = false;
+            $(".errorGoneMsgPopup").text("");
+            $(".errorGoneMsgPopup").text("Please, select atleast one category");
+            return false;
+        } else {
+            submitIconData = true;
+        }
+        if (cat1NameValue != '') {
+            submitIconData = true;
+        } else {
+            submitIconData = false;
+            $(".errorGoneMsgPopup").text("");
+            $(".errorGoneMsgPopup").text("Please, fillup name field");
+            return false;
+        }
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        //Serialize the form data.
+        var formData = $("#fictionForm").serialize();
+        if(submitIconData == true){
             $.ajax({
-                url: "{{ url('/teenager/add-icon-category')}}",
                 type: "POST",
-                data: new FormData(this),
-                dataType: 'json',
-                contentType: false,
+                data: formData,
+                url: "{{ url('/teenager/add-icon-category')}}",
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
                 cache: false,
-                processData: false,
-                success: function(data) {
+                success: function(response) {
+                    var data = JSON.parse(response);
                     if (data.status == 1) {
                         if (data.categoryType == 1) {
                             $("#icon_category").val(data.categoryid);
                             $('#icon_category').trigger("change");
-                            $("#myModal1").modal('hide');
+                            $("#fiction_modal_icon").modal('hide');
                         } else if (data.categoryType == 2) {
                             $("#icon_category").val(data.categoryid);
                             $('#icon_category').trigger("change");
@@ -1523,7 +1580,7 @@
                 }
             });
         } else {
-            $(".errorGoneMsgPopup").text(messageD);
+            $(".errorGoneMsgPopup").text("Please, fillup all required data");
         }
     }
 </script>
