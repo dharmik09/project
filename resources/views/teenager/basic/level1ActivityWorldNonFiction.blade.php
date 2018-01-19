@@ -32,10 +32,10 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group custom-select">
-                                <select tabindex="8" class="form-control" name="categoryId" id="categoryIdValue" onChange="getIconName(this.value, '1', 1, '')" data-category-type="1">
-                                    @if(isset($maincartoonIconCategoryArray) && $maincartoonIconCategoryArray)
+                                <select tabindex="8" class="form-control" name="categoryId" id="categoryIdValue" onChange="getIconName(this.value, '2', 1, '')" data-category-type="2">
+                                    @if(isset($mainhumanIconCategoryArray) && $mainhumanIconCategoryArray)
                                         <option value="">Select Category</option>
-                                        @foreach($maincartoonIconCategoryArray as $mainIconArray)
+                                        @foreach($mainhumanIconCategoryArray as $mainIconArray)
                                             <option value="{{ $mainIconArray['id'] }}">{{$mainIconArray['name']}}</option>
                                         @endforeach
                                     @else
@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-sm-12 searchOnIcon" style="display:none">
                             <div class="form-group search-bar clearfix">
-                                <input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="searchForIcon" onkeyup="getIconName('4', '1', 1, this.value)">
+                                <input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="searchForIcon" onkeyup="getIconName('4', '2', 1, this.value)">
                                 <button type="submit" class="btn-search"><i class="icon-search"></i></button>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
 <div class="modal fade custom-select" id="fiction_modal_icon" role="dialog">
     <form method="post" action="{{ url('/teenager/add-icon-category') }}" enctype="multipart/form-data" id="fictionForm">
         {{csrf_field()}}
-        <input type="hidden" name="categoryType" value="1"/>
+        <input type="hidden" name="categoryType" value="2"/>
         <div class="modal-dialog">
             <div class="modal-content custom-modal">
                 <div class="modal-header">
@@ -96,10 +96,10 @@
                     <div class="sec-filter">
                         
                         <div class="form-group custom-select">
-                            <select tabindex="8" class="form-control" data-category-type="1" id="categoryName1" name="categoryId">
-                                @if(isset($maincartoonIconCategoryArray) && $maincartoonIconCategoryArray)
+                            <select tabindex="8" class="form-control" data-category-type="2" id="categoryName1" name="categoryId">
+                                @if(isset($mainhumanIconCategoryArray) && $mainhumanIconCategoryArray)
                                     <option value="">Select Category</option>
-                                    @foreach($maincartoonIconCategoryArray as $mainIconArray)
+                                    @foreach($mainhumanIconCategoryArray as $mainIconArray)
                                         <option value="{{ $mainIconArray['id'] }}">{{$mainIconArray['name']}}</option>
                                     @endforeach
                                 @else

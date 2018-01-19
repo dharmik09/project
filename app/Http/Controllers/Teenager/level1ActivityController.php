@@ -107,7 +107,15 @@ class Level1ActivityController extends Controller
                     }
                     return view('teenager.basic.level1ActivityWorldFiction', compact('isQuestionCompleted', 'mainArray', 'maincartoonIconCategoryArray'));
                 } else if($type == 2) {
-                    return view('teenager.basic.level1ActivityWorldNonFiction', compact('isQuestionCompleted', 'mainArray'));
+                    $humanIconCategory = $this->level1ActivitiesRepository->getLevel1NonFictionHumanCategory();
+                    $mainhumanIconCategoryArray = [];
+                    foreach ($humanIconCategory as $humancategory) {
+                        $humaniconCategoryList = [];
+                        $humaniconCategoryList['id'] = $humancategory->id;
+                        $humaniconCategoryList['name'] = $humancategory->hic_name;
+                        $mainhumanIconCategoryArray[] = $humaniconCategoryList;
+                    }
+                    return view('teenager.basic.level1ActivityWorldNonFiction', compact('isQuestionCompleted', 'mainArray', 'mainhumanIconCategoryArray'));
                 } else if($type == 3 || $type == 4) {
                     return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted', 'mainArray'));
                 } else {
@@ -288,7 +296,7 @@ class Level1ActivityController extends Controller
             $image_path_location = $this->cartoonThumbImageUploadPath;
             $iconCategoryName = $this->level1ActivitiesRepository->searchIconNameWithPagination($categoryId, "pro_ci_cartoon_icons", $textName);
         } elseif ($categoryType == "2" && $categoryId != '') {
-            $iconCategoryName = $this->level1ActivitiesRepository->getIconNameWithPagination($textName, $categoryId, "pro_hi_human_icons");
+            $iconCategoryName = $this->level1ActivitiesRepository->searchIconNameWithPagination($categoryId, "pro_hi_human_icons", $textName);
             $data_cat_type = 2;
             $data_name = "hi_name";
             $image_path_location = $this->humanThumbImageUploadPath;
@@ -300,7 +308,7 @@ class Level1ActivityController extends Controller
         $html = '';
         if (isset($iconCategoryName) && !empty($iconCategoryName) && count($iconCategoryName) > 0) {
             foreach ($iconCategoryName as $value) {
-                $value->image = ($value->$data_car_image != '') ? Storage::url($image_path_location . $value->$data_car_image) : Storage::url($image_path_location . "proteen-logo.png");
+                $value->image = ($value->$data_car_image != '' && Storage::size($image_path_location . $value->$data_car_image) > 0) ? Storage::url($image_path_location . $value->$data_car_image) : Storage::url($image_path_location . "proteen-logo.png");
                 $value->name = $value->$data_name;
             }
         }
