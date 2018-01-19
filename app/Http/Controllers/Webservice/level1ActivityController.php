@@ -119,7 +119,7 @@ class Level1ActivityController extends Controller
                     $array = ['1', '2', '3', '4'];
                     $array2 = $getLevel1AttemptedQuality->toArray();
                     $arrayDiff = array_diff($array, $array2);
-                    $response['attemptLevel1At'] = (isset($arrayDiff[0])) ? min($arrayDiff) : 5;
+                    $response['attemptLevel1At'] = (count($arrayDiff) > 0) ? min($arrayDiff) : 5;
                     if($response['attemptLevel1At'] == 5) {
                         $response['attemptedCompletionMessage'] = "Your profile survey completed 100%, But if you want to vote more Icon please click on below";
                     }
