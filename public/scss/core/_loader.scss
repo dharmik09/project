@@ -3,6 +3,9 @@
 }
 .loading-screen-parent{
     position: relative;min-height: 400px;
+    &.loading-large{
+        min-height: 800px;
+    }
 }
 #loading-wrapper-sub, .loading-wrapper-sub {
     position: absolute;

@@ -9,10 +9,10 @@
                 <p>Select Qualities For {{$data['icon_name']}}</p>
             </div>
         </div>
-        <div class="row">
+        <div class="row flex-container">
             @if(isset($response['qualityList']) && count($response['qualityList']) > 0)
                 @foreach($response['qualityList'] as $key => $qualityValue)
-                    <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="col-md-4 col-sm-6 col-xs-6 flex-items">
                         <div class="ck-button">
                             <label>
                                 <input class="iconCheck" type="checkbox" value="{{$qualityValue['id']}}" id="icon[{{$qualityValue['id']}}]" name="icon[{{$qualityValue['id']}}]">
