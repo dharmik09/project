@@ -766,7 +766,7 @@
 
     $(document).ready(function() {
         getFirstLevelData();
-        $('.sec-filter #icon-slider').owlCarousel({
+        $('#icon-slider').owlCarousel({
             loop: true,
             margin: 0,
             items: 1,
@@ -774,8 +774,8 @@
             autoplayTimeout: 3000,
             smartSpeed: 1000,
             nav: false,
-            dots: false,
-            singleItem: true
+            dots: false
+            //singleItem: true
         });
 
         $('.mentor-list ul').owlCarousel({
@@ -1073,6 +1073,16 @@
                 $('#opinionSection').html(data);
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                $('#icon-slider').owlCarousel({
+                    loop: true,
+                    margin: 0,
+                    items: 1,
+                    autoplay: true,
+                    autoplayTimeout: 3000,
+                    smartSpeed: 1000,
+                    nav: false,
+                    dots: false
+                });
                 $('.loaderSection .loading-wrapper-sub').hide();
                 $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             },
@@ -1221,14 +1231,23 @@
             data : {'type' : type},
             headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
             success: function(data){
-                $("#opinionSection").hide();
-                $('#firstLevelWorldSection').show();
-                $('#firstLevelWorldSection').html(data);
+                $("#opinionSection").html(data);
+                //$('#firstLevelWorldSection').show();
+                //$('#firstLevelWorldSection').html(data);
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
-                $('.sec-filter #icon-slider').owlCarousel('update');
                 $('.loaderSection .loading-wrapper-sub').hide();
                 $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                $('#icon-slider').owlCarousel({
+                    loop: true,
+                    margin: 0,
+                    items: 1,
+                    autoplay: true,
+                    autoplayTimeout: 3000,
+                    smartSpeed: 1000,
+                    nav: false,
+                    dots: false
+                });
             },
             error: function(){
                 $('#loading-wrapper-sub').hide();
@@ -1418,7 +1437,8 @@
                         $('#search_icon').hide();
                         $('#searchForIcon').val(' ');
                     } else {
-                        $("#firstLevelWorldSection").html(data);
+                        //$("#firstLevelWorldSection").html(data);
+                        $("#opinionSection").html(data);
                     }
                     $('.loaderSection .loading-wrapper-sub').hide();
                     $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');

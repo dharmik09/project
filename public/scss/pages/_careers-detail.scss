@@ -191,6 +191,7 @@
                 }
                 &.favourite-career{
                     color: $p-cl;
+                    pointer-events: none;
                 }
             }
         }

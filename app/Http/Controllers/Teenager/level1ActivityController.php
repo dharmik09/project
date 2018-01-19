@@ -444,16 +444,12 @@ class Level1ActivityController extends Controller
             $iconCategoryName = '';
         }
 
-        $html = '';
+        $html = ''; 
         $iconDetail = [];
         if (isset($iconCategoryName) && !empty($iconCategoryName) && count($iconCategoryName) > 0) {
             foreach ($iconCategoryName as $value) {
                 $data = [];
-                if ($value->$data_car_image != '' && file_exists($image_path_location . $value->$data_car_image)) {
-                    $imagePath = Storage::url($image_path_location . $value->$data_car_image);
-                } else {
-                    $imagePath = Storage::url($image_path_location . "proteen-logo.png");
-                }
+                $imagePath = ($value->$data_car_image != '' && Storage::size($image_path_location . $value->$data_car_image) > 0) ? Storage::url($image_path_location . $value->$data_car_image) : Storage::url($image_path_location . "proteen-logo.png");
                 $value->$data_car_image = $imagePath;
                 $data['icon_name'] = $value->$data_name;
                 $data['icon_image'] = $imagePath;
