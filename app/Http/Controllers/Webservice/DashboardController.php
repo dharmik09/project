@@ -347,7 +347,7 @@ class DashboardController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
-            $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareers(3);
+            $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareers($request->userId);
             if($getTeenagerAttemptedProfession) {
                 $array = ["strong", "potential", "unlikely"];
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
