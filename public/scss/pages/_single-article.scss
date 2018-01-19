@@ -1,17 +1,22 @@
 .full-article {
     margin: 30px auto;
     max-width: 80%;
-    .btn-ans{
-    background: $p-cl;
-    border-color: $p-cl;
-    position: relative;
-        margin-bottom: 0;
-    &:hover,&:focus{
-        background: $h-cl;
-        border-color: $h-cl;
-        color: $white;
+    @include maxsm{
+        max-width: 90%;
     }
-    /*&:before{
+    .btn-ans {
+        background: $p-cl;
+        border-color: $p-cl;
+        position: relative;
+        margin-bottom: 0;
+        text-transform: capitalize;
+        &:hover,
+        &:focus {
+            background: $h-cl;
+            border-color: $h-cl;
+            color: $white;
+        }
+        /*&:before{
         position: absolute;
         content: '';
         width: 16px;
@@ -22,13 +27,49 @@
         top: 0;
         right: 0;
     }*/
-}
+    }
 }
 
 .article-que {
     margin-bottom: 30px;
+    @include maxms{
+        margin-bottom: 10px;
+    }
     h2 {
         font-size: 24px;
+        margin-bottom: 20px;
+        @include maxsm{
+            font-size: 20px;
+        }
+    }
+    > span {
+        display: inline-block;
+    }
+    .social {
+        display: inline-block;
+        padding: 0;
+        list-style-type: none;
+        text-align: right;
+        float: right;
+        @include maxms{
+            float: none;text-align: left;
+            margin-top: 10px;
+        }
+        li {
+            display: inline-block;
+            margin: 10px 5px;
+            font-size: 17px;
+            color: #999999;
+            @include maxms{
+                font-size: 15px;
+            }
+            a{
+                color: #999999;
+                &:hover{
+                    color: $h-cl;
+                }
+            }
+        }
     }
 }
 
@@ -36,19 +77,22 @@
     padding: 16px 0;
     border-top: 1px solid #e2e2e2;
     > span {
-        display: block;text-align: right;
+        display: block;
+        text-align: right;
         .read-more {
-             font-size: 14px; 
+            font-size: 14px;
             color: $h-cl;
         }
     }
 }
-.your-answer{
-    margin-bottom: 30px;display: none;
-    textarea{
+
+.your-answer {
+    margin-bottom: 30px;
+    display: none;
+    textarea {
         margin-bottom: 20px;
     }
-    .btn-ans{
+    .btn-ans {
         margin-top: 30px;
     }
 }

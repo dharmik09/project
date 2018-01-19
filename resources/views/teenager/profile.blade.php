@@ -1416,7 +1416,7 @@
         $('body').on('click', '.fictional-world #nextSubmit', function(e) {
             e.preventDefault();
             $("#errorGoneMsg").html('');
-            var categoryId = $('input[name=category_id]:checked', '#level1ActivityWorldFiction').val();
+            var categoryId = $('input[name=category_id]:checked', '#level1ActivityWorldForm').val();
             var categoryType = $("#categoryIdValue").attr('data-category-type');
             var mainCategory = $("#categoryIdValue").val();
             if(mainCategory == "" || typeof mainCategory == 'undefined') {
