@@ -62,8 +62,18 @@ class ProfileController extends Controller
             $response['NoOfTotalQuestions'] = (isset($totalQuestion[0]->NoOfTotalQuestions)) ? $totalQuestion[0]->NoOfTotalQuestions : 0;
             $response['NoOfAttemptedQuestions'] = (isset($totalQuestion[0]->NoOfAttemptedQuestions)) ? $totalQuestion[0]->NoOfAttemptedQuestions : 0;
             $response['l1_question_attempted'] = 0;
+            $response['attemptLevel1At'] = 0;
             if($response['NoOfTotalQuestions'] > 0 && (int)$response['NoOfAttemptedQuestions'] >= (int)$response['NoOfTotalQuestions']) {
-               $response['l1_question_attempted'] = 1;
+                $response['l1_question_attempted'] = 1;
+                $getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getTeenAttemptedQualityType($request->userId);
+                if(isset($getLevel1AttemptedQuality[0]) && count($getLevel1AttemptedQuality[0]) > 0) {
+                    $array = ['1', '2', '3', '4'];
+                    $array2 = $getLevel1AttemptedQuality->toArray();
+                    $arrayDiff = array_diff($array, $array2);
+                    $response['attemptLevel1At'] = (isset($arrayDiff[0])) ? min($arrayDiff) : 5;
+                } else {
+                    $response['attemptLevel1At'] = 1;
+                }
             }
             $teenager->t_birthdate = (isset($teenager->t_birthdate) && $teenager->t_birthdate != '0000-00-00') ? Carbon::parse($teenager->t_birthdate)->format('d/m/Y') : '';
             

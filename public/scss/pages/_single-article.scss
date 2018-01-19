@@ -1,0 +1,23 @@
+.full-article {
+    margin: 30px auto;
+    max-width: 80%;
+}
+
+.article-que {
+    margin-bottom: 30px;
+    h2 {
+        font-size: 24px;
+    }
+}
+
+.article-answer {
+    padding: 16px 0;
+    border-top: 1px solid #e2e2e2;
+    > span {
+        display: block;text-align: right;
+        .read-more {
+             font-size: 14px; 
+            color: $h-cl;
+        }
+    }
+}

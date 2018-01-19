@@ -52,27 +52,24 @@ class Level1ActivityController extends Controller
     * Response : Not attempted questions collections
     */
     public function playLevel1Activity(Request $request) {
-    	// $getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getTeenAttemptedQualityType(5370);
-     //    if(isset($getLevel1AttemptedQuality[0]) && count($getLevel1AttemptedQuality[0]) > 0) {
-     //        $array = ['1', '2'];
-     //        $array2 = $getLevel1AttemptedQuality->toArray();
-     //        $arrayDiff = array_diff($array, $array2);
-     //        $attemptLevel = "";
-     //    } else {
-     //        $response['attempt_level1_at'] = 1;
-     //    }
-     //    $array2 = ['1', '2', '4'];
-     //    $p = [];
-        //$p = array_diff($array, $array2);
-        //echo "<pre/>"; print_r($p); die();
-        $userId = Auth::guard('teenager')->user()->id;
+    	$userId = Auth::guard('teenager')->user()->id;
         $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities($userId);
         $totalQuestion = $this->level1ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId);
+        $attemptLevel1At = 0;
         if($level1Activities && isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && $totalQuestion[0]->NoOfAttemptedQuestions < $totalQuestion[0]->NoOfTotalQuestions) {
-            return view('teenager.basic.level1Question', compact('level1Activities'));
+            return view('teenager.basic.level1Question', compact('level1Activities', 'attemptLevel1At'));
         } else {
             $isQuestionCompleted = 1;
-            return view('teenager.basic.level1ActivityWorldType', compact('qualityDetail', 'isQuestionCompleted'));
+            $getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getTeenAttemptedQualityType(5370);
+	        if(isset($getLevel1AttemptedQuality[0]) && count($getLevel1AttemptedQuality[0]) > 0) {
+	            $array = ['1', '2', '3', '4'];
+	            $array2 = $getLevel1AttemptedQuality->toArray();
+	            $arrayDiff = array_diff($array, $array2);
+	            $attemptLevel1At = (isset($arrayDiff[0])) ? min($arrayDiff) : 5;
+	        } else {
+	            $attemptLevel1At = 1;
+	        }
+	        return view('teenager.basic.level1ActivityWorldType', compact('qualityDetail', 'isQuestionCompleted', 'attemptLevel1At'));
         }
     }
 
