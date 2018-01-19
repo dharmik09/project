@@ -1416,10 +1416,18 @@
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                 cache: false,
                 success: function(data) {
-                    if (data == '') {
-                        $('#search_icon').hide();
-                        $('#searchForIcon').val(' ');
+                    try {
+                        var valueOf = $.parseJSON(data); 
+                    } catch (e) {
+                        // not json
+                    }
+                    if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                        $("html, body").animate({
+                            scrollTop: $('#errorGoneMsg').offset().top 
+                        }, 300);
+                        $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+valueOf.message+'</span></div></div></div>');
                     } else {
+                        $('#errorGoneMsg').html("");
                         //$("#firstLevelWorldSection").html(data);
                         $("#opinionSection").html(data);
                     }

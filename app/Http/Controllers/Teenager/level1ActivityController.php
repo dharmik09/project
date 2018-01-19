@@ -423,14 +423,18 @@ class Level1ActivityController extends Controller
         $selfName = Input::get('teen_name');
 
         if ($relation_category != '') {
-          if ($relation_name == '') {
-              return redirect()->back()->withError('Relation name required.');
-              exit;
-          }
+            if ($relation_name == '') {
+                $response['status'] = 0;
+                $response['message'] = "Relation name required.";
+                return response()->json($response, 200);
+                exit;
+            }
         }
         if ($categoryType == 4) {
             if ($selfName == '' || strlen($nickName) < 3) {
-                return redirect()->back()->withError('Teenager name required.');
+                $response['status'] = 0;
+                $response['message'] = "Teenager name required.";
+                return response()->json($response, 200);
                 exit;
             }
         }
@@ -456,7 +460,7 @@ class Level1ActivityController extends Controller
         if (isset($iconCategoryName) && !empty($iconCategoryName) && count($iconCategoryName) > 0) {
             foreach ($iconCategoryName as $value) {
                 $data = [];
-                $imagePath = ($value->$data_car_image != '' && Storage::size($image_path_location . $value->$data_car_image) > 0) ? Storage::url($image_path_location . $value->$data_car_image) : Storage::url($image_path_location . "proteen-logo.png");
+                $imagePath = ( $value->$data_car_image != '' && Storage::size($image_path_location . $value->$data_car_image) > 0) ? Storage::url($image_path_location . $value->$data_car_image) : Storage::url($image_path_location . "proteen-logo.png");
                 $value->$data_car_image = $imagePath;
                 $data['icon_name'] = $value->$data_name;
                 $data['icon_image'] = $imagePath;
@@ -480,6 +484,12 @@ class Level1ActivityController extends Controller
                         $data['icon_image'] = Storage::url($this->relationIconOriginalImageUploadPath . $fileName);;
                         Image::make($file->getRealPath())->save($pathOriginal);
                         Image::make($file->getRealPath())->resize($this->relationIconThumbWidth, $this->relationIconThumbHeight)->save($pathThumb);
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->relationIconOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->relationIconThumbImageUploadPath, $pathThumb, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->relationIconOriginalImageUploadPath . $fileName);
+                        \File::delete($this->relationIconThumbImageUploadPath . $fileName);
                     }
                     $teenIconSelection[] = array("ti_teenager" => $userid, "ti_icon_type" => $categoryType, "ti_icon_id" => 0, 'ti_icon_name' => $relation_name, 'ti_icon_image' => $fileName, 'ti_icon_relation' => $relation_category);
                 }else {
@@ -491,7 +501,9 @@ class Level1ActivityController extends Controller
             $lastInterIdRelation = $this->level1ActivitiesRepository->saveTeenagerLevel1Part2($teenIconSelection[0]);
             $iconDetail[] = $data;
             if (!isset($lastInterIdRelation) && $lastInterIdRelation == '') {
-                return redirect()->back()->withError(trans('appmessages.default_error_msg'));
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.default_error_msg');
+                return response()->json($response, 200);
                 exit;
             }
         }
@@ -511,6 +523,12 @@ class Level1ActivityController extends Controller
                         $pathThumb = public_path($this->teenThumbImageUploadPath . $fileNameSelf);
                         Image::make($fileSelf->getRealPath())->save($pathOriginal);
                         Image::make($fileSelf->getRealPath())->resize($this->teenThumbImageWidth, $this->teenThumbImageHeight)->save($pathThumb);
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileNameSelf, $this->teenOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileNameSelf, $this->teenThumbImageUploadPath, $pathThumb, "s3");
+                        //Deleting Local Files
+                        \File::delete($this->teenOriginalImageUploadPath . $fileNameSelf);
+                        \File::delete($this->teenThumbImageUploadPath . $fileNameSelf);
                     }
                 } else {
                     $fileNameSelf = Input::get('hidden_self_image');
@@ -529,7 +547,9 @@ class Level1ActivityController extends Controller
 
                 $lastInterIdSelf = $this->level1ActivitiesRepository->saveTeenagerLevel1Part2($teenIconSelection[0]);
                 if (!isset($lastInterIdSelf) && $lastInterIdSelf == '') {
-                    return redirect()->back()->withError(trans('appmessages.default_error_msg'));
+                    $response['status'] = 0;
+                    $response['message'] = trans('appmessages.default_error_msg');
+                    return response()->json($response, 200);
                     exit;
                 }
             }
