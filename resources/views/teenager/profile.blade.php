@@ -1501,58 +1501,54 @@
 
     function checkIconUploadData() {
         $(".errorGoneMsgPopup").text("");
-        var cat1Value = Number($("#categoryName1").val());
+        var cat1Value = $("#categoryName1").val();
         var cat1NameValue = $("#characterName1").val();
-        //var cat2Value = Number($("#categoryName2").val());
-        //var cat2NameValue = $("#characterName2").val();
-        var image = $("#icon_image").val();
+        var cat2Value = Number($("#categoryName2").val());
+        var cat2NameValue = $("#characterName2").val();
         var submitIconData = false;
-        var messageD = "Please, fillup all required data";
-        if (cat1Value > 0 && cat1NameValue.length > 0 && cat1NameValue != '') {
+        if ($("#categoryName1").val() === "" && cat1NameValue == '') {
+            //submitIconData = true;
+            submitIconData = false;
+            $(".errorGoneMsgPopup").text("Please, fillup all required data");
+            return false;
+        } else {
+            submitIconData = true;
+        }
+        if($("#categoryName1").val() === ""){
+            submitIconData = false;
+            $(".errorGoneMsgPopup").text("");
+            $(".errorGoneMsgPopup").text("Please, select atleast one category");
+            return false;
+        } else {
+            submitIconData = true;
+        }
+        if (cat1NameValue != '') {
             submitIconData = true;
         } else {
-            if(cat1Value > 0 && cat1NameValue.length > 0){
-                submitIconData = true;
-            } else {
-                submitIconData = false;
-                $(".errorGoneMsgPopup").text("");
-                messageD = "Please, select atleast one category";
-            }
-            if (cat1NameValue != '') {
-                submitIconData = true;
-            } else {
-                submitIconData = false;
-                $(".errorGoneMsgPopup").text("");
-                messageD = "Please, fillup name field";
-            }
+            submitIconData = false;
+            $(".errorGoneMsgPopup").text("");
+            $(".errorGoneMsgPopup").text("Please, fillup name field");
+            return false;
         }
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         //Serialize the form data.
         var formData = $("#fictionForm").serialize();
-        //else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
-        //    submitIconData = true;
-        // }else{
-        //     submitIconData = false;
-        // }
-        //data: new FormData(this),
-        console.log(formData); 
-        var form_data = "categoryId=" + cat1Value + "&categoryType=1&characterName=" + cat1NameValue + "&image=" + image;
-        var form = $("#fictionForm");
         if(submitIconData == true){
             $.ajax({
                 type: "POST",
-                data: form_data,
+                data: formData,
                 url: "{{ url('/teenager/add-icon-category')}}",
                 headers: {
                     'X-CSRF-TOKEN': CSRF_TOKEN
                 },
                 cache: false,
-                success: function(data) {
+                success: function(response) {
+                    var data = JSON.parse(response);
                     if (data.status == 1) {
                         if (data.categoryType == 1) {
                             $("#icon_category").val(data.categoryid);
                             $('#icon_category').trigger("change");
-                            $("#myModal1").modal('hide');
+                            $("#fiction_modal_icon").modal('hide');
                         } else if (data.categoryType == 2) {
                             $("#icon_category").val(data.categoryid);
                             $('#icon_category').trigger("change");
@@ -1569,7 +1565,7 @@
                 }
             });
         } else {
-            $(".errorGoneMsgPopup").text(messageD);
+            $(".errorGoneMsgPopup").text("Please, fillup all required data");
         }
     }
 </script>
