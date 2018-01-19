@@ -736,11 +736,6 @@
     
     function readIconURL(input) {
         if (input.files && input.files[0]) {
-            if(input.files[1]) {
-                $(".errorGoneMsgPopup").text("You already uploaded a file");
-                return false;
-            }
-
             var reader = new FileReader();
             reader.onload = function(e) {
                 //var a = document.querySelector("#img-preview");
@@ -1489,8 +1484,7 @@
         var cat1NameValue = $("#characterName1").val();
         //var cat2Value = Number($("#categoryName2").val());
         //var cat2NameValue = $("#characterName2").val();
-        var image = $("#image").val();
-        alert(image); return false;
+        var image = $("#icon_image").val();
         var submitIconData = false;
         var messageD = "Please, fillup all required data";
         if (cat1Value > 0 && cat1NameValue.length > 0 && cat1NameValue != '') {
@@ -1501,31 +1495,37 @@
             } else {
                 submitIconData = false;
                 $(".errorGoneMsgPopup").text("");
-                $(".errorGoneMsgPopup").text("Please, select atleast one category");
+                messageD = "Please, select atleast one category";
             }
             if (cat1NameValue != '') {
                 submitIconData = true;
             } else {
                 submitIconData = false;
                 $(".errorGoneMsgPopup").text("");
-                $(".errorGoneMsgPopup").text("Please, fillup name field");
+                messageD = "Please, fillup name field";
             }
-            //if ()
         }
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        //Serialize the form data.
+        var formData = $("#fictionForm").serialize();
         //else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
         //    submitIconData = true;
         // }else{
         //     submitIconData = false;
         // }
-        if(submitIconData){
+        //data: new FormData(this),
+        console.log(formData); 
+        var form_data = "categoryId=" + cat1Value + "&categoryType=1&characterName=" + cat1NameValue + "&image=" + image;
+        var form = $("#fictionForm");
+        if(submitIconData == true){
             $.ajax({
-                url: "{{ url('/teenager/add-icon-category')}}",
                 type: "POST",
-                data: new FormData(this),
-                dataType: 'json',
-                contentType: false,
+                data: form_data,
+                url: "{{ url('/teenager/add-icon-category')}}",
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
                 cache: false,
-                processData: false,
                 success: function(data) {
                     if (data.status == 1) {
                         if (data.categoryType == 1) {

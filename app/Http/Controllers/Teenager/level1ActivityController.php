@@ -311,7 +311,7 @@ class Level1ActivityController extends Controller
         $body['categoryType'] = Input::get('categoryType');
         $body['characterName'] = Input::get('characterName');
         $fileName = $imagePath = '';
-
+        echo "<pre>"; print_r($body); exit;
         if (isset($body['userid']) && $body['userid'] > 0 && ($body['categoryType'] == 1 || $body['categoryType'] == 2)) {
             $cartoonIconDetail['ci_image'] = '';
             if (Input::file()) {
