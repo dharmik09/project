@@ -45,6 +45,15 @@ class Level1ActivityController extends Controller
         $this->humanThumbImageHeight = Config::get('constant.HUMAN_THUMB_IMAGE_HEIGHT');
         $this->humanOriginalImageUploadPath = config::get('constant.HUMAN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->relationIconOriginalImageUploadPath = Config::get('constant.RELATION_ICON_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
+        $this->relationIconThumbWidth = Config::get('constant.RELATION_THUMB_IMAGE_WIDTH');
+        $this->relationIconThumbHeight = Config::get('constant.RELATION_THUMB_IMAGE_HEIGHT');
+        $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
+        $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
+        
     }
 
     /*
@@ -117,7 +126,15 @@ class Level1ActivityController extends Controller
                     }
                     return view('teenager.basic.level1ActivityWorldNonFiction', compact('isQuestionCompleted', 'mainArray', 'mainhumanIconCategoryArray'));
                 } else if($type == 3 || $type == 4) {
-                    return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted', 'mainArray'));
+                    $relationDetail = $this->level1ActivitiesRepository->getLevel1Relation();
+                    $mainRelationArray = [];
+                    foreach ($relationDetail as $detail) {
+                        $relationList = [];
+                        $relationList['id'] = $detail->id;
+                        $relationList['name'] = $detail->rel_name;
+                        $mainRelationArray[] = $relationList;
+                    }
+                    return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted', 'mainArray', 'mainRelationArray'));
                 } else {
                     return view('teenager.basic.level1ActivityWorldType', compact('isQuestionCompleted'));
                 }
@@ -156,7 +173,6 @@ class Level1ActivityController extends Controller
         $mainArray['topTrendingImages'] = $toptrending;
         if($type == 1) {
             $cartoonIconCategory = $this->level1ActivitiesRepository->getLevel1FictionCartoonCategory();
-            //print_r($cartoonIconCategory); die();    
             $maincartoonIconCategoryArray = [];
             if($cartoonIconCategory) {
                 foreach ($cartoonIconCategory as $cartooncategory) {
@@ -168,9 +184,25 @@ class Level1ActivityController extends Controller
             }
             return view('teenager.basic.level1ActivityWorldFiction', compact('isQuestionCompleted', 'mainArray', 'maincartoonIconCategoryArray'));
         } else if($type == 2) {
-            return view('teenager.basic.level1ActivityWorldNonFiction', compact('isQuestionCompleted', 'mainArray'));
-        } else if($type == 3) {
-            return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted', 'mainArray'));
+            $humanIconCategory = $this->level1ActivitiesRepository->getLevel1NonFictionHumanCategory();
+            $mainhumanIconCategoryArray = [];
+            foreach ($humanIconCategory as $humancategory) {
+                $humaniconCategoryList = [];
+                $humaniconCategoryList['id'] = $humancategory->id;
+                $humaniconCategoryList['name'] = $humancategory->hic_name;
+                $mainhumanIconCategoryArray[] = $humaniconCategoryList;
+            }
+            return view('teenager.basic.level1ActivityWorldNonFiction', compact('isQuestionCompleted', 'mainArray', 'mainhumanIconCategoryArray'));
+        } else if($type == 3 || $type == 4) {
+            $relationDetail = $this->level1ActivitiesRepository->getLevel1Relation();
+            $mainRelationArray = [];
+            foreach ($relationDetail as $detail) {
+                $relationList = [];
+                $relationList['id'] = $detail->id;
+                $relationList['name'] = $detail->rel_name;
+                $mainRelationArray[] = $relationList;
+            }
+            return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted', 'mainArray', 'mainRelationArray'));
         } else {
             return view('teenager.basic.level1ActivityWorldType', compact('isQuestionCompleted'));
         }
@@ -425,9 +457,9 @@ class Level1ActivityController extends Controller
         $relation_name = Input::get('relations_name');
         $categoryType = Input::get('categoryType');
         $categoryId = Input::get('categoryId');
-        $nickName = Input::get('teen_nickname');
+        $lastName = Input::get('teen_lastname');
         $selfName = Input::get('teen_name');
-
+        
         if ($relation_category != '') {
             if ($relation_name == '') {
                 $response['status'] = 0;
@@ -437,7 +469,7 @@ class Level1ActivityController extends Controller
             }
         }
         if ($categoryType == 4) {
-            if ($selfName == '' || strlen($nickName) < 3) {
+            if ($selfName == '' || strlen($lastName) < 3) {
                 $response['status'] = 0;
                 $response['message'] = "Teenager name required.";
                 return response()->json($response, 200);
@@ -543,7 +575,7 @@ class Level1ActivityController extends Controller
                 }
 
                 $user = Teenagers::find($userid);
-                $user->t_nickname = $nickName;
+                $user->t_lastname = $lastName;
                 $user->t_name = $selfName;
                 $user->t_photo = $fileNameSelf;
                 $user->save();
@@ -571,8 +603,10 @@ class Level1ActivityController extends Controller
             $qualityList['quality'] = $detail->l1qa_name;
             $mainqualityArray[] = $qualityList;
         }
+
         $response['qualityList'] = $mainqualityArray;
         $isQuestionCompleted = 0;
+        
         return view('teenager.basic.level1ActivityQuality',compact('isQuestionCompleted','response','relation_category','lastInterIdRelation','categoryType','categoryId','lastInterIdSelf','data'));
     }
 

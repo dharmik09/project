@@ -1,6 +1,6 @@
 <div class="real-world-survey clearfix fictional-world">
     <div class="selection-container">
-        <form id="level1ActivityWorldForm" action="{{ url('teenager/save-level1-world-data') }}" method="post">
+        <form id="level1ActivityWorldForm" action="{{ url('teenager/save-first-level-icon-category') }}" method="post">
             {{csrf_field()}}
             <div class="row sec-filter">
                 <div class="col-sm-4">

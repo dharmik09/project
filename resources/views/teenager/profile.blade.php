@@ -1194,17 +1194,17 @@
         });
     }
     $("#teenager_my_profile_form").submit(function() {
-            $("#saveProfile").toggleClass('sending').blur();
-            var form = $("#teenager_my_profile_form");
-            form.validate();
-            if (form.valid()) {
-                return true;
-                setTimeout(function () {
-                    $("#saveProfile").removeClass('sending').blur();
-                }, 2500);
-            } else {
+        $("#saveProfile").toggleClass('sending').blur();
+        var form = $("#teenager_my_profile_form");
+        form.validate();
+        if (form.valid()) {
+            return true;
+            setTimeout(function () {
                 $("#saveProfile").removeClass('sending').blur();
-            }
+            }, 2500);
+        } else {
+            $("#saveProfile").removeClass('sending').blur();
+        }
     });
     $(document).on('click','#editInfo',function() {
         if ($("#t_about_info").is(':visible')) {
@@ -1471,6 +1471,64 @@
             });
         });
 
+        $('body').on('click', '#myWorldNext', function(e) {
+            e.preventDefault();
+            $("#errorGoneMsg").html('');
+            var worldSelectionType = $('.icon_selection_select').val();
+            var iconCategory3 = $("#icon_category_3").val();
+            var relationsName = $("#relations_name").val();
+            console.log(worldSelectionType + '-----'+ iconCategory3 +'-----'+ relationsName);
+            if(worldSelectionType != "" && typeof worldSelectionType !== 'undefined' && worldSelectionType == 2) {
+                if(iconCategory3 == "" || relationsName == "") {
+                    $("html, body").animate({
+                        scrollTop: $('#errorGoneMsg').offset().top 
+                    }, 300);
+                    $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, fillup all required fields!</span></div></div></div>');
+                    return false;
+                }
+                $('.loaderSection .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+                $('.loaderSection .loading-wrapper-sub').show();
+            
+                var form = $('#relationWorld')[0];
+                var formData = new FormData(form);
+                $.ajax({
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    //dataType: 'json',
+                    url: "{{ url('/teenager/save-first-level-icon-category') }}",
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    success: function(data) {
+                        if (typeof data !== "undefined" && typeof data.status !== "undefined" && data.status == 0) {
+                            $("html, body").animate({
+                                scrollTop: $('#errorGoneMsg').offset().top 
+                            }, 300);
+                            $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+data.message+'</span></div></div></div>');
+                        } else {
+                            $('#errorGoneMsg').html("");
+                            $("#opinionSection").html(data);
+                        }
+                        $('.loaderSection .loading-wrapper-sub').hide();
+                        $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    },
+                    error: function() {
+                        $("html, body").animate({
+                            scrollTop: $('#errorGoneMsg').offset().top 
+                        }, 300);
+                        $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Something went wrong, Please try it again!</span></div></div></div>');
+                        $('.loaderSection .loading-wrapper-sub').hide();
+                        $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    }
+                });
+            }
+            // $('.loaderSection .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+            // $('.loaderSection .loading-wrapper-sub').show();
+            
+            return false;
+        });
+
         function getArticles(url) {
             //var dataString = 'categoryId=' + categoryId + '&categoryType=' + categoryType + '&searchText=' + searchText;
             $.ajax({
@@ -1582,6 +1640,19 @@
             });
         } else {
             $(".errorGoneMsgPopup").text("Please, fillup all required data");
+        }
+    }
+
+    function getWorldData(categoryType) {
+        if (categoryType == 2){
+            $('#relation_data').show();
+            $('#self_data').hide();
+        } else if (categoryType == 1) {
+            $('#self_data').show();
+            $('#relation_data').hide();
+        } else {
+            $('#self_data').hide();
+            $('#relation_data').hide();
         }
     }
 </script>
