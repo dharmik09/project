@@ -1,44 +1,44 @@
-<div class="survey-list">
-    <form id="level1ActivityPart2" action="{{url('/teenager/save-first-level-icon-quality')}}" onsubmit="return checkQualityData()" method="post" enctype="multipart/form-data" >
-        {{csrf_field()}}
-        <div class="qualities-sec">
-            <img src="{{$data['icon_image']}}" alt="" class="icon_img">
-            <span class="icon_name">
-                <span class="subtitle">Select Qualities For</span>
-                <span class="title">{{$data['icon_name']}}</span>
-            </span>
-            <br/>
-            <div class="row">
-                @if(isset($response['qualityList']) && count($response['qualityList']) > 0)
-                    @foreach($response['qualityList'] as $key => $qualityValue)
-                        <div class="col-md-4 col-sm-6 col-xs-6">
-                            <div class="ck-button">
-                                <label>
-                                    <input class="iconCheck" type="checkbox" value="{{$qualityValue['id']}}" id="icon[{{$qualityValue['id']}}]" name="icon[{{$qualityValue['id']}}]">
-                                    <span>{{$qualityValue['quality']}}</span>
-                                </label>
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
-                <input type="hidden" name="category_type" value="{{ $categoryType }}">
-                @if($categoryType == "2" || $categoryType == "1")
-                    <input type="hidden" name="category_id" value="{{ $categoryId }}">
-                @elseif($categoryType == "3")
-                    <input type="hidden" name="relation_category" value="{{ $relation_category }}">
-                    <input type="hidden" name="relation_id" value="{{ $lastInterIdRelation }}">
-                @elseif($categoryType == "4")
-                    <input type="hidden" name="self_id" value="{{ $lastInterIdSelf }}">
-                @endif
+<form id="level1ActivityPart2" action="{{url('/teenager/save-first-level-icon-quality')}}" onsubmit="return checkQualityData()" method="post" enctype="multipart/form-data" >
+    {{csrf_field()}}
+    <div class="qualities-sec">
+        <div class="t-table select-qualities">
+            <div class="t-cell icon-img">
+                <img src="{{$data['icon_image']}}" alt="{{$data['icon_name']}}">
+            </div>
+            <div class="t-cell icon-name">
+                <p>Select Qualities For {{$data['icon_name']}}</p>
             </div>
         </div>
-        <div class="form-btn">
-            <span class="icon"><i class="icon-arrow-spring"></i></span>
-            <br/>
-            <button type="submit" title="Submit" class="btn btn-primary">Submit</button>
+        <div class="row">
+            @if(isset($response['qualityList']) && count($response['qualityList']) > 0)
+                @foreach($response['qualityList'] as $key => $qualityValue)
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <div class="ck-button">
+                            <label>
+                                <input class="iconCheck" type="checkbox" value="{{$qualityValue['id']}}" id="icon[{{$qualityValue['id']}}]" name="icon[{{$qualityValue['id']}}]">
+                                <span>{{$qualityValue['quality']}}</span>
+                            </label>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+            <input type="hidden" name="category_type" value="{{ $categoryType }}">
+            @if($categoryType == "2" || $categoryType == "1")
+                <input type="hidden" name="category_id" value="{{ $categoryId }}">
+            @elseif($categoryType == "3")
+                <input type="hidden" name="relation_category" value="{{ $relation_category }}">
+                <input type="hidden" name="relation_id" value="{{ $lastInterIdRelation }}">
+            @elseif($categoryType == "4")
+                <input type="hidden" name="self_id" value="{{ $lastInterIdSelf }}">
+            @endif
         </div>
-    </form>
-</div>
+    </div>
+    <div class="form-btn">
+        <span class="icon"><i class="icon-arrow-spring"></i></span>
+        <br/>
+        <button type="submit" title="Submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
 
 
 

@@ -1191,9 +1191,9 @@
             data : {'type' : type},
             headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
             success: function(data){
-                $("#opinionSection").hide();
-                $('#firstLevelWorldSection').show();
-                $('#firstLevelWorldSection').html(data);
+                $("#opinionSection").html(data);
+                //$('#firstLevelWorldSection').show();
+                //$('#firstLevelWorldSection').html(data);
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 $('.sec-filter #icon-slider').owlCarousel('update');
@@ -1388,7 +1388,8 @@
                         $('#search_icon').hide();
                         $('#searchForIcon').val(' ');
                     } else {
-                        $("#firstLevelWorldSection").html(data);
+                        //$("#firstLevelWorldSection").html(data);
+                        $("#opinionSection").html(data);
                     }
                     $('.loaderSection .loading-wrapper-sub').hide();
                     $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
