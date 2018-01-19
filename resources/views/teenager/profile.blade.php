@@ -1535,13 +1535,21 @@
             submitIconData = true;
         }
         if (cat1NameValue != '') {
-            submitIconData = true;
+            if (cat1NameValue.length >= 100) {
+                submitIconData = false;
+                $(".errorGoneMsgPopup").text("");
+                $(".errorGoneMsgPopup").text("Name field not allowed more than 100 charaters");
+                return false;
+            } else {
+                submitIconData = true;
+            }
         } else {
             submitIconData = false;
             $(".errorGoneMsgPopup").text("");
             $(".errorGoneMsgPopup").text("Please, fillup name field");
             return false;
         }
+        
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         //Serialize the form data.
         //var formData = $("#fictionForm").serialize();
