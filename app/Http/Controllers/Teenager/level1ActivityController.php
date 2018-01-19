@@ -320,11 +320,11 @@ class Level1ActivityController extends Controller
         $response = [];
         $response['status'] = 0;
         $response['message'] = trans('appmessages.default_error_msg');
-        
         $body['ci_category'] = Input::get('categoryId');
         $body['userid'] = Auth::guard('teenager')->user()->id;
         $body['categoryType'] = Input::get('categoryType');
         $body['characterName'] = Input::get('characterName');
+        
         $fileName = $imagePath = '';
         if (isset($body['userid']) && $body['userid'] > 0 && ($body['categoryType'] == 1 || $body['categoryType'] == 2)) {
             $cartoonIconDetail['ci_image'] = '';
@@ -410,8 +410,7 @@ class Level1ActivityController extends Controller
             $response['status'] = 0;
             $response['message'] = trans('appmessages.default_error_msg');
         }
-
-        echo json_encode($response);
+        return response()->json($response, 200);
         exit;
     }
 

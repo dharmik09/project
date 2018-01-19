@@ -1518,11 +1518,8 @@
         $(".errorGoneMsgPopup").text("");
         var cat1Value = $("#categoryName1").val();
         var cat1NameValue = $("#characterName1").val();
-        var cat2Value = Number($("#categoryName2").val());
-        var cat2NameValue = $("#characterName2").val();
         var submitIconData = false;
         if ($("#categoryName1").val() === "" && cat1NameValue == '') {
-            //submitIconData = true;
             submitIconData = false;
             $(".errorGoneMsgPopup").text("Please, fillup all required data");
             return false;
@@ -1547,30 +1544,26 @@
         }
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         //Serialize the form data.
-        var formData = $("#fictionForm").serialize();
+        //var formData = $("#fictionForm").serialize();
+        var form = $('#fictionForm')[0];
+        var formData = new FormData(form);
         if(submitIconData == true){
             $.ajax({
                 type: "POST",
                 data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: 'json',
                 url: "{{ url('/teenager/add-icon-category')}}",
                 headers: {
                     'X-CSRF-TOKEN': CSRF_TOKEN
                 },
-                cache: false,
                 success: function(response) {
-                    var data = JSON.parse(response);
-                    if (data.status == 1) {
-                        if (data.categoryType == 1) {
-                            $("#icon_category").val(data.categoryid);
-                            $('#icon_category').trigger("change");
-                            $("#fiction_modal_icon").modal('hide');
-                        } else if (data.categoryType == 2) {
-                            $("#icon_category").val(data.categoryid);
-                            $('#icon_category').trigger("change");
-                            $("#myModal2").modal('hide');
-                        } else {
-
-                        }
+                    if (response.status == 1) {
+                        $("#categoryIdValue").val(response.categoryid);
+                        $('#categoryIdValue').trigger("change");
+                        $("#fiction_modal_icon").modal('hide');
                     } else {
                         $(".errorGoneMsgPopup").text("Something went wrong, Please try it again!");
                     }
