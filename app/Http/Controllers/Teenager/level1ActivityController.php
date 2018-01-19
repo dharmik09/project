@@ -221,7 +221,7 @@ class Level1ActivityController extends Controller
             </div>';
         }
         else{
-            $return = '<h3>'.trans('labels.traitscompletionmessage').'</h3>';
+            $return = '<div class="sec-forum"><span>All traits completed</span></div>';
         }
         return $return;
     }
