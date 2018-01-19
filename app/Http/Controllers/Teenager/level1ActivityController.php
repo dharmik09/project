@@ -444,7 +444,7 @@ class Level1ActivityController extends Controller
             $iconCategoryName = '';
         }
 
-        $html = '';
+        $html = ''; 
         $iconDetail = [];
         if (isset($iconCategoryName) && !empty($iconCategoryName) && count($iconCategoryName) > 0) {
             foreach ($iconCategoryName as $value) {
