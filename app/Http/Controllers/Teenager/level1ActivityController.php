@@ -62,18 +62,18 @@ class Level1ActivityController extends Controller
             $isQuestionCompleted = 1;
             $array = ['1', '2', '3', '4'];
             $getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getTeenAttemptedQualityType($userId);
-	        if(isset($getLevel1AttemptedQuality[0]) && count($getLevel1AttemptedQuality[0]) > 0) {
+	        if(isset($getLevel1AttemptedQuality[0]) && count($getLevel1AttemptedQuality) > 0) {
 	            $array2 = $getLevel1AttemptedQuality->toArray();
-	            $arrayDiff = array_diff($array, $array2);
-	            $attemptLevel1At = (isset($arrayDiff[0])) ? min($arrayDiff) : 5;
+                $arrayDiff = array_diff($array, $array2);
+	            $attemptLevel1At = (count($arrayDiff) > 0) ? min($arrayDiff) : 5;
 	        } else {
 	            $attemptLevel1At = 1;
 	        }
             if(!in_array($attemptLevel1At, $array)) {
                 return view('teenager.basic.level1ActivityWorldType', compact('qualityDetail', 'isQuestionCompleted', 'attemptLevel1At'));    
             } else {
-                //$type = $attemptLevel1At;
-                $type = 5;
+                $type = $attemptLevel1At;
+                //$type = 5;
                 //Get top trending images
                 $topTrendingImages = $this->level1ActivitiesRepository->getAllTopTrendingImages($type);
                 $topImages['image'] = $toptrending = [];
@@ -581,7 +581,7 @@ class Level1ActivityController extends Controller
         $maximumCount = count($icon);
 
         if ($maximumCount < 5) {
-            return redirect()->back()->withError('Please, select atleast five qualities Of any ICON');
+            return redirect()->back()->withError('Please, select atleast five qualities Of ICON');
             exit;
         }
 
@@ -600,7 +600,6 @@ class Level1ActivityController extends Controller
                 foreach ($qualityDetail as $key => $data)
                 {
                     $iconQualityValue = (isset($icon[$data->id]) && isset($icon[$data->id]) == 1) ? 1 : 0;
-
                     if ($iconQualityValue == 1) {
                         if ($category_type == 1 || $category_type == 2) {
                             $qualityResponseData = array("tiqa_teenager" => $teenagerID, "tiqa_ti_id" => $lastInterId, "tiqa_quality_id" => $data->id, "tiqa_response" => $iconQualityValue);
@@ -632,38 +631,21 @@ class Level1ActivityController extends Controller
                 $response['NoOfTotalQuestions'] = $totalQuestion[0]->NoOfTotalQuestions;
                 $response['NoOfAttemptedQuestions'] = $totalQuestion[0]->NoOfAttemptedQuestions;
 
-                // if (isset($response['NoOfAttemptedQuestions']) && $response['NoOfAttemptedQuestions'] > 0) {
-                //     $response['boosterScale'] = (100 * ($response['NoOfAttemptedQuestions'])) / ($response['NoOfTotalQuestions']);
-                // } else {
-                //     $response['boosterScale'] = 0;
-                // }
-
                 if (($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfAttemptedQuestions'] > $response['NoOfTotalQuestions'])) {
                     $isQuestionCompleted = 1;
                 } else {
                     $isQuestionCompleted = 0;
                 }
 
-                //$this->teenagersRepository->saveLevel1Part2BoosterPoints($teenagerID, ($iconCount*Helpers::getConfigValueByKey('LEVEL1_ICON_SELECTION_POINTS')));
-                //$getTeenagerBoosterPoints = $this->TeenagersRepository->getTeenagerBoosterPoints($teenagerID);
                 $response['level1'] = $this->teenagersRepository->getTeenagerTotalBoosterPointsForLevel1($teenagerID);
-
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
-                // if ($iconLength >= 4) {
-                //     $response['qualityAttempted'] = 'yes';
-                //     return view('teenager.level1ActivityComplete', compact('response', 'isQuestionCompleted'));
-                // } else {
-                //     $response['qualityAttempted'] = 'no';
-                //     return view('teenager.level1Activitynew', compact('response', 'isQuestionCompleted'));
-                // }
 
-                return Redirect::to("teenager/my-profile")->with('success', "Qualities updated");
+                return Redirect::to("teenager/my-profile")->with('success', "Icon Qualities updated successfully!");
                 exit;
-
             }
         } else {
-            Auth::teenager()->logout();
+            Auth::guard('teenager')->user()->logout();
             return Redirect::to('/teenager')->with('error', trans('appmessages.invalid_userid_msg'));
             exit;
         }
