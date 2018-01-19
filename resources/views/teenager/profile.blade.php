@@ -717,7 +717,7 @@
                 var a = document.querySelector(".profile-img");
                 if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
                     if (input.files[0].size > 3000000) {
-                        alert("File size is too large. Maximum 3MB allowed");
+                        $(".photo-error").text("File size is too large. Maximum 3MB allowed");
                         $(this).val('');
                     } else {
                         a.style.backgroundImage = "url('" + e.target.result + "')";
@@ -733,7 +733,37 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-        
+    
+    function readIconURL(input) {
+        if (input.files && input.files[0]) {
+            if(input.files[1]) {
+                $(".errorGoneMsgPopup").text("You already uploaded a file");
+                return false;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                //var a = document.querySelector("#img-preview");
+                var a = document.querySelector("#img-upload");
+                if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
+                    if (input.files[0].size > 3000000) {
+                        $(".errorGoneMsgPopup").text("File size is too large. Maximum 3MB allowed");
+                        $(this).val('');
+                    } else {
+                        a.style.backgroundImage = "url('" + e.target.result + "')";
+                        // document.getElementById("#").className = "activated";
+                        a.className = "upload-img activated";
+                    }
+                } else {
+                    $(".errorGoneMsgPopup").text("File type not allowed");
+                    $(this).val('');
+                }
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     $(document).ready(function() {
         getFirstLevelData();
         $('.sec-filter #icon-slider').owlCarousel({
@@ -1437,17 +1467,36 @@
         $(".errorGoneMsgPopup").text("");
         var cat1Value = Number($("#categoryName1").val());
         var cat1NameValue = $("#characterName1").val();
-        var cat2Value = Number($("#categoryName2").val());
-        var cat2NameValue = $("#characterName2").val();
+        //var cat2Value = Number($("#categoryName2").val());
+        //var cat2NameValue = $("#characterName2").val();
+        var image = $("#image").val();
+        alert(image); return false;
         var submitIconData = false;
         var messageD = "Please, fillup all required data";
-        if(cat1Value > 0 && cat1NameValue != '' && cat1NameValue.length > 0){
+        if (cat1Value > 0 && cat1NameValue.length > 0 && cat1NameValue != '') {
             submitIconData = true;
-        }else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
-            submitIconData = true;
-        }else{
-            submitIconData = false;
+        } else {
+            if(cat1Value > 0 && cat1NameValue.length > 0){
+                submitIconData = true;
+            } else {
+                submitIconData = false;
+                $(".errorGoneMsgPopup").text("");
+                $(".errorGoneMsgPopup").text("Please, select atleast one category");
+            }
+            if (cat1NameValue != '') {
+                submitIconData = true;
+            } else {
+                submitIconData = false;
+                $(".errorGoneMsgPopup").text("");
+                $(".errorGoneMsgPopup").text("Please, fillup name field");
+            }
+            //if ()
         }
+        //else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
+        //    submitIconData = true;
+        // }else{
+        //     submitIconData = false;
+        // }
         if(submitIconData){
             $.ajax({
                 url: "{{ url('/teenager/add-icon-category')}}",

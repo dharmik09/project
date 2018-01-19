@@ -112,7 +112,7 @@
                         </div>
                         <div class="upload-img profile-img" id="img-upload">
                             <span><i class="icon-plus"></i></span>
-                            <input type="file" name="image" accept="image/*" onchange="readURL(this);">
+                            <input type="file" name="image" accept="image/*" onchange="readIconURL(this);">
                         </div>
                     </div>
                 </div>
