@@ -1297,7 +1297,7 @@
         });
         var queId = $('#traitQue').val();
         var toUserId = '';
-        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
         $("#traitsData").addClass('loading-screen-parent');
         
         var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -1314,6 +1314,19 @@
                 $("#traitsData").removeClass('loading-screen-parent');
             }
         });
+    }
+
+    function checkAnswerChecked() {
+        var answerId = [];
+        $.each($("input[name='traitAns']:checked"), function(){            
+            answerId.push($(this).val());
+        });
+        if(answerId.length != 0){
+            $("#btnSaveTrait").attr("disabled", false);
+            console.log(answerId);
+        }else{
+            $("#btnSaveTrait").attr("disabled", true);
+        }
     }
 
     function getIconName(categoryId, categoryType, page, searchText) {

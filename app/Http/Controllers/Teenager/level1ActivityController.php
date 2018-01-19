@@ -199,30 +199,36 @@ class Level1ActivityController extends Controller
         else{
             $toUserId = $this->teenagersRepository->getTeenagerByUniqueId($toUser)->id;
         }
-        $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId,$toUserId);
-        if(count($traitQuestion)>0){
-            $return = '<div class="survey-list">
-                <div class="qualities-sec">
-                    <p>'.$traitQuestion[0]->tqq_text.'</p>
-                    <input type="hidden" id="traitQue" value="'.$traitQuestion[0]->activityID.'">
-                    <div class="row">';
-            foreach ($traitQuestion[0]->options as $key => $value) {
-                $return .= '<div class="col-md-4 col-sm-6 col-xs-6">
-                                <div class="ck-button">
-                                    <label><input type="checkbox" name="traitAns" value="'.$value['optionId'].'"><span>'.$value['optionText'].'</span></label>
-                                </div>
-                            </div>';
+        $traitAllQuestion = $this->level1ActivitiesRepository->getAllLeve1Traits();
+        if(count($traitAllQuestion)>0){
+            $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId,$toUserId);
+            if(count($traitQuestion)>0){
+                $return = '<div class="survey-list">
+                    <div class="qualities-sec">
+                        <p>'.$traitQuestion[0]->tqq_text.'</p>
+                        <input type="hidden" id="traitQue" value="'.$traitQuestion[0]->activityID.'">
+                        <div class="row">';
+                foreach ($traitQuestion[0]->options as $key => $value) {
+                    $return .= '<div class="col-md-4 col-sm-6 col-xs-6">
+                                    <div class="ck-button">
+                                        <label><input type="checkbox" name="traitAns" value="'.$value['optionId'].'" onclick="checkAnswerChecked();"><span>'.$value['optionText'].'</span></label>
+                                    </div>
+                                </div>';
+                }
+                $return .= '</div>
+                    </div>
+                    <div class="form-btn">
+                        <span class="icon"><i class="icon-arrow-spring"></i></span>
+                        <button onclick="saveLevel1TraitQuestion();" id="btnSaveTrait" title="Next" class="btn btn-primary" disabled="disabled">Next</button>
+                    </div>
+                </div>';
             }
-            $return .= '</div>
-                </div>
-                <div class="form-btn">
-                    <span class="icon"><i class="icon-arrow-spring"></i></span>
-                    <button onclick="saveLevel1TraitQuestion();" title="Next" class="btn btn-primary">Next</button>
-                </div>
-            </div>';
+            else{
+                $return = '<div class="sec-forum"><span>All traits completed</span></div>';
+            }
         }
         else{
-            $return = '<div class="sec-forum"><span>All traits completed</span></div>';
+            $return = '<div class="sec-forum"><span>No questions Available</span></div>';
         }
         return $return;
     }
