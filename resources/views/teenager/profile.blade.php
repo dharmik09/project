@@ -1043,6 +1043,8 @@
                 $('#opinionSection').html(data);
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                $('.loaderSection .loading-wrapper-sub').hide();
+                $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             },
             error: function(){
                 $('#loading-wrapper-sub').hide();

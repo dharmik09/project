@@ -1,5 +1,5 @@
 <div class="level-selection">
-    <h3>Vote</h3>
+    <p>Your profile survey completed 100%, But if you want to vote more Icon please click on below</p>
     <div class="level-container">
         <div class="row">
             <div class="col-xs-6 border-right">

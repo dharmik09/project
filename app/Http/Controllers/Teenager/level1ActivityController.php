@@ -60,16 +60,60 @@ class Level1ActivityController extends Controller
             return view('teenager.basic.level1Question', compact('level1Activities', 'attemptLevel1At'));
         } else {
             $isQuestionCompleted = 1;
-            $getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getTeenAttemptedQualityType(5370);
+            $array = ['1', '2', '3', '4'];
+            $getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getTeenAttemptedQualityType($userId);
 	        if(isset($getLevel1AttemptedQuality[0]) && count($getLevel1AttemptedQuality[0]) > 0) {
-	            $array = ['1', '2', '3', '4'];
 	            $array2 = $getLevel1AttemptedQuality->toArray();
 	            $arrayDiff = array_diff($array, $array2);
 	            $attemptLevel1At = (isset($arrayDiff[0])) ? min($arrayDiff) : 5;
 	        } else {
 	            $attemptLevel1At = 1;
 	        }
-	        return view('teenager.basic.level1ActivityWorldType', compact('qualityDetail', 'isQuestionCompleted', 'attemptLevel1At'));
+            if(!in_array($attemptLevel1At, $array)) {
+                return view('teenager.basic.level1ActivityWorldType', compact('qualityDetail', 'isQuestionCompleted', 'attemptLevel1At'));    
+            } else {
+                $type = $attemptLevel1At;
+                //Get top trending images
+                $topTrendingImages = $this->level1ActivitiesRepository->getAllTopTrendingImages($type);
+                $topImages['image'] = $toptrending = [];
+                if (isset($topTrendingImages[0]) && !empty($topTrendingImages)) {
+                    foreach ($topTrendingImages as $key => $val) {
+                        if ($type == 2) {
+                            $topImages['image'] = ($val->ci_image != "") ? Storage::url($this->humanThumbImageUploadPath . $val->ci_image) : Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                        } else if($type == 1) {
+                            $topImages['image'] = ($val->ci_image != "") ? Storage::url($this->cartoonThumbImageUploadPath . $val->ci_image) : Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                        } else {
+                            $topImages['image'] = [];
+                        }
+                        $topImages['name'] = $val->ci_name;
+                        $topImages['category'] = $val->cic_name;
+                        $topImages['votes'] = $val->timesused;
+                        $topImages['rank'] = $key+1;
+                        $toptrending[] = $topImages;
+                    }
+                }
+                $mainArray['topTrendingImages'] = $toptrending;
+                if($type == 1) {
+                    $cartoonIconCategory = $this->level1ActivitiesRepository->getLevel1FictionCartoonCategory();
+                    $maincartoonIconCategoryArray = [];
+                    if($cartoonIconCategory) {
+                        foreach ($cartoonIconCategory as $cartooncategory) {
+                            $cartooniconCategoryList = [];
+                            $cartooniconCategoryList['id'] = $cartooncategory->id;
+                            $cartooniconCategoryList['name'] = $cartooncategory->cic_name;
+                            $maincartoonIconCategoryArray[] = $cartooniconCategoryList;
+                        }
+                    }
+                    return view('teenager.basic.level1ActivityWorldFiction', compact('isQuestionCompleted', 'mainArray', 'maincartoonIconCategoryArray'));
+                } else if($type == 2) {
+                    return view('teenager.basic.level1ActivityWorldNonFiction', compact('isQuestionCompleted', 'mainArray'));
+                } else if($type == 3 || $type == 4) {
+                    return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted', 'mainArray'));
+                } else {
+                    return view('teenager.basic.level1ActivityWorldType', compact('isQuestionCompleted'));
+                }
+            }
+	        return view('teenager.basic.level1ActivityWorldType', compact('isQuestionCompleted'));
         }
     }
 
@@ -101,7 +145,6 @@ class Level1ActivityController extends Controller
             }
         }
         $mainArray['topTrendingImages'] = $toptrending;
-        //print_r($mainArray); die();
         if($type == 1) {
             $cartoonIconCategory = $this->level1ActivitiesRepository->getLevel1FictionCartoonCategory();
             //print_r($cartoonIconCategory); die();    
