@@ -188,6 +188,7 @@ class Level1ActivityController extends Controller
         return response()->json($response, 200);
         exit;
     }
+    
     public function getLevel1Trait(){
         $userId = Auth::guard('teenager')->user()->id;
         $toUser = Input::get('toUserId');

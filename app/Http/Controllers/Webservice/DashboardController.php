@@ -80,7 +80,7 @@ class DashboardController extends Controller
             $teenager->c_name = ( isset(Country::getCountryDetail($teenager->t_country)->c_name) ) ? Country::getCountryDetail($teenager->t_country)->c_name : "";
             $teenager->country_id = $teenager->t_country;
 
-            $teenager->progress = 23;
+            $teenager->progress = 62;
             $teenager->total_points = 10000;
             $teenager->recent_progress = "You advanced 7% on your last visit. Well done you!";
 
