@@ -510,6 +510,9 @@ class DashboardController extends Controller
     //Calculate teenager strength and interest score percentage
     public function getTeenScoreInPercentage($maxScore, $teenScore) 
     {
+        if ($teenScore > $maxScore) {
+            $teenScore = $maxScore;
+        }
         $mul = 100*$teenScore;
         $percentage = $mul/$maxScore;
         return round($percentage);
