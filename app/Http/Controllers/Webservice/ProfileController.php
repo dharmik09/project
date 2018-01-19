@@ -185,9 +185,9 @@ class ProfileController extends Controller
                 $teenagerDetail['t_nickname'] = $request->proteenCode;
                 $teenagerDetail['t_gender'] = (in_array($request->gender, ['1','2'])) ? $request->gender : '1';
                 
-                $teenagerDetail['t_email'] = $request->email;
+                $teenEmail = $request->email;
                 if ($request->email != "") {
-                    $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenagerDetail['t_email'], $teenagerDetail['id']);
+                    $teenagerEmailExist = $this->teenagersRepository->checkActiveEmailExist($teenEmail, $teenagerDetail['id']);
                     if ($teenagerEmailExist) {
                         $response['message'] = "User with same email already exists";
                         $response['login'] = 1;
@@ -309,6 +309,7 @@ class ProfileController extends Controller
                     $response['status'] = 1;
                     $response['login'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');
+                    $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
                     $response['data'] = $teenager;
                 } else {
                     $response['message'] = "Something went wrong";

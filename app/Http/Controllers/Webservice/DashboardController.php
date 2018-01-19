@@ -138,13 +138,7 @@ class DashboardController extends Controller
             
             $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
             $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->userId);
-            $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
-            foreach($teenagerMI as $miKey => $miVal) {
-                $mitName = Helpers::getMIBySlug($miKey);
-                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
-                $teenagerStrength[] = (array('slug' => $miKey, 'points' => $teenMIScore, 'score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
-            }
-
+            //Apptitude Array
             $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
             $finalTeenagerAptitude = [];
             foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
@@ -152,6 +146,7 @@ class DashboardController extends Controller
                 $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
                 $teenagerStrength[] = (array('slug' => $apptitudeKey, 'points' => $teenAptScore, 'score' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeKey));
             }
+            //Personality Array
             $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
             $finalTeenagerPersonality = [];
             foreach($teenagerPersonality as $personalityKey => $personalityVal) {
@@ -159,7 +154,14 @@ class DashboardController extends Controller
                 $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
                 $teenagerStrength[] = (array('slug' => $personalityKey, 'points' => $teenPtScore, 'score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityKey));
             }
-
+            //MI Array
+            $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
+            foreach($teenagerMI as $miKey => $miVal) {
+                $mitName = Helpers::getMIBySlug($miKey);
+                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
+                $teenagerStrength[] = (array('slug' => $miKey, 'points' => $teenMIScore, 'score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
+            }
+            
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -397,6 +399,9 @@ class DashboardController extends Controller
     //Calculate teenager strength and interest score percentage
     public function getTeenScoreInPercentage($maxScore, $teenScore) 
     {
+        if ($teenScore > $maxScore) {
+            $teenScore = $maxScore;
+        }
         $mul = 100*$teenScore;
         $percentage = $mul/$maxScore;
         return round($percentage);
