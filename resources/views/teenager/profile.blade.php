@@ -1297,7 +1297,10 @@
         });
         var queId = $('#traitQue').val();
         var toUserId = '';
-        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#traitsData").fadeOut('slow', function() {
+            $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#traitsData").fadeIn('slow');
+        });
         $("#traitsData").addClass('loading-screen-parent');
         
         var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -1310,8 +1313,8 @@
             },
             data: {'answerID':answerId,'questionID':queId,'toUserId':toUserId},
             success: function (response) {
-                $("#traitsData").html(response);
                 $("#traitsData").removeClass('loading-screen-parent');
+                $("#traitsData").html(response).fadeIn('slow');
             }
         });
     }
