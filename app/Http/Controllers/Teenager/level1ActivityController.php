@@ -72,7 +72,8 @@ class Level1ActivityController extends Controller
             if(!in_array($attemptLevel1At, $array)) {
                 return view('teenager.basic.level1ActivityWorldType', compact('qualityDetail', 'isQuestionCompleted', 'attemptLevel1At'));    
             } else {
-                $type = $attemptLevel1At;
+                //$type = $attemptLevel1At;
+                $type = 5;
                 //Get top trending images
                 $topTrendingImages = $this->level1ActivitiesRepository->getAllTopTrendingImages($type);
                 $topImages['image'] = $toptrending = [];

@@ -9,12 +9,14 @@ a:hover {
     position: relative;
     font-size: 21px;
     color: $r-cl;
-    margin: 46px auto 20px;
+    margin: 46px auto 50px;
     font-family: hn-b;
     border-radius: 5px;
     max-width: 707px;
     @include maxms{
         font-size: 18px;
+        margin-bottom: 30px;
+        margin-top: 30px;
     }
     span {
         position: absolute;
