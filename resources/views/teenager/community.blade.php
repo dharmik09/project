@@ -185,6 +185,11 @@
                     }
                 });
             } else {
+                if (searchConnections.length == 0) {
+                    $('.mySearch_area').html("");
+                    $('.mySearch_area').hide();
+                    $('.existing-connection').show();
+                }
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             }
