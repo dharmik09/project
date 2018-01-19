@@ -3,12 +3,11 @@
     <div class="level-container">
         <div class="row">
             <div class="col-xs-6 border-right">
-                <a href="javascript:void(0)" class="level-block" title="Opinions">
-                    <a href="<?php if($isQuestionCompleted == 0) { ?> {{ url('/teenager/playLevel1Activity') }} <?php } else { echo "javascript:void(0)"; }?>" class="landing_box landing_l1" onclick="checkLevel1Questions({{$isQuestionCompleted}});">
+                <a href="<?php if($isQuestionCompleted == 0) { ?> {{ url('/teenager/playLevel1Activity') }} <?php } else { echo "javascript:void(0)"; }?>" class="level-block" onclick="checkLevel1Questions({{$isQuestionCompleted}});">
                     <figure class="landing_icon">
                         <span class="vote"></span>
                     </figure>
-                        <span>Opinions</span>
+                    <span>Opinions</span>
                 </a>
             </div>
             <div class="col-xs-6 border-bottom">
@@ -16,7 +15,7 @@
                     <figure class="landing_icon">
                         <span class="fiction"></span>
                     </figure>
-                        <span>Fictional World</span>
+                    <span>Fictional World</span>
                 </a>
             </div>
             <div class="col-xs-6 border-top">
@@ -24,7 +23,7 @@
                     <figure class="landing_icon">
                         <span class="real"></span>
                     </figure>
-                        <span>Real World</span>
+                    <span>Real World</span>
                 </a>
             </div>
             <div class="col-xs-6 border-left">

@@ -1,6 +1,28 @@
 .full-article {
     margin: 30px auto;
     max-width: 80%;
+    .btn-ans{
+    background: $p-cl;
+    border-color: $p-cl;
+    position: relative;
+        margin-bottom: 0;
+    &:hover,&:focus{
+        background: $h-cl;
+        border-color: $h-cl;
+        color: $white;
+    }
+    /*&:before{
+        position: absolute;
+        content: '';
+        width: 16px;
+        height: 16px;
+        background-image: url(../img/edit.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        top: 0;
+        right: 0;
+    }*/
+}
 }
 
 .article-que {
@@ -22,8 +44,11 @@
     }
 }
 .your-answer{
-    margin-bottom: 30px;
+    margin-bottom: 30px;display: none;
     textarea{
         margin-bottom: 20px;
+    }
+    .btn-ans{
+        margin-top: 30px;
     }
 }

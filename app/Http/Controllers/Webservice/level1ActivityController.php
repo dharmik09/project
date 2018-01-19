@@ -917,19 +917,28 @@ class Level1ActivityController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $teenagerToUserID = $this->teenagersRepository->getTeenagerById($request->toUserID);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel1Traits'));
-        if($request->userId != "" && $request->toUserID != "" && $teenager && $teenagerToUserID) {
-            $toUserID = $request->toUserID;
-            $data = $this->level1ActivitiesRepository->getAllNotAttemptedTraits($request->userId,$toUserID);
-            $response['status'] = 1;
-            $response['login'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
-            $response['data'] = $data;
-            $this->log->info('Response for Level 1 Traits' , array('api-name'=> 'getLevel1Traits'));
+        if($teenager && $teenagerToUserID){
+            if($request->userId != "" && $request->toUserID != "") {
+                $traitAllQuestion = $this->level1ActivitiesRepository->getAllLeve1Traits();
+                if(count($traitAllQuestion)>0){
+                    $toUserID = $request->toUserID;
+                    $data = $this->level1ActivitiesRepository->getAllNotAttemptedTraits($request->userId,$toUserID);
+                    $response['status'] = 1;
+                    $response['login'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['data'] = $data;
+                    $this->log->info('Response for Level 1 Traits' , array('api-name'=> 'getLevel1Traits'));
+                }
+                else{
+                    $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.noquestionsavailable')];    
+                }
+            } else {
+                $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.missing_data_msg')];
+                $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel1Traits'));
+            }
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel1Traits'));
-            $response['message'] = trans('appmessages.missing_data_msg');
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
-        
         return response()->json($response, 200);
         
     }
@@ -939,42 +948,49 @@ class Level1ActivityController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $teenagerToUserID = $this->teenagersRepository->getTeenagerById($request->toUserID);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
-        if($request->userId != "" && $request->activityID != "" && $request->optionId != "" && $request->toUserID != "" && $teenager && $teenagerToUserID) {
+        if($teenager && $teenagerToUserID){
+            if($request->userId != "" && $request->activityID != "" && $request->optionId != "" && $request->toUserID != "") {
+                if(count($request->optionId)>0){
+                    $questionID = $request->activityID;
+                    $toUserID = $request->toUserID;
+                    $answerArray = explode("," , $request->optionId);
 
-            $questionID = $request->activityID;
-            $toUserID = $request->toUserID;
-            $answerArray = explode("," , $request->optionId);
-
-            if (isset($request->userId) && $request->userId > 0 && isset($questionID) && $questionID != 0) {
-                $answerType = $this->objTraits->find($questionID)->tqq_is_multi_select;
-                if($answerType == 0){
-                    if(count($answerArray)>1){
-                        $response['message'] = trans('appmessages.onlyoneoptionallowedforthisquestion');
-                        return response()->json($response, 200);
+                    if (isset($request->userId) && $request->userId > 0 && isset($questionID) && $questionID != 0) {
+                        $answerType = $this->objTraits->find($questionID)->tqq_is_multi_select;
+                        if($answerType == 0){
+                            if(count($answerArray)>1){
+                                $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.onlyoneoptionallowedforthisquestion')];
+                                return response()->json($response, 200);
+                            }
+                        }
+                        $questionsArray = '';
+                        foreach ($answerArray as $key => $value) {
+                            $answers = [];
+                            $answers['tqq_id'] = $questionID;
+                            $answers['tqo_id'] = $value;
+                            $answers['tqa_from'] = $request->userId;
+                            $answers['tqa_to'] = $toUserID;
+                            $questionsArray = $this->level1ActivitiesRepository->saveLevel1TraitsAnswer($answers);
+                        }
+                        if($questionsArray){
+                            $response['status'] = 1;
+                            $response['login'] = 1;
+                            $response['message'] = trans('appmessages.default_success_msg');
+                        } else {
+                            $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.default_error_msg')];
+                        }
+                    } else {
+                        $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.default_error_msg')];
                     }
-                }
-                $questionsArray = '';
-                foreach ($answerArray as $key => $value) {
-                    $answers = [];
-                    $answers['tqq_id'] = $questionID;
-                    $answers['tqo_id'] = $value;
-                    $answers['tqa_from'] = $request->userId;
-                    $answers['tqa_to'] = $toUserID;
-                    $questionsArray = $this->level1ActivitiesRepository->saveLevel1TraitsAnswer($answers);
-                }
-                if($questionsArray){
-                    $response['status'] = 1;
-                    $response['login'] = 1;
-                    $response['message'] = trans('appmessages.default_success_msg');
                 } else {
-                    $response['message'] = trans('appmessages.default_error_msg');
+                    $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.selecetatleastoneoption')];
                 }
             } else {
-                $response['message'] = trans('appmessages.default_error_msg');
+                $response = [ 'status' => 0, 'login' => 1, 'message' => trans('appmessages.missing_data_msg')];
+                $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
             }
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
-            $response['message'] = trans('appmessages.missing_data_msg');
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
         
         return response()->json($response, 200);

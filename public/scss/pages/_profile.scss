@@ -2561,7 +2561,7 @@ a:focus {
 }
 
 .level-selection {
-    padding-top: 40px;
+    //padding-top: 40px;
     @include maxms {
         padding-top: 25px;
     }
@@ -2709,6 +2709,7 @@ a:focus {
         border-radius: 100%;
         overflow: hidden;
         vertical-align: middle;
+        display: inline-block;
         @include maxsm{
             width: 90px;height: 90px;
         }
@@ -2719,6 +2720,7 @@ a:focus {
     .icon-name {
         padding: 0 30px;
         vertical-align: middle !important;
+        display: inline-block;
         @include maxms{
             padding: 0 20px;
         }

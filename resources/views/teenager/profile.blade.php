@@ -1322,7 +1322,7 @@
         });
         var queId = $('#traitQue').val();
         var toUserId = '';
-        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
         $("#traitsData").addClass('loading-screen-parent');
         
         var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -1339,6 +1339,19 @@
                 $("#traitsData").removeClass('loading-screen-parent');
             }
         });
+    }
+
+    function checkAnswerChecked() {
+        var answerId = [];
+        $.each($("input[name='traitAns']:checked"), function(){            
+            answerId.push($(this).val());
+        });
+        if(answerId.length != 0){
+            $("#btnSaveTrait").attr("disabled", false);
+            console.log(answerId);
+        }else{
+            $("#btnSaveTrait").attr("disabled", true);
+        }
     }
 
     function getIconName(categoryId, categoryType, page, searchText) {
@@ -1428,10 +1441,18 @@
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                 cache: false,
                 success: function(data) {
-                    if (data == '') {
-                        $('#search_icon').hide();
-                        $('#searchForIcon').val(' ');
+                    try {
+                        var valueOf = $.parseJSON(data); 
+                    } catch (e) {
+                        // not json
+                    }
+                    if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                        $("html, body").animate({
+                            scrollTop: $('#errorGoneMsg').offset().top 
+                        }, 300);
+                        $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+valueOf.message+'</span></div></div></div>');
                     } else {
+                        $('#errorGoneMsg').html("");
                         //$("#firstLevelWorldSection").html(data);
                         $("#opinionSection").html(data);
                     }

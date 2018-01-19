@@ -55,4 +55,6 @@ return [
     'emailisnotreal' => 'Email id is not real',
     'forgotPasswordSent' => 'OTP(One Time Password) is sent successfully to your email',
     'onlyoneoptionallowedforthisquestion' => 'Only one option allowed for this question',
+    'selecetatleastoneoption' => 'Select At least one option to save answer',
+    'noquestionsavailable' => 'No questions added by admin',
 ];

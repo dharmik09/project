@@ -1,11 +1,11 @@
 <form id="level1ActivityPart2" action="{{url('/teenager/save-first-level-icon-quality')}}" onsubmit="return checkQualityData()" method="post" enctype="multipart/form-data" >
     {{csrf_field()}}
     <div class="qualities-sec">
-        <div class="t-table select-qualities">
-            <div class="t-cell icon-img">
+        <div class="select-qualities">
+            <div class="icon-img">
                 <img src="{{$data['icon_image']}}" alt="{{$data['icon_name']}}">
             </div>
-            <div class="t-cell icon-name">
+            <div class="icon-name">
                 <p>Select Qualities For {{$data['icon_name']}}</p>
             </div>
         </div>
