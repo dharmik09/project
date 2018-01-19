@@ -353,7 +353,7 @@
     function fetch2ActiityQuestion(id) {
         if ( !$("#accordion"+id).hasClass("in") ) {
             $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
-            $("#section"+id).addClass('loading-screen-parent');
+            $("#section"+id).addClass('loading-screen-parent loading-large');
 
             var CSRF_TOKEN = "{{ csrf_token() }}";
             $.ajax({
@@ -366,7 +366,7 @@
                 data: {'section_id':id},
                 success: function (response) {
                     count = response.timer;
-                    $("#section"+id).removeClass('loading-screen-parent');
+                    $("#section"+id).removeClass('loading-screen-parent loading-large');
                     $("#section"+id).hide().html(response.activities).fadeIn('slow');
                     $("#percentageSection"+id).html(response.sectionPercentage);
                 }
@@ -383,7 +383,7 @@
             $("#section"+section).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
             $("#section"+section).fadeIn('slow');
         });
-        $("#section"+section).addClass('loading-screen-parent');
+        $("#section"+section).addClass('loading-screen-parent loading-large');
 
         var CSRF_TOKEN = "{{ csrf_token() }}";
         $.ajax({
@@ -396,7 +396,7 @@
             data: {'section_id':section,'answerID':answerId,'questionID':queId,'timer':timer},
             success: function (response) {
                 count = response.timer;
-                $("#section"+section).removeClass('loading-screen-parent');
+                $("#section"+section).removeClass('loading-screen-parent loading-large');
                 $("#section"+section).hide().html(response.activities).fadeIn('slow');
                 $("#percentageSection"+section).html(response.sectionPercentage);
             }
