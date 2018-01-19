@@ -1420,6 +1420,9 @@
                 if($("#useForClass").hasClass('r_after_click')){
                     $("#errorGoneMsg").html('');
                 }
+                $("html, body").animate({
+                    scrollTop: $('#errorGoneMsg').offset().top 
+                }, 300);
                 $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select any category!</span></div></div></div>');
                 return false;
             }
@@ -1427,6 +1430,9 @@
                 if($("#useForClass").hasClass('r_after_click')){
                     $("#errorGoneMsg").html('');
                 }
+                $("html, body").animate({
+                    scrollTop: $('#errorGoneMsg').offset().top 
+                }, 300);
                 $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select icon for category!</span></div></div></div>');
                 return false;
             }
@@ -1480,7 +1486,10 @@
             }).fail(function () {
                 $('.loaderSection .loading-wrapper-sub').hide();
                 $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
-                alert('Articles could not be loaded.');
+                $("html, body").animate({
+                    scrollTop: $('#errorGoneMsg').offset().top 
+                }, 300);
+                $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Page data not found!</span></div></div></div>');
             });
         }
     });
@@ -1493,6 +1502,9 @@
             if($("#useForClass").hasClass('r_after_click')){
                 $("#errorGoneMsg").html('');
             }
+            $("html, body").animate({
+                scrollTop: $('#errorGoneMsg').offset().top 
+            }, 300);
             $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select atleast five Qualities</span></div></div></div>');
             return false;
         }
