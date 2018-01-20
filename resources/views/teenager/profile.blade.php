@@ -734,19 +734,17 @@
         }
     }
     
-    function readIconURL(input) {
+    function readIconURL(input, setId) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                //var a = document.querySelector("#img-preview");
-                var a = document.querySelector("#img-upload");
+                var a = document.querySelector(setId);
                 if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
                     if (input.files[0].size > 3000000) {
                         $(".errorGoneMsgPopup").text("File size is too large. Maximum 3MB allowed");
                         $(this).val('');
                     } else {
                         a.style.backgroundImage = "url('" + e.target.result + "')";
-                        // document.getElementById("#").className = "activated";
                         a.className = "upload-img activated";
                     }
                 } else {
@@ -754,7 +752,6 @@
                     $(this).val('');
                 }
             };
-
             reader.readAsDataURL(input.files[0]);
         }
     }
@@ -1471,13 +1468,14 @@
             });
         });
 
-        $('body').on('click', '#myWorldNext', function(e) {
+        $('body').on('click', '.myWorldNext', function(e) {
             e.preventDefault();
             $("#errorGoneMsg").html('');
             var worldSelectionType = $('.icon_selection_select').val();
             var iconCategory3 = $("#icon_category_3").val();
             var relationsName = $("#relations_name").val();
-            console.log(worldSelectionType + '-----'+ iconCategory3 +'-----'+ relationsName);
+            var firstname = $("#teen_firstname").val();
+            var lastname = $("#teen_lastname").val();
             if(worldSelectionType != "" && typeof worldSelectionType !== 'undefined' && worldSelectionType == 2) {
                 if(iconCategory3 == "" || relationsName == "") {
                     $("html, body").animate({
@@ -1523,10 +1521,52 @@
                     }
                 });
             }
-            // $('.loaderSection .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
-            // $('.loaderSection .loading-wrapper-sub').show();
+            if(worldSelectionType != "" && typeof worldSelectionType !== 'undefined' && worldSelectionType == 1) {
+                if(firstname == "" || lastname == "") {
+                    $("html, body").animate({
+                        scrollTop: $('#errorGoneMsg').offset().top 
+                    }, 300);
+                    $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, fillup all required fields!</span></div></div></div>');
+                    return false;
+                }
+                $('.loaderSection .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+                $('.loaderSection .loading-wrapper-sub').show();
             
-            return false;
+                var form = $('#myOwnWorld')[0];
+                var formData = new FormData(form);
+                $.ajax({
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    //dataType: 'json',
+                    url: "{{ url('/teenager/save-first-level-icon-category') }}",
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    success: function(data) {
+                        if (typeof data !== "undefined" && typeof data.status !== "undefined" && data.status == 0) {
+                            $("html, body").animate({
+                                scrollTop: $('#errorGoneMsg').offset().top 
+                            }, 300);
+                            $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+data.message+'</span></div></div></div>');
+                        } else {
+                            $('#errorGoneMsg').html("");
+                            $("#opinionSection").html(data);
+                        }
+                        $('.loaderSection .loading-wrapper-sub').hide();
+                        $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    },
+                    error: function() {
+                        $("html, body").animate({
+                            scrollTop: $('#errorGoneMsg').offset().top 
+                        }, 300);
+                        $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Something went wrong, Please try it again!</span></div></div></div>');
+                        $('.loaderSection .loading-wrapper-sub').hide();
+                        $('.loaderSection .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    }
+                });
+            }
+            //return false;
         });
 
         function getArticles(url) {
@@ -1653,6 +1693,16 @@
         } else {
             $('#self_data').hide();
             $('#relation_data').hide();
+        }
+    }
+
+    function checkLevel1Questions(questionAttempted) {
+        if (questionAttempted == 1) {
+            $("#errorGoneMsg").html('');
+            $("html, body").animate({
+                scrollTop: $('#errorGoneMsg').offset().top 
+            }, 300);
+            $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">All options voted!</span></div></div></div>');
         }
     }
 </script>

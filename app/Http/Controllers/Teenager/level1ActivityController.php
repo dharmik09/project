@@ -134,7 +134,7 @@ class Level1ActivityController extends Controller
                         $relationList['name'] = $detail->rel_name;
                         $mainRelationArray[] = $relationList;
                     }
-                    return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted', 'mainArray', 'mainRelationArray'));
+                    return view('teenager.basic.level1ActivityWorldRelation', compact('isQuestionCompleted', 'mainArray', 'mainRelationArray', 'type'));
                 } else {
                     return view('teenager.basic.level1ActivityWorldType', compact('isQuestionCompleted'));
                 }
@@ -550,7 +550,7 @@ class Level1ActivityController extends Controller
         $self_icon_id = '0';
         if ($categoryType == 4) {
             $data = [];
-            $data['icon_name'] = $selfName;
+            $data['icon_name'] = $selfName." ".$lastName;
             if ($categoryType != '' && $self_icon_id != '') {
                 if (Input::file('self_image')) {
                     $fileSelf = Input::file('self_image');
@@ -570,7 +570,7 @@ class Level1ActivityController extends Controller
                     }
                 } else {
                     $fileNameSelf = Input::get('hidden_self_image');
-                    $data['icon_image'] = Storage::url($this->teenOriginalImageUploadPath . $fileNameSelf);
+                    $data['icon_image'] = Storage::url($this->teenThumbImageUploadPath . $fileNameSelf);
                     $iconDetail[] = $data;
                 }
 
