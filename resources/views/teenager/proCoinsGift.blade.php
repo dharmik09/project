@@ -28,18 +28,23 @@
                     <table class="table table-hover previous-gift-coin">
                         <thead>
                             <tr>
-                                <th>{{trans('labels.blheadgiftedto')}}</th>
-                                <th>{{trans('labels.giftedcoins')}}</th>
-                                <th>{{trans('labels.gifteddate')}}</th>
+                                <th>{{trans('labels.formlblimage')}}</th>
+                                <th>{{trans('labels.teentblheadname')}}</th>
+                                <th>{{trans('labels.availablecoins')}}</th>
+                                <th>Gift ProCoins</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if(!empty($teenCoinsDetail) && count($teenCoinsDetail) > 0)
-                            @foreach($teenCoinsDetail as $key=>$data)
+                            @if(!empty($activeTeenagers) && count($activeTeenagers) > 0)
+                            @foreach($activeTeenagers as $key => $data)
+                            <?php $teenImage = Helpers::getTeenagerImageUrl($data->t_photo, 'thumb'); ?>
                             <tr>
+                                <td><img src="{{$teenImage}}" alt="user_default" style="width:60px;display:inline-block;vertical-align:middle;"></td>
                                 <td>{{$data->t_name}}</td>
-                                <td><?php echo number_format($data->tcg_total_coins); ?></td>
-                                <td><?php echo date('d M Y', strtotime($data->tcg_gift_date)); ?></td>
+                                <td><?php echo number_format($data->t_coins); ?></td>
+                                <td>
+                                    
+                                </td>
                             </tr>
                             @endforeach
                             @else

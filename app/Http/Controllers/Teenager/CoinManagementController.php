@@ -52,9 +52,10 @@ class CoinManagementController extends Controller
     public function getGiftCoins() 
     {
         $teenId = Auth::guard('teenager')->user()->id;
-        $objTeenagerCoinsGift = new TeenagerCoinsGift;
-        $teenCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetail($teenId, 1);
-        return view('teenager.proCoinsGift', compact('teenCoinsDetail'));
+        $activeTeenagers = Helpers::getActiveTeenagersForDashboard($teenId);
+        $objPurchasedCoins = new PurchasedCoins();
+        $coinDetails = $this->teenagersRepository->getUserDataForCoinsDetail($teenId);
+        return view('teenager.proCoinsGift', compact('activeTeenagers', 'coinDetails'));
     }
 
     public function userSearchForGiftCoins() 
