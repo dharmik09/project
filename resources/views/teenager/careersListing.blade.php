@@ -107,7 +107,7 @@
                         $(".maindiv").html(response);
                         $(".maindiv").addClass("dataLoaded");
                         $(".maindiv").removeClass('loading-screen-parent');
-                        $('.maindiv').removeHighlight().highlight($('#search').val());
+                        //$('.maindiv').removeHighlight().highlight($('#search').val());
                     }
                 });
             }

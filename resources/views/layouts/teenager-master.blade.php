@@ -137,7 +137,6 @@
         <script src="{{ asset('js/aos.js') }}"></script>
         <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
         <script src="{{ asset('js/general.js') }}"></script>
-        <script src="{{ asset('js/jquery.highlight-5.js') }}"></script>
         
         @stack('script-footer')
         @yield('script')
