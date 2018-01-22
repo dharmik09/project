@@ -8,6 +8,7 @@ use App\Level2Answers;
 use App\Level2Options;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
+use Storage;
 
 class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implements Level2ActivitiesRepository
 {
@@ -466,6 +467,7 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
                 $temp['optionText'] = $option;
                 $optionsWithId[] = $temp;
             }
+            $activities[$key]->l2ac_image = ($activity->l2ac_image != "" && Storage::size(Config::get('constant.LEVEL2_ACTIVITY_ORIGINAL_IMAGE_UPLOAD_PATH').$activity->l2ac_image) > 0) ? Storage::url(Config::get('constant.LEVEL2_ACTIVITY_ORIGINAL_IMAGE_UPLOAD_PATH').$activity->l2ac_image) : Storage::url(Config::get('constant.LEVEL2_ACTIVITY_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
             $activities[$key]->options = $optionsWithId;
         }
         

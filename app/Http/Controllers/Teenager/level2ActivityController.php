@@ -138,7 +138,7 @@ class Level2ActivityController extends Controller {
         $answers['answerID'] = $answerID;
         $answers['questionID'] = $questionID;
         $answers['timer'] = $timer;
-        $answers['points'] = $points->l2ac_points;
+        $answers['points'] = (isset($points->l2ac_points)) ? $points->l2ac_points : 0;
 
         if(isset($answers['timer']) && $answers['timer'] == ''){
             echo "Reloading...";

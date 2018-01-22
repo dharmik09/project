@@ -115,8 +115,8 @@ class level2ActivityController extends Controller {
             $answers['answerID'] = $answerID;
             $answers['questionID'] = $questionID;
             $answers['timer'] = $timer;
-            $answers['points'] = $points->l2ac_points;
-
+            $answers['points'] = (isset($points->l2ac_points)) ? $points->l2ac_points : 0;
+            
             if (isset($request->userId) && $request->userId > 0 && isset($answers['timer']) && $answers['timer'] != '' && isset($answerID) && isset($questionID) && $questionID != 0 && $answerID != 0) {
                 $questionsArray = $this->Level2ActivitiesRepository->saveTeenagerActivityResponseOneByOne($request->userId, $answers);
                 if($questionsArray){
