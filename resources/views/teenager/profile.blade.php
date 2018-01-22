@@ -94,9 +94,9 @@
                                 <a href="#" title="Chat"><i class="icon-chat"></i>
                                     <span>3</span></a>
                             </div>
-                            <p id="display-about-info">{{ $user->t_about_info }}</p>
-                            <input type="text" class="form-control about-info" id="t_about_info" name="t_about_info" placeholder="describe yourself" value="{{ $user->t_about_info }}" >
-                            <a id="editInfo" href="javascript:void(0);" title="Edit Info">Edit</a>
+                            <p id="display-about-info">{{ ($user->t_about_info != "") ? $user->t_about_info : 'Describe yourself' }}</p><a id="editInfo" href="javascript:void(0);" title="Edit Info">Edit</a>
+                            <input type="text" class="form-control about-info" id="t_about_info" name="t_about_info" placeholder="Describe yourself" value="{{ $user->t_about_info }}" >
+                            
                         </div>
                     </div>
                     <!--profile form-->
