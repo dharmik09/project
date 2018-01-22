@@ -64,14 +64,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <ul class="color-1">
-                                        <li class="icon"><i class="icon-dollor"></i></li>
+                                        <li class="icon"><?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?></li>
                                         <?php
-                                            $average_per_year = $professionsData->professionHeaders->filter(function($item) {
-                                                return $item->pfic_title == 'average_per_year_salary_usa';
+                                            $salary_range = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'salary_range';
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($average_per_year->pfic_content) && !empty($average_per_year->pfic_content)) ? $average_per_year->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $salary_range->pfic_content : '' ?></h4>
                                             <p>average per year</p>
                                         </li>
                                     </ul>
@@ -80,12 +80,12 @@
                                     <ul class="color-2">
                                         <li class="icon"><i class="icon-clock"></i></li>
                                         <?php
-                                            $work_hours_per_week_usa = $professionsData->professionHeaders->filter(function($item) {
-                                                return $item->pfic_title == 'work_hours_per_week_usa';
+                                            $work_hours_per_week = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'work_hours_per_week';
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($work_hours_per_week_usa->pfic_content) && !empty($work_hours_per_week_usa->pfic_content)) ? $work_hours_per_week_usa->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($work_hours_per_week->pfic_content) && !empty($work_hours_per_week->pfic_content)) ? $work_hours_per_week->pfic_content : '' ?></h4>
                                             <p>hours per week</p>
                                         </li>
                                     </ul>
@@ -94,12 +94,12 @@
                                     <ul class="color-3">
                                         <li class="icon"><i class="icon-pro-user"></i></li>
                                         <?php
-                                            $positions_current_usa = $professionsData->professionHeaders->filter(function($item) {
-                                                return $item->pfic_title == 'positions_current_usa';
+                                            $positions_current = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'positions_current';
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($positions_current_usa->pfic_content) && !empty($positions_current_usa->pfic_content)) ? $positions_current_usa->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '' ?></h4>
                                             <p>US employment 2017</p>
                                         </li>
                                     </ul>
@@ -108,12 +108,12 @@
                                     <ul class="color-4">
                                         <li class="icon"><i class="icon-pro-user"></i></li>
                                         <?php
-                                            $positions_projected_usa = $professionsData->professionHeaders->filter(function($item) {
-                                                return $item->pfic_title == 'positions_projected_usa';
+                                            $positions_projected = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'positions_projected';
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($positions_projected_usa->pfic_content) && !empty($positions_projected_usa->pfic_content)) ? $positions_projected_usa->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
                                             <p>projected for 2027</p>
                                         </li>
                                     </ul>
@@ -122,10 +122,10 @@
                         </div>
                         <div class="description">
                             <div class="heading">
-                                <h4>Career Title</h4>
+                                <h4>{{$professionsData->pf_name}}</h4>
                                 <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                            <p>{{$professionsData->pf_intro}}</p>
                         </div>
                         <div class="career-detail-tab bg-white">
                             <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
@@ -134,85 +134,116 @@
                             </ul>
                             <div class="tab-content">
                                 <div id="menu1" class="tab-pane fade in active">
-                                    <div class="block">
-                                        <h4> Outlook</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                    <div class="block">
-                                        <h4>Education</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
-                                        <div class="img-sec"><img src="{{ Storage::url('img/education-img.png') }}" alt="proteen education detail"></div>
-                                    </div>
-                                    <div class="block">
-                                        <h4>Experience</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
+                                    <?php
+                                        $profession_outlook = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_outlook';
+                                        })->first();
+                                    ?>
+                                    @if(isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content))
+                                        <div class="block">
+                                            <h4> Outlook</h4>
+                                            <p>{!!$profession_outlook->pfic_content!!}</p>
+                                        </div>
+                                    @endif
+
+                                    <?php
+                                        $profession_education_path = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_education_path';
+                                        })->first();
+                                    ?>
+                                    @if(isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content))
+                                        <div class="block">
+                                            <h4>Education</h4>
+                                            <p>{!!$profession_education_path->pfic_content!!}</p>
+                                            <div class="img-sec"><img src="{{ Storage::url('img/education-img.png') }}" alt="proteen education detail"></div>
+                                        </div>
+                                    @endif
+
+
+                                    <?php
+                                        $profession_experience_and_growth_path = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_experience_and_growth_path';
+                                        })->first();
+                                    ?>
+                                    @if(isset($profession_experience_and_growth_path->pfic_content) && !empty($profession_experience_and_growth_path->pfic_content))
+                                        <div class="block">
+                                            <h4>Experience</h4>
+                                            {!!strip_tags($profession_experience_and_growth_path->pfic_content)!!}
+                                        </div>
+                                    @endif
+
+                                    <?php
+                                        $profession_certifications = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_certifications';
+                                        })->first();
+                                    ?>
                                     <div class="block">
                                         <h4>Certifications</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                        <p>{!!$profession_certifications->pfic_content!!}</p>
                                         <div class="img-list">
                                             <ul>
-                                                <li><img src="{{ Storage::url('img/compatia-icon.png') }}" alt="compatia logo"></li>
-                                                <li><img src="{{ Storage::url('img/microsoft-icon.png') }}" alt="microsoft logo"></li>
-                                                <li><img src="{{ Storage::url('img/oracle-icon.png') }}" alt="oracle logo"></li>
-                                                <li><img src="{{ Storage::url('img/cisco-icon.png') }}" alt="Cisco logo"></li>
-                                                <li><img src="{{ Storage::url('img/pmp-icon.png') }}" alt="Pmp logo"></li>
-                                                <li><img src="{{ Storage::url('img/itil-icon.png') }}" alt="ITIL logo"></li>
-                                                <li><img src="{{ Storage::url('img/redhat-icon.png') }}" alt="Redhat logo"></li>
+                                                @forelse($professionsData->professionCertificates as $professionCertificate)
+                                                <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
+                                                @empty
+                                                @endforelse
                                             </ul>
                                         </div>
                                     </div>
+                                    <?php
+                                        $profession_licensing = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_licensing';
+                                        })->first();
+                                    ?>
                                     <div class="block">
                                         <h4>Licensing</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi.</p>
+                                        <p>{!!$profession_licensing->pfic_content!!}</p>
                                     </div>
+
+                                    <?php
+                                        $profession_bridge = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_bridge';
+                                        })->first();
+                                    ?>
                                     <div class="block">
                                         <h4>Apprenticeships</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi.</p>
+                                        <p>{!!$profession_bridge->pfic_content!!}</p>
                                     </div>
+
+                                    <?php
+                                        $profession_job_activities = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_job_activities';
+                                        })->first();
+                                    ?>
                                     <div class="block">
                                         <h4>Activities</h4>
-                                        <ul>
-                                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate</li>
-                                            <li>Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi.</li>
-                                            <li>Fusce quis tincidunt justo, at bibendum lorem.</li>
-                                            <li>Fusce ut est id sem pellentesque viverra.</li>
-                                            <li>Sed aliquam mi pellentesque suscipit dignissim bibendum turpis vel suscipit accumsan.</li>
-                                            <li>Vestibulum non vulputate nibh, vel congue turpis.</li>
-                                            <li>Mauris non tellus in mi commodo ornare et sodales mi.</li>
-                                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                                            <li>Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor.</li>
-                                        </ul>
+                                        {!!$profession_job_activities->pfic_content!!}
                                     </div>
+                                    <?php
+                                        $profession_ability = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_ability';
+                                        })->first();
+                                    ?>
                                     <div class="block">
                                         <h4>Abilities</h4>
-                                        <ul>
-                                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate</li>
-                                            <li>Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi.</li>
-                                            <li>Fusce quis tincidunt justo, at bibendum lorem.</li>
-                                            <li>Fusce ut est id sem pellentesque viverra.</li>
-                                            <li>Sed aliquam mi pellentesque suscipit dignissim bibendum turpis vel suscipit accumsan.</li>
-                                            <li>Vestibulum non vulputate nibh, vel congue turpis.</li>
-                                        </ul>
+                                        {!!$profession_ability->pfic_content!!}
                                     </div>
+                                    <?php
+                                        $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_subject_knowledge';
+                                        })->first();
+                                    ?>
                                     <div class="block">
                                         <h4>Knowledge</h4>
-                                        <ul>
-                                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate</li>
-                                            <li>Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi.</li>
-                                            <li>Fusce quis tincidunt justo, at bibendum lorem.</li>
-                                            <li>Fusce ut est id sem pellentesque viverra.</li>
-                                        </ul>
+                                        {!!$profession_subject_knowledge->pfic_content!!}
                                     </div>
+                                    <?php
+                                        $profession_skills = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_skills';
+                                        })->first();
+                                    ?>
                                     <div class="block">
                                         <h4>Skills</h4>
-                                        <ul>
-                                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate</li>
-                                            <li>Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi.</li>
-                                            <li>Fusce quis tincidunt justo, at bibendum lorem.</li>
-                                            <li>Fusce ut est id sem pellentesque viverra.</li>
-                                            <li>Sed aliquam mi pellentesque suscipit dignissim bibendum turpis vel suscipit accumsan.</li>
-                                        </ul>
+                                        {!!$profession_skills->pfic_content!!}
                                     </div>
                                 </div>
                                 <div id="menu2" class="tab-pane fade in ">
@@ -846,24 +877,10 @@
                                 </div>
                             </div>
                             <ul class="tag-list">
-                                <li><a href="{{ url('/teenager/career-tag') }}" title="Lorem ipsum">Lorem ipsum</a></li>
-                                <li>Dolore</li>
-                                <li>Curabitur</li>
-                                <li>Vulputate</li>
-                                <li>Dignissim</li>
-                                <li>Turpis</li>
-                                <li>Lobortis</li>
-                                <li>Placerat</li>
-                                <li>Commodo</li>
-                                <li>Lorem ipsum</li>
-                                <li>Dolore</li>
-                                <li>Curabitur</li>
-                                <li>Vulputate</li>
-                                <li>Dignissim</li>
-                                <li>Turpis</li>
-                                <li>Lobortis</li>
-                                <li>Placerat</li>
-                                <li>Commodo</li>
+                                @forelse($professionsData->professionTags as $professionTags)
+                                    <li><a href="{{ url('/teenager/career-tag/'.$professionTags->tag['id']) }}" title="Lorem ipsum">{{$professionTags->tag['pt_name']}}</a></li>
+                                @empty
+                                @endforelse
                             </ul>
                         </div>
                         <div class="ad-v">

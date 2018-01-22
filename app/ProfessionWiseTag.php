@@ -53,4 +53,8 @@ class ProfessionWiseTag extends Model
         $return = ProfessionWiseTag::where('profession_id',$id)->delete();
         return $return;
     }
+
+    public function tag(){
+        return $this->belongsTo(ProfessionTag::class, 'tag_id');
+    }
 }
