@@ -1225,7 +1225,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
      */
 
     public function getTeenagerByUniqueId($teenagerUniqueId) {
-        $result = DB::table(config::get('databaseconstants.TBL_TEENAGERS'))->where('deleted', '1')->where('t_uniqueid', $teenagerUniqueId)->first();
+        $result = $this->model->with('getCountry')->where('deleted', '1')->where('t_uniqueid', $teenagerUniqueId)->first();
         return $result;
     }
 

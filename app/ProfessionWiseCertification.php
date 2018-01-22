@@ -54,4 +54,8 @@ class ProfessionWiseCertification extends Model
         $return = ProfessionWiseCertification::where('profession_id',$id)->delete();
         return $return;
     }
+
+    public function certificate(){
+        return $this->belongsTo(Certification::class, 'certificate_id');
+    }
 }

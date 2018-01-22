@@ -74,7 +74,7 @@ Route::post('/search-career-grid', 'Teenager\ProfessionController@gridGetSearch'
 // Route::get('/career-grid', function() {
 	// return view('teenager.careerGrid');
 // });
-Route::get('/career-tag', function() {
+Route::get('/career-tag/{slug}', function() {
 	return view('teenager.careerTag');
 });
 

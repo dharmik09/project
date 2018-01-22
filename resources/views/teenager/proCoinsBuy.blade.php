@@ -81,7 +81,7 @@
                                         <?php
                                             if (isset($val->id) && $val->id != '0') {
                                                 $uploadCoinsThumbPath = '/uploads/coins/original/';
-                                                if (isset($val->c_image) && $val->c_image != '') {
+                                                if (isset($val->c_image) && $val->c_image != '' && Storage::size($uploadCoinsThumbPath . $val->c_image) > 0) {
                                                     $coinImage = Storage::url($uploadCoinsThumbPath . $val->c_image);
                                                     $altImage = $val->c_image;
                                                 } else { 

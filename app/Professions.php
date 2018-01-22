@@ -41,8 +41,12 @@ class Professions extends Model {
                 ->with(['professionHeaders' => function ($query) {
                             $query->where('country_id',$this->country_id);
                         }])
-                ->with('certificates')
-                ->with('tags')
+                ->with(['professionCertificates' => function ($query) {
+                            $query->with('certificate');
+                        }])
+                ->with(['professionTags' => function ($query) {
+                            $query->with('tag');
+                        }])
                 ->with(['starRatedProfession' => function ($query) {
                             $query->where('srp_teenager_id',$this->user_id);
                         }])
@@ -56,11 +60,11 @@ class Professions extends Model {
         return $this->hasMany(ProfessionHeaders::class, 'pfic_profession');
     }
 
-    public function certificates(){
+    public function professionCertificates(){
         return $this->hasMany(ProfessionWiseCertification::class, 'profession_id');
     }
 
-    public function tags(){
+    public function professionTags(){
         return $this->hasMany(ProfessionWiseTag::class, 'profession_id');
     }
 
