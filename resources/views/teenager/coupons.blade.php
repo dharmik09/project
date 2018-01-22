@@ -131,6 +131,17 @@
             $('#searchForUser').val('');
         }
 
+        $(document).ready(function() {
+            $(document).on('click', '.pagination a', function (e) {
+                var couponid = $("#coupon_id").val();
+                var search = $("#searchForUser").val();
+                var teenid = <?php echo Auth::guard('teenager')->user()->id; ?>;
+                var page = $(this).attr('href').split('page=')[1];
+                getUsers(search,teenid,couponid,page);
+                e.preventDefault();
+            });
+        });
+
         function getUsers(search_keyword, teenager_id, coupon_id, page)
         {
             coupon_id = $("#coupon_id").val();

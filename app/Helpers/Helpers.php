@@ -694,7 +694,7 @@ Class Helpers {
         } else {
             $path = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         }
-        if ($image != '' && isset($image)) {
+        if ($image != '' && isset($image) && Storage::size($path . $image) > 0) {
             $teenagerImage = $image;
         } else {
             $teenagerImage = 'proteen-logo.png';
