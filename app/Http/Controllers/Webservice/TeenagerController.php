@@ -30,7 +30,8 @@ class TeenagerController extends Controller
 		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
     	$teenager = $this->teenagersRepository->getTeenagerDetailById($request->userId);
         if($request->userId != "" && $teenager) {
-            $activeTeenagers = Helpers::getActiveTeenagersForCoupon($request->userId, $request->pageNo);
+            $pageNo = ($request->pageNo != "" && $request->pageNo > 0) ? $request->pageNo : 0;
+            $activeTeenagers = Helpers::getActiveTeenagersForCoupon($request->userId, $pageNo);
             $teenagerArray = [];
             if (!empty($activeTeenagers)) {
                 $teenagersArr = $activeTeenagers->toArray();
@@ -49,9 +50,15 @@ class TeenagerController extends Controller
                     }
                 }
             }
+            $nextPageExist = Helpers::getActiveTeenagersForCoupon($request->userId, $pageNo + 1);
+            if (isset($nextPageExist) && count($nextPageExist) > 0) {
+                $response['pageNo'] = $pageNo;
+            } else {
+                $response['pageNo'] = '-1';
+            }
             $response['status'] = 1;
             $response['login'] = 1;
-            $response['pageNo'] = $request->pageNo;
+            //$response['pageNo'] = $pageNo;
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data']['users'] = $teenagerArray;
         } else {
@@ -91,9 +98,15 @@ class TeenagerController extends Controller
                     }
                 }
             }
+            $nextPageExist = $objTeenager->getActiveTeenagersForCouponSearch($request->userId, $page + 1, $searchArray);
+            if (isset($nextPageExist) && count($nextPageExist) > 0) {
+                $response['pageNo'] = $page;
+            } else {
+                $response['pageNo'] = '-1';
+            }
             $response['status'] = 1;
             $response['login'] = 1;
-            $response['pageNo'] = $page;
+            //$response['pageNo'] = $page;
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data']['users'] = $teenagerArray;
         } else {

@@ -1,6 +1,6 @@
 <div class="real-world-survey clearfix fictional-world">
     <div class="selection-container">
-        <form id="level1ActivityWorldForm" action="{{ url('teenager/save-level1-world-data') }}" method="post">
+        <form id="level1ActivityWorldForm" action="{{ url('teenager/save-first-level-icon-category') }}" method="post">
             {{csrf_field()}}
             <div class="row sec-filter">
                 <div class="col-sm-4">
@@ -32,10 +32,10 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group custom-select">
-                                <select tabindex="8" class="form-control" name="categoryId" id="categoryIdValue" onChange="getIconName(this.value, '1', 1, '')" data-category-type="1">
-                                    @if(isset($maincartoonIconCategoryArray) && $maincartoonIconCategoryArray)
+                                <select tabindex="8" class="form-control" name="categoryId" id="categoryIdValue" onChange="getIconName(this.value, '2', 1, '')" data-category-type="2">
+                                    @if(isset($mainhumanIconCategoryArray) && $mainhumanIconCategoryArray)
                                         <option value="">Select Category</option>
-                                        @foreach($maincartoonIconCategoryArray as $mainIconArray)
+                                        @foreach($mainhumanIconCategoryArray as $mainIconArray)
                                             <option value="{{ $mainIconArray['id'] }}">{{$mainIconArray['name']}}</option>
                                         @endforeach
                                     @else
@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-sm-12 searchOnIcon" style="display:none">
                             <div class="form-group search-bar clearfix">
-                                <input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="searchForIcon" onkeyup="getIconName('4', '1', 1, this.value)">
+                                <input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="searchForIcon" onkeyup="getIconName('4', '2', 1, this.value)">
                                 <button type="submit" class="btn-search"><i class="icon-search"></i></button>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
 <div class="modal fade custom-select" id="fiction_modal_icon" role="dialog">
     <form method="post" action="{{ url('/teenager/add-icon-category') }}" enctype="multipart/form-data" id="fictionForm">
         {{csrf_field()}}
-        <input type="hidden" name="categoryType" value="1"/>
+        <input type="hidden" name="categoryType" value="2"/>
         <div class="modal-dialog">
             <div class="modal-content custom-modal">
                 <div class="modal-header">
@@ -96,10 +96,10 @@
                     <div class="sec-filter">
                         
                         <div class="form-group custom-select">
-                            <select tabindex="8" class="form-control" data-category-type="1" id="categoryName1" name="categoryId">
-                                @if(isset($maincartoonIconCategoryArray) && $maincartoonIconCategoryArray)
+                            <select tabindex="8" class="form-control" data-category-type="2" id="categoryName1" name="categoryId">
+                                @if(isset($mainhumanIconCategoryArray) && $mainhumanIconCategoryArray)
                                     <option value="">Select Category</option>
-                                    @foreach($maincartoonIconCategoryArray as $mainIconArray)
+                                    @foreach($mainhumanIconCategoryArray as $mainIconArray)
                                         <option value="{{ $mainIconArray['id'] }}">{{$mainIconArray['name']}}</option>
                                     @endforeach
                                 @else
@@ -112,7 +112,7 @@
                         </div>
                         <div class="upload-img profile-img" id="img-upload">
                             <span><i class="icon-plus"></i></span>
-                            <input type="file" id="icon_image" name="image" accept="image/*" onchange="readIconURL(this);">
+                            <input type="file" id="icon_image" name="image" accept="image/*" onchange="readIconURL(this, '#img-upload');">
                         </div>
                     </div>
                 </div>
@@ -122,67 +122,4 @@
             </div>
         </div>
     </form>
-</div>
-
-
-
-
-
-<div class="inner_container">
-    <div class="landing_container">
-        <h1><span class="title_border">Vote</span></h1>
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-6 borderright">
-                <a href="<?php if($isQuestionCompleted == 0) { ?> {{ url('/teenager/playLevel1Activity') }} <?php } else { echo "javascript:void(0)"; }?>" class="landing_box landing_l1" onclick="checkLevel1Questions({{$isQuestionCompleted}});">
-                    <span class="img_container">
-                        <span class="landing_icon">
-                            <span class="vote"></span>
-                        </span>
-                    </span>
-                    <span class="title_container">
-                        <span class="main_title">Opinions</span>
-                    </span>
-                </a>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-6 borderbottom">
-                <a href="javascript:void(0);" onClick="playFirstLevelWorldType(1)" class="landing_box landing_l2">
-                    <span class="img_container">
-                        <span class="landing_icon">
-                            <span class="fiction"></span>
-                        </span>
-                    </span>
-                    <span class="title_container">
-                        <span class="main_title">Fictional World</span>
-                    </span>
-                </a>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-6 bordertop">
-                    <a onClick="playFirstLevelWorldType(2)" href="javascript:void(0);" class="landing_box landing_l3 right">
-                        <span class="img_container">
-                            <span class="landing_icon">
-                                <span class="real"></span>
-                            </span>
-                        </span>
-                        <span class="title_container">
-                            <span class="main_title">Real World</span>
-                        </span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-6 borderleft">
-                    <a onClick="playFirstLevelWorldType(3)" href="javascript:void(0);" class="landing_box landing_l4">
-                        <span class="img_container">
-                            <span class="landing_icon">
-                                <span class="family"></span>
-                            </span>
-                        </span>
-                        <span class="title_container">
-                            <span class="main_title">Your World</span>
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

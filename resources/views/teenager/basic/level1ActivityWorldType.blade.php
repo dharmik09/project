@@ -3,7 +3,7 @@
     <div class="level-container">
         <div class="row">
             <div class="col-xs-6 border-right">
-                <a href="<?php if($isQuestionCompleted == 0) { ?> {{ url('/teenager/playLevel1Activity') }} <?php } else { echo "javascript:void(0)"; }?>" class="level-block" onclick="checkLevel1Questions({{$isQuestionCompleted}});">
+                <a href="javascript:void(0)" class="level-block" onclick="checkLevel1Questions({{$isQuestionCompleted}});">
                     <figure class="landing_icon">
                         <span class="vote"></span>
                     </figure>
