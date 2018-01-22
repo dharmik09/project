@@ -240,9 +240,9 @@ class Level1ActivityController extends Controller
             $toUserId = $this->teenagersRepository->getTeenagerByUniqueId($toUser)->id;
         }
         $traitAllQuestion = $this->level1ActivitiesRepository->getAllLeve1Traits();
-        if(count($traitAllQuestion)>0){
+        if(count($traitAllQuestion) > 0){
             $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId,$toUserId);
-            if(count($traitQuestion)>0){
+            if(count($traitQuestion) > 0){
                 $return = '<div class="survey-list">
                     <div class="qualities-sec">
                         <p>'.$traitQuestion[0]->tqq_text.'</p>

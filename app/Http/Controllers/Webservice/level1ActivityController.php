@@ -511,13 +511,13 @@ class Level1ActivityController extends Controller
             $teenagerID = $request->userId;
             //For self data
             $lastInterId = '';
-            $teenagerDetail['t_nickname'] = '';
+            //$teenagerDetail['t_nickname'] = '';
             $teenagerDetail['t_lastname'] = '';
             $teenagerDetail['t_name'] = '';
             $self_user_image_url = '';
             $teenagerData = $this->teenagersRepository->getTeenagerById($request->userId);
             if ($request->selfIconType != '' && $request->selfIconId != '') {
-                $teenagerDetail['t_nickname'] = ($request->nickname != '') ? $request->nickname : $teenagerData->t_nickname;
+                //$teenagerDetail['t_nickname'] = ($request->nickname != '') ? $request->nickname : $teenagerData->t_nickname;
                 $teenagerDetail['t_lastname'] = ($request->lastname != '') ? $request->lastname : $teenagerData->t_lastname;
                 $teenagerDetail['t_name'] = ($request->name != '') ? $request->name : $teenagerData->t_name;
                 $fileName = '';
@@ -831,9 +831,9 @@ class Level1ActivityController extends Controller
             }
 
             //For self data
-            $teenagerDetail['t_nickname'] = '';
+            //$teenagerDetail['t_nickname'] = '';
             if ($request->selfIconType != '' && $request->selfIconId != '') {
-                $teenagerDetail['t_nickname'] = ($request->nickname != "") ? $request->nickname : "";
+                //$teenagerDetail['t_nickname'] = ($request->nickname != "") ? $request->nickname : "";
                 $teenagerDetail['t_lastname'] = ($request->lastname != "") ? $request->lastname : "";
                 $fileName = '';
                 $self_user_image_url = '';
