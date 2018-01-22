@@ -63,7 +63,6 @@
                 <div class="upload-img profile-img" id="custom-img-new" @if($profilePicUrl != "") style='background-image: url({{$profilePicUrl}})' @endif>
                     <span><i class="icon-plus"></i></span>
                     <input type='file' id="img-upload2" name="self_image" class="upload_button upload-img img-upload" accept=".png, .jpg, .jpeg, .bmp" onchange="readIconURL(this, '#custom-img-new');"/>
-                                
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
