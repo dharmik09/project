@@ -94,9 +94,17 @@
                                 <a href="#" title="Chat"><i class="icon-chat"></i>
                                     <span>3</span></a>
                             </div>
-                            <p id="display-about-info">{{ ($user->t_about_info != "") ? $user->t_about_info : 'Describe yourself' }}</p><a id="editInfo" href="javascript:void(0);" title="Edit Info">Edit</a>
-                            <input type="text" class="form-control about-info" id="t_about_info" name="t_about_info" placeholder="Describe yourself" value="{{ $user->t_about_info }}" >
-                            
+                            <div class="about-info-block">
+                                <p id="display-about-info" style="">{{ ($user->t_about_info != "") ? $user->t_about_info : 'Describe yourself' }}
+                                    <a id="editInfo" href="javascript:void(0);" title="Describe yourself" class="editInfo">
+                                        <img src="{{Storage::url('img/edit.png')}}" alt="Describe yourself">
+                                    </a>
+                                </p>
+                                <input type="text" class="form-control about-info" id="t_about_info" name="t_about_info" placeholder="Describe yourself" value="{{ $user->t_about_info }}" style="display: none;">
+                                <a id="editInfo" href="javascript:void(0);" title="Describe yourself" class="editInfo hide editInfo-outer">
+                                    <img src="{{Storage::url('img/edit.png')}}" alt="Describe yourself">
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <!--profile form-->
@@ -755,9 +763,8 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-
+    
     $(document).ready(function() {
-        getFirstLevelData();
         $('#icon-slider').owlCarousel({
             loop: true,
             margin: 0,
@@ -767,9 +774,7 @@
             smartSpeed: 1000,
             nav: false,
             dots: false
-            //singleItem: true
         });
-
         $('.mentor-list ul').owlCarousel({
             loop: false,
             margin: 0,
@@ -985,72 +990,13 @@
         }
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
-        fetchLevel1TraitQuestion();
-
-        
-        // $("#fictionSave").on('click', (function(e) {
-        //     console.log(); return false;
-        //     e.preventDefault();
-        //     $(".errorCode").text('');
-        //     var cat1Value = Number($("#categoryName1").val());
-        //     var cat1NameValue = $("#characterName1").val().trim();
-        //     var cat2Value = Number($("#categoryName2").val());
-        //     var cat2NameValue = $("#characterName2").val().trim();
-        //     var submitIconData = false;
-        //     var messageD = "Please, fillup all required data";
-        //     if(cat1Value > 0 && cat1NameValue != '' && cat1NameValue.length > 0){
-        //         submitIconData = true;
-        //     }else if(cat2Value > 0 && cat2NameValue != '' && cat2NameValue.length > 0){
-        //         submitIconData = true;
-        //     }else{
-        //         submitIconData = false;
-        //     }
-        //     if(submitIconData){
-        //         $.ajax({
-        //             url: "{{ url('/teenager/addIconCategory')}}",
-        //             type: "POST",
-        //             data: new FormData(this),
-        //             dataType: 'json',
-        //             contentType: false,
-        //             cache: false,
-        //             processData: false,
-        //             success: function(data) {
-        //                 if (data.status == 1) {
-        //                     if (data.categoryType == 1) {
-        //                         $("#icon_category").val(data.categoryid);
-        //                         $('#icon_category').trigger("change");
-        //                         $("#myModal1").modal('hide');
-        //                     } else if (data.categoryType == 2) {
-        //                         $("#icon_category").val(data.categoryid);
-        //                         $('#icon_category').trigger("change");
-        //                         $("#myModal2").modal('hide');
-        //                     } else {
-
-        //                     }
-        //                 } else {
-        //                     if($("#useForClassPopup").hasClass('r_after_click_popup')){
-        //                         $(".errorGoneMsgPopup").html('');
-        //                     }
-        //                     $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>Something went wrong, Please try it again</div></div></div>');
-        //                 }
-        //             },
-        //             error: function() {
-        //                 if($("#useForClassPopup").hasClass('r_after_click_popup')){
-        //                     $(".errorGoneMsgPopup").html('');
-        //                 }
-        //                 $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>Something went wrong, Please try it again</div></div></div>');
-
-        //             }
-        //         });
-        //     }else{
-        //         if($("#useForClassPopup").hasClass('r_after_click_popup')){
-        //             $(".errorGoneMsgPopup").html('');
-        //         }
-        //         $(".errorGoneMsgPopup").append('<div class="col-md-8 col-md-offset-2 r_after_click_popup" id="useForClassPopup"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>'+messageD+'</div></div></div>');
-        //     }
-        // }));
     });
     
+    $(window).on("load", function(e) {
+        e.preventDefault();
+        getFirstLevelData();
+        fetchLevel1TraitQuestion();
+    });
 
     function getFirstLevelData() {
         $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
@@ -1060,7 +1006,6 @@
             type : 'POST',
             headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
             success: function(data){
-                //$('#opinionSection').fadeIn(3000);
                 $('#opinionSection').show();
                 $('#opinionSection').html(data);
                 $('#loading-wrapper-sub').hide();
@@ -1082,10 +1027,6 @@
                 $('#loading-wrapper-sub').hide();
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             }
-            // error: function (xhr, ajaxOptions, thrownError) {
-            //     var errorMsg = 'Ajax request failed: ' + xhr.responseText;
-            //     $('#content').html(errorMsg);
-            // }
         });
     }
 
