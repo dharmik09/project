@@ -1,18 +1,21 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>{{trans('labels.blheadgiftedto')}}</th>
-            <th>{{trans('labels.giftedcoins')}}</th>
-            <th>{{trans('labels.gifteddate')}}</th>
+            <th>{{trans('labels.formlblimage')}}</th>
+            <th>{{trans('labels.teentblheadname')}}</th>
+            <th>{{trans('labels.availablecoins')}}</th>
+            <th>Gift ProCoins</th>
         </tr>
     </thead>
     <tbody>
-        @if(!empty($teenCoinsDetail) && count($teenCoinsDetail) > 0)
-        @foreach($teenCoinsDetail as $key=>$data)
+        @if(!empty($activeTeenagers) && count($activeTeenagers) > 0)
+        @foreach($activeTeenagers as $key => $data)
+        <?php $teenImage = Helpers::getTeenagerImageUrl($data->t_photo, 'thumb'); ?>
         <tr>
+            <td><img src="{{$teenImage}}" alt="user_default" style="width:60px;display:inline-block;vertical-align:middle;"></td>
             <td>{{$data->t_name}}</td>
-            <td><?php echo number_format($data->tcg_total_coins); ?></td>
-            <td><?php echo date('d M Y', strtotime($data->tcg_gift_date)); ?></td>
+            <td><?php echo number_format($data->t_coins); ?></td>
+            <td><input type="text" placeholder="Enter Procoins" class="procoins-amt form-control"><a href="javascript:void(0)" title="gift" class="btn btn-default gft-btn">Gift</a></td>
         </tr>
         @endforeach
         @else
@@ -25,12 +28,12 @@
             </div>
         </div>
         @endif
+        @if (isset($activeTeenagers) && !empty($activeTeenagers))
         <tr>
-        <td colspan="3">
-            @if (isset($teenCoinsDetail) && !empty($teenCoinsDetail))
-                  <?php echo $teenCoinsDetail->render(); ?>
-            @endif
-        </td>
-    </tr>
+            <td colspan="4">
+                  <?php echo $activeTeenagers->render(); ?>
+            </td>
+        </tr>
+        @endif
     </tbody>
 </table>

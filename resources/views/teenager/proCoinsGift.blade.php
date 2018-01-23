@@ -9,8 +9,8 @@
     <div class="bg-offwhite">
         <div class="procoin-heading gift-heading">
             <div class="container">
-                <h1 class="font-blue">gift</h1>
-                <p>You have <strong class="font-blue">0</strong> gifts</p>
+                <h1 class="font-blue">{{trans('labels.availablecoins')}}</h1>
+                <p>You have <strong class="font-blue">@if(!empty($coinDetail)) <?php echo number_format($coinDetail['t_coins']);?> @endif</strong> procoins</p>
                 <div class="procoin-form gift-form">
                     <form>
                         <div class="form-group search-bar clearfix">
@@ -24,27 +24,28 @@
         <!--procoins sec-->
         <div class="container">
             <div class="bg-white procoins-gift">
+                <div id="loading-wrapper-sub" class="loading-screen remove-loader">
+                    <div id="loading-text">
+                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                    <div id="loading-content">
+                    </div>
+                </div>
                 <div id="giftTable" class="gift-table table-responsive">
                     <table class="table table-hover previous-gift-coin">
                         <thead>
                             <tr>
-                                <th>{{trans('labels.formlblimage')}}</th>
-                                <th>{{trans('labels.teentblheadname')}}</th>
-                                <th>{{trans('labels.availablecoins')}}</th>
-                                <th>Gift ProCoins</th>
+                                <th>{{trans('labels.blheadgiftedto')}}</th>
+                                <th>{{trans('labels.giftedcoins')}}</th>
+                                <th>{{trans('labels.gifteddate')}}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if(!empty($activeTeenagers) && count($activeTeenagers) > 0)
-                            @foreach($activeTeenagers as $key => $data)
-                            <?php $teenImage = Helpers::getTeenagerImageUrl($data->t_photo, 'thumb'); ?>
+                            @if(!empty($teenCoinsDetail) && count($teenCoinsDetail) > 0)
+                            @foreach($teenCoinsDetail as $key => $data)
                             <tr>
-                                <td><img src="{{$teenImage}}" alt="user_default" style="width:60px;display:inline-block;vertical-align:middle;"></td>
                                 <td>{{$data->t_name}}</td>
-                                <td><?php echo number_format($data->t_coins); ?></td>
-                                <td>
-                                    
-                                </td>
+                                <td><?php echo number_format($data->tcg_total_coins); ?></td>
+                                <td><?php echo date('d M Y', strtotime($data->tcg_gift_date)); ?></td>
                             </tr>
                             @endforeach
                             @else
@@ -89,24 +90,39 @@
         e.preventDefault();
     });
     function userSearch(search_keyword, teenagerId, page) {
-        //$('.loader_outer_container').show();
         search_keyword = (search_keyword).trim();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'search_keyword=' + search_keyword + '&teenagerId=' +teenagerId;
-        $.ajax({
-            type: 'POST',
-            data: form_data,
-            url: "{{ url('/teenager/user-search-for-gifted-coins?page=') }}"+page,
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            },
-            cache: false,
-            success: function(data) {
-                $('.mySearch_area').show();
-                $('.mySearch_area').html(data);
-                $('#giftTable').hide();
-            }
-        });
+        //if (search_keyword.length > 0) {
+            $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+            $('#loading-wrapper-sub').show();
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                url: "{{ url('/teenager/user-search-to-gift-coins?page=') }}"+page,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                cache: false,
+                success: function(data) {
+                    $('.mySearch_area').show();
+                    $('.mySearch_area').html(data);
+                    $('#loading-wrapper-sub').hide();
+                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    $('#giftTable').hide();
+                }
+            });
+        // } else {
+        //     if (search_keyword.length == 0) {
+        //         $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        //         $('#loading-wrapper-sub').show();
+        //         $('.mySearch_area').hide();
+        //         $('.mySearch_area').html("");
+        //         $('#giftTable').show();
+        //     }
+            //$('#loading-wrapper-sub').hide();
+            //$('#loading-wrapper-sub').parent().removeClass('loading-screen-parent'); 
+        //}
     }
 </script>
 @endsection
