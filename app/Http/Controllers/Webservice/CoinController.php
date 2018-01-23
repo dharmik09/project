@@ -77,11 +77,11 @@ class CoinController extends Controller
         exit;
     }
 
-    /* Request Params : requestToParent
+    /* Request Params : requestToParentForProCoins
      *  loginToken, userId, parentEmail
      *  Service after loggedIn user
      */
-    public function requestToParent(Request $request)
+    public function requestToParentForProCoins(Request $request)
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
