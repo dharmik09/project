@@ -47,6 +47,9 @@ class Professions extends Model {
                 ->with(['professionTags' => function ($query) {
                             $query->with('tag');
                         }])
+                ->with(['professionSubject' => function ($query) {
+                            $query->with('subject');
+                        }])
                 ->with(['starRatedProfession' => function ($query) {
                             $query->where('srp_teenager_id',$this->user_id);
                         }])
@@ -66,6 +69,10 @@ class Professions extends Model {
 
     public function professionTags(){
         return $this->hasMany(ProfessionWiseTag::class, 'profession_id');
+    }
+
+    public function professionSubject(){
+        return $this->hasMany(ProfessionWiseSubject::class, 'profession_id');
     }
 
     public function starRatedProfession(){

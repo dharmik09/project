@@ -40,8 +40,8 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/saveTeenagerAboutInfo', 'Webservice\ProfileController@saveTeenagerAboutInfo');
 	Route::post('/getTeenagerEarnAchievement', 'Webservice\ProfileController@getTeenagerEarnAchievement');
 
-	Route::post('/getActiveTeenages', 'Webservice\TeenagerController@getActiveTeenages');
-	Route::post('/getActiveTeenagesBySearch', 'Webservice\TeenagerController@getActiveTeenagesBySearch');
+	Route::post('/getActiveTeenagers', 'Webservice\TeenagerController@getActiveTeenagers');
+	Route::post('/getActiveTeenagersBySearch', 'Webservice\TeenagerController@getActiveTeenagersBySearch');
 	//Parent&Mentor invitation section
 	Route::post('/getParentMentorList', 'Webservice\ParentController@getParentMentorList');
 	Route::post('/parentTeenPair', 'Webservice\ParentController@parentTeenPair');
@@ -106,4 +106,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//Coupon
 	Route::post('/getCoupons', 'Webservice\CouponController@getCoupons');
 	Route::post('/consumeCoupon', 'Webservice\CouponController@consumeCoupon');
+
+	//ProCoins
+	Route::post('/getProCoinsPackages', 'Webservice\CoinController@getProCoinsPackages');
 });
