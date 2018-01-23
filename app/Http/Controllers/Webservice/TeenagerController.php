@@ -22,7 +22,7 @@ class TeenagerController extends Controller
         
     }
 
-    /* Request Params : getActiveTeenages
+    /* Request Params : getActiveTeenagers
     *  loginToken, userId, pageNo
     */
     public function getActiveTeenagers(Request $request)
@@ -68,7 +68,7 @@ class TeenagerController extends Controller
         exit;
     }
 
-    /* Request Params : getActiveTeenagesBySearch
+    /* Request Params : getActiveTeenagersBySearch
     *  loginToken, userId, searchText, pageNo, 
     */
     public function getActiveTeenagersBySearch(Request $request)
