@@ -302,7 +302,17 @@ $(document).ready(function () {
     $('.refresh-text').click(function () {
         $(".refresh-img").attr('src', "img/Reload.gif");
     });
-    
+    //accordian to top
+    $(function () {
+    $('#accordion').on('shown.bs.collapse', function (e) {
+        var offset = $(this).find('.collapse.in').prev('.panel-heading');
+        if(offset) {
+            $('html,body').animate({
+                scrollTop: $(offset).offset().top -0
+            }, 500); 
+        }
+    }); 
+});
 });
 /*$(document).ready(function () {
     // Handler for .ready() called.

@@ -47,6 +47,7 @@
 .gift-heading {
     h1 {
         margin-bottom: 10px;
+        text-transform: capitalize;
     }
 }
 
@@ -102,7 +103,7 @@
                     }
                     .gft-btn {
                         display: inline-block;
-                        width: 39%;
+                        width: 120px;
                         margin-bottom: 0;
                         vertical-align: top;
                         text-align: center;
@@ -168,10 +169,10 @@
 
 .procoins-amt {
     display: inline-block;
-    width: 60%;
+    width: 120px;
     height: 38px;
     vertical-align: top;
-    margin-right: -1px;
+    margin:0 10px 5px 0;
     font-size: 14px;
     @include maxms{
         padding: 6px 8px;
