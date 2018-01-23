@@ -10,7 +10,7 @@
         <div class="procoin-heading gift-heading">
             <div class="container">
                 <h1 class="font-blue">{{trans('labels.availablecoins')}}</h1>
-                <p>You have <strong class="font-blue">@if(!empty($coinDetail)) <?php echo number_format($coinDetail['t_coins']);?> @endif</strong> gifts</p>
+                <p>You have <strong class="font-blue">@if(!empty($coinDetail)) <?php echo number_format($coinDetail['t_coins']);?> @endif</strong> procoins</p>
                 <div class="procoin-form gift-form">
                     <form>
                         <div class="form-group search-bar clearfix">
