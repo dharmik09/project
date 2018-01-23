@@ -31,7 +31,7 @@ class CoinController extends Controller
     }
 
     /* Request Params : getProCoinsPackages
-     *  loginToken, userId, userType
+     *  loginToken, userId
      *  Service after loggedIn user
      */
     public function getProCoinsPackages(Request $request)
@@ -40,7 +40,7 @@ class CoinController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
             $data = [];
-            $coinsDetail = $this->coinRepository->getAllCoinsPackageDetail($request->userType);
+            $coinsDetail = $this->coinRepository->getAllCoinsPackageDetail(Config::get('constant.COIN_PACKAGE_TEENAGER_TYPE'));
             $teenData = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
             foreach ($coinsDetail AS $key => $value) {
                 if ($value->currency == 2) {
