@@ -54,9 +54,9 @@ class TeenagerCoinsGift extends Model {
 
         return $coinsDetail;
     }
-    public function getTeenagerCoinsGiftDetailHistory($id,$type,$slot) {
+    public function getTeenagerCoinsGiftDetailHistory($id, $type, $slot) {
         if ($slot > 0) {
-            $slot = $slot * config::get('constant.RECORD_PER_PAGE');
+            $slot = $slot * Config::get('constant.RECORD_PER_PAGE');
         }
         $coinsDetail = DB::table(config::get('databaseconstants.TBL_TEENAGER_GIFT_COINS') . " AS g_coins")
                 ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'g_coins.tcg_reciver_id', '=', 'teen.id')
@@ -65,7 +65,7 @@ class TeenagerCoinsGift extends Model {
                 ->where('g_coins.tcg_user_type',$type)
                 ->orderBy('g_coins.id','desc')
                 ->skip($slot)
-                ->take(config::get('constant.RECORD_PER_PAGE'))
+                ->take(Config::get('constant.RECORD_PER_PAGE'))
                 ->get();
 
         return $coinsDetail;

@@ -15,6 +15,7 @@ use Mail;
 use App\Services\Coin\Contracts\CoinRepository;
 use App\TeenParentRequest;
 use App\Services\Parents\Contracts\ParentsRepository;
+use App\TeenagerCoinsGift;
 
 class CoinController extends Controller
 {
@@ -32,6 +33,7 @@ class CoinController extends Controller
         $this->coinsOriginalImageUploadPath = Config::get('constant.COINS_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->objTeenParentRequest = new TeenParentRequest;
         $this->parentsRepository = $parentsRepository;
+        $this->objTeenagerCoinsGift = new TeenagerCoinsGift;
     }
 
     /* Request Params : getProCoinsPackages
@@ -61,8 +63,9 @@ class CoinController extends Controller
                 }
                 $value->c_image = $url;
             }
-            $data['coinsPackage'] = $coinsDetail;
+            $data['coinInfo'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur.";
             $data['availableCoins'] = (isset($teenData) && !empty($teenData)) ? $teenData['t_coins'] : 0;
+            $data['coinsPackage'] = $coinsDetail;
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -120,6 +123,45 @@ class CoinController extends Controller
             }
             $response['login'] = 1;
             
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getGiftedCoinsHistory
+     *  loginToken, userId, userType, pageNo
+     *  Service after loggedIn user
+     */
+    public function getGiftedCoinsHistory(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $data = [];
+            $page = $request->pageNo;
+            $teenData = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
+            $response['availableCoins'] = (isset($teenData) && !empty($teenData)) ? $teenData['t_coins'] : 0;
+            $teenCoinsDetail = $this->objTeenagerCoinsGift->getTeenagerCoinsGiftDetailHistory($request->userId, $request->userType, $page);
+            $finalData = [];
+            foreach ($teenCoinsDetail AS $key => $value) {
+                $finalData['name'] = $value->t_name;
+                $finalData['email'] = $value->t_email;
+                $finalData['proCoins'] = $value->tcg_total_coins;
+                $finalData['giftDate'] = date('d M Y', strtotime($value->tcg_gift_date));
+                $data[] = $finalData;
+            }
+            $nextPageExist = $this->objTeenagerCoinsGift->getTeenagerCoinsGiftDetailHistory($request->userId, $request->userType, $page + 1);
+            if (isset($nextPageExist) && count($nextPageExist) > 0) {
+                $response['pageNo'] = $page;
+            } else {
+                $response['pageNo'] = '-1';
+            }
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
