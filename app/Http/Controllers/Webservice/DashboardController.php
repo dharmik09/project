@@ -186,7 +186,7 @@ class DashboardController extends Controller
                 $interest = $this->objInterest->getInterestDetailBySlug($request->interestSlug);
                 if($interest) {
                     $interest->it_video = ($interest->it_video != "") ? Helpers::youtube_id_from_url($interest->it_video) : "";
-                    $interest->it_logo = ($interest->it_logo != "") ? Storage::url($this->interestThumbImageUploadPath . $interest->it_logo) : Storage::url($this->interestThumbImageUploadPath . "proteen-logo.png");
+                    $interest->it_logo = ($interest->it_logo != "" && Storage::url($this->interestThumbImageUploadPath . $interest->it_logo) > 0) ? Storage::url($this->interestThumbImageUploadPath . $interest->it_logo) : Storage::url($this->interestThumbImageUploadPath . "proteen-logo.png");
                 }
                 $data = $interest;
                 $relatedCareers = [     ['id' => 1, 'pf_name' => "Library Technicians", 'attempted' => 1, 'matched' => 'strong'], 
