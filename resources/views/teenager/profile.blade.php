@@ -69,7 +69,7 @@
                                 <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
                             </div>
                             <div class="photo-error"></div>
-                            <span class="complete-detail">Profile 62% complete</span>
+                            <span class="complete-detail">Profile 23% complete</span>
                         </div>
                         <?php
                             if($user->t_pincode != "")
