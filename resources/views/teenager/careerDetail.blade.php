@@ -177,6 +177,7 @@
                                             return $item->pfic_title == 'profession_certifications';
                                         })->first();
                                     ?>
+                                    @if(isset($profession_certifications->pfic_content) && !empty($profession_certifications->pfic_content))
                                     <div class="block">
                                         <h4>Certifications</h4>
                                         <p>{!!$profession_certifications->pfic_content!!}</p>
@@ -189,62 +190,78 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    @endif
                                     <?php
                                         $profession_licensing = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_licensing';
                                         })->first();
                                     ?>
+                                    @if(isset($profession_licensing->pfic_content) && !empty($profession_licensing->pfic_content))
                                     <div class="block">
                                         <h4>Licensing</h4>
                                         <p>{!!$profession_licensing->pfic_content!!}</p>
                                     </div>
+                                    @endif
 
                                     <?php
                                         $profession_bridge = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_bridge';
                                         })->first();
                                     ?>
+                                    @if(isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content))
                                     <div class="block">
                                         <h4>Apprenticeships</h4>
                                         <p>{!!$profession_bridge->pfic_content!!}</p>
                                     </div>
+                                    @endif
 
                                     <?php
                                         $profession_job_activities = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_job_activities';
                                         })->first();
                                     ?>
+                                    @if(isset($profession_job_activities->pfic_content) && !empty($profession_job_activities->pfic_content))
                                     <div class="block">
                                         <h4>Activities</h4>
                                         {!!$profession_job_activities->pfic_content!!}
                                     </div>
+                                    @endif
+                                    
                                     <?php
                                         $profession_ability = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_ability';
                                         })->first();
                                     ?>
+                                    @if(isset($profession_ability->pfic_content) && !empty($profession_ability->pfic_content))
                                     <div class="block">
                                         <h4>Abilities</h4>
                                         {!!$profession_ability->pfic_content!!}
                                     </div>
+                                    @endif
+
                                     <?php
                                         $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_subject_knowledge';
                                         })->first();
                                     ?>
+                                    @if(isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content))
                                     <div class="block">
                                         <h4>Knowledge</h4>
                                         {!!$profession_subject_knowledge->pfic_content!!}
                                     </div>
+                                    @endif
+
                                     <?php
                                         $profession_skills = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_skills';
                                         })->first();
                                     ?>
+                                    @if(isset($profession_skills->pfic_content) && !empty($profession_skills->pfic_content))
                                     <div class="block">
                                         <h4>Skills</h4>
                                         {!!$profession_skills->pfic_content!!}
                                     </div>
+                                    @endif
                                 </div>
                                 <div id="menu2" class="tab-pane fade in ">
                                     <div class="explore-table table-responsive">
