@@ -25,7 +25,7 @@ class TeenagerController extends Controller
     /* Request Params : getActiveTeenages
     *  loginToken, userId, pageNo
     */
-    public function getActiveTeenages(Request $request)
+    public function getActiveTeenagers(Request $request)
     {
 		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
     	$teenager = $this->teenagersRepository->getTeenagerDetailById($request->userId);
@@ -71,7 +71,7 @@ class TeenagerController extends Controller
     /* Request Params : getActiveTeenagesBySearch
     *  loginToken, userId, searchText, pageNo, 
     */
-    public function getActiveTeenagesBySearch(Request $request)
+    public function getActiveTeenagersBySearch(Request $request)
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerDetailById($request->userId);
