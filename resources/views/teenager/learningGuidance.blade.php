@@ -36,22 +36,22 @@
                             switch($learningGuidanceData['slug']) {
                                 case Config::get('constant.FACTUAL_SLUG'):
                                     $panelClass = 'factual';
-                                    $tagClass = 'factual-cl';
+                                    $tagClass = 'factual-cl dataCollapse';
                                     break;
 
                                 case Config::get('constant.CONSEPTUAL_SLUG'):
                                     $panelClass = 'conceptual-cl';
-                                    $tagClass = 'conceptual';
+                                    $tagClass = 'conceptual dataCollapse';
                                     break;
 
                                 case Config::get('constant.PROCEDURAL_SLUG'):
                                     $panelClass = 'procedural-cl';
-                                    $tagClass = 'procedural';
+                                    $tagClass = 'procedural dataCollapse';
                                     break;
 
                                 case Config::get('constant.META_SLUG'):
                                     $panelClass = 'meta-cl';
-                                    $tagClass = 'meta';
+                                    $tagClass = 'meta dataCollapse';
                                     break;
 
                                 default: 
@@ -59,9 +59,15 @@
                                     break;
                             }; ?>
                             <div class="panel panel-default {{$panelClass}}">
-                                <div class="panel-heading">
+                                <div class="panel-heading accordionClass{{$learningGuidanceData['id']}}">
                                     <h4 class="panel-title">
-                                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$learningGuidanceData['id']}}" class="{{$tagClass}}"><span class="icon"><img src="{{ $learningGuidanceData['image'] }}" alt="icon img"></span>{{$learningGuidanceData['name']}}</a></h4>
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$learningGuidanceData['id']}}" class="{{$tagClass}}" data-class-id="{{$learningGuidanceData['id']}}">
+                                            <span class="icon">
+                                                <img src="{{ $learningGuidanceData['image'] }}" alt="icon img">
+                                            </span>
+                                            {{$learningGuidanceData['name']}}
+                                        </a>
+                                    </h4>
                                 </div>
                                 <?php $panelStyle = (isset($learningGuidanceData['id']) && $learningGuidanceData['id'] == 1) ? "in" : ""; ?>
                                 <div class="panel-collapse collapse {{$panelStyle}}" id="accordion{{$learningGuidanceData['id']}}">
@@ -115,3 +121,19 @@
         <!-- mid section end-->
     </div>
 @stop
+
+@section('script')
+    <script type="text/javascript">
+        $('.dataCollapse').on('click', function(e){
+            // var hrefId = $(this).parent().find('data-class-id').html();
+            // console.log(hrefId);
+            // theOffset = $(".accordionClass"+hrefId).offset();
+            // console.log(theOffset);
+            // $('.accordionClass'+hrefId).scrollTop();
+            // $("html, body").animate({
+            //     scrollTop: $(".accordionClass"+hrefId).offset().top 
+            //     //scrollTop: theOffset.top - 300
+            // });
+        });
+    </script>
+@endsection

@@ -127,6 +127,7 @@ class Level1ActivityController extends Controller
                     $response['attemptLevel1At'] = 1;
                 }
             }
+            $response['attemptedCompletionMessage'] = "Your profile survey completed 100%, But if you want to vote more Icon please click on below";
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
