@@ -9,8 +9,8 @@
     <div class="bg-offwhite">
         <div class="procoin-heading gift-heading">
             <div class="container">
-                <h1 class="font-blue">gift</h1>
-                <p>You have <strong class="font-blue">0</strong> gifts</p>
+                <h1 class="font-blue">{{trans('labels.availablecoins')}}</h1>
+                <p>You have <strong class="font-blue">@if(!empty($coinDetail)) <?php echo number_format($coinDetail['t_coins']);?> @endif</strong> gifts</p>
                 <div class="procoin-form gift-form">
                     <form>
                         <div class="form-group search-bar clearfix">
@@ -24,6 +24,12 @@
         <!--procoins sec-->
         <div class="container">
             <div class="bg-white procoins-gift">
+                <div id="loading-wrapper-sub" class="loading-screen remove-loader">
+                    <div id="loading-text">
+                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                    <div id="loading-content">
+                    </div>
+                </div>
                 <div id="giftTable" class="gift-table table-responsive">
                     <table class="table table-hover previous-gift-coin">
                         <thead>
@@ -84,24 +90,39 @@
         e.preventDefault();
     });
     function userSearch(search_keyword, teenagerId, page) {
-        //$('.loader_outer_container').show();
         search_keyword = (search_keyword).trim();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'search_keyword=' + search_keyword + '&teenagerId=' +teenagerId;
-        $.ajax({
-            type: 'POST',
-            data: form_data,
-            url: "{{ url('/teenager/user-search-for-gifted-coins?page=') }}"+page,
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            },
-            cache: false,
-            success: function(data) {
-                $('.mySearch_area').show();
-                $('.mySearch_area').html(data);
-                $('#giftTable').hide();
-            }
-        });
+        //if (search_keyword.length > 0) {
+            $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+            $('#loading-wrapper-sub').show();
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                url: "{{ url('/teenager/user-search-to-gift-coins?page=') }}"+page,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                cache: false,
+                success: function(data) {
+                    $('.mySearch_area').show();
+                    $('.mySearch_area').html(data);
+                    $('#loading-wrapper-sub').hide();
+                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    $('#giftTable').hide();
+                }
+            });
+        // } else {
+        //     if (search_keyword.length == 0) {
+        //         $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        //         $('#loading-wrapper-sub').show();
+        //         $('.mySearch_area').hide();
+        //         $('.mySearch_area').html("");
+        //         $('#giftTable').show();
+        //     }
+            //$('#loading-wrapper-sub').hide();
+            //$('#loading-wrapper-sub').parent().removeClass('loading-screen-parent'); 
+        //}
     }
 </script>
 @endsection

@@ -87,9 +87,16 @@
                 }
             }
             tr {
+                &:last-child{
+                    td{
+                        border-bottom: none;
+                    }
+                }
                 td {
                     padding: 10px 15px;
                     vertical-align: middle;
+                    border-bottom: 1px solid #ddd;
+                    border-top: none;
                     @include maxsm {
                         padding: 6px 10px;
                     }

@@ -22,6 +22,7 @@ use App\TeenParentRequest;
 use App\Services\Template\Contracts\TemplatesRepository;
 use Mail;
 use Redirect;
+use App\Teenagers;
 
 class CoinManagementController extends Controller
 {
@@ -42,6 +43,7 @@ class CoinManagementController extends Controller
         $this->templateRepository = $templatesRepository;
         $this->coinRepository = $coinRepository;
         $this->parentsRepository = $parentsRepository;
+        $this->objTeenager = new Teenagers;
     }
 
     /**
@@ -54,26 +56,21 @@ class CoinManagementController extends Controller
         $teenId = Auth::guard('teenager')->user()->id;
         $objTeenagerCoinsGift = new TeenagerCoinsGift;
         $teenCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetail($teenId, 1);
-        return view('teenager.proCoinsGift', compact('teenCoinsDetail'));
+        $coinDetail = $this->teenagersRepository->getUserDataForCoinsDetail($teenId);
+        return view('teenager.proCoinsGift', compact('teenCoinsDetail', 'coinDetail'));
     }
 
-    public function userSearchForGiftCoins() 
+    public function userSearchToGiftCoins() 
     {
         $searchKeyword = Input::get('search_keyword');
-        $teenagerId = Input::get('teenagerId');
+        $teenId = Input::get('teenagerId');
         $searchArray = explode(",", $searchKeyword);
-        $objTeenagerCoinsGift = new TeenagerCoinsGift;
-        if ($searchKeyword != '') {
-            $teenCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetailName($teenagerId, 1, $searchArray);
-
-            return view('teenager.searchGiftedCoins', compact('teenCoinsDetail'));
-            exit;
+        if ($searchKeyword != "") {
+            $activeTeenagers = $this->objTeenager->getMultipleActiveTeenagersForGiftCoins($teenId, $searchArray);
         } else {
-            $teenCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetail($teenagerId, 1);
-
-            return view('teenager.searchGiftedCoins', compact('teenCoinsDetail'));
-            exit;
+            $activeTeenagers = Helpers::getActiveTeenagersForDashboard($teenId);
         }
+        return view('teenager.searchGiftedCoins', compact('activeTeenagers'));
     }
 
     /**
