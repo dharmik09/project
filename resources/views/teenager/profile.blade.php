@@ -650,11 +650,11 @@
                 <div class="panel-collapse collapse" id="accordion1">
                     <div class="panel-body">
                         <div class="list clearfix">
+                            <div class="achievement_error"></div>
                             <form id="teenager_achievement" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-teenager-achievement-info') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                             {{ csrf_field() }}
                                 <div class="col-sm-12">
                                     <textarea name="meta_value" id="achievement">{{ isset($teenagerMeta['achievement'][0]['meta_value']) ? $teenagerMeta['achievement'][0]['meta_value'] : "" }}</textarea>
-                                    <span class="achievement_error"></span>
                                 </div>
                                 <div class="text-center">
                                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -684,11 +684,11 @@
                 <div class="panel-collapse collapse" id="accordion2">
                     <div class="panel-body">
                         <div class="list clearfix">
+                            <div class="academic_error"></div>
                             <form id="teenager_academic" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-teenager-academic-info') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                             {{ csrf_field() }}
                                 <div class="col-sm-12">
                                     <textarea name="meta_value" id="academic">{{ isset($teenagerMeta['education'][0]['meta_value']) ? $teenagerMeta['education'][0]['meta_value'] : "" }}</textarea>
-                                    <span class="academic_error"></span>
                                 </div>
                                 <div class="text-center">
                                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -1064,7 +1064,11 @@
         var myContent = CKEDITOR.instances.achievement.getData();
         if(myContent == "")
         {
-            $(".achievement_error").text("Please add achievement!").show().fadeOut(5000);
+            $(".achievement_error").html('');
+            $("html, body").animate({
+                scrollTop: $('.achievement_error').offset().top 
+            }, 300);
+            $(".achievement_error").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please add achievement!</span></div></div></div>');
             return false;
         }
         return true;
@@ -1073,7 +1077,11 @@
         var myContent = CKEDITOR.instances.academic.getData();
         if(myContent == "")
         {
-            $(".academic_error").text("Please add academic detail!").show().fadeOut(5000);
+            $(".academic_error").html('');
+            $("html, body").animate({
+                scrollTop: $('.academic_error').offset().top 
+            }, 300);
+            $(".academic_error").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please add academic detail!</span></div></div></div>');
             return false;
         }
         return true;
