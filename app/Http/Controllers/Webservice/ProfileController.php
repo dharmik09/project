@@ -117,7 +117,7 @@ class ProfileController extends Controller
 
             $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
             $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
-            
+            $response['attemptedCompletionMessage'] = "Your profile survey completed 100%, But if you want to vote more Icon please click on below";
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
