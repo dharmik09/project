@@ -45,8 +45,8 @@
                                         </a>
                                     </div>
                                     <div class="vol-btn">
-                                        <span class="vol-on"><img src="{{ Storage::url('img/icon-vol.png') }}" ></span>
-                                        <span class="vol-off hide"><img src="{{ Storage::url('img/vol-mute.png') }}" ></span>
+                                        <span class="vol-on {{ (Auth::guard('teenager')->user()->is_sound_on != 1) ? 'hide' : ''}}" ><img src="{{ Storage::url('img/icon-vol.png') }}" ></span>
+                                        <span class="vol-off {{ (Auth::guard('teenager')->user()->is_sound_on != 0) ? 'hide' : ''}}"><img src="{{ Storage::url('img/vol-mute.png') }}" ></span>
                                     </div>
                                 </div>
                                 <div class="btns">

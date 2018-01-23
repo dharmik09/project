@@ -85,6 +85,7 @@ class Level1ActivityController extends Controller
                 //$type = 5;
                 //Get top trending images
                 $topTrendingImages = $this->level1ActivitiesRepository->getAllTopTrendingImages($type);
+                //print_r($topTrendingImages); die();
                 $topImages['image'] = $toptrending = [];
                 if (isset($topTrendingImages[0]) && !empty($topTrendingImages)) {
                     foreach ($topTrendingImages as $key => $val) {
