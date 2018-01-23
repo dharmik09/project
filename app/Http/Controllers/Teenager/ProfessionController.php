@@ -325,9 +325,9 @@ class ProfessionController extends Controller {
         }
 
         $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
-        // echo "<pre>"; print_r($professionsData); exit;
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
-        return view('teenager.careerDetail', compact('professionsData', 'countryId','professionCertificationImagePath'));
+        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
+        return view('teenager.careerDetail', compact('professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath'));
     }
 
     public function addStarToCareer(Request $request) 

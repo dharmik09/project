@@ -155,7 +155,7 @@
                                         <div class="block">
                                             <h4>Education</h4>
                                             <p>{!!$profession_education_path->pfic_content!!}</p>
-                                            <div class="img-sec"><img src="{{ Storage::url('img/education-img.png') }}" alt="proteen education detail"></div>
+                                            <div id="education_chart">Chart Loads here...</div>  
                                         </div>
                                     @endif
 
@@ -191,6 +191,7 @@
                                         </div>
                                     </div>
                                     @endif
+
                                     <?php
                                         $profession_licensing = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_licensing';
@@ -224,6 +225,26 @@
                                     <div class="block">
                                         <h4>Activities</h4>
                                         {!!$profession_job_activities->pfic_content!!}
+                                    </div>
+                                    @endif
+
+                                    <?php
+                                        $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_subject_knowledge';
+                                        })->first();
+                                    ?>
+                                    @if(isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content))
+                                    <div class="block">
+                                        <h4>Subjects</h4>
+                                        <p>{!!$profession_subject_knowledge->pfic_content!!}</p>
+                                        <div class="img-list">
+                                            <ul>
+                                                @forelse($professionsData->professionSubject as $professionSubject)
+                                                <li><img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo"></li>
+                                                @empty
+                                                @endforelse
+                                            </ul>
+                                        </div>
                                     </div>
                                     @endif
                                     
@@ -923,107 +944,187 @@
     </div>
 @stop
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $('.play-icon').click(function() {
-                $(this).hide();
-                $('iframe').show();
-            })
-            $('.btn-next').click(function() {
-                $('.front_page').hide();
-                $('.promise-plus-overlay').show(500);
-            })
-            $('.promise-plus-overlay .close').click(function() {
-                $('.promise-plus-overlay').hide();
-                $('.front_page').show(500);
-            })
-            $('.btn-basic').click(function() {
-                $('.quiz-basic .sec-show').addClass('hide');
-                $('.quiz-basic .basic-quiz-area').addClass('active');
-            })
-            $('.quiz-box .close').click(function() {
-                $('.sec-show').removeClass('hide');
-                $('.sec-hide').removeClass('active');
-            });
-            $('.btn-intermediate').click(function(){
-                $('.quiz-intermediate .sec-show').addClass('hide');
-                $('.quiz-intermediate .sec-hide').addClass('active');
-            })
-            $('.quiz-area .close').click(function() {
-                 $('.sec-show').removeClass('hide');
-                $('.sec-hide').removeClass('active');
-            });
-            $('.btn-advanced').click(function(){
-                $('.quiz-advanced .sec-show').addClass('hide');
-                $('.quiz-advanced .sec-hide').addClass('active');
-            })
-            $('.upload-screen .close').click(function() {
-                 $('.sec-show').removeClass('hide');
-                $('.sec-hide').removeClass('active');
-            });
+<script src="{{ asset('backend/js/highchart.js')}}"></script>
 
-            $(".progress-match").each(function(){
+<script>
+    $(document).ready(function() {
+        $('.play-icon').click(function() {
+            $(this).hide();
+            $('iframe').show();
+        })
+        $('.btn-next').click(function() {
+            $('.front_page').hide();
+            $('.promise-plus-overlay').show(500);
+        })
+        $('.promise-plus-overlay .close').click(function() {
+            $('.promise-plus-overlay').hide();
+            $('.front_page').show(500);
+        })
+        $('.btn-basic').click(function() {
+            $('.quiz-basic .sec-show').addClass('hide');
+            $('.quiz-basic .basic-quiz-area').addClass('active');
+        })
+        $('.quiz-box .close').click(function() {
+            $('.sec-show').removeClass('hide');
+            $('.sec-hide').removeClass('active');
+        });
+        $('.btn-intermediate').click(function(){
+            $('.quiz-intermediate .sec-show').addClass('hide');
+            $('.quiz-intermediate .sec-hide').addClass('active');
+        })
+        $('.quiz-area .close').click(function() {
+             $('.sec-show').removeClass('hide');
+            $('.sec-hide').removeClass('active');
+        });
+        $('.btn-advanced').click(function(){
+            $('.quiz-advanced .sec-show').addClass('hide');
+            $('.quiz-advanced .sec-hide').addClass('active');
+        })
+        $('.upload-screen .close').click(function() {
+             $('.sec-show').removeClass('hide');
+            $('.sec-hide').removeClass('active');
+        });
 
-              var $bar = $(this).find(".bar");
-              var $val = $(this).find("span");
-              var perc = parseInt( $val.text(), 10);
+        $(".progress-match").each(function(){
 
-              $({p:0}).animate({p:perc}, {
-                duration: 3000,
-                easing: "swing",
-                step: function(p) {
-                  $bar.css({
-                    transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
-                    // 45 is to add the needed rotation to have the green borders at the bottom
-                  });
-                  $val.text(p|0);
-                }
+          var $bar = $(this).find(".bar");
+          var $val = $(this).find("span");
+          var perc = parseInt( $val.text(), 10);
+
+          $({p:0}).animate({p:perc}, {
+            duration: 3000,
+            easing: "swing",
+            step: function(p) {
+              $bar.css({
+                transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
+                // 45 is to add the needed rotation to have the green borders at the bottom
               });
-            });
-        });
-        // timer
-        jQuery(document).ready(function($) {
-            var count = 1;
-            var counter = setInterval(timer, 1000);
-            function secondPassed() {
-                var minutes = Math.round((count - 30) / 60);
-                var remainingcount = count % 60;
-                if (remainingcount < 10) {
-                    remainingcount = "0" + remainingcount;
-                }
-                $('.time-tag,.time-tag').text(minutes + ":" + remainingcount);
-                $('.time-tag').show();
+              $val.text(p|0);
             }
-            function timer() {
-                if (count < 0) {
-                }
-                else {
-                    secondPassed();
-                }
-                count = count + 1;
-                if (count == 60)
-                {
-                    //saveBoosterPoints(teenagerId, professionId, 2,isyoutube);
+          });
+        });
+    });
+    // timer
+    jQuery(document).ready(function($) {
+        var count = 1;
+        var counter = setInterval(timer, 1000);
+        function secondPassed() {
+            var minutes = Math.round((count - 30) / 60);
+            var remainingcount = count % 60;
+            if (remainingcount < 10) {
+                remainingcount = "0" + remainingcount;
+            }
+            $('.time-tag,.time-tag').text(minutes + ":" + remainingcount);
+            $('.time-tag').show();
+        }
+        function timer() {
+            if (count < 0) {
+            }
+            else {
+                secondPassed();
+            }
+            count = count + 1;
+            if (count == 60)
+            {
+                //saveBoosterPoints(teenagerId, professionId, 2,isyoutube);
+            }
+        }
+    });
+
+    $(document).on('click','#add-to-star',function(){
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'careerId=' + '{{$professionsData->id}}';
+        $.ajax({
+            url : '{{ url("teenager/add-star-to-career") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+            },
+            dataType: "json",
+            success : function (response) {
+                if (response != '') {
+                    $('#add-to-star').addClass('favourite-career');
                 }
             }
         });
-        $(document).on('click','#add-to-star',function(){
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form_data = 'careerId=' + '{{$professionsData->id}}';
-            $.ajax({
-                url : '{{ url("teenager/add-star-to-career") }}',
-                method : "POST",
-                data: form_data,
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN,
-                },
-                dataType: "json",
-                success : function (response) {
-                    if (response != '') {
-                        $('#add-to-star').addClass('favourite-career');
+    });
+    
+    <?php
+        $high_school_req = $professionsData->professionHeaders->filter(function($item) {
+            return $item->pfic_title == 'high_school_req';
+        })->first();
+        $junior_college_req = $professionsData->professionHeaders->filter(function($item) {
+            return $item->pfic_title == 'junior_college_req';
+        })->first();
+        $bachelor_degree_req = $professionsData->professionHeaders->filter(function($item) {
+            return $item->pfic_title == 'bachelor_degree_req';
+        })->first();
+        $masters_degree_req = $professionsData->professionHeaders->filter(function($item) {
+            return $item->pfic_title == 'masters_degree_req';
+        })->first();
+
+        if(isset($high_school_req->pfic_content) && !empty($high_school_req->pfic_content) && isset($junior_college_req->pfic_content) && !empty($junior_college_req->pfic_content) && isset($bachelor_degree_req->pfic_content) && !empty($bachelor_degree_req->pfic_content) && isset($masters_degree_req->pfic_content) && !empty($masters_degree_req->pfic_content)){
+
+            $high_school = strip_tags($high_school_req->pfic_content);
+            $junior_college = strip_tags($junior_college_req->pfic_content);
+            $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
+            $masters_degree = strip_tags($masters_degree_req->pfic_content);
+
+            $chartArray[] = array('y'=> (int) strip_tags($high_school), 'name' => 'High School', 'color' => '#ff5f44');
+            $chartArray[] = array('y'=> (int) strip_tags($junior_college), 'name' => 'Bachelors Degree', 'color' => '#65c6e6');
+            $chartArray[] = array('y'=> (int) strip_tags($bachelor_degree), 'name' => 'Masters Degree', 'color' => '#73376d');
+            $chartArray[] = array('y'=> (int) strip_tags($masters_degree), 'name' => 'PhD', 'color' => '#27a6b5');
+        }
+    ?>
+
+    var educationChartData = <?php echo json_encode($chartArray);  ?>;
+    console.log(educationChartData);
+    loadChart('column','',educationChartData,'education_chart');
+
+    function loadChart(chartType,total,chartData,loadDiv){
+        $('#'+loadDiv).highcharts({
+            chart: {
+                type: chartType,
+            },
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                type: 'category',
+            },
+            legend: {
+                enabled:false
+            },
+            yAxis: {                
+                title: {
+                    text: ''
+                },                
+                lineWidth: 0                
+            },
+                        
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: false,
+                        format: ''
                     }
                 }
-            });
-            });
-    </script>
+            },
+            tooltip: {
+                pointFormat: ''
+            },
+            series: [{
+                    colorByPoint: true,
+                    data: chartData
+                }]
+           
+        });
+    }
+
+</script>
 @stop
