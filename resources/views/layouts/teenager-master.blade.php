@@ -79,13 +79,12 @@
                 <div class="menu-container">
                     <ul>
                         <li><a href="{{ url('/teenager/home') }}" title="Dashboard" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/home']) ? 'active' : ''}}">Dashboard</a></li>
-                        <li><a href="{{ url('/teenager/home') }}" title="Careers" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/careers']) ? 'active' : ''}}">Careers</a></li>
+                        <li><a href="{{ url('/teenager/list-career') }}" title="Careers" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/list-career']) ? 'active' : ''}}">Careers</a></li>
                         <li><a href="{{ url('/teenager/community') }}" title="Community" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/community']) ? 'active' : ''}}">Community</a></li>
                         <li><a href="{{ url('/teenager/my-profile') }}" title="Profile" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/my-profile', 'teenager/edit-profile']) ? 'active' : ''}}">Profile</a></li>
                         <li><a href="{{ url('/teenager/coupons') }}" title="Coupons" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/coupons']) ? 'active' : ''}}">Coupons</a></li>
                         <li><a href="{{ url('/teenager/chat') }}" title="Chat" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/chat']) ? 'active' : ''}}">Chat</a></li>
                         <li><a href="{{ url('/teenager/help') }}" title="Help" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/help']) ? 'active' : ''}}">Help</a></li>
-                        
                     </ul>
                     <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">
                     <a href="#" class="menu-close"><i class="icon-close"></i></a>

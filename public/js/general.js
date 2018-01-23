@@ -108,7 +108,7 @@ $(document).ready(function () {
     $('body').on('click', '.popover-closer', function (event) {
         $('.custompop').popover('hide');
     });
-
+    
 
     /*// add iframe url for a map
 		function loadMap(iframeObject)
@@ -224,7 +224,37 @@ $(document).ready(function () {
             $(this).text('Expand');
         }
     })
-
+    $('.text-overflow').each(function(index, el) {
+                var parent = $(el).closest('.full-text');
+                var btn = parent.find('.read-more');
+                var elementHt = parent.find('.text-full').outerHeight();
+                if (elementHt > 70) {
+                    btn.addClass('less');
+                    btn.css('display', 'block');
+                }
+                btn.click(function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if ($(this).hasClass('less')) {
+                        $(this).removeClass('less');
+                        $(this).addClass('more');
+                        $(this).text('Read Less');
+                        $(this).attr('title', 'Read Less');
+                        var ht = $(this).closest('.full-text').find('.text-full').outerHeight();
+                        $(this).closest('.full-text').find('.text-overflow').animate({
+                            'height': ht
+                        });
+                    } else {
+                        $(this).addClass('less');
+                        $(this).removeClass('more');
+                        $(this).text('Read More');
+                        $(this).attr('title', 'Read More');
+                        $(this).closest('.full-text').find('.text-overflow').animate({
+                            'height': '70px'
+                        });
+                    }
+                });
+            });
     //progressbar
     $(function () {
         $(window).scroll(function () {
@@ -284,8 +314,16 @@ $(document).ready(function () {
   // get hash value
   var hash = window.location.hash;
   // now scroll to element with that id
-  $('window, body').animate({ scrollTop: $(hash).offset().top },2000);
+  $('html, body').animate({ scrollTop: $(hash).offset().top },2000);
 });*/
+if(window.location.hash) {
+  // Fragment exists
+    var hash = window.location.hash;
+  // now scroll to element with that id
+  $('html, body').animate({ scrollTop: $(hash).offset().top},2000);
+} else {
+  // Fragment doesn't exist
+}
 //menu close
 $(document).keydown(function (e) {
     // ESCAPE key pressed
