@@ -916,7 +916,7 @@
                             </div>
                             <ul class="tag-list">
                                 @forelse($professionsData->professionTags as $professionTags)
-                                    <li><a href="{{ url('/teenager/career-tag/'.$professionTags->tag['id']) }}" title="Lorem ipsum">{{$professionTags->tag['pt_name']}}</a></li>
+                                    <li><a href="{{ url('/teenager/career-tag/'.$professionTags->tag['pt_slug']) }}" title="Lorem ipsum">{{$professionTags->tag['pt_name']}}</a></li>
                                 @empty
                                 @endforelse
                             </ul>
@@ -1075,6 +1075,8 @@
             $chartArray[] = array('y'=> (int) strip_tags($junior_college), 'name' => 'Bachelors Degree', 'color' => '#65c6e6');
             $chartArray[] = array('y'=> (int) strip_tags($bachelor_degree), 'name' => 'Masters Degree', 'color' => '#73376d');
             $chartArray[] = array('y'=> (int) strip_tags($masters_degree), 'name' => 'PhD', 'color' => '#27a6b5');
+        }else{
+            $chartArray = [];
         }
     ?>
 
