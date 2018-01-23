@@ -53,4 +53,8 @@ class ProfessionWiseSubject extends Model
         $return = ProfessionWiseSubject::where('profession_id',$id)->delete();
         return $return;
     }
+
+    public function subject(){
+        return $this->belongsTo(ProfessionSubject::class, 'subject_id');
+    }
 }
