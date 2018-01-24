@@ -161,8 +161,8 @@ class ProfessionManagementController extends Controller {
                 Image::make($file->getRealPath())->resize($this->professionThumbImageWidth, $this->professionThumbImageHeight)->save($pathThumb);
 
                 if ($hiddenLogo != '') {
-                    $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->professionThumbImageUploadPath, "s3");
-                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->cartoonThumbImageUploadPath, "s3");
+                    $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->professionOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->professionThumbImageUploadPath, "s3");
                 }
 
                 //Uploading on AWS

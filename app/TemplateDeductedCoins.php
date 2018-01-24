@@ -58,7 +58,7 @@ class TemplateDeductedCoins extends Model {
         return $deductedDetail;
     }
 
-    public function getDeductedCoinsDetailHistory($id,$userType,$slot, $type) {
+    public function getDeductedCoinsDetailHistory($id, $userType, $slot, $type = '') {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }

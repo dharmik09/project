@@ -22,13 +22,18 @@ class Transactions extends Model
         return $response;
     }
 
-    public function getTransactionsDetail($id, $type) {
+    public function getTransactionsDetail($id, $type, $slot = '') {
+        if ($slot > 0) {
+            $slot = $slot * Config::get('constant.RECORD_PER_PAGE');
+        }
         $transaction = DB::table(config::get('databaseconstants.TBL_TEENAGER_TRANSACTION') . " AS trans")
                 ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'trans.tn_userid')
                 ->selectRaw('trans.* , tn_email, t_name')
-                ->where('trans.tn_userid',$id)
-                ->where('trans.tn_user_type',$type)
+                ->where('trans.tn_userid', $id)
+                ->where('trans.tn_user_type', $type)
                 ->orderBy('trans.id','desc')
+                ->skip($slot)
+                ->take(Config::get('constant.RECORD_PER_PAGE'))
                 ->get();
         return $transaction;
     }

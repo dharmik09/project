@@ -186,9 +186,15 @@ class DashboardController extends Controller
                 $interest = $this->objInterest->getInterestDetailBySlug($request->interestSlug);
                 if($interest) {
                     $interest->it_video = ($interest->it_video != "") ? Helpers::youtube_id_from_url($interest->it_video) : "";
-                    $interest->it_logo = ($interest->it_logo != "") ? Storage::url($this->interestThumbImageUploadPath . $interest->it_logo) : Storage::url($this->interestThumbImageUploadPath . "proteen-logo.png");
+                    $interest->it_logo = ($interest->it_logo != "" && Storage::url($this->interestThumbImageUploadPath . $interest->it_logo) > 0) ? Storage::url($this->interestThumbImageUploadPath . $interest->it_logo) : Storage::url($this->interestThumbImageUploadPath . "proteen-logo.png");
                 }
-                $data = $interest;
+                $data['id'] = $interest->id;
+                $data['title'] = $interest->it_name;
+                $data['slug'] = $interest->it_slug;
+                $data['logo'] = $interest->it_logo;
+                $data['video'] = $interest->it_video;
+                $data['details'] = $interest->it_description;
+                // $data->
                 $relatedCareers = [     ['id' => 1, 'pf_name' => "Library Technicians", 'attempted' => 1, 'matched' => 'strong'], 
                                         ['id' => 2, 'pf_name' => "Mechanical Engineers", 'attempted' => 0, 'matched' => 'potential'], 
                                         ['id' => 3, 'pf_name' => "Fine Artists - Including Painters - Sculptors - and Illustrators", 'attempted' => 1, 'matched' => 'strong'],
@@ -250,6 +256,8 @@ class DashboardController extends Controller
             $data = [];
             if($request->strengthType != "" && $request->strengthSlug != "") {
                 $getStrengthTypeRelatedInfo = Helpers::getStrengthTypeRelatedInfo($request->strengthType, $request->strengthSlug);
+                $getStrengthTypeRelatedInfo['details'] = $getStrengthTypeRelatedInfo['description'];
+                unset($getStrengthTypeRelatedInfo['description']);
                 $data = $getStrengthTypeRelatedInfo;
                 $relatedCareers = [     ['id' => 1, 'pf_name' => "Library Technicians", 'attempted' => 1, 'matched' => 'strong'], 
                                         ['id' => 2, 'pf_name' => "Mechanical Engineers", 'attempted' => 0, 'matched' => 'potential'], 
