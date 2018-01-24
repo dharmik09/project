@@ -70,6 +70,10 @@ Route::post('/search-career-list', 'Teenager\ProfessionController@listGetSearch'
 Route::get('/career-grid', 'Teenager\ProfessionController@gridIndex');
 Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
 Route::post('/search-career-grid', 'Teenager\ProfessionController@gridGetSearch');
+Route::post('/fetch-career-search-dropdown/', 'Teenager\ProfessionController@getSearchDropdown');
+Route::post('/get-dropdown-search-result/', 'Teenager\ProfessionController@getDropdownSearchResult');
+
+//Tag
 Route::get('/career-tag/{slug}', 'Teenager\ProfessionTagController@index');
 Route::post('/tag-related-careers/', 'Teenager\ProfessionTagController@getIndex');
 

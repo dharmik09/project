@@ -47,7 +47,7 @@ class ProfessionController extends Controller {
 
     public function listGetIndex(){
         $userid = Auth::guard('teenager')->user()->id;
-        $basketsData = $this->baskets->with('profession')->find(Input::get('basket_id'));
+        $basketsData = $this->baskets->with('profession')->where('deleted' ,'1')->find(Input::get('basket_id'));
 
         $professionAttemptedCount = 0;
         foreach ($basketsData->profession as $k => $v) {
@@ -59,6 +59,11 @@ class ProfessionController extends Controller {
         }
 
         $return = '<div class="panel-body">
+                    <div class="banner-landing banner-career" style="background-image:url('.Storage::url(Config::get('constant.BASKET_ORIGINAL_IMAGE_UPLOAD_PATH').$basketsData->b_logo).');">
+                        <div class="">
+                            <div class="play-icon"><a id="link'.$basketsData->id.'" onclick="playVideo(this.id,\''.Helpers::youtube_id_from_url($basketsData->b_video).'\');" class="play-btn" id="iframe-video"><img src="'.Storage::url('img/play-icon.png').'" alt="play icon"></a></div>
+                        </div><iframe width="100%" height="100%" frameborder="0" allowfullscreen class="iframe" id="iframe-video-link'.$basketsData->id.'"></iframe>
+                    </div>
                         <div class="related-careers careers-tag">
                             <div class="career-heading clearfix">
                                 <div class="row">
@@ -94,7 +99,7 @@ class ProfessionController extends Controller {
 
     public function gridGetIndex(){
         $userid = Auth::guard('teenager')->user()->id;
-        $basketsData = $this->baskets->with('profession')->find(Input::get('basket_id'));
+        $basketsData = $this->baskets->with('profession')->where('deleted' ,'1')->find(Input::get('basket_id'));
         $professionAttemptedCount = 0;
         foreach ($basketsData->profession as $k => $v) {
             $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id,null);
@@ -159,6 +164,7 @@ class ProfessionController extends Controller {
                         ->whereHas('profession', function ($query) {
                             $query->where('pf_name', 'like', '%'.$this->value.'%');
                         })
+                        ->where('deleted' ,'1')
                         ->get();
         $return = '';
         if(count($basketsData)>0)
@@ -251,6 +257,7 @@ class ProfessionController extends Controller {
                         ->whereHas('profession', function ($query) {
                             $query->where('pf_name', 'like', '%'.$this->value.'%');
                         })
+                        ->where('deleted' ,'1')
                         ->get();
         $return = '';
         if(count($basketsData)>0)
@@ -273,6 +280,11 @@ class ProfessionController extends Controller {
                             <div id="profession'.$value->id.'">';
 
                 $return .= '<div class="panel-body">
+                                <div class="banner-landing banner-career" style="background-image:url('.Storage::url(Config::get('constant.BASKET_ORIGINAL_IMAGE_UPLOAD_PATH').$value->b_logo).');">
+                                    <div class="">
+                                        <div class="play-icon"><a id="link'.$value->id.'" onclick="playVideo(this.id,\''.Helpers::youtube_id_from_url($value->b_video).'\');" class="play-btn" id="iframe-video"><img src="'.Storage::url('img/play-icon.png').'" alt="play icon"></a></div>
+                                    </div><iframe width="100%" height="100%" frameborder="0" allowfullscreen class="iframe" id="iframe-video-link'.$value->id.'"></iframe>
+                                </div>
                                 <div class="related-careers careers-tag">
                                     <div class="career-heading clearfix">
                                         <div class="row">
@@ -337,5 +349,59 @@ class ProfessionController extends Controller {
         $careerDetails['srp_profession_id'] = $careerId;
         $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
         return $return;
+    }
+
+    public function getSearchDropdown(Request $request) 
+    {
+        $queId = Input::get('queId');
+        $return = '';
+        if($queId == 1) // Industry
+        {
+            $data = $this->baskets->getActiveBasketsOrderByName();
+            $return .= '<select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
+                <option value="0">All Industry</option>';
+            foreach ($data as $key => $value) {
+                    $return .= '<option value="'.$value->id.'">'.$value->b_name.'</option>';
+            }
+            $return .= '</select>';
+        }
+        elseif ($queId == 2) // Careers
+        {
+            $data = $this->professions->getActiveProfessionsOrderByName();
+            $return .= '<select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
+                <option value="0">All Careers</option>';
+            foreach ($data as $key => $value) {
+                    $return .= '<option value="'.$value->id.'">'.$value->pf_name.'</option>';
+            }
+            $return .= '</select>';
+        }
+        return $return;
+    }
+
+    public function getDropdownSearchResult(Request $request){
+        $queId = Input::get('queId');
+        $ansId = Input::get('ansId');
+        $view = Input::get('view');
+        $userid = Auth::guard('teenager')->user()->id;
+
+        if($queId == 1) // Industry
+        {
+            $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketId($ansId, $userid);
+            if($view == 'GRID'){
+                return view('teenager.basic.level3CareerGridView', compact('basketsData','view'));
+            }elseif($view == 'LIST'){
+                return view('teenager.basic.level3CareerListView', compact('basketsData','view'));
+            }
+        }
+        elseif ($queId == 2) // Careers
+        {
+            $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionId($ansId, $userid);
+            $totalProfessionCount = $this->professions->getActiveProfessionsCountByBaketId($basketsData->id);
+            if($view == 'GRID'){
+                return view('teenager.basic.level3CareerGridView', compact('basketsData','totalProfessionCount'));
+            }elseif($view == 'LIST'){
+                return view('teenager.basic.level3CareerListView', compact('basketsData','totalProfessionCount'));
+            }
+        }
     }
 }
