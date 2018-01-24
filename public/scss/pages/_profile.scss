@@ -730,12 +730,12 @@
         margin: 30px 0;
         width: 68%;
         resize: vertical;
-        @include maxsm{
+        @include maxsm {
             width: 78%;
             margin: 30px auto;
         }
-        @include maxms{
-            width:70%;
+        @include maxms {
+            width: 70%;
             font-size: 14px;
         }
     }
@@ -998,6 +998,15 @@ input:checked + .slider:before {
             font-size: 28px;
         }
     }
+    .survey-heading {
+        position: relative;
+        max-width: 717px;
+        margin: 0 auto 15px;
+        padding-left: 70px;
+        @include maxms{
+            padding-left: 30px;
+        }
+    }
     p {
         font-family: hl;
         font-size: 31px;
@@ -1100,6 +1109,16 @@ input:checked + .slider:before {
                     font-size: 14px;
                 }
             }
+        }
+    }
+    .back-btn {
+        transform: rotate(170deg);
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        i {
+            transform: scaleX(-1);
+            display: block;
         }
     }
 }
@@ -2798,11 +2817,11 @@ a:focus {
         top: 50%;
         right: 27%;
         transform: translatey(-50%);
-        @include maxsm{
+        @include maxsm {
             right: 6%;
             margin-left: 10px;
         }
-        @include maxms{
+        @include maxms {
             right: 3%;
         }
     }

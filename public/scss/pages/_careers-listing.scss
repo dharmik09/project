@@ -72,6 +72,7 @@
                     line-height: 1;
                     top: 59px;
                     font-size: 26px;
+                    color: $g-cl;
                     @extend .icon-list;
                     @include maxmd {
                         top: 32px;
