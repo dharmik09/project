@@ -18,10 +18,16 @@
             <div class="row">
                 <div class="col-md-2 text-right"><span>Filter by:</span></div>
                 <div class="col-md-3 col-xs-6">
-                    <div class="form-group custom-select"><select tabindex="8" class="form-control"><option value="all categories">all categories</option><option value="Strong match">Strong match</option><option value="Potential match">Potential match</option><option value="Unlikely match">Unlikely match</option></select></div>
+                    <div class="form-group custom-select">
+                        <select tabindex="8" class="form-control" id="questionDropdown" onchange="fetchSearchDropdown();">
+                            <option value="0">All categories</option>
+                            <option value="1">Industry</option>
+                            <option value="2">Careers</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="col-md-3 col-xs-6">
-                    <div class="form-group custom-select bg-blue"><select tabindex="8" class="form-control"><option value="all careers">all careers</option><option value="agriculture">agriculture</option><option value="conservation">conservation</option><option value="Veterinarians">Veterinarians</option></select></div>
+                    <div class="form-group custom-select bg-blue" id="answerDropdown"></div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group search-bar clearfix"><input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="search"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>
@@ -55,13 +61,16 @@
 
 @section('script')
 <script>
-    $('.play-icon').click(function() {
-        $(this).hide();
-        $('iframe').show();
-    })
+    function playVideo(id,link) {
+        $("#"+id).hide();
+        $('.iframe').attr('src', '');
+        $("#iframe-video-"+id).attr('src', 'https://www.youtube.com/embed/'+link+'?autoplay=1');
+        $("#iframe-video-"+id).show();
+    }
 
     function fetchProfessionData(id) {
-
+        $('.play-btn').show();
+        $('.iframe').attr('src', '');
         if ( !$("#profession"+id).hasClass( "dataLoaded" ) ) {
             
             $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
@@ -90,7 +99,8 @@
     $(function() {
 
         $('#search').keyup(function ()  {
-            if($("#search").val().length > 3) {                
+            if($("#search").val().length > 3) {      
+                $('.iframe').attr('src', '');          
                 $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
                 $(".maindiv").addClass('loading-screen-parent');
                 var value = $("#search").val();
@@ -114,5 +124,51 @@
         });
     });
 
+    function fetchSearchDropdown() {
+        if($("#questionDropdown").val() != 0){
+            $("#answerDropdown").html('');
+            var CSRF_TOKEN = "{{ csrf_token() }}";
+            var queId = $("#questionDropdown").val();
+            $.ajax({
+                type: 'POST',
+                url: "{{url('teenager/fetch-career-search-dropdown')}}",
+                dataType: 'html',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                data: {'queId':queId},
+                success: function (response) {
+                    $("#answerDropdown").html(response);
+                }
+            });
+        }
+        else{
+            $("#answerDropdown").html('');
+        }
+    }
+
+    function fetchDropdownResult() {
+        if($("#answerId").val() != 0){
+            $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $(".maindiv").addClass('loading-screen-parent');
+            var CSRF_TOKEN = "{{ csrf_token() }}";
+            var queId = $("#questionDropdown").val();
+            var ansId = $("#answerId").val();
+            var view = 'LIST';
+            $.ajax({
+                type: 'POST',
+                url: "{{url('teenager/get-dropdown-search-result')}}",
+                dataType: 'html',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                data: {'queId':queId,'ansId':ansId,'view':view},
+                success: function (response) {
+                    $(".maindiv").html(response);
+                    $(".maindiv").removeClass('loading-screen-parent');
+                }
+            });
+        }
+    }
 </script>
 @stop
