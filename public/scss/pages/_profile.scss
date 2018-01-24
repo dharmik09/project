@@ -729,7 +729,7 @@
         color: #fff;
         margin: 30px 0;
         width: 68%;
-        resize: vertical;
+        resize: none;
         @include maxsm {
             width: 78%;
             margin: 30px auto;
@@ -851,8 +851,11 @@ input:checked + .slider:before {
             font-size: 20px;
             line-height: 1.35;
             padding: 14px 15px;
+            border-color: $h-cl;
+            margin-bottom: 0;
             &:hover {
                 background: $p-cl;
+                border-color: $p-cl;
             }
             @include maxsm {
                 line-height: 1.3;

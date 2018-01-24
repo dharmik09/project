@@ -340,7 +340,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <button class="btn btn-submit" type="submit" title="Add">Add</button>
+                            <button id="addParent" class="btn btn-submit btn-default" type="submit" title="Add">Add</button>
                         </div>
                     </div>
                 </form>
@@ -961,6 +961,20 @@
                     required: "Please select user type"
                 }
             }
+        });
+
+        $("#teenager_parent_pair_form").submit(function() {
+            var form = $("#teenager_parent_pair_form");
+            form.validate();
+            if (form.valid()) {
+                $("#addParent").toggleClass('sending').blur();
+                return true;
+            } else {
+                return false;
+            }
+            setTimeout(function () {
+                $("#addParent").removeClass('sending').blur();
+            }, 2500);
         });
 
         CKEDITOR.replace('achievement');
