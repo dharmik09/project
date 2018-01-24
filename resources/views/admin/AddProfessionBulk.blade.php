@@ -7,7 +7,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        {{trans('labels.professions')}}
+        {{trans('labels.professions')}} Headers
     </h1>
 </section>
 

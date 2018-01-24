@@ -228,7 +228,7 @@
                                     <div class="team-img">
                                         <?php
                                             if(isset($myConnection->t_photo) && $myConnection->t_photo != '') {
-                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$newConnection->t_photo;
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo;
                                             } else {
                                                 $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                                             }
@@ -261,7 +261,8 @@
 @section('script')
 <script type="text/javascript">
 
-    $(document).ready(function() {
+    $(window).on("load", function(e) {
+        e.preventDefault();
         fetchLevel1TraitQuestion();
     });
     
@@ -289,8 +290,11 @@
             answerId.push($(this).val());
         });
         var queId = $('#traitQue').val();
-        var toUserId = '{{$teenDetails->t_uniqueid}}';
-        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        var toUserId = '';
+        $("#traitsData").fadeOut('slow', function() {
+            $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#traitsData").fadeIn('slow');
+        });
         $("#traitsData").addClass('loading-screen-parent');
         
         var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -303,10 +307,21 @@
             },
             data: {'answerID':answerId,'questionID':queId,'toUserId':toUserId},
             success: function (response) {
-                $("#traitsData").html(response);
                 $("#traitsData").removeClass('loading-screen-parent');
+                $("#traitsData").html(response).fadeIn('slow');
             }
         });
+    }
+    function checkAnswerChecked() {
+        var answerId = [];
+        $.each($("input[name='traitAns']:checked"), function(){            
+            answerId.push($(this).val());
+        });
+        if(answerId.length != 0){
+            $("#btnSaveTrait").attr("disabled", false);
+        }else{
+            $("#btnSaveTrait").attr("disabled", true);
+        }
     }
 </script>
 @stop

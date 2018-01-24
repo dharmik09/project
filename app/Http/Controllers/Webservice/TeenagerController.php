@@ -41,7 +41,7 @@ class TeenagerController extends Controller
                         $teenagers['email'] = $data['t_email'];
                         $teenagers['lastname'] = $data['t_lastname'];
                         $teenagers['nickname'] = $data['t_nickname'];
-                        if ($data['t_photo'] != '') {
+                        if ($data['t_photo'] != '' && Storage::size($this->teenOriginalImageUploadPath . $data['t_photo']) > 0) {
                             $teenagers['photo'] = Storage::url($this->teenOriginalImageUploadPath . $data['t_photo']);
                         } else {
                             $teenagers['photo'] = Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');
@@ -89,7 +89,7 @@ class TeenagerController extends Controller
                         $teenagers['name'] = $data['t_name'];
                         $teenagers['email'] = $data['t_email'];
                         $teenagers['nickname'] = $data['t_nickname'];
-                        if ($data['t_photo'] != '') {
+                        if ($data['t_photo'] != '' && Storage::size($this->teenOriginalImageUploadPath . $data['t_photo']) > 0) {
                             $teenagers['photo'] = Storage::url($this->teenOriginalImageUploadPath . $data['t_photo']);
                         } else {
                             $teenagers['photo'] = Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');

@@ -340,7 +340,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <button class="btn btn-submit" type="submit" title="Add">Add</button>
+                            <button id="addParent" class="btn btn-submit btn-default" type="submit" title="Add">Add</button>
                         </div>
                     </div>
                 </form>
@@ -963,6 +963,20 @@
             }
         });
 
+        $("#teenager_parent_pair_form").submit(function() {
+            var form = $("#teenager_parent_pair_form");
+            form.validate();
+            if (form.valid()) {
+                $("#addParent").toggleClass('sending').blur();
+                return true;
+            } else {
+                return false;
+            }
+            setTimeout(function () {
+                $("#addParent").removeClass('sending').blur();
+            }, 2500);
+        });
+
         CKEDITOR.replace('achievement');
         CKEDITOR.replace('academic');
 
@@ -1153,13 +1167,18 @@
             $("#saveProfile").removeClass('sending').blur();
         }
     });
-    $(document).on('click','#editInfo',function() {
+    $(document).on('click', '.editInfo', function() {
         if ($("#t_about_info").is(':visible')) {
-            $("#t_about_info").hide();
-            $("#display-about-info").show();
+            $("#t_about_info").hide(500);
+            $("#display-about-info").show(500);
         } else {
             $("#display-about-info").hide();
-            $("#t_about_info").show();
+            $("#t_about_info").show(500);
+        }
+        if ($("#t_about_info").is(':visible')) {
+            $('.editInfo-outer').toggleClass('hide');
+        } else {
+            $('.editInfo-outer').addClass('hide');
         }
     });
     
@@ -1298,7 +1317,6 @@
         });
         if(answerId.length != 0){
             $("#btnSaveTrait").attr("disabled", false);
-            console.log(answerId);
         }else{
             $("#btnSaveTrait").attr("disabled", true);
         }

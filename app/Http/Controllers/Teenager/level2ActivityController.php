@@ -75,7 +75,7 @@ class Level2ActivityController extends Controller {
         $sectionPercentageCollection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,$section);      
         $sectionPercentage = 0;
         if($sectionPercentageCollection[0]->NoOfTotalQuestions != 0){
-            $sectionPercentage = ($sectionPercentageCollection[0]->NoOfAttemptedQuestions*100)/$sectionPercentageCollection[0]->NoOfTotalQuestions;
+            $sectionPercentage = ($sectionPercentageCollection[0]->NoOfAttemptedQuestions >= $sectionPercentageCollection[0]->NoOfTotalQuestions) ? 100 : ($sectionPercentageCollection[0]->NoOfAttemptedQuestions*100)/$sectionPercentageCollection[0]->NoOfTotalQuestions;
         }
         if($sectionPercentage == 0){
             $response['sectionPercentage'] = 'Begin now';
