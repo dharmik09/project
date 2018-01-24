@@ -116,5 +116,8 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 
 	//ProCoins History
 	Route::post('/getProCoinsTransactionsHistory', 'Webservice\CoinController@getProCoinsTransactionsHistory');
+	Route::post('/getProCoinsPromisePlusData', 'Webservice\CoinController@getProCoinsPromisePlusData');
+	Route::post('/getProCoinsLearningGuidanceData', 'Webservice\CoinController@getProCoinsLearningGuidanceData');
+	Route::post('/getProCoinsL4ConceptData', 'Webservice\CoinController@getProCoinsL4ConceptData');
 
 });
