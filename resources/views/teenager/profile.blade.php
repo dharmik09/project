@@ -94,14 +94,15 @@
                                 <a href="#" title="Chat"><i class="icon-chat"></i>
                                     <span>3</span></a>
                             </div>
+                            
                             <div class="about-info-block">
                                 <p id="display-about-info" style="">{{ ($user->t_about_info != "") ? $user->t_about_info : 'Describe yourself' }}
                                     <a id="editInfo" href="javascript:void(0);" title="Describe yourself" class="editInfo">
                                         <img src="{{Storage::url('img/edit.png')}}" alt="Describe yourself">
                                     </a>
                                 </p>
-                                <input type="text" class="form-control about-info" id="t_about_info" name="t_about_info" placeholder="Describe yourself" value="{{ $user->t_about_info }}" style="display: none;">
-                                <a id="editInfo" href="javascript:void(0);" title="Describe yourself" class="editInfo hide editInfo-outer">
+                                <textarea class="form-control about-info" id="t_about_info" name="t_about_info" placeholder="Describe yourself" value="{{ $user->t_about_info }}" style="display: none;" rows="4">{{ $user->t_about_info }}</textarea>
+                                <a id="editInfo" href="javascript:void(0);" title="Edit Info" class="editInfo hide editInfo-outer">
                                     <img src="{{Storage::url('img/edit.png')}}" alt="Describe yourself">
                                 </a>
                             </div>

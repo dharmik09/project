@@ -19,11 +19,10 @@
                         @else
                             <div class="icon-item">
                                 <div class="icon-content">
-                                    <img src="img/Mario_games_c4.png" alt="Icon image">
-                                    <span class="rank-i">1</span>
-                                    <div class="character-name"><span>ProteenLife Default</span></div>
+                                    <img src="{{ Storage::url('img/proteen-logo.png') }}" alt="Icon image">
+                                    <div class="character-name"><span>Top Trending Icon</span></div>
                                 </div>
-                                <span class="rank">Votes : 147</span>
+                                <span class="rank">Vote More</span>
                             </div>
                         @endif
                     </div>

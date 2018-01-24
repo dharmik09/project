@@ -121,19 +121,3 @@
         <!-- mid section end-->
     </div>
 @stop
-
-@section('script')
-    <script type="text/javascript">
-        $('.dataCollapse').on('click', function(e){
-            // var hrefId = $(this).parent().find('data-class-id').html();
-            // console.log(hrefId);
-            // theOffset = $(".accordionClass"+hrefId).offset();
-            // console.log(theOffset);
-            // $('.accordionClass'+hrefId).scrollTop();
-            // $("html, body").animate({
-            //     scrollTop: $(".accordionClass"+hrefId).offset().top 
-            //     //scrollTop: theOffset.top - 300
-            // });
-        });
-    </script>
-@endsection
