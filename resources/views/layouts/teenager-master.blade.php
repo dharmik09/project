@@ -45,8 +45,8 @@
                                         </a>
                                     </div>
                                     <div class="vol-btn">
-                                        <span class="vol-on {{ (Auth::guard('teenager')->user()->is_sound_on != 1) ? 'hide' : ''}}" ><img src="{{ Storage::url('img/icon-vol.png') }}" ></span>
-                                        <span class="vol-off {{ (Auth::guard('teenager')->user()->is_sound_on != 0) ? 'hide' : ''}}"><img src="{{ Storage::url('img/vol-mute.png') }}" ></span>
+                                        <span class="vol-on {{ (Auth::guard('teenager')->user()->is_sound_on != 1) ? 'hide' : ''}}" onclick="setSound(0)"><img src="{{ Storage::url('img/icon-vol.png') }}" ></span>
+                                        <span class="vol-off {{ (Auth::guard('teenager')->user()->is_sound_on != 0) ? 'hide' : ''}}" onclick="setSound(1)"><img src="{{ Storage::url('img/vol-mute.png') }}" ></span>
                                     </div>
                                 </div>
                                 <div class="btns">
@@ -136,7 +136,14 @@
         <script src="{{ asset('js/aos.js') }}"></script>
         <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
         <script src="{{ asset('js/general.js') }}"></script>
-        
+        <script type="text/javascript">
+            function setSound(data) {
+                $.ajax('{{url("teenager/set-sound-value/")}}/'+data, {
+                    success: function(data) {
+                    }
+               });
+            }
+        </script>
         @stack('script-footer')
         @yield('script')
     </body>
