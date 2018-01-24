@@ -16,6 +16,7 @@ use App\Services\Coin\Contracts\CoinRepository;
 use App\TeenParentRequest;
 use App\Services\Parents\Contracts\ParentsRepository;
 use App\TeenagerCoinsGift;
+use App\Transactions;
 
 class CoinController extends Controller
 {
@@ -34,6 +35,7 @@ class CoinController extends Controller
         $this->objTeenParentRequest = new TeenParentRequest;
         $this->parentsRepository = $parentsRepository;
         $this->objTeenagerCoinsGift = new TeenagerCoinsGift;
+        $this->objTransactions = new Transactions;
     }
 
     /* Request Params : getProCoinsPackages
@@ -155,6 +157,51 @@ class CoinController extends Controller
             $nextPageExist = $this->objTeenagerCoinsGift->getTeenagerCoinsGiftDetailHistory($request->userId, $request->userType, $page + 1);
             if (isset($nextPageExist) && count($nextPageExist) > 0) {
                 $response['pageNo'] = $page;
+            } else {
+                $response['pageNo'] = '-1';
+            }
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getProCoinsTransactionsHistory
+     *  loginToken, userId, userType, pageNo
+     *  Service after loggedIn user
+     */
+    public function getProCoinsTransactionsHistory(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $data = [];
+            $pageNo = $request->pageNo;
+            $response['transactionInfo'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed risus consequat, volutpat dui id, vestibulum turpis.";
+            $transactionDetail = $this->objTransactions->getTransactionsDetail($request->userId, $request->userType, $pageNo);
+            foreach ($transactionDetail AS $key => $value) {
+                $transactionsData = [];
+                $transactionsData['name'] = $value->tn_billing_name;
+                $transactionsData['email'] = $value->tn_email;
+                $transactionsData['proCoins'] = $value->tn_coins;
+                $transactionsData['transactionId'] = $value->tn_transaction_id;
+                $transactionsData['paidAmount'] = $value->tn_amount;
+                if ($value->tn_currency == 'USD') {
+                    $transactionsData['currency'] =  Storage::url('img/dollar-symbol.png');
+                } else if ($value->tn_currency == 'INR') {
+                    $transactionsData['currency'] =  Storage::url('img/rupee-symbol.png');
+                }
+                $transactionsData['transactionDate'] = date('d M Y', strtotime($value->tn_trans_date));
+                $data[] = $transactionsData;
+            }
+            $nextPageExist = $this->objTransactions->getTransactionsDetail($request->userId, $request->userType, $pageNo + 1);
+            if (isset($nextPageExist) && count($nextPageExist) > 0) {
+                $response['pageNo'] = $pageNo;
             } else {
                 $response['pageNo'] = '-1';
             }
