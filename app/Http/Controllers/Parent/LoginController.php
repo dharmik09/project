@@ -166,8 +166,26 @@ class LoginController extends Controller
             $countries = Helpers::getCountries();
             $parentData = $this->parentsRepository->getParentDetailsByPtpToken($token);
             $userType = $parentData->p_user_type;
-            if ($parentData->p_isverified == 1 || $parentData->ptp_is_verified) {
-                $varifymessage = "You are already verified";
+            if ($parentData->p_isverified == 1 || $parentData->ptp_is_verified == 1) {
+                if ($parentData->p_isverified != 1) {
+                    $verifyParent = $this->parentsRepository->updateParentVerifyStatusById($parentData->id);
+                    if (isset($verifyParent) && !empty($verifyParent)) {
+                        $varifymessage = "You are verified";
+                    } else {
+                        $varifymessage = "Something went wrong. Please try again.";
+                    }
+                }
+                if($parentData->ptp_is_verified != 1) {
+                    $verifyPair = $this->parentsRepository->updateParentTeenStatusByToken($token);
+                    if (isset($verifyPair) && !empty($verifyPair)) {
+                        $varifymessage = "You are verified";
+                    } else {
+                        $varifymessage = "Something went wrong. Please try again.";
+                    }
+                }
+                if ($parentData->p_isverified == 1 && $parentData->ptp_is_verified == 1) {
+                    $varifymessage = "You are already verified";
+                }
                 return view('parent.verifyParent', compact('varifymessage', 'userType'));
             } else {
                 $teenDatails = $this->teenagersRepository->getTeenagerById($parentData->ptp_teenager);

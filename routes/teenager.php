@@ -64,21 +64,14 @@ Route::get('/my-careers', function() {
 });
 Route::get('/career-detail/{slug}', 'Teenager\ProfessionController@careerDetails');
 Route::post('/add-star-to-career', 'Teenager\ProfessionController@addStarToCareer');
-// Route::get('/list-career', function() {
-// 	return view('teenager.careersListing');
-// });
 Route::get('/list-career', 'Teenager\ProfessionController@listIndex');
 Route::post('/career-list', 'Teenager\ProfessionController@listGetIndex');
 Route::post('/search-career-list', 'Teenager\ProfessionController@listGetSearch');
 Route::get('/career-grid', 'Teenager\ProfessionController@gridIndex');
 Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
 Route::post('/search-career-grid', 'Teenager\ProfessionController@gridGetSearch');
-// Route::get('/career-grid', function() {
-	// return view('teenager.careerGrid');
-// });
-Route::get('/career-tag/{slug}', function() {
-	return view('teenager.careerTag');
-});
+Route::get('/career-tag/{slug}', 'Teenager\ProfessionTagController@index');
+Route::post('/tag-related-careers/', 'Teenager\ProfessionTagController@getIndex');
 
 //Community
 Route::get('/community', 'Teenager\CommunityManagementController@index');
