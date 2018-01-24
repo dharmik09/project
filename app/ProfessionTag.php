@@ -39,9 +39,32 @@ class ProfessionTag extends Model
         }
     }
 
-
     public function getProfessionTagByName($name) {
-        $certifications = $this->where('pt_name', $name)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
-        return $certifications;
+        $result = $this->where('pt_name', $name)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
+        return $result;
+    }
+    public function getProfessionTagBySlug($slug) {
+        $result = $this->where('pt_slug', $slug)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
+        return $result;
+    }
+
+    public function getProfessionTagBySlugWithProfessionAndAttemptedProfession($slug, $userid) {
+        $this->userid = $userid;
+        $result = $this->select('*')
+                    ->with(['professionTags' => function ($query) {
+                        $query->with(['profession' => function ($query) {
+                            $query->with(['professionAttempted' => function ($query) {
+                                $query->where('tpa_teenager', $this->userid);
+                            }]);
+                        }]);
+                    }])
+                    ->where('pt_slug', $slug)
+                    ->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->first();
+        return $result;
+    }
+
+    public function professionTags(){
+        return $this->hasMany(ProfessionWiseTag::class, 'tag_id');
     }
 }

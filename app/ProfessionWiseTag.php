@@ -57,4 +57,8 @@ class ProfessionWiseTag extends Model
     public function tag(){
         return $this->belongsTo(ProfessionTag::class, 'tag_id');
     }
+
+    public function profession(){
+        return $this->belongsTo(Professions::class, 'profession_id');
+    }
 }

@@ -75,6 +75,10 @@ class Professions extends Model {
         return $this->hasMany(ProfessionWiseSubject::class, 'profession_id');
     }
 
+    public function professionAttempted(){
+        return $this->hasOne(ProfessionAttempted::class, 'tpa_peofession_id');
+    }
+
     public function starRatedProfession(){
         return $this->hasMany(StarRatedProfession::class, 'srp_profession_id');
     }

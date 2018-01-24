@@ -249,3 +249,6 @@ CREATE TABLE IF NOT EXISTS `pro_srp_star_rated_professions` (
 
 //Make t_phone field nullable in teenagers table ## 18-01-2018
 ALTER TABLE `pro_t_teenagers` CHANGE `t_phone` `t_phone` VARCHAR(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+//Added new field in Profession Tags table for unique slug #23-01-2018 Jaimin
+ALTER TABLE `pro_pt_profession_tags` ADD `pt_slug` VARCHAR(255) NOT NULL AFTER `pt_description`;

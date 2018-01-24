@@ -1167,13 +1167,18 @@
             $("#saveProfile").removeClass('sending').blur();
         }
     });
-    $(document).on('click','#editInfo',function() {
+    $(document).on('click', '.editInfo', function() {
         if ($("#t_about_info").is(':visible')) {
-            $("#t_about_info").hide();
-            $("#display-about-info").show();
+            $("#t_about_info").hide(500);
+            $("#display-about-info").show(500);
         } else {
             $("#display-about-info").hide();
-            $("#t_about_info").show();
+            $("#t_about_info").show(500);
+        }
+        if ($("#t_about_info").is(':visible')) {
+            $('.editInfo-outer').toggleClass('hide');
+        } else {
+            $('.editInfo-outer').addClass('hide');
         }
     });
     
