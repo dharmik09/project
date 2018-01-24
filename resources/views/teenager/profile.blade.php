@@ -1317,7 +1317,6 @@
         });
         if(answerId.length != 0){
             $("#btnSaveTrait").attr("disabled", false);
-            console.log(answerId);
         }else{
             $("#btnSaveTrait").attr("disabled", true);
         }
