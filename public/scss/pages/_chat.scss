@@ -639,17 +639,17 @@ a:hover {
         padding: 20px 0;
     }
     .forum-container {
-        max-width: 80%;
+       // max-width: 80%;
         margin: 0 auto;
         padding: 30px 0px;
-        @include maxmd{
+        /*@include maxmd{
             max-width: 90%;
         }
         @include maxsm{
             max-width: 95%;
-        }
+        }*/
         @include maxms{
-            max-width: 100%;
+           // max-width: 100%;
             padding: 10px 0;
         }
         .load-more {
@@ -776,11 +776,14 @@ a:hover {
         color: #999999;
         font-family: h;
     }
+    &.no-padding{
+        padding-left: 0;
+    }
 }
 
 .forum-ans {
     > span {
-        text-align: right;
+        text-align: center;
         display: block;
         .read-more{
             font-size: 14px;color: $h-cl;

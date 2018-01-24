@@ -107,6 +107,17 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getCoupons', 'Webservice\CouponController@getCoupons');
 	Route::post('/consumeCoupon', 'Webservice\CouponController@consumeCoupon');
 
-	//ProCoins
+	//ProCoins Buy
 	Route::post('/getProCoinsPackages', 'Webservice\CoinController@getProCoinsPackages');
+	Route::post('/requestToParentForProCoins', 'Webservice\CoinController@requestToParentForProCoins');
+
+	//ProCoins Gift
+	Route::post('/getGiftedCoinsHistory', 'Webservice\CoinController@getGiftedCoinsHistory');
+
+	//ProCoins History
+	Route::post('/getProCoinsTransactionsHistory', 'Webservice\CoinController@getProCoinsTransactionsHistory');
+	Route::post('/getProCoinsPromisePlusData', 'Webservice\CoinController@getProCoinsPromisePlusData');
+	Route::post('/getProCoinsLearningGuidanceData', 'Webservice\CoinController@getProCoinsLearningGuidanceData');
+	Route::post('/getProCoinsL4ConceptData', 'Webservice\CoinController@getProCoinsL4ConceptData');
+
 });
