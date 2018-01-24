@@ -74,8 +74,8 @@
                         <?php
                             if($user->t_pincode != "")
                             {
-                                $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true');
-                                $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+                                $getLocation = json_decode(file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true'));
+                                $getCityArea = ( isset($getLocation->results[0]->address_components[1]->long_name) && $getLocation->results[0]->address_components[1]->long_name != "" ) ? $getLocation->results[0]->address_components[1]->long_name : "Default";
                             } else {
                                 $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
                             }
@@ -83,7 +83,7 @@
                         <div class="col-sm-9">
                             <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                             <ul class="area-detail">
-                                <li>{{ $getCityArea }} Area</li>
+                                <li id="defaultArea">{{ $getCityArea }} Area</li>
                                 <li>{{ $myConnectionsCount }} {{ ($myConnectionsCount == 1) ? "Connection" : "Connections" }} </li>
                             </ul>
                             <ul class="social-media">
@@ -1011,6 +1011,7 @@
         e.preventDefault();
         getFirstLevelData();
         fetchLevel1TraitQuestion();
+        getDefaultAreaLocation();
     });
 
     function getFirstLevelData() {
@@ -1672,6 +1673,24 @@
             }, 300);
             $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">All options voted!</span></div></div></div>');
         }
+    }
+
+    function getDefaultAreaLocation() {
+        // $.ajax({
+        //     url: "http://maps.googleapis.com/maps/api/geocode/json?address={{$user->t_pincode}}&sensor=true",
+        //     type: 'post',
+        //     success: function(response) {
+        //         var valueOf = $.parseJSON(response); 
+        //         // if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+        //         //     $("html, body").animate({
+        //         //         scrollTop: $('#errorGoneMsg').offset().top 
+        //         //     }, 300);
+        //         //     $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+valueOf.message+'</span></div></div></div>');
+        //         // }
+        //         console.log(valueOf);
+        //         $('#countrycode').text(response.);
+        //     }
+        // });
     }
 </script>
 @stop
