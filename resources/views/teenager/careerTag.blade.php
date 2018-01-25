@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                {!!$professionsTagData->pt_description!!}
+                {!!html_entity_decode($professionsTagData->pt_description)!!}
             </section>
         </div>
         <!--introduction text end-->
