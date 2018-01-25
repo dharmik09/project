@@ -144,3 +144,4 @@ Route::group(['prefix' => 'school'], function () {
 });
 
 Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('parent.verify-parent-teen-pair');
+Route::post('/ccavenue/response', 'Teenager\CoinManagementController@orderResponse');

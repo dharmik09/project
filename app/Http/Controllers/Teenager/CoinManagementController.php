@@ -16,7 +16,7 @@ use App\DeductedCoins;
 use App\TemplateDeductedCoins;
 use App\Services\Coin\Contracts\CoinRepository;
 use App\PurchasedCoins;
-use Indipay;
+use Softon\Indipay\Facades\Indipay;
 use App\Services\Parents\Contracts\ParentsRepository;
 use App\TeenParentRequest;
 use App\Services\Template\Contracts\TemplatesRepository;
@@ -128,6 +128,9 @@ class CoinManagementController extends Controller
             ];
 
             $order = Indipay::prepare($parameters);
+            echo "<pre>";
+            print_r($order);
+            exit;
             return Indipay::process($order);
         }
     }
@@ -176,4 +179,11 @@ class CoinManagementController extends Controller
             exit;
         }
     }
+    
+    public function orderResponse(Request $request)
+    {
+        // For default Gateway
+        $response = Indipay::response($request);
+       // dd($response);
+    }    
 }
