@@ -92,7 +92,7 @@ class CommunityController extends Controller
     }
 
     /* Request Params : communityMyConnections
-     *  loginToken, userId, lastTeenId, sortBy, sortOption, searchText
+     *  loginToken, userId, lastTeenId, sortBy, sortOption, searchText, getAllRecords
      *  Service after loggedIn user
      */
     public function communityMyConnections(Request $request)
@@ -126,7 +126,12 @@ class CommunityController extends Controller
             } else {
                 $lastTeenId = '';
             }
-            $myConnections = $this->communityRepository->getMyConnections($request->userId, $searchText, $lastTeenId, $sortBy, $sortOption);
+            if (isset($request->getAllRecords) && $request->getAllRecords == 1) {
+                $getAllRecords = 1;
+            } else {
+                $getAllRecords = '';
+            }
+            $myConnections = $this->communityRepository->getMyConnections($request->userId, $searchText, $lastTeenId, $sortBy, $sortOption, $getAllRecords);
             $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($request->userId, $searchText, $lastTeenId, $sortBy, $sortOption);
             $data = [];
             $data['sortBy'] = Helpers::getCommunitySortByArray();
