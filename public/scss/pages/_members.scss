@@ -1,11 +1,34 @@
 .profile-detail {
     .add-icon {
         right: 142px;
+        text-align: center;
         @include maxlg {
             right: 100px;
         }
         @include maxsm {
             right: 70px;
+        }
+        em {
+            font-size: 15px;
+            font-style: normal;
+            display: block;
+            line-height: 1;
+            text-align: center;
+            margin-top: -12px;
+            @include maxsm {
+                margin-top: 0;
+            }
+        }
+        &.sent-icon {
+            font-size: 49px;
+            margin-top: 10px;
+            @include maxsm {
+                font-size: 30px;
+                margin-top: 0;
+            }
+            em {
+                margin-top: 0;
+            }
         }
     }
 }
@@ -34,24 +57,40 @@
     p {
         margin-top: 53px;
     }
-    .profile-img{
+    .profile-img {
         background-repeat: no-repeat;
         background-size: contain;
         cursor: auto;
         background-position: center;
         margin: 0 auto 20px;
     }
+    .expand-btn {
+        font-size: 20px;
+        font-family: hl;
+        text-decoration: underline;
+        cursor: pointer;
+        @include maxms {
+            font-size: 17px;
+        }
+        &:hover {
+            color: $dark;
+        }
+    }
 }
 
 .sec-traits {
     margin-top: 54px;
+    width: 100%;
+    margin-bottom: 0;
     @include maxsm {
         margin-top: 35px;
+        margin: 0 auto;
     }
     li {
-        margin-right: 15px;
+        // margin-right: 15px;
+        margin-bottom: 20px;
         @include maxsm {
-            margin: 0 0 15px;
+            // margin: 0 0 15px;
             width: 100%;
         }
         &:last-child {
@@ -66,6 +105,11 @@
             font-family: hl;
             text-transform: capitalize;
             min-width: 222px;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            display: inline-flex;
             @include maxmd {
                 font-size: 20px;
             }
@@ -73,6 +117,14 @@
                 font-size: 15px;
             }
         }
+    }
+
+}
+
+.traits-expand {
+        display: none;
+    .sec-traits {
+        margin-top: 0;
     }
 }
 
