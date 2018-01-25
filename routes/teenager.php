@@ -11,7 +11,6 @@ Route::post('/save-profile', 'Teenager\DashboardController@saveProfile')->name('
 Route::post('/save-teenager-academic-info', 'Teenager\DashboardController@saveTeenagerAcademic');
 Route::post('/save-teenager-achievement-info', 'Teenager\DashboardController@saveTeenagerAchievement');
 Route::post('/load-more-my-careers', 'Teenager\DashboardController@loadMoreMyCareers')->name('load-more-my-careers');
-Route::get('/chat', 'Teenager\DashboardController@chat');
 Route::post('/get-phone-code-by-country-for-profile', 'Teenager\DashboardController@getPhoneCodeByCountry');
 Route::post('/save-pair', 'Teenager\DashboardController@savePair')->name('save-pair');
 Route::get('/gift-coupons', function() {
@@ -103,3 +102,8 @@ Route::post('save-level2-activity', 'Teenager\level2ActivityController@saveLevel
 
 Route::post('get-level1-trait', 'Teenager\Level1ActivityController@getLevel1Trait')->name('get-level1-trait');
 Route::post('save-level1-trait', 'Teenager\Level1ActivityController@saveLevel1Trait')->name('save-level1-trait');
+
+//Chat
+Route::get('/chat', 'Teenager\ChatController@index');
+Route::post('/getChatUsers', 'Teenager\ChatController@getChatUsers');
+Route::post('/registerUserInAppLozic', 'Teenager\ChatController@registerUserInAppLozic');
