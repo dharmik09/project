@@ -32,15 +32,19 @@ class Baskets extends Model
         return $this->hasMany(Professions::class, 'pf_basket');
     }
 
-
-    public function getBasketsAndProfessionWithAttemptedProfessionByProfessionId($professionId, $userId){
+    public function getBasketsAndProfessionWithAttemptedProfessionByProfessionId($professionId, $userId, $countryId){
         $this->professionId = $professionId;
         $this->userId = $userId;
+        $this->countryId = $countryId;
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
                         $query->where('tpa_teenager', $this->userId);
-                    }])->where('id',$this->professionId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id',$this->countryId);
+                    }])
+                    ->where('id',$this->professionId);
                 }])
                 ->whereHas('profession', function ($query) {
                     $query->where('id',$this->professionId);
@@ -50,13 +54,17 @@ class Baskets extends Model
         return $return;
     }
 
-    public function getBasketsAndProfessionWithAttemptedProfessionByBasketId($basketId, $userId){
+    public function getBasketsAndProfessionWithAttemptedProfessionByBasketId($basketId, $userId, $countryId){
         $this->basketId = $basketId;
         $this->userId = $userId;
+        $this->countryId = $countryId;
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
                         $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id',$this->countryId);
                     }]);
                 }])
                 ->where('id',$this->basketId)
