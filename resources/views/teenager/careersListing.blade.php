@@ -26,8 +26,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3 col-xs-6">
-                    <div class="form-group custom-select bg-blue" id="answerDropdown"></div>
+                <div class="col-md-3 col-xs-6" id="answerDropdown">
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group search-bar clearfix"><input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="search"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>

@@ -19,6 +19,7 @@ use App\TeenagerCoinsGift;
 use App\Transactions;
 use App\DeductedCoins;
 use App\TemplateDeductedCoins;
+use App\Teenagers;
 
 class CoinController extends Controller
 {
@@ -40,6 +41,7 @@ class CoinController extends Controller
         $this->objTransactions = new Transactions;
         $this->objDeductedCoins = new DeductedCoins;
         $this->objTemplateDeductedCoins = new TemplateDeductedCoins;
+        $this->objTeenager = new Teenagers;
     }
 
     /* Request Params : getProCoinsPackages
@@ -118,7 +120,7 @@ class CoinController extends Controller
                     });
 
                     $response['status'] = 1;
-                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['message'] = "Request has been sent successfully";
                 } else {
                     $response['status'] = 0;
                     $response['message'] = trans('appmessages.parentteenvarify');
@@ -221,7 +223,7 @@ class CoinController extends Controller
     }
 
     /* Request Params : getProCoinsPromisePlusData
-     *  loginToken, userId, userType, pageNo
+     *  loginToken, userId, userType, pageNo, searchText
      *  Service after loggedIn user
      */
     public function getProCoinsPromisePlusData(Request $request)
@@ -231,7 +233,8 @@ class CoinController extends Controller
         if($request->userId != "" && $teenager) {
             $data = [];
             $pageNo = $request->pageNo;
-            $promisePlusDetails = $this->objDeductedCoins->getDeductedCoinsDetailForPSHistory($request->userId, $request->userType, $pageNo);
+            $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : "";
+            $promisePlusDetails = $this->objDeductedCoins->getDeductedCoinsHistorySearch($request->userId, $request->userType, $pageNo, $searchText);
             foreach ($promisePlusDetails AS $key => $value) {
                 $promisePlusData = [];
                 $promisePlusData['componentName'] = $value->pc_element_name;
@@ -241,7 +244,7 @@ class CoinController extends Controller
                 $promisePlusData['endDate'] = date('d M Y', strtotime($value->dc_end_date));
                 $data[] = $promisePlusData;
             }
-            $nextPageExist = $this->objDeductedCoins->getDeductedCoinsDetailForPSHistory($request->userId, $request->userType, $pageNo + 1);
+            $nextPageExist = $this->objDeductedCoins->getDeductedCoinsHistorySearch($request->userId, $request->userType, $pageNo + 1, $searchText);
             if (isset($nextPageExist) && count($nextPageExist) > 0) {
                 $response['pageNo'] = $pageNo;
             } else {
@@ -296,7 +299,7 @@ class CoinController extends Controller
     }
 
     /* Request Params : getProCoinsL4ConceptTemplateData
-     *  loginToken, userId, userType, pageNo
+     *  loginToken, userId, userType, pageNo, searchText
      *  Service after loggedIn user
      */
     public function getProCoinsL4ConceptData(Request $request)
@@ -306,7 +309,8 @@ class CoinController extends Controller
         if($request->userId != "" && $teenager) {
             $data = [];
             $pageNo = $request->pageNo;
-            $l4ConceptDetails = $this->objTemplateDeductedCoins->getDeductedCoinsDetailHistory($request->userId, $request->userType, $pageNo);
+            $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : "";
+            $l4ConceptDetails = $this->objTemplateDeductedCoins->getDeductedCoinsDetailHistorySearch($request->userId, $request->userType, $pageNo, $searchText);
             foreach ($l4ConceptDetails AS $key => $value) {
                 $l4ConceptData = [];
                 $l4ConceptData['componentName'] = $value->gt_template_title;
@@ -316,7 +320,54 @@ class CoinController extends Controller
                 $l4ConceptData['endDate'] = date('d M Y', strtotime($value->tdc_end_date));
                 $data[] = $l4ConceptData;
             }
-            $nextPageExist = $this->objTemplateDeductedCoins->getDeductedCoinsDetailHistory($request->userId, $request->userType, $pageNo + 1);
+            $nextPageExist = $this->objTemplateDeductedCoins->getDeductedCoinsDetailHistorySearch($request->userId, $request->userType, $pageNo + 1, $searchText);
+            if (isset($nextPageExist) && count($nextPageExist) > 0) {
+                $response['pageNo'] = $pageNo;
+            } else {
+                $response['pageNo'] = '-1';
+            }
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : searchTeenagerToGiftCoins
+     *  loginToken, userId, pageNo, searchText
+     *  Service after loggedIn user
+     */
+    public function searchTeenagerToGiftCoins(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $data = [];
+            $pageNo = $request->pageNo;
+            $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : "";
+            $searchArray = explode(",",$searchText);
+            $activeTeenagers = $this->objTeenager->getSearchActiveTeenagersForGift($request->userId, $searchArray, $pageNo);
+            foreach ($activeTeenagers AS $key => $value) {
+                $teenData = [];
+                $teenData['id'] = $value->id;
+                $teenData['uniqueId'] = $value->t_uniqueid;
+                $teenData['name'] = $value->t_name;
+                $teenData['email'] = $value->t_email;
+                $teenData['coins'] = $value->t_coins;
+                if ($value->t_photo != '' && Storage::size($this->teenagerThumbImageUploadPath . $value->t_photo) > 0) {
+                    $teenData['photo'] = Storage::url($this->teenagerThumbImageUploadPath . $value->t_photo);
+                } else {
+                    $teenData['photo'] = Storage::url($this->teenagerThumbImageUploadPath . 'proteen-logo.png');
+                }
+                $data[] = $teenData;
+            }
+            $coinDetail = $this->teenagersRepository->getUserDataForCoinsDetail($request->userId);
+            $response['availableCoins'] = (isset($coinDetail) && !empty($coinDetail)) ? $coinDetail['t_coins'] : 0;
+            $nextPageExist = $this->objTeenager->getSearchActiveTeenagersForGift($request->userId, $searchArray, $pageNo + 1);
             if (isset($nextPageExist) && count($nextPageExist) > 0) {
                 $response['pageNo'] = $pageNo;
             } else {

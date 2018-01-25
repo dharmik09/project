@@ -74,10 +74,10 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         return $connectedIds;
     }
 
-    public function getMyConnections($loggedInTeen, $searchedConnections = array(), $lastTeenId = '', $filterBy = '', $filterOption = '')
+    public function getMyConnections($loggedInTeen, $searchedConnections = array(), $lastTeenId = '', $filterBy = '', $filterOption = '', $listConnections = '')
     {
         $connectedTeenIds = $this->getAcceptedConnectionsBySenderId($loggedInTeen);
-        $myConnections = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
+        $query = DB::table(Config::get('databaseconstants.TBL_TEENAGERS'))
                                 ->whereIn('id', $connectedTeenIds)
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
@@ -110,10 +110,13 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                             }
                                         }
                                     }
-                                 })
-                                ->orderBy('created_at', 'desc')
-                                ->limit(10)
-                                ->get();
+                                })
+                                ->orderBy('created_at', 'desc');
+            if ($listConnections == 1 && isset($listConnections)) {
+                $myConnections = $query->get();
+            } else {
+                $myConnections = $query->limit(10)->get();
+            }
         return $myConnections;
     }
 
