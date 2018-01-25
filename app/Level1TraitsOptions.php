@@ -2,6 +2,8 @@
 
 namespace App;
 use Illuminate\Database\Eloquent\Model;
+use DB;
+use Config;
 
 class Level1TraitsOptions extends Model
 {

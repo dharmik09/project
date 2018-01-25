@@ -125,7 +125,10 @@
     <div class="sec-survey describe-traits">
         <div class="container">
             <h2>{{ucfirst($teenDetails->t_name)}} {{ucfirst($teenDetails->t_lastname)}} Survey</h2>
-            <div id="traitsData"></div>
+            <div id="traitErrorGoneMsg"></div>
+            <div class="traitsLoader">
+                <div id="traitsData"></div>
+            </div>
         </div>
     </div>
     <!-- sec personal survey end-->
@@ -273,12 +276,10 @@
             answerId.push($(this).val());
         });
         var queId = $('#traitQue').val();
-        var toUserId = '';
-        $("#traitsData").fadeOut('slow', function() {
-            $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
-            $("#traitsData").fadeIn('slow');
-        });
-        $("#traitsData").addClass('loading-screen-parent');
+        var toUserId = '{{$teenDetails->t_uniqueid}}';
+        $('.traitsLoader .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        $('.traitsLoader .loading-wrapper-sub').show();
+        $("#traitErrorGoneMsg").html('');
         
         var CSRF_TOKEN = "{{ csrf_token() }}";
         $.ajax({
@@ -290,8 +291,28 @@
             },
             data: {'answerID':answerId,'questionID':queId,'toUserId':toUserId},
             success: function (response) {
-                $("#traitsData").removeClass('loading-screen-parent');
-                $("#traitsData").html(response).fadeIn('slow');
+                try {
+                    var valueOf = $.parseJSON(response); 
+                } catch (e) {
+                    // not json
+                }
+                if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                    $('#traitErrorGoneMsg').html("");
+                    $('.traitsLoader .loading-wrapper-sub').hide();
+                    $('.traitsLoader .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+
+                    $("html, body").animate({
+                        scrollTop: $('#traitErrorGoneMsg').offset().top 
+                    }, 300);
+                    $("#traitErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+valueOf.message+'</span></div></div></div>');
+                } else {
+                    $('#traitErrorGoneMsg').html("");
+                    $('.traitsLoader .loading-wrapper-sub').hide();
+                    $('.traitsLoader .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    $("#traitsData").html(response).fadeIn('slow');
+                }
+                //$("#traitsData").removeClass('loading-screen-parent');
+                //$("#traitsData").html(response).fadeIn('slow');
             }
         });
     }

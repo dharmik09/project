@@ -28,4 +28,15 @@ class Level1Traits extends Model
     public function questionOptions($questionId) {
         return $this->where('id', $questionId)->with('options')->get();
     }
+
+    public function questionOptionsIds($questionId) {
+        $data = $this->where('id', $questionId)->with('options')->get();
+        $ids = [];
+        if($data && isset($data[0]['options']) && count($data[0]['options']) > 0) {
+            foreach($data[0]['options'] as $optionId) {
+                $ids[] = $optionId->id;
+            }
+        } 
+        return $ids;
+    }
 }
