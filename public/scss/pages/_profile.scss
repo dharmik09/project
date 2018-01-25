@@ -1526,14 +1526,11 @@ input:checked + .slider:before {
         }
     }
     .careers-tab {
-        text-align: center;
-        width: 60%;
+       // text-align: center;
+       // width: 60%;
         margin: 0 auto;
-        @include maxsm {
-            width: 75%;
-        }
-        @include maxms {
-            width: 100%;
+        @include maxsm{
+            text-align: center;
         }
         .careers-block {
             margin-bottom: 50px;

@@ -254,4 +254,19 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
         }
         return $flag;
     }
+
+    /* @Name : checkTeenConnectionStatus
+    *  @Params : Teenager Reciver Id, Sender Id
+    *  @return : requestStatus [0 : 'pending', 1 : 'Accepted', 2 : 'Rejected' ]
+    *  @default : Default passing 2 use as a response to show not connected
+    */
+    public function checkTeenConnectionStatus($receiverId, $senderId)
+    {
+        $flag = 2;
+        $availableRequest = $this->model->where('tc_receiver_id', $receiverId)->where('tc_sender_id', $senderId)->first();
+        if ($availableRequest && !empty($availableRequest)) {
+            $flag = $availableRequest->tc_status;
+        }
+        return $flag;
+    }
 }

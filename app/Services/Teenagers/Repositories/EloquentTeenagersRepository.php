@@ -1120,7 +1120,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                                             where ti_icon_type = 2 AND ti_icon_id != 0 AND ti_teenager=" . $userId));
 
         $teenagerRelationIcon = DB::select(DB::raw("SELECT
-                                            pro_ti_teenager_icons.*,rel_name
+                                            pro_ti_teenager_icons.*, rel_name
                                             FROM pro_ti_teenager_icons
                                             LEFT JOIN pro_rel_relations ON pro_rel_relations.id = pro_ti_teenager_icons.ti_icon_relation
                                             where ti_icon_type = 3 AND ti_teenager=" . $userId));
