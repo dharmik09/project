@@ -210,11 +210,6 @@ class DashboardController extends Controller
         return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount'));   
     }
 
-    public function chat()
-    {
-        return view('teenager.chat');
-    }
-
     //Store my profile data
     public function saveProfile(TeenagerProfileUpdateRequest $request)
     {

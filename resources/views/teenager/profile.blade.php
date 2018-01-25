@@ -372,7 +372,7 @@
     <!-- sec personal survey-->
     <div class="sec-survey" id="sec-survey">
         <div class="container">
-            <h2>Personal Survey Part - 1</h2>
+            <h2>My Preferences</h2>
             <div id="traitErrorGoneMsg"></div>
             <div class="traitsLoader">
                 <div id="traitsData"></div>
@@ -387,7 +387,7 @@
                     </div>
                 </div>
             </div>
-            <h2>Personal Survey</h2>
+            <h2>My Votes</h2>
             <div id="errorGoneMsg"></div>
             <div class="survey-list">
                 <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
@@ -409,7 +409,7 @@
     <!-- icon voted sec start-->
     <div class="icon-voted bg-offwhite" id="icon-voted">
         <div class="container">
-            <h2>Icon Voted in L1</h2>
+            <h2>My Role Models</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.</p>
             <div class="voted-list">
                 @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
