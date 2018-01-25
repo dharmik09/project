@@ -22,12 +22,21 @@
         &.sent-icon {
             font-size: 49px;
             margin-top: 10px;
+           /* @include maxlg{
+                font-size: 34px;
+            }*/
             @include maxsm {
                 font-size: 30px;
                 margin-top: 0;
             }
             em {
                 margin-top: 0;
+            }
+        }
+        &.accepted-icon{
+            font-size: 60px;
+            @include maxsm{
+                font-size: 30px;
             }
         }
     }
