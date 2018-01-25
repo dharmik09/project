@@ -77,7 +77,7 @@ class TemplateDeductedCoins extends Model {
         return $deductedDetail;
     }
 
-    public function getDeductedCoinsDetailHistorySearch($id,$userType,$slot,$searchData, $type) {
+    public function getDeductedCoinsDetailHistorySearch($id, $userType, $slot = '', $searchData = '', $type = '') {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }
@@ -85,10 +85,15 @@ class TemplateDeductedCoins extends Model {
                     ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template", 'template.id', '=', 'd_coins.tdc_template_id')
                     ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.tdc_profession_id')
                     ->selectRaw('d_coins.* , template.gt_template_title, pro.pf_name')
-                    ->where('d_coins.tdc_user_id',$id)
-                    ->where('d_coins.tdc_user_type',$userType)
+                    ->where('d_coins.tdc_user_id', $id)
+                    ->where('d_coins.tdc_user_type', $userType)
+                    ->where(function($query) use ($searchData)  {
+                        if(isset($searchData) && !empty($searchData)) {
+                            $query->where('pro.pf_name', 'like', '%' . $searchData . '%');
+                            $query->orWhere('template.gt_template_title', 'like', '%' . $searchData . '%');
+                        }
+                     })
                     ->where('d_coins.tdc_total_coins','!=',0)
-                    ->where('pro.pf_name', 'like', '%' . $searchData . '%')
                     ->orderBy('d_coins.id','desc')
                     ->skip($slot)
                     ->take(config::get('constant.RECORD_PER_PAGE'))
