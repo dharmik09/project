@@ -34,6 +34,8 @@ Route::post('/search-help', 'Teenager\HomeController@help')->name('search-help')
 //ProCoins Gift
 Route::get('/gift-coins/', 'Teenager\CoinManagementController@getGiftCoins');
 Route::post('/user-search-to-gift-coins/', 'Teenager\CoinManagementController@userSearchToGiftCoins');
+Route::post('/save-gifted-coins-data/', 'Teenager\CoinManagementController@saveGiftedCoinsData');
+Route::post('/get-available-coins/', 'Teenager\CoinManagementController@getAvailableCoins');
 
 //ProCoins History
 Route::get('/get-pro-coins-history/', 'Teenager\CoinManagementController@getProCoinsHistory');

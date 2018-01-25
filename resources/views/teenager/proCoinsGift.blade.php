@@ -10,7 +10,7 @@
         <div class="procoin-heading gift-heading">
             <div class="container">
                 <h1 class="font-blue">{{trans('labels.availablecoins')}}</h1>
-                <p>You have <strong class="font-blue">@if(!empty($coinDetail)) <?php echo number_format($coinDetail['t_coins']);?> @endif</strong> procoins</p>
+                <p>You have <strong class="font-blue"><span class="coin_count_ttl">@if(!empty($coinDetail)) <?php echo number_format($coinDetail['t_coins']);?> @endif</span></strong> procoins</p>
                 <div class="procoin-form gift-form">
                     <form>
                         <div class="form-group search-bar clearfix">
@@ -123,6 +123,59 @@
             //$('#loading-wrapper-sub').hide();
             //$('#loading-wrapper-sub').parent().removeClass('loading-screen-parent'); 
         //}
+    }
+    function saveGiftedCoins(teenager_id,coins)
+    {
+        $('#gift_'+teenager_id).toggleClass('sending').blur();
+        var g_coins = $("#"+teenager_id).val();
+        
+        if (g_coins <= 0) {
+            $('#gift_'+teenager_id).removeClass('sending').blur();
+            //$('#send_'+teenager_id).addClass('send_error');
+            //$('#send_'+teenager_id).removeClass('send_success');
+            $('#send_'+teenager_id).text('Please enter valid ProCoins to gift');
+            setTimeout(function(){$('#send_'+teenager_id).text(' ');},5000);
+            return false;
+        } else if (g_coins > coins && g_coins > 0) {
+            $('#gift_'+teenager_id).removeClass('sending').blur();
+            //$('#send_'+teenager_id).addClass('send_error');
+            //$('#send_'+teenager_id).removeClass('send_success');
+            $('#send_'+teenager_id).text('Hey! You can only gift from what you have!!');
+            setTimeout(function(){$('#send_'+teenager_id).text(' ');},5000);
+            return false;
+        } else {
+             $.ajax({
+                url: "{{ url('/teenager/save-gifted-coins-data') }}",
+                type: 'POST',
+                data: {
+                    "_token": '{{ csrf_token() }}',
+                    "gift_coins": g_coins,
+                    "teenId": teenager_id
+                },
+                success: function(response) {
+                    $.ajax({
+                        url: "{{ url('/teenager/get-available-coins') }}",
+                        type: 'POST',
+                        data: {
+                            "_token": '{{ csrf_token() }}',
+                            "teenId": teenager_id
+                        },
+                        success: function(coins) {
+                            $('#coin_'+teenager_id).html(format(coins));
+                            $('#send_'+teenager_id).text('Coins gifted successfully');
+                            setTimeout(function(){$('#send_'+teenager_id).text(' ');},5000);
+                            $('.coin_count_ttl').html(response);
+                            $("#"+teenager_id).val('');
+                            $('#gift_'+teenager_id).removeClass('sending').blur();
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    function format(x) {
+        return isNaN(x)?"":x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 </script>
 @endsection

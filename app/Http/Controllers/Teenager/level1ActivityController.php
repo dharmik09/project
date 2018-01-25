@@ -241,40 +241,12 @@ class Level1ActivityController extends Controller
             $toUserId = $this->teenagersRepository->getTeenagerByUniqueId($toUser)->id;
         }
         $traitAllQuestion = $this->level1ActivitiesRepository->getAllLeve1Traits();
-        if(count($traitAllQuestion) > 0){
-            $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId,$toUserId);
-            if(count($traitQuestion) > 0){
-                $return = '<div class="survey-list">
-                    <div class="qualities-sec">
-                        <p>'.$traitQuestion[0]->tqq_text.'</p>
-                        <input type="hidden" id="traitQue" value="'.$traitQuestion[0]->activityID.'">
-                        <div class="row flex-container">';
-                foreach ($traitQuestion[0]->options as $key => $value) {
-                    $return .= '<div class="col-md-4 col-sm-6 col-xs-6 flex-items">
-                                    <div class="ck-button">
-                                        <label><input type="checkbox" name="traitAns" value="'.$value['optionId'].'" onclick="checkAnswerChecked();"><span>'.$value['optionText'].'</span></label>
-                                    </div>
-                                </div>';
-                }
-                $return .= '</div>
-                    </div>
-                    <div class="form-btn">
-                        <span class="icon"><i class="icon-arrow-spring"></i></span>
-                        <button onclick="saveLevel1TraitQuestion();" id="btnSaveTrait" title="Next" class="btn btn-primary" disabled="disabled">Next</button>
-                    </div>
-                </div>';
-            }
-            else{
-                $return = '<div class="sec-forum"><span>All traits completed</span></div>';
-            }
-        }
-        else{
-            $return = '<div class="sec-forum"><span>No questions Available</span></div>';
-        }
-        return $return;
+        $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId,$toUserId);
+        
+        return view('teenager.basic.level1QualityTraits', compact('traitQuestion'));
     }
 
-    public function saveLevel1Trait(){
+    public function saveLevel1Trait() {
         $userId = Auth::guard('teenager')->user()->id;
         $questionID = Input::get('questionID');
         $answerArray = Input::get('answerID');
@@ -289,30 +261,34 @@ class Level1ActivityController extends Controller
         if (isset($userId) && $userId > 0 && isset($questionID) && $questionID != 0) {
             $answerType = $this->objTraits->find($questionID)->tqq_is_multi_select;
             if($answerType == 0){
-                if(count($answerArray)>1){
-                    $return = trans('appmessages.onlyoneoptionallowedforthisquestion');
-                    return $return;
+                if(count($answerArray) > 1){
+                    $response['status'] = 0;
+                    $response['message'] = trans('appmessages.onlyoneoptionallowedforthisquestion');
+                    return response()->json($response, 200);
+                    exit;
                 }
             }
             $questionsArray = '';
+            $getQuestionOptionsIds = $this->objTraits->questionOptionsIds($questionID);
+            
             foreach ($answerArray as $key => $value) {
-                $answers = [];
-                $answers['tqq_id'] = $questionID;
-                $answers['tqo_id'] = $value;
-                $answers['tqa_from'] = $userId;
-                $answers['tqa_to'] = $toUserId;
-                $questionsArray = $this->level1ActivitiesRepository->saveLevel1TraitsAnswer($answers);
+                if(in_array($value ,$getQuestionOptionsIds)) {
+                    $answers = [];
+                    $answers['tqq_id'] = $questionID;
+                    $answers['tqo_id'] = $value;
+                    $answers['tqa_from'] = $userId;
+                    $answers['tqa_to'] = $toUserId;
+                    $questionsArray = $this->level1ActivitiesRepository->saveLevel1TraitsAnswer($answers);
+                }
             }
-            if($questionsArray){
-                return $this->getLevel1Trait();
-            } else {
-                $return = trans('appmessages.default_error_msg');
-                return $return;
-            }
-        } else {
-            $return = trans('appmessages.default_error_msg');
-            return $return;
+            $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId, $toUserId);
+            return view('teenager.basic.level1QualityTraits', compact('traitQuestion'));
         }
+        
+        $response['status'] = 0;
+        $response['message'] = trans('appmessages.default_error_msg');
+        return response()->json($response, 200);
+        exit;
     }
 
     public function getIconNameNew() {
