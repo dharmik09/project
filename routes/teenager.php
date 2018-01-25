@@ -93,9 +93,9 @@ Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@i
 Route::get('/learning-guidance', 'Teenager\HomeController@learningGuidance');
 	
 //Network
-Route::get('/my-network', function() {
-	return view('teenager.network');
-});
+Route::get('/my-network', 'Teenager\DashboardController@getMyNetworkDetails');
+Route::post('/search-network', 'Teenager\DashboardController@getMyNetworkDetails');
+Route::post('/get-network-members-by-filter', 'Teenager\DashboardController@getMyNetworkDetails');
 Route::get('/network-member/{uniqueId}', 'Teenager\CommunityManagementController@getMemberDetails');
 
 Route::post('get-level2-activity', 'Teenager\level2ActivityController@index')->name('getLevel2Activity');

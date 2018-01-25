@@ -517,5 +517,32 @@ class DashboardController extends Controller
         $percentage = $mul/$maxScore;
         return round($percentage);
     }
-   
+
+    //My Network Data
+    public function getMyNetworkDetails()
+    {
+        $loggedInTeen = Auth::guard('teenager')->user()->id;
+        $searchConnections = Input::get('searchConnections');
+        $filterBy = Input::get('filter_by');
+        $filterOption = Input::get('filter_option');
+        $connectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen);
+        if ((isset($searchConnections) && !empty($searchConnections)) || (isset($filterOption) && !empty($filterOption) && isset($filterBy) && !empty($filterBy))) {
+            if (isset($filterBy) && !empty($filterBy) && $filterBy == 't_age') {
+                $filterBy = 't_birthdate';
+                if (strpos($filterOption, '-') !== false) {
+                    $ageArr = explode("-", $filterOption);
+                    $toDate = Carbon::now()->subYears($ageArr[0]);
+                    $fromDate = Carbon::now()->subYears($ageArr[1]);
+                    $filterOptionArr['fromDate'] = $fromDate->format('Y-m-d');
+                    $filterOptionArr['toDate'] = $toDate->format('Y-m-d');
+                    $filterOption = $filterOptionArr;
+                } 
+            }
+            $memberDetails = $this->communityRepository->getMyConnections($loggedInTeen, $searchConnections, '', $filterBy, $filterOption, 1);
+            return view('teenager.searchedNetwork', compact('memberDetails', 'connectionsCount'));
+        } else {
+            $memberDetails = $this->communityRepository->getMyConnections($loggedInTeen, $searchConnections, '', '', '', 1);
+            return view('teenager.network', compact('memberDetails', 'connectionsCount'));
+        }
+    }
 }

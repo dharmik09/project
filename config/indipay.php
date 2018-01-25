@@ -12,7 +12,7 @@ return [
 
     'gateway' => 'CCAvenue',                // Replace with the name of default gateway you want to use
 
-    'testMode'  => false,                   // True for Testing the Gateway [For production false]
+    'testMode'  => true,                   // True for Testing the Gateway [For production false]
 
     'ccavenue' => [                         // CCAvenue Parameters
         'merchantId'  => '130338',
