@@ -87,8 +87,8 @@
                             <li>{{ $myConnectionCount }} {{ ($myConnectionCount == 1) ? "Connection" : "Connections" }} </li>
                         </ul>
                         <ul class="social-media">
-                            <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
-                            <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
+                            <li><a href="https://facebook.com/{{$teenDetails->t_fb_social_identifier}}" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                            <li><a href="https://plus.google.com/{{$teenDetails->t_social_identifier}}" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                         </ul>
                         @if (!empty($connectedTeen) && $connectedTeen == true)
                         <div class="chat-icon add-icon">
@@ -98,28 +98,24 @@
                         <div class="chat-icon">
                             <a href="#" title="Chat"><i class="icon-chat"></i></a>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. Nunc fringilla mattis mi, sit amet hendrerit nibh euismod in. Praesent ut vulputate sem. Vestibulum odio quam, sagittis vitae pellentesque sit amet, rhoncus sit amet ipsum. Ut eros risus, molestie sed sapien at, euismod dignissim velit.</p>
+                        <p>{{ ($teenDetails->t_about_info != "") ? $teenDetails->t_about_info : "" }}</p>
                     </div>
                 </div>
+                @if(isset($teenagerTrait[0]))
                 <div class="text-center">
                     <ul class="sec-traits">
-                        <li>
-                            <div class="ck-button">
-                                Technologist
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ck-button">
-                                Writer
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ck-button">
-                                Explorer
-                            </div>
-                        </li>
+                        @forelse($teenagerTrait as $teenTrait)
+                            <li>
+                                <div class="ck-button">
+                                    {{ $teenTrait->options_text }}({{ $teenTrait->options_count }})
+                                </div>
+                            </li>
+                        @empty
+                            
+                        @endforelse
                     </ul>
                 </div>
+                @endif
             </div>
             <!--profile detail end-->
         </div>
@@ -153,34 +149,22 @@
                             </div>
                         </div>
                         <ul class="badge-list interest-list clearfix">
-                            <?php 
-                                $interestFlag = ''; 
-                                if (!empty(array_filter($teenagerInterest))) {
-                                    $interestFlag = true;
-                                } else {
-                                    $interestFlag = false;
-                                }
-                            ?>
-                            @if ($interestFlag == true)
-                                @forelse($teenagerInterest as $interestKey => $interestValue)
-                                <?php if ($interestValue < 1) { continue; } ?> 
+                            @forelse($teenagerInterest as $interestKey => $interestValue)
                                 <li>
                                     <figure>
-                                        <div class="progress-radial progress-90 progress-orange">
-                                        </div>
-                                        <figcaption><?php echo Helpers::getInterestBySlug($interestKey); ?></figcaption>
+                                        <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
+                                            <div class="progress-radial progress-{{$interestValue['score']}} progress-orange"></div>
+                                        </a>
+                                        <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
+                                            <figcaption>{{ $interestValue['name']}}</figcaption>
+                                        </a>
                                     </figure>
                                 </li>
-                                @empty
+                            @empty
                                 <center>
-                                    <h3>No Records found.</h3>
+                                    <h3>No any Interest found!</h3>
                                 </center>
-                                @endforelse
-                            @else
-                            <center>
-                                <h3>No Records found.</h3>
-                            </center>
-                            @endif
+                            @endforelse
                         </ul>
                     </div>
                     <div id="menu2" class="tab-pane fade">
@@ -195,13 +179,12 @@
                         <div class="strength-list">
                             <ul class="badge-list interest-list clearfix">
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
-                                <?php $imageChart = "img/My_chart-".$strengthValue['score'].".png"; ?>
                                 <li>
                                     <figure>
-                                        <!--<img src="img/My_chart.png" alt="interest img">-->
-                                        <div class="progress-radial progress-90">
-                                        </div>
-                                        <figcaption>{{ $strengthValue['name'] }}</figcaption>
+                                        <a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}" title="{{ $strengthValue['name'] }}">
+                                            <div class="progress-radial progress-{{$strengthValue['score']}}"></div>
+                                        </a>
+                                        <figcaption><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}" title="{{ $strengthValue['name'] }}"> {{ $strengthValue['name'] }} </a></figcaption>
                                     </figure>
                                 </li>
                                 @empty
@@ -228,7 +211,7 @@
                                     <div class="team-img">
                                         <?php
                                             if(isset($myConnection->t_photo) && $myConnection->t_photo != '') {
-                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$newConnection->t_photo;
+                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo;
                                             } else {
                                                 $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                                             }
@@ -261,7 +244,8 @@
 @section('script')
 <script type="text/javascript">
 
-    $(document).ready(function() {
+    $(window).on("load", function(e) {
+        e.preventDefault();
         fetchLevel1TraitQuestion();
     });
     
@@ -289,8 +273,11 @@
             answerId.push($(this).val());
         });
         var queId = $('#traitQue').val();
-        var toUserId = '{{$teenDetails->t_uniqueid}}';
-        $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        var toUserId = '';
+        $("#traitsData").fadeOut('slow', function() {
+            $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#traitsData").fadeIn('slow');
+        });
         $("#traitsData").addClass('loading-screen-parent');
         
         var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -303,10 +290,21 @@
             },
             data: {'answerID':answerId,'questionID':queId,'toUserId':toUserId},
             success: function (response) {
-                $("#traitsData").html(response);
                 $("#traitsData").removeClass('loading-screen-parent');
+                $("#traitsData").html(response).fadeIn('slow');
             }
         });
+    }
+    function checkAnswerChecked() {
+        var answerId = [];
+        $.each($("input[name='traitAns']:checked"), function(){            
+            answerId.push($(this).val());
+        });
+        if(answerId.length != 0){
+            $("#btnSaveTrait").attr("disabled", false);
+        }else{
+            $("#btnSaveTrait").attr("disabled", true);
+        }
     }
 </script>
 @stop

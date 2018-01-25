@@ -231,10 +231,10 @@ class Level1ActivityController extends Controller
         exit;
     }
     
-    public function getLevel1Trait(){
+    public function getLevel1Trait() {
         $userId = Auth::guard('teenager')->user()->id;
         $toUser = Input::get('toUserId');
-        if($toUser == ''){
+        if($toUser == '') {
             $toUserId = $userId;
         }
         else{

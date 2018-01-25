@@ -18,6 +18,21 @@ class Professions extends Model {
         return $result;
     }
 
+    public function getActiveProfessionsOrderByName() {
+        $result = $this->select('*')
+                ->orderBy('pf_name')
+                ->where('deleted', '1')
+                ->get();
+        return $result;
+    }
+    
+    public function getActiveProfessionsCountByBaketId($basketId) {
+        $result = $this->where('pf_basket', $basketId)
+                ->where('deleted', '1')
+                ->count();
+        return $result;
+    }
+
     public function getProfessionByName($name) {
         $result = $this->select('*')
                 ->where('deleted', '1')

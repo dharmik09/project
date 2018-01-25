@@ -16,4 +16,8 @@ class Level1TraitsOptions extends Model
     	$return = $this->where('tqq_id', $questionId)->with('getQuestionDetail')->get();
     	return $return;
     }
+
+    function traitAnswers() {
+        return $this->hasMany(Level1TraitsAnswers::class, 'tqo_id');
+    }
 }
