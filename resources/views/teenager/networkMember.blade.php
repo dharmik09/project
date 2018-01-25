@@ -92,15 +92,21 @@
                         </ul>
                         @if ($connectionStatus == 0)
 	                        <div class="chat-icon add-icon sent-icon">
-	                            <a href="javascript:void(0)" title="Invitation Sent"><i class="icon-check-mark"></i><em>Invitation Sent</em></a>
+	                            <a href="javascript:void(0)" title="Invitation Sent">
+	                            	<img src="img/request-send.png" alt="Invitation Sent"><em>Invitation Sent</em>
+	                            </a>
 	                        </div>
                         @elseif($connectionStatus == 1)
 							<div class="chat-icon add-icon accepted-icon">
-	                            <a href="javascript:void(0)" title="Connected"><i class="icon-thumb"></i><em>Accepted</em></a>
+	                            <a href="javascript:void(0)" title="Connected">
+	                            	<img src="{{ Storage::url('img/accepted-icon.png') }}" alt="Invitation Accepted"><em>Connected</em>
+	                            </a>
 	                        </div>
                         @else
-							<div class="chat-icon add-icon">
-	                            <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add"><i class="icon-add-circle"></i><em>Add Connection</em></a>
+							<div class="chat-icon add-icon icon-add">
+	                            <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add">
+	                            	<img src="{{ Storage::url('img/add-icon.png') }}" alt="Add"><em>Add Connection</em>
+	                            </a>
 	                        </div>
 	                    @endif
                         <div class="chat-icon">

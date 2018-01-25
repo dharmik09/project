@@ -2,21 +2,26 @@
     .add-icon {
         right: 142px;
         text-align: center;
+        //vertical-align: middle;
         @include maxlg {
             right: 100px;
         }
         @include maxsm {
-            right: 70px;
+            right: 60px;
+            img{
+                width: 30px;
+            }
         }
+        
         em {
             font-size: 15px;
             font-style: normal;
             display: block;
             line-height: 1;
             text-align: center;
-            margin-top: -12px;
-            @include maxsm {
-                margin-top: 0;
+            margin-top: 8px;
+            @include maxsm{
+                margin-top: 5px;
             }
         }
         &.sent-icon {
@@ -29,14 +34,24 @@
                 font-size: 30px;
                 margin-top: 0;
             }
-            em {
-                margin-top: 0;
-            }
+            
         }
         &.accepted-icon{
             font-size: 60px;
             @include maxsm{
                 font-size: 30px;
+            }
+        }
+        &.icon-add{
+            margin-top: -10px;
+            @include maxsm{
+                margin-top: 0;
+            }
+            em{
+                margin-top: 0;
+                @include maxsm{
+                    margin-top: 5px;
+                }
             }
         }
     }

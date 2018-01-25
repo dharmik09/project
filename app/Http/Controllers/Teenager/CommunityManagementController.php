@@ -16,7 +16,9 @@ use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
 use Redirect;
 use Request;
 use App\Services\Schools\Contracts\SchoolsRepository;  
-use Carbon\Carbon;  
+use Carbon\Carbon;
+use App\Events\SendMail;
+use Event;
 
 class CommunityManagementController extends Controller {
 
@@ -165,17 +167,18 @@ class CommunityManagementController extends Controller {
     {
         $receiverTeenDetails = $this->teenagersRepository->getTeenagerByUniqueId($uniqueId);
         $senderTeenDetails = $this->teenagersRepository->getTeenagerDetailById(Auth::guard('teenager')->user()->id);
-        $connectedTeen = $this->communityRepository->checkTeenAlreadyConnected($receiverTeenDetails->id, Auth::guard('teenager')->user()->id);
-        if (!empty($connectedTeen) && $connectedTeen == true) {
+        $connectedTeen = $this->communityRepository->checkTeenConnectionStatus($receiverTeenDetails->id, Auth::guard('teenager')->user()->id);
+        if ($connectedTeen == 2) {
             $data = array();
-            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName('send-connection-request-to-teen');
             $replaceArray = array();
+            
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName('send-connection-request-to-teen');
             $connectionUniqueId = uniqid("", TRUE);
+            
             $replaceArray['RECEIVER_TEEN_NAME'] = $receiverTeenDetails->t_name;
             $replaceArray['SENDER_TEEN_NAME'] = $senderTeenDetails->t_name;
-            //$replaceArray['ACCEPT_URL'] = url('teenager/accept-connection-request?token='.$connectionUniqueId);
-            //$replaceArray['REJECT_URL'] = url("teenager/reject-connection-request?token=".$connectionUniqueId);
             $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            
             if (isset($emailTemplateContent) && !empty($emailTemplateContent)) {
                 $data['subject'] = $emailTemplateContent->et_subject;
                 $data['toEmail'] = $receiverTeenDetails->t_email;
@@ -184,18 +187,16 @@ class CommunityManagementController extends Controller {
                 $data['tc_unique_id'] = $connectionUniqueId;
                 $data['tc_sender_id'] = Auth::guard('teenager')->user()->id;
                 $data['tc_receiver_id'] = $receiverTeenDetails->id;
-                Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
-                            $message->subject($data['subject']);
-                            $message->to($data['toEmail'], $data['toName']);
-                            // Save connection request data
-                            $connectionRequestData['tc_unique_id'] = $data['tc_unique_id'];
-                            $connectionRequestData['tc_sender_id'] = $data['tc_sender_id'];
-                            $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
-                            $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
+                
+                Event::fire(new SendMail("emails.Template", $data));
 
-                            $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
-                                });
-                        // ------------------------end sending mail ----------------------------//
+                $connectionRequestData['tc_unique_id'] = $data['tc_unique_id'];
+                $connectionRequestData['tc_sender_id'] = $data['tc_sender_id'];
+                $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
+                $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
+
+                $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+
                 return Redirect::back()->with('success', 'Connection request sent successfully');
             } else {
                 return Redirect::back()->with('error', trans('validation.somethingwrong'));
