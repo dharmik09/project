@@ -118,7 +118,7 @@ class CoinController extends Controller
                     });
 
                     $response['status'] = 1;
-                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['message'] = "Request has been sent successfully";
                 } else {
                     $response['status'] = 0;
                     $response['message'] = trans('appmessages.parentteenvarify');
