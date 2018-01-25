@@ -12,6 +12,7 @@ use App\Services\Template\Contracts\TemplatesRepository;
 use Mail;
 use Helpers;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
+use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
 use Redirect;
 use Request;
 use App\Services\Schools\Contracts\SchoolsRepository;  
@@ -19,12 +20,13 @@ use Carbon\Carbon;
 
 class CommunityManagementController extends Controller {
 
-    public function __construct(TemplatesRepository $templateRepository, CommunityRepository $communityRepository, TeenagersRepository $teenagersRepository, SchoolsRepository $schoolsRepository) 
+    public function __construct(Level1ActivitiesRepository $level1ActivitiesRepository, TemplatesRepository $templateRepository, CommunityRepository $communityRepository, TeenagersRepository $teenagersRepository, SchoolsRepository $schoolsRepository) 
     {
         $this->templateRepository = $templateRepository;
         $this->communityRepository = $communityRepository;
         $this->teenagersRepository = $teenagersRepository;
         $this->schoolsRepository = $schoolsRepository;
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
     }
 
     public function index()
@@ -64,29 +66,45 @@ class CommunityManagementController extends Controller {
     {
         $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($uniqueId);
         if (isset($teenDetails) && !empty($teenDetails)) {
+            $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($teenDetails->id);
             $connectedTeen = $this->communityRepository->checkTeenAlreadyConnected($teenDetails->id, Auth::guard('teenager')->user()->id);
             $myConnections = $this->communityRepository->getMyConnections($teenDetails->id);
             $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($teenDetails->id);
-            $teenagerInterest = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
-            $teenagerMI = isset($teenagerAPIData['APIscale']['MI']) ? $teenagerAPIData['APIscale']['MI'] : [];
-            foreach($teenagerMI as $miKey => $miVal) {
-                $mitName = Helpers::getMIBySlug($miKey);
-                $teenagerMI[$miKey] = (array('score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
+            $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
+            $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
+            $teenagerInterest = [];
+            foreach($teenagerInterestArr as $interestKey => $interestVal){
+                if ($interestVal < 1) { continue; } else {
+                    $itName = Helpers::getInterestBySlug($interestKey);
+                    $teenItScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['interest'][$interestKey], $interestVal);
+                    $teenagerInterest[$interestKey] = (array('score' => $teenItScore, 'name' => $itName));
+                }
             }
 
-            $teenagerAptitude = isset($teenagerAPIData['APIscale']['aptitude']) ? $teenagerAPIData['APIscale']['aptitude'] : [];
+            $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
+
+            foreach($teenagerMI as $miKey => $miVal) {
+                $mitName = Helpers::getMIBySlug($miKey);
+                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
+                    $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
+            }
+
+            $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
             foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
                 $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-                $teenagerAptitude[$apptitudeKey] = (array('score' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
+                $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
+                $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
             }
-            $teenagerPersonality = isset($teenagerAPIData['APIscale']['personality']) ? $teenagerAPIData['APIscale']['personality'] : [];
+            $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
             foreach($teenagerPersonality as $personalityKey => $personalityVal) {
                 $ptName = Helpers::getPersonalityBySlug($personalityKey);
-                $teenagerPersonality[$personalityKey] = (array('score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
+                $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
+                $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
             }
             $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
             $myConnectionCount = $this->communityRepository->getMyConnectionsCount($teenDetails->id);
-            return view('teenager.networkMember', compact('teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectedTeen', 'myConnectionCount'));
+            
+            return view('teenager.networkMember', compact('teenagerTrait', 'teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectedTeen', 'myConnectionCount'));
         } else {
             return Redirect::back()->with('error', 'Member not found');
         }
@@ -201,5 +219,16 @@ class CommunityManagementController extends Controller {
             $filterData = array();
         }
         return view('teenager.communitySubFilter', compact('filterData', 'filterOption'));
+    }
+
+    //Calculate teenager strength and interest score percentage
+    public function getTeenScoreInPercentage($maxScore, $teenScore) 
+    {
+        if ($teenScore > $maxScore) {
+            $teenScore = $maxScore;
+        }
+        $mul = 100*$teenScore;
+        $percentage = $mul/$maxScore;
+        return round($percentage);
     }
 }
