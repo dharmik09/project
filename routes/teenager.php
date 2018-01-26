@@ -27,6 +27,10 @@ Route::get('/seo-teaser', function() {
 	return view('teenager.seoTeaser');
 });
 
+Route::post('/get-interest-detail', 'Teenager\HomeController@getInterestDetail');
+Route::post('/get-strength-detail', 'Teenager\HomeController@getStrengthDetail');
+
+
 //Help
 Route::get('help', 'Teenager\HomeController@help');
 Route::post('/search-help', 'Teenager\HomeController@help')->name('search-help');
@@ -39,6 +43,7 @@ Route::post('/get-available-coins/', 'Teenager\CoinManagementController@getAvail
 
 //ProCoins History
 Route::get('/get-pro-coins-history/', 'Teenager\CoinManagementController@getProCoinsHistory');
+Route::post('/get-consumption-history-more-data', 'Teenager\CoinManagementController@getConsumptionHistoryMoreData');
 
 //Buy ProCoins
 Route::get('/buy-procoins', 'Teenager\CoinManagementController@displayProCoins');
