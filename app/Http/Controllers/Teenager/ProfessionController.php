@@ -314,7 +314,8 @@ class ProfessionController extends Controller {
             }
         }
         else{
-            $return = '<center><h3>No result Found</h3></center>';
+            // $return = '<center><h3>No result Found</h3></center>';
+            $return = '<div class="sec-forum"><span>No result Found</span></div>';
         }
         return $return;
     }
@@ -387,7 +388,7 @@ class ProfessionController extends Controller {
             }
         }
         else{
-            $return = '<center><h3>No result Found</h3></center>';
+            $return = '<div class="sec-forum"><span>No result Found</span></div>';
         }
         return $return;
     }
