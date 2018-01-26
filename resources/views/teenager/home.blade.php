@@ -364,8 +364,7 @@
             },
             data: {'helpSlug':helpSlug},
             success: function(response) {
-                $("."+helpSlug).text(response);
-                
+                $("."+helpSlug).text(response);                
             }
         });
     }

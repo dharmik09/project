@@ -112,32 +112,33 @@ class DeductedCoins extends Model  {
         return $deductedDetail;
     }
 
-    public function getDeductedCoinsDetailForPS($id, $type) {
+    public function getDeductedCoinsDetailForPS($id, $type, $searchText = '') {
         $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
                 ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
                 ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
-                ->where('d_coins.dc_user_id',$id)
-                ->where('d_coins.dc_total_coins','!=',0)
-                ->where('d_coins.dc_user_type',$type)
-                ->where('paid.pc_element_name',Config::get('constant.PROMISE_PLUS'))
+                ->where('d_coins.dc_user_id', $id)
+                ->where('d_coins.dc_total_coins', '!=', 0)
+                ->where('d_coins.dc_user_type', $type)
+                ->where('paid.pc_element_name', Config::get('constant.PROMISE_PLUS'))
+                ->where('pro.pf_name', 'like', '%' . $searchText . '%') 
                 ->orderBy('d_coins.id','desc')
-                ->paginate(Config::get('constant.RECORD_PER_PAGE'));
+                ->paginate(10);
 
         return $deductedDetail;
     }
 
-    public function getDeductedCoinsDetailForLS($id, $type) {
+    public function getDeductedCoinsDetailForLS($id, $type, $searchText = '') {
         $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
                 ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
                 ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')
-                ->where('d_coins.dc_user_id',$id)
-                ->where('d_coins.dc_total_coins','!=',0)
-                ->where('d_coins.dc_user_type',$type)
-                ->where('paid.pc_element_name',Config::get('constant.LEARNING_STYLE'))
+                ->where('d_coins.dc_user_id', $id)
+                ->where('d_coins.dc_total_coins', '!=', 0)
+                ->where('d_coins.dc_user_type', $type)
+                ->where('paid.pc_element_name', Config::get('constant.LEARNING_STYLE'))
                 ->orderBy('d_coins.id','desc')
-                ->paginate(Config::get('constant.RECORD_PER_PAGE'));
+                ->paginate(10);
 
         return $deductedDetail;
     }
@@ -146,7 +147,7 @@ class DeductedCoins extends Model  {
         if ($slot > 0) {
             $slot = $slot * config::get('constant.RECORD_PER_PAGE');
         }
-        $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
+        $deductedDetail = DB::table(Config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
                 ->leftjoin(config::get('databaseconstants.TBL_PAID_COMPONENTS') . " AS paid", 'paid.id', '=', 'd_coins.dc_component_name')
                 ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.dc_profession_id')
                 ->selectRaw('d_coins.* , paid.pc_element_name, pro.pf_name')

@@ -79,14 +79,15 @@ class CoinManagementController extends Controller
      *
      * @return void
      */
-    public function getProCoinsHistory() 
+    public function getProCoinsHistory(Request $request) 
     {
         $teenId = Auth::guard('teenager')->user()->id;
+        $tab = Input::get('get');
         $transactionDetail = $this->objTransactions->getTransactionsDetail($teenId, 1);
         $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailForPS($teenId, 1);
         $deductedCoinsDetailLS = $this->objDeductedCoins->getDeductedCoinsDetailForLS($teenId, 1);
         $deductedTemplateCoinsDetail = $this->objTemplateDeductedCoins->getDeductedCoinsDetail($teenId, 1);
-        return view('teenager.proCoinsHistory', compact('transactionDetail', 'deductedCoinsDetail', 'deductedTemplateCoinsDetail', 'deductedCoinsDetailLS'));
+        return view('teenager.proCoinsHistory', compact('transactionDetail', 'deductedCoinsDetail', 'deductedTemplateCoinsDetail', 'deductedCoinsDetailLS', 'tab'));
     }
 
     /**
@@ -129,9 +130,7 @@ class CoinManagementController extends Controller
             ];
 
             $order = Indipay::prepare($parameters);
-            echo "<pre>";
-            print_r($order);
-            exit;
+            
             return Indipay::process($order);
         }
     }
@@ -267,7 +266,8 @@ class CoinManagementController extends Controller
         return number_format($response);
     }
 
-    public function getAvailableCoins() {
+    public function getAvailableCoins() 
+    {
         $userId = Input::get('teenId');
         $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($userId);
         if (!empty($userDetail)) {
@@ -275,6 +275,24 @@ class CoinManagementController extends Controller
             exit;
         } else {
             return false;
+        }
+    }
+
+    public function getConsumptionHistoryMoreData()
+    {
+        $teenId = Auth::guard('teenager')->user()->id;
+        $searchText = Input::get('searchText');
+        $page = Input::get('page');
+        $tab = Input::get('tab');
+        if ($tab == 'promise_plus') {
+            $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailForPS($teenId, 1, $searchText);
+            return view('teenager.searchedPromisePlus', compact('deductedCoinsDetail'));
+        } else if ($tab == 'l4_concept_template') {
+            $deductedTemplateCoinsDetail = $this->objTemplateDeductedCoins->getDeductedCoinsDetail($teenId, 1, $searchText);
+            return view('teenager.searchedL4ConceptTemplate', compact('deductedTemplateCoinsDetail'));
+        } else {
+            $deductedCoinsDetailLS = $this->objDeductedCoins->getDeductedCoinsDetailForLS($teenId, 1);
+            return view('teenager.learningGuidanceData', compact('deductedCoinsDetailLS'));
         }
     }
 }

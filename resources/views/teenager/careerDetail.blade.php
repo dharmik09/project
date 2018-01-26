@@ -1064,69 +1064,135 @@
             return $item->pfic_title == 'masters_degree_req';
         })->first();
 
-        if(isset($high_school_req->pfic_content) && !empty($high_school_req->pfic_content) && isset($junior_college_req->pfic_content) && !empty($junior_college_req->pfic_content) && isset($bachelor_degree_req->pfic_content) && !empty($bachelor_degree_req->pfic_content) && isset($masters_degree_req->pfic_content) && !empty($masters_degree_req->pfic_content)){
-
-            $high_school = strip_tags($high_school_req->pfic_content);
-            $junior_college = strip_tags($junior_college_req->pfic_content);
-            $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
-            $masters_degree = strip_tags($masters_degree_req->pfic_content);
-
-            $chartArray[] = array('y'=> (int) strip_tags($high_school), 'name' => 'High School', 'color' => '#ff5f44');
-            $chartArray[] = array('y'=> (int) strip_tags($junior_college), 'name' => 'Bachelors Degree', 'color' => '#65c6e6');
-            $chartArray[] = array('y'=> (int) strip_tags($bachelor_degree), 'name' => 'Masters Degree', 'color' => '#73376d');
-            $chartArray[] = array('y'=> (int) strip_tags($masters_degree), 'name' => 'PhD', 'color' => '#27a6b5');
+        if(isset($high_school_req->pfic_content)){
+            if($countryId == 1){ // India
+                if(strip_tags($high_school_req->pfic_content) == 0){
+                    $high_school = 10;
+                }elseif(strip_tags($high_school_req->pfic_content) == 1){
+                    $high_school = 20;
+                }else{
+                    $high_school = strip_tags($high_school_req->pfic_content);
+                }
+            }
+            elseif($countryId == 2){ // United States
+                $high_school = strip_tags($high_school_req->pfic_content);
+            }
         }else{
-            $chartArray = [];
+            $high_school = 0;
+        }
+
+        if(isset($junior_college_req->pfic_content)){
+            if($countryId == 1){ // India
+                if(strip_tags($junior_college_req->pfic_content) == 0){
+                    $junior_college = 10;
+                }elseif(strip_tags($junior_college_req->pfic_content) == 1){
+                    $junior_college = 20;
+                }else{
+                    $junior_college = strip_tags($junior_college_req->pfic_content);
+                }
+            }
+            elseif($countryId == 2){ // United States
+                $junior_college = strip_tags($junior_college_req->pfic_content);
+            }
+        }else{
+            $junior_college = 0;
+        }
+
+        if(isset($bachelor_degree_req->pfic_content)){
+            if($countryId == 1){ // India
+                if(strip_tags($bachelor_degree_req->pfic_content) == 0){
+                    $bachelor_degree = 10;
+                }elseif(strip_tags($bachelor_degree_req->pfic_content) == 1){
+                    $bachelor_degree = 20;
+                }else{
+                    $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
+                }
+            }
+            elseif($countryId == 2){ // United States
+                $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
+            }
+        }else{
+            $bachelor_degree = 0;
+        }
+
+        if(isset($masters_degree_req->pfic_content)){
+            if($countryId == 1){ // India
+                if(strip_tags($masters_degree_req->pfic_content) == 0){
+                    $masters_degree = 10;
+                }elseif(strip_tags($masters_degree_req->pfic_content) == 1){
+                    $masters_degree = 20;
+                }else{
+                    $masters_degree = strip_tags($masters_degree_req->pfic_content);
+                }
+            }
+            elseif($countryId == 2){ // United States
+                $masters_degree = strip_tags($masters_degree_req->pfic_content);
+            }
+        }else{
+            $masters_degree = 0;
+        }
+        if($high_school == 0 && $junior_college == 0 && $bachelor_degree == 0 && $masters_degree == 0)
+        {    
+    ?>
+            $('#education_chart').html('');
+    <?php
+        }
+        else
+        {
+            $chartArray[] = array('y'=> (int) $high_school, 'name' => 'High School', 'color' => '#ff5f44');
+            $chartArray[] = array('y'=> (int) $junior_college, 'name' => 'Bachelors Degree', 'color' => '#65c6e6');
+            $chartArray[] = array('y'=> (int) $bachelor_degree, 'name' => 'Masters Degree', 'color' => '#73376d');
+            $chartArray[] = array('y'=> (int) $masters_degree, 'name' => 'PhD', 'color' => '#27a6b5');
+    ?>
+            var educationChartData = <?php echo json_encode($chartArray);  ?>;
+            console.log(educationChartData);
+            loadChart('column','',educationChartData,'education_chart');
+
+            function loadChart(chartType,total,chartData,loadDiv){
+                $('#'+loadDiv).highcharts({
+                    chart: {
+                        type: chartType,
+                    },
+                    title: {
+                        text: ''
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: {
+                        type: 'category',
+                    },
+                    legend: {
+                        enabled:false
+                    },
+                    yAxis: {                
+                        title: {
+                            text: ''
+                        },                
+                        lineWidth: 0                
+                    },
+                                
+                    plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: false,
+                                format: ''
+                            }
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: ''
+                    },
+                    series: [{
+                            colorByPoint: true,
+                            data: chartData
+                        }]
+                   
+                });
+            }
+    <?php
         }
     ?>
-
-    var educationChartData = <?php echo json_encode($chartArray);  ?>;
-    console.log(educationChartData);
-    loadChart('column','',educationChartData,'education_chart');
-
-    function loadChart(chartType,total,chartData,loadDiv){
-        $('#'+loadDiv).highcharts({
-            chart: {
-                type: chartType,
-            },
-            title: {
-                text: ''
-            },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                type: 'category',
-            },
-            legend: {
-                enabled:false
-            },
-            yAxis: {                
-                title: {
-                    text: ''
-                },                
-                lineWidth: 0                
-            },
-                        
-            plotOptions: {
-                series: {
-                    borderWidth: 0,
-                    dataLabels: {
-                        enabled: false,
-                        format: ''
-                    }
-                }
-            },
-            tooltip: {
-                pointFormat: ''
-            },
-            series: [{
-                    colorByPoint: true,
-                    data: chartData
-                }]
-           
-        });
-    }
-
 </script>
 @stop

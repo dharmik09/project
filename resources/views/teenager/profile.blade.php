@@ -50,11 +50,11 @@
                 @endif
             </div>
             <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop1">
+                <a href="javascript:void(0);" onclick="getHelpText('profile-update')" data-toggle="clickover" data-popover-content="#profile-update" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="profile-update">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                        <span class="profile-update"></span>
                     </div>
                 </div>
             </div>
@@ -313,11 +313,11 @@
     <section class="sec-parents" id="sec-parents">
         <div class="container">
             <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop2" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop2">
+                <a href="javascript:void(0);" onclick="getHelpText('profile-parent-mentor')" data-toggle="clickover" data-popover-content="#profile-parent-mentor" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="profile-parent-mentor">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                        <span class="profile-parent-mentor"></span>
                     </div>
                 </div>
             </div>
@@ -379,11 +379,11 @@
             </div>
             
             <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop3" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop3">
+                <a href="javascript:void(0);" onclick="getHelpText('profile-my-vote')" data-toggle="clickover" data-popover-content="#profile-my-vote" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="profile-my-vote">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                        <span class="profile-my-vote"></span>
                     </div>
                 </div>
             </div>
@@ -1694,6 +1694,22 @@
         }
     }
 
+    function getHelpText(helpSlug)
+    {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-help-text')}}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'helpSlug':helpSlug},
+            success: function(response) {
+                $("."+helpSlug).text(response);                
+            }
+        });
+    }
+    
     function getDefaultAreaLocation() {
         // $.ajax({
         //     url: "http://maps.googleapis.com/maps/api/geocode/json?address={{$user->t_pincode}}&sensor=true",

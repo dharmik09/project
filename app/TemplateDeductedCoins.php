@@ -30,16 +30,22 @@ class TemplateDeductedCoins extends Model {
         return $deductedDetail;
     }
 
-    public function getDeductedCoinsDetail($userid,$type) {
+    public function getDeductedCoinsDetail($userid, $type, $searchText = '') {
         $deductedDetail = DB::table(config::get('databaseconstants.TBL_TEMPLATE_DEDUCTED_COINS'). " AS d_coins")
                     ->leftjoin(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE') . " AS template", 'template.id', '=', 'd_coins.tdc_template_id')
                     ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS pro", 'pro.id', '=', 'd_coins.tdc_profession_id')
                     ->selectRaw('d_coins.* , template.gt_template_title, pro.pf_name')
-                    ->where('d_coins.tdc_user_id',$userid)
-                    ->where('d_coins.tdc_user_type',$type)
-                    ->where('d_coins.tdc_total_coins','!=',0)
+                    ->where('d_coins.tdc_user_id', $userid)
+                    ->where('d_coins.tdc_user_type', $type)
+                    ->where('d_coins.tdc_total_coins', '!=', 0)
+                    ->where(function($query) use ($searchText)  {
+                        if(isset($searchText) && !empty($searchText)) {
+                            $query->where('pro.pf_name', 'like', '%' . $searchText . '%'); 
+                            $query->orWhere('template.gt_template_title', 'like', '%' . $searchText . '%'); 
+                        }
+                    })
                     ->orderBy('d_coins.id','desc')
-                    ->paginate(Config::get('constant.RECORD_PER_PAGE'));
+                    ->paginate(10);
 
         return $deductedDetail;
     }
