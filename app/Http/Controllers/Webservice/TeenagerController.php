@@ -130,11 +130,11 @@ class TeenagerController extends Controller
         exit;
     }
 
-    /* Request Params : getTeenagerNetworkDetail
+    /* Request Params : getTeenagerMemberDetail
     *  loginToken, userId, teenagerId
     *  teenagerId is the id for another teen. For network member detail page
     */
-    public function getTeenagerNetworkDetail(Request $request)
+    public function getTeenagerMemberDetail(Request $request)
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerDetailById($request->userId);
