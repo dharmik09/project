@@ -144,6 +144,7 @@ class ProfessionManagementController extends Controller {
         }
         $professionDetail['pf_video_type'] = $videotype;
         $professionDetail['pf_name'] = trim(input::get('pf_name'));
+        $professionDetail['pf_slug'] = e(input::get('pf_slug'));
         $professionDetail['pf_basket'] = e(input::get('pf_basket'));
         $professionDetail['deleted'] = e(input::get('deleted'));
         $professionDetail['pf_profession_alias'] = e(input::get('pf_profession_alias'));

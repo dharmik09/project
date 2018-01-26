@@ -16,8 +16,8 @@ return [
 
     'ccavenue' => [                         // CCAvenue Parameters
         'merchantId'  => '130338',
-        'accessCode'  => 'AVDJ70ED21AY50JDYA',
-        'workingKey' => '3B83F2DA86F1C30D1FCAD48A01D00F45',
+        'accessCode'  => 'AVNQ01FA49CC78QNCC',
+        'workingKey' => '1B5BABD2757CEB237A396C43EEB12A47',
 
         // Should be route address for url() function
         'redirectUrl' => env('INDIPAY_REDIRECT_URL', 'ccavenue/response'),

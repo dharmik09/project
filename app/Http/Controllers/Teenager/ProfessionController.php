@@ -488,4 +488,23 @@ class ProfessionController extends Controller {
             }
         }
     }
+
+    public function getTeenagerCareers()
+    {
+        $user = Auth::guard('teenager')->user();
+        $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByUserId($user->id);
+        $teenagerTotalProfessionAttemptedCount = $this->professions->getTeenagerTotalProfessionAttemptedOutOfStarRated($user->id);
+        $teenagerTotalProfessionStarRatedCount = $this->professions->getteenagerTotalProfessionStarRatedCount($user->id);
+        $professionImagePath = Config('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
+        return view('teenager.myCareers', compact('basketsData', 'professionImagePath','teenagerTotalProfessionAttemptedCount','teenagerTotalProfessionStarRatedCount'));
+    }
+
+    public function getTeenagerCareersSearch()
+    {
+        $user = Auth::guard('teenager')->user();
+        $search_text = Input::get('search_text');
+        $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByUserIdAndSearchValue($user->id, $search_text);
+        $professionImagePath = Config('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
+        return view('teenager.basic.level3MyCareerSearch', compact('basketsData', 'professionImagePath','teenagerTotalProfessionAttemptedCount','teenagerTotalProfessionStarRatedCount'));
+    }
 }

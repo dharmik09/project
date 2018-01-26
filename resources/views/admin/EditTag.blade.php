@@ -54,6 +54,20 @@
                         </div>
                     </div>
                     <?php
+                    if (old('pt_slug'))
+                        $pt_slug = old('pt_slug');
+                    elseif ($tags)
+                        $pt_slug = $tags->pt_slug;
+                    else
+                        $pt_slug = '';
+                    ?>
+                    <div class="form-group">
+                        <label for="pt_slug" class="col-sm-2 control-label">{{trans('labels.professiontagslug')}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly="true" class="form-control" id="pt_slug" name="pt_slug" placeholder="{{trans('labels.professiontagslug')}}" value="{{$pt_slug}}"/>
+                        </div>
+                    </div>
+                    <?php
                     if (old('pt_image'))
                         $pt_image = old('pt_image');
                     elseif ($tags)
@@ -135,6 +149,9 @@
                 pt_name : {
                     required : true,
                 },
+                pt_slug : {
+                    required : true,
+                },
                 pt_description : {
                     emptyetbody : true,
                 },
@@ -145,6 +162,9 @@
         <?php } else { ?>
             var validationRules = {
                 pt_name : {
+                    required : true,
+                },
+                pt_slug : {
                     required : true,
                 },
                 pt_description : {
@@ -165,6 +185,9 @@
                 pt_name : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
+                pt_slug : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
                 pt_image : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
@@ -179,4 +202,17 @@
     } );
 
 </script>
+
+<?php if (empty($tags)){ ?>
+    <script>
+        $('#pt_name').keyup(function ()
+        {
+            var str = $(this).val();
+            str = str.replace(/[^a-zA-Z0-9\s]/g, "");
+            str = str.toLowerCase();
+            str = str.replace(/\s/g, '-');
+            $('#pt_slug').val(str);
+        });
+    </script>
+<?php } ?>
 @stop
