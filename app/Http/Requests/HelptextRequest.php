@@ -29,8 +29,7 @@ class HelptextRequest extends Request
             return [
                 'h_title'      => 'required',
                 'h_slug'      => 'required',
-                'h_description' => 'required',
-                'h_page' => 'required',
+                'h_description' => 'required',                
                 'deleted' => 'required',
             ];
         }
@@ -39,8 +38,7 @@ class HelptextRequest extends Request
             return [
                 'h_title'      => 'required',
                 'h_slug'      => 'required',
-                'h_description' => 'required',
-                'h_page' => 'required',
+                'h_description' => 'required',                
                 'deleted' => 'required',
             ];
         }
@@ -51,7 +49,6 @@ class HelptextRequest extends Request
             'h_title.required' => trans('validation.titleisrequired'),
             'h_slug.required' => trans('validation.slugisrequired'),
             'h_description.required' => trans('validation.descriptionisrequired'),
-            'h_page.required' => trans('validation.pageisrequired'),
             'deleted.required' => trans('validation.statusrequired'),
         ];
     }
