@@ -117,3 +117,4 @@ Route::post('/registerUserInAppLozic', 'Teenager\ChatController@registerUserInAp
 
 //Help
 Route::post('/get-help-text', 'Teenager\HelpController@getHelpTextBySlug');
+Route::get('/payment', 'Teenager\CoinManagementController@payment');

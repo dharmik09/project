@@ -129,11 +129,24 @@ class CoinManagementController extends Controller
                   'merchant_param2' => $id,
             ];
 
-            $order = Indipay::gateway('CCAvenue')->prepare($parameters);
+            $order = Indipay::prepare($parameters);
             
             return Indipay::process($order);
         }
     }
+    
+    public function payment()
+    {
+        $parameters = [
+            'tid' => time(),
+            'order_id' => time(),
+            'amount' => '10.00',
+        ];
+
+      $order = Indipay::prepare($parameters);
+      return Indipay::process($order);
+    }
+
 
     //Mail to Parent for purchase coins
     public function requestParentForPurchasedCoins() {
