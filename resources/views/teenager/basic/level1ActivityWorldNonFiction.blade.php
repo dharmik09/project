@@ -58,8 +58,8 @@
                 </div>
             </div>
             <div class="icon-container">
-                <div class="no-data no_selected_category">
-                    <p>Please select one category</p>
+                <div class="sec-forum no_selected_category">
+                    <span>Please select one category</span>
                 </div>
                 <div class="set-icon-selection loaderSection">
                     <div style="display: block;" class="loading-screen-data loading-wrapper-sub">
