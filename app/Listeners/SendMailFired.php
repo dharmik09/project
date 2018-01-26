@@ -6,6 +6,7 @@ use App\Events\SendMail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mail;
+use Config;
 
 class SendMailFired
 {

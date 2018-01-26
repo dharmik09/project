@@ -372,8 +372,11 @@
     <!-- sec personal survey-->
     <div class="sec-survey" id="sec-survey">
         <div class="container">
-            <h2>Personal Survey Part - 1</h2>
-            <div id="traitsData"></div>
+            <h2>My Preferences</h2>
+            <div id="traitErrorGoneMsg"></div>
+            <div class="traitsLoader">
+                <div id="traitsData"></div>
+            </div>
             
             <div class="sec-popup">
                 <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop3" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
@@ -384,7 +387,7 @@
                     </div>
                 </div>
             </div>
-            <h2>Personal Survey</h2>
+            <h2>My Votes</h2>
             <div id="errorGoneMsg"></div>
             <div class="survey-list">
                 <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
@@ -406,7 +409,7 @@
     <!-- icon voted sec start-->
     <div class="icon-voted bg-offwhite" id="icon-voted">
         <div class="container">
-            <h2>Icon Voted in L1</h2>
+            <h2>My Role Models</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.</p>
             <div class="voted-list">
                 @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
@@ -1289,11 +1292,9 @@
         });
         var queId = $('#traitQue').val();
         var toUserId = '';
-        $("#traitsData").fadeOut('slow', function() {
-            $("#traitsData").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
-            $("#traitsData").fadeIn('slow');
-        });
-        $("#traitsData").addClass('loading-screen-parent');
+        $('.traitsLoader .loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
+        $('.traitsLoader .loading-wrapper-sub').show();
+        $("#traitErrorGoneMsg").html('');
         
         var CSRF_TOKEN = "{{ csrf_token() }}";
         $.ajax({
@@ -1305,8 +1306,26 @@
             },
             data: {'answerID':answerId,'questionID':queId,'toUserId':toUserId},
             success: function (response) {
-                $("#traitsData").removeClass('loading-screen-parent');
-                $("#traitsData").html(response).fadeIn('slow');
+                try {
+                    var valueOf = $.parseJSON(response); 
+                } catch (e) {
+                    // not json
+                }
+                if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                    $('#traitErrorGoneMsg').html("");
+                    $('.traitsLoader .loading-wrapper-sub').hide();
+                    $('.traitsLoader .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+
+                    $("html, body").animate({
+                        scrollTop: $('#traitErrorGoneMsg').offset().top 
+                    }, 300);
+                    $("#traitErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+valueOf.message+'</span></div></div></div>');
+                } else {
+                    $('#traitErrorGoneMsg').html("");
+                    $('.traitsLoader .loading-wrapper-sub').hide();
+                    $('.traitsLoader .loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    $("#traitsData").html(response).fadeIn('slow');
+                }
             }
         });
     }
