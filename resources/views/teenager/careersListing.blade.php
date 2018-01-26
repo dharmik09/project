@@ -147,27 +147,25 @@
     }
 
     function fetchDropdownResult() {
-        if($("#answerId").val() != 0){
-            $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
-            $(".maindiv").addClass('loading-screen-parent');
-            var CSRF_TOKEN = "{{ csrf_token() }}";
-            var queId = $("#questionDropdown").val();
-            var ansId = $("#answerId").val();
-            var view = 'LIST';
-            $.ajax({
-                type: 'POST',
-                url: "{{url('teenager/get-dropdown-search-result')}}",
-                dataType: 'html',
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN
-                },
-                data: {'queId':queId,'ansId':ansId,'view':view},
-                success: function (response) {
-                    $(".maindiv").html(response);
-                    $(".maindiv").removeClass('loading-screen-parent');
-                }
-            });
-        }
+        $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".maindiv").addClass('loading-screen-parent');
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        var queId = $("#questionDropdown").val();
+        var ansId = $("#answerId").val();
+        var view = 'LIST';
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-dropdown-search-result')}}",
+            dataType: 'html',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'queId':queId,'ansId':ansId,'view':view},
+            success: function (response) {
+                $(".maindiv").html(response);
+                $(".maindiv").removeClass('loading-screen-parent');
+            }
+        });
     }
 </script>
 @stop
