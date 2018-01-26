@@ -255,3 +255,6 @@ ALTER TABLE `pro_pt_profession_tags` ADD `pt_slug` VARCHAR(255) NOT NULL AFTER `
 
 //Alter pfic_content field in pro_pfic_profession_intro_content table make Nullable #25-01-2018 Jaimin
 ALTER TABLE `pro_pfic_profession_intro_content` CHANGE `pfic_content` `pfic_content` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+//Increase t_location column size in teenager table ##26-01-2017
+ALTER TABLE `pro_t_teenagers` CHANGE `t_location` `t_location` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;

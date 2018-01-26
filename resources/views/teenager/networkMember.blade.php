@@ -72,8 +72,9 @@
                         </div>
                     </div>
                     <?php
-                        if($teenDetails->t_pincode != "")
-                        {
+                        if ($teenDetails->t_location != "") {
+                            $getCityArea = $teenDetails->t_location;
+                        } else if($teenDetails->t_pincode != "") {
                             $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$teenDetails->t_pincode.'&sensor=true');
                             $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
                         } else {

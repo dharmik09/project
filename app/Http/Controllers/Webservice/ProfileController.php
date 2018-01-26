@@ -101,7 +101,9 @@ class ProfileController extends Controller
             $teenager->country_id = $teenager->t_country;
             
             //Get Location Area
-            if($teenager->t_pincode != "") {
+            if ($teenager->t_location != "") {
+                $getCityArea = $teenager->t_location;
+            } else if($teenager->t_pincode != "") {
                 $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$teenager->t_pincode.'&sensor=true');
                 $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
             } else {
@@ -225,6 +227,17 @@ class ProfileController extends Controller
                 $teenagerDetail['t_phone_new'] = $request->phone;
                 $teenagerDetail['t_country'] = $request->country;
                 $teenagerDetail['t_pincode'] = $request->pincode;
+                if($teenagerDetail['t_pincode'] != "") {
+                    $getLocation = json_decode(file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$teenagerDetail['t_pincode'].'&sensor=true'));
+                    $getCityArea = ( isset($getLocation->results[0]->address_components[1]->long_name) && $getLocation->results[0]->address_components[1]->long_name != "" ) ? $getLocation->results[0]->address_components[1]->long_name : "Default";
+                } else if ($teenagerDetail['t_country'] != "") {
+                    $country = $this->objCountry->find($teenagerDetail['t_country']);
+                    $getCityArea = $country->c_name;
+                } else {
+                    $getCityArea = "Default";
+                }
+                $teenagerDetail['t_location'] = $getCityArea;
+
                 //On-Off Buttons
                 $teenagerDetail['is_search_on'] = ( $request->publicProfile != "") ? $request->publicProfile : "0";
                 $teenagerDetail['is_share_with_teachers'] = ( $request->shareWithTeachers != "") ? $request->shareWithTeachers : "0";
