@@ -150,7 +150,7 @@ class DashboardController extends Controller
             $section3 = number_format((float)$section3Percentage, 0, '.', '').'% Complete';
         }
 
-        $teenagerNetwork = $this->communityRepository->getMyConnections($user->id);
+        $teenagerNetwork = $this->communityRepository->getMyConnections($user->id, array(), '', '', '', 1);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
         $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
         return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
