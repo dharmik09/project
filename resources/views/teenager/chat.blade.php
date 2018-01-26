@@ -6,364 +6,268 @@
 
 @section('content')
 <!--mid content-->
-    <div class="bg-offwhite">
+<div class="bg-offwhite">
         <div class="container">
-            <div class="sec-forum">
-                <span>Forum module</span>
-            </div>
             <!-- sec chat -->
+            <div class="chat-heading">
+                <h2 class="font-blue">Chat</h2>
+            </div>
             <div class="sec-chat clearfix">
-                <div class="tab">
-                    <div class="chat-slider">
-                        <ul class="nav nav-tabs progress-tab" id="main-slider">
-                            <li class="chat-tab active"><a data-toggle="tab" href="#menu1">
-                        <span class="chat-img"><img src="img/alex.jpg" alt="chat-img"></span>
-                        <span class="member-detail">
-                            <ul class="option">
-                                <li><i class="icon-user-chat"></i></li>
-                                <li><i class="icon-check-mark"></i></li>
-                            </ul>
-                            <span class="member-info">
-                                <span class="name">Joe Smith</span>
-                                <span class="detail">Proin volutpat eros libero, et sagittis metus posuere id...</span>
-                            </span>
-                        </span>
-                    </a></li>
-                            <li class="chat-tab"><a data-toggle="tab" href="#menu2">
-                        <span class="chat-img"><img src="img/diana.jpg" alt="chat-img"></span>
-                        <span class="member-detail">
-                            <ul class="option">
-                                <li><i class="icon-user-chat"></i></li>
-                                <li><i class="icon-check-mark"></i></li>
-                            </ul>
-                            <span class="member-info">
-                                <span class="name">Joe Smith</span>
-                                <span class="detail">Proin volutpat eros libero, et sagittis metus posuere id...</span>
-                            </span>
-                        </span>
-                        </a></li>
-                            <li class="chat-tab"><a data-toggle="tab" href="#menu3">
-                        <span class="chat-img"><img src="img/alex.jpg" alt="chat-img"></span>
-                        <span class="member-detail">
-                            <ul class="option">
-                                <li><i class="icon-user-chat"></i></li>
-                                <li><i class="icon-check-mark"></i></li>
-                            </ul>
-                            <span class="member-info">
-                                <span class="name">Joe Smith</span>
-                                <span class="detail">Proin volutpat eros libero, et sagittis metus posuere id...</span>
-                            </span>
-                        </span>
-                    </a></li>
-                            <li class="chat-tab"><a data-toggle="tab" href="#menu4">
-                        <span class="chat-img"><img src="img/diana.jpg" alt="chat-img"></span>
-                        <span class="member-detail">
-                            <ul class="option">
-                                <li><i class="icon-user-chat"></i></li>
-                                <li><i class="icon-check-mark"></i></li>
-                            </ul>
-                            <span class="member-info">
-                                <span class="name">Joe Smith</span>
-                                <span class="detail">Proin volutpat eros libero, et sagittis metus posuere id...</span>
-                            </span>
-                        </span>
-                    </a></li>
-                            <li class="chat-tab"><a data-toggle="tab" href="#menu5">
-                        <span class="chat-img"><img src="img/alex.jpg" alt="chat-img"></span>
-                        <span class="member-detail">
-                            <ul class="option">
-                                <li><i class="icon-user-chat"></i></li>
-                                <li><i class="icon-check-mark"></i></li>
-                            </ul>
-                            <span class="member-info">
-                                <span class="name">Joe Smith</span>
-                                <span class="detail">Proin volutpat eros libero, et sagittis metus posuere id...</span>
-                            </span>
-                        </span>
-                    </a></li>
-                            <li class="chat-tab"><a data-toggle="tab" href="#menu6">
-                        <span class="chat-img"><img src="img/mike.jpg" alt="chat-img"></span>
-                        <span class="member-detail">
-                            <ul class="option">
-                                <li><i class="icon-user-chat"></i></li>
-                                <li><i class="icon-check-mark"></i></li>
-                            </ul>
-                            <span class="member-info">
-                                <span class="name">Joe Smith</span>
-                                <span class="detail">Proin volutpat eros libero, et sagittis metus posuere id...</span>
-                            </span>
-                        </span>
-                    </a></li>
-                        </ul>
-                        <!--<button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
-                    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-                    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>-->
-                    </div>
-                </div>
-                <div class="tab-content">
-                    <div id="menu1" class="tab-pane fade in active">
-                        <div class="chat-screen">
-                            <div class=" visible-xs close">
-                                <i class="icon-close"></i>
-                            </div>
-                            <h3 class="member-name">Jennifer Garcia</h3>
-                            <div class="chat-convo clearfix">
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                            </div>
-                            <div class="chat-form">
-                                <form>
-                                    <ul class="chat-uploads">
-                                        <li>
-                                            <a href="#" title="file upload"><i class="icon-folder"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="image upload"><i class="icon-image"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="send-btn">
-                                        <a href="#" title="Send"><i class="icon-play-simple"></i></a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu2" class="tab-pane fade in">
-                        <div class="chat-screen">
-                            <div class=" visible-xs close">
-                                <i class="icon-close"></i>
-                            </div>
-                            <h3 class="member-name">Jennifer Garcia</h3>
-                            <div class="chat-convo clearfix">
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                            </div>
-                            <div class="chat-form">
-                                <form>
-                                    <ul class="chat-uploads">
-                                        <li>
-                                            <a href="#" title="file upload"><i class="icon-folder"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="image upload"><i class="icon-image"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="send-btn">
-                                        <a href="#" title="Send"><i class="icon-play-simple"></i></a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu3" class="tab-pane fade in">
-                        <div class="chat-screen">
-                            <div class=" visible-xs close">
-                                <i class="icon-close"></i>
-                            </div>
-                            <h3 class="member-name">Jennifer Garcia</h3>
-                            <div class="chat-convo clearfix">
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                            </div>
-                            <div class="chat-form">
-                                <form>
-                                    <ul class="chat-uploads">
-                                        <li>
-                                            <a href="#" title="file upload"><i class="icon-folder"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="image upload"><i class="icon-image"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="send-btn">
-                                        <a href="#" title="Send"><i class="icon-play-simple"></i></a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu4" class="tab-pane fade in">
-                        <div class="chat-screen">
-                            <div class=" visible-xs close">
-                                <i class="icon-close"></i>
-                            </div>
-                            <h3 class="member-name">Jennifer Garcia</h3>
-                            <div class="chat-convo clearfix">
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                            </div>
-                            <div class="chat-form">
-                                <form>
-                                    <ul class="chat-uploads">
-                                        <li>
-                                            <a href="#" title="file upload"><i class="icon-folder"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="image upload"><i class="icon-image"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="send-btn">
-                                        <a href="#" title="Send"><i class="icon-play-simple"></i></a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu5" class="tab-pane fade in">
-                        <div class="chat-screen">
-                            <div class=" visible-xs close">
-                                <i class="icon-close"></i>
-                            </div>
-                            <h3 class="member-name">Jennifer Garcia</h3>
-                            <div class="chat-convo clearfix">
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                            </div>
-                            <div class="chat-form">
-                                <form>
-                                    <ul class="chat-uploads">
-                                        <li>
-                                            <a href="#" title="file upload"><i class="icon-folder"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="image upload"><i class="icon-image"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="send-btn">
-                                        <a href="#" title="Send"><i class="icon-play-simple"></i></a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu6" class="tab-pane fade in">
-                        <div class="chat-screen">
-                            <div class=" visible-xs close">
-                                <i class="icon-close"></i>
-                            </div>
-                            <h3 class="member-name">Jennifer Garcia</h3>
-                            <div class="chat-convo clearfix">
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                                <div class="member-msg">
-                                    <p>Etiam ac rhoncus elit, ac consequat urna.</p>
-                                </div>
-                                <div class="user-msg">
-                                    <p>Integer lobortis vestibulum ipsum id commodo.</p>
-                                </div>
-                            </div>
-                            <div class="chat-form">
-                                <form>
-                                    <ul class="chat-uploads">
-                                        <li>
-                                            <a href="#" title="file upload"><i class="icon-folder"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="image upload"><i class="icon-image"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="2"></textarea>
-                                    </div>
-                                    <div class="send-btn">
-                                        <a href="#" title="Send"><i class="icon-play-simple"></i></a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
             <!-- sec chat end-->
+            <!-- sec notification-->
+            <div class="sec-notification">
+                <h2 class="font-blue">All Notifications</h2>
+                <div class="notification-list">
+                    <div class="notification-block unread">
+                        <div class="notification-img"><img src="img/notification-img-2.png" alt="notification img"></div>
+                        <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">6 hours ago</span></div>
+                        <div class="close"><i class="icon-close"></i></div>
+                    </div>
+                    <div class="notification-block read">
+                        <div class="notification-img"><img src="img/logo.png" alt="notification img"></div>
+                        <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">16 hours ago</span></div>
+                        <div class="close"><i class="icon-close"></i></div>
+                    </div>
+                    <div class="notification-block read">
+                        <div class="notification-img"><img src="img/ellen.jpg" alt="notification img"></div>
+                        <div class="notification-content"><a href="#"><strong>370 views</strong> on your answers.</a><span class="date">23 hours ago</span></div>
+                        <div class="close"><i class="icon-close"></i></div>
+                    </div>
+                    <div class="notification-block read">
+                        <div class="notification-img"><img src="img/profile.png" alt="notification img"></div>
+                        <div class="notification-content"><a href="#"><strong>Jennifer Garcia</strong> has requested to follow you.</a><span class="date">1 day ago</span>
+                            <ul class="btn-list">
+                                <li><a href="#" title="accept" class="accept">Accept</a></li>
+                                <li><a href="#" title="decline" class="decline">Delete</a></li>
+                            </ul>
+                        </div>
+                        <div class="close"><i class="icon-close"></i></div>
+                    </div>
+                    <div class="notification-block read">
+                        <div class="notification-img"><img src="img/notification-img-2.png" alt="notification img"></div>
+                        <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">1 day ago</span></div>
+                        <div class="close"><i class="icon-close"></i></div>
+                    </div>
+                    <div class="notification-block unread">
+                        <div class="notification-img"><img src="img/diana.jpg" alt="notification img"></div>
+                        <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">1 day ago</span></div>
+                        <div class="close"><i class="icon-close"></i></div>
+                    </div>
+                    <div class="notification-block read">
+                        <div class="notification-img"><img src="img/ellen.jpg" alt="notification img"></div>
+                        <div class="notification-content"><a href="#"><strong>370 views</strong> on your answers.</a><span class="date">2 days ago</span></div>
+                        <div class="close"><i class="icon-close"></i></div>
+                    </div>
+                    <div class="notification-block read">
+                        <div class="notification-img"><img src="img/profile.png" alt="notification img"></div>
+                        <div class="notification-content"><a href="#"><strong>Jennifer Garcia</strong> has requested to follow you.</a><span class="date">3 day ago</span>
+                            <ul class="btn-list">
+                                <li><a href="#" title="accept" class="accept">Accept</a></li>
+                                <li><a href="#" title="decline" class="decline">Delete</a></li>
+                            </ul>
+                        </div>
+                        <div class="close"><i class="icon-close"></i></div>
+                    </div>
+                    <div class="text-center load-more">
+                        <p><a href="#" title="Load More" class="btn btn-primary">Load More</a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- sec notification end-->
+            <!--sec forum start-->
+            <!--<div class="sec-forum">
+                <span>Forum module</span>
+            </div>-->
+            <div class="forum-module">
+                <h2 class="font-blue">Forum Module</h2>
+                <div class="forum-container">
+                    <div class="single-article">
+                        <div class="forum-que-block t-table">
+                            <div class="author-img t-cell"><a href="#" title="Kelly Cheng"><img src="img/notification-img-2.png" alt="author img"></a></div>
+                            <div class="forum-que t-cell">
+                                <h4><a href="javascript:void(0);" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit.">“It’s not always easy ?nding a talented Architect who allows you to dip into their skills like Stephanie does.</a></h4>
+                                <ul class="que-detail">
+                                    <li class="author-name"><a href="#" title="Kelly Cheng">Kelly Cheng</a></li>
+                                    <li class="posted-date">25th july 2017</li>
+                                </ul>
+                            </div>
+                            <!--<ul class="que-detail">
+                                <li class="author-name">Kelly Cheng</li>
+                                <li class="posted-date">25th july 2017</li>
+                            </ul>-->
+                        </div>
+                        <div class="forum-ans full-text">
+                            <div class="ans-detail t-table">
+                                <!--<div class="answer-img t-cell"><a href="#" title="Kelly Cheng"><img src="img/profile.png" alt="author img"></a></div>-->
+                                <div class="ans-author-detail t-cell no-padding">
+                                    <h4><a href="#" title="Kelly Cheng">Kelly Cheng</a></h4>
+                                    <span class="ans-posted-date">25th july 2017</span>
+                                </div>
+                            </div>
+                            <div class="forum-answer text-overflow">
+                                <div class="text-full">
+                                   <!-- <p>I work in Real Estate and have always enjoyed renovating and project managing the build – it’s the design part that we need to outsource.</p>-->
+                                    <p>I work in Real Estate and have always enjoyed renovating and project managing the build – it’s the design part that we need to outsource. We commissioned Stephanie to complete our sketch designs and the results were fantastic. Stephanie just has an innate sense of where to position the house - knowing the direction of the prevailing winds in a suburb for example… Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur libero dolores maxime quam sint, veniam nemo, esse, aliquam, ipsum earum autem aperiam. Delectus officia repellat, ad maxime non eius natus!</p>
+                                </div>
+                            </div>
+                                <span><a href="#" title="Read More" class="read-more">Read More</a></span>
+                        </div>
+                    </div>
+                    <div class="single-article">
+                        <div class="forum-que-block t-table">
+                            <div class="author-img t-cell"><a href="#" title="Kelly Cheng"><img src="img/notification-img-2.png" alt="author img"></a></div>
+                            <div class="forum-que t-cell">
+                                <h4><a href="javascript:void(0);" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit.">Working from an ordinary base, Stephanie came up with a very workable design concept for our office. It is now a space we’re now proud to share with our clients and colleagues.</a></h4>
+                                <ul class="que-detail">
+                                    <li class="author-name"><a href="#" title="Kelly Cheng">Kelly Cheng</a></li>
+                                    <li class="posted-date">25th july 2017</li>
+                                </ul>
+                            </div>
+                            <!--<ul class="que-detail">
+                                <li class="author-name">Kelly Cheng</li>
+                                <li class="posted-date">25th july 2017</li>
+                            </ul>-->
+                        </div>
+                        <div class="forum-ans full-text">
+                            <div class="ans-detail t-table">
+                                <!--<div class="answer-img t-cell"><a href="#" title="Kelly Cheng"><img src="img/diana.jpg" alt="author img"></a></div>-->
+                                <div class="ans-author-detail t-cell no-padding">
+                                    <h4><a href="#" title="Kelly Cheng">Kelly Cheng</a></h4>
+                                    <span class="ans-posted-date">25th july 2017</span>
+                                </div>
+                            </div>
+                            <div class="forum-answer text-overflow">
+                                <div class="text-full">
+                                    <p>I work in Real Estate and have always enjoyed renovating and project managing the build – it’s the design part that we need to outsource.</p>
+                                    <p>We commissioned Stephanie to complete our sketch designs and the results were fantastic. Stephanie just has an innate sense of where to position the house - knowing the direction of the prevailing winds in a suburb for example… Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur libero dolores maxime quam sint, veniam nemo, esse, aliquam, ipsum earum autem aperiam. Delectus officia repellat, ad maxime non eius natus!</p>
+                                </div>
+                            </div>
+                                <span><a href="#" title="Read More" class="read-more">Read More</a></span>
+                        </div>
+                    </div>
+                    <div class="single-article">
+                        <div class="forum-que-block t-table">
+                            <div class="author-img t-cell"><a href="#" title="Kelly Cheng"><img src="img/mike.jpg" alt="author img"></a></div>
+                            <div class="forum-que t-cell">
+                                <h4><a href="javascript:void(0);" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit.">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a></h4>
+                                <ul class="que-detail">
+                                    <li class="author-name"><a href="#" title="Kelly Cheng">Kelly Cheng</a></li>
+                                    <li class="posted-date">25th july 2017</li>
+                                </ul>
+                            </div>
+                            <!--<ul class="que-detail">
+                                <li class="author-name">Kelly Cheng</li>
+                                <li class="posted-date">25th july 2017</li>
+                            </ul>-->
+                        </div>
+                        <div class="forum-ans full-text">
+                            <div class="ans-detail t-table">
+                                    <!--<div class="answer-img t-cell"><a href="#" title="Kelly Cheng"><img src="img/notification-img-2.png" alt="author img"></a></div>-->
+                                <div class="ans-author-detail t-cell no-padding">
+                                    <h4><a href="#" title="Kelly Cheng">Kelly Cheng</a></h4>
+                                    <span class="ans-posted-date">25th july 2017</span>
+                                </div>
+                            </div>
+                            <div class="forum-answer text-overflow">
+                                <div class="text-full">
+                                    <p>I work in Real Estate and have always enjoyed renovating and project managing the build – it’s the design part that we need to outsource.</p>
+                                    <p>We commissioned Stephanie to complete our sketch designs and the results were fantastic. Stephanie just has an innate sense of where to position the house - knowing the direction of the prevailing winds in a suburb for example… Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur libero dolores maxime quam sint, veniam nemo, esse, aliquam, ipsum earum autem aperiam. Delectus officia repellat, ad maxime non eius natus!</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur natus in ea, veniam consectetur eos. Atque commodi nam laborum, sapiente minima voluptatem quam exercitationem ducimus quis excepturi. Enim modi, id?</p>
+                                </div>
+                            </div>
+                                <span><a href="#" title="Read More" class="read-more">Read More</a></span>
+                        </div>
+                    </div>
+                    <p class="text-center"><a href="#" title="Read More" class="btn btn-primary load-more">Read More</a></p>
+                </div>
+            </div>
+            <!--sec forum end-->
         </div>
-    </div>
-    <!--mid content end-->
+    </div>    
+<!--mid content end-->
         
+@stop
+@section('script')
+<script>
+   var ischat = '<?php echo Auth::guard('teenager')->user()->is_chat_initialized?>';
+   if(ischat == 0){
+        registerUserInAppLozic();
+   }
+   
+   //Register user in applozic if not presents in applozic
+    function registerUserInAppLozic()
+    {
+        $.ajax({
+            url: "{{ url('teenager/registerUserInAppLozic') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}'
+            },
+            success: function(response)
+            {
+
+            }
+        });
+    } 
+    
+   (function(d, m){var s, h;       
+   s = document.createElement("script");
+   s.type = "text/javascript";
+   s.async=true;
+   s.src="https://apps.applozic.com/sidebox.app";
+   h=document.getElementsByTagName('head')[0];
+   h.appendChild(s);
+   window.applozic=m;
+   m.init=function(t){m._globals=t;}})(document, window.applozic || {});
+    
+    window.applozic.init({
+                     appId: '<?php echo Config::get('constant.APP_LOGIC_CHAT_API_KEY') ?>',      //Get your application key from https://www.applozic.com
+                     userId: '<?php echo Auth::guard('teenager')->user()->t_uniqueid ?>',                     //Logged in user's id, a unique identifier for user
+                     userName: '<?php echo Auth::guard('teenager')->user()->t_name ?>',                 //User's display name
+                     imageLink : '<?php echo $user_profile_thumb_image?>',                     //User's profile picture url
+                     email : '',                         //optional
+                     contactNumber: '',                  //optional, pass with internationl code eg: +16508352160
+                     desktopNotification: true,
+                     source: '1',                          // optional, WEB(1),DESKTOP_BROWSER(5), MOBILE_BROWSER(6)
+                     notificationIconLink: 'https://www.applozic.com/favicon.ico',    //Icon to show in desktop notification, replace with your icon
+                     authenticationTypeId: '1',          //1 for password verification from Applozic server and 0 for access Token verification from your server
+                     accessToken: '',                    //optional, leave it blank for testing purpose, read this if you want to add additional security by verifying password from your server https://www.applozic.com/docs/configuration.html#access-token-url
+                     locShare: true,
+                     googleApiKey: "AIzaSyBm-n8IiGLN5c9orHBZw58zDEO6Qb7ckOQ",   // your project google api key
+                     googleMapScriptLoaded : true,   // true if your app already loaded google maps script
+                     autoTypeSearchEnabled : false,     // set to false if you don't want to allow sending message to user who is not in the contact list
+                     loadOwnContacts : true,
+                     olStatus: true,
+                     onInit : function(response) {
+                       $applozic.fn.applozic('getUserDetail', {callback: function(dataresponse) {
+                            if(dataresponse.status === 'success') {
+                               // write your logic                          
+                               //$applozic.fn.applozic('loadTab', '');
+                               getContacts(function(output){
+                                    // here you use the output
+                                    $applozic.fn.applozic('loadContacts', {"contacts": output});
+                               });
+                            }
+                         }
+                      });
+                    }
+                });
+    function getContacts(handleData)
+    {
+        $.ajax({
+            url: "{{ url('/teenager/getChatUsers') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}'
+            },
+            success: function(response)
+            {
+                var contactsJSON = JSON.parse(response);
+                handleData(contactsJSON);
+            }
+        });
+    }
+</script>
 @stop

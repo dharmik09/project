@@ -252,3 +252,6 @@ ALTER TABLE `pro_t_teenagers` CHANGE `t_phone` `t_phone` VARCHAR(15) CHARACTER S
 
 //Added new field in Profession Tags table for unique slug #23-01-2018 Jaimin
 ALTER TABLE `pro_pt_profession_tags` ADD `pt_slug` VARCHAR(255) NOT NULL AFTER `pt_description`;
+
+//Alter pfic_content field in pro_pfic_profession_intro_content table make Nullable #25-01-2018 Jaimin
+ALTER TABLE `pro_pfic_profession_intro_content` CHANGE `pfic_content` `pfic_content` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

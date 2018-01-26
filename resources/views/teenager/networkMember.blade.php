@@ -62,7 +62,7 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <?php
-                        if(isset($teenDetails->t_photo) && $teenDetails->t_photo != '') {
+                        if($teenDetails->t_photo != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$teenDetails->t_photo) > 0) {
                             $teenPhoto = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH').$teenDetails->t_photo;
                         } else {
                             $teenPhoto = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH').'proteen-logo.png';
@@ -90,11 +90,25 @@
                             <li><a href="https://facebook.com/{{$teenDetails->t_fb_social_identifier}}" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
                             <li><a href="https://plus.google.com/{{$teenDetails->t_social_identifier}}" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                         </ul>
-                        @if (!empty($connectedTeen) && $connectedTeen == true)
-                        <div class="chat-icon add-icon">
-                            <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add"><i class="icon-add-circle"></i></a>
-                        </div>
-                        @endif
+                        @if ($connectionStatus == 0)
+	                        <div class="chat-icon add-icon sent-icon">
+	                            <a href="javascript:void(0)" title="Invitation Sent">
+	                            	<img src="img/request-send.png" alt="Invitation Sent"><em>Invitation Sent</em>
+	                            </a>
+	                        </div>
+                        @elseif($connectionStatus == 1)
+							<div class="chat-icon add-icon accepted-icon">
+	                            <a href="javascript:void(0)" title="Connected">
+	                            	<img src="{{ Storage::url('img/accepted-icon.png') }}" alt="Invitation Accepted"><em>Connected</em>
+	                            </a>
+	                        </div>
+                        @else
+							<div class="chat-icon add-icon icon-add">
+	                            <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add">
+	                            	<img src="{{ Storage::url('img/add-icon.png') }}" alt="Add"><em>Add Connection</em>
+	                            </a>
+	                        </div>
+	                    @endif
                         <div class="chat-icon">
                             <a href="#" title="Chat"><i class="icon-chat"></i></a>
                         </div>
@@ -103,17 +117,35 @@
                 </div>
                 @if(isset($teenagerTrait[0]))
                 <div class="text-center">
-                    <ul class="sec-traits">
-                        @forelse($teenagerTrait as $teenTrait)
-                            <li>
+                    <ul class="sec-traits row flex-container">
+                        @forelse($teenagerTrait as $key => $teenTrait)
+							<?php if($loop->index > 2) { break; } ?>
+                            <li class="col-sm-4 col-xs-12 flex-items">
                                 <div class="ck-button">
-                                    {{ $teenTrait->options_text }}({{ $teenTrait->options_count }})
+                                    {{ $teenTrait->options_text }} {{ ($teenTrait->options_count > 1) ? ($teenTrait->options_count) : '' }}
                                 </div>
                             </li>
                         @empty
                             
                         @endforelse
                     </ul>
+                    @if(count($teenagerTrait) > 3)
+	                    <div class="traits-expand">
+	                        <ul class="sec-traits row flex-container">
+	                            @forelse($teenagerTrait as $key => $teenTrait)
+									<?php if($loop->index < 3) { continue; } ?>
+		                            <li class="col-sm-4 col-xs-12 flex-items">
+		                                <div class="ck-button">
+		                                    {{ $teenTrait->options_text }} {{ ($teenTrait->options_count > 1) ? ($teenTrait->options_count) : '' }}
+		                                </div>
+		                            </li>
+		                        @empty
+		                            
+		                        @endforelse
+	                        </ul>
+	                    </div>
+	                    <div class="text-right"><span class="expand-btn less">Expand</span></div>
+                    @endif
                 </div>
                 @endif
             </div>
@@ -213,7 +245,7 @@
                                 <div class="team-detail">
                                     <div class="team-img">
                                         <?php
-                                            if(isset($myConnection->t_photo) && $myConnection->t_photo != '') {
+                                            if($myConnection->t_photo != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo) > 0) {
                                                 $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo;
                                             } else {
                                                 $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';

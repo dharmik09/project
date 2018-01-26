@@ -6,19 +6,33 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
+use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
+use App\Services\Community\Contracts\CommunityRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Teenagers;
 use Helpers;
+use App\Country;
 use Config;
 use Storage;
+use Input;
+use Image;
+use Carbon\Carbon;
 
 class TeenagerController extends Controller
 {
-    public function __construct(TeenagersRepository $teenagersRepository)
+    public function __construct(CommunityRepository $communityRepository, TeenagersRepository $teenagersRepository, Level1ActivitiesRepository $level1ActivitiesRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
+        $this->communityRepository = $communityRepository;
+        $this->level1ActivitiesRepository = $level1ActivitiesRepository;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->sponsorOriginalImageUploadPath = Config::get('constant.SPONSOR_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->sponsorThumbImageUploadPath = Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH');
+        $this->teenProfileImageUploadPath = Config::get('constant.TEEN_PROFILE_IMAGE_UPLOAD_PATH');
+        $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
+        $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
+        $this->objCountry = new Country();
         
     }
 
@@ -110,6 +124,75 @@ class TeenagerController extends Controller
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data']['users'] = $teenagerArray;
         } else {
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getTeenagerMemberDetail
+    *  loginToken, userId, teenagerId
+    *  teenagerId is the id for another teen. For network member detail page
+    */
+    public function getTeenagerMemberDetail(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerDetailById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $networkTeenager = $this->teenagersRepository->getTeenagerDetailById($request->teenagerId);
+            if($networkTeenager) {
+                $networkTeenager->t_birthdate = (isset($networkTeenager->t_birthdate) && $networkTeenager->t_birthdate != '0000-00-00') ? Carbon::parse($networkTeenager->t_birthdate)->format('d/m/Y') : '';
+                //Teenager Image
+                $networkTeenager->t_photo_thumb = "";
+                if ($networkTeenager->t_photo != '') {
+                    $networkTeenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . $networkTeenager->t_photo);
+                    $networkTeenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $networkTeenager->t_photo);
+                }
+                //Country info
+                $networkTeenager->c_code = ( isset(Country::getCountryDetail($networkTeenager->t_country)->c_code) ) ? Country::getCountryDetail($networkTeenager->t_country)->c_code : "";
+                $networkTeenager->c_name = ( isset(Country::getCountryDetail($networkTeenager->t_country)->c_name) ) ? Country::getCountryDetail($networkTeenager->t_country)->c_name : "";
+                $networkTeenager->country_id = $networkTeenager->t_country;
+                
+                //Get Location Area
+                if($networkTeenager->t_pincode != "") {
+                    $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$networkTeenager->t_pincode.'&sensor=true');
+                    $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
+                } else {
+                    $getCityArea = ( $networkTeenager->c_name != "" ) ? $networkTeenager->c_name : "Default";
+                }
+                $networkTeenager->t_about_info = (isset($networkTeenager->t_about_info) && !empty($networkTeenager->t_about_info)) ? $networkTeenager->t_about_info : "";
+                $response['teenagerLocationArea'] = $getCityArea. " Area";
+                $response['profileComplete'] = "Profile 62% complete";
+                $response['facebookUrl'] = "https://facebook.com";
+                $response['googleUrl'] = "https://google.com";
+                
+                //Connection Status 0,1,2 :: 0 -> pendding, 1 -> connected, 2->rejected
+                //checkTeenConnectionStatus($receiverId, $senderId) :: Here teenagerId => receiverId and userId => senderId
+                $response['connectionStatus'] = $this->communityRepository->checkTeenConnectionStatus($request->teenagerId, $request->userId);
+                $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($request->teenagerId);
+                $arrayData = [];
+                if(isset($teenagerTrait[0]) && $teenagerTrait) {
+                    foreach($teenagerTrait as $traitValue) {
+                        $array = [];
+                        $array['options_text'] = $traitValue->options_text;
+                        $array['options_count'] = $traitValue->options_count; 
+                        $arrayData[] = $array;
+                    }
+                }
+                $response['traitData'] = $arrayData;
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['data'] = $networkTeenager;
+
+            } else {
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['message'] = "Network Teenager not found or not verified!";
+            }
+        } else {
+            $response['login'] = 1;
+            $response['status'] = 1;
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);

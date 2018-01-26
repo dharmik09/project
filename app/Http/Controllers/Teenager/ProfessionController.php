@@ -245,7 +245,6 @@ class ProfessionController extends Controller {
 
                 $return .= '<section class="sec-category"><div class="row">
                                 <div class="col-md-6">
-                                    <p>You have completed <strong>'.$professionAttemptedCount.' of '.count($value->profession).'</strong> careers</p>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="pull-right">
@@ -314,7 +313,8 @@ class ProfessionController extends Controller {
             }
         }
         else{
-            $return = '<center><h3>No result Found</h3></center>';
+            // $return = '<center><h3>No result Found</h3></center>';
+            $return = '<div class="sec-forum"><span>No result Found</span></div>';
         }
         return $return;
     }
@@ -356,7 +356,6 @@ class ProfessionController extends Controller {
                                     <div class="career-heading clearfix">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <p>You have completed <strong>'.$professionAttemptedCount.' of '.count($value->profession).'</strong> careers</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="pull-right">
@@ -387,7 +386,7 @@ class ProfessionController extends Controller {
             }
         }
         else{
-            $return = '<center><h3>No result Found</h3></center>';
+            $return = '<div class="sec-forum"><span>No result Found</span></div>';
         }
         return $return;
     }
@@ -398,9 +397,9 @@ class ProfessionController extends Controller {
         $user = Auth::guard('teenager')->user();
         
         if($user->t_view_information == 1){
-            $countryId = 2;
+            $countryId = 2; // United States
         }else{
-            $countryId = 1;
+            $countryId = 1; // India
         }
 
         $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
@@ -458,23 +457,34 @@ class ProfessionController extends Controller {
             $countryId = 1; // India
         }
 
-        if($queId == 1) // Industry
-        {
-            $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketId($ansId, $userid, $countryId);
+        if($ansId != 0){
+            if($queId == 1) // Industry
+            {
+                $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketId($ansId, $userid, $countryId);
+                if($view == 'GRID'){
+                    return view('teenager.basic.level3CareerGridView', compact('basketsData','view','countryId'));
+                }elseif($view == 'LIST'){
+                    return view('teenager.basic.level3CareerListView', compact('basketsData','view'));
+                }
+            }
+            elseif ($queId == 2) // Careers
+            {
+                $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionId($ansId, $userid, $countryId);
+                $totalProfessionCount = $this->professions->getActiveProfessionsCountByBaketId($basketsData[0]->id);
+                if($view == 'GRID'){
+                    return view('teenager.basic.level3CareerGridView', compact('basketsData','totalProfessionCount','countryId'));
+                }elseif($view == 'LIST'){
+                    return view('teenager.basic.level3CareerListView', compact('basketsData','totalProfessionCount'));
+                }
+            }
+        }
+        else // All Industry with Careers
+        {         
+            $basketsData = $this->baskets->getAllBasketsAndProfessionWithAttemptedProfession($userid, $countryId);
             if($view == 'GRID'){
                 return view('teenager.basic.level3CareerGridView', compact('basketsData','view','countryId'));
             }elseif($view == 'LIST'){
                 return view('teenager.basic.level3CareerListView', compact('basketsData','view'));
-            }
-        }
-        elseif ($queId == 2) // Careers
-        {         
-            $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionId($ansId, $userid, $countryId);
-            $totalProfessionCount = $this->professions->getActiveProfessionsCountByBaketId($basketsData->id);
-            if($view == 'GRID'){
-                return view('teenager.basic.level3CareerGridView', compact('basketsData','totalProfessionCount','countryId'));
-            }elseif($view == 'LIST'){
-                return view('teenager.basic.level3CareerListView', compact('basketsData','totalProfessionCount'));
             }
         }
     }

@@ -8,9 +8,14 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Community\Contracts\CommunityRepository;
+use App\Services\Template\Contracts\TemplatesRepository;
 use Config;
 use Storage;
 use Helpers;
+use Mail;
+use Carbon\Carbon;
+use App\Events\SendMail;
+use Event;
 
 class CommunityController extends Controller
 {
@@ -19,10 +24,11 @@ class CommunityController extends Controller
      *
      * @return void
      */
-    public function __construct(TeenagersRepository $teenagersRepository, CommunityRepository $communityRepository)
+    public function __construct(TemplatesRepository $templateRepository, TeenagersRepository $teenagersRepository, CommunityRepository $communityRepository)
     {
         //$this->middleware('admin.guest', ['except' => 'logout']);
         $this->communityRepository = $communityRepository;
+        $this->templateRepository = $templateRepository;
         $this->teenagersRepository = $teenagersRepository;
         $this->teenagerThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
     }
@@ -153,6 +159,70 @@ class CommunityController extends Controller
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $data;
 
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : sendConnectionRequest
+     *  loginToken, userId, senderId, receiverId
+     *  senderId is same as userId
+     *  Service after loggedIn user
+    */
+    public function sendConnectionRequest(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            if($request->senderId == $request->receiverId) {
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['message'] = "You are already in your connection!"; 
+                return response()->json($response, 200);
+                exit;
+            }
+            $receiverTeenDetails = $this->teenagersRepository->getTeenagerById($request->receiverId);
+            $connectedTeen = $this->communityRepository->checkTeenConnectionStatus($request->receiverId, $request->senderId);
+            if ($connectedTeen == 2) {
+                $data = array();
+                $replaceArray = array();
+                
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName('send-connection-request-to-teen');
+                $connectionUniqueId = uniqid("", TRUE);
+                
+                $replaceArray['RECEIVER_TEEN_NAME'] = $receiverTeenDetails->t_name;
+                $replaceArray['SENDER_TEEN_NAME'] = $teenager->t_name;
+                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                
+                if (isset($emailTemplateContent) && !empty($emailTemplateContent)) {
+                    $data['subject'] = $emailTemplateContent->et_subject;
+                    $data['toEmail'] = $receiverTeenDetails->t_email;
+                    $data['toName'] = $receiverTeenDetails->t_name." ".$receiverTeenDetails->t_lastname;
+                    $data['content'] = $content;
+                    $data['tc_unique_id'] = $connectionUniqueId;
+                    $data['tc_sender_id'] = $teenager->id;
+                    $data['tc_receiver_id'] = $receiverTeenDetails->id;
+                    
+                    Event::fire(new SendMail("emails.Template", $data));
+
+                    $connectionRequestData['tc_unique_id'] = $data['tc_unique_id'];
+                    $connectionRequestData['tc_sender_id'] = $data['tc_sender_id'];
+                    $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
+                    $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
+
+                    $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+                    $response['message'] = "Connection request sent successfully!";
+                } else {
+                    $response['message'] = trans('validation.somethingwrong');
+                }
+                $response['login'] = 1;
+                $response['status'] = 1;
+            } else {
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['message'] = ($connectedTeen == 1) ? "Already in your connection!" : ($connectedTeen == 0) ? "Request already sent!" : "Something went wrong!"; 
+            }
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }

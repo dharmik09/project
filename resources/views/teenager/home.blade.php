@@ -31,12 +31,13 @@
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
                             <h2>My Interests <span></span>
-                                <span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                                <span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-interest')" data-toggle="clickover" data-popover-content="#dashboard-interest" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                <i class="icon-question"></i></a></span>
                             </h2>
-                            <div class="hide" id="pop1">
+                            <div class="hide" id="dashboard-interest">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                                    <span class="dashboard-interest"></span>
                                 </div>
                             </div>
                             <div class="row flex-container">
@@ -78,7 +79,13 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
-                            <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-strength')" data-toggle="clickover" data-popover-content="#dashboard-strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <div class="hide" id="dashboard-strength">
+                                <div class="popover-data">
+                                    <a class="close popover-closer"><i class="icon-close"></i></a>
+                                    <span class="dashboard-strength"></span>
+                                </div>
+                            </div>
                             <div class="row flex-container">
                                 <?php $countStrength = 0; ?>
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
@@ -114,7 +121,13 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
-                            <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-my-career')" data-toggle="clickover" data-popover-content="#dashboard-my-career" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <div class="hide" id="dashboard-my-career">
+                                <div class="popover-data">
+                                    <a class="close popover-closer"><i class="icon-close"></i></a>
+                                    <span class="dashboard-my-career"></span>
+                                </div>
+                            </div>
                             <div class="my_career_tab">
                                 <div class="panel-group" id="accordion">
                                     <?php $countCareers = 0; ?>
@@ -211,13 +224,13 @@
                 <!-- Col End -->
                 <div class="col-md-6 col-sm-6 col-xs-12 activity_section">
                     <div class="dashbord_view_left dashbord_view_right">
-                        <h2 class="das_title">Activities</h2>
+                        <h2 class="das_title">Build My Profile</h2>
                         <div class="my_career_tab active_tab_view">
                             <div class="panel-group" id="accordionx">
                                 <div class="panel panel-default factual quiz1">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_1')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_1')}}" onclick="fetch2ActiityQuestion(this.id)">Quiz 1<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_1')}}">{{$section1}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_1')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_1')}}" onclick="fetch2ActiityQuestion(this.id)">Profile Builder 1<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_1')}}">{{$section1}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_1')}}">
@@ -229,7 +242,7 @@
                                 <div class="panel panel-default factual quiz2">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_2')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_2')}}" onclick="fetch2ActiityQuestion(this.id)">Quiz 2<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_2')}}">{{$section2}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_2')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_2')}}" onclick="fetch2ActiityQuestion(this.id)">Profile Builder 2<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_2')}}">{{$section2}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_2')}}">
@@ -241,7 +254,7 @@
                                 <div class="panel panel-default factual quiz3">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_3')}}" class="collapsed career-lc" id="{{Config::get('constant.LEVEL2_SECTION_3')}}" onclick="fetch2ActiityQuestion(this.id)">Quiz 3<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_3')}}">{{$section3}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_3')}}" class="collapsed career-lc" id="{{Config::get('constant.LEVEL2_SECTION_3')}}" onclick="fetch2ActiityQuestion(this.id)">Profile Builder 3<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_3')}}">{{$section3}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_3')}}">
@@ -253,9 +266,17 @@
                             </div>
                         </div>
                         <!-- active_tab_view End -->
-                        <h2 class="das_title custom-section">Careers</h2>
+                        <h2 class="das_title custom-section">Careers to consider</h2>
                         <div class="das_your_profile my_interests">
-                            <h2>Careers to consider <span></span><span class="sec-popup"><a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2>My likely fit<span></span><span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-career-consider')" data-toggle="clickover" data-popover-content="#dashboard-career-consider" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            
+                            <div class="hide" id="dashboard-career-consider">
+                                <div class="popover-data">
+                                    <a class="close popover-closer"><i class="icon-close"></i></a>
+                                    <span class="dashboard-career-consider"></span>
+                                </div>
+                            </div>
+                            
                             <div class="careers-container">
                                 <div class="career-data career-data-color-1">
                                     <h2>Career 1</h2>
@@ -372,6 +393,22 @@
                 }
             });
         }
+    }
+    
+    function getHelpText(helpSlug)
+    {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-help-text')}}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'helpSlug':helpSlug},
+            success: function(response) {
+                $("."+helpSlug).text(response);                
+            }
+        });
     }
 
     function saveAns(queId) {

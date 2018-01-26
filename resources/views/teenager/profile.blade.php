@@ -50,11 +50,11 @@
                 @endif
             </div>
             <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop1">
+                <a href="javascript:void(0);" onclick="getHelpText('profile-update')" data-toggle="clickover" data-popover-content="#profile-update" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="profile-update">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                        <span class="profile-update"></span>
                     </div>
                 </div>
             </div>
@@ -313,11 +313,11 @@
     <section class="sec-parents" id="sec-parents">
         <div class="container">
             <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop2" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop2">
+                <a href="javascript:void(0);" onclick="getHelpText('profile-parent-mentor')" data-toggle="clickover" data-popover-content="#profile-parent-mentor" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="profile-parent-mentor">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                        <span class="profile-parent-mentor"></span>
                     </div>
                 </div>
             </div>
@@ -372,22 +372,22 @@
     <!-- sec personal survey-->
     <div class="sec-survey" id="sec-survey">
         <div class="container">
-            <h2>Personal Survey Part - 1</h2>
+            <h2>My Preferences</h2>
             <div id="traitErrorGoneMsg"></div>
             <div class="traitsLoader">
                 <div id="traitsData"></div>
             </div>
             
             <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop3" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop3">
+                <a href="javascript:void(0);" onclick="getHelpText('profile-my-vote')" data-toggle="clickover" data-popover-content="#profile-my-vote" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="profile-my-vote">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                        <span class="profile-my-vote"></span>
                     </div>
                 </div>
             </div>
-            <h2>Personal Survey</h2>
+            <h2>My Votes</h2>
             <div id="errorGoneMsg"></div>
             <div class="survey-list">
                 <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
@@ -409,7 +409,7 @@
     <!-- icon voted sec start-->
     <div class="icon-voted bg-offwhite" id="icon-voted">
         <div class="container">
-            <h2>Icon Voted in L1</h2>
+            <h2>My Role Models</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.</p>
             <div class="voted-list">
                 @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
@@ -556,21 +556,22 @@
                         </ul>
                     </div>
                     <div id="menu2" class="tab-pane fade">
-                        <div class="careers-tab my-career">
+                        <div class="careers-tab my-career row">
                             @forelse ($myCareers as $myCareer)
-                            <div class="careers-block">
-                                <div class="careers-img">
-                                    <!-- <i class="icon-image"></i> -->
-                                    <?php
-                                        if ($myCareer->pf_logo != "" && Storage::size(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo) > 0) {
-                                            $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo);
-                                        } else {
-                                            $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
-                                        } ?>
-                                <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
-                                </div>
-                                <div class="careers-content">
-                                    <h4>{{ $myCareer->pf_name }}</h4>
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="careers-block">
+                                    <div class="careers-img">
+                                        <?php
+                                            if ($myCareer->pf_logo != "" && Storage::size(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo) > 0) {
+                                                $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo);
+                                            } else {
+                                                $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                                            } ?>
+                                        <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
+                                    </div>
+                                    <div class="careers-content">
+                                        <h4>{{ $myCareer->pf_name }}</h4>
+                                    </div>
                                 </div>
                             </div>
                             @empty
@@ -580,7 +581,7 @@
                             @endforelse
                             @if (!empty($myCareers) && $myCareersCount > 10)
                                 <p class="text-center remove-my-careers-row">
-                                    <a id="load-more-career" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myCareer->attemptedId }}">load more</a>
+                                    <a id="load-more-career" href="javascript:void(0)" title="load more" class="load-more" data-id="{{$myCareer->careerId}}">load more</a>
                                 </p>
                             @endif
                         </div>
@@ -1246,7 +1247,7 @@
     });
     
     $(document).on('click','#load-more-career',function(){
-        var lastAttemptedId = $(this).data('id');
+        var lastAttemptedId = $(this).attr('data-id');
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'lastAttemptedId=' + lastAttemptedId;
         $.ajax({
@@ -1285,7 +1286,6 @@
     }
 
     function saveLevel1TraitQuestion() {
-
         var answerId = [];
         $.each($("input[name='traitAns']:checked"), function(){            
             answerId.push($(this).val());
@@ -1694,6 +1694,22 @@
         }
     }
 
+    function getHelpText(helpSlug)
+    {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-help-text')}}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'helpSlug':helpSlug},
+            success: function(response) {
+                $("."+helpSlug).text(response);                
+            }
+        });
+    }
+    
     function getDefaultAreaLocation() {
         // $.ajax({
         //     url: "http://maps.googleapis.com/maps/api/geocode/json?address={{$user->t_pincode}}&sensor=true",

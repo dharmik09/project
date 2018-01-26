@@ -224,6 +224,18 @@ $(document).ready(function () {
             $(this).text('Expand');
         }
     })
+    $('.expand-btn').click(function () {
+        $('.traits-expand').slideToggle("slow");
+        if ($(this).hasClass('less')) {
+            $(this).removeClass('less');
+            $(this).addClass('more');
+            $(this).text('Collapse');
+        } else {
+            $(this).addClass('less');
+            $(this).removeClass('more');
+            $(this).text('Expand');
+        }
+    })
     $('.text-overflow').each(function(index, el) {
                 var parent = $(el).closest('.full-text');
                 var btn = parent.find('.read-more');
