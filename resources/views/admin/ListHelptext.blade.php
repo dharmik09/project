@@ -31,7 +31,6 @@
                                 <th>{{trans('labels.serialnumber')}}</th>
                                 <th>{{trans('labels.helptexttitle')}}</th>
                                 <th>{{trans('labels.helptextslug')}}</th>
-                                <th>{{trans('labels.helptextpage')}}</th>
                                 <th>{{trans('labels.helptextaction')}}</th>
                             </tr>
                         </thead>
@@ -48,10 +47,7 @@
                                 </td>
                                 <td>
                                     {{ $helptext->h_slug }}
-                                </td>
-                                <td>
-                                    {{ $helptext->h_page }}
-                                </td>
+                                </td>                                
                                 <td>
                                     <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
                                     <a href="{{ url('/admin/editHelpText') }}/{{$helptext->id}}/{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
