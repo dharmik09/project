@@ -129,7 +129,7 @@ class CoinManagementController extends Controller
                   'merchant_param2' => $id,
             ];
 
-            $order = Indipay::prepare($parameters);
+            $order = Indipay::gateway('CCAvenue')->prepare($parameters);
             
             return Indipay::process($order);
         }
