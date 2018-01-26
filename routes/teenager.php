@@ -59,10 +59,8 @@ Route::get('/get-icon-name-new', 'Teenager\DashboardController@profile');
 Route::post('/add-icon-category', 'Teenager\Level1ActivityController@addIconCategory');
 Route::post('/save-first-level-icon-category', 'Teenager\Level1ActivityController@saveFirstLevelIconCategory');
 Route::post('/save-first-level-icon-quality', 'Teenager\Level1ActivityController@saveLevel1Part2Ans');
+
 //Career
-Route::get('/my-careers', function() {
-	return view('teenager.myCareers');
-});
 Route::get('/career-detail/{slug}', 'Teenager\ProfessionController@careerDetails');
 Route::post('/add-star-to-career', 'Teenager\ProfessionController@addStarToCareer');
 Route::get('/list-career', 'Teenager\ProfessionController@listIndex');
@@ -73,6 +71,8 @@ Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
 Route::post('/search-career-grid', 'Teenager\ProfessionController@gridGetSearch');
 Route::post('/fetch-career-search-dropdown/', 'Teenager\ProfessionController@getSearchDropdown');
 Route::post('/get-dropdown-search-result/', 'Teenager\ProfessionController@getDropdownSearchResult');
+Route::get('/my-careers/', 'Teenager\ProfessionController@getTeenagerCareers');
+Route::post('/get-my-careers-search/', 'Teenager\ProfessionController@getTeenagerCareersSearch');
 
 //Tag
 Route::get('/career-tag/{slug}', 'Teenager\ProfessionTagController@index');

@@ -89,4 +89,41 @@ class Baskets extends Model
                 ->get();
         return $return;
     }
+
+    public function getBasketsAndProfessionWithAttemptedProfessionByUserId($userId){
+        $this->userId = $userId;
+        $return = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with('starRatedProfession');
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->whereHas('starRatedProfession');
+                })
+                ->where('deleted' ,'1')
+                ->get();
+        return $return;
+    }
+
+    public function getBasketsAndProfessionWithAttemptedProfessionByUserIdAndSearchValue($userId, $searchText){
+        $this->userId = $userId;
+        $this->searchText = $searchText;
+        $return = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->where('pf_name', 'like', '%'.$this->searchText.'%')
+                    ->with('starRatedProfession');
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->where('pf_name', 'like', '%'.$this->searchText.'%')
+                    ->whereHas('starRatedProfession');
+                })
+                ->where('deleted' ,'1')
+                ->get();
+        return $return;
+    }
 }
