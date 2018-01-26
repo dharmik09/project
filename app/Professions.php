@@ -94,8 +94,33 @@ class Professions extends Model {
         return $this->hasOne(ProfessionAttempted::class, 'tpa_peofession_id');
     }
 
+    public function professionStarRated(){
+        return $this->hasOne(professionStarRated::class, 'srp_profession_id');
+    }
+
     public function starRatedProfession(){
         return $this->hasMany(StarRatedProfession::class, 'srp_profession_id');
+    }
+
+    public function getteenagerTotalProfessionStarRatedCount($userId) {
+        $this->userId = $userId;
+        $return = $this->whereHas('starRatedProfession', function ($query) {
+                    $query->where('srp_teenager_id', $this->userId);
+                })
+                ->where('deleted' ,'1')
+                ->count();
+        return $return;
+    }
+
+    public function getTeenagerTotalProfessionAttemptedOutOfStarRated($userId) {
+        $this->userId = $userId;
+        $return = $this->whereHas('professionAttempted', function ($query) {
+                    $query->where('tpa_teenager', $this->userId);
+                })
+                ->whereHas('starRatedProfession')
+                ->where('deleted' ,'1')
+                ->count();
+        return $return;
     }
 
     public function getProfessionDetail($professionId) {

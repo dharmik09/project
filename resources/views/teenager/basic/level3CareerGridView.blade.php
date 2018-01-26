@@ -109,5 +109,5 @@
         </div>
     @endforeach
 @else
-    <center><h3>No result Found</h3></center>
+    <div class="sec-forum"><span>No result Found</span></div>
 @endif
