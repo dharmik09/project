@@ -130,9 +130,7 @@ class CoinManagementController extends Controller
             ];
 
             $order = Indipay::prepare($parameters);
-            echo "<pre>";
-            print_r($order);
-            exit;
+            
             return Indipay::process($order);
         }
     }
