@@ -40,6 +40,7 @@ Route::post('/get-available-coins/', 'Teenager\CoinManagementController@getAvail
 
 //ProCoins History
 Route::get('/get-pro-coins-history/', 'Teenager\CoinManagementController@getProCoinsHistory');
+Route::post('/get-consumption-history-more-data', 'Teenager\CoinManagementController@getConsumptionHistoryMoreData');
 
 //Buy ProCoins
 Route::get('/buy-procoins', 'Teenager\CoinManagementController@displayProCoins');
