@@ -90,6 +90,18 @@ class SignupController extends Controller
         $teenagerDetail['t_social_accesstoken'] = (isset($body['social_accesstoken']) && $body['social_accesstoken'] != '') ? $body['social_accesstoken'] : '';
         $teenagerDetail['t_sponsor_choice'] = 2;
         $teenagerDetail['t_pincode'] = (isset($body['pincode']) && $body['pincode'] != '') ? $body['pincode'] : '';
+        if($teenagerDetail['t_pincode'] != "") {
+            $getLocation = json_decode(file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$teenagerDetail['t_pincode'].'&sensor=true'));
+            $getCityArea = ( isset($getLocation->results[0]->address_components[1]->long_name) && $getLocation->results[0]->address_components[1]->long_name != "" ) ? $getLocation->results[0]->address_components[1]->long_name : "Default";
+        } else if ($teenagerDetail['t_country'] != "") {
+            $country = $this->objCountry->find($teenagerDetail['t_country']);
+            $getCityArea = $country->c_name;
+        } else {
+            $getCityArea = "Default";
+        }
+                        
+        $teenagerDetail['t_location'] = $getCityArea;
+
         //$teenagerDetail['fromLogin'] = (isset($body['fromLogin']) && $body['fromLogin'] != '') ? $body['fromLogin'] : '';
         $teenagerDetail['t_photo'] = '';
         $teenagerDetail['t_view_information'] = (isset($teenagerDetail['t_country']) && $teenagerDetail['t_country'] != '' && $teenagerDetail['t_country'] == 1) ? 0 : 1;

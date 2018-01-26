@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use Input;
 use Mail;
 use Image;
+use App\Country;
 
 class SignupController extends Controller
 {
@@ -39,6 +40,7 @@ class SignupController extends Controller
         $this->sponsorThumbImageUploadPath = Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
+        $this->objCountry = new Country;
         
     }
 
@@ -64,6 +66,16 @@ class SignupController extends Controller
             $teenagerDetail['t_phone_new'] = $request->phone;
             $teenagerDetail['t_country'] = $request->country;
             $teenagerDetail['t_pincode'] = $request->pincode;
+            if($teenagerDetail['t_pincode'] != "") {
+                $getLocation = json_decode(file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$teenagerDetail['t_pincode'].'&sensor=true'));
+                $getCityArea = ( isset($getLocation->results[0]->address_components[1]->long_name) && $getLocation->results[0]->address_components[1]->long_name != "" ) ? $getLocation->results[0]->address_components[1]->long_name : "Default";
+            } else if ($teenagerDetail['t_country'] != "") {
+                $country = $this->objCountry->find($teenagerDetail['t_country']);
+                $getCityArea = $country->c_name;
+            } else {
+                $getCityArea = "Default";
+            }
+            $teenagerDetail['t_location'] = $getCityArea;
             $teenagerDetail['t_device_type'] = $request->deviceType;
             $teenagerDetail['t_photo'] = '';
             $teenagerDetail['deleted'] = '1';

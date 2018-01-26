@@ -154,7 +154,9 @@ class TeenagerController extends Controller
                 $networkTeenager->country_id = $networkTeenager->t_country;
                 
                 //Get Location Area
-                if($networkTeenager->t_pincode != "") {
+                if ($networkTeenager->t_location != "") {
+                    $getCityArea = $networkTeenager->t_location;
+                } else if($networkTeenager->t_pincode != "") {
                     $getLocation = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$networkTeenager->t_pincode.'&sensor=true');
                     $getCityArea = ( isset(json_decode($getLocation)->results[0]->address_components[1]->long_name) && json_decode($getLocation)->results[0]->address_components[1]->long_name != "" ) ? json_decode($getLocation)->results[0]->address_components[1]->long_name : "Default";
                 } else {
