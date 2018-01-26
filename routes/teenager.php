@@ -27,6 +27,10 @@ Route::get('/seo-teaser', function() {
 	return view('teenager.seoTeaser');
 });
 
+Route::post('/get-interest-detail', 'Teenager\HomeController@getInterestDetail');
+Route::post('/get-strength-detail', 'Teenager\HomeController@getStrengthDetail');
+
+
 //Help
 Route::get('help', 'Teenager\HomeController@help');
 Route::post('/search-help', 'Teenager\HomeController@help')->name('search-help');

@@ -40,42 +40,19 @@
                                     <span class="dashboard-interest"></span>
                                 </div>
                             </div>
-                            <div class="row flex-container">
-                        	    <?php $countInterest = 0; ?>
-                                @forelse($teenagerInterest as $interestKey => $interestValue)
-                                <?php
-                                    $countInterest++; 
-	                                if ($countInterest > 4) {
-                                        $key = 'none';
-                                        $elementClass = "expandElement";
-                                    } else {
-                                        $key = 'block';
-                                        $elementClass = '';
-                                    }
-	                            ?>
-                                <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};" > 
-                                    <div class="my_chart">
-                                        <div class="progress-radial progress-{{$interestValue['score']}}">
-                                        </div>
-                                        <h4>
-                                            <a href="{{ url('teenager/interest/') }}/{{$interestKey}}">{{ $interestValue['name']}}
-                                            </a>
-                                        </h4>
+                            <div class="row flex-container dashboard-interest-detail">
+                        	   <div style="display: block;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
+                                    <div class="loading-text">
+                                        <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
                                     </div>
+                                    <div class="loading-content"></div>
                                 </div>
-                                @empty
-                            	<div class="col-md-6 col-sm-6 col-xs-6 flex-items">
-                                	<center>
-                                		<h3>No Records Found</h3>
-                                	</center>
-                                	</div>
-                                @endforelse
+                                <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
+                                    <center>
+                                        <h3 class="dashboard-interest-error-message">No Records Found</h3>
+                                    </center>
+                                </div>
                             </div>
-                            @if (count($teenagerInterest) > 4 && !empty($teenagerInterest))
-                            	<p>
-                            		<a id="interest" href="javascript:void(0);" class="interest-section">Expand</a>
-                            	</p>
-                            @endif
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
@@ -86,38 +63,19 @@
                                     <span class="dashboard-strength"></span>
                                 </div>
                             </div>
-                            <div class="row flex-container">
-                                <?php $countStrength = 0; ?>
-                                @forelse($teenagerStrength as $strengthKey => $strengthValue)
-                                	<?php
-                                		$countStrength++;
-                                		if ($countStrength > 4) {
-                                            $key = 'none';
-                                            $elementClass = "expandStrength";
-                                        } else {
-                                            $key = 'block';
-                                            $elementClass = '';
-                                        } ?>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};">
-                                        <div class="my_chart">
-                                            <div class="progress-radial progress-{{$strengthValue['score']}}">
-                                            </div>
-                                            <h4><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}"> {{ $strengthValue['name'] }}</a></h4>
-                                        </div>
+                            <div class="row flex-container dashboard-strength-detail">
+                                <div style="display: block;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
+                                    <div class="loading-text">
+                                        <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
                                     </div>
-                                @empty
-                                	<div class="col-md-6 col-sm-6 col-xs-6 flex-items">
-	                                	<center>
-	                                		<h3>No Records Found</h3>
-	                                	</center>
-                                	</div>
-                                @endforelse
+                                    <div class="loading-content"></div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
+                                    <center>
+                                        <h3 class="dashboard-interest-error-message">No Records Found</h3>
+                                    </center>
+                                </div>
                             </div>
-                            @if(count($teenagerStrength) > 4 && !empty($teenagerStrength))
-                            	<p>
-                            		<a id="strength" href="javascript:void(0);" >Expand</a>
-                            	</p>
-                            @endif
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
@@ -437,30 +395,31 @@
                 $("#section"+section).removeClass('loading-screen-parent loading-large');
                 $("#section"+section).hide().html(response.activities).fadeIn('slow');
                 $("#percentageSection"+section).html(response.sectionPercentage);
+                getTeenagerInterestData("{{Auth::guard('teenager')->user()->id}}");
+                getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
             }
         });
     }
 
-
-
-    $('.interest-section').click(function() {
+    $(document).on('click', '.interest-section', function() {
         $('.expandElement').slideToggle('medium', function() {
             if ($(this).is(':visible')) {
                 $(this).css('display','block');
                 $("#interest").text("Collapse");
             } else {
-            	$("#interest").text("Expand");
+                $("#interest").text("Expand");
             }
         });
         return false;
     });
-    $('#strength').click(function() {
+
+    $(document).on('click', '#strength', function() {
         $('.expandStrength').slideToggle('medium', function() {
             if ($(this).is(':visible')) {
                 $(this).css('display','block');
                 $("#strength").text("Collapse");
             } else {
-            	$("#strength").text("Expand");
+                $("#strength").text("Expand");
             }
         });
         return false;
@@ -489,5 +448,63 @@
         });
         return false;
     });
+
+    $(window).on("load", function(e) {
+        e.preventDefault();
+        getTeenagerInterestData("{{Auth::guard('teenager')->user()->id}}");
+        getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
+    });
+
+    function getTeenagerInterestData(teenagerId) {
+        $('.dashboard-interest-detail .loading-screen-data').parent().toggleClass('loading-screen-parent');
+        $('.dashboard-interest-detail .loading-screen-data').show();
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-interest-detail')}}",
+            dataType: 'html',
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            data: {'teenagerId':teenagerId},
+            success: function (response) {
+                try {
+                    var valueOf = $.parseJSON(response); 
+                } catch (e) {
+                    // not json
+                }
+                if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                    $('.dashboard-interest-error-message').text(valueOf.message);
+                } else {
+                    $(".dashboard-interest-detail").html(response).fadeIn('slow');
+                }
+                $('.dashboard-interest-detail .loading-screen-data').hide();
+                $('.dashboard-interest-detail .loading-screen-data').parent().removeClass('loading-screen-parent');
+            }
+        });
+    }
+
+    function getTeenagerStrengthData(teenagerId) {
+        $('.dashboard-strength-detail .loading-screen-data').parent().toggleClass('loading-screen-parent');
+        $('.dashboard-strength-detail .loading-screen-data').show();
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-strength-detail')}}",
+            dataType: 'html',
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            data: {'teenagerId':teenagerId},
+            success: function (response) {
+                try {
+                    var valueOf = $.parseJSON(response); 
+                } catch (e) {
+                    // not json
+                }
+                if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                    $('.dashboard-strength-error-message').text(valueOf.message);
+                } else {
+                    $(".dashboard-strength-detail").html(response).fadeIn('slow');
+                }
+                $('.dashboard-strength-detail .loading-screen-data').hide();
+                $('.dashboard-strength-detail .loading-screen-data').parent().removeClass('loading-screen-parent');
+            }
+        });
+    }
 </script>
 @stop
