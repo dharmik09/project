@@ -109,3 +109,6 @@ Route::post('save-level1-trait', 'Teenager\Level1ActivityController@saveLevel1Tr
 Route::get('/chat', 'Teenager\ChatController@index');
 Route::post('/getChatUsers', 'Teenager\ChatController@getChatUsers');
 Route::post('/registerUserInAppLozic', 'Teenager\ChatController@registerUserInAppLozic');
+
+//Help
+Route::post('/get-help-text', 'Teenager\HelpController@getHelpTextBySlug');

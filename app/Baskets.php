@@ -50,7 +50,7 @@ class Baskets extends Model
                     $query->where('id',$this->professionId);
                 })
                 ->where('deleted' ,'1')
-                ->first();
+                ->get();
         return $return;
     }
 
@@ -69,7 +69,24 @@ class Baskets extends Model
                 }])
                 ->where('id',$this->basketId)
                 ->where('deleted' ,'1')
-                ->first();
+                ->get();
+        return $return;
+    }
+
+    public function getAllBasketsAndProfessionWithAttemptedProfession($userId, $countryId){
+        $this->userId = $userId;
+        $this->countryId = $countryId;
+        $return = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id',$this->countryId);
+                    }]);
+                }])
+                ->where('deleted' ,'1')
+                ->get();
         return $return;
     }
 }

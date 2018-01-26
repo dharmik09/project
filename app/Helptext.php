@@ -38,4 +38,9 @@ class Helptext extends Model
             return false;
         }
     }
+    
+    public function getHelptextBySlug($slug) {
+        $helptext = Helptext::selectRaw('*')->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->where('h_slug', $slug)->first();
+        return $helptext;
+    }
 }

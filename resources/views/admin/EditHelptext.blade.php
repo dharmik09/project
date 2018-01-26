@@ -82,26 +82,7 @@
                             <textarea id="h_description" name="h_description" class="form-control">{{$h_description}}</textarea>
                         </div>
                     </div>
-                    <?php
-                    if (old('h_page'))
-                        $h_page = old('h_page');
-                    elseif ($helptext)
-                        $h_page = $helptext->h_page;
-                    else
-                        $h_page = '';
-                    ?>
-                    <div class="form-group">
-                        <label for="deleted" class="col-sm-2 control-label">{{trans('labels.helptextpage')}}</label>
-                        <div class="col-sm-6">
-                            <?php $pageName = Helpers::page(); ?>
-                            <select class="form-control" id="h_page" name="h_page">
-                                <option value="">Select Page</option>
-                                <?php foreach ($pageName as $key => $value) { ?>
-                                    <option value="{{$key}}" <?php if ($h_page == $key) echo 'selected'; ?>>{{$value}}</option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                    </div>
+                    
                     <?php
                     if (old('deleted'))
                         $deleted = old('deleted');
