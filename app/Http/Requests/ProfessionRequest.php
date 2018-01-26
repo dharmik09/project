@@ -28,6 +28,7 @@ class ProfessionRequest extends Request
         {
             return [
                 'pf_name' => 'required',
+                'pf_slug' => 'required',
                 'pf_logo' => 'mimes:jpeg,jpg,bmp,png',
                 'normal' => 'mimes:mp4,3gp,wmv,mkv',
                 'youtube' => 'required',
@@ -38,6 +39,7 @@ class ProfessionRequest extends Request
         {
             return [
                 'pf_name' => 'required',
+                'pf_slug' => 'required',
                 'pf_logo' => 'mimes:jpeg,jpg,bmp,png',
                 'normal' => 'mimes:mp4,3gp,wmv,mkv',
                 'youtube' => 'required',
@@ -49,6 +51,7 @@ class ProfessionRequest extends Request
     public function messages() {
         return [
             'pf_name.required' => trans('validation.namerequiredfield'),
+            'pf_slug.required' => trans('validation.slugisrequired'),
             'pf_logo.required' => trans('validation.photorequired'),
             'pf_logo.mimes' => trans('validation.validphotorequired'),
             'normal.mimes' => trans('validation.validvideorequired'),

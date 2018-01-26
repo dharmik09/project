@@ -49,6 +49,7 @@ class ProfessionTagManagementController extends Controller
         $hiddenLogo = e(input::get('hidden_logo'));
         $tagDetail['id'] = e(Input::get('id'));
         $tagDetail['pt_name'] = e(Input::get('pt_name'));
+        $tagDetail['pt_slug'] = e(Input::get('pt_slug'));
         $tagDetail['pt_description'] = e(Input::get('pt_description'));
         $tagDetail['deleted'] = e(Input::get('deleted'));
 

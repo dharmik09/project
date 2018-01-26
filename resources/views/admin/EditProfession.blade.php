@@ -52,7 +52,22 @@
                        <div class="form-group">
                             <label for="pf_name" class="col-sm-2 control-label">{{trans('labels.formlblname')}}</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id=pf_name"" name="pf_name" placeholder="{{trans('labels.formlblname')}}" value="{{$pf_name}}" minlength="3" maxlength="100"/>
+                                <input type="text" class="form-control" id="pf_name" name="pf_name" placeholder="{{trans('labels.formlblname')}}" value="{{$pf_name}}" minlength="3" maxlength="100"/>
+                            </div>
+                        </div>
+
+                        <?php
+                        if (old('pf_slug'))
+                            $pf_slug = old('pf_slug');
+                        elseif ($professionDetail)
+                            $pf_slug = $professionDetail->pf_slug;
+                        else
+                            $pf_slug = '';
+                        ?>
+                        <div class="form-group">
+                            <label for="pf_slug" class="col-sm-2 control-label">{{trans('labels.formlblslug')}}</label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly="true" class="form-control" id="pf_slug" name="pf_slug" placeholder="{{trans('labels.formlblslug')}}" value="{{$pf_slug}}"/>
                             </div>
                         </div>
 
@@ -395,6 +410,9 @@
                 pf_name : {
                     required : true
                 },
+                pf_slug : {
+                    required : true
+                },
                 pf_basket : {
                     required : true
                 },
@@ -411,6 +429,9 @@
         <?php } else { ?>
             var validationRules = {
                 pf_name : {
+                    required : true
+                },
+                pf_slug : {
                     required : true
                 },
                 pf_basket : {
@@ -436,6 +457,9 @@
             rules : validationRules,
             messages : {
                 pf_name : {
+                    required : "<?php echo trans('validation.requiredfield'); ?>"
+                },
+                pf_slug : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
                 pf_basket : {
@@ -487,4 +511,16 @@
     });
 
 </script>
+<?php if (empty($professionDetail)){ ?>
+    <script>
+        $('#pf_name').keyup(function ()
+        {
+            var str = $(this).val();
+            str = str.replace(/[^a-zA-Z0-9\s]/g, "");
+            str = str.toLowerCase();
+            str = str.replace(/\s/g, '-');
+            $('#pf_slug').val(str);
+        });
+    </script>
+<?php } ?>
 @stop

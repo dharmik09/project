@@ -28,6 +28,7 @@ class ProfessionTagRequest extends Request
         {
             return [
                 'pt_name'      => 'required',
+                'pt_slug'      => 'required',
                 'pt_description'      => 'required',
                 'pt_image'      => 'required|mimes:jpeg,jpg,bmp,png',
                 'deleted' => 'required',
@@ -37,6 +38,7 @@ class ProfessionTagRequest extends Request
         {
             return [
                 'pt_name'      => 'required',
+                'pt_slug'      => 'required',
                 'pt_description'      => 'required',
                 'deleted' => 'required',
             ];
@@ -46,6 +48,7 @@ class ProfessionTagRequest extends Request
     public function messages() {
         return [
             'pt_name.required' => trans('validation.nameisrequired'),
+            'pt_slug.required' => trans('validation.slugisrequired'),
             'pt_description.required' => trans('validation.descriptionisrequired'),
             'pt_image.required' => trans('validation.imageisrequired')
         ];
