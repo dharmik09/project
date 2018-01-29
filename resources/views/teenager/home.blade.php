@@ -385,7 +385,7 @@
             type: 'POST',
             url: "{{url('teenager/save-level2-activity')}}",
             dataType: 'json',
-            async: false,
+            //async: false,
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },

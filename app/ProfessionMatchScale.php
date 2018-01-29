@@ -27,8 +27,4 @@ class ProfessionMatchScale extends Model {
         return $findData;
     }
 
-    public function getData($id) {
-    	return ProfessionMatchScale::find(1);
-    }
-
 }

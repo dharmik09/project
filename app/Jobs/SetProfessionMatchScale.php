@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Helpers;
 use App\ProfessionMatchScale;
+use App\TeenagerPromiseScore;
 
 class SetProfessionMatchScale implements ShouldQueue
 {
@@ -33,13 +34,23 @@ class SetProfessionMatchScale implements ShouldQueue
     public function handle()
     {
         $objProfessionScale = new ProfessionMatchScale;
-        
+        $objTeenagerPromiseScore = new TeenagerPromiseScore;
+
         $compareLogic = array('HL', 'HM', 'HH', 'ML', 'MM', 'MH', 'LL', 'LM', 'LH');
         //FOR COMPARE LOGIC RESULT, L ='nomatch', M = 'moderate', H ='match'
         $compareLogicResult = array('L', 'M', 'H', 'L', 'H', 'H', 'H', 'H', 'H');
         
         $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystem();
         $getLevel2AssessmentResult = Helpers::getTeenAPIScore($this->userId);
+        //save promise score into the table
+        if(isset($getLevel2AssessmentResult['APIdataSlug']) && count($getLevel2AssessmentResult['APIdataSlug']) > 0) {
+            try {
+                $saveProfessionScale = $objTeenagerPromiseScore->saveTeenagerPromiseScore($getLevel2AssessmentResult['APIdataSlug'], $this->userId);
+            } catch(\Exception $e) {
+                //
+            }
+        }
+
         if (isset($getCareerMappingFromSystem[0]) && !empty($getCareerMappingFromSystem[0])) { 
             $professionScale = [];
             foreach ($getCareerMappingFromSystem as $keyId => $valueProfession) { 
