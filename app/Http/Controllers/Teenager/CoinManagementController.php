@@ -122,28 +122,17 @@ class CoinManagementController extends Controller
             $teenId = Auth::guard('teenager')->user()->id;
             $amount = $coinsDetail[0]->c_price;
             $parameters = [
-                  'tid' => time(),
+                  'tid' => $teenId.time(),
                   'order_id' => time(),
-                  'amount' => '10.00',
-                
+                  'amount' => $amount,
+                  'merchant_param1' => '1',
+                  'merchant_param2' => $id,
             ];
-            
+
             $order = Indipay::prepare($parameters);
-           
+            
             return Indipay::process($order);
         }
-    }
-    
-    public function payment()
-    {
-        $parameters = [
-            'tid' => time(),
-            'order_id' => time(),
-            'amount' => '10.00',
-        ];
-
-      $order = Indipay::prepare($parameters);
-      return Indipay::process($order);
     }
     
     public function orderResponse(Request $request)
@@ -151,7 +140,7 @@ class CoinManagementController extends Controller
         // For default Gateway
         $response = Indipay::response($request);
         dd($response);
-    }    
+    }
 
 
     //Mail to Parent for purchase coins
@@ -197,8 +186,8 @@ class CoinManagementController extends Controller
             return Redirect::to('/teenager/buy-procoins/')->with('error', trans('appmessages.parent_email_invalid'));
             exit;
         }
-    }       
-
+    }
+            
     public function saveGiftedCoinsData()
     {
         $teenId = Auth::guard('teenager')->user()->id;
