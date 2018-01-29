@@ -160,7 +160,7 @@
                             </div>
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group">
-                                    <input type="password" class="form-control pass-visi" id="password" name="password" placeholder="password" tabindex="11" value="" maxlength="16">
+                                    <input type="password" class="form-control pass-visi" id="password" name="password" placeholder="change password" tabindex="11" value="" maxlength="16">
                                     <span class="visibility-pwd">
                                         <img src="{{ Storage::url('img/view.png') }}" alt="view" class="view img">
                                         <img src="{{ Storage::url('img/hide.png') }}" alt="view" class="img-hide hide img">
