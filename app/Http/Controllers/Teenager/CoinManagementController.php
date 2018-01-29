@@ -122,19 +122,14 @@ class CoinManagementController extends Controller
             $teenId = Auth::guard('teenager')->user()->id;
             $amount = $coinsDetail[0]->c_price;
             $parameters = [
-                  'tid' => $teenId.time(),
+                  'tid' => time(),
                   'order_id' => time(),
                   'amount' => $amount,
-                  'merchant_param1' => '1',
-                  'merchant_param2' => $id,
+                
             ];
-            echo "<pre>";
-            print_r($parameters);
-            echo "<br/><br/><br/>";
+            
             $order = Indipay::prepare($parameters);
-            echo "<pre>";
-            print_r($order);
-            exit;
+           
             return Indipay::process($order);
         }
     }
