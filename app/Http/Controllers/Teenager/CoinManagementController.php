@@ -124,7 +124,7 @@ class CoinManagementController extends Controller
             $parameters = [
                   'tid' => time(),
                   'order_id' => time(),
-                  'amount' => $amount,
+                  'amount' => '10.00',
                 
             ];
             
