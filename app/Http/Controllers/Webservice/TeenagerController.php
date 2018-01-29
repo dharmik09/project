@@ -167,6 +167,7 @@ class TeenagerController extends Controller
                 $response['profileComplete'] = "Profile 62% complete";
                 $response['facebookUrl'] = "https://facebook.com";
                 $response['googleUrl'] = "https://google.com";
+                $response['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->teenagerId);
                 
                 //Connection Status 0,1,2 :: 0 -> pendding, 1 -> connected, 2->rejected
                 //checkTeenConnectionStatus($receiverId, $senderId) :: Here teenagerId => receiverId and userId => senderId
