@@ -13,7 +13,7 @@
         <div class="my_chart">
             <div class="progress-radial progress-{{$strengthValue['score']}}">
             </div>
-            <h4><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}"> {{ $strengthValue['name'] }}</a></h4>
+            <h4><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthValue['slug']}}"> {{ $strengthValue['name'] }}</a></h4>
         </div>
     </div>
 @empty
