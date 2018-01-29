@@ -94,17 +94,34 @@
                         </ul>
                     </div>
                     <ul class="career-list">
-                        <li class="match-strong complete-feild"><a href="#" title="Meat, Poultry and Fish Cutters and Trimmers">Meat, Poultry and Fish Cutters and Trimmers</a>
-                            <a href="#" class="complete"><span>Complete</span></a>
+                        @forelse ($relatedCareers as $career)
+                        <?php $career->matched = rand(0,2); 
+                            switch($career->matched) {
+                                case 0:
+                                    $matchClass = "match-strong";
+                                    break;
+
+                                case 1: 
+                                    $matchClass = "match-potential";
+                                    break;
+
+                                case 2:
+                                    $matchClass = "match-unlikely";
+                                    break;
+                                    
+                                default:
+                                    $matchClass = "";
+                                    break;
+                            };
+                        ?>
+                        <li class="{{$matchClass}} <?php if (in_array($career->id, $professionIds)) { ?> complete-feild <?php } ?> "><a href="#" title="{{$career->pf_name}}">{{$career->pf_name}}</a>
+                            <?php if (in_array($career->id, $professionIds)) { ?>
+                                <a href="#" class="complete"><span>Complete</span></a>
+                            <?php } ?>
                         </li>
-                        <li class="match-potential"><a href="#" title="Purchasing Agents & Buyers">Purchasing Agents &amp; Buyers</a></li>
-                        <li class="match-potential"><a href="#" title="Rotary Drill Operators, Oil and Gas">Rotary Drill Operators, Oil and Gas</a></li>
-                        <li class="match-unlikely"><a href="#" title="Agricultural and Food Science Technicians">Agricultural and Food Science Technicians</a></li>
-                        <li class="match-strong complete-feild"><a href="#" title="Agricultural Equipment Operators">Agricultural Equipment Operators</a>
-                            <a href="#" class="complete"><span>Complete</span></a>
-                        </li>
-                        <li class="match-strong"><a href="#" title="Conservation Scientists">Conservation Scientists</a></li>
-                        <li class="match-potential"><a href="#" title="Environmental Engineers">Environmental Engineers</a></li>
+                        @empty
+                            No Careers found
+                        @endforelse
                     </ul>
                     <p class="text-center"><a href="#" title="see more">see more</a></p>
                 </div>

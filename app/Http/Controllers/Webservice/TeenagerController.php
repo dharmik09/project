@@ -232,7 +232,7 @@ class TeenagerController extends Controller
                     $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');
                 }
                 
-                $connections[] = array('id' => $connection->id, 'uniqueId' => $connection->t_uniqueid, 'name' => $connection->t_name, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage); 
+                $connections[] = array('id' => $connection->id, 'uniqueId' => $connection->t_uniqueid, 'name' => $connection->t_name, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage, 'coins' => $connection->t_coins); 
             }
             $response['login'] = 1;
             $response['status'] = 1;
