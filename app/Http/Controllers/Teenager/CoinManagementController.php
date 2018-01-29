@@ -135,16 +135,11 @@ class CoinManagementController extends Controller
         }
     }
     
-    public function payment()
+    public function orderResponse(Request $request)
     {
-        $parameters = [
-            'tid' => time(),
-            'order_id' => time(),
-            'amount' => '10.00',
-        ];
-
-      $order = Indipay::prepare($parameters);
-      return Indipay::process($order);
+        // For default Gateway
+        $response = Indipay::response($request);
+        dd($response);
     }
 
 
@@ -192,14 +187,7 @@ class CoinManagementController extends Controller
             exit;
         }
     }
-    
-    public function orderResponse(Request $request)
-    {
-        // For default Gateway
-        $response = Indipay::response($request);
-       // dd($response);
-    }    
-
+            
     public function saveGiftedCoinsData()
     {
         $teenId = Auth::guard('teenager')->user()->id;

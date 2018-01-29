@@ -206,4 +206,47 @@ class TeenagerController extends Controller
         return response()->json($response, 200);
         exit;
     }
+
+    /* Request Params : getMemberConnections
+    *  loginToken, userId, teenagerId
+    */
+    public function getMemberConnections(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            $connections = [];
+            if (isset($request->lastTeenId) && $request->lastTeenId != '') {
+                $lastTeenId = $request->lastTeenId;
+            } else {
+                $lastTeenId = '';
+            }
+            $memberConnections = $this->communityRepository->getMyConnections($request->teenagerId, array(), $lastTeenId);
+            foreach ($memberConnections as $connection) {
+                //Teenager thumb Image
+                $teenagerThumbImage = '';
+                if ($connection->t_photo != '' && Storage::size($this->teenThumbImageUploadPath . $connection->t_photo) > 0) {
+                    $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . $connection->t_photo);
+                } else {
+                    $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . 'proteen-logo.png');
+                }
+                //Teenager original image
+                $teenagerOriginalImage = '';
+                if ($connection->t_photo != '' && Storage::size($this->teenOriginalImageUploadPath . $connection->t_photo) > 0) {
+                    $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . $connection->t_photo);
+                } else {
+                    $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');
+                }
+                
+                $connections[] = array('id' => $connection->id, 'uniqueId' => $connection->t_uniqueid, 'name' => $connection->t_name, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage); 
+            }
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $connections;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
 }
