@@ -72,7 +72,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $salary_range->pfic_content : '' ?></h4>
-                                            <p>average per year</p>
+                                            <p>Average per year</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -86,7 +86,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($work_hours_per_week->pfic_content) && !empty($work_hours_per_week->pfic_content)) ? $work_hours_per_week->pfic_content : '' ?></h4>
-                                            <p>hours per week</p>
+                                            <p>Hours per week</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -100,7 +100,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '' ?></h4>
-                                            <p>US employment 2017</p>
+                                            <p>Employment 2017</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -114,7 +114,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
-                                            <p>projected for 2027</p>
+                                            <p>Projected for 2027</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -151,14 +151,14 @@
                                             return $item->pfic_title == 'profession_education_path';
                                         })->first();
                                     ?>
-                                    @if(isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content))
-                                        <div class="block">
-                                            <h4>Education</h4>
-                                            <p>{!!$profession_education_path->pfic_content!!}</p>
-                                            <div id="education_chart">Chart Loads here...</div>  
-                                        </div>
-                                    @endif
-
+                                    
+                                    <div class="block">
+                                        <h4>Education</h4>
+                                        @if(isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content))
+                                        <p>{!!$profession_education_path->pfic_content!!}</p>
+                                        @endif
+                                        <div id="education_chart"></div>  
+                                    </div>
 
                                     <?php
                                         $profession_experience_and_growth_path = $professionsData->professionHeaders->filter(function($item) {
