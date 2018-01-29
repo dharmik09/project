@@ -1063,6 +1063,9 @@
         $masters_degree_req = $professionsData->professionHeaders->filter(function($item) {
             return $item->pfic_title == 'masters_degree_req';
         })->first();
+        $PhD_req = $professionsData->professionHeaders->filter(function($item) {
+            return $item->pfic_title == 'phd_req';
+        })->first();
 
         if(isset($high_school_req->pfic_content)){
             if($countryId == 1){ // India
@@ -1131,7 +1134,24 @@
         }else{
             $masters_degree = 0;
         }
-        if($high_school == 0 && $junior_college == 0 && $bachelor_degree == 0 && $masters_degree == 0)
+
+        if(isset($PhD_req->pfic_content)){
+            if($countryId == 1){ // India
+                if(strip_tags($PhD_req->pfic_content) == 0){
+                    $phd_degree = 10;
+                }elseif(strip_tags($PhD_req->pfic_content) == 1){
+                    $phd_degree = 20;
+                }else{
+                    $phd_degree = strip_tags($PhD_req->pfic_content);
+                }
+            }
+            elseif($countryId == 2){ // United States
+                $phd_degree = strip_tags($PhD_req->pfic_content);
+            }
+        }else{
+            $phd_degree = 0;
+        }
+        if($high_school == 0 && $junior_college == 0 && $bachelor_degree == 0 && $masters_degree == 0 && $phd_degree == 0)
         {    
     ?>
             $('#education_chart').html('');
@@ -1140,9 +1160,10 @@
         else
         {
             $chartArray[] = array('y'=> (int) $high_school, 'name' => 'High School', 'color' => '#ff5f44');
-            $chartArray[] = array('y'=> (int) $junior_college, 'name' => 'Bachelors Degree', 'color' => '#65c6e6');
-            $chartArray[] = array('y'=> (int) $bachelor_degree, 'name' => 'Masters Degree', 'color' => '#73376d');
-            $chartArray[] = array('y'=> (int) $masters_degree, 'name' => 'PhD', 'color' => '#27a6b5');
+            $chartArray[] = array('y'=> (int) $junior_college, 'name' => 'Junior College', 'color' => '#65c6e6');
+            $chartArray[] = array('y'=> (int) $bachelor_degree, 'name' => 'Bachelors Degree', 'color' => '#73376d');
+            $chartArray[] = array('y'=> (int) $masters_degree, 'name' => 'Masters', 'color' => '#27a6b5');
+            $chartArray[] = array('y'=> (int) $phd_degree, 'name' => 'PhD', 'color' => '#00caa7');
     ?>
             var educationChartData = <?php echo json_encode($chartArray);  ?>;
             console.log(educationChartData);
