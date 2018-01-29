@@ -2943,4 +2943,34 @@ Class Helpers {
         return $maxScore;
 
     }
+
+    public static function getCareerMapColumnName()
+    {
+        $careerArray = array(
+                        'scientific-reasoning' => 'tcm_scientific_reasoning', 
+                        'verbal-reasoning' =>'tcm_verbal_reasoning', 
+                        'numerical-ability' => 'tcm_numerical_ability', 
+                        'logical-reasoning' => 'tcm_logical_reasoning', 
+                        'social-ability' => 'tcm_social_ability', 
+                        'artistic-ability' => 'tcm_artistic_ability', 
+                        'spatial-ability' => 'tcm_spatial_ability', 
+                        'creativity' => 'tcm_creativity', 
+                        'clerical-ability' => 'tcm_clerical_ability', 
+                        'interpersonal' => ' tcm_interpersonal', 
+                        'logical' => 'tcm_logical', 
+                        'linguistic' => 'tcm_linguistic', 
+                        'intrapersonal' => 'tcm_intrapersonal', 
+                        'musical' => 'tcm_musical', 
+                        'spatial' => 'tcm_spatial', 
+                        'bodilykinesthetic' => 'tcm_bodily_kinesthetic', 
+                        'naturalist' => 'tcm_naturalist', 
+                        'existential' => 'tcm_existential', 
+                        'conventional' => 'tcm_organizers_conventional', 
+                        'enterprising' => 'tcm_persuaders_enterprising', 
+                        'investigative' => 'tcm_thinkers_investigative', 
+                        'social' => 'tcm_helpers_social', 
+                        'artistic' => 'tcm_creators_artistic', 
+                        'mechanical' => 'tcm_doers_realistic');
+        return $careerArray;
+    }
 }

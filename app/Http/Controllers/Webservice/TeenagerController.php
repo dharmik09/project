@@ -55,6 +55,8 @@ class TeenagerController extends Controller
                         $teenagers['email'] = $data['t_email'];
                         $teenagers['lastname'] = $data['t_lastname'];
                         $teenagers['nickname'] = $data['t_nickname'];
+                        $teenagers['uniqueid'] = $data['t_uniqueid'];
+                        $teenagers['id'] = $data['id'];
                         if ($data['t_photo'] != '' && Storage::size($this->teenOriginalImageUploadPath . $data['t_photo']) > 0) {
                             $teenagers['photo'] = Storage::url($this->teenOriginalImageUploadPath . $data['t_photo']);
                         } else {
@@ -103,6 +105,9 @@ class TeenagerController extends Controller
                         $teenagers['name'] = $data['t_name'];
                         $teenagers['email'] = $data['t_email'];
                         $teenagers['nickname'] = $data['t_nickname'];
+                        $teenagers['lastname'] = $data['t_lastname'];
+                        $teenagers['uniqueid'] = $data['t_uniqueid'];
+                        $teenagers['id'] = $data['id'];
                         if ($data['t_photo'] != '' && Storage::size($this->teenOriginalImageUploadPath . $data['t_photo']) > 0) {
                             $teenagers['photo'] = Storage::url($this->teenOriginalImageUploadPath . $data['t_photo']);
                         } else {
@@ -232,7 +237,7 @@ class TeenagerController extends Controller
                     $teenagerOriginalImage = Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');
                 }
                 
-                $connections[] = array('id' => $connection->id, 'uniqueId' => $connection->t_uniqueid, 'name' => $connection->t_name, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage); 
+                $connections[] = array('id' => $connection->id, 'uniqueId' => $connection->t_uniqueid, 'name' => $connection->t_name, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage, 'coins' => $connection->t_coins); 
             }
             $response['login'] = 1;
             $response['status'] = 1;
