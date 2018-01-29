@@ -103,7 +103,12 @@ class DashboardController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
-            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->userId);
+            if (isset($request->teenagerId) && !empty($request->teenagerId)) {
+                $userId = $request->teenagerId;
+            } else {
+                $userId = $request->userId;
+            }
+            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($userId);
             $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
             $teenagerInterest = [];
             foreach($teenagerInterestArr as $interestKey => $interestVal){
@@ -137,7 +142,12 @@ class DashboardController extends Controller
             $teenagerStrength = [];
             
             $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
-            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->userId);
+            if (isset($request->teenagerId) && !empty($request->teenagerId)) {
+                $userId = $request->teenagerId;
+            } else {
+                $userId = $request->userId;
+            }
+            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($userId);
             //Apptitude Array
             $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
             $finalTeenagerAptitude = [];
@@ -318,7 +328,7 @@ class DashboardController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             $networkArray = [];
-            $teenagerNetwork = $this->communityRepository->getMyConnections($request->userId);
+            $teenagerNetwork = $this->communityRepository->getMyConnections($request->userId, array(), '', '', '', 1);
             foreach ($teenagerNetwork as $network) {
                 //Teenager thumb Image
                 $teenagerThumbImage = '';

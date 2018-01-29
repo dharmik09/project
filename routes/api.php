@@ -79,6 +79,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getTeenagerMemberDetail', 'Webservice\TeenagerController@getTeenagerMemberDetail');
 	Route::post('/getTeenagerCareers', 'Webservice\DashboardController@getTeenagerCareers');
 	Route::post('/getTeenagerCareersConsider', 'Webservice\DashboardController@getTeenagerCareersConsider');
+	Route::post('/getMemberConnections', 'Webservice\TeenagerController@getMemberConnections');
 	
 	//Community
 	Route::post('/communityNewConnections', 'Webservice\CommunityController@communityNewConnections');

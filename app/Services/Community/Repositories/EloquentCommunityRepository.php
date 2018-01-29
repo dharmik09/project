@@ -55,7 +55,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                         }
                                     }
                                  })
-                                ->orderBy('created_at', 'desc')
+                                ->orderBy('id', 'desc')
                                 ->limit(10)
                                 ->get();
         return $newConnections;
@@ -112,7 +112,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                         }
                                     }
                                 })
-                                ->orderBy('created_at', 'desc');
+                                ->orderBy('id', 'desc');
             if ($listConnections == 1 && isset($listConnections)) {
                 $myConnections = $query->get();
             } else {
