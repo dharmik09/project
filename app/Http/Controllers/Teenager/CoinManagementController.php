@@ -146,6 +146,13 @@ class CoinManagementController extends Controller
       $order = Indipay::prepare($parameters);
       return Indipay::process($order);
     }
+    
+    public function orderResponse(Request $request)
+    {
+        // For default Gateway
+        $response = Indipay::response($request);
+        dd($response);
+    }    
 
 
     //Mail to Parent for purchase coins
@@ -191,14 +198,7 @@ class CoinManagementController extends Controller
             return Redirect::to('/teenager/buy-procoins/')->with('error', trans('appmessages.parent_email_invalid'));
             exit;
         }
-    }
-    
-    public function orderResponse(Request $request)
-    {
-        // For default Gateway
-        $response = Indipay::response($request);
-       // dd($response);
-    }    
+    }       
 
     public function saveGiftedCoinsData()
     {
