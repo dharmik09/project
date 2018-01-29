@@ -166,7 +166,7 @@ class ProfessionController extends Controller {
                 $return .= '<div class="overlay">';
 
                     if(isset($average_per_year_salary)){
-                        $return .= '<span class="salary">Salary: ';
+                        $return .= '<span class="salary">Average Salary per year : ';
                                     if($this->countryId == 1){
                                         $return .= "₹";
                                     }
@@ -176,15 +176,15 @@ class ProfessionController extends Controller {
                                     $return .= (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? strip_tags($average_per_year_salary->pfic_content) : '';
                         $return .= '</span>';
                     }else{
-                        $return .= '<span class="salary">Salary: N/A</span>';
+                        $return .= '<span class="salary">Average Salary per year : N/A</span>';
                     }
 
                     if(isset($profession_outlook)){
-                        $return .= '<span class="assessment">Assessment: ';
+                        $return .= '<span class="assessment">Outlook : ';
                             $return .= (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? strip_tags($profession_outlook->pfic_content) : '';
                         $return .= '</span>';
                     }else{
-                        $return .= '<span class="assessment">Assessment: N/A</span>';
+                        $return .= '<span class="assessment">Outlook : N/A</span>';
                     }
                     
                 $return .= '</div>';
@@ -277,7 +277,7 @@ class ProfessionController extends Controller {
                         $return .= '<div class="overlay">';
 
                             if(isset($average_per_year_salary)){
-                                $return .= '<span class="salary">Salary: ';
+                                $return .= '<span class="salary">Average Salary per year : ';
                                             if($this->countryId == 1){
                                                 $return .= "₹";
                                             }
@@ -287,15 +287,15 @@ class ProfessionController extends Controller {
                                             $return .= (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? strip_tags($average_per_year_salary->pfic_content) : '';
                                 $return .= '</span>';
                             }else{
-                                $return .= '<span class="salary">Salary: N/A</span>';
+                                $return .= '<span class="salary">Average Salary per year : N/A</span>';
                             }
 
                             if(isset($profession_outlook)){
-                                $return .= '<span class="assessment">Assessment: ';
+                                $return .= '<span class="assessment">Outlook : ';
                                     $return .= (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? strip_tags($profession_outlook->pfic_content) : '';
                                 $return .= '</span>';
                             }else{
-                                $return .= '<span class="assessment">Assessment: N/A</span>';
+                                $return .= '<span class="assessment">Outlook : N/A</span>';
                             }
                             
                         $return .= '</div></div></div>';

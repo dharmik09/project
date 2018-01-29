@@ -114,7 +114,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
-                                            <p>Projected for 2027</p>
+                                            <p>Projected for 2026</p>
                                         </li>
                                     </ul>
                                 </div>
