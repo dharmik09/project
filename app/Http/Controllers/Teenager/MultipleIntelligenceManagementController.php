@@ -15,6 +15,8 @@ use Response;
 use App\MultipleIntelligent;
 use App\Apptitude;
 use App\Personality;
+use App\CareerMapping;
+use App\Services\Professions\Contracts\ProfessionsRepository;
 
 class MultipleIntelligenceManagementController extends Controller
 {
@@ -23,7 +25,7 @@ class MultipleIntelligenceManagementController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ProfessionsRepository $professionsRepository)
     {
         $this->objMultipleIntelligent = new MultipleIntelligent();
         $this->objApptitude = new Apptitude();
@@ -31,6 +33,8 @@ class MultipleIntelligenceManagementController extends Controller
         $this->miThumbImageUploadPath = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
         $this->apptitudeThumbImageUploadPath = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
         $this->personalityThumbImageUploadPath = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objCareerMapping = new CareerMapping;
+        $this->professionsRepository = $professionsRepository;
     }
 
     public function index($type, $slug) 
@@ -71,11 +75,17 @@ class MultipleIntelligenceManagementController extends Controller
                 default:
                     return redirect::back()->with('error', trans('labels.commonerrormessage'));
             };
+            $careersDetails = Helpers::getCareerMapColumnName();
+            $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$slug]);
+            $attemptedProfessions = $this->professionsRepository->getTeenagerAttemptedProfession(Auth::guard('teenager')->user()->id);
+            $professionIds = [];
+            foreach ($attemptedProfessions as $attemptedProfession) {
+                $professionIds[] = $attemptedProfession->id;
+            }
+            return view('teenager.multipleIntelligence', compact('multipleIntelligence', 'miThumbImageUploadPath', 'relatedCareers', 'attemptedProfessions', 'professionIds'));
+
         } else {
             return redirect::back()->with('error', trans('labels.commonerrormessage'));
         }
-        
-        return view('teenager.multipleIntelligence', compact('multipleIntelligence', 'miThumbImageUploadPath'));
     }
-
 }
