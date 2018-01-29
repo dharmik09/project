@@ -200,8 +200,8 @@
         var str = $(this).val();
         str = str.replace(/[^a-zA-Z0-9\s]/g, "");
         str = str.toLowerCase();
-        str = str.replace(/\s/g, '-');
-        $('#apt_slug').val(str);
+        str = str.replace(/\s/g, '_');
+        $('#apt_slug').val("apt_"+str);
     });
     </script>
 <?php } ?>

@@ -176,8 +176,8 @@
         var str = $(this).val();
         str = str.replace(/[^a-zA-Z0-9\s]/g, "");
         str = str.toLowerCase();
-        str = str.replace(/\s/g, '-');
-        $('#it_slug').val(str);
+        str = str.replace(/\s/g, '_');
+        $('#it_slug').val("it_"+str);
     });
     </script>
 <?php } ?>
