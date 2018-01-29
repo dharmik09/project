@@ -258,3 +258,18 @@ ALTER TABLE `pro_pfic_profession_intro_content` CHANGE `pfic_content` `pfic_cont
 
 //Increase t_location column size in teenager table ##26-01-2017
 ALTER TABLE `pro_t_teenagers` CHANGE `t_location` `t_location` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+//Add new table to store user's matched profession scale
+CREATE TABLE `pro_upms_user_profession_match_scale` (
+  `id` int(11) NOT NULL,
+  `teenager_id` int(11) DEFAULT NULL,
+  `match_scale` text,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE `pro_upms_user_profession_match_scale`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `pro_upms_user_profession_match_scale`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+//

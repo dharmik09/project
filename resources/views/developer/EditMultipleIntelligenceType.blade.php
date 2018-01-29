@@ -200,8 +200,8 @@
         var str = $(this).val();
         str = str.replace(/[^a-zA-Z0-9\s]/g, "");
         str = str.toLowerCase();
-        str = str.replace(/\s/g, '-');
-        $('#mi_slug').val(str);
+        str = str.replace(/\s/g, '_');
+        $('#mi_slug').val("mit_"+str);
     });
     </script>
 <?php } ?>

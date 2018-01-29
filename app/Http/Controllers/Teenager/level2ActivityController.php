@@ -123,6 +123,9 @@ class Level2ActivityController extends Controller {
         else{
             $response['activities'] = "<center><h3>You have successfully completed this Quiz</h3></center>";
         }
+
+        $dispatchJob1 = Helpers::professionMatchScaleCalculate($sectionPercentageCollection, $user->id);
+        
         return $response;
     }
 
@@ -147,12 +150,12 @@ class Level2ActivityController extends Controller {
 
         if (isset($user->id) && $user->id > 0 && isset($answers['timer']) && $answers['timer'] != '' && isset($answerID) && isset($questionID) && $questionID != 0 && $answerID != 0) {
             $questionsArray = $this->Level2ActivitiesRepository->saveTeenagerActivityResponseOneByOne($user->id, $answers);
-            if($questionsArray){
+            if($questionsArray) {
                 return $this->index();
-            }else{
+            } else {
                 $response['activities']='<center><h3>Please try again</h3></center>';
             }
-        }else{
+        } else {
             $response['activities']='<center><h3>Please try again</h3></center>';
         }
         return $response;
