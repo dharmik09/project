@@ -128,9 +128,13 @@ class CoinManagementController extends Controller
                   'merchant_param1' => '1',
                   'merchant_param2' => $id,
             ];
-
+            echo "<pre>";
+            print_r($parameters);
+            echo "<br/><br/><br/>";
             $order = Indipay::prepare($parameters);
-            
+            echo "<pre>";
+            print_r($order);
+            exit;
             return Indipay::process($order);
         }
     }
