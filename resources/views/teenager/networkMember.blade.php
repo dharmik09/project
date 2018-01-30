@@ -94,13 +94,13 @@
                         @if ($connectionStatus == 0)
 	                        <div class="chat-icon add-icon sent-icon">
 	                            <a href="javascript:void(0)" title="Invitation Sent">
-	                            	<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Invitation Sent"><em>Invitation Sent</em>
+	                            	<img class="request-send" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Invitation Sent"><em>Invitation Sent</em>
 	                            </a>
 	                        </div>
                         @elseif($connectionStatus == 1)
 							<div class="chat-icon add-icon accepted-icon">
 	                            <a href="javascript:void(0)" title="Connected">
-	                            	<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Invitation Accepted"><em>Connected</em>
+	                            	<img class="accepted-member" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Invitation Accepted"><em>Connected</em>
 	                            </a>
 	                        </div>
                         @else
@@ -137,7 +137,7 @@
 									<?php if($loop->index < 3) { continue; } ?>
 		                            <li class="col-sm-4 col-xs-12 flex-items">
 		                                <div class="ck-button">
-		                                    {{ $teenTrait->options_text }} {{ ($teenTrait->options_count > 1) ? ($teenTrait->options_count) : '' }}
+		                                    {{ $teenTrait->options_text }} <?php echo ($teenTrait->options_count > 1) ? '<span class="traits-badge">'.$teenTrait->options_count.'</span>' : ''; ?>
 		                                </div>
 		                            </li>
 		                        @empty
