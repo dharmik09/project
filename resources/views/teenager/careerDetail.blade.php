@@ -55,7 +55,17 @@
                 <div>
                     <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                 </div>
+                <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
+                @if($videoCode == '')
+                <div>
+                    <video oncontextmenu="return false;" class="non_youtube_video" controls width="100%" height="100%">
+                            <!-- MP4 must be first for iPad! -->
+                            <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->
+                    </video>
+                </div>
+                @else
                 <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                @endif    
             </div>
             <div class="detail-content">
                 <div class="row">
