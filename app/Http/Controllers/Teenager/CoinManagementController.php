@@ -226,7 +226,7 @@ class CoinManagementController extends Controller
         $notificationData['n_receiver_id'] = $giftTo;
         $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
         $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
-        $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> gited you '.$giftcoins.' coins';
+        $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> gifted you '.$giftcoins.' coins';
         $this->objNotifications->insertUpdate($notificationData);
 
         //Mail to both users

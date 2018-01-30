@@ -142,7 +142,7 @@ class CouponManagementController extends Controller {
                                 $notificationData['n_receiver_id'] = $giftedUserData->id;
                                 $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
                                 $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_COUPANS');
-                                $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> gited you '.$data['couponData']->cp_code.' coupan';
+                                $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> gifted you '.$data['couponData']->cp_code.' coupan';
                                 $this->objNotifications->insertUpdate($notificationData);
                             }
                         }                      
