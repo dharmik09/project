@@ -32,13 +32,36 @@ class CareerMapping extends Model implements AuthenticatableContract, Authorizab
      */
     protected $guarded = [];
 
-    public function getRelatedCareers($careerMapColumn)
+    public function getRelatedCareers($careerMapColumn, $lastCareerId = '')
     {
         $mappingDetails = $this->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_tcm_teenager_career_mapping.tcm_profession', '=', 'profession.id')
                     ->selectRaw('pro_tcm_teenager_career_mapping.' . $careerMapColumn . ', profession.*')
                     ->whereIn('pro_tcm_teenager_career_mapping.' . $careerMapColumn, array('M', 'H'))
                     ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->where(function($query) use ($lastCareerId)  {
+                        if(isset($lastCareerId) && !empty($lastCareerId)) {
+                            $query->where('profession.id', '<', $lastCareerId);
+                        }
+                     })
+                    ->orderBy('profession.id', 'DESC')
+                    ->limit(Config::get('constant.RECORD_PER_PAGE'))
                     ->get();
         return $mappingDetails;
+    }
+
+    public function getRelatedCareersCount($careerMapColumn, $lastCareerId = '')
+    {
+        $careersCount = $this->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_tcm_teenager_career_mapping.tcm_profession', '=', 'profession.id')
+                    ->selectRaw('pro_tcm_teenager_career_mapping.' . $careerMapColumn . ', profession.*')
+                    ->whereIn('pro_tcm_teenager_career_mapping.' . $careerMapColumn, array('M', 'H'))
+                    ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->where(function($query) use ($lastCareerId)  {
+                        if(isset($lastCareerId) && !empty($lastCareerId)) {
+                            $query->where('profession.id', '<', $lastCareerId);
+                        }
+                     })
+                    ->orderBy('profession.id', 'DESC')
+                    ->count();
+        return $careersCount;
     }
 }
