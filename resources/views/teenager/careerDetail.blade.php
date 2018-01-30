@@ -51,12 +51,14 @@
             </div>
         <section class="career-detail">
             <h1>{{$professionsData->pf_name}}</h1>
-            <div class="banner-landing banner-detail" style="background-image:url({{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}})">
-                <div>
-                    <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
-                </div>
-                <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
-                @if($videoCode == '')
+           
+            <div class="career-banner banner-landing">
+                    <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
+                    <div>
+                        <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
+                    </div>
+                    <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
+                    @if($videoCode == '')
               
                     <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls style="width: 100%;min-width: 100%;">
                             <!-- MP4 must be first for iPad! -->
@@ -64,10 +66,10 @@
                             Your browser does not support HTML5 video.
                     </video>
                
-                @else
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
-                @endif    
-            </div>
+                    @else
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                    @endif   
+                </div>
             <div class="detail-content">
                 <div class="row">
                     <div class="col-md-8">
@@ -1031,12 +1033,15 @@
            $(this).hide();
                 $('video').show();
                 $('img').hide();
+                
         })
         $('#iframe-video-click').on('click', function(ev) {
             var youtubeVideo = '{{$videoCode}}';
             if(youtubeVideo == ''){
                 $("#dropbox_video_player")[0].play();
             }else{
+                $('img').hide();
+                $('iframe').show();
                 $("#iframe-video")[0].src += "&autoplay=1";
                 ev.preventDefault();
             }
