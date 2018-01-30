@@ -31,7 +31,7 @@ class TeenagerProfileUpdateRequest extends Request {
                 'year' => 'required',
                 'month' => 'required',
                 'day' => 'required',
-                //'mobile' => 'required | numeric',
+                'mobile' => 'nullable | numeric',
             ];
     }
     
