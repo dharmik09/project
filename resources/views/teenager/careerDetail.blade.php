@@ -1270,6 +1270,9 @@
                     },
                     xAxis: {
                         type: 'category',
+                        title: {
+                            text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Levels of education that people can attain in this career" : "Level of education attained by people currently working in this career" ?>'
+                        }
                     },
                     legend: {
                         enabled:false
