@@ -8,6 +8,46 @@
 <!--mid content-->
 <div class="bg-offwhite">
         <div class="container">
+            <div class="col-xs-12">
+                @if ($message = Session::get('success'))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <div class="alert alert-success alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if ($message = Session::get('error'))
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 invalid_pass_error">
+                        <div class="box-body">
+                            <div class="alert alert-error alert-dismissable danger">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if (count($errors) > 0)
+                <div class="alert alert-danger danger">
+                    <strong>{{trans('validation.whoops')}}</strong>
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                    {{trans('validation.someproblems')}}<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+            </div>
             <!-- sec chat -->
             <div class="chat-heading">
                 <h2 class="font-blue">Chat</h2>
@@ -20,12 +60,30 @@
             <div class="sec-notification">
                 <h2 class="font-blue">All Notifications</h2>
                 <div class="notification-list">
-                    <div class="notification-block unread">
-                        <div class="notification-img"><img src="img/notification-img-2.png" alt="notification img"></div>
-                        <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">6 hours ago</span></div>
-                        <div class="close"><i class="icon-close"></i></div>
+                    @foreach($notificationData as $key => $value)
+                    <div class="notification-block <?php echo ($value->n_read_status == 1) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block">
+                        <div class="notification-img"><img src="{{Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo)}}" alt="notification img"></div>
+                        <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a><span class="date">{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans()}}</span>
+                            <ul class="btn-list">
+                                @if($value->community->tc_status == 1)
+                                    <li><a href="#" title="accept" class="accept">Accepted</a></li>
+                                @elseif($value->community->tc_status == 2)
+                                    <li><a href="#" title="decline" class="decline">Declined</a></li>
+                                @elseif($value->community->tc_status == 0)
+                                    <li><a href="{{url('teenager/accept-request').'/'.$value->n_record_id}}" title="accept" class="accept">Accept</a></li>
+                                    <li><a href="{{url('teenager/decline-request').'/'.$value->n_record_id}}" title="decline" class="decline">Decline</a></li>
+                                @endif
+                            </ul>
+                        </div>
+                        <div class="close"><i class="icon-close" onclick="removeNotificationBlock({{$value->id}});"></i></div>
                     </div>
-                    <div class="notification-block read">
+                    @endforeach
+                    <div id="pageWiseNotifications"></div>
+                    <div class="text-center load-more" id="loadMoreButton">
+                        <div id="loader_con"></div>
+                        <button class="btn btn-primary" title="Load More" id="pageNo" value="1" onclick="fetchNotification(this.value)">Load More</button>
+                    </div>
+<!--                     <div class="notification-block read">
                         <div class="notification-img"><img src="img/logo.png" alt="notification img"></div>
                         <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">16 hours ago</span></div>
                         <div class="close"><i class="icon-close"></i></div>
@@ -69,10 +127,7 @@
                             </ul>
                         </div>
                         <div class="close"><i class="icon-close"></i></div>
-                    </div>
-                    <div class="text-center load-more">
-                        <p><a href="#" title="Load More" class="btn btn-primary">Load More</a></p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- sec notification end-->
@@ -266,6 +321,46 @@
             {
                 var contactsJSON = JSON.parse(response);
                 handleData(contactsJSON);
+            }
+        });
+    }
+
+    function fetchNotification(pageNo){
+        $("#loader_con").html('<img src="{{Storage::url('img/loading.gif')}}">');
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-page-wise-notification')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'page_no':pageNo},
+            success: function (response) {
+                if(response.notifications == ''){    
+                    $('#pageNo').html("No more notifications");
+                }
+                else{
+                    $('#pageNo').val(response.pageNo);
+                    $("#pageWiseNotifications").append(response.notifications);
+                }
+                $("#loader_con").html('');
+            }
+        });
+    }
+
+    function removeNotificationBlock(id){
+        $('#'+id+'notification-block').fadeOut('slow', function(){ $('#'+id+'notification-block').remove(); });
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/delete-notification')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'id':id},
+            success: function (response) {
             }
         });
     }
