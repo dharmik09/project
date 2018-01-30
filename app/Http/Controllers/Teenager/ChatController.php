@@ -14,6 +14,7 @@ use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Redirect;
 use Request;
 use App\Services\Schools\Contracts\SchoolsRepository;  
+use App\Notifications;
 use Carbon\Carbon;  
 
 class ChatController extends Controller {
@@ -23,6 +24,7 @@ class ChatController extends Controller {
         $this->communityRepository = $communityRepository;
         $this->teenagersRepository = $teenagersRepository;
         $this->schoolsRepository = $schoolsRepository;
+        $this->objNotifications = new Notifications();
     }
 
     /*
@@ -32,7 +34,38 @@ class ChatController extends Controller {
     {
         $loggedInTeen = Auth::guard('teenager')->user()->id;  
         $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png');
-        return view('teenager.chat',compact('user_profile_thumb_image'));        
+        $record = 0;
+        $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TYPE_TEENAGER'),$loggedInTeen,$record);
+        $idArray = [];
+        foreach ($notificationData as $key => $value) {
+            $idArray[] = $value->id;
+        }
+        $this->objNotifications->ChangeNotificationsReadStatus($idArray,Config::get('constant.NOTIFICATION_STATUS_READ'));
+        return view('teenager.chat',compact('user_profile_thumb_image','notificationData'));        
+    }
+
+    public function getPageWiseNotification()
+    {
+        $loggedInTeen = Auth::guard('teenager')->user()->id;
+        $pageNo = Input::get('page_no');
+        $record = $pageNo * 10;
+        $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TYPE_TEENAGER'),$loggedInTeen,$record);
+        $idArray = [];
+        foreach ($notificationData as $key => $value) {
+            $idArray[] = $value->id;
+        }
+        $this->objNotifications->ChangeNotificationsReadStatus($idArray,Config::get('constant.NOTIFICATION_STATUS_READ'));
+        $view = view('teenager.basic.notifications',compact('notificationData'));
+        $response['notifications'] = $view->render();
+        $response['pageNo'] = $pageNo+1;
+        return $response;        
+    }
+
+    public function deleteNotification()
+    {
+        $id = Input::get('id');
+        $response = $this->objNotifications->deleteNotificationById($id);
+        return $response;        
     }
    
     /*

@@ -18,6 +18,7 @@ use Request;
 use App\Services\Schools\Contracts\SchoolsRepository;  
 use Carbon\Carbon;
 use App\Events\SendMail;
+use App\Notifications;
 use Event;
 
 class CommunityManagementController extends Controller {
@@ -29,6 +30,7 @@ class CommunityManagementController extends Controller {
         $this->teenagersRepository = $teenagersRepository;
         $this->schoolsRepository = $schoolsRepository;
         $this->level1ActivitiesRepository = $level1ActivitiesRepository;
+        $this->objNotifications = new Notifications();
     }
 
     public function index()
@@ -195,7 +197,17 @@ class CommunityManagementController extends Controller {
                 $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
                 $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
 
-                $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+                $response = $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+
+                $userData = Auth::guard('teenager')->user();
+                $notificationData['n_sender_id'] = $userData->id;
+                $notificationData['n_sender_type'] = '2';
+                $notificationData['n_receiver_id'] = $data['tc_receiver_id'];
+                $notificationData['n_receiver_type'] = '2';
+                $notificationData['n_record_id'] = $response->id;
+                $notificationData['n_notification_type'] ='3';
+                $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has requested to follow you';
+                $this->objNotifications->insertUpdate($notificationData);
 
                 return Redirect::back()->with('success', 'Connection request sent successfully');
             } else {
@@ -231,5 +243,33 @@ class CommunityManagementController extends Controller {
         $mul = 100*$teenScore;
         $percentage = $mul/$maxScore;
         return round($percentage);
+    }
+
+    public function acceptRequest($id)
+    {
+        $response = $this->communityRepository->checkTeenConnectionStatusById($id); /*echo "<pre>"; print_r($response); exit;*/
+        if($response == 1){
+            return Redirect::back()->with('error', 'You have already accepted request');
+        }
+        elseif($response == 2){
+            return Redirect::back()->with('error', 'You have already Declined request');
+        }elseif($response == 0){
+            $this->communityRepository->changeTeenConnectionStatusById($id,Config::get('constant.CONNECTION_ACCEPT_STATUS'));
+            return Redirect::back()->with('success', 'Request accepted successfully');
+        }
+    }
+
+    public function declineRequest($id)
+    {
+        $response = $this->communityRepository->checkTeenConnectionStatusById($id); /*echo "<pre>"; print_r($response); exit;*/
+        if($response == 1){
+            return Redirect::back()->with('error', 'You have already accepted request');
+        }
+        elseif($response == 2){
+            return Redirect::back()->with('error', 'You have already Declined request');
+        }elseif($response == 0){
+            $this->communityRepository->changeTeenConnectionStatusById($id,Config::get('constant.CONNECTION_REJECT_STATUS'));
+            return Redirect::back()->with('success', 'Request declined successfully');
+        }
     }
 }
