@@ -19,6 +19,7 @@ Route::get('/gift-coupons', function() {
 Route::get('/interest/{slug}', 'Teenager\InterestManagementController@index');
 	//return view('teenager.interest');
 Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
+Route::post('/see-more-related-careers', 'Teenager\MultipleIntelligenceManagementController@seeMoreRelatedCareers');
 
 Route::get('/seo-mi', function() {
 	return view('teenager.seoMi');

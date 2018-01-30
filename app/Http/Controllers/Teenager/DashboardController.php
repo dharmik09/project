@@ -162,7 +162,9 @@ class DashboardController extends Controller
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id, array(), '', '', '', 1);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
         $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
-        return view('teenager.home', compact('secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
+
+        return view('teenager.home', compact('getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
     }
 
     //My profile data
