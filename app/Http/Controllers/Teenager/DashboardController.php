@@ -268,7 +268,7 @@ class DashboardController extends Controller
         $teenagerDetail['t_about_info'] = (isset($body['t_about_info']) && $body['t_about_info'] != '') ? $body['t_about_info'] : '';
 
         //Check all default field value -> If those are entered dummy by users
-        if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $teenagerDetail['t_phone'] == '' || $t_email == '') {
+        if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $t_email == '') {
             return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('validation.someproblems'))->withInput();
             exit;
         }

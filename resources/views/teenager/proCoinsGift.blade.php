@@ -14,7 +14,7 @@
                 <div class="procoin-form gift-form">
                     <form>
                         <div class="form-group search-bar clearfix">
-                            <input id="searchForUser" type="text" placeholder="search" tabindex="1" class="form-control search-feild" onkeyup="userSearch(this.value, {{Auth::guard('teenager')->user()->id}}, 1);">
+                            <input id="searchForUser" type="text" placeholder="search" tabindex="1" class="form-control search-feild">
                             <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
                         </div>
                     </form>
@@ -24,7 +24,7 @@
         <!--procoins sec-->
         <div class="container">
             <div class="bg-white procoins-gift">
-                <div id="loading-wrapper-sub" class="loading-screen remove-loader">
+                <div id="gift-history-loader" class="loading-screen remove-loader loading-wrapper-sub">
                     <div id="loading-text">
                         <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
                     <div id="loading-content">
@@ -86,43 +86,48 @@
         var search = $("#searchForUser").val();
         var teenId = <?php echo Auth::guard('teenager')->user()->id; ?>;
         var page = $(this).attr('href').split('page=')[1];
-        userSearch(search, teenId, page);
+        if (search.length == 1 || search.length == 2) {
+            searchText = '';
+        } else {
+            searchText = search;
+        }
+        userSearch(searchText, teenId, page);
         e.preventDefault();
     });
+
+    $( "#searchForUser" ).keyup(function (e) {
+        search_keyword = $(this).val();
+        searchText = (search_keyword).trim();
+        teenagerId = 1;
+        if (searchText.length == 1 || searchText.length == 2) {
+            return false;
+        } else {
+            userSearch(searchText, teenagerId, 1);
+        }
+        e.preventDefault();
+    });
+
     function userSearch(search_keyword, teenagerId, page) {
-        search_keyword = (search_keyword).trim();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'search_keyword=' + search_keyword + '&teenagerId=' +teenagerId;
-        //if (search_keyword.length > 0) {
-            $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
-            $('#loading-wrapper-sub').show();
-            $.ajax({
-                type: 'POST',
-                data: form_data,
-                url: "{{ url('/teenager/user-search-to-gift-coins?page=') }}"+page,
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN
-                },
-                cache: false,
-                success: function(data) {
-                    $('.mySearch_area').show();
-                    $('.mySearch_area').html(data);
-                    $('#loading-wrapper-sub').hide();
-                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
-                    $('#giftTable').hide();
-                }
-            });
-        // } else {
-        //     if (search_keyword.length == 0) {
-        //         $('#loading-wrapper-sub').parent().toggleClass('loading-screen-parent');
-        //         $('#loading-wrapper-sub').show();
-        //         $('.mySearch_area').hide();
-        //         $('.mySearch_area').html("");
-        //         $('#giftTable').show();
-        //     }
-            //$('#loading-wrapper-sub').hide();
-            //$('#loading-wrapper-sub').parent().removeClass('loading-screen-parent'); 
-        //}
+        $('#gift-history-loader').parent().toggleClass('loading-screen-parent');
+        $('#gift-history-loader').show();
+        $.ajax({
+            type: 'POST',
+            data: form_data,
+            url: "{{ url('/teenager/user-search-to-gift-coins?page=') }}"+page,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            cache: false,
+            success: function(data) {
+                $('.mySearch_area').show();
+                $('.mySearch_area').html(data);
+                $('#gift-history-loader').hide();
+                $('#gift-history-loader').parent().removeClass('loading-screen-parent');
+                $('#giftTable').hide();
+            }
+        });
     }
     function saveGiftedCoins(teenager_id,coins)
     {
