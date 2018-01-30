@@ -205,7 +205,8 @@
         $(document).on('click','#see-more',function(){
             var lastCareerId = $(this).data('id');
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form_data = 'lastCareerId=' + lastCareerId;
+            var slug = '{{$multipleIntelligence->slug}}';
+            var form_data = 'lastCareerId=' + lastCareerId + '&slug=' + slug;
             $.ajax({
                 url : '{{ url("teenager/see-more-related-careers") }}',
                 method : "POST",

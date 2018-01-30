@@ -34,7 +34,7 @@ class CareerMapping extends Model implements AuthenticatableContract, Authorizab
 
     public function getRelatedCareers($careerMapColumn, $lastCareerId = '')
     {
-        $mappingDetails = $this->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_tcm_teenager_career_mapping.tcm_profession', '=', 'profession.id')
+        $mappingDetails = $this->leftjoin(Config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_tcm_teenager_career_mapping.tcm_profession', '=', 'profession.id')
                     ->selectRaw('pro_tcm_teenager_career_mapping.' . $careerMapColumn . ', profession.*')
                     ->whereIn('pro_tcm_teenager_career_mapping.' . $careerMapColumn, array('M', 'H'))
                     ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
@@ -51,7 +51,7 @@ class CareerMapping extends Model implements AuthenticatableContract, Authorizab
 
     public function getRelatedCareersCount($careerMapColumn, $lastCareerId = '')
     {
-        $careersCount = $this->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_tcm_teenager_career_mapping.tcm_profession', '=', 'profession.id')
+        $careersCount = $this->leftjoin(Config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_tcm_teenager_career_mapping.tcm_profession', '=', 'profession.id')
                     ->selectRaw('pro_tcm_teenager_career_mapping.' . $careerMapColumn . ', profession.*')
                     ->whereIn('pro_tcm_teenager_career_mapping.' . $careerMapColumn, array('M', 'H'))
                     ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))

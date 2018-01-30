@@ -89,8 +89,10 @@ class MultipleIntelligenceManagementController extends Controller
     public function seeMoreRelatedCareers()
     {
         $lastCareerId = Input::get('lastCareerId');
-        $relatedCareers = $this->objCareerMapping->getRelatedCareers('tcm_logical_reasoning', $lastCareerId);
-        $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount('tcm_logical_reasoning', $lastCareerId);
+        $slug = Input::get('slug');
+        $careersDetails = Helpers::getCareerMapColumnName();
+        $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$slug], $lastCareerId);
+        $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount($careersDetails[$slug], $lastCareerId);
         return view('teenager.relatedCareers', compact('relatedCareers', 'relatedCareersCount'));
     }
 }

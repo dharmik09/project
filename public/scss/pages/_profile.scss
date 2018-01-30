@@ -1538,7 +1538,7 @@ input:checked + .slider:before {
                 display: inline-block;
                 width: 40%;
                 margin-left: -4px;
-                vertical-align: middle; // font-size: 80px;
+                vertical-align: top; // font-size: 80px;
                 span {
                     width: 80px;
                     display: inline-block;
@@ -1556,10 +1556,23 @@ input:checked + .slider:before {
                 width: 60%;
                 text-align: left;
                 vertical-align: middle;
+                @include maxsm{
+                    height: auto !important;
+                }
                 h4 {
-                    text-transform: capitalize;
+                    text-transform: inherit;
+                    font-size: 18px;
+                    font-family: h;
+                    line-height: 1.2;
+                    font-weight: 400;
+                    a{
+                        color: $r-cl;
+                        &:hover{
+                            color: $p-cl;
+                        }
+                    }
                     @include maxms {
-                        font-size: 16px;
+                        font-size: 15px;
                     }
                 }
             }
@@ -2826,4 +2839,7 @@ a:focus {
             right: 3%;
         }
     }
+}
+.remove-my-careers-row{
+    clear: both;
 }
