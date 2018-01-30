@@ -22,6 +22,7 @@
             margin-top: 8px;
             @include maxsm {
                 margin-top: 5px;
+                font-size: 13px;
             }
         }
         &.sent-icon {
@@ -63,7 +64,8 @@
     }
 }
 
-.icon-add {
+.icon-add a{
+    
     &:hover {
         img {
             background-position: 0 40%;
@@ -71,11 +73,11 @@
     }
 }
 
-.sent-icon:hover img {
+.sent-icon a:hover img {
     background-position: 0 80%;
 }
 
-.accepted-icon:hover img {
+.accepted-icon a:hover img {
     background-position: 0 0%;
 }
 

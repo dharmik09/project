@@ -57,12 +57,13 @@
                 </div>
                 <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
                 @if($videoCode == '')
-                <div>
-                    <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls width="100%" height="100%">
+              
+                    <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls style="width: 100%;min-width: 100%;">
                             <!-- MP4 must be first for iPad! -->
-                            <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->                            
+                            <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->  
+                            Your browser does not support HTML5 video.
                     </video>
-                </div>
+               
                 @else
                 <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
                 @endif    
@@ -1027,8 +1028,9 @@
 <script>
     $(document).ready(function() {
         $('.play-icon').click(function() {
-            $(this).hide();
-            $('iframe').show();
+           $(this).hide();
+                $('video').show();
+                $('img').hide();
         })
         $('#iframe-video-click').on('click', function(ev) {
             var youtubeVideo = '{{$videoCode}}';
