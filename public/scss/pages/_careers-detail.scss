@@ -1,38 +1,41 @@
 /*.banner-detail {
     background-image: url(../img/career-detail.jpg);
 }*/
-.career-banner{
+
+.career-banner {
     height: 643px;
     position: relative;
     background-image: none;
-    @include maxlg{
+    @include maxlg {
         height: 520px;
     }
-    @include maxmd{
+    @include maxmd {
         height: 450px;
     }
-    @include maxsm{
+    @include maxsm {
         height: 340px;
     }
-    @include maxms{
+    @include maxms {
         height: auto;
     }
-    img{
-        height: 100%;width: 100%;
+    img {
+        height: 100%;
+        width: 100%;
     }
-    iframe{
+    iframe {
         width: 100%;
         height: 100%;
         position: absolute;
         top: 0;
         left: 0;
     }
-    .play-icon{
-        @include maxms{
+    .play-icon {
+        @include maxms {
             width: 55px;
         }
     }
 }
+
 .career-detail {
     padding: 87px 0 0;
     @include maxlg {
@@ -178,6 +181,10 @@
         }
         .list-icon {
             float: right;
+            span {
+                display: inline-block;
+                position: relative;
+            }
             a {
                 font-size: 40px;
                 color: #979797;
@@ -189,7 +196,7 @@
                 @include maxms {
                     font-size: 25px;
                 }
-                &.favourite-career{
+                &.favourite-career {
                     color: $p-cl;
                     pointer-events: none;
                 }
@@ -328,8 +335,9 @@
                         display: inline-block;
                         margin: 0 10px 30px;
                         opacity: 0.7;
-                        img{
-                            max-width: 200px;max-height: 200px;
+                        img {
+                            max-width: 200px;
+                            max-height: 200px;
                         }
                         /* @include maxsm{
                             &:nth-last-of-type(-n+2){
@@ -1383,7 +1391,7 @@
             background: rgba(255, 255, 255, 0.52);
             a {
                 color: $r-cl;
-                &:hover{
+                &:hover {
                     text-decoration: underline;
                 }
             }
@@ -1479,3 +1487,37 @@
 .alert-s {
     color: $white;
 }
+
+.favourite-text {
+    position: absolute;
+    text-align: center;
+    width: 300px;
+    left: 50%;
+    transform: translatex(-50%);
+    padding: 10px;
+    border: 1px solid #fff;
+    background: #fff;
+    border-radius: 5px;
+    margin-top: 10px;
+    z-index: 99;
+    box-shadow: 0px 1px 17px -4px rgb(152, 148, 148);
+    display: none;
+    font-size: 14px;
+    color: $lightgrey;
+    @include maxmd{
+        width: 160px;
+    }
+    &:before {
+        position: absolute;
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #fff;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+.favourite-div{position: relative;}
