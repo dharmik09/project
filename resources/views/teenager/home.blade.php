@@ -188,36 +188,36 @@
                                 <div class="panel panel-default factual quiz1">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_1')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_1')}}" onclick="fetch2ActiityQuestion(this.id)">Profile Builder 1<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_1')}}">{{$section1}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_1')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_1')}}" @if($secComplete1 != 1) onclick="fetch2ActiityQuestion(this.id)" @endif>Profile Builder 1<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_1')}}">{{$section1}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_1')}}">
                                         <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_1')}}">
-                                            Quiz 1
+                                            <center><h3>You have successfully {{$section1}} this Quiz</h3></center>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel panel-default factual quiz2">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_2')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_2')}}" onclick="fetch2ActiityQuestion(this.id)">Profile Builder 2<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_2')}}">{{$section2}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_2')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_2')}}" @if($secComplete2 != 1) onclick="fetch2ActiityQuestion(this.id)" @endif >Profile Builder 2<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_2')}}">{{$section2}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_2')}}">
                                         <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_2')}}">
-                                            Quiz 2
+                                            <center><h3>You have successfully {{$section2}} this Quiz</h3></center>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel panel-default factual quiz3">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_3')}}" class="collapsed career-lc" id="{{Config::get('constant.LEVEL2_SECTION_3')}}" onclick="fetch2ActiityQuestion(this.id)">Profile Builder 3<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_3')}}">{{$section3}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_3')}}" class="collapsed career-lc" id="{{Config::get('constant.LEVEL2_SECTION_3')}}" @if($secComplete3 != 1) onclick="fetch2ActiityQuestion(this.id)" @endif >Profile Builder 3<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_3')}}">{{$section3}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_3')}}">
                                         <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_3')}}">
-                                            Quiz 3
+                                            <center><h3>You have successfully {{$section3}} this Quiz</h3></center>
                                         </div>
                                     </div>
                                 </div>
