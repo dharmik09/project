@@ -93,37 +93,9 @@
                             <li><span class="number match-unlikely">4</span> Unlikely match</li>
                         </ul>
                     </div>
-                    <ul class="career-list">
-                        @forelse ($relatedCareers as $career)
-                        <?php $career->matched = rand(0,2); 
-                            switch($career->matched) {
-                                case 0:
-                                    $matchClass = "match-strong";
-                                    break;
-
-                                case 1: 
-                                    $matchClass = "match-potential";
-                                    break;
-
-                                case 2:
-                                    $matchClass = "match-unlikely";
-                                    break;
-                                    
-                                default:
-                                    $matchClass = "";
-                                    break;
-                            };
-                        ?>
-                        <li class="{{$matchClass}} <?php if (in_array($career->id, $professionIds)) { ?> complete-feild <?php } ?> "><a href="#" title="{{$career->pf_name}}">{{$career->pf_name}}</a>
-                            <?php if (in_array($career->id, $professionIds)) { ?>
-                                <a href="#" class="complete"><span>Complete</span></a>
-                            <?php } ?>
-                        </li>
-                        @empty
-                            No Careers found
-                        @endforelse
-                    </ul>
-                    <p class="text-center"><a href="#" title="see more">see more</a></p>
+                    <div class="new-career">
+                        @include('teenager/relatedCareers')
+                    </div>
                 </div>
             </div>
 
@@ -229,6 +201,30 @@
         $('.play-icon').click(function() {
             $(this).hide();
             $('iframe').show();
+        });
+        $(document).on('click','#see-more',function(){
+            var lastCareerId = $(this).data('id');
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var slug = '{{$multipleIntelligence->slug}}';
+            var form_data = 'lastCareerId=' + lastCareerId + '&slug=' + slug;
+            $.ajax({
+                url : '{{ url("teenager/see-more-related-careers") }}',
+                method : "POST",
+                data: form_data,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                dataType : "text",
+                success : function (data) {
+                    if(data != '') {
+                        //$('#remove-row').remove();
+                        $('.remove-row').remove();
+                        $('.new-career').append(data);
+                    } else {
+                        //$('#btn-more').html("No Data");
+                    }
+                }
+            });
         });
     </script>
 @endsection
