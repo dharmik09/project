@@ -67,6 +67,13 @@ class ChatController extends Controller {
         $response = $this->objNotifications->deleteNotificationById($id);
         return $response;        
     }
+
+    public function getUnreadNotificationCount()
+    {
+        $loggedInTeen = Auth::guard('teenager')->user()->id;
+        $response = $this->objNotifications->getUnreadNotificationByUserId($loggedInTeen);
+        return $response;        
+    }
    
     /*
      * Get chat users and pass json data

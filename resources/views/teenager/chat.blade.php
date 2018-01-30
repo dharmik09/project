@@ -78,11 +78,13 @@
                         <div class="close"><i class="icon-close" onclick="removeNotificationBlock({{$value->id}});"></i></div>
                     </div>
                     @endforeach
+                    @if(count($notificationData)>0)
                     <div id="pageWiseNotifications"></div>
                     <div class="text-center load-more" id="loadMoreButton">
                         <div id="loader_con"></div>
                         <button class="btn btn-primary" title="Load More" id="pageNo" value="1" onclick="fetchNotification(this.value)">Load More</button>
                     </div>
+                    @endif
 <!--                     <div class="notification-block read">
                         <div class="notification-img"><img src="img/logo.png" alt="notification img"></div>
                         <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">16 hours ago</span></div>
