@@ -17,6 +17,7 @@ use App\Apptitude;
 use App\Personality;
 use App\CareerMapping;
 use App\Services\Professions\Contracts\ProfessionsRepository;
+use Input;
 
 class MultipleIntelligenceManagementController extends Controller
 {
@@ -77,15 +78,19 @@ class MultipleIntelligenceManagementController extends Controller
             };
             $careersDetails = Helpers::getCareerMapColumnName();
             $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$slug]);
-            $attemptedProfessions = $this->professionsRepository->getTeenagerAttemptedProfession(Auth::guard('teenager')->user()->id);
-            $professionIds = [];
-            foreach ($attemptedProfessions as $attemptedProfession) {
-                $professionIds[] = $attemptedProfession->id;
-            }
-            return view('teenager.multipleIntelligence', compact('multipleIntelligence', 'miThumbImageUploadPath', 'relatedCareers', 'attemptedProfessions', 'professionIds'));
+            $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount($careersDetails[$slug]);
+            return view('teenager.multipleIntelligence', compact('multipleIntelligence', 'miThumbImageUploadPath', 'relatedCareers', 'attemptedProfessions', 'relatedCareersCount'));
 
         } else {
             return redirect::back()->with('error', trans('labels.commonerrormessage'));
         }
+    }
+
+    public function seeMoreRelatedCareers()
+    {
+        $lastCareerId = Input::get('lastCareerId');
+        $relatedCareers = $this->objCareerMapping->getRelatedCareers('tcm_logical_reasoning', $lastCareerId);
+        $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount('tcm_logical_reasoning', $lastCareerId);
+        return view('teenager.relatedCareers', compact('relatedCareers', 'relatedCareersCount'));
     }
 }
