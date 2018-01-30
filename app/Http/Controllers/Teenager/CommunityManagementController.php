@@ -201,11 +201,11 @@ class CommunityManagementController extends Controller {
 
                 $userData = Auth::guard('teenager')->user();
                 $notificationData['n_sender_id'] = $userData->id;
-                $notificationData['n_sender_type'] = '2';
+                $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
                 $notificationData['n_receiver_id'] = $data['tc_receiver_id'];
-                $notificationData['n_receiver_type'] = '2';
+                $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
                 $notificationData['n_record_id'] = $response->id;
-                $notificationData['n_notification_type'] ='3';
+                $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
                 $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has requested to follow you';
                 $this->objNotifications->insertUpdate($notificationData);
 

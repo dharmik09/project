@@ -35,7 +35,7 @@ class ChatController extends Controller {
         $loggedInTeen = Auth::guard('teenager')->user()->id;  
         $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png');
         $record = 0;
-        $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TYPE_TEENAGER'),$loggedInTeen,$record);
+        $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$loggedInTeen,$record);
         $idArray = [];
         foreach ($notificationData as $key => $value) {
             $idArray[] = $value->id;
@@ -49,7 +49,7 @@ class ChatController extends Controller {
         $loggedInTeen = Auth::guard('teenager')->user()->id;
         $pageNo = Input::get('page_no');
         $record = $pageNo * 10;
-        $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TYPE_TEENAGER'),$loggedInTeen,$record);
+        $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$loggedInTeen,$record);
         $idArray = [];
         foreach ($notificationData as $key => $value) {
             $idArray[] = $value->id;

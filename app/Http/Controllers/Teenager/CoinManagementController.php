@@ -23,6 +23,7 @@ use App\Services\Template\Contracts\TemplatesRepository;
 use Mail;
 use Redirect;
 use App\Teenagers;
+use App\Notifications;
 
 class CoinManagementController extends Controller
 {
@@ -45,6 +46,7 @@ class CoinManagementController extends Controller
         $this->parentsRepository = $parentsRepository;
         $this->objTeenager = new Teenagers;
         $this->objTeenagerCoinsGift = new TeenagerCoinsGift;
+        $this->objNotifications = new Notifications();
     }
 
     /**
@@ -217,6 +219,15 @@ class CoinManagementController extends Controller
             $coins += $userData['t_coins'];
         }
         $result = $this->teenagersRepository->updateTeenagerCoinsDetail($giftTo, $coins);
+
+        $userData = Auth::guard('teenager')->user();
+        $notificationData['n_sender_id'] = $userData->id;
+        $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+        $notificationData['n_receiver_id'] = $giftTo;
+        $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+        $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
+        $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> gited you '.$giftcoins.' coins';
+        $this->objNotifications->insertUpdate($notificationData);
 
         //Mail to both users
         //Login user mail

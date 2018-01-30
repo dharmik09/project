@@ -64,7 +64,8 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
      */
     public function getNotificationsByUserTypeAnsId($type,$userId,$record)
     {
-        return Notifications::with('senderTeenager')
+        return Notifications::orderBy('created_at','DESC')
+                            ->with('senderTeenager')
                             ->with('community')
                             ->where('n_receiver_id',$userId)
                             ->where('n_receiver_type',$type)
