@@ -45,6 +45,7 @@ use App\Notifications;
 use Illuminate\Support\Facades\Storage;
 use App\CMS;
 use Carbon\Carbon;
+use App\Jobs\SetProfessionMatchScale;
 
 Class Helpers {
     /*
@@ -506,6 +507,7 @@ Class Helpers {
 
     public static function getTeenAPIScore($teengerId) {
         $finalScore = array();
+        $APIdataSlug = [];
         $objLevel2Answers = new Level2Answers();
         $objLevel2Activity = new Level2Activity();
         $correctAnswerQuestionsIds = $objLevel2Answers->level2GetCorrectAnswerQuestionIds($teengerId);
@@ -519,10 +521,12 @@ Class Helpers {
         // Get default all data of Interest, Aptitude, and personality and MI
         $objPersonality = new Personality();
         $personality = $objPersonality->getActivepersonality();
+
         $personalityArr = $personality->toArray();
         if (!empty($personalityArr)) {
             foreach ($personalityArr as $key => $val) {
                 $allPersonality[$val['pt_name']] = 0;
+                $allPersonalitySlug[$val['pt_slug']] = 0;
             }
         }
 
@@ -532,6 +536,7 @@ Class Helpers {
         if (!empty($interestArr)) {
             foreach ($interestArr as $key => $val) {
                 $allInterest[$val['it_name']] = 0;
+                $allInterestSlug[$val['it_slug']] = 0;
             }
         }
 
@@ -541,6 +546,7 @@ Class Helpers {
         if (!empty($apptitudeArr)) {
             foreach ($apptitudeArr as $key => $val) {
                 $allApptitude[$val['apt_name']] = 0;
+                $allApptitudeSlug[$val['apt_slug']] = 0;
             }
         }
 
@@ -550,11 +556,11 @@ Class Helpers {
         if (!empty($MIArr)) {
             foreach ($MIArr as $key => $val) {
                 $allMI[$val['mit_name']] = 0;
+                $allMISlug[$val['mi_slug']] = 0;
             }
         }
 
         //Get Interest, Aptitude, and personality and MI of Teen based on answer
-
         if (isset($questionData) && !empty($questionData)) {
             $miName = '';
             $aptitudeName = '';
@@ -562,23 +568,25 @@ Class Helpers {
             $interest = '';
             foreach ($questionData as $key => $detail) {
                 if (isset($detail[0])) {
-
-
                     if ($detail[0]->mit_name != '') {
                         $miName = $detail[0]->mit_name;
                         $APIdata['MI'][] = $detail[0]->mit_name;
+                        $APIdataSlug[] = $detail[0]->mi_slug;
                     }
                     if ($detail[0]->apt_name != '') {
                         $aptitudeName = $detail[0]->apt_name;
                         $APIdata['aptitude'][] = $detail[0]->apt_name;
+                        $APIdataSlug[] = $detail[0]->apt_slug;
                     }
                     if ($detail[0]->pt_name != '') {
                         $personalityName = $detail[0]->pt_name;
                         $APIdata['personality'][] = $detail[0]->pt_name;
+                        $APIdataSlug[] = $detail[0]->pt_slug;
                     }
                     if ($detail[0]->it_name != '') {
                         $interest = $detail[0]->it_name;
                         $APIdata['interest'][] = $detail[0]->it_name;
+                        $APIdataSlug[] = $detail[0]->it_slug;
                     }
                 }
             }
@@ -608,7 +616,6 @@ Class Helpers {
             $score['interest'] = array();
         }
 
-
         $finalScore['MI'] = $score['MI'] + $allMI;
         $finalScore['aptitude'] = $score['aptitude'] + $allApptitude;
         $finalScore['personality'] = $score['personality'] + $allPersonality;
@@ -637,7 +644,7 @@ Class Helpers {
             }
         }
 
-        $final = array('APIscore' => $finalScore, 'APIscale' => $scale);
+        $final = array('APIscore' => $finalScore, 'APIscale' => $scale, 'APIdataSlug' => array_count_values($APIdataSlug));
         return $final;
     }
 
@@ -2936,12 +2943,20 @@ Class Helpers {
     public static function getTeenInterestAndStregnthMaxScore()
     {
         $maxScore = [];
-        $maxScore['MI'] = array('interpersonal'=>8,'logical'=>20,'linguistic'=>10,'intrapersonal'=>7,'existential'=>4,'bodilykinesthetic'=>5,'spatial'=>9,'musical'=>6,'naturalist'=>6);
-        $maxScore['aptitude'] = array('verbal-reasoning'=>10,'logical-reasoning'=>15,'scientific-reasoning'=>5,'spatial-ability'=>3,'social-ability'=>5,'numerical-ability'=>4,'artistic-ability'=>1,'creativity'=>1,'clerical-ability'=>1);
-        $maxScore['personality'] = array('social'=>2,'investigative'=>1,'conventional'=>2,'mechanical'=>1,'enterprising'=>1,'artistic'=>1);
-        $maxScore['interest'] = array('computers'=>1,'sports'=>3,'language'=>1,'artistic'=>1,'musical'=>1,'people'=>1,'nature'=>5,'technical'=>1,'creative-fine-arts'=>1,'numerical'=>1,'research'=>1,'performing-arts'=>3,'social'=>1);
+        $maxScore['MI'] = array('mit_interpersonal'=>8,'mit_logical'=>20,'mit_linguistic'=>10,'mit_intrapersonal'=>7,'mit_existential'=>4,'mit_bodilykinesthetic'=>5,'mit_spatial'=>9,'mit_musical'=>6,'mit_naturalist'=>6);
+        $maxScore['aptitude'] = array('apt_verbal_reasoning'=>10,'apt_logical_reasoning'=>15,'apt_scientific_reasoning'=>5,'apt_spatial_ability'=>3,'apt_social_ability'=>5,'apt_numerical_ability'=>4,'apt_artistic_ability'=>1,'apt_creativity'=>1,'apt_clerical_ability'=>1);
+        $maxScore['personality'] = array('pt_social'=>2,'pt_investigative'=>1,'pt_conventional'=>2,'pt_mechanical'=>1,'pt_enterprising'=>1,'pt_artistic'=>1);
+        $maxScore['interest'] = array('it_computers'=>1,'it_sports'=>3,'it_language'=>1,'it_artistic'=>1,'it_musical'=>1,'it_people'=>1,'it_nature'=>5,'it_technical'=>1,'it_creative_fine_arts'=>2,'it_numerical'=>1,'it_research'=>1,'it_performing_arts'=>3,'it_social'=>1);
         return $maxScore;
+    }
 
+    public static function professionMatchScaleCalculate($array, $userId) {
+        if(isset($array[0]->NoOfTotalQuestions) && $array[0]->NoOfTotalQuestions > 0 && isset($array[0]->NoOfAttemptedQuestions)) {
+            if($array[0]->NoOfAttemptedQuestions >= $array[0]->NoOfTotalQuestions) {
+                dispatch( new SetProfessionMatchScale($userId) );
+            }
+        }
+        return true;
     }
 
     public static function getCareerMapColumnName()

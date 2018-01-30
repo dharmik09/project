@@ -258,3 +258,65 @@ ALTER TABLE `pro_pfic_profession_intro_content` CHANGE `pfic_content` `pfic_cont
 
 //Increase t_location column size in teenager table ##26-01-2017
 ALTER TABLE `pro_t_teenagers` CHANGE `t_location` `t_location` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+//Add new table to store user's matched profession scale
+CREATE TABLE `pro_upms_user_profession_match_scale` (
+  `id` int(11) NOT NULL,
+  `teenager_id` int(11) DEFAULT NULL,
+  `match_scale` text,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE `pro_upms_user_profession_match_scale`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `pro_upms_user_profession_match_scale`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+//Added new table to store Teenager's promise score
+CREATE TABLE `pro_teenager_promise_score` (
+  `id` int(11) NOT NULL,
+  `teenager_id` int(11) DEFAULT NULL,
+  `apt_scientific_reasoning` varchar(100) DEFAULT NULL,
+  `apt_verbal_reasoning` varchar(100) DEFAULT NULL,
+  `apt_numerical_ability` varchar(100) DEFAULT NULL,
+  `apt_logical_reasoning` varchar(100) DEFAULT NULL,
+  `apt_social_ability` varchar(100) DEFAULT NULL,
+  `apt_artistic_ability` varchar(100) DEFAULT NULL,
+  `apt_spatial_ability` varchar(100) DEFAULT NULL,
+  `apt_creativity` varchar(100) DEFAULT NULL,
+  `apt_clerical_ability` varchar(100) DEFAULT NULL,
+  `it_people` varchar(100) DEFAULT NULL,
+  `it_nature` varchar(100) DEFAULT NULL,
+  `it_technical` varchar(100) DEFAULT NULL,
+  `it_creative_fine_arts` varchar(100) DEFAULT NULL,
+  `it_numerical` varchar(100) DEFAULT NULL,
+  `it_computers` varchar(100) DEFAULT NULL,
+  `it_research` varchar(100) DEFAULT NULL,
+  `it_performing_arts` varchar(100) DEFAULT NULL,
+  `it_social` varchar(100) DEFAULT NULL,
+  `it_sports` varchar(100) DEFAULT NULL,
+  `it_language` varchar(100) DEFAULT NULL,
+  `it_artistic` varchar(100) DEFAULT NULL,
+  `it_musical` varchar(100) DEFAULT NULL,
+  `mit_interpersonal` varchar(100) DEFAULT NULL,
+  `mit_logical` varchar(100) DEFAULT NULL,
+  `mit_linguistic` varchar(100) DEFAULT NULL,
+  `mit_intrapersonal` varchar(100) DEFAULT NULL,
+  `mit_musical` varchar(100) DEFAULT NULL,
+  `mit_spatial` varchar(100) DEFAULT NULL,
+  `mit_bodilykinesthetic` varchar(100) DEFAULT NULL,
+  `mit_naturalist` varchar(100) DEFAULT NULL,
+  `mit_existential` varchar(100) DEFAULT NULL,
+  `pt_conventional` varchar(100) DEFAULT NULL,
+  `pt_enterprising` varchar(100) DEFAULT NULL,
+  `pt_investigative` varchar(100) DEFAULT NULL,
+  `pt_social` varchar(100) DEFAULT NULL,
+  `pt_artistic` varchar(100) DEFAULT NULL,
+  `pt_mechanical` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE `pro_teenager_promise_score`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `pro_teenager_promise_score`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

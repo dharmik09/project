@@ -66,12 +66,12 @@
                                     <ul class="color-1">
                                         <li class="icon"><?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?></li>
                                         <?php
-                                            $salary_range = $professionsData->professionHeaders->filter(function($item) {
-                                                return $item->pfic_title == 'salary_range';
+                                            $average_per_year_salary = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'average_per_year_salary';
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $salary_range->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? $average_per_year_salary->pfic_content : '' ?></h4>
                                             <p>Average per year</p>
                                         </li>
                                     </ul>
@@ -114,7 +114,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
-                                            <p>Projected for 2027</p>
+                                            <p>Projected for 2026</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -125,7 +125,12 @@
                                 <h4>{{$professionsData->pf_name}}</h4>
                                 <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                             </div>
-                            <p>{{$professionsData->pf_intro}}</p>
+                            <?php
+                                $profession_description = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_description';
+                                })->first();
+                            ?>
+                            <p><?php echo (isset($profession_description->pfic_content) && !empty($profession_description->pfic_content)) ? $profession_description->pfic_content : '' ?></p>
                         </div>
                         <div class="career-detail-tab bg-white">
                             <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
@@ -139,19 +144,110 @@
                                             return $item->pfic_title == 'profession_outlook';
                                         })->first();
                                     ?>
-                                    @if(isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content))
-                                        <div class="block">
-                                            <h4> Outlook</h4>
+                                    
+                                    <div class="block">
+                                        <h4> Outlook</h4>
+                                        @if(isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content))
                                             <p>{!!$profession_outlook->pfic_content!!}</p>
-                                        </div>
-                                    @endif
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $AI_redundancy_threat = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'ai_redundancy_threat';
+                                        })->first();
+                                    ?>
+                                    
+                                    <div class="block">
+                                        <h4> AI Redundancy Threat</h4>
+                                        @if(isset($AI_redundancy_threat->pfic_content) && !empty($AI_redundancy_threat->pfic_content))
+                                            <p>{!!$AI_redundancy_threat->pfic_content!!}</p>
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_subject_knowledge';
+                                        })->first();
+                                    ?>
+                                    
+                                    <div class="block">
+                                        <h4>Knowledge</h4>
+                                        @if(isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content))
+                                            {!!$profession_subject_knowledge->pfic_content!!}
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $profession_ability = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_ability';
+                                        })->first();
+                                    ?>
+                                    
+                                    <div class="block">
+                                        <h4>Abilities</h4>
+                                        @if(isset($profession_ability->pfic_content) && !empty($profession_ability->pfic_content))
+                                            {!!$profession_ability->pfic_content!!}
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $profession_job_activities = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_job_activities';
+                                        })->first();
+                                    ?>
+                                    
+                                    <div class="block">
+                                        <h4>Activities</h4>
+                                        @if(isset($profession_job_activities->pfic_content) && !empty($profession_job_activities->pfic_content))
+                                            {!!$profession_job_activities->pfic_content!!}
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $profession_workplace = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_workplace';
+                                        })->first();
+                                    ?>
+                                    
+                                    <div class="block">
+                                        <h4>Work Place</h4>
+                                        @if(isset($profession_workplace->pfic_content) && !empty($profession_workplace->pfic_content))
+                                            {!!$profession_workplace->pfic_content!!}
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $profession_skills = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_skills';
+                                        })->first();
+                                    ?>
+                                    
+                                    <div class="block">
+                                        <h4>Skills</h4>
+                                        @if(isset($profession_skills->pfic_content) && !empty($profession_skills->pfic_content))
+                                            {!!$profession_skills->pfic_content!!}
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $profession_personality = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_personality';
+                                        })->first();
+                                    ?>
+                                    
+                                    <div class="block">
+                                        <h4>Personality</h4>
+                                        @if(isset($profession_personality->pfic_content) && !empty($profession_personality->pfic_content))
+                                            {!!$profession_personality->pfic_content!!}
+                                        @endif
+                                    </div>
 
                                     <?php
                                         $profession_education_path = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_education_path';
                                         })->first();
                                     ?>
-                                    
                                     <div class="block">
                                         <h4>Education</h4>
                                         @if(isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content))
@@ -160,129 +256,105 @@
                                         <div id="education_chart"></div>  
                                     </div>
 
-                                    <?php
-                                        $profession_experience_and_growth_path = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_experience_and_growth_path';
-                                        })->first();
-                                    ?>
-                                    @if(isset($profession_experience_and_growth_path->pfic_content) && !empty($profession_experience_and_growth_path->pfic_content))
-                                        <div class="block">
-                                            <h4>Experience</h4>
-                                            {!!strip_tags($profession_experience_and_growth_path->pfic_content)!!}
-                                        </div>
-                                    @endif
-
-                                    <?php
-                                        $profession_certifications = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_certifications';
-                                        })->first();
-                                    ?>
-                                    @if(isset($profession_certifications->pfic_content) && !empty($profession_certifications->pfic_content))
                                     <div class="block">
                                         <h4>Certifications</h4>
-                                        <p>{!!$profession_certifications->pfic_content!!}</p>
-                                        <div class="img-list">
-                                            <ul>
-                                                @forelse($professionsData->professionCertificates as $professionCertificate)
-                                                <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
-                                                @empty
-                                                @endforelse
-                                            </ul>
-                                        </div>
+                                        @if(isset($professionsData->professionCertificates) && !empty($professionsData->professionCertificates))
+                                            <div class="img-list">
+                                                <ul>
+                                                    @forelse($professionsData->professionCertificates as $professionCertificate)
+                                                    <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
+                                                    @empty
+                                                    @endforelse
+                                                </ul>
+                                            </div>
+                                        @endif
                                     </div>
-                                    @endif
 
+                                    <div class="block">
+                                        <h4>Subjects</h4>
+                                        @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
+                                            <div class="img-list">
+                                                <ul>
+                                                    @forelse($professionsData->professionSubject as $professionSubject)
+                                                    <li><img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo"></li>
+                                                    @empty
+                                                    @endforelse
+                                                </ul>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
                                     <?php
                                         $profession_licensing = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_licensing';
                                         })->first();
                                     ?>
-                                    @if(isset($profession_licensing->pfic_content) && !empty($profession_licensing->pfic_content))
                                     <div class="block">
                                         <h4>Licensing</h4>
-                                        <p>{!!$profession_licensing->pfic_content!!}</p>
+                                        @if(isset($profession_licensing->pfic_content) && !empty($profession_licensing->pfic_content))
+                                            <p>{!!$profession_licensing->pfic_content!!}</p>
+                                        @endif
                                     </div>
-                                    @endif
+
+                                    <?php
+                                        $profession_experience = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_experience';
+                                        })->first();
+                                    ?>
+                                    <div class="block">
+                                        <h4>Experience</h4>
+                                        @if(isset($profession_experience->pfic_content) && !empty($profession_experience->pfic_content))
+                                            {!!strip_tags($profession_experience->pfic_content)!!}
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $profession_growth_path = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'profession_growth_path';
+                                        })->first();
+                                    ?>
+                                    <div class="block">
+                                        <h4>Growth Path</h4>
+                                        @if(isset($profession_growth_path->pfic_content) && !empty($profession_growth_path->pfic_content))
+                                            {!!strip_tags($profession_growth_path->pfic_content)!!}
+                                        @endif
+                                    </div>
+
+                                    <?php
+                                        $salary_range = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'salary_range';
+                                        })->first();
+                                    ?>
+                                    <div class="block">
+                                        <h4>Salary Range</h4>
+                                        @if(isset($salary_range->pfic_content) && !empty($salary_range->pfic_content))
+                                            <p><?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?> {!!$salary_range->pfic_content!!}</p>
+                                        @endif
+                                    </div>
 
                                     <?php
                                         $profession_bridge = $professionsData->professionHeaders->filter(function($item) {
                                             return $item->pfic_title == 'profession_bridge';
                                         })->first();
                                     ?>
-                                    @if(isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content))
                                     <div class="block">
                                         <h4>Apprenticeships</h4>
-                                        <p>{!!$profession_bridge->pfic_content!!}</p>
+                                        @if(isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content))
+                                            <p>{!!$profession_bridge->pfic_content!!}</p>
+                                        @endif
                                     </div>
-                                    @endif
 
                                     <?php
-                                        $profession_job_activities = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_job_activities';
+                                        $trends_infolinks_usa = $professionsData->professionHeaders->filter(function($item) {
+                                            return $item->pfic_title == 'trends_infolinks';
                                         })->first();
                                     ?>
-                                    @if(isset($profession_job_activities->pfic_content) && !empty($profession_job_activities->pfic_content))
                                     <div class="block">
-                                        <h4>Activities</h4>
-                                        {!!$profession_job_activities->pfic_content!!}
+                                        <h4>General Information and Links</h4>
+                                        @if(isset($trends_infolinks_usa->pfic_content) && !empty($trends_infolinks_usa->pfic_content))
+                                            <p>{!!$trends_infolinks_usa->pfic_content!!}</p>
+                                        @endif
                                     </div>
-                                    @endif
-
-                                    <?php
-                                        $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_subject_knowledge';
-                                        })->first();
-                                    ?>
-                                    @if(isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content))
-                                    <div class="block">
-                                        <h4>Subjects</h4>
-                                        <p>{!!$profession_subject_knowledge->pfic_content!!}</p>
-                                        <div class="img-list">
-                                            <ul>
-                                                @forelse($professionsData->professionSubject as $professionSubject)
-                                                <li><img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo"></li>
-                                                @empty
-                                                @endforelse
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    
-                                    <?php
-                                        $profession_ability = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_ability';
-                                        })->first();
-                                    ?>
-                                    @if(isset($profession_ability->pfic_content) && !empty($profession_ability->pfic_content))
-                                    <div class="block">
-                                        <h4>Abilities</h4>
-                                        {!!$profession_ability->pfic_content!!}
-                                    </div>
-                                    @endif
-
-                                    <?php
-                                        $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_subject_knowledge';
-                                        })->first();
-                                    ?>
-                                    @if(isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content))
-                                    <div class="block">
-                                        <h4>Knowledge</h4>
-                                        {!!$profession_subject_knowledge->pfic_content!!}
-                                    </div>
-                                    @endif
-
-                                    <?php
-                                        $profession_skills = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_skills';
-                                        })->first();
-                                    ?>
-                                    @if(isset($profession_skills->pfic_content) && !empty($profession_skills->pfic_content))
-                                    <div class="block">
-                                        <h4>Skills</h4>
-                                        {!!$profession_skills->pfic_content!!}
-                                    </div>
-                                    @endif
                                 </div>
                                 <div id="menu2" class="tab-pane fade in ">
                                     <div class="explore-table table-responsive">

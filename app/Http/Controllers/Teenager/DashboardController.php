@@ -115,6 +115,9 @@ class DashboardController extends Controller
         $section2Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,2);
         $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,3);
 
+        // $getLevel2AssessmentResult = Helpers::getTeenAPIScore($user->id);
+        // echo "<pre/>"; print_r($getLevel2AssessmentResult); die();
+
         $section1Percentage = 0;
         $section2Percentage = 0;
         $section3Percentage = 0;

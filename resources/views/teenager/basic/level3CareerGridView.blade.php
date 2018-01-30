@@ -73,7 +73,7 @@
 
                                                     <div class="overlay">
                                                         @if(isset($average_per_year_salary))
-                                                            <span class="salary">Salary: 
+                                                            <span class="salary">Average Salary per year : 
                                                                 @if($countryId == 1)
                                                                     ₹
                                                                 @elseif($countryId == 2)
@@ -82,15 +82,15 @@
                                                                 <?php echo (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? strip_tags($average_per_year_salary->pfic_content) : ''?>
                                                             </span>
                                                         @else
-                                                            <span class="salary">Salary: N/A</span>
+                                                            <span class="salary">Average Salary per year : N/A</span>
                                                         @endif
 
                                                         @if(isset($profession_outlook))
-                                                            <span class="assessment">Assessment: 
+                                                            <span class="assessment">Outlook : 
                                                                 <?php echo (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? strip_tags($profession_outlook->pfic_content) : '' ?>
                                                             </span>
                                                         @else
-                                                            <span class="assessment">Assessment: N/A</span>
+                                                            <span class="assessment">Outlook : N/A</span>
                                                         @endif
                                                     </div>
                                                     
