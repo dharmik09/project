@@ -383,4 +383,90 @@ class CoinController extends Controller
         return response()->json($response, 200);
         exit;
     }
+
+    /* Request Params : saveGiftedCoins
+     *  loginToken, userId, giftedUserId, giftedCoins
+     *  Service after loggedIn user
+     */
+    public function saveGiftedCoins(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $giftedCoins = $request->giftedCoins;
+            $saveData = [];
+            $saveData['tcg_sender_id'] = $request->userId;
+            $saveData['tcg_reciver_id'] = $request->giftedUserId;
+            $saveData['tcg_total_coins'] = $giftedCoins;
+            $saveData['tcg_gift_date'] = date('Y-m-d');
+            $saveData['tcg_user_type'] = 1;
+            $return = $this->objTeenagerCoinsGift->saveTeenagetGiftCoinsDetail($saveData);
+            $deductCoins = 0;
+            //deduct coin from user
+            $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($request->userId);
+            if (!empty($userDetail)) {
+                $deductCoins = $userDetail['t_coins'] - $giftedCoins;
+            }
+            $result = $this->teenagersRepository->updateTeenagerCoinsDetail($request->userId, $deductCoins);
+            //Add icons to otehr user
+            $userData = $this->teenagersRepository->getUserDataForCoinsDetail($request->giftedUserId);
+            if (!empty($userData)) {
+                $giftedCoins += $userData['t_coins'];
+            }
+            $result = $this->teenagersRepository->updateTeenagerCoinsDetail($request->giftedUserId, $giftedCoins);
+
+            //Mail to both users
+            //Login user mail
+            $userArray = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
+            $otherUserArray = $this->teenagersRepository->getTeenagerByTeenagerId($request->giftedUserId);
+            $replaceArray = array();
+            $replaceArray['TEEN_NAME'] = $userArray['t_name'];
+            $replaceArray['COINS'] = $giftedCoins;
+            $replaceArray['TO_USER'] = $otherUserArray['t_name'];
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.GIFTED_COINS_TEMPLATE'));
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $data = array();
+            $data['subject'] = $emailTemplateContent->et_subject;
+            $data['toEmail'] = $userArray['t_email'];
+            $data['toName'] = $userArray['t_name'];
+            $data['content'] = $content;
+
+            Mail::send(['html' => 'emails.Template'], $data, function ($m) use ($data) {
+                $m->from(Config::get('constant.FROM_MAIL_ID'), 'Gift ProCoins');
+                $m->subject($data['subject']);
+                $m->to($data['toEmail'], $data['toName']);
+            });
+
+            //Other user mail
+            $replaceArray = array();
+            $replaceArray['TEEN_NAME'] = $otherUserArray['t_name'];
+            $replaceArray['COINS'] = $giftedCoins;
+            $replaceArray['FROM_USER'] = $userArray['t_name'];
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.COINS_RECEIBED_TEMPLATE'));
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $data = array();
+            $data['subject'] = $emailTemplateContent->et_subject;
+            $data['toEmail'] = $otherUserArray['t_email'];
+            $data['toName'] = $otherUserArray['t_name'];
+            $data['content'] = $content;
+            Mail::send(['html' => 'emails.Template'], $data, function ($m) use ($data) {
+                $m->from(Config::get('constant.FROM_MAIL_ID'), 'Gift ProCoins');
+                $m->subject($data['subject']);
+                $m->to($data['toEmail'], $data['toName']);
+            });
+            $responseData = [];
+            $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($request->userId);
+            if (!empty($userDetail)) {
+                $responseData['availableCoins'] = $userDetail['t_coins'];
+            }
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $responseData;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
 }
