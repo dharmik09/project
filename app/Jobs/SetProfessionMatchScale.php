@@ -149,6 +149,7 @@ class SetProfessionMatchScale implements ShouldQueue
                     $professionScale[$valueProfession->tcm_profession] = $answer['matchScale'];
                 }
             }
+            //echo "<pre/>"; print_r($professionScale); die();
             if(count($professionScale) > 0) {
                 $jsonData = json_encode($professionScale);
                 $array = [];

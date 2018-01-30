@@ -32,6 +32,7 @@ use App\Events\SendMail;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\Community\Contracts\CommunityRepository;
 use App\Services\Professions\Contracts\ProfessionsRepository;
+use App\Jobs\SetProfessionMatchScale;
 
 class DashboardController extends Controller
 {
@@ -116,7 +117,8 @@ class DashboardController extends Controller
         $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,3);
 
         // $getLevel2AssessmentResult = Helpers::getTeenAPIScore($user->id);
-        // echo "<pre/>"; print_r($getLevel2AssessmentResult); die();
+        // dispatch( new SetProfessionMatchScale($user->id) );
+        // echo "<pre/>"; die("die");
 
         $section1Percentage = 0;
         $section2Percentage = 0;

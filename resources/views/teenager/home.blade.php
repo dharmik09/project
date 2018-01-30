@@ -476,7 +476,7 @@
                     $(".dashboard-interest-detail").html(response).fadeIn('slow');
                 }
                 $('.dashboard-interest-detail .loading-screen-data').hide();
-                $('.dashboard-interest-detail .loading-screen-data').parent().removeClass('loading-screen-parent');
+                $('.dashboard-interest-detail').removeClass('loading-screen-parent');
             }
         });
     }
@@ -492,7 +492,7 @@
             data: {'teenagerId':teenagerId},
             success: function (response) {
                 try {
-                    var valueOf = $.parseJSON(response); 
+                    var valueOf = $.parseJSON(response);
                 } catch (e) {
                     // not json
                 }
@@ -502,7 +502,7 @@
                     $(".dashboard-strength-detail").html(response).fadeIn('slow');
                 }
                 $('.dashboard-strength-detail .loading-screen-data').hide();
-                $('.dashboard-strength-detail .loading-screen-data').parent().removeClass('loading-screen-parent');
+                $('.dashboard-strength-detail').removeClass('loading-screen-parent');
             }
         });
     }

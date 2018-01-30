@@ -212,6 +212,7 @@ h6 {
             text-align: right;
             margin-top: 40px;
             margin-bottom: 0;
+            width: 100%;
             @include maxmd {
                 margin-top: 20px;
             }
@@ -234,6 +235,7 @@ h6 {
                 text-transform: uppercase;
                 font-family: 'hn-b';
                 border-bottom: 1px solid $p-cl;cursor: pointer;
+                float: right;
             }
         }
     }
@@ -489,7 +491,7 @@ h6 {
         .next-que {
             color: $p-cl;
             font-size: 90px;
-            transform: rotate(-90deg);
+            transform: rotate(-130deg);
         }
     }
 }

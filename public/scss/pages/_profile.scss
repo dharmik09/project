@@ -1626,7 +1626,7 @@ input:checked + .slider:before {
                     height: 63px; // margin-right: 20px;
                 }
             }
-            a {
+           > a {
                 display: table;
                 margin: 0 10px 0 20px;
                 line-height: 1.2;
