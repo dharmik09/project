@@ -124,7 +124,7 @@ class Level2ActivityController extends Controller {
             $response['activities'] = "<center><h3>You have successfully completed this Quiz</h3></center>";
         }
 
-        $dispatchJob1 = Helpers::professionMatchScaleCalculate($sectionPercentageCollection, $user->id);
+        $dispatchJob = Helpers::professionMatchScaleCalculate($sectionPercentageCollection, $user->id);
         
         return $response;
     }
