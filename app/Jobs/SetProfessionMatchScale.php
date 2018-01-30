@@ -54,6 +54,8 @@ class SetProfessionMatchScale implements ShouldQueue
         if (isset($getCareerMappingFromSystem[0]) && !empty($getCareerMappingFromSystem[0])) { 
             $professionScale = [];
             foreach ($getCareerMappingFromSystem as $keyId => $valueProfession) { 
+                $arrayCombinePoint = [];
+
                 $valueProfession->tcm_scientific_reasoning = (isset($valueProfession->tcm_scientific_reasoning) && $valueProfession->tcm_scientific_reasoning != '') ? $valueProfession->tcm_scientific_reasoning : 'L';
                 $valueProfession->tcm_verbal_reasoning = (isset($valueProfession->tcm_verbal_reasoning) && $valueProfession->tcm_verbal_reasoning != '') ? $valueProfession->tcm_verbal_reasoning : 'L';
                 $valueProfession->tcm_numerical_ability = (isset($valueProfession->tcm_numerical_ability) && $valueProfession->tcm_numerical_ability != '') ? $valueProfession->tcm_numerical_ability : 'L';

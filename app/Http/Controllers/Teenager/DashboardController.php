@@ -32,6 +32,7 @@ use App\Events\SendMail;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\Community\Contracts\CommunityRepository;
 use App\Services\Professions\Contracts\ProfessionsRepository;
+use App\Jobs\SetProfessionMatchScale;
 
 class DashboardController extends Controller
 {
@@ -116,7 +117,8 @@ class DashboardController extends Controller
         $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,3);
 
         // $getLevel2AssessmentResult = Helpers::getTeenAPIScore($user->id);
-        // echo "<pre/>"; print_r($getLevel2AssessmentResult); die();
+        // dispatch( new SetProfessionMatchScale($user->id) );
+        // echo "<pre/>"; die("die");
 
         $section1Percentage = 0;
         $section2Percentage = 0;
@@ -132,11 +134,13 @@ class DashboardController extends Controller
             $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions >= $section3Collection[0]->NoOfTotalQuestions) ? 100 : ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
         }
 
+        $secComplete1 = $secComplete2 = $secComplete3 = 0; 
         if($section1Percentage == 0){
             $section1 = 'Begin now';
         }
         else{
             $section1 = number_format((float)$section1Percentage, 0, '.', '').'% Complete';
+            $secComplete1 = (number_format((float)$section1Percentage, 0, '.', '') >= 100) ? 1 : 0;
         }
 
         if($section2Percentage == 0){
@@ -144,6 +148,7 @@ class DashboardController extends Controller
         }
         else{
             $section2 = number_format((float)$section2Percentage, 0, '.', '').'% Complete';
+            $secComplete2 = (number_format((float)$section2Percentage, 0, '.', '') >= 100) ? 1 : 0;
         }
 
         if($section3Percentage == 0){
@@ -151,12 +156,13 @@ class DashboardController extends Controller
         }
         else{
             $section3 = number_format((float)$section3Percentage, 0, '.', '').'% Complete';
+            $secComplete3 = (number_format((float)$section3Percentage, 0, '.', '') >= 100) ? 1 : 0;
         }
 
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id, array(), '', '', '', 1);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
         $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
-        return view('teenager.home', compact('data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
+        return view('teenager.home', compact('secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
     }
 
     //My profile data

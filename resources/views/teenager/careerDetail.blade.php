@@ -53,9 +53,19 @@
             <h1>{{$professionsData->pf_name}}</h1>
             <div class="banner-landing banner-detail" style="background-image:url({{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}})">
                 <div>
-                    <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
+                    <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                 </div>
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
+                @if($videoCode == '')
+                <div>
+                    <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls width="100%" height="100%">
+                            <!-- MP4 must be first for iPad! -->
+                            <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->                            
+                    </video>
+                </div>
+                @else
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                @endif    
             </div>
             <div class="detail-content">
                 <div class="row">
@@ -170,11 +180,21 @@
                                             return $item->pfic_title == 'profession_subject_knowledge';
                                         })->first();
                                     ?>
-                                    
+
                                     <div class="block">
-                                        <h4>Knowledge</h4>
-                                        @if(isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content))
-                                            {!!$profession_subject_knowledge->pfic_content!!}
+                                        <h4>Subjects</h4>
+                                        @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
+                                            <div class="img-list">
+                                                <ul>
+                                                    @forelse($professionsData->professionSubject as $professionSubject)
+                                                        <li>
+                                                            <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo">
+                                                            <span>{{$professionSubject->subject['ps_name']}}</span>
+                                                        </li>
+                                                    @empty
+                                                    @endforelse
+                                                </ul>
+                                            </div>
                                         @endif
                                     </div>
 
@@ -263,20 +283,6 @@
                                                 <ul>
                                                     @forelse($professionsData->professionCertificates as $professionCertificate)
                                                     <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
-                                                    @empty
-                                                    @endforelse
-                                                </ul>
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    <div class="block">
-                                        <h4>Subjects</h4>
-                                        @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
-                                            <div class="img-list">
-                                                <ul>
-                                                    @forelse($professionsData->professionSubject as $professionSubject)
-                                                    <li><img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo"></li>
                                                     @empty
                                                     @endforelse
                                                 </ul>
@@ -1024,6 +1030,16 @@
             $(this).hide();
             $('iframe').show();
         })
+        $('#iframe-video-click').on('click', function(ev) {
+            var youtubeVideo = '{{$videoCode}}';
+            if(youtubeVideo == ''){
+                $("#dropbox_video_player")[0].play();
+            }else{
+                $("#iframe-video")[0].src += "&autoplay=1";
+                ev.preventDefault();
+            }
+            
+        });
         $('.btn-next').click(function() {
             $('.front_page').hide();
             $('.promise-plus-overlay').show(500);

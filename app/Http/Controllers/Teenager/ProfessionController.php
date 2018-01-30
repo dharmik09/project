@@ -47,7 +47,11 @@ class ProfessionController extends Controller {
 
     public function listGetIndex(){
         $userid = Auth::guard('teenager')->user()->id;
-        $basketsData = $this->baskets->with('profession')->where('deleted' ,'1')->find(Input::get('basket_id'));
+        $basketsData = $this->baskets->with(['profession' => function ($query) {
+                            $query->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                        }])
+        				->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
+        				->find(Input::get('basket_id'));
 
         $professionAttemptedCount = 0;
         foreach ($basketsData->profession as $k => $v) {
@@ -111,9 +115,9 @@ class ProfessionController extends Controller {
                         ->with(['profession' => function ($query) {
                             $query->with(['professionHeaders' => function ($query) {
                                 $query->where('country_id',$this->countryId);
-                            }]);
+                            }])->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         }])
-                        ->where('deleted' ,'1')
+                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                         ->find(Input::get('basket_id'));
         $professionAttemptedCount = 0;
         foreach ($basketsData->profession as $k => $v) {
@@ -213,12 +217,14 @@ class ProfessionController extends Controller {
                         ->with(['profession' => function ($query) {
                             $query->with(['professionHeaders' => function ($query) {
                                 $query->where('country_id',$this->countryId);
-                            }])->where('pf_name', 'like', '%'.$this->value.'%');
+                            }])->where('pf_name', 'like', '%'.$this->value.'%')
+                            ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         }])
                         ->whereHas('profession', function ($query) {
-                            $query->where('pf_name', 'like', '%'.$this->value.'%');
+                            $query->where('pf_name', 'like', '%'.$this->value.'%')
+                            ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         })
-                        ->where('deleted' ,'1')
+                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                         ->get();
         $return = '';
         if(count($basketsData)>0)
@@ -324,12 +330,14 @@ class ProfessionController extends Controller {
         $this->value = Input::get('search_text');
         $basketsData = $this->baskets
                         ->with(['profession' => function ($query) {
-                            $query->where('pf_name', 'like', '%'.$this->value.'%');
+                            $query->where('pf_name', 'like', '%'.$this->value.'%')
+                            ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         }])
                         ->whereHas('profession', function ($query) {
-                            $query->where('pf_name', 'like', '%'.$this->value.'%');
+                            $query->where('pf_name', 'like', '%'.$this->value.'%')
+                            ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         })
-                        ->where('deleted' ,'1')
+                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                         ->get();
         $return = '';
         if(count($basketsData)>0)

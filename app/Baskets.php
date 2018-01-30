@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Professions;
+use Config;
 
 class Baskets extends Model
 {
@@ -44,10 +45,12 @@ class Baskets extends Model
                     ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
                     }])
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                     ->where('id',$this->professionId);
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->where('id',$this->professionId);
+                    $query->where('id',$this->professionId)
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 })
                 ->where('deleted' ,'1')
                 ->get();
@@ -65,7 +68,8 @@ class Baskets extends Model
                     }])
                     ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
-                    }]);
+                    }])
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->where('id',$this->basketId)
                 ->where('deleted' ,'1')
@@ -83,7 +87,8 @@ class Baskets extends Model
                     }])
                     ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
-                    }]);
+                    }])
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->where('deleted' ,'1')
                 ->get();
@@ -97,10 +102,12 @@ class Baskets extends Model
                     $query->with(['professionAttempted' => function ($query) {
                         $query->where('tpa_teenager', $this->userId);
                     }])
-                    ->with('starRatedProfession');
+                    ->with('starRatedProfession')
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession');
+                    $query->whereHas('starRatedProfession')
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 })
                 ->where('deleted' ,'1')
                 ->get();
@@ -116,11 +123,13 @@ class Baskets extends Model
                         $query->where('tpa_teenager', $this->userId);
                     }])
                     ->where('pf_name', 'like', '%'.$this->searchText.'%')
-                    ->with('starRatedProfession');
+                    ->with('starRatedProfession')
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
                     $query->where('pf_name', 'like', '%'.$this->searchText.'%')
-                    ->whereHas('starRatedProfession');
+                    ->whereHas('starRatedProfession')
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 })
                 ->where('deleted' ,'1')
                 ->get();

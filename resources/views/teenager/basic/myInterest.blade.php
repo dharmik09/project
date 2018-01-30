@@ -21,7 +21,7 @@
         </div>
     </div>
 @empty
-    <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
+    <div class="col-md-6 col-sm-6 col-xs-6 flex-items ">
         <center>
             <h3>No Records Found</h3>
         </center>
