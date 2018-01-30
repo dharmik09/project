@@ -30,6 +30,7 @@ use App\GenericAds;
 use App\Configurations;
 use DateTime;
 use App\Parents;
+use App\ProfessionMatchScale;
 use Redirect;
 use Validator;
 use LaravelFCM\Message\OptionsBuilder;
@@ -2794,6 +2795,15 @@ Class Helpers {
         $apptitude = $objApptitude->getApptitudeDetailBySlug($slug);
 
         return $apptitude->apt_name;
+    }
+
+    public static function getTeenagerMatchScale($teenagerId) {
+        $response = [];
+        $record = ProfessionMatchScale::where('teenager_id', $teenagerId)->first();
+        if($record && isset($record->match_scale) && $record->match_scale != "") {
+            $response = json_decode($record->match_scale, true);
+        }
+        return $response;
     }
 
     public static function getPersonalityBySlug($slug)

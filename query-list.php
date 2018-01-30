@@ -320,3 +320,23 @@ ALTER TABLE `pro_teenager_promise_score`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `pro_teenager_promise_score`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+//Remove Old Notification Table ##29-01-2018 Jaimin
+DROP TABLE pro_n_notifications
+
+//Added new Notification Table ##29-01-2018 Jaimin
+  CREATE TABLE `pro_n_notifications` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `n_sender_id` bigint(20) NOT NULL,
+ `n_sender_type` tinyint(4) NOT NULL COMMENT '1 - Admin, 2 - Teenager',
+ `n_receiver_id` bigint(20) NOT NULL,
+ `n_receiver_type` tinyint(4) NOT NULL COMMENT '1 - Admin, 2 - Teenager',
+ `n_record_id` bigint(20) NOT NULL DEFAULT '0',
+ `n_notification_text` text NOT NULL,
+ `n_notification_type` tinyint(4) NOT NULL COMMENT '1 - Procoins Gift, 2 - Coupan Gift, 3 - Connection Request, 4 - Profile View',
+ `n_read_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - Not Read, 1 - Read',
+ `created_at` timestamp NOT NULL,
+ `updated_at` timestamp NOT NULL,
+ `deleted` tinyint(4) DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted ',
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=latin1

@@ -90,6 +90,8 @@ Route::post('/search-community', 'Teenager\CommunityManagementController@index')
 Route::post('/load-more-new-connections', 'Teenager\CommunityManagementController@loadMoreNewConnections')->name('load-more-new-connections');
 Route::post('/load-more-my-connections', 'Teenager\CommunityManagementController@loadMoreMyConnections')->name('load-more-my-connections');
 Route::get('/send-request-to-teenager/{uniqueId}', 'Teenager\CommunityManagementController@sendRequest')->name('send-request-to-teenager');
+Route::get('/accept-request/{id}', 'Teenager\CommunityManagementController@acceptRequest')->name('accept-request');
+Route::get('/decline-request/{id}', 'Teenager\CommunityManagementController@declineRequest')->name('decline-request');
 Route::post('/get-sub-filter', 'Teenager\CommunityManagementController@getSubFilter')->name('get-sub-filter');
 Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@index')->name('get-teenagers-by-school');
 
@@ -115,6 +117,11 @@ Route::post('save-level1-trait', 'Teenager\Level1ActivityController@saveLevel1Tr
 Route::get('/chat', 'Teenager\ChatController@index');
 Route::post('/getChatUsers', 'Teenager\ChatController@getChatUsers');
 Route::post('/registerUserInAppLozic', 'Teenager\ChatController@registerUserInAppLozic');
+
+//Notification
+Route::get('/get-notification-count', 'Teenager\ChatController@getUnreadNotificationCount');
+Route::post('/get-page-wise-notification', 'Teenager\ChatController@getPageWiseNotification');
+Route::post('/delete-notification', 'Teenager\ChatController@deleteNotification');
 
 //Help
 Route::post('/get-help-text', 'Teenager\HelpController@getHelpTextBySlug');

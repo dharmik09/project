@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Teenagers;
+use App\Community;
 use Config;
 use DB;
 
@@ -22,6 +24,65 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
     //protected $fillable = ['id', 'n_user_id', 'n_notification_text', 'n_status', 'created_at', 'updated_at', 'deleted'];
     protected $guarded = [];
 
+    /**
+     * Insert and Update Notifications
+     */
+    public function insertUpdate($data)
+    {
+        return Notifications::create($data);
+    }
+
+
+    public function senderTeenager()
+    {
+        return $this->belongsTo(Teenagers::class, 'n_receiver_id');
+    }
+
+    public function community()
+    {
+        return $this->belongsTo(Community::class, 'n_record_id');
+    }
+
+    /**
+     * Delete Notification by Id
+     */
+    public function deleteNotificationById($id)
+    {
+        return Notifications::where('id',$id)->update(['deleted' => config::get('constant.DELETED_FLAG')]);
+    }
+    
+    /**
+     * get Unread Notification count
+     */
+    public function getUnreadNotificationByUserId($userId)
+    {
+        return Notifications::where('n_receiver_id',$userId)->where('n_read_status',Config::get('constant.NOTIFICATION_STATUS_UNREAD'))->count();
+    }
+
+    /**
+     * Get user Notifications by userid
+     */
+    public function getNotificationsByUserTypeAnsId($type,$userId,$record)
+    {
+        return Notifications::with('senderTeenager')
+                            ->with('community')
+                            ->where('n_receiver_id',$userId)
+                            ->where('n_receiver_type',$type)
+                            ->where('deleted',config::get('constant.ACTIVE_FLAG'))
+                            ->skip($record)
+                            ->take(10)
+                            ->get();
+    }
+
+    /**
+     * Change Notifications read Status
+     */
+    public function ChangeNotificationsReadStatus($idArray,$status)
+    {
+        
+        $response =  Notifications::whereIn('id', $idArray)->update(['n_read_status' => $status]);
+        return $response;
+    }
 
     public function saveTeenagerDetailForSendNotification($userId, $message) {
         foreach ($userId AS $key => $Id) {

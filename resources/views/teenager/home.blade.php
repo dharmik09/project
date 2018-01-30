@@ -90,20 +90,17 @@
                                 <div class="panel-group" id="accordion">
                                     <?php $countCareers = 0; ?>
                                     @forelse ($teenagerCareers as $teenagerCareer)
-                                    <?php $teenagerCareer->matched = rand(0,2); 
+                                    <?php $teenagerCareer->matched = ( isset($getTeenagerHML[$teenagerCareer->id]) ) ? $getTeenagerHML[$teenagerCareer->id] : ''; 
                                         switch($teenagerCareer->matched) {
-                                            case 0:
+                                            case 'match':
                                                 $careerClass = 'career-data-color-1';
                                                 break;
-
-                                            case 1:
+                                            case 'moderate':
                                                 $careerClass = 'career-data-color-2';
                                                 break;
-
-                                            case 2:
+                                            case 'nomatch':
                                                 $careerClass = 'career-data-color-3';
                                                 break;
-
                                             default:
                                                 $careerClass = '';
                                                 break; 
@@ -159,7 +156,7 @@
                                                 $teenPhoto = Storage::url($teenThumbImageUploadPath . 'proteen-logo.png');
                                             } ?>
                                         <img src="{{ $teenPhoto }}" alt="my_net_view">
-                                        <h4><a href="{{ url('/teenager/network-member') }}/{{$network->t_uniqueid}}">{{ $network->t_name }}</a></h4>
+                                        <h4><a href="{{ url('/teenager/network-member') }}/{{$network->t_uniqueid}}">{{ $network->t_name }} {{ $network->t_lastname }}</a></h4>
                                     </div>
                                     <!-- my_net_view End -->
                                 </div>
