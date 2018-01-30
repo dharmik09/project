@@ -170,11 +170,21 @@
                                             return $item->pfic_title == 'profession_subject_knowledge';
                                         })->first();
                                     ?>
-                                    
+
                                     <div class="block">
-                                        <h4>Knowledge</h4>
-                                        @if(isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content))
-                                            {!!$profession_subject_knowledge->pfic_content!!}
+                                        <h4>Subjects</h4>
+                                        @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
+                                            <div class="img-list">
+                                                <ul>
+                                                    @forelse($professionsData->professionSubject as $professionSubject)
+                                                        <li>
+                                                            <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo">
+                                                            <span>{{$professionSubject->subject['ps_name']}}</span>
+                                                        </li>
+                                                    @empty
+                                                    @endforelse
+                                                </ul>
+                                            </div>
                                         @endif
                                     </div>
 
@@ -263,20 +273,6 @@
                                                 <ul>
                                                     @forelse($professionsData->professionCertificates as $professionCertificate)
                                                     <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
-                                                    @empty
-                                                    @endforelse
-                                                </ul>
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    <div class="block">
-                                        <h4>Subjects</h4>
-                                        @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
-                                            <div class="img-list">
-                                                <ul>
-                                                    @forelse($professionsData->professionSubject as $professionSubject)
-                                                    <li><img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo"></li>
                                                     @empty
                                                     @endforelse
                                                 </ul>
