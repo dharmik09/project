@@ -112,7 +112,7 @@ class Level2ActivityController extends Controller {
             $activitiesHTML .= '<div class="radio">';
 
             foreach ($activities[0]->options as $key => $value) {
-                $activitiesHTML .= '<label><input type="radio" name="'.$activities[0]->activityID.'l2AnsId" onclick="saveAns('.$activities[0]->activityID.')" value="'.$value['optionId'].'" ><span class="checker"></span><em>'.$value['optionText'].'</em></label>';
+                $activitiesHTML .= '<label><input type="radio" name="'.$activities[0]->activityID.'l2AnsId" onclick="saveAns('.$activities[0]->activityID.', '.$key.')" value="'.$value['optionId'].'" ><span class="checker"></span><em>'.$value['optionText'].'</em></label>';
             }
                 $activitiesHTML .= '<input type="hidden" id="'.$activities[0]->activityID.'l2AnsSection" value="'.$section.'">';
             

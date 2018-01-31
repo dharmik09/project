@@ -340,3 +340,6 @@ CREATE TABLE `pro_n_notifications` (
  `deleted` tinyint(4) DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted ',
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+//Added new field in profession subject table ## 31-01-2017
+ALTER TABLE `pro_ps_profession_subjects` ADD `ps_slug` VARCHAR(255) NOT NULL AFTER `ps_name`;

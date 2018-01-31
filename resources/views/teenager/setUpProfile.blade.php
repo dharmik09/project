@@ -7,7 +7,7 @@
 @section('content')
     <!--mid section-->
     <!-- profile section-->
-    <section class="sec-profile sponsor-overflow">
+    <section class="sec-profile sponsor-overflow" id="profile-info">
         <div class="container">
             <div class="col-xs-12">
                 @if ($message = Session::get('success'))
@@ -48,15 +48,6 @@
                     </ul>
                 </div>
                 @endif
-            </div>
-            <div class="sec-popup">
-                <a href="javascript:void(0);" onclick="getHelpText('profile-update')" data-toggle="clickover" data-popover-content="#profile-update" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="profile-update">
-                    <div class="popover-data">
-                        <a class="close popover-closer"><i class="icon-close"></i></a>
-                        <span class="profile-update"></span>
-                    </div>
-                </div>
             </div>
             <!--profile detail-->
             <div class="profile-detail">

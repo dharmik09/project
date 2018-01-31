@@ -243,7 +243,9 @@
             <!-- Row End -->
         </div>
     </div>
-    
+    <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
+    <audio id="audio_1" src="{{ Storage::url('frontend/audio/L1A_1.wav')}}"></audio>
+    <audio id="audio_2" src="{{ Storage::url('frontend/audio/L1A_2.wav')}}"></audio>
 @stop
 
 @section('script')
@@ -317,8 +319,9 @@
         });
     }
 
-    function saveAns(queId) {
-
+    function saveAns(queId, key = '') {
+        var audio = $("#audio_"+key);
+        audio.trigger('play');
         var section = $('#'+queId+'l2AnsSection').val();
         var answerId = $('input[name='+queId+'l2AnsId]:checked').val();
         var timer = count;

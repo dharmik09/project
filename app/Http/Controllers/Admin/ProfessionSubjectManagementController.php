@@ -49,6 +49,7 @@ class ProfessionSubjectManagementController extends Controller
         $hiddenLogo     = e(input::get('hidden_logo'));
         $subjectDetail['id'] = e(Input::get('id'));
         $subjectDetail['ps_name'] = e(Input::get('ps_name'));
+        $subjectDetail['ps_slug'] = e(Input::get('ps_slug'));
         $subjectDetail['deleted'] = e(Input::get('deleted'));
 
         if (Input::file())

@@ -2,12 +2,12 @@
 
 Route::get('/home', 'Teenager\DashboardController@dashboard')->name('home');
 Route::get('/dashboard', 'Teenager\DashboardController@dashboard');
-Route::get('/edit-profile', 'Teenager\DashboardController@profile');
-Route::get('/my-profile', 'Teenager\DashboardController@profile');
+Route::get('/edit-profile', 'Teenager\ProfileController@profile');
+Route::get('/my-profile', 'Teenager\ProfileController@profile');
 Route::get('/set-sound-value/{sound}', 'Teenager\ProfileController@setSoundOnOff');
 
 Route::get('/set-profile', 'Teenager\ProfileController@setProfile')->name('set-profile');
-Route::post('/save-profile', 'Teenager\DashboardController@saveProfile')->name('save-profile');
+Route::post('/save-profile', 'Teenager\ProfileController@saveProfile')->name('save-profile');
 Route::post('/save-teenager-academic-info', 'Teenager\DashboardController@saveTeenagerAcademic');
 Route::post('/save-teenager-achievement-info', 'Teenager\DashboardController@saveTeenagerAchievement');
 Route::post('/load-more-my-careers', 'Teenager\DashboardController@loadMoreMyCareers')->name('load-more-my-careers');
@@ -62,7 +62,7 @@ Route::post('/play-first-level-activity', 'Teenager\Level1ActivityController@pla
 Route::post('/save-first-level-activity', 'Teenager\Level1ActivityController@saveFirstLevelActivity');
 Route::post('/play-first-level-world-type', 'Teenager\Level1ActivityController@playLevel1WorldActivity');
 Route::post('/get-icon-name-new', 'Teenager\Level1ActivityController@getIconNameNew');
-Route::get('/get-icon-name-new', 'Teenager\DashboardController@profile');
+Route::get('/get-icon-name-new', 'Teenager\ProfileController@profile');
 Route::post('/add-icon-category', 'Teenager\Level1ActivityController@addIconCategory');
 Route::post('/save-first-level-icon-category', 'Teenager\Level1ActivityController@saveFirstLevelIconCategory');
 Route::post('/save-first-level-icon-quality', 'Teenager\Level1ActivityController@saveLevel1Part2Ans');
