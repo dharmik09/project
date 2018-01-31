@@ -55,7 +55,9 @@ class level3ActivityController extends Controller {
             }
             
             if($data){
-                $response['data'] = $data;
+                $response['data']['baskets'] = $data;
+                $response['data']['total_profession'] = '20';
+                $response['data']['completed_profession'] = '123';
             }
             else{
                 $response['data'] = trans('appmessages.data_empty_msg');
@@ -124,6 +126,11 @@ class level3ActivityController extends Controller {
                 else{
                     $careersData->b_logo = Storage::url($this->basketThumbUrl.$this->basketDefaultProteenImage);
                 }
+                $careersData->total_basket_profession = count($careersData->profession);
+                $careersData->basket_completed_profession = '12';
+                $careersData->strong_match = '12';
+                $careersData->potential_match = '12';
+                $careersData->unlikely_match = '12';
 
                 foreach ($careersData->profession as $key => $value) {
                 
@@ -159,7 +166,9 @@ class level3ActivityController extends Controller {
                     unset($careersData->profession[$key]->professionHeaders);
                 }
 
-                $response['data'] = $careersData;
+                $response['data']['baskets'] = $careersData;
+                $response['data']['total_profession'] = '20';
+                $response['data']['completed_profession'] = '123';
             }
             else{
                 $response['data'] = trans('appmessages.data_empty_msg');
@@ -197,6 +206,12 @@ class level3ActivityController extends Controller {
                         $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                     }
 
+                    $data[$key]->total_basket_profession = count($value->profession);
+                    $data[$key]->basket_completed_profession = '12';
+                    $data[$key]->strong_match = '12';
+                    $data[$key]->potential_match = '12';
+                    $data[$key]->unlikely_match = '12';
+
                     foreach ($value->profession as $k => $v) {
                         if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
                             $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
@@ -207,7 +222,9 @@ class level3ActivityController extends Controller {
                     }
 
                 }
-                $response['data'] = $data;
+                $response['data']['baskets'] = $data;
+                $response['data']['total_profession'] = '20';
+                $response['data']['completed_profession'] = '123';
             }
             else{
                 $response['data'] = trans('appmessages.data_empty_msg');
@@ -242,6 +259,12 @@ class level3ActivityController extends Controller {
                     else{
                         $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                     }
+                    
+                    $data[$key]->total_basket_profession = count($value->profession);
+                    $data[$key]->basket_completed_profession = '12';
+                    $data[$key]->strong_match = '12';
+                    $data[$key]->potential_match = '12';
+                    $data[$key]->unlikely_match = '12';
 
                     foreach ($value->profession as $k => $v) {
                         if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
@@ -253,7 +276,9 @@ class level3ActivityController extends Controller {
                     }
                     
                 }
-                $response['data'] = $data;
+                $response['data']['baskets'] = $data;
+                $response['data']['total_profession'] = '20';
+                $response['data']['completed_profession'] = '123';
             }
             else{
                 $response['data'] = trans('appmessages.data_empty_msg');
