@@ -358,8 +358,8 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 ->where('profession.deleted',1)
                 ->get();
         if (isset($return) && !empty($return)) {
-            foreach ($return as $key => $val) {
-                $finalData = array();
+            $finalData = array();
+            foreach ($return as $key => $val) {                
                 $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->get();
                 if (isset($headers) && !empty($headers)) {
                     foreach ($headers as $hkey => $hval) {
