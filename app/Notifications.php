@@ -35,7 +35,7 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
 
     public function senderTeenager()
     {
-        return $this->belongsTo(Teenagers::class, 'n_receiver_id');
+        return $this->belongsTo(Teenagers::class, 'n_sender_id');
     }
 
     public function community()
