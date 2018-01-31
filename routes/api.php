@@ -125,4 +125,12 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getProCoinsLearningGuidanceData', 'Webservice\CoinController@getProCoinsLearningGuidanceData');
 	Route::post('/getProCoinsL4ConceptData', 'Webservice\CoinController@getProCoinsL4ConceptData');
 
+	//Level 3 Baskets and Profession
+	Route::post('/getAllBasktes', 'Webservice\level3ActivityController@getAllBasktes');
+	Route::post('/getAllCareers', 'Webservice\level3ActivityController@getAllCareers');
+	Route::post('/getCareersByBasketId', 'Webservice\level3ActivityController@getCareersByBasketId');
+	Route::post('/searchCareers', 'Webservice\level3ActivityController@getCareersSearch');
+	Route::post('/getTeenagerCareersWithBaket', 'Webservice\level3ActivityController@getTeenagerCareersWithBaket');
+	
+
 });
