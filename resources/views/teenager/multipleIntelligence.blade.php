@@ -9,32 +9,25 @@
         <!-- mid section starts-->
         <div class="inner-banner">
             <div class="container">
-                <?php
-                    $videoId = '';
+                <?php                    
                     $videoCode = Helpers::youtube_id_from_url($multipleIntelligence->video);
                     if ($videoCode != '') {
-                        if(strlen($multipleIntelligence->video) > 50) {
-                            preg_match('/=(.*?)\&/s', $multipleIntelligence->video, $output);
-                            $videoId = $output[1];
-                        } else {
-                            if (strpos($multipleIntelligence->video, '=') !== false) {
-                                $output = explode('=', $multipleIntelligence->video);
-                                $videoId = $output[1];
-                            } else {
-                                $videoId = substr($multipleIntelligence->video, strrpos($multipleIntelligence->video, '/') + 1);
-                            }
-                        }
+                        $videoId = $videoCode;
+                    }
+                    else
+                    {
+                        $videoId = 'WoelVRjFO4A';
                     }
                 ?>
                 <div class="sec-banner banner-landing" style="background-image: url('{{ Storage::url($miThumbImageUploadPath . $multipleIntelligence->logo) }}');">
                     <div class="container">
                         <div class="play-icon">
-                            <a href="javascript:void(0);" class="play-btn" id="iframe-video">
+                            <a href="javascript:void(0);" class="play-btn" id="iframe-video-click">
                                 <img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon">
                             </a>
                         </div>
                     </div>
-                    <iframe width="100%" height="100%" @if($videoId != '') src="https://www.youtube.com/embed/{{$videoId}}" @else src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0&amp;showinfo=0&autoplay=1" @endif frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{$videoId}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
                 </div>
             </div>
         </div>
@@ -201,6 +194,12 @@
         $('.play-icon').click(function() {
             $(this).hide();
             $('iframe').show();
+        });
+        $('#iframe-video-click').on('click', function(ev) {            
+            $('img').hide();
+            $('iframe').show();
+            $("#iframe-video")[0].src += "&autoplay=1";
+            ev.preventDefault();                       
         });
         $(document).on('click','#see-more',function(){
             $(".new-career .loader_con").show();
