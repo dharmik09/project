@@ -12,7 +12,7 @@
                 ?>
                 <img src="{{ Storage::url($teenPhoto) }}" alt="team">
             </div>
-            <a href="{{ url('teenager/network-member') }}/{{$newConnection->id}}" title="{{ $newConnection->t_name }}"> {{ $newConnection->t_name }}</a>
+            <a href="{{ url('teenager/network-member') }}/{{$newConnection->t_uniqueid}}" title="{{ $newConnection->t_name }}"> {{ $newConnection->t_name }}</a>
         </div>
     </div>
     <div class="flex-item">
