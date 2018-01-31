@@ -102,7 +102,7 @@
                                                 $careerClass = 'career-data-color-3';
                                                 break;
                                             default:
-                                                $careerClass = '';
+                                                $careerClass = 'career-data-nomatch';
                                                 break; 
                                         };
                                         $countCareers++;
@@ -146,7 +146,8 @@
                                     } else {
                                         $networkStyle = 'block';
                                         $networkClass = '';
-                                    } ?>
+                                    } 
+                                ?>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 flex-items {{ $networkClass }}" style="display: {{ $networkStyle }};">
                                     <div class="my_net_view">
                                         <?php 
@@ -231,43 +232,13 @@
                                 </div>
                             </div>
                             <div class="careers-container consideration-section">
-                                <?php $careerConsideration = []; ?>
-                                @forelse($careerConsideration as $professionArray)
-                                    <?php 
-                                        switch($professionArray['match_scale']) {
-                                            case 'match':
-                                                $careerClass = 'career-data-color-1';
-                                                break;
-                                            case 'moderate':
-                                                $careerClass = 'career-data-color-2';
-                                                break;
-                                            case 'nomatch':
-                                                $careerClass = 'career-data-color-3';
-                                                break;
-                                            default:
-                                                $careerClass = '';
-                                                break; 
-                                        };
-                                    ?>
-                                    <div class="career-data {{$careerClass}}">
-                                        <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" title="{{ $professionArray['pf_name'] }}"><h2>{{ $professionArray['pf_name'] }}</h2></a>
-                                        <div class="clearfix">
-                                            @if( $professionArray['added_my_career'] == 0 ) <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" class="addto pull-left text-uppercase">add to my careers</a> @else <a href="javascript:void(0)" class="addto pull-left"> Added </a> @endif
-                                            <span class="status-career pull-right">Complete</span>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="career-data">
-                                        <h3 href="javascript:void(0);" class="interest-section">No any consideration found!</h3>
-                                    </div>
-                                @endforelse
+                        		<div class="career-data">
+							        <h3 href="javascript:void(0);" class="interest-section">Careers consideration!</h3>
+							    </div>        
                             </div>
-                            @if(count($careerConsideration) > 0) <p><a href="">Expand</a></p> @endif
                         </div>
                     </div>
-                    <!-- dashbord_view_right End -->
                 </div>
-                <!-- Col End -->
             </div>
             <!-- Row End -->
         </div>
@@ -413,7 +384,21 @@
         });
         return false;
     });
-    
+
+    $(document).on('click', '.expand-4', function() {
+    	$('.sec-wrap-5').slideToggle("slow");
+        if ($(this).hasClass('less')) {
+            $(this).removeClass('less');
+            $(this).addClass('more');
+            $(this).text('Collapse');
+        } else {
+            $(this).addClass('less');
+            $(this).removeClass('more');
+            $(this).text('Expand');
+        }
+        return false;
+    });
+
     $('#career').click(function() {
         $('.expandCareer').slideToggle('medium', function() {
             if ($(this).is(':visible')) {
@@ -486,14 +471,12 @@
     }
 
     function getCareerConsideration(teenagerId) {
-        $('.dashboard-strength-detail .loading-screen-data').parent().toggleClass('loading-screen-parent');
-        $('.dashboard-strength-detail .loading-screen-data').show();
         $.ajax({
             type: 'POST',
             url: "{{url('teenager/get-career-consideration')}}",
-            //dataType: 'html',
+            dataType: 'html',
             headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
-            data: {'teenagerId': teenagerId},
+            data: {'teenagerId':teenagerId},
             success: function (response) {
                 try {
                     var valueOf = $.parseJSON(response);
@@ -501,14 +484,28 @@
                     // not json
                 }
                 if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
-                    $('.dashboard-strength-error-message').text(valueOf.message);
+                    $('.consideration-section').html('<div class="career-data"><h3 href="javascript:void(0);" class="interest-section">'+ valueOf.message +'</h3></div>');
                 } else {
                     $(".consideration-section").html(response).fadeIn('slow');
                 }
-                $('.dashboard-strength-detail .loading-screen-data').hide();
-                $('.dashboard-strength-detail').removeClass('loading-screen-parent');
             }
         });
-    }    
+    }   
+
+    function addToMyCareerProfession(professionId) {
+    	$.ajax({
+            url : '{{ url("teenager/add-star-to-career") }}',
+            method : "POST",
+            data: 'careerId=' + professionId,
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            dataType: "json",
+            success : function (response) {
+                if (typeof response !== "undefined" && typeof response.message !== "undefined" && response.message != "") {
+                    $(".prof_sec_"+professionId).html(response.message).fadeIn('slow');
+                    $(".prof_sec_"+professionId).removeAttr('onclick');
+                }
+            }
+        });
+    } 
 </script>
 @stop

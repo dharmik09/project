@@ -325,7 +325,7 @@ ALTER TABLE `pro_teenager_promise_score`
 DROP TABLE pro_n_notifications
 
 //Added new Notification Table ##29-01-2018 Jaimin
-  CREATE TABLE `pro_n_notifications` (
+CREATE TABLE `pro_n_notifications` (
  `id` bigint(20) NOT NULL AUTO_INCREMENT,
  `n_sender_id` bigint(20) NOT NULL,
  `n_sender_type` tinyint(4) NOT NULL COMMENT '1 - Admin, 2 - Teenager',
@@ -339,4 +339,4 @@ DROP TABLE pro_n_notifications
  `updated_at` timestamp NOT NULL,
  `deleted` tinyint(4) DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted ',
  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=latin1
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1

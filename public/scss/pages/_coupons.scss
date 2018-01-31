@@ -30,9 +30,9 @@
     @include maxsm {
         padding: 10px 0;
     }
-    .list-procoins{
+    .list-procoins {
         padding: 0 5px;
-        @include maxmd{
+        @include maxmd {
             padding: 0;
         }
     }
@@ -107,7 +107,7 @@
                         background: $cl-complete;
                         color: $white;
                         min-width: 222px;
-                        @include maxmd{
+                        @include maxmd {
                             min-width: 162px;
                         }
                     }
@@ -123,7 +123,9 @@
                         font-size: 14px;
                         padding: 8px 15px;
                     }
-                    &:hover, &:focus , &.sending{
+                    &:hover,
+                    &:focus,
+                    &.sending {
                         background: $i-cl;
                         border-color: $i-cl;
                         color: $white;
@@ -142,4 +144,47 @@
         padding: 6px 20px;
     }
 }
-.btn:focus, .btn:active{outline: none ;border: 1px solid transparent ;box-shadow: none ;}
+
+.btn:focus,
+.btn:active {
+    outline: none;
+    border: 1px solid transparent;
+    box-shadow: none;
+}
+
+#userData {
+    position: relative;
+    min-height: 387px;
+}
+
+.no-data {
+    position: absolute;
+    color: #565b5f;
+    width: 100%;
+    bottom: 0;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    background: #fff;
+    i {
+        font-size: 70px;
+        @include maxsm{
+            font-size: 50px;
+        }
+    }
+    p {
+        font-size: 21px;
+        font-family: hn-b;
+        color: #565b5f;
+        margin-top: 13px;
+        @include maxsm{
+            font-size: 17px;
+        }
+    }
+    .data-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
