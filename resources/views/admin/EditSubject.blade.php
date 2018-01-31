@@ -54,6 +54,20 @@
                         </div>
                     </div>
                     <?php
+                    if (old('ps_slug'))
+                        $ps_slug = old('ps_slug');
+                    elseif ($subject)
+                        $ps_slug = $subject->ps_slug;
+                    else
+                        $ps_slug = '';
+                    ?>
+                    <div class="form-group">
+                        <label for="ps_slug" class="col-sm-2 control-label">{{trans('labels.professionsubjectslug')}}</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="ps_slug" name="ps_slug" placeholder="{{trans('labels.professionsubjectslug')}}" value="{{$ps_slug}}"/>
+                        </div>
+                    </div>
+                    <?php
                     if (old('ps_image'))
                         $ps_image = old('ps_image');
                     elseif ($subject)
@@ -108,11 +122,15 @@
 @section('script')
 <script type="text/javascript">
     jQuery(document).ready(function() {
+        $("#ps_slug").attr('readonly', true);
         <?php if (isset($subject->id) && $subject->id != '0') { ?>
             var validationRules = {
                 ps_name : {
                     required : true,
                     minlength : 2
+                },
+                ps_slug : {
+                    required: true
                 },
                 deleted : {
                     required : true
@@ -123,6 +141,9 @@
                 ps_name : {
                     required : true,
                     minlength : 2
+                },
+                ps_slug : {
+                    required: true
                 },
                 ps_image : {
                     required : true
@@ -139,6 +160,9 @@
                 ps_name : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
+                ps_slug : {
+                    required: "<?php echo trans('validation.requiredfield'); ?>"
+                },
                 ps_image : {
                     required : "<?php echo trans('validation.requiredfield'); ?>"
                 },
@@ -150,4 +174,16 @@
     } );
 
 </script>
+<?php if (empty($subject->ps_slug)){ ?>
+    <script>
+    $('#ps_name').keyup(function ()
+    {
+        var str = $(this).val();
+        str = str.replace(/[^a-zA-Z0-9\s]/g, "");
+        str = str.toLowerCase();
+        str = str.replace(/\s/g, '-');
+        $('#ps_slug').val(str);
+    });
+    </script>
+    <?php } ?>
 @stop
