@@ -29,6 +29,10 @@ class level3ActivityController extends Controller {
         $this->professions = new Professions();
         $this->professionHeaders = new ProfessionHeaders();
         $this->objStarRatedProfession = new StarRatedProfession;
+        $this->basketThumbUrl = Config::get('constant.BASKET_THUMB_IMAGE_UPLOAD_PATH');
+        $this->professionThumbUrl = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
+        $this->basketDefaultProteenImage = 'proteen-logo.png';
+        $this->professionDefaultProteenImage = 'proteen-logo.png';
         $this->log = new Logger('api-level1-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
     }
@@ -40,6 +44,15 @@ class level3ActivityController extends Controller {
         if($request->userId != "" && $teenager) {
 
             $data = $this->baskets->where('deleted',config::get('constant.ACTIVE_FLAG'))->get();
+
+            foreach ($data as $key => $value) {
+                if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
+                    $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
+                }
+                else{
+                    $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                }
+            }
             
             if($data){
                 $response['data'] = $data;
@@ -104,7 +117,22 @@ class level3ActivityController extends Controller {
             $careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId,$this->countryId);
 
             if($careersData){
+
+                if($careersData->b_logo != '' && Storage::size($this->basketThumbUrl.$careersData->b_logo) > 0){
+                    $careersData->b_logo = Storage::url($this->basketThumbUrl.$careersData->b_logo);
+                }
+                else{
+                    $careersData->b_logo = Storage::url($this->basketThumbUrl.$this->basketDefaultProteenImage);
+                }
+
                 foreach ($careersData->profession as $key => $value) {
+                
+                    if($value->pf_logo != '' && Storage::size($this->professionThumbUrl . $value->pf_logo) > 0){
+                        $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $value->pf_logo);
+                    }
+                    else{
+                        $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                    }
                     
                     $average_per_year_salaryData = $value->professionHeaders->filter(function($item) {
                                                     return $item->pfic_title == 'average_per_year_salary';
@@ -160,6 +188,25 @@ class level3ActivityController extends Controller {
             $data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
                         
             if($data){
+                foreach ($data as $key => $value) {
+                    
+                    if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
+                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
+                    }
+                    else{
+                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                    }
+
+                    foreach ($value->profession as $k => $v) {
+                        if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
+                            $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                        }
+                        else{
+                            $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                        }
+                    }
+
+                }
                 $response['data'] = $data;
             }
             else{
@@ -187,6 +234,25 @@ class level3ActivityController extends Controller {
             $data = $this->baskets->getStarredBasketsAndProfessionByUserId($teenager->id);
 
             if($data){
+                foreach ($data as $key => $value) {
+                    
+                    if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
+                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
+                    }
+                    else{
+                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                    }
+
+                    foreach ($value->profession as $k => $v) {
+                        if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
+                            $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                        }
+                        else{
+                            $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                        }
+                    }
+                    
+                }
                 $response['data'] = $data;
             }
             else{

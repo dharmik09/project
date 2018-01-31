@@ -1126,7 +1126,7 @@
         }
     });
 
-    $(document).on('click','#add-to-star',function(){
+    $(document).on('click','#add-to-star', function(){
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'careerId=' + '{{$professionsData->id}}';
         $.ajax({

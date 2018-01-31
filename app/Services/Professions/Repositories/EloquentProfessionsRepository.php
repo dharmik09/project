@@ -544,7 +544,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                     ->get();
         return $careers;
     }
-
+    
     public function getMyCareersCount($teenId, $careerId = '')
     {
         $careersCount = $this->model
