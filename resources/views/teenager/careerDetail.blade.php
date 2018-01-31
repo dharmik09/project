@@ -325,7 +325,7 @@
                                     <div class="block">
                                         <h4>Growth Path</h4>
                                         @if(isset($profession_growth_path->pfic_content) && !empty($profession_growth_path->pfic_content))
-                                        <p>{!!strip_tags($profession_growth_path->pfic_content)!!}</p>
+                                        <p>{!!$profession_growth_path->pfic_content!!}</p>
                                         @endif
                                     </div>
 
