@@ -325,7 +325,7 @@ ALTER TABLE `pro_teenager_promise_score`
 DROP TABLE pro_n_notifications
 
 //Added new Notification Table ##29-01-2018 Jaimin
-  CREATE TABLE `pro_n_notifications` (
+CREATE TABLE `pro_n_notifications` (
  `id` bigint(20) NOT NULL AUTO_INCREMENT,
  `n_sender_id` bigint(20) NOT NULL,
  `n_sender_type` tinyint(4) NOT NULL COMMENT '1 - Admin, 2 - Teenager',

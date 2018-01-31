@@ -399,7 +399,6 @@ class ProfessionController extends Controller {
         return $return;
     }
 
-
     public function careerDetails($slug)
     {
         $user = Auth::guard('teenager')->user();
@@ -422,7 +421,11 @@ class ProfessionController extends Controller {
         $careerDetails['srp_teenager_id'] = Auth::guard('teenager')->user()->id;
         $careerDetails['srp_profession_id'] = $careerId;
         $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
-        return $return;
+        
+        $response['status'] = 1;
+        $response['message'] = "Added";
+        return response()->json($response, 200);
+        exit;
     }
 
     public function getSearchDropdown(Request $request) 
@@ -514,5 +517,56 @@ class ProfessionController extends Controller {
         $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByUserIdAndSearchValue($user->id, $search_text);
         $professionImagePath = Config('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
         return view('teenager.basic.level3MyCareerSearch', compact('basketsData', 'professionImagePath','teenagerTotalProfessionAttemptedCount','teenagerTotalProfessionStarRatedCount'));
+    }
+
+    public function getCareerConsideration() {
+        $user = Auth::guard('teenager')->user();
+
+        if($user->id > 0) {
+            $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
+            $getAllActiveProfessions = Helpers::getActiveProfessions();
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
+            
+            $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($user->id)->toArray() : [];
+
+            $match = $nomatch = $moderate = [];
+            if($getAllActiveProfessions) {
+                foreach($getAllActiveProfessions as $profession) {
+                    $array = [];
+                    $array['id'] = $profession->id;
+                    $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+                    $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+                    $array['is_completed'] = 0;
+                    $array['pf_name'] = $profession->pf_name;
+                    $array['pf_slug'] = $profession->pf_slug;
+                    if($array['match_scale'] == "match") {
+                        $match[] = $array;
+                    } else if($array['match_scale'] == "nomatch") {
+                        $nomatch[] = $array;
+                    } else if($array['match_scale'] == "moderate") {
+                        $moderate[] = $array;
+                    } else {
+                        $notSetArray[] = $array;
+                    }
+                }
+                if(count($match) < 1 && count($moderate) < 1 && count($nomatch) > 0) {
+                    $careerConsideration = $nomatch;
+                } else if(count($match) > 0 || count($moderate) > 0) {
+                    $careerConsideration = array_merge($match, $moderate);
+                } else {
+                    $careerConsideration = $notSetArray;
+                }
+                return view('teenager.basic.careerConsideration', compact('careerConsideration', 'getTeenagerHML'));
+            } else {
+                $response['status'] = 0;
+                $response['message'] = "No professions found!";
+                return response()->json($response, 200);
+                exit;
+            }
+        } 
+        $response['status'] = 0;
+        $response['message'] = "No professions found!";
+        return response()->json($response, 200);
+        exit;
     }
 }

@@ -105,7 +105,7 @@
 	                        </div>
                         @else
 							<div class="chat-icon add-icon icon-add">
-	                            <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add">
+	                            <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add Connection">
 	                            	<img class="add-member" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Add"><em>Add Connection</em>
 	                            </a>
 	                        </div>
