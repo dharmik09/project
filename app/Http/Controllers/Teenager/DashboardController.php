@@ -256,6 +256,7 @@ class DashboardController extends Controller
     //Store my profile data
     public function saveProfile(TeenagerProfileUpdateRequest $request)
     {
+        echo "<pre/>"; print_r($request->all()); die();
         $body = $request->all();
         $user = Auth::guard('teenager')->user();
         $user = Teenagers::find($user->id);
