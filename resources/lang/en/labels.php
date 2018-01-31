@@ -696,7 +696,7 @@ return [
     'professionwisesubject' => 'Profession Wise Subject',
     'professionwisesubjectbulkupload' => 'Profession Subject Bulk Upload',
     'formprofessionwisesubjectbulkupload' => 'Profession wise subject bulk upload',
-    'professionwiseSubjectbulkuploadcertificatenotfound' => 'Subejct not found. Please add new Subejct or check subject name in excel',
+    'professionwiseSubjectbulkuploadsubjectnotfound' => 'Subejct not found. Please add new Subejct or check subject name in excel',
     'professionwisesubjectbulkuploadsuccess' => 'Profession wise Subject uploaded successfully',
     'professiontagname' => 'Name',
     'professiontagslug' => 'Slug',

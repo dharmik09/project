@@ -434,12 +434,12 @@ class ProfessionManagementController extends Controller {
 
         $results = Excel::load($path, function($reader) {})->get();
         $excelHeaderData = Excel::load($path, function($reader) { $reader->noHeading = true; }, 'ISO-8859-1')->get();
-        // echo "<pre>"; print_r($results); exit;
+
         foreach ($excelHeaderData[0] as $key => $value) {
             if($value != 'profession_name'){
-                $certificateData = $this->objSubject->getProfessionSubjectByName($value);
-                if (!$certificateData){
-                    return Redirect::to("admin/professions")->with('error',$value.' '.trans('labels.professionwiseSubjectbulkuploadcertificatenotfound'));
+                $subjectData = $this->objSubject->getProfessionSubjectByName($value);
+                if (!$subjectData){
+                    return Redirect::to("admin/professions")->with('error',$value.' '.trans('labels.professionwiseSubjectbulkuploadsubjectnotfound'));
                 }
             }
         }
@@ -459,10 +459,18 @@ class ProfessionManagementController extends Controller {
                     if($k != 'profession_name'){
                         $subjectData = $this->objSubject->getProfessionSubjectByName($excelHeaderData[0][$count]);
                         if ($subjectData){
+                            
                             $data = [];
                             $data['profession_id'] = $professionsData->id;
                             $data['subject_id'] = $subjectData->id;
                             $data['parameter_grade'] = $v;
+                            
+                            $checkIfRecordExist = $this->objProfessionWiseSubject->checkProfessionWiseSubjectBySubjectIdAndProfessionId($subjectData->id,$professionsData->id);
+                            if(count($checkIfRecordExist)>0)
+                            {
+                                $data['id'] = $checkIfRecordExist->id;
+                            }
+                            
                             $response = $this->objProfessionWiseSubject->insertUpdate($data);
                         }
                         $count++;
