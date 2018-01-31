@@ -12,7 +12,7 @@
                 ?>
                 <img src="{{ Storage::url($teenPhoto) }}" alt="team">
             </div>
-            <a href="{{ url('teenager/network-member') }}/{{$newConnection->id}}" title="{{ $newConnection->t_name }}"> {{ $newConnection->t_name }}</a>
+            <a href="{{ url('teenager/network-member') }}/{{$newConnection->t_uniqueid}}" title="{{ $newConnection->t_name }}"> {{ $newConnection->t_name }}</a>
         </div>
     </div>
     <div class="flex-item">
@@ -26,5 +26,8 @@
     No Connections found.
 @endforelse
 @if (!empty($newConnections->toArray()) && $newConnectionsCount > 10)
+    <div id="menu1-loader-con" class="loader_con remove-row">
+        <img src="{{Storage::url('img/loading.gif')}}">
+    </div>
     <p id="remove-row" class="text-center remove-row"><a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a></p>
 @endif

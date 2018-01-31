@@ -33,6 +33,7 @@ use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\Community\Contracts\CommunityRepository;
 use App\Services\Professions\Contracts\ProfessionsRepository;
 use App\Jobs\SetProfessionMatchScale;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -164,7 +165,38 @@ class DashboardController extends Controller
         $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
         $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
 
-        return view('teenager.home', compact('getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
+        $getAllActiveProfessions = Helpers::getActiveProfessions();
+        $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($user->id)->toArray() : [];
+
+        $match = $nomatch = $moderate = [];
+        if($getAllActiveProfessions) {
+            foreach($getAllActiveProfessions as $profession) {
+                $array = [];
+                $array['id'] = $profession->id;
+                $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+                $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+                $array['pf_name'] = $profession->pf_name;
+                $array['pf_slug'] = $profession->pf_slug;
+                if($array['match_scale'] == "match") {
+                    $match[] = $array;
+                } else if($array['match_scale'] == "nomatch") {
+                    $nomatch[] = $array;
+                } else if($array['match_scale'] == "moderate") {
+                    $moderate[] = $array;
+                } else {
+                    $notSetArray = $array;
+                }
+            }
+            if(count($match) < 1 && count($moderate) < 1) {
+                $careerConsideration = $nomatch;
+            } else if(count($match) > 0 || count($moderate) > 0) {
+                $careerConsideration = array_merge($match, $moderate);
+            } else {
+                $careerConsideration = $notSetArray;
+            }
+        }
+
+        return view('teenager.home', compact('careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
     }
 
     //My profile data

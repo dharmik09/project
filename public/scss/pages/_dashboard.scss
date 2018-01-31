@@ -235,7 +235,9 @@ h6 {
                 text-transform: uppercase;
                 font-family: 'hn-b';
                 border-bottom: 1px solid $p-cl;cursor: pointer;
-              //  float: right;
+                &:hover{
+                    color: $dark;border-color: $dark;
+                }
             }
         }
     }
@@ -294,6 +296,9 @@ h6 {
                         top: 25%;
                         right: 15px;
                     }
+                }
+                &:hover{
+                    text-decoration: underline;
                 }
             }
             .career-cl {
@@ -539,6 +544,9 @@ h6 {
         @include maxmd {
             font-size: 16px;
         }
+        &:hover{
+            color: $dark;
+        }
     }
     .status-career {
         font-size: 26px;
@@ -553,7 +561,11 @@ h6 {
             margin-top: 10px;
             display: block
         }
+        &:hover{
+            color: $dark;
+        }
     }
+   
 }
 
 .data-explainations {
@@ -617,4 +629,7 @@ h6 {
         max-width: 310px;
         text-align: center;
     }
+}
+.career-data-nomatch{
+    background: #ccc !important;
 }

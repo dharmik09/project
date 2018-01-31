@@ -203,6 +203,7 @@
             $('iframe').show();
         });
         $(document).on('click','#see-more',function(){
+            $(".new-career .loader_con").show();
             var lastCareerId = $(this).data('id');
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var slug = '{{$multipleIntelligence->slug}}';
@@ -218,6 +219,7 @@
                 success : function (data) {
                     if(data != '') {
                         //$('#remove-row').remove();
+                        $(".new-career .loader_con").hide();
                         $('.remove-row').remove();
                         $('.new-career').append(data);
                     } else {
