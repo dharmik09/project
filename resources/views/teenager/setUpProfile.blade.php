@@ -49,15 +49,6 @@
                 </div>
                 @endif
             </div>
-            <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#profile-update" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="profile-update">
-                    <div class="popover-data">
-                        <a class="close popover-closer"><i class="icon-close"></i></a>
-                        <span class="profile-update"></span>
-                    </div>
-                </div>
-            </div>
             <!--profile detail-->
             <div class="profile-detail">
                 <form id="teenager_set_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
