@@ -351,6 +351,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
 
     public function getExportProfession() {
         $finalData = array();
+        
         $return = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
                 ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket", 'profession.pf_basket', '=', 'basket.id')
                 ->selectRaw('profession.id,profession.pf_name, profession.pf_video, basket.b_name, basket.b_video')
@@ -358,6 +359,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 ->get();
         if (isset($return) && !empty($return)) {
             foreach ($return as $key => $val) {
+                $professionData = array();
                 $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->get();
                 if (isset($headers) && !empty($headers)) {
                     foreach ($headers as $hkey => $hval) {
