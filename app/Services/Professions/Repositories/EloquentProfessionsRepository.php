@@ -148,10 +148,10 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
 
     public function saveProfessionBulkDetail($professionDetail, $basketDetail, $headerTitle, $headerDetail, $countryId) {
 
-        $result = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_PROFESSIONS')));
+        $result = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_PROFESSIONS')." WHERE deleted = 1"));
         $objBasket = New Baskets();
 
-        $basketData = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_BASKETS')));
+        $basketData = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_BASKETS')." WHERE deleted = 1"));
 
         $objHeader = New ProfessionHeaders();
 

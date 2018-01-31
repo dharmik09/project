@@ -153,10 +153,14 @@
     $( "#searchPromisePlus" ).keyup(function (e) {
         search_keyword = $(this).val();
         searchText = (search_keyword).trim();
-        if (searchText.length == 1 || searchText.length == 2) {
-            return false;
+        if ((e.which <= 90 && e.which >= 48) || e.which == 222) {
+            if (searchText.length == 1 || searchText.length == 2) {
+                return false;
+            } else {
+                getConsumptionHistory(searchText, 1, 'promise_plus');
+            }
         } else {
-            getConsumptionHistory(searchText, 1, 'promise_plus');
+            return false;
         }
         e.preventDefault();
     });
@@ -164,10 +168,14 @@
     $( "#searchL4Concept" ).keyup(function (e) {
         search_keyword = $(this).val();
         searchText = (search_keyword).trim();
-        if (searchText.length == 1 || searchText.length == 2) {
-            return false;
+        if ((e.which <= 90 && e.which >= 48) || e.which == 222) {
+            if (searchText.length == 1 || searchText.length == 2) {
+                return false;
+            } else {
+                getConsumptionHistory(searchText, 1, 'l4_concept_template');
+            }
         } else {
-            getConsumptionHistory(searchText, 1, 'l4_concept_template');
+            return false;
         }
         e.preventDefault();
     });
