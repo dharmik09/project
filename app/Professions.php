@@ -65,6 +65,7 @@ class Professions extends Model {
                 ->with(['professionSubject' => function ($query) {
                             $query->with('subject');
                         }])
+                ->with('careerMapping')
                 ->with(['starRatedProfession' => function ($query) {
                             $query->where('srp_teenager_id',$this->user_id);
                         }])
@@ -100,6 +101,10 @@ class Professions extends Model {
 
     public function starRatedProfession(){
         return $this->hasMany(StarRatedProfession::class, 'srp_profession_id');
+    }
+
+    public function careerMapping(){
+        return $this->hasOne(CareerMapping::class, 'tcm_profession');
     }
 
     public function getteenagerTotalProfessionStarRatedCount($userId) {

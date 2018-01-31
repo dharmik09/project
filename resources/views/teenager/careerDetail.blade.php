@@ -190,10 +190,12 @@
                                             <div class="img-list">
                                                 <ul>
                                                     @forelse($professionsData->professionSubject as $professionSubject)
-                                                        <li>
-                                                            <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo">
-                                                            <span>{{$professionSubject->subject['ps_name']}}</span>
-                                                        </li>
+                                                        @if($professionSubject->parameter_grade == 'M' || $professionSubject->parameter_grade == 'H')
+                                                            <li>
+                                                                <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo">
+                                                                <span>{{$professionSubject->subject['ps_name']}}</span>
+                                                            </li>
+                                                        @endif
                                                     @empty
                                                     @endforelse
                                                 </ul>
@@ -201,16 +203,19 @@
                                         @endif
                                     </div>
 
-                                    <?php
-                                        $profession_ability = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_ability';
-                                        })->first();
-                                    ?>
-                                    
                                     <div class="block">
                                         <h4>Abilities</h4>
-                                        @if(isset($profession_ability->pfic_content) && !empty($profession_ability->pfic_content))
-                                            {!!$profession_ability->pfic_content!!}
+                                        @if(isset($professionsData->ability) && !empty($professionsData->ability))
+                                        <div class="img-list">
+                                                <ul>
+                                            @foreach($professionsData->ability as $key => $value)
+                                                <li>
+                                                                <img src="{{ $value['cm_image_url'] }}" alt="compatia logo">
+                                                                <a href="{{$value['cm_slug_url']}}"><span>{{$value['cm_name']}}</span></a>
+                                                            </li>
+                                            @endforeach
+                                            </ul>
+                                            </div>
                                         @endif
                                     </div>
 
@@ -1278,7 +1283,10 @@
                     xAxis: {
                         type: 'category',
                         title: {
-                            text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Levels of education that people can attain in this career" : "Level of education attained by people currently working in this career" ?>'
+                            text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Levels of education that people can attain in this career" : "Level of education attained by people currently working in this career" ?>',
+                            style: {
+                                fontSize:'16px'
+                            }
                         }
                     },
                     legend: {
