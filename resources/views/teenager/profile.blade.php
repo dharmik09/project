@@ -707,6 +707,9 @@
             </div>
         </div>
     </div>
+    <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
+    <audio id="audio_1" src="{{ Storage::url('frontend/audio/L1A_1.wav')}}"></audio>
+    <audio id="audio_2" src="{{ Storage::url('frontend/audio/L1A_2.wav')}}"></audio>
 @stop
 
 @section('script')
@@ -1048,7 +1051,9 @@
         });
     }
 
-    function saveAnswer(answer, question) {
+    function saveAnswer(answer, question, key = '') {
+        var audio = $("#audio_"+key);
+        audio.trigger('play');
         answer = $.trim(answer);
         question = $.trim(question);
         if(typeof question !== "undefined" && typeof answer !== "undefined" && !isNaN(answer)) {
