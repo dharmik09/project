@@ -10,6 +10,8 @@ use Config;
 use Storage;
 use Input;
 use App\Services\Template\Contracts\TemplatesRepository;
+use App\Teenagers;
+use App\Notifications;
 use Mail;
 use Helpers;
 
@@ -22,6 +24,8 @@ class CouponManagementController extends Controller {
         $this->couponOriginalImageUploadPath = Config::get('constant.COUPON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->couponThumbImageUploadPath = Config::get('constant.COUPON_THUMB_IMAGE_UPLOAD_PATH');
         $this->templateRepository = $templateRepository;
+        $this->objTeenagers = new Teenagers();
+        $this->objNotifications = new Notifications();
     }
 
     public function coupons() 
@@ -117,6 +121,7 @@ class CouponManagementController extends Controller {
                     $data['tcu_allocated_email'] = Auth::guard('teenager')->user()->t_email;
                     $data['tcu_consumed_email'] = $user_email;
                     $data['tcu_type'] = $usage_type;
+                    $data['couponData'] = $couponData;
 
                     Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
                         $message->subject($data['subject']);
@@ -127,8 +132,20 @@ class CouponManagementController extends Controller {
                         $teenagerConsumeCouponData['tcu_allocated_email'] = $data['tcu_allocated_email'];
                         $teenagerConsumeCouponData['tcu_consumed_email'] = $data['tcu_consumed_email'];
                         $teenagerConsumeCouponData['tcu_type'] = $data['tcu_type'];
-                        $this->couponsRepository->saveTeenagerConsumedCoupon($teenagerConsumeCouponData);
-                        
+                        $response = $this->couponsRepository->saveTeenagerConsumedCoupon($teenagerConsumeCouponData);
+                        $userData = Auth::guard('teenager')->user();
+                        $giftedUserData = $this->objTeenagers->getTeenagersDataByEmailId($data['toEmail']);
+                        if($userData->id != $giftedUserData->id){
+                            if($response){
+                                $notificationData['n_sender_id'] = $userData->id;
+                                $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                                $notificationData['n_receiver_id'] = $giftedUserData->id;
+                                $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                                $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_COUPANS');
+                                $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> gifted you '.$data['couponData']->cp_code.' coupan';
+                                $this->objNotifications->insertUpdate($notificationData);
+                            }
+                        }                      
                     });     
                     echo "success"; exit;
                 } 
