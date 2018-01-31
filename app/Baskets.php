@@ -114,6 +114,23 @@ class Baskets extends Model
         return $return;
     }
 
+    public function getStarredBasketsAndProfessionByUserId($userId){
+        $this->userId = $userId;
+        $return = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query
+                    ->whereHas('starRatedProfession')
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->whereHas('starRatedProfession')
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                })
+                ->where('deleted' ,'1')
+                ->get();
+        return $return;
+    }
+
     public function getBasketsAndProfessionWithAttemptedProfessionByUserIdAndSearchValue($userId, $searchText){
         $this->userId = $userId;
         $this->searchText = $searchText;
@@ -133,6 +150,33 @@ class Baskets extends Model
                 })
                 ->where('deleted' ,'1')
                 ->get();
+        return $return;
+    }
+
+    public function getBasketsAndProfessionBySearchValue($searchText){
+        $this->value = $searchText;
+        $return = $this->with(['profession' => function ($query) {
+                        $query->where('pf_name', 'like', '%'.$this->value.'%')
+                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                    }])
+                    ->whereHas('profession', function ($query) {
+                        $query->where('pf_name', 'like', '%'.$this->value.'%')
+                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                    })
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
+                    ->get();
+        return $return;
+    }
+
+    public function getBasketsAndProfessionByBaketIdAndCountryId($basketId,$countryId){
+        $this->countryId = $countryId;
+        $return = $this->with(['profession' => function ($query) {
+                            $query->with(['professionHeaders' => function ($query) {
+                                $query->where('country_id',$this->countryId);
+                            }])->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                        }])
+                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
+                        ->find($basketId);
         return $return;
     }
 }
