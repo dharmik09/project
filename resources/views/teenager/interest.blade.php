@@ -9,36 +9,25 @@
         <!-- mid section starts-->
         <div class="inner-banner">
             <div class="container">
-                <?php
-                    if (isset($interest->it_video) && !empty($interest->it_video)) {
-                        $videoId = '';
-                        $videoCode = Helpers::youtube_id_from_url($interest->it_video);
-                        if ($videoCode != '') {
-                            if(strlen($interest->it_video) > 50) {
-                                preg_match('/=(.*?)\&/s', $interest->it_video, $output);
-                                $videoId = $output[1];
-                            } else {
-                                if (strpos($interest->it_video, '=') !== false) {
-                                    $output = explode('=',$interest->it_video);
-                                    $videoId = $output[1];
-                                } else {
-                                    $videoId = substr($interest->it_video, strrpos($interest->it_video, '/') + 1);
-                                }
-                            }
-                        }
-                    } else {
-                        $videoId = '';
+                <?php                    
+                    $videoCode = Helpers::youtube_id_from_url($interest->it_video);
+                    if ($videoCode != '') {
+                        $videoId = $videoCode;
+                    }
+                    else
+                    {
+                        $videoId = 'WoelVRjFO4A';
                     }
                 ?>
                 <div class="sec-banner banner-landing" style="background-image: url('{{ Storage::url($interestThumbImageUploadPath . $interest->it_logo) }}');">
                     <div class="container">
                         <div class="play-icon">
-                            <a href="javascript:void(0);" class="play-btn" id="iframe-video">
+                            <a href="javascript:void(0);" class="play-btn" id="iframe-video-click">
                                 <img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon">
                             </a>
                         </div>
                     </div>
-                    <iframe width="100%" height="100%" @if($videoId != '') src="https://www.youtube.com/embed/{{$videoId}}" @else src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0&amp;showinfo=0&autoplay=1" @endif frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{$videoId}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
                 </div>
             </div>
         </div>
@@ -245,6 +234,12 @@
         $('.play-icon').click(function() {
             $(this).hide();
             $('iframe').show();
+        });
+        $('#iframe-video-click').on('click', function(ev) {            
+            $('img').hide();
+            $('iframe').show();
+            $("#iframe-video")[0].src += "&autoplay=1";
+            ev.preventDefault();                       
         });
     </script>
 @endsection

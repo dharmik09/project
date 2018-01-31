@@ -6,7 +6,7 @@ Route::get('/edit-profile', 'Teenager\DashboardController@profile');
 Route::get('/my-profile', 'Teenager\DashboardController@profile');
 Route::get('/set-sound-value/{sound}', 'Teenager\ProfileController@setSoundOnOff');
 
-Route::get('/set-profile', 'Teenager\DashboardController@setProfile')->name('set-profile');
+Route::get('/set-profile', 'Teenager\ProfileController@setProfile')->name('set-profile');
 Route::post('/save-profile', 'Teenager\DashboardController@saveProfile')->name('save-profile');
 Route::post('/save-teenager-academic-info', 'Teenager\DashboardController@saveTeenagerAcademic');
 Route::post('/save-teenager-achievement-info', 'Teenager\DashboardController@saveTeenagerAchievement');

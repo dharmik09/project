@@ -7,7 +7,7 @@
 @section('content')
     <!--mid section-->
     <!-- profile section-->
-    <section class="sec-profile sponsor-overflow">
+    <section class="sec-profile sponsor-overflow" id="profile-info">
         <div class="container">
             <div class="col-xs-12">
                 @if ($message = Session::get('success'))
@@ -49,15 +49,6 @@
                 </div>
                 @endif
             </div>
-            <div class="sec-popup">
-                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="pop1">
-                    <div class="popover-data">
-                        <a class="close popover-closer"><i class="icon-close"></i></a>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
-                    </div>
-                </div>
-            </div>
             <!--profile detail-->
             <div class="profile-detail">
                 <form id="teenager_set_profile_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/teenager/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -82,14 +73,36 @@
                         <div class="col-sm-9">
                             <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>
                             <ul class="area-detail">
-                                <li>{{ $getCityArea }} Area</li>
-                                <li>87 Connections </li>
+                                <li id="defaultArea">
+                                    <?php
+                                        if ($user->t_location != "") {
+                                            $getCityArea = $user->t_location;
+                                        } else if ($user->t_pincode != "") {
+                                            $getLocation = json_decode(file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$user->t_pincode.'&sensor=true'));
+                                            $getCityArea = ( isset($getLocation->results[0]->address_components[1]->long_name) && $getLocation->results[0]->address_components[1]->long_name != "" ) ? $getLocation->results[0]->address_components[1]->long_name : "Default";
+                                        } else {
+                                            $getCityArea = ( Auth::guard('teenager')->user()->getCountry->c_name != "" ) ? Auth::guard('teenager')->user()->getCountry->c_name : "Default";
+                                        }
+                                    ?>
+                                    {{ $getCityArea }} Area
+                                </li>
                             </ul>
                             <ul class="social-media">
                                 <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
                                 <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                             </ul>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. Nunc fringilla mattis mi, sit amet hendrerit nibh euismod in. Praesent ut vulputate sem. Vestibulum odio quam, sagittis vitae pellentesque sit amet, rhoncus sit amet ipsum. Ut eros risus, molestie sed sapien at, euismod dignissim velit.</p>
+                            
+                            <div class="about-info-block">
+                                <p id="display-about-info" style="">{{ ($user->t_about_info != "") ? $user->t_about_info : 'Describe yourself' }}
+                                    <a id="editInfo" href="javascript:void(0);" title="Describe yourself" class="editInfo">
+                                        <img src="{{Storage::url('img/edit.png')}}" alt="Describe yourself">
+                                    </a>
+                                </p>
+                                <textarea class="form-control about-info" id="t_about_info" name="t_about_info" placeholder="Describe yourself" value="{{ $user->t_about_info }}" style="display: none;" rows="4">{{ $user->t_about_info }}</textarea>
+                                <a id="editInfo" href="javascript:void(0);" title="Edit Info" class="editInfo hide editInfo-outer">
+                                    <img src="{{Storage::url('img/edit.png')}}" alt="Describe yourself">
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <!--profile form-->
@@ -300,16 +313,16 @@
 <script>
 
     $('.onlyNumber').on('keyup', function() {
-            this.value = this.value.replace(/[^0-9]/gi, '');
-        });
+        this.value = this.value.replace(/[^0-9]/gi, '');
+    });
     $('.alphaonly').bind('keyup blur', function() {
-            var node = $(this);
-            node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
-        });
+        var node = $(this);
+        node.val(node.val().replace(/[^a-zA-Z_' ]/g, ''));
+    });
     $('.nospace').bind('keyup blur', function() {
-            var node = $(this);
-            node.val(node.val().replace(/\s/g, ''));
-        });
+        var node = $(this);
+        node.val(node.val().replace(/\s/g, ''));
+    });
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -330,6 +343,7 @@
     }
         
     $(document).ready(function() {
+        $("#t_about_info").hide();
         $('.sponsor-list').owlCarousel({
             loop: false,
             margin: 20,
@@ -513,6 +527,7 @@
             return false;
         }
     });
+    
     function getPhoneCodeByCountry(country_id) {
         $.ajax({
             url: "{{ url('teenager/get-phone-code-by-country-for-profile') }}",
@@ -526,6 +541,7 @@
             }
         });
     }
+    
     $("#teenager_set_profile_form").submit(function() {
             $("#saveProfile").toggleClass('sending').blur();
             var form = $("#teenager_set_profile_form");
@@ -538,6 +554,37 @@
             } else {
                 $("#saveProfile").removeClass('sending').blur();
             }
+    });
+
+    function getHelpText(helpSlug)
+    {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-help-text')}}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'helpSlug':helpSlug},
+            success: function(response) {
+                $("."+helpSlug).html(response);                
+            }
+        });
+    }
+    
+    $(document).on('click', '.editInfo', function() {
+        if ($("#t_about_info").is(':visible')) {
+            $("#t_about_info").hide(500);
+            $("#display-about-info").show(500);
+        } else {
+            $("#display-about-info").hide();
+            $("#t_about_info").show(500);
+        }
+        if ($("#t_about_info").is(':visible')) {
+            $('.editInfo-outer').toggleClass('hide');
+        } else {
+            $('.editInfo-outer').addClass('hide');
+        }
     });
 </script>
 @stop
