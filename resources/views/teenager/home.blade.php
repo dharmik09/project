@@ -224,64 +224,45 @@
                         <h2 class="das_title custom-section">Careers to consider</h2>
                         <div class="das_your_profile my_interests">
                             <h2>My likely fit<span></span><span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-career-consider')" data-toggle="clickover" data-popover-content="#dashboard-career-consider" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
-                            
                             <div class="hide" id="dashboard-career-consider">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
                                     <span class="dashboard-career-consider"></span>
                                 </div>
                             </div>
-                            
-                            <div class="careers-container">
-                                <div class="career-data career-data-color-1">
-                                    <h2>Career 1</h2>
-                                    <div class="clearfix">
-                                        <a href="#" class="addto pull-left text-uppercase">add to my careers</a>
-                                        <span class="status-career pull-right">Complete</span>
+                            <div class="careers-container consideration-section">
+                                <?php $careerConsideration = []; ?>
+                                @forelse($careerConsideration as $professionArray)
+                                    <?php 
+                                        switch($professionArray['match_scale']) {
+                                            case 'match':
+                                                $careerClass = 'career-data-color-1';
+                                                break;
+                                            case 'moderate':
+                                                $careerClass = 'career-data-color-2';
+                                                break;
+                                            case 'nomatch':
+                                                $careerClass = 'career-data-color-3';
+                                                break;
+                                            default:
+                                                $careerClass = '';
+                                                break; 
+                                        };
+                                    ?>
+                                    <div class="career-data {{$careerClass}}">
+                                        <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" title="{{ $professionArray['pf_name'] }}"><h2>{{ $professionArray['pf_name'] }}</h2></a>
+                                        <div class="clearfix">
+                                            @if( $professionArray['added_my_career'] == 0 ) <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" class="addto pull-left text-uppercase">add to my careers</a> @else <a href="javascript:void(0)" class="addto pull-left"> Added </a> @endif
+                                            <span class="status-career pull-right">Complete</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="career-data career-data-color-1">
-                                    <h2>Career 2</h2>
-                                    <div class="clearfix">
-                                        <a href="#" class="addto pull-left text-uppercase">add to my careers</a>
-                                        <a href="#" class="status-career pull-right">Explore ></a>
+                                @empty
+                                    <div class="career-data">
+                                        <h3 href="javascript:void(0);" class="interest-section">No any consideration found!</h3>
                                     </div>
-                                </div>
-                                <div class="career-data career-data-color-2">
-                                    <h2>Career 3</h2>
-                                    <div class="clearfix">
-                                        <a href="#" class="addto pull-left text-uppercase">add to my careers</a>
-                                        <a href="#" class="status-career pull-right">Explore ></a>
-                                    </div>
-                                </div>
-                                <div class="career-data career-data-color-2">
-                                    <h2>Career 4</h2>
-                                    <div class="clearfix">
-                                        <a href="#" class="addto pull-left text-uppercase">add to my careers</a>
-                                        <span class="status-career pull-right">Complete</span>
-                                    </div>
-                                </div>
-                                <div class="career-data career-data-color-3">
-                                    <h2>Career 5</h2>
-                                    <div class="clearfix">
-                                        <a href="#" class="addto pull-left text-uppercase">add to my careers</a>
-                                        <span class="status-career pull-right">Complete</span>
-                                    </div>
-                                </div>
-                                <div class="career-data career-data-color-3">
-                                    <h2>Career 6</h2>
-                                    <div class="clearfix">
-                                        <a href="#" class="addto pull-left text-uppercase">add to my careers</a>
-                                        <span class="status-career pull-right">Complete</span>
-                                    </div>
-                                </div>
-                                <div class="data-explainations clearfix">
-                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
-                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
-                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
-                                </div>
+                                @endforelse
                             </div>
-                            <p><a href="">Expand</a></p>
+                            @if(count($careerConsideration) > 0) <p><a href="">Expand</a></p> @endif
                         </div>
                     </div>
                     <!-- dashbord_view_right End -->
@@ -323,7 +304,6 @@
             }
         }
         $(".expandStrength").hide();
-
     });
 
     function fetch2ActiityQuestion(id) {
@@ -450,6 +430,7 @@
         e.preventDefault();
         getTeenagerInterestData("{{Auth::guard('teenager')->user()->id}}");
         getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
+        getCareerConsideration("{{Auth::guard('teenager')->user()->id}}");
     });
 
     function getTeenagerInterestData(teenagerId) {
@@ -503,5 +484,31 @@
             }
         });
     }
+
+    function getCareerConsideration(teenagerId) {
+        $('.dashboard-strength-detail .loading-screen-data').parent().toggleClass('loading-screen-parent');
+        $('.dashboard-strength-detail .loading-screen-data').show();
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-career-consideration')}}",
+            //dataType: 'html',
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            data: {'teenagerId': teenagerId},
+            success: function (response) {
+                try {
+                    var valueOf = $.parseJSON(response);
+                } catch (e) {
+                    // not json
+                }
+                if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                    $('.dashboard-strength-error-message').text(valueOf.message);
+                } else {
+                    $(".consideration-section").html(response).fadeIn('slow');
+                }
+                $('.dashboard-strength-detail .loading-screen-data').hide();
+                $('.dashboard-strength-detail').removeClass('loading-screen-parent');
+            }
+        });
+    }    
 </script>
 @stop

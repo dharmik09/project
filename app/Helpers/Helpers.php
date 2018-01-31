@@ -403,6 +403,10 @@ Class Helpers {
         return $profession;
     }
 
+    public static function getTeenagerCareersIds($teenId) {
+        return DB::table('pro_srp_star_rated_professions')->where('srp_teenager_id', $teenId)->pluck('srp_profession_id');
+    }
+
     public static function getAnsTypeFromGamificationTemplateId($templateId) {
         $objProfession = new Professions();
         $gt_temlpate_answer_type = $objProfession->getTemlpateAnswerType($templateId);

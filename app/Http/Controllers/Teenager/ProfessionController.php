@@ -399,7 +399,6 @@ class ProfessionController extends Controller {
         return $return;
     }
 
-
     public function careerDetails($slug)
     {
         $user = Auth::guard('teenager')->user();
@@ -514,5 +513,9 @@ class ProfessionController extends Controller {
         $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByUserIdAndSearchValue($user->id, $search_text);
         $professionImagePath = Config('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
         return view('teenager.basic.level3MyCareerSearch', compact('basketsData', 'professionImagePath','teenagerTotalProfessionAttemptedCount','teenagerTotalProfessionStarRatedCount'));
+    }
+
+    public function getCareerConsideration(Request $request) {
+        echo $request->all();
     }
 }
