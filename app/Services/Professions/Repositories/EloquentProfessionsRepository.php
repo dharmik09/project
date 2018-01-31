@@ -370,6 +370,9 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 $finalData[] = array_merge($professionData, $professionHeaders);
             }
         }
+        echo "<pre>";
+        print_r($finalData);
+        exit;
         return $finalData;
     }
 
