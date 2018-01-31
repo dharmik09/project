@@ -256,13 +256,12 @@ class DashboardController extends Controller
     //Store my profile data
     public function saveProfile(TeenagerProfileUpdateRequest $request)
     {
-        echo "<pre/>"; print_r($request->all()); die();
         $body = $request->all();
         $user = Auth::guard('teenager')->user();
         $user = Teenagers::find($user->id);
         $teenagerDetail['id'] = $user->id;
-        $teenagerDetail['t_name'] = (isset($body['name']) && $body['name'] != '') ? e($body['name']) : '';
-        $teenagerDetail['t_lastname'] = (isset($body['lastname']) && $body['lastname'] != '') ? e($body['lastname']) : '';
+        $teenagerDetail['t_name'] = (isset($body['name']) && $body['name'] != '') ? $body['name'] : '';
+        $teenagerDetail['t_lastname'] = (isset($body['lastname']) && $body['lastname'] != '') ? $body['lastname'] : '';
         //Nickname is ProTeen Code
         $teenagerDetail['t_nickname'] = (isset($body['proteen_code']) && $body['proteen_code'] != '') ? e($body['proteen_code']) : '';
         $stringVariable = $body['year']."-".$body['month']."-".$body['day'];
