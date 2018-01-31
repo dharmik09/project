@@ -140,6 +140,9 @@
                             </center>
                         @endforelse
                         @if (!empty($myConnections->toArray()) && $myConnectionsCount > 10)
+                            <div id="menu2-loader-con" class="loader_con remove-my-connection-row remove-loader">
+                                <img src="{{Storage::url('img/loading.gif')}}">
+                            </div>
                             <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myConnection->id }}">load more</a></p>
                         @endif
                     </div>
@@ -222,8 +225,8 @@
                 dataType : "text",
                 success : function (data) {
                     if(data != '') {
-                        $('.remove-row').remove();
                         $("#menu1-loader-con").hide();
+                        $('.remove-row').remove();
                         $('.search-new-connection').append(data);
                     } else {
                         //$('#btn-more').html("No Data");
@@ -232,6 +235,7 @@
             });
             });
             $(document).on('click','#load-more-connection',function(){
+                $("#menu2-loader-con").show();
                 var lastTeenId = $(this).data('id');
                 //$("#btn-more").html("Loading....");
                 search_keyword = $("#search_community").val();
@@ -255,6 +259,7 @@
                     success : function (data) {
                         if(data != '') {
                             //$('#remove-row').remove();
+                            $("#menu2-loader-con").hide();
                             $('.remove-my-connection-row').remove();
                             $('.my-connection').append(data);
                         } else {
