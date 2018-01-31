@@ -577,5 +577,4 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                     ->get();
         return $careers;
     }
-
 }

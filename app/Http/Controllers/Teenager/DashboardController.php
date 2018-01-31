@@ -270,7 +270,7 @@ class DashboardController extends Controller
         if (Helpers::validateDate($stringVariable, "Y-m-d") && $todayDate->gt($birthDate) ) {
             $teenagerDetail['t_birthdate'] = $stringVariable;
         } else {
-            return Redirect::to("teenager/my-profile#profile-info")->withErrors("Date is invalid")->withInput();
+            return Redirect::to("teenager/set-profile")->withErrors("Date is invalid")->withInput();
             exit;
         }
         $teenagerDetail['t_gender'] = (isset($body['gender']) && $body['gender'] != '') ? $body['gender'] : '';
@@ -301,16 +301,16 @@ class DashboardController extends Controller
 
         //Check all default field value -> If those are entered dummy by users
         if ($teenagerDetail['t_name'] == '' || $teenagerDetail['t_lastname'] == '' || $teenagerDetail['t_country'] == '' || $teenagerDetail['t_pincode'] == '' || $t_email == '') {
-            return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('validation.someproblems'))->withInput();
+            return Redirect::to("teenager/set-profile")->withErrors(trans('validation.someproblems'))->withInput();
             exit;
         }
         if (!isset($body['selected_sponsor']) || count($body['selected_sponsor']) < 1) {
-            return Redirect::to("teenager/my-profile#profile-info")->withErrors("Please select atleast one sponsor choice")->withInput();
+            return Redirect::to("teenager/set-profile")->withErrors("Please select atleast one sponsor choice")->withInput();
             exit;
         }
 
         if (!in_array($teenagerDetail['t_gender'], array("1", "2"))) {
-            return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('validation.someproblems'))->withInput();
+            return Redirect::to("teenager/set-profile")->withErrors(trans('validation.someproblems'))->withInput();
             exit;
         }
         $teenagerMobileExist = false;
@@ -325,11 +325,11 @@ class DashboardController extends Controller
 
         if ($teenagerEmailExist) {
             $response['message'] = trans('appmessages.userwithsameemailaddress');
-            return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('appmessages.userwithsameemailaddress'))->withInput();
+            return Redirect::to("teenager/set-profile")->withErrors(trans('appmessages.userwithsameemailaddress'))->withInput();
             exit;
         } else if ($teenagerMobileExist) {
             $response['message'] = trans('appmessages.userwithsamenumber');
-            return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('appmessages.userwithsamenumber'))->withInput();
+            return Redirect::to("teenager/set-profile")->withErrors(trans('appmessages.userwithsamenumber'))->withInput();
             exit;
         } else {
             /* save sponser by teenager id if sponsor id is not blank */
@@ -523,25 +523,6 @@ class DashboardController extends Controller
                 exit; 
             }
         }
-    }
-
-    //Set profile form
-    public function setProfile()
-    {
-        $data = [];
-        $teenSponsorIds = [];
-        $user = Auth::guard('teenager')->user();
-        $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "") ? Storage::url($this->teenProfileImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenProfileImageUploadPath.'proteen-logo.png');
-        $countries = $this->objCountry->getAllCounries();
-        $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
-        $teenagerSponsors = $this->teenagersRepository->getTeenagerSelectedSponsor($user->id);
-        $teenagerParents = $this->teenagersRepository->getTeenParents($user->id);
-        foreach($teenagerSponsors as $teenagerSponsor) {
-            $teenSponsorIds[] = $teenagerSponsor->ts_sponsor;
-        }
-        $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities(Auth::guard('teenager')->user()->id);
-        $teenagerMeta = Helpers::getTeenagerMetaData(Auth::guard('teenager')->user()->id);
-        return view('teenager.setUpProfile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta'));   
     }
 
     //My careers data
