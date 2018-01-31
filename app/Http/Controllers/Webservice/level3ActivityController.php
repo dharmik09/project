@@ -162,6 +162,7 @@ class level3ActivityController extends Controller {
                     
                     $careersData->profession[$key]['average_per_year_salary'] = $average_per_year_salary;
                     $careersData->profession[$key]['profession_outlook'] = $profession_outlook;
+                    $careersData->profession[$key]['completed'] = rand(0,1);
                     
                     unset($careersData->profession[$key]->professionHeaders);
                 }
@@ -219,6 +220,7 @@ class level3ActivityController extends Controller {
                         else{
                             $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                         }
+                        $data[$key]->profession[$k]->completed = rand(0,1);
                     }
 
                 }
@@ -273,6 +275,7 @@ class level3ActivityController extends Controller {
                         else{
                             $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                         }
+                        $data[$key]->profession[$k]->completed = rand(0,1);
                     }
                     
                 }
