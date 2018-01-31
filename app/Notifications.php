@@ -50,12 +50,22 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
     {
         return Notifications::where('id',$id)->update(['deleted' => config::get('constant.DELETED_FLAG')]);
     }
+    
+    /**
+     * get Unread Notification count
+     */
+    public function getUnreadNotificationByUserId($userId)
+    {
+        return Notifications::where('n_receiver_id',$userId)->where('n_read_status',Config::get('constant.NOTIFICATION_STATUS_UNREAD'))->where('deleted',config::get('constant.ACTIVE_FLAG'))->count();
+    }
+
     /**
      * Get user Notifications by userid
      */
     public function getNotificationsByUserTypeAnsId($type,$userId,$record)
     {
-        return Notifications::with('senderTeenager')
+        return Notifications::orderBy('created_at','DESC')
+                            ->with('senderTeenager')
                             ->with('community')
                             ->where('n_receiver_id',$userId)
                             ->where('n_receiver_type',$type)

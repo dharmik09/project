@@ -30,7 +30,7 @@
                     <ul class="nav-bar clearfix">
                         <li class="n-user submenu-container">
                             <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png'); ?>
-                            <a href="javascript:void(0);"><i class="i-user"><img src="{{ $user_profile_thumb_image }}" alt="user icon"></i><span class="badge">12</span></a>
+                            <a href="javascript:void(0);"><i class="i-user"><img src="{{ $user_profile_thumb_image }}" alt="user icon"></i><div  id="notificationCount"></div></a>
                             <div class="submenu">
                                 <div class="user-snapshot">
                                     <div class="user-avatar">
@@ -137,12 +137,33 @@
         <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
         <script src="{{ asset('js/general.js') }}"></script>
         <script type="text/javascript">
+            
             function setSound(data) {
                 $.ajax('{{url("teenager/set-sound-value/")}}/'+data, {
                     success: function(data) {
                     }
                });
             }
+    
+            $(window).on("load", function(e) {
+                e.preventDefault();
+                (function getNotificationCount(){
+                      $.ajax({
+                        url: "{{url('teenager/get-notification-count')}}", 
+                        success: function(data) {
+                            if(data > 0){
+                                $('#notificationCount').html('<span class="badge">'+data+'</span>');
+                            }else{
+                                $('#notificationCount').html('');
+                            }
+                        },
+                        complete: function() {
+                          setTimeout(getNotificationCount, 10000);
+                        }
+                      });
+                })();
+            });
+                
         </script>
         @stack('script-footer')
         @yield('script')

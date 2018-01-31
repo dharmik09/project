@@ -47,6 +47,15 @@ class Teenagers extends Authenticatable {
         return $result;
     }
 
+    public function getTeenagersDataByEmailId($email) {
+        $result = $this->select('*')
+                ->where('deleted', '1')
+                ->where('t_isverified', '1')
+                ->where('t_email',$email)
+                ->first();
+        return $result;
+    }
+
     public function getteenagerEmail($id) {
         $result = $this->select('*')
                 ->where('t_school', $id)

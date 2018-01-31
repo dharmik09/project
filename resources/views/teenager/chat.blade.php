@@ -60,29 +60,35 @@
             <div class="sec-notification">
                 <h2 class="font-blue">All Notifications</h2>
                 <div class="notification-list">
-                    @foreach($notificationData as $key => $value)
-                    <div class="notification-block <?php echo ($value->n_read_status == 1) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block">
-                        <div class="notification-img"><img src="{{Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo)}}" alt="notification img"></div>
-                        <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a><span class="date">{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans()}}</span>
-                            <ul class="btn-list">
-                                @if($value->community->tc_status == 1)
-                                    <li><a href="#" title="accept" class="accept">Accepted</a></li>
-                                @elseif($value->community->tc_status == 2)
-                                    <li><a href="#" title="decline" class="decline">Declined</a></li>
-                                @elseif($value->community->tc_status == 0)
-                                    <li><a href="{{url('teenager/accept-request').'/'.$value->n_record_id}}" title="accept" class="accept">Accept</a></li>
-                                    <li><a href="{{url('teenager/decline-request').'/'.$value->n_record_id}}" title="decline" class="decline">Decline</a></li>
+                    @if(count($notificationData)>0)
+                        @foreach($notificationData as $key => $value)
+                        <div class="notification-block <?php echo ($value->n_read_status == 1) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block">
+                            <div class="notification-img"><img src="{{Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo)}}" alt="notification img"></div>
+                            <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a><span class="date">{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans()}}</span>
+                                @if($value->n_record_id != 0)
+                                <ul class="btn-list">
+                                    @if($value->community->tc_status == 1)
+                                        <li><a href="#" title="accept" class="accept">Accepted</a></li>
+                                    @elseif($value->community->tc_statsus == 2)
+                                        <li><a href="#" title="decline" class="decline">Declined</a></li>
+                                    @elseif($value->community->tc_status == 0)
+                                        <li><a href="{{url('teenager/accept-request').'/'.$value->n_record_id}}" title="accept" class="accept">Accept</a></li>
+                                        <li><a href="{{url('teenager/decline-request').'/'.$value->n_record_id}}" title="decline" class="decline">Decline</a></li>
+                                    @endif
+                                    <div id="pageWiseNotifications"></div>
+                                </ul>
                                 @endif
-                            </ul>
+                            </div>
+                            <div class="close"><i class="icon-close" onclick="removeNotificationBlock({{$value->id}});"></i></div>
                         </div>
-                        <div class="close"><i class="icon-close" onclick="removeNotificationBlock({{$value->id}});"></i></div>
-                    </div>
-                    @endforeach
-                    <div id="pageWiseNotifications"></div>
-                    <div class="text-center load-more" id="loadMoreButton">
-                        <div id="loader_con"></div>
-                        <button class="btn btn-primary" title="Load More" id="pageNo" value="1" onclick="fetchNotification(this.value)">Load More</button>
-                    </div>
+                        @endforeach
+
+                        <div id="pageWiseNotifications"></div>
+                        <div class="text-center load-more" id="loadMoreButton">
+                            <div id="loader_con"></div>
+                            <button class="btn btn-primary" title="Load More" id="pageNo" value="1" onclick="fetchNotification(this.value)">Load More</button>
+                        </div>
+                    @endif
 <!--                     <div class="notification-block read">
                         <div class="notification-img"><img src="img/logo.png" alt="notification img"></div>
                         <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">16 hours ago</span></div>

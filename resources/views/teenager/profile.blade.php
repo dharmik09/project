@@ -137,7 +137,7 @@
                                 <div class="form-group input-group">
                                     <div class="clearfix">
                                         <span id="countrycode" class="input-group-addon">+91</span>
-                                        <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" maxlength="10" placeholder="mobile phone *" tabindex="6" value="{{ $user->t_phone }}">
+                                        <input type="text" class="form-control onlyNumber" id="mobile" name="mobile" maxlength="10" placeholder="mobile phone" tabindex="6" value="{{ $user->t_phone }}">
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                                                         <span class="checker"></span>
                                                         <span class="logo-icon">
                                                             <?php
-                                                                $sponsor_logo = ($value->sp_logo != "") ? Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) : asset(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                                                                $sponsor_logo = ($value->sp_logo != "" && Storage::size(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) > 0) ? Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH').$value->sp_logo) : asset(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
                                                             ?>
                                                             <img src="{{ $sponsor_logo }}" alt="{{ $value->sp_company_name }}" style="height:74px; width:127px;">
                                                         </span>
@@ -889,7 +889,6 @@
                 required: true
             },
             mobile: {
-                required: true,
                 mobilelength: true,
                 number: true
             },
@@ -932,9 +931,6 @@
                 },
                 'selected_sponsor[]': {
                     required: "Please select atleast one sponsor",
-                },
-                mobile: {
-                    required: "Mobile is required",
                 },
             },
             errorPlacement: function(error, element) {

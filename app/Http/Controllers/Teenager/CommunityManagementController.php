@@ -107,7 +107,14 @@ class CommunityManagementController extends Controller {
             }
             $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
             $myConnectionCount = $this->communityRepository->getMyConnectionsCount($teenDetails->id);
-            
+            $userData = Auth::guard('teenager')->user();
+            $notificationData['n_sender_id'] = $userData->id;
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_receiver_id'] = $teenDetails->id;
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW');
+            $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has viewed your profile';
+            $this->objNotifications->insertUpdate($notificationData);
             return view('teenager.networkMember', compact('teenagerTrait', 'teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectionStatus', 'myConnectionCount'));
         } else {
             return Redirect::back()->with('error', 'Member not found');
@@ -201,11 +208,11 @@ class CommunityManagementController extends Controller {
 
                 $userData = Auth::guard('teenager')->user();
                 $notificationData['n_sender_id'] = $userData->id;
-                $notificationData['n_sender_type'] = '2';
+                $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
                 $notificationData['n_receiver_id'] = $data['tc_receiver_id'];
-                $notificationData['n_receiver_type'] = '2';
+                $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
                 $notificationData['n_record_id'] = $response->id;
-                $notificationData['n_notification_type'] ='3';
+                $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
                 $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has requested to follow you';
                 $this->objNotifications->insertUpdate($notificationData);
 
