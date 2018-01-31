@@ -295,6 +295,9 @@ h6 {
                         right: 15px;
                     }
                 }
+                &:hover{
+                    text-decoration: underline;
+                }
             }
             .career-cl {
                 background: $m-cl;
@@ -617,4 +620,7 @@ h6 {
         max-width: 310px;
         text-align: center;
     }
+}
+.career-data-nomatch{
+    background: #ccc !important;
 }
