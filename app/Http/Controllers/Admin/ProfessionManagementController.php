@@ -334,6 +334,9 @@ class ProfessionManagementController extends Controller {
 
     public function exportData() {
         $result = $this->professionsRepository->getExportProfession();
+        echo "<pre>";
+        print_r($result);
+        exit;
         Excel::create('profession', function($excel) use($result) {
             $excel->sheet('Sheet 1', function($sheet) use($result) {
                 $sheet->fromArray($result);
