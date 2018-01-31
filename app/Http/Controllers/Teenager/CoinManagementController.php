@@ -63,7 +63,7 @@ class CoinManagementController extends Controller
     public function userSearchToGiftCoins() 
     {
         $searchKeyword = Input::get('search_keyword');
-        $teenId = Input::get('teenagerId');
+        $teenId = Auth::guard('teenager')->user()->id;//Input::get('teenagerId');
         $searchArray = explode(",", $searchKeyword);
         $coinDetail = $this->teenagersRepository->getUserDataForCoinsDetail($teenId);
         if ($searchKeyword != "") {

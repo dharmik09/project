@@ -339,4 +339,4 @@ DROP TABLE pro_n_notifications
  `updated_at` timestamp NOT NULL,
  `deleted` tinyint(4) DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted ',
  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=latin1
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
