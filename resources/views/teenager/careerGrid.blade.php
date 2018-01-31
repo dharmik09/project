@@ -67,7 +67,7 @@
     function playVideo(id,link) {
         $("#"+id).hide();
         $('.iframe').attr('src', '');
-        $("#iframe-video-"+id).attr('src', 'https://www.youtube.com/embed/'+link+'?autoplay=1');
+        $("#iframe-video-"+id).attr('src', 'https://www.youtube.com/embed/'+link+'?autoplay=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1');
         $("#iframe-video-"+id).show();
     }
 
