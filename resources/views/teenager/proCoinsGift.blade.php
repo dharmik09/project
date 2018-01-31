@@ -24,7 +24,7 @@
         <!--procoins sec-->
         <div class="container">
             <div class="bg-white procoins-gift">
-                <div id="gift-history-loader" class="loading-screen remove-loader loading-wrapper-sub">
+                <div id="gift-history-loader" class="loading-screen loading-wrapper-sub">
                     <div id="loading-text">
                         <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
                     <div id="loading-content">
@@ -84,33 +84,35 @@
     });
     $(document).on('click', '.pagination a', function (e) {
         var search = $("#searchForUser").val();
-        var teenId = <?php echo Auth::guard('teenager')->user()->id; ?>;
         var page = $(this).attr('href').split('page=')[1];
         if (search.length == 1 || search.length == 2) {
             searchText = '';
         } else {
             searchText = search;
         }
-        userSearch(searchText, teenId, page);
+        userSearch(searchText, page);
         e.preventDefault();
     });
 
     $( "#searchForUser" ).keyup(function (e) {
         search_keyword = $(this).val();
         searchText = (search_keyword).trim();
-        teenagerId = 1;
-        if (searchText.length == 1 || searchText.length == 2) {
-            return false;
+        if ((e.which <= 90 && e.which >= 48) || e.which == 222) {
+            if (searchText.length == 1 || searchText.length == 2) {
+                return false;
+            } else {
+                userSearch(searchText, 1);
+            }
         } else {
-            userSearch(searchText, teenagerId, 1);
+            return false;
         }
         e.preventDefault();
     });
 
-    function userSearch(search_keyword, teenagerId, page) {
+    function userSearch(search_keyword, page) {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = 'search_keyword=' + search_keyword + '&teenagerId=' +teenagerId;
-        $('#gift-history-loader').parent().toggleClass('loading-screen-parent');
+        var form_data = 'search_keyword=' + search_keyword;
+        $('#gift-history-loader').parent().addClass('loading-screen-parent').blur();
         $('#gift-history-loader').show();
         $.ajax({
             type: 'POST',

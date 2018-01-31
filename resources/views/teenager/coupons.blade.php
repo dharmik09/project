@@ -66,7 +66,7 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="coupon_id" name="coupon_id" />
-                    <input id="searchForUser" type="text" placeholder="search" tabindex="1" class="form-control search-feild" onkeyup="getUsers(this.value, {{Auth::guard('teenager')->user()->id}}, '', 1);">
+                    <input id="searchForUser" type="text" placeholder="search" tabindex="1" class="form-control search-feild" >
                     <div id="userData">
                     </div>
                 </div>
@@ -137,7 +137,23 @@
                 var search = $("#searchForUser").val();
                 var teenid = <?php echo Auth::guard('teenager')->user()->id; ?>;
                 var page = $(this).attr('href').split('page=')[1];
-                getUsers(search,teenid,couponid,page);
+                getUsers(search, teenid, couponid, page);
+                e.preventDefault();
+            });
+
+            $( "#searchForUser" ).keyup(function (e) {
+                search_keyword = $(this).val();
+                searchText = (search_keyword).trim();
+                teenagerId = "{{Auth::guard('teenager')->user()->id}}";
+                if ((e.which <= 90 && e.which >= 48) || e.which == 222) {
+                    if (searchText.length == 1 || searchText.length == 2) {
+                        return false;
+                    } else {
+                        getUsers(searchText, teenagerId, '', 1);
+                    }
+                } else {
+                    return false;
+                }
                 e.preventDefault();
             });
         });
@@ -145,7 +161,8 @@
         function getUsers(search_keyword, teenager_id, coupon_id, page)
         {
             coupon_id = $("#coupon_id").val();
-            $('.loader_outer_container').show();
+            $('#loading-wrapper-sub').parent().addClass('loading-screen-parent').blur();
+            $('#loading-wrapper-sub').show();
             $.ajax({
                 url: "{{ url('teenager/get-users?page=') }}"+page,
                 type: 'post',
@@ -156,9 +173,9 @@
                     "search_keyword":search_keyword
                 },
                 success: function(response) {
-                   $('#userData').html(response);
-                   $('#loading-wrapper').hide();
-                   //$('.modal_gift .gift_user').mCustomScrollbar();
+                    $('#userData').html(response);
+                    $('#loading-wrapper-sub').hide();
+                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 }
             });
         }
