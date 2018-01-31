@@ -23,6 +23,7 @@ implements ProfessionHeadersRepository
                   ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'header.pfic_profession', '=', 'profession.id')
                   ->join(config::get('databaseconstants.TBL_COUNTRIES') . " AS country", 'header.country_id', '=', 'country.id')
                   ->selectRaw('header.* ,profession.pf_name, GROUP_CONCAT(header.pfic_title) AS pfic_title, GROUP_CONCAT( DISTINCT header.country_id SEPARATOR ",") as country_id, GROUP_CONCAT( DISTINCT country.c_name SEPARATOR ",") as country_name')
+                  ->whereRaw('profession.deleted = 1')
                   ->groupBy('header.pfic_profession')
                   ->get();
         return $headers;

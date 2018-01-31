@@ -83,12 +83,17 @@
                             </div>
                         </div>
                         @empty
-                            <center>
-                                <h3>No Connections found.</h3>
-                            </center>
+                        <center>
+                            <h3>No Connections found.</h3>
+                        </center>
                         @endforelse
                         @if (!empty($newConnections->toArray()) && $newConnectionsCount > 10)
-                            <p id="remove-row" class="text-center remove-row"><a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a></p>
+                        <div id="menu1-loader-con" class="loader_con remove-row remove-loader">
+                            <img src="{{Storage::url('img/loading.gif')}}">
+                        </div>
+                        <p id="remove-row" class="text-center remove-row">
+                            <a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a>
+                        </p>
                         @endif
                     </div>
                     <div id="menu2" class="tab-pane fade my-connection">
@@ -194,37 +199,37 @@
                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
             }
         });
-        $(document).on('click','#load-more',function(){
-                var lastTeenId = $(this).data('id');
-                //$("#btn-more").html("Loading....");
-                search_keyword = $("#search_community").val();
-                searchConnections = (search_keyword).trim();
-                var filter_by = $("#filter_by").val();
-                if (filter_by == 't_pincode') {
-                    var filter_option = $("#search_pincode").val();
-                } else {
-                    var filter_option = $("#sub_filter").val();
-                }
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var form_data = 'searchConnections=' + searchConnections + '&lastTeenId=' + lastTeenId + '&filter_by=' + filter_by + '&filter_option=' + filter_option;
-                $.ajax({
-                    url : '{{ url("teenager/load-more-new-connections") }}',
-                    method : "POST",
-                    data: form_data,
-                    headers: {
-                        'X-CSRF-TOKEN': CSRF_TOKEN
-                    },
-                    dataType : "text",
-                    success : function (data) {
-                        if(data != '') {
-                            //$('#remove-row').remove();
-                            $('.remove-row').remove();
-                            $('.search-new-connection').append(data);
-                        } else {
-                            //$('#btn-more').html("No Data");
-                        }
+        $(document).on('click','#load-more', function(){
+            $("#menu1-loader-con").show();
+            var lastTeenId = $(this).data('id');
+            search_keyword = $("#search_community").val();
+            searchConnections = (search_keyword).trim();
+            var filter_by = $("#filter_by").val();
+            if (filter_by == 't_pincode') {
+                var filter_option = $("#search_pincode").val();
+            } else {
+                var filter_option = $("#sub_filter").val();
+            }
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var form_data = 'searchConnections=' + searchConnections + '&lastTeenId=' + lastTeenId + '&filter_by=' + filter_by + '&filter_option=' + filter_option;
+            $.ajax({
+                url : '{{ url("teenager/load-more-new-connections") }}',
+                method : "POST",
+                data: form_data,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                dataType : "text",
+                success : function (data) {
+                    if(data != '') {
+                        $('.remove-row').remove();
+                        $("#menu1-loader-con").hide();
+                        $('.search-new-connection').append(data);
+                    } else {
+                        //$('#btn-more').html("No Data");
                     }
-                });
+                }
+            });
             });
             $(document).on('click','#load-more-connection',function(){
                 var lastTeenId = $(this).data('id');

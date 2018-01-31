@@ -148,10 +148,10 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
 
     public function saveProfessionBulkDetail($professionDetail, $basketDetail, $headerTitle, $headerDetail, $countryId) {
 
-        $result = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_PROFESSIONS')));
+        $result = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_PROFESSIONS')." WHERE deleted = 1"));
         $objBasket = New Baskets();
 
-        $basketData = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_BASKETS')));
+        $basketData = DB::select(DB::raw("SELECT * FROM " . config::get('databaseconstants.TBL_BASKETS')." WHERE deleted = 1"));
 
         $objHeader = New ProfessionHeaders();
 
@@ -350,14 +350,16 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
     }
 
     public function getExportProfession() {
-        $finalData = array();
+        
+        $professionData = array();
         $return = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
                 ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket", 'profession.pf_basket', '=', 'basket.id')
                 ->selectRaw('profession.id,profession.pf_name, profession.pf_video, basket.b_name, basket.b_video')
                 ->where('profession.deleted',1)
                 ->get();
         if (isset($return) && !empty($return)) {
-            foreach ($return as $key => $val) {
+            $finalData = array();
+            foreach ($return as $key => $val) {                
                 $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->get();
                 if (isset($headers) && !empty($headers)) {
                     foreach ($headers as $hkey => $hval) {

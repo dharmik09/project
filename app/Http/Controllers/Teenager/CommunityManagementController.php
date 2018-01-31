@@ -213,7 +213,7 @@ class CommunityManagementController extends Controller {
                 $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
                 $notificationData['n_record_id'] = $response->id;
                 $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
-                $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has requested to follow you';
+                $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has sent you a connection request';
                 $this->objNotifications->insertUpdate($notificationData);
 
                 return Redirect::back()->with('success', 'Connection request sent successfully');
