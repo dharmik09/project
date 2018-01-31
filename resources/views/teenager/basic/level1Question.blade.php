@@ -8,10 +8,10 @@
             ?>
             @foreach($level1Activities[0]->options as $key => $option)
                 <div class="col-xs-4">
-                    <input type="radio" class="radio_item" value="{{$option['optionId']}}" name="option" id="option{{$option['optionId']}}" onchange="saveAnswer({{$option['optionId']}}, {{$level1Activities[0]->activityID}})">
+                    <input type="radio" class="radio_item" value="{{$option['optionId']}}" name="option" id="option{{$option['optionId']}}" onchange="saveAnswer({{$option['optionId']}}, {{$level1Activities[0]->activityID}}, {{$key}})">
                     <label class="label_item" for="radio{{$option['optionId']}}">
                         <img class="emojis-icon-{{ ( isset($dasignSetArray[$key]) ) ? $dasignSetArray[$key] : '4' }}" alt="{{$option['optionText']}}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAAB6AQMAAABk0vQ1AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABdJREFUeNpjYBgFo2AUjIJRMApGAXYAAAcmAAFZQcRjAAAAAElFTkSuQmCC"> 
-                        <span onClick="saveAnswer({{$option['optionId']}}, {{$level1Activities[0]->activityID}})">{{$option['optionText']}}</span>
+                        <span onClick="saveAnswer({{$option['optionId']}}, {{$level1Activities[0]->activityID}}), {{$key}}">{{$option['optionText']}}</span>
                     </label>
                 </div>
             @endforeach
