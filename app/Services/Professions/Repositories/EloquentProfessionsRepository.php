@@ -357,6 +357,9 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 ->selectRaw('profession.id,profession.pf_name, profession.pf_video, basket.b_name, basket.b_video')
                 ->where('profession.deleted',1)
                 ->get();
+        echo "<pre>";
+        print_r($return);
+        exit;
         if (isset($return) && !empty($return)) {
             foreach ($return as $key => $val) {
                 $professionData = array();
@@ -370,9 +373,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 $finalData[] = array_merge($professionData, $professionHeaders);
             }
         }
-        echo "<pre>";
-        print_r($finalData);
-        exit;
+        
         return $finalData;
     }
 
