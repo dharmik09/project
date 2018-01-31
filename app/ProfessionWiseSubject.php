@@ -47,6 +47,14 @@ class ProfessionWiseSubject extends Model
     }
 
     /**
+     * check Profession Wise Subject exist
+     */
+    public function checkProfessionWiseSubjectBySubjectIdAndProfessionId($subjectId,$professionId) {
+        $return = ProfessionWiseSubject::where('subject_id',$subjectId)->where('profession_id',$professionId)->first();
+        return $return;
+    }
+
+    /**
      * Delete Profession Wise Subject
      */
     public function deleteProfessionWiseSubjectByProfessionId($id) {
