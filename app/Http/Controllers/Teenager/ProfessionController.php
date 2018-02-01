@@ -136,147 +136,87 @@ class ProfessionController extends Controller {
         return view('teenager.basic.basketProfessionGrid', compact('countryId', 'basketsData', 'professionAttemptedCount', 'matchScaleCount'));
     }
 
-    public function gridGetSearch(){
+    public function gridGetSearch() {
         $user = Auth::guard('teenager')->user();
         $userid = $user->id;
-        $this->value = Input::get('search_text');
-
-        if($user->t_view_information == 1){
-            $this->countryId = 2; // United States
-        }else{
-            $this->countryId = 1; // India
+        $searchValue = Input::get('search_text');
+        
+        if($user->t_view_information == 1) {
+            $countryId = 2; // United States
+        } else {
+            $countryId = 1; // India
         }
 
-        $basketsData = $this->baskets
-                        ->with(['profession' => function ($query) {
-                            $query->with(['professionHeaders' => function ($query) {
-                                $query->where('country_id',$this->countryId);
-                            }])->where('pf_name', 'like', '%'.$this->value.'%')
+        $basketsData = $this->baskets->with(['profession' => function ($query) use($searchValue, $countryId) {
+                            $query->with(['professionHeaders' => function ($query) use($searchValue, $countryId) {
+                                $query->where('country_id',$countryId);
+                            }])->where('pf_name', 'like', '%'.$searchValue.'%')
                             ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         }])
-                        ->whereHas('profession', function ($query) {
-                            $query->where('pf_name', 'like', '%'.$this->value.'%')
+                        ->whereHas('profession', function ($query) use($searchValue, $countryId) {
+                            $query->where('pf_name', 'like', '%'.$searchValue.'%')
                             ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         })
                         ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                         ->get();
-        $return = '';
-        if(count($basketsData)>0)
-        {
         
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($userid);
+        $professionAttemptedCount = 0;
+        $matchScaleCount = [];
+        
+        if(count($basketsData) > 0)
+        {
             foreach ($basketsData as $key => $value) {
                 $professionAttemptedCount = 0;
-                foreach($value->profession as $k => $v){
+                foreach($value->profession as $k => $v) {
                     $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id,null);
                     if(count($professionAttempted)>0){
                         $basketsData[$key]['profession'][$k]['attempted'] = 'yes';
                         $professionAttemptedCount++;
                     }
+                    $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                    if($matchScale == "match") {
+                        $basketsData[$key]['profession'][$k]['match_scale'] = "match-strong";
+                        $matchScaleCount[$key]['match'][] = $v->id;
+                    } else if($matchScale == "nomatch") {
+                        $basketsData[$key]['profession'][$k]['match_scale'] = "match-unlikely";
+                        $matchScaleCount[$key]['nomatch'][] = $v->id;
+                    } else if($matchScale == "moderate") {
+                        $basketsData[$key]['profession'][$k]['match_scale'] = "match-potential";
+                        $matchScaleCount[$key]['moderate'][] = $v->id;
+                    } else {
+                        $basketsData[$key]['profession'][$k]['match_scale'] = "career-data-nomatch";
+                    }
                 }
-                $return .= '<div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion'.$value->id.'" id="'.$value->id.'" class="collapsed">'.$value->b_name.'</a> <a href="'. url('teenager/list-career') .'" title="Grid view" class="grid"><i class="icon-list"></i></a></h4>
-                                </div>
-                                <div class="panel-collapse collapse in" id="accordion'.$value->id.'">
-                                    <div class="panel-body">
-                                        <section class="career-content">
-                                            <div class="bg-white">
-                                                <div id="profession'.$value->id.'">';
-
-                $return .= '<section class="sec-category"><div class="row">
-                                <div class="col-md-6">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="pull-right">
-                                        <ul class="match-list">
-                                            <li><span class="number match-strong">4</span> Strong match</li>
-                                            <li><span class="number match-potential">5</span> Potential match</li>
-                                            <li><span class="number match-unlikely">4</span> Unlikely match</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="career-map">
-                                <div class="row">';
-
-                foreach($value->profession as $k => $v){
-
-                $average_per_year_salary = $v->professionHeaders->filter(function($item) {
-                                                return $item->pfic_title == 'average_per_year_salary';
-                                            })->first();
-                $profession_outlook = $v->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_outlook';
-                                        })->first();
-
-                    $return .= '<div class="col-md-4 col-sm-6">
-                                    <div class="category match-strong"><a href="'.url('teenager/career-detail/'.$v->pf_slug).'" title="'.$v->pf_name.'">'.$v->pf_name.'</a>
-                                                                    ';
-                        if(isset($v->attempted)){
-                            $return .= ' <span class="complete"><a href="#" title="Completed"><i class="icon-thumb"></i></a></span>';
-                        }
-                        $return .= '<div class="overlay">';
-
-                            if(isset($average_per_year_salary)){
-                                $return .= '<span class="salary">Average Salary per year : ';
-                                            if($this->countryId == 1){
-                                                $return .= "₹";
-                                            }
-                                            elseif($this->countryId == 2){
-                                                $return .= "$";
-                                            }
-                                            $return .= (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? strip_tags($average_per_year_salary->pfic_content) : '';
-                                $return .= '</span>';
-                            }else{
-                                $return .= '<span class="salary">Average Salary per year : N/A</span>';
-                            }
-
-                            if(isset($profession_outlook)){
-                                $return .= '<span class="assessment">Outlook : ';
-                                    $return .= (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? strip_tags($profession_outlook->pfic_content) : '';
-                                $return .= '</span>';
-                            }else{
-                                $return .= '<span class="assessment">Outlook : N/A</span>';
-                            }
-                            
-                        $return .= '</div></div></div>';
-                }
-
-                $return .= '</div>
-                                    </div>
-                                    </section>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-                </div>';
             }
         }
-        else{
-            // $return = '<center><h3>No result Found</h3></center>';
-            $return = '<div class="sec-forum"><span>No result Found</span></div>';
-        }
-        return $return;
+        
+        return view('teenager.basic.basketProfessionGridSearch', compact('searchValue', 'countryId', 'basketsData', 'professionAttemptedCount', 'matchScaleCount'));
     }
 
-    public function listGetSearch(){
+    public function listGetSearch() {
         $userid = Auth::guard('teenager')->user()->id;
-        $this->value = Input::get('search_text');
+        $searchValue = Input::get('search_text');
         $basketsData = $this->baskets
-                        ->with(['profession' => function ($query) {
-                            $query->where('pf_name', 'like', '%'.$this->value.'%')
+                        ->with(['profession' => function ($query) use($searchValue) {
+                            $query->where('pf_name', 'like', '%'.$searchValue.'%')
                             ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         }])
-                        ->whereHas('profession', function ($query) {
-                            $query->where('pf_name', 'like', '%'.$this->value.'%')
+                        ->whereHas('profession', function ($query) use($searchValue) {
+                            $query->where('pf_name', 'like', '%'.$searchValue.'%')
                             ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         })
                         ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                         ->get();
-        $return = '';
-        if(count($basketsData)>0)
-        {
         
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($userid);
+        $professionAttemptedCount = 0;
+        $matchScaleCount = [];
+        
+        //print_r($basketsData->toArray()); die();
+        
+        if(count($basketsData) > 0)
+        {
             foreach ($basketsData as $key => $value) {
                 $professionAttemptedCount = 0;
                 foreach($value->profession as $k => $v){
@@ -285,52 +225,24 @@ class ProfessionController extends Controller {
                         $basketsData[$key]['profession'][$k]['attempted'] = 'yes';
                         $professionAttemptedCount++;
                     }
+                    $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                    if($matchScale == "match") {
+                        $basketsData[$key]['profession'][$k]['match_scale'] = "match-strong";
+                        $matchScaleCount[$key]['match'][] = $v->id;
+                    } else if($matchScale == "nomatch") {
+                        $basketsData[$key]['profession'][$k]['match_scale'] = "match-unlikely";
+                        $matchScaleCount[$key]['nomatch'][] = $v->id;
+                    } else if($matchScale == "moderate") {
+                        $basketsData[$key]['profession'][$k]['match_scale'] = "match-potential";
+                        $matchScaleCount[$key]['moderate'][] = $v->id;
+                    } else {
+                        $basketsData[$key]['profession'][$k]['match_scale'] = "career-data-nomatch";
+                    }
                 }
-                $return .= '<div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion'.$value->id.'" id="'.$value->id.'" class="collapsed">'.$value->b_name.'</a> <a href="'. url('teenager/career-grid') .'" title="Grid view" class="grid"><i class="icon-grid"></i></a></h4>
-                            </div>
-                            <div class="panel-collapse collapse in" id="accordion'.$value->id.'">
-                            <div id="profession'.$value->id.'">';
-
-                $return .= '<div class="panel-body">
-                                <div class="related-careers careers-tag">
-                                    <div class="career-heading clearfix">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="pull-right">
-                                                    <ul class="match-list">
-                                                        <li><span class="number match-strong">4</span> Strong match</li>
-                                                        <li><span class="number match-potential">5</span> Potential match</li>
-                                                        <li><span class="number match-unlikely">4</span> Unlikely match</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul class="career-list">';
-
-                foreach($value->profession as $k => $v){
-
-                    $return .= '<li class="match-strong complete-feild"><a href="'.url('teenager/career-detail/'.$v->pf_slug).'" title="'.$v->pf_name.'">'.$v->pf_name.'</a>';
-                        if(isset($v->attempted)){
-                            $return .= '<a class="complete"><span>Complete <i class="icon-thumb"></i></span></a>';
-                        }
-                    $return .= '</li>';
-                }
-
-                $return .= '</ul></div></div>';
-                $return .= '</div>
-                        </div>
-                    </div>';    
             }
         }
-        else{
-            $return = '<div class="sec-forum"><span>No result Found</span></div>';
-        }
-        return $return;
+        
+        return view('teenager.basic.basketProfessionListSearch', compact('searchValue', 'basketsData', 'professionAttemptedCount', 'matchScaleCount'));
     }
 
     public function careerDetails($slug)
