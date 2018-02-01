@@ -21,7 +21,7 @@
         };
     ?>
     <li class="{{$matchClass}}">
-        <a href="#" title="{{$career->pf_name}}">{{$career->pf_name}}</a>
+        <a href="{{ url('/teenager/career-detail') }}/{{$career->pf_slug}}" title="{{$career->pf_name}}">{{$career->pf_name}}</a>
     </li>
     @empty
         No Careers found

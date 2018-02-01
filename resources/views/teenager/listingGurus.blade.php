@@ -13,7 +13,13 @@
                     ?>
                     <img src="{{ Storage::url($teenPhoto) }}" alt="team">
                 </div>
-                <a href="{{ url('teenager/network-member') }}/{{$guru->t_uniqueid }}" title="{{$guru->t_name}}"> {{$guru->t_name}}</a>
+                <?php 
+                    if(Auth::guard('teenager')->user()->id == $guru->id) { 
+                        $url = "javascript:void(0)";
+                    } else { 
+                        $url = url('teenager/network-member/'.$guru->t_uniqueid); 
+                    } ?>
+                <a href="{{$url}}" title="{{$guru->t_name}}"> {{$guru->t_name}}</a>
             </div>
         </div>
         <div class="flex-item">
