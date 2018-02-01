@@ -356,9 +356,9 @@ $(document).keydown(function (e) {
     }
 });
 //loader
-$(window).on('load', function(){
-  // Animate loader off screen
-  //$("#loading-wrapper").show();
-    $('#loading-wrapper').hide();
-    $('body').removeClass('overflw-hide');
- });
+$(window).load(function() {
+		// Animate loader off screen
+		//$("#loading-wrapper").show();
+        $('#loading-wrapper').hide();
+         $('body').removeClass('overflw-hide');
+	});
