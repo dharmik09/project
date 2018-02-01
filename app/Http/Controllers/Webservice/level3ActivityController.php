@@ -52,7 +52,7 @@ class level3ActivityController extends Controller {
     public function getAllBasktes(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getAllBasktes'));
         if($request->userId != "" && $teenager) {
 
             $data = $this->baskets->where('deleted',config::get('constant.ACTIVE_FLAG'))->get();
@@ -64,11 +64,20 @@ class level3ActivityController extends Controller {
                 else{
                     $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                 }
+
+                $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                if($youtubeId != ''){
+                    $data[$key]->b_video = $youtubeId;
+                    $data[$key]->type_video = '1'; //Youtube
+                }
+                else{
+                    $data[$key]->type_video = '2'; //Dropbox
+                }
             }
             
             if($data){
                 $response['data']['baskets'] = $data;
-                $response['data']['total_profession'] = '20';
+                $response['data']['total_profession'] = '200';
                 $response['data']['completed_profession'] = '123';
             }
             else{
@@ -79,9 +88,9 @@ class level3ActivityController extends Controller {
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
 
-            $this->log->info('Response for Level2questions' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->info('Response for Level3 Get All basket' , array('api-name'=> 'getAllBasktes'));
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getAllBasktes'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);
@@ -90,7 +99,7 @@ class level3ActivityController extends Controller {
     public function getAllCareers(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getAllCareers'));
         if($request->userId != "" && $teenager) {
 
             $data = $this->professions->getActiveProfessionsOrderByName();
@@ -106,9 +115,9 @@ class level3ActivityController extends Controller {
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
 
-            $this->log->info('Response for Level2questions' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->info('Response for Level3 get All careers' , array('api-name'=> 'getAllCareers'));
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getAllCareers'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);
@@ -117,7 +126,7 @@ class level3ActivityController extends Controller {
     public function getCareersByBasketId(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getCareersByBasketId'));
         if($request->userId != "" && $teenager) {
 
             if($teenager->t_view_information == 1){
@@ -138,6 +147,16 @@ class level3ActivityController extends Controller {
                 else{
                     $careersData->b_logo = Storage::url($this->basketThumbUrl.$this->basketDefaultProteenImage);
                 }
+                
+                $youtubeId = Helpers::youtube_id_from_url($careersData->b_video);
+                if($youtubeId != ''){
+                    $careersData->b_video = $youtubeId;
+                    $careersData->type_video = '1'; //Youtube
+                }
+                else{
+                    $careersData->type_video = '2'; //Dropbox
+                }
+
                 $careersData->total_basket_profession = count($careersData->profession);
                 $careersData->basket_completed_profession = '12';
                 $careersData->strong_match = '12';
@@ -180,7 +199,7 @@ class level3ActivityController extends Controller {
                 }
 
                 $response['data']['baskets'] = $careersData;
-                $response['data']['total_profession'] = '20';
+                $response['data']['total_profession'] = '200';
                 $response['data']['completed_profession'] = '123';
             }
             else{
@@ -191,9 +210,9 @@ class level3ActivityController extends Controller {
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
 
-            $this->log->info('Response for Level2questions' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->info('Response for Level3 get Careers By Basket Id' , array('api-name'=> 'getCareersByBasketId'));
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getCareersByBasketId'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);
@@ -202,55 +221,69 @@ class level3ActivityController extends Controller {
     public function getCareersSearch(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'searchCareers'));
         if($request->userId != "" && $teenager) {
+            if($request->searchText != "") {
 
-            $searchValue = $request->searchText;
-            
-            $data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
+                $searchValue = $request->searchText;
+                
+                $data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
+                            
+                if($data){
+                    foreach ($data as $key => $value) {
                         
-            if($data){
-                foreach ($data as $key => $value) {
-                    
-                    if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
-                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
-                    }
-                    else{
-                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
-                    }
-
-                    $data[$key]->total_basket_profession = count($value->profession);
-                    $data[$key]->basket_completed_profession = '12';
-                    $data[$key]->strong_match = '12';
-                    $data[$key]->potential_match = '12';
-                    $data[$key]->unlikely_match = '12';
-
-                    foreach ($value->profession as $k => $v) {
-                        if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
-                            $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                        if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
+                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
                         }
                         else{
-                            $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                         }
-                        $data[$key]->profession[$k]->completed = rand(0,1);
+
+                        $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                        if($youtubeId != ''){
+                            $data[$key]->b_video = $youtubeId;
+                            $data[$key]->type_video = '1'; //Youtube
+                        }
+                        else{
+                            $data[$key]->type_video = '2'; //Dropbox
+                        }
+
+                        $data[$key]->total_basket_profession = count($value->profession);
+                        $data[$key]->basket_completed_profession = '12';
+                        $data[$key]->strong_match = '12';
+                        $data[$key]->potential_match = '12';
+                        $data[$key]->unlikely_match = '12';
+
+                        foreach ($value->profession as $k => $v) {
+                            if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
+                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                            }
+                            else{
+                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                            }
+                            $data[$key]->profession[$k]->completed = rand(0,1);
+                        }
+
                     }
-
+                    $response['data']['baskets'] = $data;
+                    $response['data']['total_profession'] = '200';
+                    $response['data']['completed_profession'] = '123';
                 }
-                $response['data']['baskets'] = $data;
-                $response['data']['total_profession'] = '20';
-                $response['data']['completed_profession'] = '123';
-            }
-            else{
-                $response['data'] = trans('appmessages.data_empty_msg');
-            }
+                else{
+                    $response['data'] = trans('appmessages.data_empty_msg');
+                }
 
-            $response['status'] = 1;
-            $response['login'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
 
-            $this->log->info('Response for Level2questions' , array('api-name'=> 'getLevel2Activity'));
+                $this->log->info('Response for Level3 search Career' , array('api-name'=> 'searchCareers'));
+            } else {
+                $this->log->error('Parameter missing error' , array('api-name'=> 'searchCareers'));
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->error('Parameter missing error' , array('api-name'=> 'searchCareers'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);
@@ -259,7 +292,7 @@ class level3ActivityController extends Controller {
     public function getTeenagerCareersWithBaket(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getTeenagerCareersWithBaket'));
         if($request->userId != "" && $teenager) {
 
             $data = $this->baskets->getStarredBasketsAndProfessionByUserId($teenager->id);
@@ -273,6 +306,15 @@ class level3ActivityController extends Controller {
                     else{
                         $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                     }
+
+                    $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                    if($youtubeId != ''){
+                        $data[$key]->b_video = $youtubeId;
+                        $data[$key]->type_video = '1'; //Youtube
+                    }
+                    else{
+                        $data[$key]->type_video = '2'; //Dropbox
+                    }
                     
                     $data[$key]->total_basket_profession = count($value->profession);
                     $data[$key]->basket_completed_profession = '12';
@@ -292,7 +334,7 @@ class level3ActivityController extends Controller {
                     
                 }
                 $response['data']['baskets'] = $data;
-                $response['data']['total_profession'] = '20';
+                $response['data']['total_profession'] = '200';
                 $response['data']['completed_profession'] = '123';
             }
             else{
@@ -303,9 +345,9 @@ class level3ActivityController extends Controller {
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
 
-            $this->log->info('Response for Level2questions' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->info('Response for Level3 get Teenager Careers With Baket' , array('api-name'=> 'getTeenagerCareersWithBaket'));
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getTeenagerCareersWithBaket'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);
@@ -314,247 +356,489 @@ class level3ActivityController extends Controller {
     public function getCareersDetailsByCareerSlug(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getLevel2Activity'));
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getCareersDetails'));
         if($request->userId != "" && $teenager) {
-            
-            $slug = $request->careerSlug;
-
-            if($teenager->t_view_information == 1){
-                $countryId = 2; // United States
-            }else{
-                $countryId = 1; // India
-            }
-
-            $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $teenager->id);
-
-            if($professionsData){
+            if($request->careerSlug != "") {
                 
-                if($professionsData->pf_logo != '' && Storage::size($this->professionThumbUrl . $professionsData->pf_logo) > 0){
-                    $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $professionsData->pf_logo);
+                $slug = $request->careerSlug;
+
+                if($teenager->t_view_information == 1){
+                    $countryId = 2; // United States
+                    $currencySymbol = '$';
+                }else{
+                    $countryId = 1; // India
+                    $currencySymbol = '₹';
+                }
+
+                $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $teenager->id);
+
+                if($professionsData){
+                    $professionsData->countryId = $countryId;
+                    if($professionsData->pf_logo != '' && Storage::size($this->professionThumbUrl . $professionsData->pf_logo) > 0){
+                        $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $professionsData->pf_logo);
+                    }
+                    else{
+                        $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                    }
+
+                    $youtubeId = Helpers::youtube_id_from_url($professionsData->pf_video);
+                    if($youtubeId != ''){
+                        $professionsData->pf_video = $youtubeId;
+                        $professionsData->type_video = '1'; //Youtube
+                    }
+                    else{
+                        $professionsData->type_video = '2'; //Dropbox
+                    }
+
+                    if(count($professionsData->starRatedProfession)>0){
+                        $professionsData->star_rated = 1;
+                    }
+                    else{
+                        $professionsData->star_rated = 0;
+                    }
+
+                    $average_per_year_salary = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'average_per_year_salary';
+                                })->first();
+                    $work_hours_per_week = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'work_hours_per_week';
+                                })->first();
+                    $positions_current = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'positions_current';
+                                })->first();
+                    $positions_projected = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'positions_projected';
+                                })->first();
+                    $profession_description = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_description';
+                                })->first();
+                    $profession_outlook = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_outlook';
+                                })->first();
+                    $AI_redundancy_threat = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'ai_redundancy_threat';
+                                })->first();
+                    $profession_job_activities = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_job_activities';
+                                })->first();
+                    $profession_workplace = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_workplace';
+                                })->first();
+                    $profession_skills = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_skills';
+                                })->first();
+                    $profession_personality = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_personality';
+                                })->first();
+                    $profession_education_path = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_education_path';
+                                })->first();
+                    $profession_licensing = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_licensing';
+                                })->first();
+                    $profession_experience = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_experience';
+                                })->first();
+                    $profession_growth_path = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_growth_path';
+                                })->first();
+                    $salary_range = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'salary_range';
+                                })->first();
+                    $profession_bridge = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_bridge';
+                                })->first();
+                    $trends_infolinks_usa = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'trends_infolinks';
+                                })->first();
+                    $high_school_req = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'high_school_req';
+                                })->first();
+                    $junior_college_req = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'junior_college_req';
+                                })->first();
+                    $bachelor_degree_req = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'bachelor_degree_req';
+                                })->first();
+                    $masters_degree_req = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'masters_degree_req';
+                                })->first();
+                    $PhD_req = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'phd_req';
+                                })->first();
+
+                    $professionsData->average_per_year_salary = (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? $average_per_year_salary->pfic_content : '';
+                    $professionsData->work_hours_per_week = (isset($work_hours_per_week->pfic_content) && !empty($work_hours_per_week->pfic_content)) ? $work_hours_per_week->pfic_content : '';
+                    $professionsData->positions_current = (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '';
+                    $professionsData->positions_projected = (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '';
+                    $professionsData->profession_description = (isset($profession_description->pfic_content) && !empty($profession_description->pfic_content)) ? $profession_description->pfic_content : '';
+                    $professionsData->profession_outlook = (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? $profession_outlook->pfic_content : '';
+                    $professionsData->AI_redundancy_threat = (isset($AI_redundancy_threat->pfic_content) && !empty($AI_redundancy_threat->pfic_content)) ? $AI_redundancy_threat->pfic_content : '';
+                    $professionsData->profession_job_activities = (isset($profession_job_activities->pfic_content) && !empty($profession_job_activities->pfic_content)) ? $profession_job_activities->pfic_content : '';
+                    $professionsData->profession_workplace = (isset($profession_workplace->pfic_content) && !empty($profession_workplace->pfic_content)) ? $profession_workplace->pfic_content : '';
+                    $professionsData->profession_skills = (isset($profession_skills->pfic_content) && !empty($profession_skills->pfic_content)) ? $profession_skills->pfic_content : '';
+                    $professionsData->profession_personality = (isset($profession_personality->pfic_content) && !empty($profession_personality->pfic_content)) ? $profession_personality->pfic_content : '';
+                    
+                    $professionsData->profession_licensing = (isset($profession_licensing->pfic_content) && !empty($profession_licensing->pfic_content)) ? $profession_licensing->pfic_content : '';
+                    $professionsData->profession_experience = (isset($profession_experience->pfic_content) && !empty($profession_experience->pfic_content)) ? $profession_experience->pfic_content : '';
+                    $professionsData->profession_growth_path = (isset($profession_growth_path->pfic_content) && !empty($profession_growth_path->pfic_content)) ? $profession_growth_path->pfic_content : '';
+                    $professionsData->salary_range = (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $currencySymbol.$salary_range->pfic_content : '';
+                    $professionsData->profession_bridge = (isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content)) ? $profession_bridge->pfic_content : '';
+                    $professionsData->trends_infolinks_usa = (isset($trends_infolinks_usa->pfic_content) && !empty($trends_infolinks_usa->pfic_content)) ? $trends_infolinks_usa->pfic_content : '';
+
+                    if(isset($high_school_req->pfic_content)){
+                        if($countryId == 1){ // India
+                            if(strip_tags($high_school_req->pfic_content) == 0){
+                                $high_school = 10;
+                            }elseif(strip_tags($high_school_req->pfic_content) == 1){
+                                $high_school = 20;
+                            }else{
+                                $high_school = strip_tags($high_school_req->pfic_content);
+                            }
+                        }
+                        elseif($countryId == 2){ // United States
+                            $high_school = strip_tags($high_school_req->pfic_content);
+                        }
+                    }else{
+                        $high_school = 0;
+                    }
+
+                    if(isset($junior_college_req->pfic_content)){
+                        if($countryId == 1){ // India
+                            if(strip_tags($junior_college_req->pfic_content) == 0){
+                                $junior_college = 10;
+                            }elseif(strip_tags($junior_college_req->pfic_content) == 1){
+                                $junior_college = 20;
+                            }else{
+                                $junior_college = strip_tags($junior_college_req->pfic_content);
+                            }
+                        }
+                        elseif($countryId == 2){ // United States
+                            $junior_college = strip_tags($junior_college_req->pfic_content);
+                        }
+                    }else{
+                        $junior_college = 0;
+                    }
+
+                    if(isset($bachelor_degree_req->pfic_content)){
+                        if($countryId == 1){ // India
+                            if(strip_tags($bachelor_degree_req->pfic_content) == 0){
+                                $bachelor_degree = 10;
+                            }elseif(strip_tags($bachelor_degree_req->pfic_content) == 1){
+                                $bachelor_degree = 20;
+                            }else{
+                                $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
+                            }
+                        }
+                        elseif($countryId == 2){ // United States
+                            $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
+                        }
+                    }else{
+                        $bachelor_degree = 0;
+                    }
+
+                    if(isset($masters_degree_req->pfic_content)){
+                        if($countryId == 1){ // India
+                            if(strip_tags($masters_degree_req->pfic_content) == 0){
+                                $masters_degree = 10;
+                            }elseif(strip_tags($masters_degree_req->pfic_content) == 1){
+                                $masters_degree = 20;
+                            }else{
+                                $masters_degree = strip_tags($masters_degree_req->pfic_content);
+                            }
+                        }
+                        elseif($countryId == 2){ // United States
+                            $masters_degree = strip_tags($masters_degree_req->pfic_content);
+                        }
+                    }else{
+                        $masters_degree = 0;
+                    }
+
+                    if(isset($PhD_req->pfic_content)){
+                        if($countryId == 1){ // India
+                            if(strip_tags($PhD_req->pfic_content) == 0){
+                                $phd_degree = 10;
+                            }elseif(strip_tags($PhD_req->pfic_content) == 1){
+                                $phd_degree = 20;
+                            }else{
+                                $phd_degree = strip_tags($PhD_req->pfic_content);
+                            }
+                        }
+                        elseif($countryId == 2){ // United States
+                            $phd_degree = strip_tags($PhD_req->pfic_content);
+                        }
+                    }else{
+                        $phd_degree = 0;
+                    }
+
+                    $education['profession_education_path'] = (isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content)) ? $profession_education_path->pfic_content : '';
+                    $education['high_school_req'] = $high_school;
+                    $education['junior_college_req'] = $junior_college;
+                    $education['bachelor_degree_req'] = $bachelor_degree;
+                    $education['masters_degree_req'] = $masters_degree;
+                    $education['PhD_req'] = $phd_degree;
+
+                    $professionsData->education = $education;
+
+                    $careerMapHelperArray = Helpers::getCareerMapColumnName();
+                    $careerMappingdata = [];
+                    if(count($professionsData->careerMapping)>0){
+                        foreach ($careerMapHelperArray as $key => $value) {
+                            $data = [];
+                            if($professionsData->careerMapping[$value] != 'L'){
+                                $arr = explode("_", $key);
+                                if($arr[0] == 'apt'){
+                                    $apptitudeData = $this->objApptitude->getApptitudeDetailBySlug($key);
+                                    $data['cm_name'] = $apptitudeData->apt_name;   
+                                    $data['cm_image_url'] = Storage::url($this->aptitudeThumb . $apptitudeData->apt_logo);
+                                    $data['cm_type'] = Config::get('constant.APPTITUDE_TYPE');   
+                                    $data['cm_slug'] = $apptitudeData->apt_slug;   
+                                    $careerMappingdata[] = $data;
+                                }
+                                // elseif($arr[0] == 'mit'){
+                                //     $multipleIntelligentData = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($key);
+                                //     $data['cm_name'] = $multipleIntelligentData->mit_name;
+                                //     $data['cm_image_url'] = Storage::url($this->miThumb.$multipleIntelligentData->mit_logo);
+                                //     $data['cm_type'] = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
+                                //     $data['cm_slug'] = $multipleIntelligentData->mi_slug;
+                                //     $careerMappingdata[] = $data;
+                                // }
+                                // elseif($arr[0] == 'pt'){
+                                //     $personalityData = $this->objPersonality->getPersonalityDetailBySlug($key);
+                                //     $data['cm_name'] = $personalityData->pt_name;
+                                //     $data['cm_image_url'] = Storage::url($this->personalityThumb.$personalityData->pt_logo);
+                                //     $data['cm_type'] = Config::get('constant.PERSONALITY_TYPE');
+                                //     $data['cm_slug'] = $personalityData->pt_slug;
+                                //     $careerMappingdata[] = $data;
+                                // }
+                            }
+                        }    
+                    }
+                    $professionsData->ability = $careerMappingdata;
+
+                    $certificates = [];
+                    if(count($professionsData->professionCertificates)>0){
+                        foreach ($professionsData->professionCertificates as $key => $value){
+                            $data = [];
+                            
+                            $data = $value->certificate;
+                            if($value->certificate['pc_image'] != '' && Storage::size($this->professionCertificationImagePath . $value->certificate['pc_image']) > 0){
+                                $data['pc_image'] = Storage::url($this->professionCertificationImagePath . $value->certificate['pc_image']);
+                            }
+                            else{
+                                $data['pc_image'] = Storage::url($this->professionCertificationImagePath . $this->professionDefaultProteenImage);
+                            }
+                            
+                            $certificates[] = $data;
+                        }
+                    }
+                    $professionsData->certificates = $certificates;
+
+                    $subjects = [];
+                    if(count($professionsData->professionSubject)>0){
+                        foreach ($professionsData->professionSubject as $key => $value){
+                            $data = [];
+                            
+                            $data = $value->subject;
+                            if($value->subject['ps_image'] != '' && Storage::size($this->professionSubjectImagePath . $value->subject['ps_image']) > 0){
+                                $data['ps_image'] = Storage::url($this->professionSubjectImagePath . $value->subject['ps_image']);
+                            }
+                            else{
+                                $data['ps_image'] = Storage::url($this->professionSubjectImagePath . $this->professionDefaultProteenImage);
+                            }
+                            
+                            $subjects[] = $data;
+                        }
+                    }
+                    $professionsData->subjects = $subjects;
+
+                    $tags = [];
+                    if(count($professionsData->professionTags)>0){
+                        foreach ($professionsData->professionTags as $key => $value){
+                            $data = [];
+                            
+                            $data = $value->tag;
+                            if($value->tag['pt_image'] != '' && Storage::size($this->professionTagImagePath . $value->tag['pt_image']) > 0){
+                                $data['pt_image'] = Storage::url($this->professionTagImagePath . $value->tag['pt_image']);
+                            }
+                            else{
+                                $data['pt_image'] = Storage::url($this->professionTagImagePath . $this->professionDefaultProteenImage);
+                            }
+                            
+                            $tags[] = $data;
+                        }
+                    }
+                    $professionsData->tags = $tags;
+
+                    unset($professionsData->careerMapping);
+                    unset($professionsData->professionHeaders);
+                    unset($professionsData->professionCertificates);
+                    unset($professionsData->professionTags);
+                    unset($professionsData->professionSubject);
+                    unset($professionsData->starRatedProfession);
+
+                    $response['data'] = $professionsData;
                 }
                 else{
-                    $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                    $response['data'] = trans('appmessages.data_empty_msg');
                 }
 
-                $average_per_year_salary = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'average_per_year_salary';
-                            })->first();
-                $work_hours_per_week = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'work_hours_per_week';
-                            })->first();
-                $positions_current = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'positions_current';
-                            })->first();
-                $positions_projected = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'positions_projected';
-                            })->first();
-                $profession_description = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_description';
-                            })->first();
-                $profession_outlook = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_outlook';
-                            })->first();
-                $AI_redundancy_threat = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'ai_redundancy_threat';
-                            })->first();
-                $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_subject_knowledge';
-                            })->first();
-                $profession_job_activities = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_job_activities';
-                            })->first();
-                $profession_workplace = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_workplace';
-                            })->first();
-                $profession_skills = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_skills';
-                            })->first();
-                $profession_personality = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_personality';
-                            })->first();
-                $profession_education_path = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_education_path';
-                            })->first();
-                $profession_licensing = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_licensing';
-                            })->first();
-                $profession_experience = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_experience';
-                            })->first();
-                $profession_growth_path = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_growth_path';
-                            })->first();
-                $salary_range = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'salary_range';
-                            })->first();
-                $profession_bridge = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_bridge';
-                            })->first();
-                $trends_infolinks_usa = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'trends_infolinks';
-                            })->first();
-                $high_school_req = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'high_school_req';
-                            })->first();
-                $junior_college_req = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'junior_college_req';
-                            })->first();
-                $bachelor_degree_req = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'bachelor_degree_req';
-                            })->first();
-                $masters_degree_req = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'masters_degree_req';
-                            })->first();
-                $PhD_req = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'phd_req';
-                            })->first();
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
 
-                $professionsData->average_per_year_salary = (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? $average_per_year_salary->pfic_content : '';
-                $professionsData->work_hours_per_week = (isset($work_hours_per_week->pfic_content) && !empty($work_hours_per_week->pfic_content)) ? $work_hours_per_week->pfic_content : '';
-                $professionsData->positions_current = (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '';
-                $professionsData->positions_projected = (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '';
-                $professionsData->profession_description = (isset($profession_description->pfic_content) && !empty($profession_description->pfic_content)) ? $profession_description->pfic_content : '';
-                $professionsData->profession_outlook = (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? $profession_outlook->pfic_content : '';
-                $professionsData->AI_redundancy_threat = (isset($AI_redundancy_threat->pfic_content) && !empty($AI_redundancy_threat->pfic_content)) ? $AI_redundancy_threat->pfic_content : '';
-                $professionsData->profession_subject_knowledge = (isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content)) ? $profession_subject_knowledge->pfic_content : '';
-                $professionsData->profession_job_activities = (isset($profession_job_activities->pfic_content) && !empty($profession_job_activities->pfic_content)) ? $profession_job_activities->pfic_content : '';
-                $professionsData->profession_workplace = (isset($profession_workplace->pfic_content) && !empty($profession_workplace->pfic_content)) ? $profession_workplace->pfic_content : '';
-                $professionsData->profession_skills = (isset($profession_skills->pfic_content) && !empty($profession_skills->pfic_content)) ? $profession_skills->pfic_content : '';
-                $professionsData->profession_personality = (isset($profession_personality->pfic_content) && !empty($profession_personality->pfic_content)) ? $profession_personality->pfic_content : '';
-                
-                $education['profession_education_path'] = (isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content)) ? $profession_education_path->pfic_content : '';
-                $education['high_school_req'] = (isset($high_school_req->pfic_content) && !empty($high_school_req->pfic_content)) ? $high_school_req->pfic_content : '';
-                $education['junior_college_req'] = (isset($junior_college_req->pfic_content) && !empty($junior_college_req->pfic_content)) ? $junior_college_req->pfic_content : '';
-                $education['bachelor_degree_req'] = (isset($bachelor_degree_req->pfic_content) && !empty($bachelor_degree_req->pfic_content)) ? $bachelor_degree_req->pfic_content : '';
-                $education['masters_degree_req'] = (isset($masters_degree_req->pfic_content) && !empty($masters_degree_req->pfic_content)) ? $masters_degree_req->pfic_content : '';
-                $education['PhD_req'] = (isset($PhD_req->pfic_content) && !empty($PhD_req->pfic_content)) ? $PhD_req->pfic_content : '';
-
-                $professionsData->education = $education;
-                $professionsData->profession_licensing = (isset($profession_licensing->pfic_content) && !empty($profession_licensing->pfic_content)) ? $profession_licensing->pfic_content : '';
-                $professionsData->profession_experience = (isset($profession_experience->pfic_content) && !empty($profession_experience->pfic_content)) ? $profession_experience->pfic_content : '';
-                $professionsData->profession_growth_path = (isset($profession_growth_path->pfic_content) && !empty($profession_growth_path->pfic_content)) ? $profession_growth_path->pfic_content : '';
-                $professionsData->salary_range = (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $salary_range->pfic_content : '';
-                $professionsData->profession_bridge = (isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content)) ? $profession_bridge->pfic_content : '';
-                $professionsData->trends_infolinks_usa = (isset($trends_infolinks_usa->pfic_content) && !empty($trends_infolinks_usa->pfic_content)) ? $trends_infolinks_usa->pfic_content : '';
-
-
-                $careerMapHelperArray = Helpers::getCareerMapColumnName();
-                $careerMappingdata = [];
-                if(count($professionsData->careerMapping)>0){
-                    foreach ($careerMapHelperArray as $key => $value) {
-                        $data = [];
-                        if($professionsData->careerMapping[$value] != 'L'){
-                            $arr = explode("_", $key);
-                            if($arr[0] == 'apt'){
-                                $apptitudeData = $this->objApptitude->getApptitudeDetailBySlug($key);
-                                $data['cm_name'] = $apptitudeData->apt_name;   
-                                $data['cm_image_url'] = Storage::url($this->aptitudeThumb . $apptitudeData->apt_logo);
-                                $data['cm_type'] = Config::get('constant.APPTITUDE_TYPE');   
-                                $data['cm_slug'] = $apptitudeData->apt_slug;   
-                            }
-                            elseif($arr[0] == 'mit'){
-                                $multipleIntelligentData = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($key);
-                                $data['cm_name'] = $multipleIntelligentData->mit_name;
-                                $data['cm_image_url'] = Storage::url($this->miThumb.$multipleIntelligentData->mit_logo);
-                                $data['cm_type'] = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
-                                $data['cm_slug'] = $multipleIntelligentData->mi_slug;
-                            }
-                            elseif($arr[0] == 'pt'){
-                                $personalityData = $this->objPersonality->getPersonalityDetailBySlug($key);
-                                $data['cm_name'] = $personalityData->pt_name;
-                                $data['cm_image_url'] = Storage::url($this->personalityThumb.$personalityData->pt_logo);
-                                $data['cm_type'] = Config::get('constant.PERSONALITY_TYPE');
-                                $data['cm_slug'] = $personalityData->pt_slug;
-                            }
-                        $careerMappingdata[] = $data;
-                        }
-                    }    
-                }
-                $professionsData->ability = $careerMappingdata;
-
-                $certificates = [];
-                if(count($professionsData->professionCertificates)>0){
-                    foreach ($professionsData->professionCertificates as $key => $value){
-                        $data = [];
-                        
-                        $data = $value->certificate;
-                        if($value->certificate['pc_image'] != '' && Storage::size($this->professionCertificationImagePath . $value->certificate['pc_image']) > 0){
-                            $data['pc_image'] = Storage::url($this->professionCertificationImagePath . $value->certificate['pc_image']);
-                        }
-                        else{
-                            $data['pc_image'] = Storage::url($this->professionCertificationImagePath . $this->professionDefaultProteenImage);
-                        }
-                        
-                        $certificates[] = $data;
-                    }
-                }
-                $professionsData->certificates = $certificates;
-
-                $subjects = [];
-                if(count($professionsData->professionSubject)>0){
-                    foreach ($professionsData->professionSubject as $key => $value){
-                        $data = [];
-                        
-                        $data = $value->subject;
-                        if($value->subject['ps_image'] != '' && Storage::size($this->professionSubjectImagePath . $value->subject['ps_image']) > 0){
-                            $data['ps_image'] = Storage::url($this->professionSubjectImagePath . $value->subject['ps_image']);
-                        }
-                        else{
-                            $data['ps_image'] = Storage::url($this->professionSubjectImagePath . $this->professionDefaultProteenImage);
-                        }
-                        
-                        $subjects[] = $data;
-                    }
-                }
-                $professionsData->subjects = $subjects;
-
-                $tags = [];
-                if(count($professionsData->professionTags)>0){
-                    foreach ($professionsData->professionTags as $key => $value){
-                        $data = [];
-                        
-                        $data = $value->tag;
-                        if($value->tag['pt_image'] != '' && Storage::size($this->professionTagImagePath . $value->tag['pt_image']) > 0){
-                            $data['pt_image'] = Storage::url($this->professionTagImagePath . $value->tag['pt_image']);
-                        }
-                        else{
-                            $data['pt_image'] = Storage::url($this->professionTagImagePath . $this->professionDefaultProteenImage);
-                        }
-                        
-                        $tags[] = $data;
-                    }
-                }
-                $professionsData->tags = $tags;
-
-                if(count($professionsData->starRatedProfession)>0){
-                    $professionsData->starRatedProfession = 1;
-                }
-                else{
-                    $professionsData->starRatedProfession = 0;
-                }
-
-                unset($professionsData->careerMapping);
-                unset($professionsData->professionHeaders);
-                unset($professionsData->professionCertificates);
-                unset($professionsData->professionTags);
-                unset($professionsData->professionSubject);
-                unset($professionsData->starRatedProfession);
-
-                $response['data'] = $professionsData;
+                $this->log->info('Response for Level3 get Careers Details' , array('api-name'=> 'getCareersDetails'));
+            } else {
+                $this->log->error('Parameter missing error' , array('api-name'=> 'getCareersDetails'));
+                $response['message'] = trans('appmessages.missing_data_msg');
             }
-            else{
-                $response['data'] = trans('appmessages.data_empty_msg');
-            }
-
-            $response['status'] = 1;
-            $response['login'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
-
-            $this->log->info('Response for Level2questions' , array('api-name'=> 'getLevel2Activity'));
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getCareersDetails'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);
     }
+
+    public function getBasketByCareerId(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getBasketByCareerId'));
+        if($request->userId != "" && $teenager) {
+            if($request->careerId != "") {
+                $careerId = $request->careerId;
+
+                if($teenager->t_view_information == 1){
+                    $countryId = 2; // United States
+                }else{
+                    $countryId = 1; // India
+                }
+
+                $data = $this->baskets->getBasketsAndProfessionByProfessionId($careerId, $teenager->id, $countryId);
+                            
+                if($data){
+                    foreach ($data as $key => $value) {
+                        
+                        if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
+                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
+                        }
+                        else{
+                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                        }
+        
+                        $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                        if($youtubeId != ''){
+                            $data[$key]->b_video = $youtubeId;
+                            $data[$key]->type_video = '1'; //Youtube
+                        }
+                        else{
+                            $data[$key]->type_video = '2'; //Dropbox
+                        }
+        
+                        $data[$key]->total_basket_profession = count($value->profession);
+                        $data[$key]->basket_completed_profession = '12';
+                        $data[$key]->strong_match = '12';
+                        $data[$key]->potential_match = '12';
+                        $data[$key]->unlikely_match = '12';
+
+                        foreach ($value->profession as $k => $v) {
+                            if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
+                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                            }
+                            else{
+                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                            }
+                            $data[$key]->profession[$k]->completed = rand(0,1);
+                        }
+
+                    }
+                    $response['data']['baskets'] = $data;
+                }
+                else{
+                    $response['data'] = trans('appmessages.data_empty_msg');
+                }
+
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+
+                $this->log->info('Response for Level3 get Basket By Career Id' , array('api-name'=> 'getBasketByCareerId'));
+            } else {
+                $this->log->error('Parameter missing error' , array('api-name'=> 'getBasketByCareerId'));
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getBasketByCareerId'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+    }
+
+    public function getTeenagerCareersSearch(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getTeenagerCareersWithBaket'));
+        if($request->userId != "" && $teenager) {
+            if($request->searchText != "" && $teenager) {
+                $searchText = $request->searchText;
+
+                $data = $this->baskets->getBasketsAndStarRatedProfessionByUserIdAndSearchValue($teenager->id,$searchText);
+
+                if($data){
+                    foreach ($data as $key => $value) {
+                        
+                        if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
+                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
+                        }
+                        else{
+                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                        }
+                        
+                        $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                        if($youtubeId != ''){
+                            $data[$key]->b_video = $youtubeId;
+                            $data[$key]->type_video = '1'; //Youtube
+                        }
+                        else{
+                            $data[$key]->type_video = '2'; //Dropbox
+                        }
+
+                        $data[$key]->total_basket_profession = count($value->profession);
+                        $data[$key]->basket_completed_profession = '12';
+                        $data[$key]->strong_match = '12';
+                        $data[$key]->potential_match = '12';
+                        $data[$key]->unlikely_match = '12';
+
+                        foreach ($value->profession as $k => $v) {
+                            if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
+                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                            }
+                            else{
+                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                            }
+                            $data[$key]->profession[$k]->completed = rand(0,1);
+                        }
+                        
+                    }
+                    $response['data']['baskets'] = $data;
+                }
+                else{
+                    $response['data'] = trans('appmessages.data_empty_msg');
+                }
+
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+
+                $this->log->info('Response for Level3 get Teenager Careers With Baket' , array('api-name'=> 'getTeenagerCareersWithBaket'));
+            } else {
+                $this->log->error('Parameter missing error' , array('api-name'=> 'getTeenagerCareersWithBaket'));
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getTeenagerCareersWithBaket'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+    }
+
 }
