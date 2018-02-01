@@ -134,8 +134,8 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/searchCareers', 'Webservice\level3ActivityController@getCareersSearch');
 	Route::post('/getBasketByCareerId', 'Webservice\level3ActivityController@getBasketByCareerId');
 	Route::post('/getCareersDetails', 'Webservice\level3ActivityController@getCareersDetailsByCareerSlug');
-	Route::post('/getTeenagerCareersWithBaket', 'Webservice\level3ActivityController@getTeenagerCareersWithBaket');
-	Route::post('/searchTeenagerCareersWithBaket', 'Webservice\level3ActivityController@getTeenagerCareersSearch');
+	Route::post('/getTeenagerCareersWithBasket', 'Webservice\level3ActivityController@getTeenagerCareersWithBaket');
+	Route::post('/searchTeenagerCareersWithBasket', 'Webservice\level3ActivityController@getTeenagerCareersSearch');
 
 	//Notification
 	Route::post('/getNotification', 'Webservice\NotificaionController@getNotificationPageWise');
