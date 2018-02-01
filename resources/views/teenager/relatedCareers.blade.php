@@ -1,4 +1,4 @@
- <ul class="career-list">
+<ul class="career-list">
      @forelse ($relatedCareers as $career)
     <?php $career->matched = rand(0,2); 
         switch($career->matched) {

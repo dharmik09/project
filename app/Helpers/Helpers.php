@@ -3002,4 +3002,9 @@ Class Helpers {
                         'pt_mechanical' => 'tcm_doers_realistic');
         return $careerArray;
     }
+    
+    public static function calculateProfileComplete($teenagerId)
+    {
+       
+    }
 }
