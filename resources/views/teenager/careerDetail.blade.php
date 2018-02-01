@@ -178,12 +178,6 @@
                                         @endif
                                     </div>
 
-                                    <?php
-                                        $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_subject_knowledge';
-                                        })->first();
-                                    ?>
-
                                     <div class="block">
                                         <h4>Subjects</h4>
                                         @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
