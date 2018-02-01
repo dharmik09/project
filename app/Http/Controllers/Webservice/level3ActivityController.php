@@ -321,19 +321,28 @@ class level3ActivityController extends Controller {
 
             if($teenager->t_view_information == 1){
                 $countryId = 2; // United States
+                $currencySymbol = '$';
             }else{
                 $countryId = 1; // India
+                $currencySymbol = '₹';
             }
 
             $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $teenager->id);
 
             if($professionsData){
-                
+                $professionsData->countryId = $countryId;
                 if($professionsData->pf_logo != '' && Storage::size($this->professionThumbUrl . $professionsData->pf_logo) > 0){
                     $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $professionsData->pf_logo);
                 }
                 else{
                     $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                }
+
+                if(count($professionsData->starRatedProfession)>0){
+                    $professionsData->star_rated = 1;
+                }
+                else{
+                    $professionsData->star_rated = 0;
                 }
 
                 $average_per_year_salary = $professionsData->professionHeaders->filter(function($item) {
@@ -422,21 +431,106 @@ class level3ActivityController extends Controller {
                 $professionsData->profession_skills = (isset($profession_skills->pfic_content) && !empty($profession_skills->pfic_content)) ? $profession_skills->pfic_content : '';
                 $professionsData->profession_personality = (isset($profession_personality->pfic_content) && !empty($profession_personality->pfic_content)) ? $profession_personality->pfic_content : '';
                 
-                $education['profession_education_path'] = (isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content)) ? $profession_education_path->pfic_content : '';
-                $education['high_school_req'] = (isset($high_school_req->pfic_content) && !empty($high_school_req->pfic_content)) ? $high_school_req->pfic_content : '';
-                $education['junior_college_req'] = (isset($junior_college_req->pfic_content) && !empty($junior_college_req->pfic_content)) ? $junior_college_req->pfic_content : '';
-                $education['bachelor_degree_req'] = (isset($bachelor_degree_req->pfic_content) && !empty($bachelor_degree_req->pfic_content)) ? $bachelor_degree_req->pfic_content : '';
-                $education['masters_degree_req'] = (isset($masters_degree_req->pfic_content) && !empty($masters_degree_req->pfic_content)) ? $masters_degree_req->pfic_content : '';
-                $education['PhD_req'] = (isset($PhD_req->pfic_content) && !empty($PhD_req->pfic_content)) ? $PhD_req->pfic_content : '';
-
-                $professionsData->education = $education;
                 $professionsData->profession_licensing = (isset($profession_licensing->pfic_content) && !empty($profession_licensing->pfic_content)) ? $profession_licensing->pfic_content : '';
                 $professionsData->profession_experience = (isset($profession_experience->pfic_content) && !empty($profession_experience->pfic_content)) ? $profession_experience->pfic_content : '';
                 $professionsData->profession_growth_path = (isset($profession_growth_path->pfic_content) && !empty($profession_growth_path->pfic_content)) ? $profession_growth_path->pfic_content : '';
-                $professionsData->salary_range = (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $salary_range->pfic_content : '';
+                $professionsData->salary_range = (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $currencySymbol.$salary_range->pfic_content : '';
                 $professionsData->profession_bridge = (isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content)) ? $profession_bridge->pfic_content : '';
                 $professionsData->trends_infolinks_usa = (isset($trends_infolinks_usa->pfic_content) && !empty($trends_infolinks_usa->pfic_content)) ? $trends_infolinks_usa->pfic_content : '';
 
+                if(isset($high_school_req->pfic_content)){
+                    if($countryId == 1){ // India
+                        if(strip_tags($high_school_req->pfic_content) == 0){
+                            $high_school = 10;
+                        }elseif(strip_tags($high_school_req->pfic_content) == 1){
+                            $high_school = 20;
+                        }else{
+                            $high_school = strip_tags($high_school_req->pfic_content);
+                        }
+                    }
+                    elseif($countryId == 2){ // United States
+                        $high_school = strip_tags($high_school_req->pfic_content);
+                    }
+                }else{
+                    $high_school = 0;
+                }
+
+                if(isset($junior_college_req->pfic_content)){
+                    if($countryId == 1){ // India
+                        if(strip_tags($junior_college_req->pfic_content) == 0){
+                            $junior_college = 10;
+                        }elseif(strip_tags($junior_college_req->pfic_content) == 1){
+                            $junior_college = 20;
+                        }else{
+                            $junior_college = strip_tags($junior_college_req->pfic_content);
+                        }
+                    }
+                    elseif($countryId == 2){ // United States
+                        $junior_college = strip_tags($junior_college_req->pfic_content);
+                    }
+                }else{
+                    $junior_college = 0;
+                }
+
+                if(isset($bachelor_degree_req->pfic_content)){
+                    if($countryId == 1){ // India
+                        if(strip_tags($bachelor_degree_req->pfic_content) == 0){
+                            $bachelor_degree = 10;
+                        }elseif(strip_tags($bachelor_degree_req->pfic_content) == 1){
+                            $bachelor_degree = 20;
+                        }else{
+                            $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
+                        }
+                    }
+                    elseif($countryId == 2){ // United States
+                        $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
+                    }
+                }else{
+                    $bachelor_degree = 0;
+                }
+
+                if(isset($masters_degree_req->pfic_content)){
+                    if($countryId == 1){ // India
+                        if(strip_tags($masters_degree_req->pfic_content) == 0){
+                            $masters_degree = 10;
+                        }elseif(strip_tags($masters_degree_req->pfic_content) == 1){
+                            $masters_degree = 20;
+                        }else{
+                            $masters_degree = strip_tags($masters_degree_req->pfic_content);
+                        }
+                    }
+                    elseif($countryId == 2){ // United States
+                        $masters_degree = strip_tags($masters_degree_req->pfic_content);
+                    }
+                }else{
+                    $masters_degree = 0;
+                }
+
+                if(isset($PhD_req->pfic_content)){
+                    if($countryId == 1){ // India
+                        if(strip_tags($PhD_req->pfic_content) == 0){
+                            $phd_degree = 10;
+                        }elseif(strip_tags($PhD_req->pfic_content) == 1){
+                            $phd_degree = 20;
+                        }else{
+                            $phd_degree = strip_tags($PhD_req->pfic_content);
+                        }
+                    }
+                    elseif($countryId == 2){ // United States
+                        $phd_degree = strip_tags($PhD_req->pfic_content);
+                    }
+                }else{
+                    $phd_degree = 0;
+                }
+
+                $education['profession_education_path'] = (isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content)) ? $profession_education_path->pfic_content : '';
+                $education['high_school_req'] = $high_school;
+                $education['junior_college_req'] = $junior_college;
+                $education['bachelor_degree_req'] = $bachelor_degree;
+                $education['masters_degree_req'] = $masters_degree;
+                $education['PhD_req'] = $phd_degree;
+
+                $professionsData->education = $education;
 
                 $careerMapHelperArray = Helpers::getCareerMapColumnName();
                 $careerMappingdata = [];
@@ -525,13 +619,6 @@ class level3ActivityController extends Controller {
                     }
                 }
                 $professionsData->tags = $tags;
-
-                if(count($professionsData->starRatedProfession)>0){
-                    $professionsData->starRatedProfession = 1;
-                }
-                else{
-                    $professionsData->starRatedProfession = 0;
-                }
 
                 unset($professionsData->careerMapping);
                 unset($professionsData->professionHeaders);
