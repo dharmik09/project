@@ -127,3 +127,6 @@ Route::post('/delete-notification', 'Teenager\ChatController@deleteNotification'
 //Help
 Route::post('/get-help-text', 'Teenager\HelpController@getHelpTextBySlug');
 Route::get('/payment', 'Teenager\CoinManagementController@payment');
+
+//L3
+Route::post('/teen-l3-career-research', 'Teenager\Level3ActivityController@level3CareerResearch');
