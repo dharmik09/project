@@ -421,6 +421,12 @@ h6 {
         }
     } // Second section start here
     .career-data {
+        a{
+                color: $white;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
         h2 {
             color: $white;
             margin-bottom: 20px;

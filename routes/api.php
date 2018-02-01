@@ -136,4 +136,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getTeenagerCareersWithBaket', 'Webservice\level3ActivityController@getTeenagerCareersWithBaket');
 	Route::post('/searchTeenagerCareersWithBaket', 'Webservice\level3ActivityController@getTeenagerCareersSearch');
 
+	//Notification
+	Route::post('/getNotification', 'Webservice\NotificaionController@getNotificationPageWise');
+	Route::post('/getNotificationCount', 'Webservice\NotificaionController@getUnreadNotificationCount');
+	Route::post('/deleteNotification', 'Webservice\NotificaionController@deleteNotification');
+
 });
