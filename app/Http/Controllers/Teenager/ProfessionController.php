@@ -432,9 +432,43 @@ class ProfessionController extends Controller {
         unset($professionsData->careerMapping);
         $professionsData->ability = $careerMappingdata;
 
+        $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails(Auth::guard('teenager')->user()->id);
+        $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
+        $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
+
+        foreach($teenagerMI as $miKey => $miVal) {
+            $mitName = Helpers::getMIBySlug($miKey);
+            $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
+                $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'max' => $teenagerAPIMaxScore['MI'][$miKey]));
+        }
+
+        $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
+        foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
+            $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
+            $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
+            $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'max' => $teenagerAPIMaxScore['aptitude'][$apptitudeKey]));
+        }
+        $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
+        foreach($teenagerPersonality as $personalityKey => $personalityVal) {
+            $ptName = Helpers::getPersonalityBySlug($personalityKey);
+            $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
+            $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'max' => $teenagerAPIMaxScore['personality'][$personalityKey]));
+        }
+        $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
-        return view('teenager.careerDetail', compact('professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath'));
+        return view('teenager.careerDetail', compact('professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath','teenagerStrength'));
+    }
+
+    //Calculate teenager strength and interest score percentage
+    public function getTeenScoreInPercentage($maxScore, $teenScore) 
+    {
+        if ($teenScore > $maxScore) {
+            $teenScore = $maxScore;
+        }
+        $mul = 100*$teenScore;
+        $percentage = $mul/$maxScore;
+        return round($percentage);
     }
 
     public function addStarToCareer(Request $request) 
