@@ -64,4 +64,6 @@ class CareerMapping extends Model implements AuthenticatableContract, Authorizab
                     ->count();
         return $careersCount;
     }
+
+    
 }

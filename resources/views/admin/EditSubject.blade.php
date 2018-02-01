@@ -181,7 +181,7 @@
         var str = $(this).val();
         str = str.replace(/[^a-zA-Z0-9\s]/g, "");
         str = str.toLowerCase();
-        str = str.replace(/\s/g, '-');
+        str = str.replace(/\s/g, '_');
         $('#ps_slug').val(str);
     });
     </script>

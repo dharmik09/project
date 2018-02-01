@@ -1150,6 +1150,35 @@
         });
     });
     
+    var youtubeVideo = '{{$videoCode}}';
+    if(youtubeVideo == ''){
+      var isYouTube = 0;
+    }
+    else{
+      var isYouTube = 1;  
+    }
+    
+    setTimeout(function() {
+       saveBoosterPoints({{$professionsData->id}},2,isYouTube);
+    }, 10000);
+    
+    function saveBoosterPoints(professionId, type, isYouTube)
+    {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = '&professionId=' + professionId + '&type=' + type + '&isYouTube=' + isYouTube;
+        $.ajax({
+            url : '{{ url("teenager/teen-l3-career-research") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+            },
+            success : function (response) {
+                
+            }
+        });
+    }
+    
     <?php
         $high_school_req = $professionsData->professionHeaders->filter(function($item) {
             return $item->pfic_title == 'high_school_req';

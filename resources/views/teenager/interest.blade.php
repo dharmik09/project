@@ -96,20 +96,9 @@
                             <li><span class="number match-unlikely">4</span> Unlikely match</li>
                         </ul>
                     </div>
-                    <ul class="career-list">
-                        <li class="match-strong complete-feild"><a href="#" title="Meat, Poultry and Fish Cutters and Trimmers">Meat, Poultry and Fish Cutters and Trimmers</a>
-                            <a href="#" class="complete"><span>Complete</span></a>
-                        </li>
-                        <li class="match-potential"><a href="#" title="Purchasing Agents & Buyers">Purchasing Agents &amp; Buyers</a></li>
-                        <li class="match-potential"><a href="#" title="Rotary Drill Operators, Oil and Gas">Rotary Drill Operators, Oil and Gas</a></li>
-                        <li class="match-unlikely"><a href="#" title="Agricultural and Food Science Technicians">Agricultural and Food Science Technicians</a></li>
-                        <li class="match-strong complete-feild"><a href="#" title="Agricultural Equipment Operators">Agricultural Equipment Operators</a>
-                            <a href="#" class="complete"><span>Complete</span></a>
-                        </li>
-                        <li class="match-strong"><a href="#" title="Conservation Scientists">Conservation Scientists</a></li>
-                        <li class="match-potential"><a href="#" title="Environmental Engineers">Environmental Engineers</a></li>
-                    </ul>
-                    <p class="text-center"><a href="#" title="see more">see more</a></p>
+                    <div class="new-career">
+                        @include('teenager/relatedCareers')
+                    </div>
                 </div>
             </div>
         </div>
@@ -240,6 +229,29 @@
             $('iframe').show();
             $("#iframe-video")[0].src += "&autoplay=1";
             ev.preventDefault();                       
+        });
+        $(document).on('click','#see-more',function(){
+            $(".new-career .loader_con").show();
+            var lastCareerId = $(this).data('id');
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var slug = '{{$interest->it_slug}}';
+            var form_data = 'lastCareerId=' + lastCareerId + '&slug=' + slug;
+            $.ajax({
+                url : '{{ url("teenager/see-more-interest-related-careers") }}',
+                method : "POST",
+                data: form_data,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                dataType : "text",
+                success : function (data) {
+                    $(".new-career .loader_con").hide();
+                    if(data != '') {
+                        $('.remove-row').remove();
+                        $('.new-career').append(data);
+                    } 
+                }
+            });
         });
     </script>
 @endsection
