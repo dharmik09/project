@@ -98,90 +98,9 @@
         <!--team section-->
         <section class="sec-team">
             <div class="container">
-                <div class="bg-white">
+                <div class="bg-white new-gurus userData">
                     <h4>Meet the {{ $multipleIntelligence->title }} gurus:</h4>
-                    <div class="team-list">
-                        <div class="flex-item">
-                            <div class="team-detail">
-                                <div class="team-img">
-                                    <img src="{{ Storage::url('img/ellen.jpg') }}" alt="team">
-                                </div>
-                                <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
-                            </div>
-                        </div>
-                        <div class="flex-item">
-                            <div class="team-point">
-                                520,000 points
-                                <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="team-list">
-                        <div class="flex-item">
-                            <div class="team-detail">
-                                <div class="team-img">
-                                    <img src="{{ Storage::url('img/alex.jpg') }}" alt="team">
-                                </div>
-                                <a href="#" title="Alex Murphy">Alex Murphy</a>
-                            </div>
-                        </div>
-                        <div class="flex-item">
-                            <div class="team-point">
-                                515,000 points
-                                <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="team-list">
-                        <div class="flex-item">
-                            <div class="team-detail">
-                                <div class="team-img">
-                                    <img src="{{ Storage::url('img/diana.jpg') }}" alt="team">
-                                </div>
-                                <a href="#" title=" Diana Prince"> Diana Prince</a>
-                            </div>
-                        </div>
-                        <div class="flex-item">
-                            <div class="team-point">
-                                511,000 points
-                                <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="team-list">
-                        <div class="flex-item">
-                            <div class="team-detail">
-                                <div class="team-img">
-                                    <img src="{{ Storage::url('img/peter.jpg') }}" alt="team">
-                                </div>
-                                <a href="#" title="Peter Parker">Peter Parker</a>
-                            </div>
-                        </div>
-                        <div class="flex-item">
-                            <div class="team-point">
-                                509,000 points
-                                <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="team-list">
-                        <div class="flex-item">
-                            <div class="team-detail">
-                                <div class="team-img">
-                                    <img src="{{ Storage::url('img/rico.jpg') }}" alt="team">
-                                </div>
-                                <a href="#" title="Rico Frost">Rico Frost</a>
-                            </div>
-                        </div>
-                        <div class="flex-item">
-                            <div class="team-point">
-                                508,000 points
-                                <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="loader_con" ><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}"></div>
-                    <p class="text-center"><a href="#" title="see more">see more</a></p>
+                    @include('teenager/listingGurus')
                 </div>
             </div>
         </section>
@@ -216,14 +135,35 @@
                 },
                 dataType : "text",
                 success : function (data) {
+                    $(".new-career .loader_con").hide();
                     if(data != '') {
-                        //$('#remove-row').remove();
-                        $(".new-career .loader_con").hide();
-                        $('.remove-row').remove();
+                        $('.new-career .remove-row').remove();
                         $('.new-career').append(data);
-                    } else {
-                        //$('#btn-more').html("No Data");
                     }
+                }
+            });
+        });
+        var slotCount = 1;
+        $(document).on('click','#see-more-guru', function(){
+            $(".new-gurus .loader_con").show();
+            var slot = slotCount++;
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var slug = '{{$multipleIntelligence->slug}}';
+            var form_data = 'slot=' + slot + '&slug=' + slug;
+            $.ajax({
+                url : '{{ url("teenager/see-more-gurus") }}',
+                method : "POST",
+                data: form_data,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                dataType : "text",
+                success : function (data) {
+                    $(".new-gurus .loader_con").hide();
+                    if(data != '') {
+                        $('.new-gurus .remove-row').remove();
+                        $('.new-gurus').append(data);
+                    } 
                 }
             });
         });

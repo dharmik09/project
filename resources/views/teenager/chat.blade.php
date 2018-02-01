@@ -59,8 +59,8 @@
             <!-- sec notification-->
             <div class="sec-notification">
                 <h2 class="font-blue">All Notifications</h2>
-                <div class="notification-list">
-                    @if(count($notificationData)>0)
+                @if(count($notificationData)>0)
+                    <div class="notification-list">
                         @foreach($notificationData as $key => $value)
                         <div class="notification-block <?php echo ($value->n_read_status == 1) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block">
                             <div class="notification-img"><img src="{{Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo)}}" alt="notification img"></div>
@@ -84,57 +84,20 @@
                         @endforeach
 
                         <div id="pageWiseNotifications"></div>
-                        <div class="text-center load-more" id="loadMoreButton">
-                            <div id="loader_con"></div>
-                            <button class="btn btn-primary" title="Load More" id="pageNo" value="1" onclick="fetchNotification(this.value)">Load More</button>
-                        </div>
-                    @endif
-<!--                     <div class="notification-block read">
-                        <div class="notification-img"><img src="img/logo.png" alt="notification img"></div>
-                        <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">16 hours ago</span></div>
-                        <div class="close"><i class="icon-close"></i></div>
+                        @if(count($notificationData) > 9)
+                            <div class="text-center load-more" id="loadMoreButton">
+                                <div id="loader_con"></div>
+                                <button class="btn btn-primary" title="Load More" id="pageNo" value="1" onclick="fetchNotification(this.value)">Load More</button>
+                            </div>
+                        @else
+                            <div class="notification-complete">
+                                <p>No more notifications<p>
+                            </div>
+                        @endif
                     </div>
-                    <div class="notification-block read">
-                        <div class="notification-img"><img src="img/ellen.jpg" alt="notification img"></div>
-                        <div class="notification-content"><a href="#"><strong>370 views</strong> on your answers.</a><span class="date">23 hours ago</span></div>
-                        <div class="close"><i class="icon-close"></i></div>
-                    </div>
-                    <div class="notification-block read">
-                        <div class="notification-img"><img src="img/profile.png" alt="notification img"></div>
-                        <div class="notification-content"><a href="#"><strong>Jennifer Garcia</strong> has requested to follow you.</a><span class="date">1 day ago</span>
-                            <ul class="btn-list">
-                                <li><a href="#" title="accept" class="accept">Accept</a></li>
-                                <li><a href="#" title="decline" class="decline">Delete</a></li>
-                            </ul>
-                        </div>
-                        <div class="close"><i class="icon-close"></i></div>
-                    </div>
-                    <div class="notification-block read">
-                        <div class="notification-img"><img src="img/notification-img-2.png" alt="notification img"></div>
-                        <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">1 day ago</span></div>
-                        <div class="close"><i class="icon-close"></i></div>
-                    </div>
-                    <div class="notification-block unread">
-                        <div class="notification-img"><img src="img/diana.jpg" alt="notification img"></div>
-                        <div class="notification-content"><a href="#">This <strong>notification</strong> is longer text. Should be shown in multiple lines. May be you can add some more text too.</a><span class="date">1 day ago</span></div>
-                        <div class="close"><i class="icon-close"></i></div>
-                    </div>
-                    <div class="notification-block read">
-                        <div class="notification-img"><img src="img/ellen.jpg" alt="notification img"></div>
-                        <div class="notification-content"><a href="#"><strong>370 views</strong> on your answers.</a><span class="date">2 days ago</span></div>
-                        <div class="close"><i class="icon-close"></i></div>
-                    </div>
-                    <div class="notification-block read">
-                        <div class="notification-img"><img src="img/profile.png" alt="notification img"></div>
-                        <div class="notification-content"><a href="#"><strong>Jennifer Garcia</strong> has requested to follow you.</a><span class="date">3 day ago</span>
-                            <ul class="btn-list">
-                                <li><a href="#" title="accept" class="accept">Accept</a></li>
-                                <li><a href="#" title="decline" class="decline">Delete</a></li>
-                            </ul>
-                        </div>
-                        <div class="close"><i class="icon-close"></i></div>
-                    </div> -->
-                </div>
+                @else
+                    <div class="sec-forum"><span>No result Found</span></div>
+                @endif
             </div>
             <!-- sec notification end-->
             <!--sec forum start-->
@@ -343,13 +306,16 @@
             },
             data: {'page_no':pageNo},
             success: function (response) {
-                if(response.notifications == ''){    
-                    $('#pageNo').html("No more notifications");
+                if(response.notificationCount != 10){
+                    $('#loadMoreButton').removeClass('text-center');
+                    $('#loadMoreButton').removeClass('load-more');
+                    $('#loadMoreButton').addClass('notification-complete');
+                    $('#loadMoreButton').html("<p>No more notifications<p>");
                 }
                 else{
                     $('#pageNo').val(response.pageNo);
-                    $("#pageWiseNotifications").append(response.notifications);
                 }
+                $("#pageWiseNotifications").append(response.notifications);
                 $("#loader_con").html('');
             }
         });
