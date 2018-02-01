@@ -179,4 +179,41 @@ class Baskets extends Model
                         ->find($basketId);
         return $return;
     }
+
+    public function getBasketsAndProfessionByProfessionId($professionId, $userId, $countryId){
+        $this->professionId = $professionId;
+        $this->userId = $userId;
+        $this->countryId = $countryId;
+        $return = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
+                    ->where('id',$this->professionId);
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->where('id',$this->professionId)
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                })
+                ->where('deleted' ,'1')
+                ->get();
+        return $return;
+    }
+
+    public function getBasketsAndStarRatedProfessionByUserIdAndSearchValue($userId, $searchText){
+        $this->userId = $userId;
+        $this->searchText = $searchText;
+        $return = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->where('pf_name', 'like', '%'.$this->searchText.'%')
+                    ->whereHas('starRatedProfession')
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->where('pf_name', 'like', '%'.$this->searchText.'%')
+                    ->whereHas('starRatedProfession')
+                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                })
+                ->where('deleted' ,'1')
+                ->get();
+        return $return;
+    }
 }
