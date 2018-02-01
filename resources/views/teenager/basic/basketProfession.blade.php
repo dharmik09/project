@@ -19,9 +19,9 @@
                 <div class="col-md-6">
                     <div class="pull-right">
                         <ul class="match-list">
-                            <li><span class="number match-strong">4</span> Strong match</li>
-                            <li><span class="number match-potential">5</span> Potential match</li>
-                            <li><span class="number match-unlikely">4</span> Unlikely match</li>
+                            <li><span class="number match-strong">{{ (isset($matchScaleCount['match']) && count($matchScaleCount['match']) > 0 ) ? count($matchScaleCount['match']) : 0 }}</span> Strong match</li>
+                            <li><span class="number match-potential">{{ (isset($matchScaleCount['moderate']) && count($matchScaleCount['moderate']) > 0 ) ? count($matchScaleCount['moderate']) : 0 }}</span> Potential match</li>
+                            <li><span class="number match-unlikely">{{ (isset($matchScaleCount['nomatch']) && count($matchScaleCount['nomatch']) > 0 ) ? count($matchScaleCount['nomatch']) : 0 }}</span> Unlikely match</li>
                         </ul>
                     </div>
                 </div>
@@ -30,7 +30,8 @@
         <ul class="career-list">
             @if(isset($basketsData->profession) && count($basketsData->profession) > 0)
                 @forelse($basketsData->profession as $k => $v)
-                    <li class="match-strong complete-feild">
+                    <?php $matchScale = ( isset($v->match_scale) && $v->match_scale != '') ? $v->match_scale : "career-data-nomatch"; ?>
+                    <li class="{{$matchScale}} complete-feild">
                         <a href="{{url('teenager/career-detail/')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{$v->pf_name}}</a>
                         @if(isset($v->attempted))
                             <a class="complete"><span>Complete <i class="icon-thumb"></i></span></a>
@@ -50,5 +51,15 @@
     </div>
 </div>
 @else
-<p> No records found </p>
+<div class="panel-body">
+    <div class="related-careers careers-tag">
+        <div class="career-heading clearfix">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>No records found!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endif

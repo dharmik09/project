@@ -62,15 +62,31 @@ class ProfessionController extends Controller {
         				->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
         				->find(Input::get('basket_id'));
 
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($userid);
+        
         $professionAttemptedCount = 0;
+        $matchScaleCount = [];
         foreach ($basketsData->profession as $k => $v) {
-            $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id,null);
-            if(count($professionAttempted)>0){
+            $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id, null);
+            if(count($professionAttempted) > 0){
                 $basketsData['profession'][$k]['attempted'] = 'yes';
                 $professionAttemptedCount++;
             }
+            $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+            if($matchScale == "match") {
+                $basketsData['profession'][$k]['match_scale'] = "match-strong";
+                $matchScaleCount['match'][] = $v->id;
+            } else if($matchScale == "nomatch") {
+                $basketsData['profession'][$k]['match_scale'] = "match-unlikely";
+                $matchScaleCount['nomatch'][] = $v->id;
+            } else if($matchScale == "moderate") {
+                $basketsData['profession'][$k]['match_scale'] = "match-potential";
+                $matchScaleCount['moderate'][] = $v->id;
+            } else {
+                $basketsData['profession'][$k]['match_scale'] = "career-data-nomatch";
+            }
         }
-        return view('teenager.basic.basketProfession', compact('basketsData', 'professionAttemptedCount'));
+        return view('teenager.basic.basketProfession', compact('basketsData', 'professionAttemptedCount', 'matchScaleCount'));
     }
 
     public function gridGetIndex(){

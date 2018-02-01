@@ -56,6 +56,7 @@ class ChatController extends Controller {
         }
         $this->objNotifications->ChangeNotificationsReadStatus($idArray,Config::get('constant.NOTIFICATION_STATUS_READ'));
         $view = view('teenager.basic.notifications',compact('notificationData'));
+        $response['notificationCount'] = count($notificationData);
         $response['notifications'] = $view->render();
         $response['pageNo'] = $pageNo+1;
         return $response;        
