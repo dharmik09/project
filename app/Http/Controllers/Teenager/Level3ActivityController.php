@@ -30,6 +30,7 @@ class Level3ActivityController extends Controller {
         $professionId = Input::get('professionId');
         $type = Input::get('type');
         $isYouTube = Input::get('isYouTube');
+        $points = ($isYouTube == 1)?config::get('constant.LEVEL3_PROFESSION_POINTS'):(2*config::get('constant.LEVEL3_PROFESSION_POINTS'));
         
     }
     
