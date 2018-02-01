@@ -366,9 +366,6 @@ class level3ActivityController extends Controller {
                 $AI_redundancy_threat = $professionsData->professionHeaders->filter(function($item) {
                                 return $item->pfic_title == 'ai_redundancy_threat';
                             })->first();
-                $profession_subject_knowledge = $professionsData->professionHeaders->filter(function($item) {
-                                return $item->pfic_title == 'profession_subject_knowledge';
-                            })->first();
                 $profession_job_activities = $professionsData->professionHeaders->filter(function($item) {
                                 return $item->pfic_title == 'profession_job_activities';
                             })->first();
@@ -425,7 +422,6 @@ class level3ActivityController extends Controller {
                 $professionsData->profession_description = (isset($profession_description->pfic_content) && !empty($profession_description->pfic_content)) ? $profession_description->pfic_content : '';
                 $professionsData->profession_outlook = (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? $profession_outlook->pfic_content : '';
                 $professionsData->AI_redundancy_threat = (isset($AI_redundancy_threat->pfic_content) && !empty($AI_redundancy_threat->pfic_content)) ? $AI_redundancy_threat->pfic_content : '';
-                $professionsData->profession_subject_knowledge = (isset($profession_subject_knowledge->pfic_content) && !empty($profession_subject_knowledge->pfic_content)) ? $profession_subject_knowledge->pfic_content : '';
                 $professionsData->profession_job_activities = (isset($profession_job_activities->pfic_content) && !empty($profession_job_activities->pfic_content)) ? $profession_job_activities->pfic_content : '';
                 $professionsData->profession_workplace = (isset($profession_workplace->pfic_content) && !empty($profession_workplace->pfic_content)) ? $profession_workplace->pfic_content : '';
                 $professionsData->profession_skills = (isset($profession_skills->pfic_content) && !empty($profession_skills->pfic_content)) ? $profession_skills->pfic_content : '';
@@ -545,22 +541,24 @@ class level3ActivityController extends Controller {
                                 $data['cm_image_url'] = Storage::url($this->aptitudeThumb . $apptitudeData->apt_logo);
                                 $data['cm_type'] = Config::get('constant.APPTITUDE_TYPE');   
                                 $data['cm_slug'] = $apptitudeData->apt_slug;   
+                                $careerMappingdata[] = $data;
                             }
-                            elseif($arr[0] == 'mit'){
-                                $multipleIntelligentData = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($key);
-                                $data['cm_name'] = $multipleIntelligentData->mit_name;
-                                $data['cm_image_url'] = Storage::url($this->miThumb.$multipleIntelligentData->mit_logo);
-                                $data['cm_type'] = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
-                                $data['cm_slug'] = $multipleIntelligentData->mi_slug;
-                            }
-                            elseif($arr[0] == 'pt'){
-                                $personalityData = $this->objPersonality->getPersonalityDetailBySlug($key);
-                                $data['cm_name'] = $personalityData->pt_name;
-                                $data['cm_image_url'] = Storage::url($this->personalityThumb.$personalityData->pt_logo);
-                                $data['cm_type'] = Config::get('constant.PERSONALITY_TYPE');
-                                $data['cm_slug'] = $personalityData->pt_slug;
-                            }
-                        $careerMappingdata[] = $data;
+                            // elseif($arr[0] == 'mit'){
+                            //     $multipleIntelligentData = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($key);
+                            //     $data['cm_name'] = $multipleIntelligentData->mit_name;
+                            //     $data['cm_image_url'] = Storage::url($this->miThumb.$multipleIntelligentData->mit_logo);
+                            //     $data['cm_type'] = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
+                            //     $data['cm_slug'] = $multipleIntelligentData->mi_slug;
+                            //     $careerMappingdata[] = $data;
+                            // }
+                            // elseif($arr[0] == 'pt'){
+                            //     $personalityData = $this->objPersonality->getPersonalityDetailBySlug($key);
+                            //     $data['cm_name'] = $personalityData->pt_name;
+                            //     $data['cm_image_url'] = Storage::url($this->personalityThumb.$personalityData->pt_logo);
+                            //     $data['cm_type'] = Config::get('constant.PERSONALITY_TYPE');
+                            //     $data['cm_slug'] = $personalityData->pt_slug;
+                            //     $careerMappingdata[] = $data;
+                            // }
                         }
                     }    
                 }
