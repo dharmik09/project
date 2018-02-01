@@ -65,4 +65,49 @@ class ProfessionWiseSubject extends Model
     public function subject(){
         return $this->belongsTo(ProfessionSubject::class, 'subject_id');
     }
+
+    /**
+     * Returns professions details array which are matched with subject slug
+     */
+    public function getProfessionsBySubjectSlug($slug, $lastCareerId = '')
+    {
+        $professionDetails = $this->join(Config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_pws_professions_wise_subjects.profession_id', '=', 'profession.id')
+                    ->join("pro_ps_profession_subjects AS profession_subject", 'pro_pws_professions_wise_subjects.subject_id', '=', 'profession_subject.id')
+                    ->selectRaw('profession.*, profession_subject.ps_name, profession_subject.ps_slug, profession_subject.ps_image')
+                    ->where('profession_subject.ps_slug', $slug)
+                    ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->where('profession_subject.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->whereIn('pro_pws_professions_wise_subjects.parameter_grade', ['M','H'])
+                    ->where(function($query) use ($lastCareerId)  {
+                        if(isset($lastCareerId) && !empty($lastCareerId)) {
+                            $query->where('profession.id', '<', $lastCareerId);
+                        }
+                     })
+                    ->orderBy('profession.id', 'DESC')
+                    ->limit(Config::get('constant.RECORD_PER_PAGE'))
+                    ->get();
+        return $professionDetails;
+    }
+
+    /**
+     * Returns count of professions which are matched with subject slug
+     */
+    public function getProfessionsCountBySubjectSlug($slug, $lastCareerId = '')
+    {
+        $professionDetails = $this->join(Config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_pws_professions_wise_subjects.profession_id', '=', 'profession.id')
+                    ->join("pro_ps_profession_subjects AS profession_subject", 'pro_pws_professions_wise_subjects.subject_id', '=', 'profession_subject.id')
+                    ->selectRaw('profession.*, profession_subject.ps_name, profession_subject.ps_slug, profession_subject.ps_image')
+                    ->where('profession_subject.ps_slug', $slug)
+                    ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->where('profession_subject.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->whereIn('pro_pws_professions_wise_subjects.parameter_grade', ['M','H'])
+                    ->where(function($query) use ($lastCareerId)  {
+                        if(isset($lastCareerId) && !empty($lastCareerId)) {
+                            $query->where('profession.id', '<', $lastCareerId);
+                        }
+                     })
+                    ->orderBy('profession.id', 'DESC')
+                    ->count();
+        return $professionDetails;
+    }
 }

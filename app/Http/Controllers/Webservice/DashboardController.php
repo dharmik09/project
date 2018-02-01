@@ -28,6 +28,7 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use App\Services\Community\Contracts\CommunityRepository;
 use App\CareerMapping;
+use App\ProfessionWiseSubject;
 
 class DashboardController extends Controller
 {
@@ -61,6 +62,7 @@ class DashboardController extends Controller
         $this->objCareerMapping = new CareerMapping;
         $this->log = new Logger('api-restless-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
+        $this->objProfessionWiseSubject = new ProfessionWiseSubject;
     }
 
     /* Request Params : getDashboardDetail
@@ -428,8 +430,8 @@ class DashboardController extends Controller
     }
 
     /* Request Params : getStrengthPageRelatedCareers
-    *  loginToken, userId, strengthSlug, lastCareerId
-    */
+     *  loginToken, userId, strengthSlug, lastCareerId
+     */
     public function getStrengthPageRelatedCareers(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
@@ -443,6 +445,50 @@ class DashboardController extends Controller
             }
             $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$request->strengthSlug], $lastCareerId);
             $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount($careersDetails[$request->strengthSlug], $lastCareerId);
+            if (isset($relatedCareersCount) && $relatedCareersCount > Config::get('constant.RECORD_PER_PAGE')) {
+                $response["seeMoreFlag"] = 1;
+            } else {
+                $response["seeMoreFlag"] = 0;
+            }
+            $matchArr = ['potential', 'strong', 'unlikely'];
+            foreach ($relatedCareers as $career) {
+                $careersArr = [];
+                $careersArr['id'] = $career->id;
+                $careersArr['pf_name'] = $career->pf_name;
+                $careersArr['matched'] = $matchArr[rand(0,2)];
+                $data['related_career'][] = $careersArr;
+            }
+            $data['strong'] = 4;
+            $data['potential'] = 3;
+            $data['unlikely'] = 5;
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getInterestPageRelatedCareers
+     *  loginToken, userId, interestSlug, lastCareerId
+     */
+    public function getInterestPageRelatedCareers(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            $data = [];
+            $slug = $request->interestSlug;
+            $subSlug = explode('it_', $slug);
+            if (isset($request->lastCareerId) && !empty($request->lastCareerId)) {
+                $lastCareerId = $request->lastCareerId;
+            } else {
+                $lastCareerId = '';
+            }
+            $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($subSlug[1], $lastCareerId);
+            $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1], $lastCareerId);
             if (isset($relatedCareersCount) && $relatedCareersCount > Config::get('constant.RECORD_PER_PAGE')) {
                 $response["seeMoreFlag"] = 1;
             } else {
