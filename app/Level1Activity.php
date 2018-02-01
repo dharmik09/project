@@ -28,4 +28,14 @@ class Level1Activity extends Model
     public function questionOptions($questionId) {
         return $this->where('id', $questionId)->with('options')->get();
     }
+    
+    public function getNoOfTotalQuestionsAttemptedQuestion($teenagerId) {
+        $result = DB::select(DB::raw("select (SELECT count(*) FROM " . config::get('databaseconstants.TBL_LEVEL1_ACTIVITY') . " where deleted=1) as 'NoOfTotalQuestions', (select count(*) from " . config::get('databaseconstants.TBL_LEVEL1_ANSWERS') . " where l1ans_teenager=" . $teenagerId . ") as 'NoOfAttemptedQuestions' "), array());
+        return $result;
+    }
+    
+    public function getTeenAttemptedQualityType($teenagerId) {
+        $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->where(['ti_teenager' => $teenagerId , 'deleted' => 1])->groupBy('ti_icon_type')->pluck('ti_icon_type');
+        return $result;
+    }
 }

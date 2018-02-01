@@ -47,6 +47,8 @@ use Illuminate\Support\Facades\Storage;
 use App\CMS;
 use Carbon\Carbon;
 use App\Jobs\SetProfessionMatchScale;
+use Illuminate\Support\Facades\Auth;
+use App\Level1Activity;
 
 Class Helpers {
     /*
@@ -3003,8 +3005,41 @@ Class Helpers {
         return $careerArray;
     }
     
+    /*
+     * This function is used to calculate the teenager profile completeness 
+     */
     public static function calculateProfileComplete($teenagerId)
     {
+       $objLevel1Activity = new Level1Activity(); 
+       $objLevel2Activity = new Level2Activity(); 
+       $user = Auth::guard('teenager')->user();
+       $profileComplete = 0;
        
+       //Calculate for basic profile
+       if(isset($user) && !empty($user))
+       {
+           if($user->t_name != '' && $user->t_lastname != '' && $user->t_email != '' && $user->t_pincode != '' && $user->t_country != '' && $user->t_photo != '')
+           $profileComplete = $profileComplete + Config::get('constant.TEEN_BASIC_PROFILE_COMPLETE');
+       }
+       
+       //Calculate L1 question complete
+       $level1Activities = $objLevel1Activity->getNoOfTotalQuestionsAttemptedQuestion($user->id);
+       if(isset($level1Activities) && !empty($level1Activities)){
+           $profileComplete = $profileComplete + (($level1Activities[0]->NoOfAttemptedQuestions*Config::get('constant.TEEN_LEVEL1_PROFILE_COMPLETE'))/$level1Activities[0]->NoOfTotalQuestions);
+       }
+       
+       //Calculate L2 question complete
+       $level2Activities = $objLevel2Activity->getNoOfTotalQuestionsAttemptedQuestion($user->id);
+       
+       if(isset($level2Activities) && !empty($level2Activities)){
+           $profileComplete = $profileComplete + (($level2Activities[0]->NoOfAttemptedQuestions*Config::get('constant.TEEN_LEVEL2_PROFILE_COMPLETE'))/$level2Activities[0]->NoOfTotalQuestions);
+       }
+       
+       //Calculate Icons complete
+       $level1Icons = $objLevel1Activity->getTeenAttemptedQualityType($user->id);
+       if(isset($level1Icons) && !empty($level1Icons)){
+           $profileComplete = $profileComplete + (count($level1Icons)*Config::get('constant.TEEN_LEVEL1_ICON_PROFILE_COMPLETE'))/4;
+       }       
+       return intval($profileComplete);
     }
 }

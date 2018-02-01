@@ -92,6 +92,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getInterestPageRelatedCareers', 'Webservice\DashboardController@getInterestPageRelatedCareers');
 	Route::post('/getStrengthDetailPage', 'Webservice\DashboardController@getStrengthDetailPage');
 	Route::post('/getStrengthPageRelatedCareers', 'Webservice\DashboardController@getStrengthPageRelatedCareers');
+	Route::post('/getMiAndInterestPageGurusDetails', 'Webservice\DashboardController@getMiAndInterestPageGurusDetails');
 	//Dashboard Network Section
 	Route::post('/getNetworkDetails', 'Webservice\DashboardController@getNetworkDetails');
 	//Route::post('/getNetworkMemberDetails', 'Webservice\NetworkController@getNetworkMemberDetails');
