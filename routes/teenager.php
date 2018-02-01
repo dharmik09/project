@@ -20,6 +20,7 @@ Route::get('/interest/{slug}', 'Teenager\InterestManagementController@index');
 Route::post('/see-more-interest-related-careers', 'Teenager\InterestManagementController@seeMoreRelatedCareers');
 Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
 Route::post('/see-more-related-careers', 'Teenager\MultipleIntelligenceManagementController@seeMoreRelatedCareers');
+Route::post('/see-more-gurus', 'Teenager\MultipleIntelligenceManagementController@seeMoreGurus');
 
 Route::get('/seo-mi', function() {
 	return view('teenager.seoMi');

@@ -21,7 +21,7 @@
                                 <h4><a href="{{ url('/teenager/edit-profile') }}" title="Edit Profile">edit</a></h4>
                                 <div class="your_progress">
                                     <h6>Your Progress</h6>
-                                    <h2>23%</h2>
+                                    <h2>{{Helpers::calculateProfileComplete(Auth::guard('teenager')->user()->id)}}%</h2>
                                     <h5>10,000 points</h5>
                                     <p>You advanced 7% on your last visit. Well done you!</p>
                                 </div>

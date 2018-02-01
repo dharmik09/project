@@ -157,9 +157,10 @@ $(document).ready(function () {
 */
     //loading page css
     //$('#loading-wrapper').remove();
-    setTimeout(function () {
+   /* setTimeout(function () {
         $('#loading-wrapper').hide();
-    }, 2500);
+    }, 2500);*/
+    
     /*$('#loading-wrapper-sub').hide();
     }, 2500);*/
     $('body').removeClass('overflw-hide');
@@ -354,3 +355,10 @@ $(document).keydown(function (e) {
         $('body').removeClass('fixedPosition');
     }
 });
+//loader
+$(window).on('load', function(){
+  // Animate loader off screen
+  //$("#loading-wrapper").show();
+    $('#loading-wrapper').hide();
+    $('body').removeClass('overflw-hide');
+ });
