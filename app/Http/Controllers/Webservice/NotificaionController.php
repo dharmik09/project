@@ -31,8 +31,8 @@ class NotificaionController extends Controller {
         if($request->userId != "" && $teenager) {
             
             $pageNo = 0;
-            if($request->pageNo != '' && $request->pageNo > 0){
-                $pageNo = $request->pageNo * 10;
+            if($request->pageNo != '' && $request->pageNo > 1){
+                $pageNo = ($request->pageNo-1) * 10;
             }
 
             $data = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo);
