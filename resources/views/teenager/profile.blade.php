@@ -1052,8 +1052,10 @@
     }
 
     function saveAnswer(answer, question, key = '') {
-        var audio = $("#audio_"+key);
-        audio.trigger('play');
+        <?php if ($user->is_sound_on == Config::get('constant.SOUND_FLAG_ON')) { ?>
+            var audio = $("#audio_"+key);
+            audio.trigger('play');
+        <?php } ?>
         answer = $.trim(answer);
         question = $.trim(question);
         if(typeof question !== "undefined" && typeof answer !== "undefined" && !isNaN(answer)) {
