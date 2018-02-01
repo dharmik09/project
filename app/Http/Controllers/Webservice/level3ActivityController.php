@@ -64,6 +64,15 @@ class level3ActivityController extends Controller {
                 else{
                     $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                 }
+
+                $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                if($youtubeId != ''){
+                    $data[$key]->b_video = $youtubeId;
+                    $data[$key]->type_video = '1'; //Youtube
+                }
+                else{
+                    $data[$key]->type_video = '2'; //Dropbox
+                }
             }
             
             if($data){
@@ -138,6 +147,16 @@ class level3ActivityController extends Controller {
                 else{
                     $careersData->b_logo = Storage::url($this->basketThumbUrl.$this->basketDefaultProteenImage);
                 }
+                
+                $youtubeId = Helpers::youtube_id_from_url($careersData->b_video);
+                if($youtubeId != ''){
+                    $careersData->b_video = $youtubeId;
+                    $careersData->type_video = '1'; //Youtube
+                }
+                else{
+                    $careersData->type_video = '2'; //Dropbox
+                }
+
                 $careersData->total_basket_profession = count($careersData->profession);
                 $careersData->basket_completed_profession = '12';
                 $careersData->strong_match = '12';
@@ -220,6 +239,15 @@ class level3ActivityController extends Controller {
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                         }
 
+                        $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                        if($youtubeId != ''){
+                            $data[$key]->b_video = $youtubeId;
+                            $data[$key]->type_video = '1'; //Youtube
+                        }
+                        else{
+                            $data[$key]->type_video = '2'; //Dropbox
+                        }
+
                         $data[$key]->total_basket_profession = count($value->profession);
                         $data[$key]->basket_completed_profession = '12';
                         $data[$key]->strong_match = '12';
@@ -277,6 +305,15 @@ class level3ActivityController extends Controller {
                     }
                     else{
                         $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                    }
+
+                    $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                    if($youtubeId != ''){
+                        $data[$key]->b_video = $youtubeId;
+                        $data[$key]->type_video = '1'; //Youtube
+                    }
+                    else{
+                        $data[$key]->type_video = '2'; //Dropbox
                     }
                     
                     $data[$key]->total_basket_profession = count($value->profession);
@@ -342,6 +379,15 @@ class level3ActivityController extends Controller {
                     }
                     else{
                         $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                    }
+
+                    $youtubeId = Helpers::youtube_id_from_url($professionsData->pf_video);
+                    if($youtubeId != ''){
+                        $professionsData->pf_video = $youtubeId;
+                        $professionsData->type_video = '1'; //Youtube
+                    }
+                    else{
+                        $professionsData->type_video = '2'; //Dropbox
                     }
 
                     if(count($professionsData->starRatedProfession)>0){
@@ -678,7 +724,16 @@ class level3ActivityController extends Controller {
                         else{
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                         }
-
+        
+                        $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                        if($youtubeId != ''){
+                            $data[$key]->b_video = $youtubeId;
+                            $data[$key]->type_video = '1'; //Youtube
+                        }
+                        else{
+                            $data[$key]->type_video = '2'; //Dropbox
+                        }
+        
                         $data[$key]->total_basket_profession = count($value->profession);
                         $data[$key]->basket_completed_profession = '12';
                         $data[$key]->strong_match = '12';
@@ -738,6 +793,15 @@ class level3ActivityController extends Controller {
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                         }
                         
+                        $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                        if($youtubeId != ''){
+                            $data[$key]->b_video = $youtubeId;
+                            $data[$key]->type_video = '1'; //Youtube
+                        }
+                        else{
+                            $data[$key]->type_video = '2'; //Dropbox
+                        }
+
                         $data[$key]->total_basket_profession = count($value->profession);
                         $data[$key]->basket_completed_profession = '12';
                         $data[$key]->strong_match = '12';
