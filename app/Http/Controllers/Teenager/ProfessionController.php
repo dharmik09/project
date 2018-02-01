@@ -393,29 +393,28 @@ class ProfessionController extends Controller {
                     $apptitudeData = $this->objApptitude->getApptitudeDetailBySlug($key);
                     $data['cm_name'] = $apptitudeData->apt_name;   
                     $data['cm_image_url'] = Storage::url($this->aptitudeThumb . $apptitudeData->apt_logo);
-                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeData->apt_slug);   
+                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeData->apt_slug); 
+                    $careerMappingdata[] = $data;  
                 }
-                elseif($arr[0] == 'mit'){
-                    $multipleIntelligentData = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($key);
-                    $data['cm_name'] = $multipleIntelligentData->mit_name;
-                    $data['cm_image_url'] = Storage::url($this->miThumb.$multipleIntelligentData->mit_logo);
-                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$multipleIntelligentData->mi_slug);
-                }
-                elseif($arr[0] == 'pt'){
-                    $personalityData = $this->objPersonality->getPersonalityDetailBySlug($key);
-                    $data['cm_name'] = $personalityData->pt_name;
-                    $data['cm_image_url'] = Storage::url($this->personalityThumb.$personalityData->pt_logo);
-                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityData->pt_slug);
-                }
-            $careerMappingdata[] = $data;
+                // elseif($arr[0] == 'mit'){
+                //     $multipleIntelligentData = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($key);
+                //     $data['cm_name'] = $multipleIntelligentData->mit_name;
+                //     $data['cm_image_url'] = Storage::url($this->miThumb.$multipleIntelligentData->mit_logo);
+                //     $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$multipleIntelligentData->mi_slug);
+                //     $careerMappingdata[] = $data;
+                // }
+                // elseif($arr[0] == 'pt'){
+                //     $personalityData = $this->objPersonality->getPersonalityDetailBySlug($key);
+                //     $data['cm_name'] = $personalityData->pt_name;
+                //     $data['cm_image_url'] = Storage::url($this->personalityThumb.$personalityData->pt_logo);
+                //     $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityData->pt_slug);
+                //     $careerMappingdata[] = $data;
+                // }
             }
         }
         
         unset($professionsData->careerMapping);
         $professionsData->ability = $careerMappingdata;
-        // echo "<pre>";
-        // print_r($professionsData->ability);
-        // exit;
 
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');

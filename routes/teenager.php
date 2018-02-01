@@ -17,7 +17,7 @@ Route::get('/gift-coupons', function() {
 	return view('teenager.giftCoupons');
 });
 Route::get('/interest/{slug}', 'Teenager\InterestManagementController@index');
-	//return view('teenager.interest');
+Route::post('/see-more-interest-related-careers', 'Teenager\InterestManagementController@seeMoreRelatedCareers');
 Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
 Route::post('/see-more-related-careers', 'Teenager\MultipleIntelligenceManagementController@seeMoreRelatedCareers');
 
@@ -127,3 +127,6 @@ Route::post('/delete-notification', 'Teenager\ChatController@deleteNotification'
 //Help
 Route::post('/get-help-text', 'Teenager\HelpController@getHelpTextBySlug');
 Route::get('/payment', 'Teenager\CoinManagementController@payment');
+
+//L3
+Route::post('/teen-l3-career-research', 'Teenager\Level3ActivityController@level3CareerResearch');
