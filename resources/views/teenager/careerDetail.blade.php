@@ -206,15 +206,15 @@
                                     <div class="block">
                                         <h4>Abilities</h4>
                                         @if(isset($professionsData->ability) && !empty($professionsData->ability))
-                                        <div class="img-list">
+                                            <div class="img-list">
                                                 <ul>
-                                            @foreach($professionsData->ability as $key => $value)
-                                                <li>
-                                                                <img src="{{ $value['cm_image_url'] }}" alt="compatia logo">
-                                                                <a href="{{$value['cm_slug_url']}}"><span>{{$value['cm_name']}}</span></a>
-                                                            </li>
-                                            @endforeach
-                                            </ul>
+                                                    @foreach($professionsData->ability as $key => $value)
+                                                        <li>
+                                                            <img src="{{ $value['cm_image_url'] }}" alt="compatia logo">
+                                                            <a href="{{$value['cm_slug_url']}}"><span>{{$value['cm_name']}}</span></a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         @endif
                                     </div>
