@@ -18,6 +18,7 @@ use App\Personality;
 use App\CareerMapping;
 use App\Services\Professions\Contracts\ProfessionsRepository;
 use Input;
+use App\TeenagerPromiseScore;
 
 class MultipleIntelligenceManagementController extends Controller
 {
@@ -36,8 +37,12 @@ class MultipleIntelligenceManagementController extends Controller
         $this->personalityThumbImageUploadPath = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
         $this->objCareerMapping = new CareerMapping;
         $this->professionsRepository = $professionsRepository;
+        $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
     }
 
+    /**
+     * Returns Strength Details Page
+     */
     public function index($type, $slug) 
     {
         if (!empty($type) || !empty($slug)) {
@@ -79,13 +84,23 @@ class MultipleIntelligenceManagementController extends Controller
             $careersDetails = Helpers::getCareerMapColumnName();
             $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$slug]);
             $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount($careersDetails[$slug]);
-            return view('teenager.multipleIntelligence', compact('multipleIntelligence', 'miThumbImageUploadPath', 'relatedCareers', 'attemptedProfessions', 'relatedCareersCount'));
+            $reasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug);
+            $nextReasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug, 1);
+            if (isset($nextReasoningGurus) && count($nextReasoningGurus) > 0) {
+                $nextSlotExist = 1;
+            } else {
+                $nextSlotExist = -1;
+            }
+            return view('teenager.multipleIntelligence', compact('multipleIntelligence', 'miThumbImageUploadPath', 'relatedCareers', 'attemptedProfessions', 'relatedCareersCount', 'reasoningGurus', 'nextSlotExist'));
 
         } else {
             return redirect::back()->with('error', trans('labels.commonerrormessage'));
         }
     }
 
+    /**
+     * Returns array of related careers
+     */
     public function seeMoreRelatedCareers()
     {
         $lastCareerId = Input::get('lastCareerId');
@@ -94,5 +109,26 @@ class MultipleIntelligenceManagementController extends Controller
         $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$slug], $lastCareerId);
         $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount($careersDetails[$slug], $lastCareerId);
         return view('teenager.relatedCareers', compact('relatedCareers', 'relatedCareersCount'));
+    }
+
+    /**
+     * Returns array of gurus
+     */
+    public function seeMoreGurus()
+    {
+        $slot = Input::get('slot');
+        $slug = Input::get('slug');
+        $reasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug, $slot);
+        if ($slot < 5) {
+            $nextReasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug, $slot + 1);
+        } else {
+            $nextReasoningGurus = [];
+        }
+        if (!empty($nextReasoningGurus) && count($nextReasoningGurus) > 0) {
+            $nextSlotExist = $slot;
+        } else {
+            $nextSlotExist = -1;
+        }
+        return view('teenager.listingGurus', compact('reasoningGurus', 'nextSlotExist'));
     }
 }

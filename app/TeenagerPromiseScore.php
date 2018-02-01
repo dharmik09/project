@@ -11,7 +11,8 @@ class TeenagerPromiseScore extends Model {
     protected $table = 'pro_teenager_promise_score';
     protected $guarded = [];
     
-    public function saveTeenagerPromiseScore($array, $teenagerId) {
+    public function saveTeenagerPromiseScore($array, $teenagerId) 
+    {
     	$findData = [];
         if($teenagerId > 0 && count($array) > 0) {
         	$findData = TeenagerPromiseScore::where('teenager_id', $teenagerId)->first();
@@ -23,5 +24,20 @@ class TeenagerPromiseScore extends Model {
 	        }
         }
         return $findData;
+    }
+
+    public function getTeenagersWithHighestPromiseScore($slug, $slot = '')
+    {
+        if ($slot > 0) {
+            $slot = $slot * Config::get('constant.RECORD_PER_PAGE');
+        }
+        $teenDetails = $this->join("pro_t_teenagers AS teenagers", 'pro_teenager_promise_score.teenager_id', '=', 'teenagers.id')
+                        ->where('teenagers.deleted', Config::get('constant.ACTIVE_FLAG'))
+                        ->where('pro_teenager_promise_score.'.$slug, '!=', "")
+                        ->orderBy('pro_teenager_promise_score.'.$slug, 'DESC')
+                        ->skip($slot)
+                        ->take(Config::get('constant.RECORD_PER_PAGE'))
+                        ->get();
+        return $teenDetails;
     }
 }
