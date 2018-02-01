@@ -1160,7 +1160,7 @@
     
     setTimeout(function() {
        saveBoosterPoints({{$professionsData->id}},2,isYouTube);
-    }, 10000);
+    }, 60000);
     
     function saveBoosterPoints(professionId, type, isYouTube)
     {
