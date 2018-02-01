@@ -23,5 +23,11 @@ class Level2Activity extends Model
 
         return $level2activities;
     }
+    
+    public function getNoOfTotalQuestionsAttemptedQuestion($teenagerId)
+    {
+        $result = DB::select(DB::raw("select (SELECT count(*) FROM ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." where deleted=1) as 'NoOfTotalQuestions', (select count(*) from ".config::get('databaseconstants.TBL_LEVEL2_ANSWERS')." where l2ans_teenager=".$teenagerId.") as 'NoOfAttemptedQuestions' "), array());
+        return $result;
+    }
 
 }

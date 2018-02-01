@@ -92,6 +92,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getInterestPageRelatedCareers', 'Webservice\DashboardController@getInterestPageRelatedCareers');
 	Route::post('/getStrengthDetailPage', 'Webservice\DashboardController@getStrengthDetailPage');
 	Route::post('/getStrengthPageRelatedCareers', 'Webservice\DashboardController@getStrengthPageRelatedCareers');
+	Route::post('/getMiAndInterestPageGurusDetails', 'Webservice\DashboardController@getMiAndInterestPageGurusDetails');
 	//Dashboard Network Section
 	Route::post('/getNetworkDetails', 'Webservice\DashboardController@getNetworkDetails');
 	//Route::post('/getNetworkMemberDetails', 'Webservice\NetworkController@getNetworkMemberDetails');
@@ -133,7 +134,12 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/searchCareers', 'Webservice\level3ActivityController@getCareersSearch');
 	Route::post('/getBasketByCareerId', 'Webservice\level3ActivityController@getBasketByCareerId');
 	Route::post('/getCareersDetails', 'Webservice\level3ActivityController@getCareersDetailsByCareerSlug');
-	Route::post('/getTeenagerCareersWithBaket', 'Webservice\level3ActivityController@getTeenagerCareersWithBaket');
-	Route::post('/searchTeenagerCareersWithBaket', 'Webservice\level3ActivityController@getTeenagerCareersSearch');
+	Route::post('/getTeenagerCareersWithBasket', 'Webservice\level3ActivityController@getTeenagerCareersWithBaket');
+	Route::post('/searchTeenagerCareersWithBasket', 'Webservice\level3ActivityController@getTeenagerCareersSearch');
+
+	//Notification
+	Route::post('/getNotification', 'Webservice\NotificaionController@getNotificationPageWise');
+	Route::post('/getNotificationCount', 'Webservice\NotificaionController@getUnreadNotificationCount');
+	Route::post('/deleteNotification', 'Webservice\NotificaionController@deleteNotification');
 
 });

@@ -29,6 +29,7 @@ use Monolog\Handler\StreamHandler;
 use App\Services\Community\Contracts\CommunityRepository;
 use App\CareerMapping;
 use App\ProfessionWiseSubject;
+use App\TeenagerPromiseScore;
 
 class DashboardController extends Controller
 {
@@ -63,6 +64,7 @@ class DashboardController extends Controller
         $this->log = new Logger('api-restless-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
         $this->objProfessionWiseSubject = new ProfessionWiseSubject;
+        $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
     }
 
     /* Request Params : getDashboardDetail
@@ -208,43 +210,6 @@ class DashboardController extends Controller
                 $data['logo'] = $interest->it_logo;
                 $data['video'] = $interest->it_video;
                 $data['details'] = $interest->it_description;
-                // $data->
-                $relatedCareers = [     ['id' => 1, 'pf_name' => "Library Technicians", 'attempted' => 1, 'matched' => 'strong'], 
-                                        ['id' => 2, 'pf_name' => "Mechanical Engineers", 'attempted' => 0, 'matched' => 'potential'], 
-                                        ['id' => 3, 'pf_name' => "Fine Artists - Including Painters - Sculptors - and Illustrators", 'attempted' => 1, 'matched' => 'strong'],
-                                        ['id' => 4, 'pf_name' => "Producers and Directors", 'attempted' => 1, 'matched' => 'unlikely'],
-                                        ['id' => 5, 'pf_name' => "Dancers and Choreographers", 'attempted' => 0, 'matched' => 'potential'],
-                                        ['id' => 6, 'pf_name' => "Landscape Architects", 'attempted' => 1, 'matched' => 'strong'],
-                                        ['id' => 7, 'pf_name' => "Computer Software Engineers", 'attempted' => 0, 'matched' => 'potential'],
-                                        ['id' => 8, 'pf_name' => "Chefs and Head Cooks", 'attempted' => 0, 'matched' => 'unlikely'],
-                                        ['id' => 9, 'pf_name' => "Civil Engineers", 'attempted' => 1, 'matched' => 'unlikely'],
-                                        ['id' => 10, 'pf_name' => "Electrical Engineers", 'attempted' => 0, 'matched' => 'potential'],
-                                    ];
-                $careersGurus = [
-                                    ['id' => 1, 
-                                        't_name' => "Bhavdip B Pambhar", 
-                                        'points' => 20, 
-                                        't_photo' => Storage::url('uploads/teenager/thumb/teenager_1514397198.jpg'), 
-                                        't_uniqueid' => '593e6952632df1.14591461'
-                                    ], 
-                                    ['id' => 2, 
-                                        't_name' => "Ronak Luhar", 
-                                        'points' => 200, 
-                                        't_photo' => Storage::url('uploads/teenager/thumb/teenager_1514397198.jpg'), 
-                                        't_uniqueid' => '593e6952632df1.14591461'
-                                    ],
-                                    ['id' => 3, 
-                                        't_name' => "Apurv Prajapati", 
-                                        'points' => 20000, 
-                                        't_photo' => Storage::url('uploads/teenager/thumb/teenager_1514397198.jpg'), 
-                                        't_uniqueid' => '593e6952632df1.14591461'
-                                    ]
-                                ];
-                $data['strong'] = 4;
-                $data['potential'] = 3;
-                $data['unlikely'] = 5;
-                $data['related_career'] = $relatedCareers;
-                $data['career_guru'] = $careersGurus;
                 $response['message'] = trans('appmessages.default_success_msg');
                 $response['login'] = 1;
             } else {
@@ -273,42 +238,6 @@ class DashboardController extends Controller
                 $getStrengthTypeRelatedInfo['details'] = $getStrengthTypeRelatedInfo['description'];
                 unset($getStrengthTypeRelatedInfo['description']);
                 $data = $getStrengthTypeRelatedInfo;
-                $relatedCareers = [     ['id' => 1, 'pf_name' => "Library Technicians", 'attempted' => 1, 'matched' => 'strong'], 
-                                        ['id' => 2, 'pf_name' => "Mechanical Engineers", 'attempted' => 0, 'matched' => 'potential'], 
-                                        ['id' => 3, 'pf_name' => "Fine Artists - Including Painters - Sculptors - and Illustrators", 'attempted' => 1, 'matched' => 'strong'],
-                                        ['id' => 4, 'pf_name' => "Producers and Directors", 'attempted' => 1, 'matched' => 'unlikely'],
-                                        ['id' => 5, 'pf_name' => "Dancers and Choreographers", 'attempted' => 0, 'matched' => 'potential'],
-                                        ['id' => 6, 'pf_name' => "Landscape Architects", 'attempted' => 1, 'matched' => 'strong'],
-                                        ['id' => 7, 'pf_name' => "Computer Software Engineers", 'attempted' => 0, 'matched' => 'potential'],
-                                        ['id' => 8, 'pf_name' => "Chefs and Head Cooks", 'attempted' => 0, 'matched' => 'unlikely'],
-                                        ['id' => 9, 'pf_name' => "Civil Engineers", 'attempted' => 1, 'matched' => 'unlikely'],
-                                        ['id' => 10, 'pf_name' => "Electrical Engineers", 'attempted' => 0, 'matched' => 'potential'],
-                                    ];
-                $careersGurus = [
-                                    ['id' => 1, 
-                                        't_name' => "Bhavdip B Pambhar", 
-                                        'points' => 20, 
-                                        't_photo' => Storage::url('uploads/teenager/thumb/teenager_1514397198.jpg'), 
-                                        't_uniqueid' => '593e6952632df1.14591461'
-                                    ], 
-                                    ['id' => 2, 
-                                        't_name' => "Ronak Luhar", 
-                                        'points' => 200, 
-                                        't_photo' => Storage::url('uploads/teenager/thumb/teenager_1514397198.jpg'), 
-                                        't_uniqueid' => '593e6952632df1.14591461'
-                                    ],
-                                    ['id' => 3, 
-                                        't_name' => "Apurv Prajapati", 
-                                        'points' => 20000, 
-                                        't_photo' => Storage::url('uploads/teenager/thumb/teenager_1514397198.jpg'), 
-                                        't_uniqueid' => '593e6952632df1.14591461'
-                                    ]
-                                ];
-                $data['strong'] = 4;
-                $data['potential'] = 3;
-                $data['unlikely'] = 5;
-                $data['related_career'] = $relatedCareers;
-                $data['career_guru'] = $careersGurus;
                 $response['message'] = trans('appmessages.default_success_msg');
                 $response['login'] = 1;
             } else {
@@ -505,6 +434,47 @@ class DashboardController extends Controller
             $data['strong'] = 4;
             $data['potential'] = 3;
             $data['unlikely'] = 5;
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getMiAndInterestPageGurusDetails
+     *  loginToken, userId, slug, slotNo
+     */
+    public function getMiAndInterestPageGurusDetails(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            $data = [];
+            $reasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($request->slug, $request->slot);
+            $nextReasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($request->slug, $request->slot + 1);
+            if (isset($nextReasoningGurus) && count($nextReasoningGurus) > 0) {
+                $response['seeMoreFlag'] = $request->slot;
+            } else {
+                $response['seeMoreFlag'] = -1;
+            }
+            foreach ($reasoningGurus as $guru) {
+                $teenArr = [];
+                $teenArr['id'] = $guru->id;
+                $teenArr['t_name'] = $guru->t_name;
+                //Teenager thumb Image
+                $teenagerThumbImage = '';
+                if ($guru->t_photo != '' && Storage::size($this->teenThumbImageUploadPath . $guru->t_photo) > 0) {
+                    $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . $guru->t_photo);
+                } else {
+                    $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . 'proteen-logo.png');
+                }
+                $teenArr['t_photo'] = $teenagerThumbImage;
+                $teenArr['t_uniqueid'] = $guru->t_uniqueid;
+                $data[] = $teenArr;
+            }
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');

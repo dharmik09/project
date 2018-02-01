@@ -210,7 +210,7 @@
         color: $r-cl;
         font-family: h;
         line-height: 1.6;
-        @include maxsm{
+        @include maxsm {
             font-size: 16px;
         }
         @include maxms {
@@ -346,19 +346,18 @@
                         opacity: 0.7;
                         vertical-align: top;
                         width: 20%;
-                        @include maxmd{
+                        @include maxmd {
                             width: 29%;
                         }
-                        @include maxsm{
+                        @include maxsm {
                             width: 45%;
                         }
-                        @include maxms{
+                        @include maxms {
                             width: 100%;
                         }
                         .logo-img {
                             /*max-width: 200px;*/
-                            max-height: 200px;
-                           // min-height: 120px;
+                            max-height: 200px; // min-height: 120px;
                         }
                         span {
                             display: block;
@@ -1552,4 +1551,14 @@
 
 .favourite-div {
     position: relative;
+}
+
+text.highcharts-xaxis-title {
+    font-size: 16px !important;
+    white-space: inherit !important;
+    word-wrap: normal;
+    @include maxsm {
+        font-size: 14px !important;
+
+    }
 }

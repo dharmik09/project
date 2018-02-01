@@ -69,7 +69,7 @@
                                 <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
                             </div>
                             <div class="photo-error"></div>
-                            <span class="complete-detail">Profile 23% complete</span>
+                            <span class="complete-detail">Profile {{Helpers::calculateProfileComplete(Auth::guard('teenager')->user()->id)}}% complete</span>
                         </div>
                         <div class="col-sm-9">
                             <h1>{{ $user->t_name }} {{ $user->t_lastname }}</h1>

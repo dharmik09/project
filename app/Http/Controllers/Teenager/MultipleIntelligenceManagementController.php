@@ -112,14 +112,14 @@ class MultipleIntelligenceManagementController extends Controller
     }
 
     /**
-     * Returns array of gurus
+     * Returns array of teenagers with highest promise score
      */
     public function seeMoreGurus()
     {
         $slot = Input::get('slot');
         $slug = Input::get('slug');
         $reasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug, $slot);
-        if ($slot < 5) {
+        if ($slot < 2) {
             $nextReasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug, $slot + 1);
         } else {
             $nextReasoningGurus = [];

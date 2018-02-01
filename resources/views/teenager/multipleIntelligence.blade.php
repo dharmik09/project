@@ -98,7 +98,7 @@
         <!--team section-->
         <section class="sec-team">
             <div class="container">
-                <div class="bg-white new-gurus">
+                <div class="bg-white new-gurus userData">
                     <h4>Meet the {{ $multipleIntelligence->title }} gurus:</h4>
                     @include('teenager/listingGurus')
                 </div>
