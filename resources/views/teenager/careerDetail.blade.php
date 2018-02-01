@@ -190,10 +190,12 @@
                                             <div class="img-list">
                                                 <ul>
                                                     @forelse($professionsData->professionSubject as $professionSubject)
-                                                        <li>
-                                                            <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo">
-                                                            <span>{{$professionSubject->subject['ps_name']}}</span>
-                                                        </li>
+                                                        @if($professionSubject->parameter_grade == 'M' || $professionSubject->parameter_grade == 'H')
+                                                            <li>
+                                                                <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo">
+                                                                <span>{{$professionSubject->subject['ps_name']}}</span>
+                                                            </li>
+                                                        @endif
                                                     @empty
                                                     @endforelse
                                                 </ul>
@@ -201,16 +203,19 @@
                                         @endif
                                     </div>
 
-                                    <?php
-                                        $profession_ability = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_ability';
-                                        })->first();
-                                    ?>
-                                    
                                     <div class="block">
                                         <h4>Abilities</h4>
-                                        @if(isset($profession_ability->pfic_content) && !empty($profession_ability->pfic_content))
-                                            {!!$profession_ability->pfic_content!!}
+                                        @if(isset($professionsData->ability) && !empty($professionsData->ability))
+                                        <div class="img-list">
+                                                <ul>
+                                            @foreach($professionsData->ability as $key => $value)
+                                                <li>
+                                                                <img src="{{ $value['cm_image_url'] }}" alt="compatia logo">
+                                                                <a href="{{$value['cm_slug_url']}}"><span>{{$value['cm_name']}}</span></a>
+                                                            </li>
+                                            @endforeach
+                                            </ul>
+                                            </div>
                                         @endif
                                     </div>
 
@@ -1145,6 +1150,35 @@
         });
     });
     
+    var youtubeVideo = '{{$videoCode}}';
+    if(youtubeVideo == ''){
+      var isYouTube = 0;
+    }
+    else{
+      var isYouTube = 1;  
+    }
+    
+    setTimeout(function() {
+       saveBoosterPoints({{$professionsData->id}},2,isYouTube);
+    }, 10000);
+    
+    function saveBoosterPoints(professionId, type, isYouTube)
+    {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = '&professionId=' + professionId + '&type=' + type + '&isYouTube=' + isYouTube;
+        $.ajax({
+            url : '{{ url("teenager/teen-l3-career-research") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+            },
+            success : function (response) {
+                
+            }
+        });
+    }
+    
     <?php
         $high_school_req = $professionsData->professionHeaders->filter(function($item) {
             return $item->pfic_title == 'high_school_req';
@@ -1278,7 +1312,10 @@
                     xAxis: {
                         type: 'category',
                         title: {
-                            text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Levels of education that people can attain in this career" : "Level of education attained by people currently working in this career" ?>'
+                            text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Levels of education that people can attain in this career" : "Level of education attained by people currently working in this career" ?>',
+                            style: {
+                                fontSize:'16px'
+                            }
                         }
                     },
                     legend: {

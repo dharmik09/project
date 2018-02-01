@@ -8,6 +8,9 @@ use App\Services\Baskets\Contracts\BasketsRepository;
 use App\Baskets;
 use App\Professions;
 use App\ProfessionHeaders;
+use App\MultipleIntelligent;
+use App\Apptitude;
+use App\Personality;
 use Auth;
 use Config;
 use Storage;
@@ -27,6 +30,12 @@ class ProfessionController extends Controller {
         $this->professions = new Professions();
         $this->professionHeaders = new ProfessionHeaders();
         $this->objStarRatedProfession = new StarRatedProfession;
+        $this->objMultipleIntelligent = new MultipleIntelligent;
+        $this->objApptitude = new Apptitude;
+        $this->objPersonality = new Personality;
+        $this->aptitudeThumb = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
+        $this->miThumb = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
+        $this->personalityThumb = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
     }
 
     public function listIndex(){
@@ -410,6 +419,41 @@ class ProfessionController extends Controller {
         }
 
         $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
+        $careerMapHelperArray = Helpers::getCareerMapColumnName();
+        $careerMappingdata = [];
+        
+        foreach ($careerMapHelperArray as $key => $value) {
+            $data = [];
+            if($professionsData->careerMapping[$value] != 'L'){
+                $arr = explode("_", $key);
+                if($arr[0] == 'apt'){
+                    $apptitudeData = $this->objApptitude->getApptitudeDetailBySlug($key);
+                    $data['cm_name'] = $apptitudeData->apt_name;   
+                    $data['cm_image_url'] = Storage::url($this->aptitudeThumb . $apptitudeData->apt_logo);
+                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeData->apt_slug);   
+                }
+                elseif($arr[0] == 'mit'){
+                    $multipleIntelligentData = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($key);
+                    $data['cm_name'] = $multipleIntelligentData->mit_name;
+                    $data['cm_image_url'] = Storage::url($this->miThumb.$multipleIntelligentData->mit_logo);
+                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$multipleIntelligentData->mi_slug);
+                }
+                elseif($arr[0] == 'pt'){
+                    $personalityData = $this->objPersonality->getPersonalityDetailBySlug($key);
+                    $data['cm_name'] = $personalityData->pt_name;
+                    $data['cm_image_url'] = Storage::url($this->personalityThumb.$personalityData->pt_logo);
+                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityData->pt_slug);
+                }
+            $careerMappingdata[] = $data;
+            }
+        }
+        
+        unset($professionsData->careerMapping);
+        $professionsData->ability = $careerMappingdata;
+        // echo "<pre>";
+        // print_r($professionsData->ability);
+        // exit;
+
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
         return view('teenager.careerDetail', compact('professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath'));
