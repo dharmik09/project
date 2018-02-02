@@ -80,38 +80,38 @@ class DashboardController extends Controller
         $user = Auth::guard('teenager')->user();
         $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenOriginalImageUploadPath.'proteen-logo.png');
         $data['user_profile_thumb'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenThumbImageUploadPath.'proteen-logo.png');
-        $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails(Auth::guard('teenager')->user()->id);
-        $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
-        $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
-        $teenagerInterest = [];
-        foreach($teenagerInterestArr as $interestKey => $interestVal){
-            if ($interestVal < 1) { continue; } else {
-            $itName = Helpers::getInterestBySlug($interestKey);
-            $teenItScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['interest'][$interestKey], $interestVal);
-            $teenagerInterest[$interestKey] = (array('score' => $teenItScore, 'name' => $itName));
-            }
-        }
-        $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
+        // $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails(Auth::guard('teenager')->user()->id);
+        // $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
+        // $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
+        // $teenagerInterest = [];
+        // foreach($teenagerInterestArr as $interestKey => $interestVal){
+        //     if ($interestVal < 1) { continue; } else {
+        //     $itName = Helpers::getInterestBySlug($interestKey);
+        //     $teenItScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['interest'][$interestKey], $interestVal);
+        //     $teenagerInterest[$interestKey] = (array('score' => $teenItScore, 'name' => $itName));
+        //     }
+        // }
+        // $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
 
-        foreach($teenagerMI as $miKey => $miVal) {
-            $mitName = Helpers::getMIBySlug($miKey);
-            $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
-                $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
-        }
+        // foreach($teenagerMI as $miKey => $miVal) {
+        //     $mitName = Helpers::getMIBySlug($miKey);
+        //     $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
+        //         $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
+        // }
 
-        $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
-        foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
-            $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-            $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
-            $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
-        }
-        $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
-        foreach($teenagerPersonality as $personalityKey => $personalityVal) {
-            $ptName = Helpers::getPersonalityBySlug($personalityKey);
-            $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
-            $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
-        }
-        $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
+        // $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
+        // foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
+        //     $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
+        //     $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
+        //     $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
+        // }
+        // $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
+        // foreach($teenagerPersonality as $personalityKey => $personalityVal) {
+        //     $ptName = Helpers::getPersonalityBySlug($personalityKey);
+        //     $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
+        //     $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
+        // }
+        // $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
 
         $section1Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,1);
         $section2Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,2);
@@ -196,7 +196,7 @@ class DashboardController extends Controller
             }
         }
 
-        return view('teenager.home', compact('careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'teenagerStrength', 'teenagerInterest','section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
+        return view('teenager.home', compact('careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
     }
 
     //Update meta information for teenager
