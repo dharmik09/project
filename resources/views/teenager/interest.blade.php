@@ -96,7 +96,7 @@
                             <li><span class="number match-unlikely">4</span> Unlikely match</li>
                         </ul>
                     </div>
-                    <div class="new-career userData">
+                    <div class="new-career">
                         @include('teenager/relatedCareers')
                     </div>
                 </div>
@@ -109,7 +109,7 @@
             <div class="container">
                 <div class="bg-white">
                     <h4>Meet the {{ $interest->it_name }} gurus:</h4>
-                    <div class="new-gurus userData">
+                    <div class="new-gurus <?php if (empty($reasoningGurus->toArray())) { ?> userData <?php } ?> ">
                         @include('teenager/listingGurus')
                     </div>
                 </div>
