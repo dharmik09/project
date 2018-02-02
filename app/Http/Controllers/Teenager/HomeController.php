@@ -161,7 +161,7 @@ class HomeController extends Controller
             foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
                 $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
                 $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
-                $teenagerStrength[] = (array('slug' => $apptitudeKey, 'score' => $teenAptScore, 'score' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeKey));
+                $teenagerStrength[] = (array('slug' => $apptitudeKey, 'score' => $teenAptScore, 'points' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeKey));
             }
             //Personality Array
             $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
@@ -169,14 +169,14 @@ class HomeController extends Controller
             foreach($teenagerPersonality as $personalityKey => $personalityVal) {
                 $ptName = Helpers::getPersonalityBySlug($personalityKey);
                 $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
-                $teenagerStrength[] = (array('slug' => $personalityKey, 'score' => $teenPtScore, 'score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityKey));
+                $teenagerStrength[] = (array('slug' => $personalityKey, 'score' => $teenPtScore, 'points' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityKey));
             }
             //MI Array
             $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
             foreach($teenagerMI as $miKey => $miVal) {
                 $mitName = Helpers::getMIBySlug($miKey);
                 $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
-                $teenagerStrength[] = (array('slug' => $miKey, 'score' => $teenMIScore, 'score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
+                $teenagerStrength[] = (array('slug' => $miKey, 'score' => $teenMIScore, 'points' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
             }
             
             return view('teenager.basic.myStrength', compact('teenagerStrength'));
