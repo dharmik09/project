@@ -18,22 +18,39 @@
         </div>
     </div>
     <ul class="match-list">
-        <li><span class="number match-strong">4</span> Strong match</li>
-        <li><span class="number match-potential">5</span> Potential match</li>
-        <li><span class="number match-unlikely">4</span> Unlikely match</li>
+        <li><span class="number match-strong"></span> Strong match</li>
+        <li><span class="number match-potential"></span> Potential match</li>
+        <li><span class="number match-unlikely"></span> Unlikely match</li>
     </ul>
     @endif
 </div>
 <ul class="career-list">
-    @if(count($professionsTagData->professionTags)>0)
+    @if(count($professionsTagData->professionTags) > 0)
+        <?php 
+            $getTeenagerHML = Helpers::getTeenagerMatchScale(Auth::guard('teenager')->user()->id); 
+            $matchScaleCount = [];
+        ?>
         @foreach($professionsTagData->professionTags as $professionTags)
-            
-                <li class="match-strong complete-feild"><a href="{{url('teenager/career-detail/'.$professionTags->profession['pf_slug'])}}" title="{{$professionTags->profession['pf_name']}}">{{$professionTags->profession['pf_name']}}</a>
-                    @if(count($professionTags->profession['professionAttempted'])>0)
+        <?php 
+            $matchScale = isset($getTeenagerHML[$professionTags->profession_id]) ? $getTeenagerHML[$professionTags->profession_id] : '';
+            if($matchScale == "match") {
+                $matchScale = "match-strong";
+            } else if($matchScale == "nomatch") {
+                $matchScale = "match-unlikely";
+            } else if($matchScale == "moderate") {
+                $matchScale = "match-potential";
+            } else {
+                $matchScale = "career-data-nomatch";
+            }
+        ?>
+            @if(isset($professionTags->profession['pf_slug']))
+                <li class="{{$matchScale}} complete-feild">
+                    <a href="{{url('teenager/career-detail/'.$professionTags->profession['pf_slug'])}}" title="{{$professionTags->profession['pf_name']}}">{{$professionTags->profession['pf_name']}}</a>
+                    @if(count($professionTags->profession['professionAttempted']) > 0)
                         <a href="#" class="complete"><span>Complete</span></a>
                     @endif
                 </li>
-            
+            @endif
         @endforeach
     @else
         <center><h3>Careers not available for this tag</h3></center>

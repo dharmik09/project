@@ -257,6 +257,10 @@ class ProfessionController extends Controller {
         }
 
         $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
+        $professionsData = ($professionsData) ? $professionsData : [];
+        if(!$professionsData) {
+            return Redirect::to("teenager/list-career")->withErrors("Invalid professions data");
+        }
         $careerMapHelperArray = Helpers::getCareerMapColumnName();
         $careerMappingdata = [];
         
