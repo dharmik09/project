@@ -16,7 +16,7 @@
                 break;
                 
             default:
-                $matchClass = "";
+                $matchClass = "career-data-nomatch";
                 break;
         };
     ?>
@@ -24,7 +24,9 @@
         <a href="{{ url('/teenager/career-detail') }}/{{$career->pf_slug}}" title="{{$career->pf_name}}">{{$career->pf_name}}</a>
     </li>
     @empty
-        No Careers found
+        <li class="career-data-nomatch">
+            <a href="javascript:void(0)" >No Careers found</a>
+        </li>
     @endforelse
     @else
     <div class="no-data">

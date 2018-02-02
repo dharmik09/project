@@ -10,45 +10,45 @@
     <!-- mid section-->
     <div class="container">
         <div class="col-xs-12">
-                @if ($message = Session::get('success'))
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="box-body">
-                            <div class="alert alert-success alert-dismissable">
-                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
-                                <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
-                                {{ $message }}
-                            </div>
+            @if ($message = Session::get('success'))
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box-body">
+                        <div class="alert alert-success alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                            <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                            {{ $message }}
                         </div>
                     </div>
                 </div>
-                @endif
-                @if ($message = Session::get('error'))
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2 invalid_pass_error">
-                        <div class="box-body">
-                            <div class="alert alert-error alert-dismissable danger">
-                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
-                                <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
-                                {{ $message }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-                @if (count($errors) > 0)
-                <div class="alert alert-danger danger">
-                    <strong>{{trans('validation.whoops')}}</strong>
-                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
-                    {{trans('validation.someproblems')}}<br><br>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
             </div>
+            @endif
+            @if ($message = Session::get('error'))
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 invalid_pass_error">
+                    <div class="box-body">
+                        <div class="alert alert-error alert-dismissable danger">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                            <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
+                            {{ $message }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @if (count($errors) > 0)
+            <div class="alert alert-danger danger">
+                <strong>{{trans('validation.whoops')}}</strong>
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                {{trans('validation.someproblems')}}<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+        </div>
         <section class="career-detail">
             <h1>{{$professionsData->pf_name}}</h1>
            
@@ -784,14 +784,15 @@
                     </div>
                     <div class="col-md-4">
                         <div class="sec-match">
-                            <!--<div id="match" class="progress-cl">
-                            </div>
-                            <h3>Match</h3>-->
                             <div class="progress-match">
-                              <div class="barOverflow">
-                                <div class="bar"></div>
-                              </div>
-                              <span>80%</span>
+                                <div class="barOverflow">
+                                    <div class="bar"></div>
+                                </div>
+                                <?php 
+                                    $matchScoreArray = ['match' => 100, 'nomatch' => 33, 'moderate' => 66];
+                                    $matchScalePoint = ( isset($professionsData->id) && isset($getTeenagerHML[$professionsData->id]) && isset($matchScoreArray[$getTeenagerHML[$professionsData->id]]) ) ? $matchScoreArray[$getTeenagerHML[$professionsData->id]] : 0;
+                                ?>
+                                <span>{{$matchScalePoint}}%</span>
                             </div>
                             <h3>Match</h3>
                         </div>
