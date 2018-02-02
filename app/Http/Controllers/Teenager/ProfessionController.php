@@ -248,10 +248,11 @@ class ProfessionController extends Controller {
     public function careerDetails($slug)
     {
         $user = Auth::guard('teenager')->user();
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
         
-        if($user->t_view_information == 1){
+        if($user->t_view_information == 1) {
             $countryId = 2; // United States
-        }else{
+        } else {
             $countryId = 1; // India
         }
 
@@ -315,7 +316,7 @@ class ProfessionController extends Controller {
         $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
-        return view('teenager.careerDetail', compact('professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath','teenagerStrength'));
+        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath','teenagerStrength'));
     }
 
     //Calculate teenager strength and interest score percentage

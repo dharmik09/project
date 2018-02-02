@@ -293,16 +293,17 @@ class DashboardController extends Controller
 
     /* Request Params : getTeenagerCareers
     *  loginToken, userId
+    *  ["match", "nomatch", "moderate"]
     */
     public function getTeenagerCareers(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareers($request->userId);
             if($getTeenagerAttemptedProfession) {
-                $array = ["strong", "potential", "unlikely"];
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
-                    $getTeenagerAttemptedProfession[$key]->matched = $array[rand(0,2)];
+                    $getTeenagerAttemptedProfession[$key]->matched = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
                     $getTeenagerAttemptedProfession[$key]->attempted = 1;
                     $getTeenagerAttemptedProfession[$key]->pf_logo = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $getTeenagerAttemptedProfession[$key]->pf_logo_thumb = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
@@ -321,25 +322,38 @@ class DashboardController extends Controller
 
     /* Request Params : getTeenagerCareersConsider
     *  loginToken, userId
+    *  ["match", "nomatch", "moderate"]
     */
     public function getTeenagerCareersConsider(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
-            $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession(3);
-            if($getTeenagerAttemptedProfession) {
-                $array = ["strong", "potential", "unlikely"];
-                foreach($getTeenagerAttemptedProfession as $key => $profession) {
-                    $getTeenagerAttemptedProfession[$key]->matched = $array[rand(0,2)];
-                    $getTeenagerAttemptedProfession[$key]->attempted = rand(0,1);
-                    $getTeenagerAttemptedProfession[$key]->pf_logo = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
-                    $getTeenagerAttemptedProfession[$key]->pf_logo_thumb = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+            
+            $teenagerCareers = $this->professionsRepository->getMyCareers($request->userId);
+            $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($request->userId)->toArray() : [];
+
+            $getAllActiveProfessions = Helpers::getActiveProfessions();
+            
+            $allProfessions = [];
+            if($getAllActiveProfessions) {
+                foreach($getAllActiveProfessions as $key => $profession) {
+                    $array = [];
+                    $array['id'] = $profession->id;
+                    $array['pf_name'] = $profession->pf_name;
+                    $array['pf_slug'] = $profession->pf_slug;
+                    $array['pf_logo'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                    $array['pf_logo_thumb'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                    $array['matched'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+                    $array['attempted'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+                    $allProfessions[] = $array;
                 }
             }
+
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
-            $response['data'] = $getTeenagerAttemptedProfession;
+            $response['data'] = $allProfessions;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
