@@ -110,4 +110,5 @@ class ProfessionWiseSubject extends Model
                     ->count();
         return $professionDetails;
     }
+
 }

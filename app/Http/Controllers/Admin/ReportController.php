@@ -169,7 +169,7 @@ class ReportController extends Controller {
         $maxScoreMI = array('Interpersonal'=>8,'Logical'=>20,'Linguistic'=>10,'Intrapersonal'=>7,'Existential'=>4,'Bodily-Kinesthetic'=>5,'Spatial'=>9,'Musical'=>6,'Naturalist'=>6);
         $maxScoreAptitude = array('Verbal Reasoning'=>10,'Logical Reasoning'=>15,'Scientific Reasoning'=>5,'Spatial Ability'=>3,'Social Ability'=>5,'Numerical Ability'=>4,'Artistic Ability'=>1,'Creativity'=>1,'Clerical Ability'=>1);
         $maxScorePersonality = array('Social'=>2,'Investigative'=>1,'Conventional'=>2,'Mechanical'=>1,'Enterprising'=>1,'Artistic'=>1);
-        $maxScoreInterest = array('Computers'=>1,'Sports'=>3,'Language'=>1,'Artistic'=>1,'Musical'=>1,'People'=>1,'Nature'=>5,'Technical'=>1,'Creative, Fine Arts'=>2,'Numerical'=>1,'Research'=>1,'Performing Arts'=>3,'Social'=>1);
+        $maxScoreInterest = array('Computers, Programming, Logic'=>1,'Sports'=>3,'Language, Reading, Writing'=>1,'Art and Fashion'=>1,'Music and Singing'=>1,'People'=>1,'Nature and Travel'=>5,'Technical and Engineering'=>1,'Creative, Fine Arts'=>2,'Numbers, Accounts and Money'=>1,'Research'=>1,'Performing Arts'=>3,'Social'=>1);
 
         if (!empty($final['APIscore']['MI'])) {
             foreach ($final['APIscore']['MI'] as $key => $value) {
