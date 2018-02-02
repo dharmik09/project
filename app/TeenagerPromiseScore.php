@@ -31,13 +31,17 @@ class TeenagerPromiseScore extends Model {
         if ($slot > 0) {
             $slot = $slot * Config::get('constant.RECORD_PER_PAGE');
         }
-        $teenDetails = $this->join("pro_t_teenagers AS teenagers", 'pro_teenager_promise_score.teenager_id', '=', 'teenagers.id')
-                        ->where('teenagers.deleted', Config::get('constant.ACTIVE_FLAG'))
-                        ->where('pro_teenager_promise_score.'.$slug, '!=', "")
-                        ->orderBy('pro_teenager_promise_score.'.$slug, 'DESC')
-                        ->skip($slot)
-                        ->take(Config::get('constant.RECORD_PER_PAGE'))
-                        ->get();
+        if(\Schema::hasColumn('pro_teenager_promise_score', $slug)) {
+            $teenDetails = $this->join("pro_t_teenagers AS teenagers", 'pro_teenager_promise_score.teenager_id', '=', 'teenagers.id')
+                            ->where('teenagers.deleted', Config::get('constant.ACTIVE_FLAG'))
+                            ->where('pro_teenager_promise_score.'.$slug, '!=', "")
+                            ->orderBy('pro_teenager_promise_score.'.$slug, 'DESC')
+                            ->skip($slot)
+                            ->take(Config::get('constant.RECORD_PER_PAGE'))
+                            ->get();
+        } else {
+            $teenDetails = new \stdClass();
+        }
         return $teenDetails;
     }
 }

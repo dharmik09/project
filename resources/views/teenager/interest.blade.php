@@ -10,7 +10,7 @@
         <div class="inner-banner">
             <div class="container">
                 <?php                    
-                    $videoCode = Helpers::youtube_id_from_url($interest->it_video);
+                    $videoCode = Helpers::youtube_id_from_url($interest->video);
                     if ($videoCode != '') {
                         $videoId = $videoCode;
                     }
@@ -19,7 +19,7 @@
                         $videoId = 'WoelVRjFO4A';
                     }
                 ?>
-                <div class="sec-banner banner-landing" style="background-image: url('{{ Storage::url($interestThumbImageUploadPath . $interest->it_logo) }}');">
+                <div class="sec-banner banner-landing" style="background-image: url('{{Storage::url($interest->logo)}}');">
                     <div class="container">
                         <div class="play-icon">
                             <a href="javascript:void(0);" class="play-btn" id="iframe-video-click">
@@ -35,7 +35,7 @@
         <div class="container">
             <section class="introduction-text">
                 <div class="heading-sec clearfix">
-                    <h1>{{ $interest->it_name }}</h1>
+                    <h1>{{ $interest->name }}</h1>
                     <div class="sec-popup">
                         <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
                             <i class="icon-question">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <p>{{ $interest->it_description }}</p>
+                <p>{{ $interest->description }}</p>
             </section>
         </div>
         <!--introduction text end-->
@@ -108,8 +108,8 @@
         <section class="sec-team">
             <div class="container">
                 <div class="bg-white">
-                    <h4>Meet the {{ $interest->it_name }} gurus:</h4>
-                    <div class="new-gurus <?php if (empty($reasoningGurus->toArray())) { ?> userData <?php } ?> ">
+                    <h4>Meet the {{ $interest->name }} gurus:</h4>
+                    <div class="new-gurus <?php if (count($reasoningGurus) == 0) { ?> userData <?php } ?> ">
                         @include('teenager/listingGurus')
                     </div>
                 </div>
@@ -135,7 +135,7 @@
             $(".new-career .loader_con").show();
             var lastCareerId = $(this).data('id');
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var slug = '{{$interest->it_slug}}';
+            var slug = '{{$interest->slug}}';
             var form_data = 'lastCareerId=' + lastCareerId + '&slug=' + slug;
             $.ajax({
                 url : '{{ url("teenager/see-more-interest-related-careers") }}',
@@ -159,7 +159,7 @@
             $(".new-gurus .loader_con").show();
             var slot = slotCount++;
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var slug = '{{$interest->it_slug}}';
+            var slug = '{{$interest->slug}}';
             var form_data = 'slot=' + slot + '&slug=' + slug;
             $.ajax({
                 url : '{{ url("teenager/see-more-inerest-page-gurus") }}',
