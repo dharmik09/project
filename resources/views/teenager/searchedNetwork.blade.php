@@ -20,5 +20,7 @@
     </div>
 </div>
 @empty
-<center><h3>No Records Found</h3></center>
+<div class="col-sm-12 col-md-12 col-xs-12 sec-forum no_selected_category">
+    <span>No Records Found</span>
+</div>
 @endforelse
