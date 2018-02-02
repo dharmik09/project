@@ -9,7 +9,8 @@
         <!-- mid section starts-->
         <div class="inner-banner">
             <div class="container">
-                <?php                    
+                <?php           
+                    $getTeenagerHML = Helpers::getTeenagerMatchScale(Auth::guard('teenager')->user()->id);
                     $videoCode = Helpers::youtube_id_from_url($multipleIntelligence->video);
                     if ($videoCode != '') {
                         $videoId = $videoCode;
@@ -81,9 +82,9 @@
                             </div>
                         </div>
                         <ul class="match-list paddng-right">
-                            <li><span class="number match-strong">4</span> Strong match</li>
-                            <li><span class="number match-potential">5</span> Potential match</li>
-                            <li><span class="number match-unlikely">4</span> Unlikely match</li>
+                            <li><span class="number match-strong"></span> Strong match</li>
+                            <li><span class="number match-potential"></span> Potential match</li>
+                            <li><span class="number match-unlikely"></span> Unlikely match</li>
                         </ul>
                     </div>
                     <div class="new-career">

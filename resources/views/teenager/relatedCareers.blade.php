@@ -1,26 +1,7 @@
 <ul class="career-list <?php if (empty($relatedCareers->toArray())) { ?> userData <?php } ?>">
     @if(!empty($relatedCareers) && count($relatedCareers) > 0)
     @forelse ($relatedCareers as $career)
-    <?php $career->matched = rand(0,2); 
-        switch($career->matched) {
-            case 0:
-                $matchClass = "match-strong";
-                break;
-
-            case 1: 
-                $matchClass = "match-potential";
-                break;
-
-            case 2:
-                $matchClass = "match-unlikely";
-                break;
-                
-            default:
-                $matchClass = "career-data-nomatch";
-                break;
-        };
-    ?>
-    <li class="{{$matchClass}}">
+    <li class="{{$career->match_scale}}">
         <a href="{{ url('/teenager/career-detail') }}/{{$career->pf_slug}}" title="{{$career->pf_name}}">{{$career->pf_name}}</a>
     </li>
     @empty

@@ -46,6 +46,7 @@ class MultipleIntelligenceManagementController extends Controller
     public function index($type, $slug) 
     {
         if (!empty($type) || !empty($slug)) {
+            $userId = Auth::guard('teenager')->user()->id;
             $multipleIntelligence = new \stdClass();
             switch($type) {
                 case Config::get('constant.MULTI_INTELLIGENCE_TYPE'):
@@ -83,6 +84,33 @@ class MultipleIntelligenceManagementController extends Controller
             };
             $careersDetails = Helpers::getCareerMapColumnName();
             $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$slug]);
+            
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
+            $matchScaleCount = [];
+            if($relatedCareers) {
+                $professionAttemptedCount = 0;
+                foreach ($relatedCareers as $k => $v) {
+                    $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userId, $v->id, null);
+                    if(count($professionAttempted) > 0){
+                        $relatedCareers[$k]['attempted'] = 'yes';
+                        $professionAttemptedCount++;
+                    }
+                    $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                    if($matchScale == "match") {
+                        $relatedCareers[$k]['match_scale'] = "match-strong";
+                        $matchScaleCount['match'][] = $v->id;
+                    } else if($matchScale == "nomatch") {
+                        $relatedCareers[$k]['match_scale'] = "match-unlikely";
+                        $matchScaleCount['nomatch'][] = $v->id;
+                    } else if($matchScale == "moderate") {
+                        $relatedCareers[$k]['match_scale'] = "match-potential";
+                        $matchScaleCount['moderate'][] = $v->id;
+                    } else {
+                        $relatedCareers[$k]['match_scale'] = "career-data-nomatch";
+                    }
+                }
+            }
+            
             $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount($careersDetails[$slug]);
             $reasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug);
             $nextReasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug, 1);
@@ -91,7 +119,7 @@ class MultipleIntelligenceManagementController extends Controller
             } else {
                 $nextSlotExist = -1;
             }
-            return view('teenager.multipleIntelligence', compact('multipleIntelligence', 'miThumbImageUploadPath', 'relatedCareers', 'attemptedProfessions', 'relatedCareersCount', 'reasoningGurus', 'nextSlotExist'));
+            return view('teenager.multipleIntelligence', compact('matchScaleCount', 'multipleIntelligence', 'miThumbImageUploadPath', 'relatedCareers', 'attemptedProfessions', 'relatedCareersCount', 'reasoningGurus', 'nextSlotExist'));
 
         } else {
             return redirect::back()->with('error', trans('labels.commonerrormessage'));
@@ -105,10 +133,37 @@ class MultipleIntelligenceManagementController extends Controller
     {
         $lastCareerId = Input::get('lastCareerId');
         $slug = Input::get('slug');
+        $userId = Auth::guard('teenager')->user()->id;
+        
         $careersDetails = Helpers::getCareerMapColumnName();
         $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$slug], $lastCareerId);
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
+        $matchScaleCount = [];
+        if($relatedCareers) {
+            $professionAttemptedCount = 0;
+            foreach ($relatedCareers as $k => $v) {
+                $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userId, $v->id, null);
+                if(count($professionAttempted) > 0){
+                    $relatedCareers[$k]['attempted'] = 'yes';
+                    $professionAttemptedCount++;
+                }
+                $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                if($matchScale == "match") {
+                    $relatedCareers[$k]['match_scale'] = "match-strong";
+                    $matchScaleCount['match'][] = $v->id;
+                } else if($matchScale == "nomatch") {
+                    $relatedCareers[$k]['match_scale'] = "match-unlikely";
+                    $matchScaleCount['nomatch'][] = $v->id;
+                } else if($matchScale == "moderate") {
+                    $relatedCareers[$k]['match_scale'] = "match-potential";
+                    $matchScaleCount['moderate'][] = $v->id;
+                } else {
+                    $relatedCareers[$k]['match_scale'] = "career-data-nomatch";
+                }
+            }
+        }
         $relatedCareersCount = $this->objCareerMapping->getRelatedCareersCount($careersDetails[$slug], $lastCareerId);
-        return view('teenager.relatedCareers', compact('relatedCareers', 'relatedCareersCount'));
+        return view('teenager.relatedCareers', compact('matchScaleCount', 'relatedCareers', 'relatedCareersCount'));
     }
 
     /**

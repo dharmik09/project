@@ -47,12 +47,42 @@ class InterestManagementController extends Controller
         $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1]);
         $reasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug);
         $nextReasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug, 1);
+        
+        $userId = Auth::guard('teenager')->user()->id;
+        $careersDetails = Helpers::getCareerMapColumnName();
+        $relatedCareers = $this->objCareerMapping->getRelatedCareers($careersDetails[$slug]);
+        
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
+        $matchScaleCount = [];
+        if($relatedCareers) {
+            $professionAttemptedCount = 0;
+            foreach ($relatedCareers as $k => $v) {
+                $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userId, $v->id, null);
+                if(count($professionAttempted) > 0){
+                    $relatedCareers[$k]['attempted'] = 'yes';
+                    $professionAttemptedCount++;
+                }
+                $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                if($matchScale == "match") {
+                    $relatedCareers[$k]['match_scale'] = "match-strong";
+                    $matchScaleCount['match'][] = $v->id;
+                } else if($matchScale == "nomatch") {
+                    $relatedCareers[$k]['match_scale'] = "match-unlikely";
+                    $matchScaleCount['nomatch'][] = $v->id;
+                } else if($matchScale == "moderate") {
+                    $relatedCareers[$k]['match_scale'] = "match-potential";
+                    $matchScaleCount['moderate'][] = $v->id;
+                } else {
+                    $relatedCareers[$k]['match_scale'] = "career-data-nomatch";
+                }
+            }
+        }
         if (isset($nextReasoningGurus) && count($nextReasoningGurus) > 0) {
             $nextSlotExist = 1;
         } else {
             $nextSlotExist = -1;
         }
-        return view('teenager.interest', compact('interest', 'interestThumbImageUploadPath', 'relatedCareers', 'relatedCareersCount', 'reasoningGurus', 'nextSlotExist'));
+        return view('teenager.interest', compact('matchScaleCount', 'interest', 'interestThumbImageUploadPath', 'relatedCareers', 'relatedCareersCount', 'reasoningGurus', 'nextSlotExist'));
     }
 
     /**
