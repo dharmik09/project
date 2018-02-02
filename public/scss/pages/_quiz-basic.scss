@@ -1,0 +1,21 @@
+.quiz-container{
+    padding:40px 30px;
+}
+.radio.box, .checkbox.box{
+    .checker{
+        display: none !important;
+    }
+    label{
+        padding: 8px 15px;
+        text-align: center;
+        border: 1px solid $r-cl;
+        border-radius: 6px;
+        margin-bottom: 25px;
+    }
+}
+.radio.box
+.quiz-ans{
+    input:checked ~ em{
+        color: $i-cl !important; 
+    }
+}
