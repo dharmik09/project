@@ -1,4 +1,4 @@
-<ul class="career-list <?php if (empty($relatedCareers->toArray())) { ?> userData <?php } ?>">
+<ul class="career-list <?php if (count($relatedCareers) == 0) { ?> userData <?php } ?>">
     @if(!empty($relatedCareers) && count($relatedCareers) > 0)
     @forelse ($relatedCareers as $career)
     <?php $career->matched = rand(0,2); 

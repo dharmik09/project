@@ -39,9 +39,17 @@ class ProfessionSubject extends Model
         }
     }
 
-
     public function getProfessionSubjectByName($name) {
         $certifications = $this->where('ps_name', $name)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
         return $certifications;
+    }
+
+    /**
+     * Returns subject details array
+     */
+    public function getSubjectDetailsBySlug($slug)
+    {
+        $subject = $this->where('ps_slug', $slug)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
+        return $subject;
     }
 }
