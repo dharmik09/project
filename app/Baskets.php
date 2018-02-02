@@ -194,7 +194,7 @@ class Baskets extends Model
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 })
                 ->where('deleted' ,'1')
-                ->get();
+                ->first();
         return $return;
     }
 
