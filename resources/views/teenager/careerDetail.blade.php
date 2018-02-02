@@ -1148,9 +1148,14 @@
                     xAxis: {
                         type: 'category',
                         title: {
-                            text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Levels of education that people can attain in this career" : "Level of education attained by people currently working in this career" ?>',
+                            text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Level of education attained by people in this career in the US" : "Level of education attained by people currently working in this career" ?>',
                             style: {
                                 fontSize:'16px'
+                            }
+                        },
+                        labels: {
+                            style: {
+                                fontSize:'13px'
                             }
                         }
                     },
