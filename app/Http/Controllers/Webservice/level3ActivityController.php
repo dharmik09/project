@@ -840,4 +840,27 @@ class level3ActivityController extends Controller {
         return response()->json($response, 200);
     }
 
+    public function addStarToCareer(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Add Career to my career'.$request->userId , array('api-name'=> 'addStarToCareer'));
+        if($request->userId != "" && $teenager) {
+            $careerId = $request->careerId;
+            $careerDetails['srp_teenager_id'] = $request->userId;
+            $careerDetails['srp_profession_id'] = $careerId;
+            $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
+            
+            $response['status'] = 1;
+            $response['login'] = 1;
+            $response['message'] = "Added";
+            $response['data'] = ['careerId' => $request->careerId];
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'addStarToCareer'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
 }

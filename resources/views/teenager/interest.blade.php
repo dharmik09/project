@@ -91,9 +91,9 @@
                             </div>
                         </div>
                         <ul class="match-list paddng-right">
-                            <li><span class="number match-strong">4</span> Strong match</li>
-                            <li><span class="number match-potential">5</span> Potential match</li>
-                            <li><span class="number match-unlikely">4</span> Unlikely match</li>
+                            <li><span class="number match-strong"></span> Strong match</li>
+                            <li><span class="number match-potential"></span> Potential match</li>
+                            <li><span class="number match-unlikely"></span> Unlikely match</li>
                         </ul>
                     </div>
                     <div class="new-career">
