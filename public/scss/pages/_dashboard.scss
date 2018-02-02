@@ -125,14 +125,14 @@ h6 {
                 }
                 h2 {
                     font-family: 'ht';
-                    font-size: 83px;
+                    font-size: 75px;
                     color: $p-cl;
                     font-family: 'ht';
                     @include maxmd {
-                        font-size: 60px;
+                        font-size: 58px;
                     }
                     @include maxms {
-                        font-size: 50px;
+                        font-size: 45px;
                     }
                 }
                 h5 {
