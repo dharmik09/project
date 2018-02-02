@@ -83,7 +83,6 @@ class InterestManagementController extends Controller
         $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1]);
         
         $userId = Auth::guard('teenager')->user()->id;
-        
         $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
         $matchScaleCount = [];
         if($relatedCareers) {
@@ -128,7 +127,34 @@ class InterestManagementController extends Controller
         $finalSlug = (isset($subSlug) && !empty($subSlug)) ? $subSlug : $slug;
         $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($finalSlug, $lastCareerId);
         $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($finalSlug, $lastCareerId);
-        return view('teenager.relatedCareers', compact('relatedCareers', 'relatedCareersCount'));
+        
+        $userId = Auth::guard('teenager')->user()->id;
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
+        $matchScaleCount = [];
+        if($relatedCareers) {
+            $professionAttemptedCount = 0;
+            foreach ($relatedCareers as $k => $v) {
+                $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userId, $v->id, null);
+                if(count($professionAttempted) > 0){
+                    $relatedCareers[$k]['attempted'] = 'yes';
+                    $professionAttemptedCount++;
+                }
+                $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                if($matchScale == "match") {
+                    $relatedCareers[$k]['match_scale'] = "match-strong";
+                    $matchScaleCount['match'][] = $v->id;
+                } else if($matchScale == "nomatch") {
+                    $relatedCareers[$k]['match_scale'] = "match-unlikely";
+                    $matchScaleCount['nomatch'][] = $v->id;
+                } else if($matchScale == "moderate") {
+                    $relatedCareers[$k]['match_scale'] = "match-potential";
+                    $matchScaleCount['moderate'][] = $v->id;
+                } else {
+                    $relatedCareers[$k]['match_scale'] = "career-data-nomatch";
+                }
+            }
+        }
+        return view('teenager.relatedCareers', compact('matchScaleCount', 'relatedCareers', 'relatedCareersCount'));
     }
 
     /**
