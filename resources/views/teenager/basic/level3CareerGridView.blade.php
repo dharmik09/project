@@ -1,5 +1,12 @@
 @if(count($basketsData)>0)
+<?php
+    $getTeenagerHML = Helpers::getTeenagerMatchScale(Auth::guard('teenager')->user()->id);
+    $professionAttemptedCount = 0;
+    $matchScaleCount = [];
+    //print_r($basketsData->toArray()); die();
+?>  
     @foreach($basketsData as $key => $value)
+    <?php //echo $value->profession[0]->id; die();?>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}" class="collapsed">{{$value->b_name}}</a> <a href="{{url('teenager/list-career')}}" title="Grid view" class="grid"><i class="icon-list"></i></a></h4>
@@ -26,6 +33,19 @@
                                                         if(count($v->professionAttempted)>0){
                                                             $professionAttemptedCount++;
                                                         }
+                                                        $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                                                        if($matchScale == "match") {
+                                                            $basketsData[$key]['profession'][$k]['match_scale'] = "match-strong";
+                                                            $matchScaleCount['match'][] = $v->id;
+                                                        } else if($matchScale == "nomatch") {
+                                                            $basketsData[$key]['profession'][$k]['match_scale'] = "match-unlikely";
+                                                            $matchScaleCount['nomatch'][] = $v->id;
+                                                        } else if($matchScale == "moderate") {
+                                                            $basketsData[$key]['profession'][$k]['match_scale'] = "match-potential";
+                                                            $matchScaleCount['moderate'][] = $v->id;
+                                                        } else {
+                                                            $basketsData[$key]['profession'][$k]['match_scale'] = "career-data-nomatch";
+                                                        }
                                                     }
                                                 ?>
                                                 <p>
@@ -40,14 +60,33 @@
                                                         </strong>
                                                     careers
                                                 </p>
+                                            @else
+                                                <?php 
+                                                    $matchScale = ( isset($value->profession[0]->id) && isset($getTeenagerHML[$value->profession[0]->id]) ) ? $getTeenagerHML[$value->profession[0]->id] : '';
+                                                    if($matchScale == "match") {
+                                                        $matchScaleNotView = "match-strong";
+                                                        $value->profession[0]->match_scale = "match-strong";
+                                                        $matchScaleCount['match'][] = $value->profession[0]->id;
+                                                    } else if($matchScale == "nomatch") {
+                                                        $matchScaleNotView = "match-unlikely";
+                                                        $value->profession[0]->match_scale = "match-unlikely";
+                                                        $matchScaleCount['nomatch'][] = $value->profession[0]->id;
+                                                    } else if($matchScale == "moderate") {
+                                                        $matchScaleNotView = "match-potential";
+                                                        $value->profession[0]->match_scale = "match-potential";
+                                                        $matchScaleCount['moderate'][] = $value->profession[0]->id;
+                                                    } else {
+                                                        $matchScaleNotView = "career-data-nomatch";
+                                                    }
+                                                ?>
                                             @endif
                                         </div>
                                         <div class="col-md-6">
                                             <div class="pull-right">
                                                 <ul class="match-list">
-                                                    <li><span class="number match-strong">4</span> Strong match</li>
-                                                    <li><span class="number match-potential">5</span> Potential match</li>
-                                                    <li><span class="number match-unlikely">4</span> Unlikely match</li>
+                                                    <li><span class="number match-strong">{{ (isset($matchScaleCount['match']) && count($matchScaleCount['match']) > 0 ) ? count($matchScaleCount['match']) : 0 }}</span> Strong match</li>
+                                                    <li><span class="number match-potential">{{ (isset($matchScaleCount['moderate']) && count($matchScaleCount['moderate']) > 0 ) ? count($matchScaleCount['moderate']) : 0 }}</span> Potential match</li>
+                                                    <li><span class="number match-unlikely">{{ (isset($matchScaleCount['nomatch']) && count($matchScaleCount['nomatch']) > 0 ) ? count($matchScaleCount['nomatch']) : 0 }}</span> Unlikely match</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -65,7 +104,9 @@
                                                                         })->first();
                                             ?>
                                             <div class="col-md-4 col-sm-6">
-                                                <div class="category match-strong"><a href="{{url('teenager/career-detail/')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{$v->pf_name}}</a>
+                                                <?php $matchScale = ( isset($v->match_scale) && $v->match_scale != '') ? $v->match_scale : "career-data-nomatch"; ?>
+                                                <div class="category {{$matchScale}}">
+                                                    <a href="{{url('teenager/career-detail/')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{$v->pf_name}}</a>
 
                                                     @if(count($v->professionAttempted)>0)
                                                     <span class="complete"><a href="#" title="Completed"><i class="icon-thumb"></i></a></span>
