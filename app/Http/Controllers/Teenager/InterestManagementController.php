@@ -19,6 +19,7 @@ use Input;
 use App\TeenagerPromiseScore;
 use App\ProfessionSubject;
 use Storage;
+use App\Services\Professions\Contracts\ProfessionsRepository;
 
 class InterestManagementController extends Controller
 {
@@ -27,7 +28,7 @@ class InterestManagementController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ProfessionsRepository $professionsRepository)
     {
     	$this->objInterest = new Interest;
         $this->objCareerMapping = new CareerMapping;
@@ -36,6 +37,7 @@ class InterestManagementController extends Controller
         $this->objProfessionWiseSubject = new ProfessionWiseSubject;
         $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
         $this->objProfessionSubject = new ProfessionSubject;
+        $this->professionsRepository = $professionsRepository;
         $this->subjectOriginalImageUploadPath = Config::get("constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH");
     }
 
@@ -76,14 +78,43 @@ class InterestManagementController extends Controller
             $reasoningGurus = [];
             $nextReasoningGurus = [];
         }
+        
         $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($subSlug[1]);
         $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1]);
+        
+        $userId = Auth::guard('teenager')->user()->id;
+        
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
+        $matchScaleCount = [];
+        if($relatedCareers) {
+            $professionAttemptedCount = 0;
+            foreach ($relatedCareers as $k => $v) {
+                $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userId, $v->id, null);
+                if(count($professionAttempted) > 0){
+                    $relatedCareers[$k]['attempted'] = 'yes';
+                    $professionAttemptedCount++;
+                }
+                $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                if($matchScale == "match") {
+                    $relatedCareers[$k]['match_scale'] = "match-strong";
+                    $matchScaleCount['match'][] = $v->id;
+                } else if($matchScale == "nomatch") {
+                    $relatedCareers[$k]['match_scale'] = "match-unlikely";
+                    $matchScaleCount['nomatch'][] = $v->id;
+                } else if($matchScale == "moderate") {
+                    $relatedCareers[$k]['match_scale'] = "match-potential";
+                    $matchScaleCount['moderate'][] = $v->id;
+                } else {
+                    $relatedCareers[$k]['match_scale'] = "career-data-nomatch";
+                }
+            }
+        }
         if (isset($nextReasoningGurus) && count($nextReasoningGurus) > 0) {
             $nextSlotExist = 1;
         } else {
             $nextSlotExist = -1;
         }
-        return view('teenager.interest', compact('interest', 'interestThumbImageUploadPath', 'relatedCareers', 'relatedCareersCount', 'reasoningGurus', 'nextSlotExist'));
+        return view('teenager.interest', compact('matchScaleCount', 'interest', 'interestThumbImageUploadPath', 'relatedCareers', 'relatedCareersCount', 'reasoningGurus', 'nextSlotExist'));
     }
 
     /**
@@ -94,8 +125,9 @@ class InterestManagementController extends Controller
         $lastCareerId = Input::get('lastCareerId');
         $slug = Input::get('slug');
         $subSlug = explode('it_', $slug);
-        $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($subSlug[1], $lastCareerId);
-        $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1], $lastCareerId);
+        $finalSlug = (isset($subSlug) && !empty($subSlug)) ? $subSlug : $slug;
+        $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($finalSlug, $lastCareerId);
+        $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($finalSlug, $lastCareerId);
         return view('teenager.relatedCareers', compact('relatedCareers', 'relatedCareersCount'));
     }
 
