@@ -187,7 +187,7 @@
                                                         @if($professionSubject->parameter_grade == 'M' || $professionSubject->parameter_grade == 'H')
                                                             <li>
                                                                 <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo">
-                                                                <span>{{$professionSubject->subject['ps_name']}}</span>
+                                                                <a href="{{url('/teenager/interest')}}/it_{{$professionSubject->subject['ps_slug']}}"><span>{{$professionSubject->subject['ps_name']}}</span></a>
                                                             </li>
                                                         @endif
                                                     @empty
