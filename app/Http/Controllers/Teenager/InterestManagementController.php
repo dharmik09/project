@@ -78,6 +78,7 @@ class InterestManagementController extends Controller
             $reasoningGurus = [];
             $nextReasoningGurus = [];
         }
+        
         $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($subSlug[1]);
         $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1]);
         
