@@ -3,10 +3,8 @@
     $getTeenagerHML = Helpers::getTeenagerMatchScale(Auth::guard('teenager')->user()->id);
     $professionAttemptedCount = 0;
     $matchScaleCount = [];
-    //print_r($basketsData->toArray()); die();
 ?>  
     @foreach($basketsData as $key => $value)
-    <?php //echo $value->profession[0]->id; die();?>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}" class="collapsed">{{$value->b_name}}</a> <a href="{{url('teenager/list-career')}}" title="Grid view" class="grid"><i class="icon-list"></i></a></h4>
