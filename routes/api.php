@@ -142,5 +142,6 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getNotification', 'Webservice\NotificaionController@getNotificationPageWise');
 	Route::post('/getNotificationCount', 'Webservice\NotificaionController@getUnreadNotificationCount');
 	Route::post('/deleteNotification', 'Webservice\NotificaionController@deleteNotification');
+	Route::post('/readNotification', 'Webservice\NotificaionController@changeNotificationStatus');
 
 });

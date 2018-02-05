@@ -78,10 +78,10 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
     /**
      * Change Notifications read Status
      */
-    public function ChangeNotificationsReadStatus($idArray,$status)
+    public function ChangeNotificationsReadStatus($id,$status)
     {
         
-        $response =  Notifications::whereIn('id', $idArray)->update(['n_read_status' => $status]);
+        $response =  Notifications::where('id', $id)->update(['n_read_status' => $status]);
         return $response;
     }
 

@@ -126,6 +126,7 @@ Route::post('/registerUserInAppLozic', 'Teenager\ChatController@registerUserInAp
 Route::get('/get-notification-count', 'Teenager\ChatController@getUnreadNotificationCount');
 Route::post('/get-page-wise-notification', 'Teenager\ChatController@getPageWiseNotification');
 Route::post('/delete-notification', 'Teenager\ChatController@deleteNotification');
+Route::post('/read-notification', 'Teenager\ChatController@changeNotificationStatus');
 
 //Help
 Route::post('/get-help-text', 'Teenager\HelpController@getHelpTextBySlug');
