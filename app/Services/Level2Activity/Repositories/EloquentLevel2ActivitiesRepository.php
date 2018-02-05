@@ -9,6 +9,8 @@ use App\Level2Options;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
 use Storage;
+use Helpers;
+use App\Teenagers;
 
 class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implements Level2ActivitiesRepository
 {
@@ -243,6 +245,13 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
                 if($res)
                 {
                     $points += $response['points'];
+                    //Saving the pro coins data
+                    $proCoins = Teenagers::find($teenagerId);
+                    $configValue = Helpers::getConfigValueByKey('PROCOINS_FACTOR_L2');
+                    if($proCoins) {
+                        $proCoins->t_coins = (int)$proCoins->t_coins + ( $response['points'] * $configValue );
+                        $proCoins->save();
+                    }
                 }
             }
             $questionsID[] = $response['questionID'];

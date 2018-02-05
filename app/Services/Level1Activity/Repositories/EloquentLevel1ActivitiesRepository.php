@@ -6,8 +6,10 @@ use DB;
 use Config;
 use App\Level1Answers;
 use App\Level1Options;
+use App\Teenagers;
 use App\Level1Traits;
 use App\Level1TraitsOptions;
+use Helpers;
 use App\Level1TraitsAnswers;
 use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
@@ -261,6 +263,7 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
      * Save teen ans one by one 
      */
     public function saveTeenagerActivityResponseOneByOne($teenagerId, $response) {
+
         $points = 0;
         $questionsID = [];
 
@@ -279,6 +282,13 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
             $res = $objLevel1Answers->create($row);
             if ($res) {
                 $points += $response['points'];
+                //Saving the pro coins data
+                $proCoins = Teenagers::find($teenagerId);
+                $configValue = Helpers::getConfigValueByKey('PROCOINS_FACTOR_L1');
+                if($proCoins) {
+                    $proCoins->t_coins = (int)$proCoins->t_coins + ( $response['points'] * $configValue );
+                    $proCoins->save();
+                }
             }
         }
         $questionsID[] = $response['questionID'];

@@ -33,6 +33,10 @@ return [
     "AUDIT_ORIGIN_IOS" => "2",
     "AUDIT_ORIGIN_WEB" => "3",
 
+    "PROCOINS_FACTOR_L1" => 'PROCOINS_FACTOR_L1',
+    "PROCOINS_FACTOR_L2" => 'PROCOINS_FACTOR_L2',
+    "PROCOINS_FACTOR_L3" => 'PROCOINS_FACTOR_L3',
+    "PROCOINS_FACTOR_L1_ICON" => 'PROCOINS_FACTOR_L1_ICON', 
 
     'CONTACT_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/sponsor/contact_photo/original/',
     'CONTACT_PHOTO_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/sponsor/contact_photo/thumb/',

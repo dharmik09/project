@@ -22,7 +22,7 @@
                                 <div class="your_progress">
                                     <h6>Your Progress</h6>
                                     <h2>{{Helpers::calculateProfileComplete(Auth::guard('teenager')->user()->id)}}%</h2>
-                                    <h5>10,000 points</h5>
+                                    <h5>{{ ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? number_format($basicBoosterPoint['Total']) : 0 }} points</h5>
                                     <p>You advanced 7% on your last visit. Well done you!</p>
                                 </div>
                                 <!-- your_progress End -->

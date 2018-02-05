@@ -11,11 +11,11 @@ class Configurations extends Model
     
     public function getCreditValue($config)
     {
-       $creditValue = Configurations::Select('pro_cfg_configurations.cfg_value')->where('cfg_key', $config)->get();
-       foreach($creditValue as $value)
-       {
-           return $value->cfg_value;
-       }
+        $creditValue = Configurations::Select('pro_cfg_configurations.cfg_value')->where('cfg_key', $config)->first();
+        if($creditValue) {
+          return $creditValue->cfg_value;
+        }
+        return false;    
     }
     
     public function getCreditKey($type)

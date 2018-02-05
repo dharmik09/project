@@ -8,6 +8,7 @@ use Config;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
 use Helpers;
+use App\Teenagers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 
@@ -936,6 +937,24 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         return $array;
     }
 
+    /* @getTeenagerBasicBooster
+    *  @params : teenager Id
+    *  @response : All level booster points with total points 
+    */
+    public function getTeenagerBasicBooster($teenagerId) {
+        $boosterPoints = DB::select( DB::raw("select SUM(tlb_points) as points, tlb_level from " . config::get('databaseconstants.TBL_TEENAGER_LEVEL_BOOSTERS') . " where tlb_teenager=" . $teenagerId . " GROUP BY tlb_level"), array());
+        $boosterArray = [];
+        $totalPoints = 0;
+        if($boosterPoints) {
+            foreach ($boosterPoints as $points) {
+                $boosterArray["Level" . $points->tlb_level] = $points->points;
+                $totalPoints = $totalPoints + $points->points;
+            }
+            $boosterArray["Total"] = max((int)$totalPoints, 0);
+        }
+        return $boosterArray;
+    }
+
     public function getTeenagerBoosterPoints($teenagerId) {
 
         $finalArray = array();
@@ -1093,6 +1112,14 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
             DB::table('pro_tlb_teenager_level_boosters')
                     ->insert($data);
         }
+
+        $proCoins = Teenagers::find($userId);
+        $configValue = Helpers::getConfigValueByKey('PROCOINS_FACTOR_L1_ICON');
+        if($proCoins) {
+            $proCoins->t_coins = (int)$proCoins->t_coins + (int)( $points * $configValue );
+            $proCoins->save();
+        }
+        return true;
     }
 
     public function saveLevel2BoosterPoints($userId, $totalPoints) {
