@@ -394,16 +394,18 @@ class DashboardController extends Controller
                 $response["seeMoreFlag"] = 0;
             }
             $matchArr = ['potential', 'strong', 'unlikely'];
+            $careerData = [];
             foreach ($relatedCareers as $career) {
                 $careersArr = [];
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
                 $careersArr['matched'] = $matchArr[rand(0,2)];
-                $data['related_career'][] = $careersArr;
+                $careerData[] = $careersArr;
             }
             $data['strong'] = 4;
             $data['potential'] = 3;
             $data['unlikely'] = 5;
+            $data['related_career'] = $careerData;
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -438,16 +440,18 @@ class DashboardController extends Controller
                 $response["seeMoreFlag"] = 0;
             }
             $matchArr = ['potential', 'strong', 'unlikely'];
+            $careerData = [];
             foreach ($relatedCareers as $career) {
                 $careersArr = [];
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
                 $careersArr['matched'] = $matchArr[rand(0,2)];
-                $data['related_career'][] = $careersArr;
+                $careerData[] = $careersArr;
             }
             $data['strong'] = 4;
             $data['potential'] = 3;
             $data['unlikely'] = 5;
+            $data['related_career'] = $careerData;
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
