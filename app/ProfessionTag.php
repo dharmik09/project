@@ -56,11 +56,13 @@ class ProfessionTag extends Model
                             $query->with(['professionAttempted' => function ($query) {
                                 $query->where('tpa_teenager', $this->userid);
                             }]);
+                            $query->where('deleted', '<>', Config::get('constant.DELETED_FLAG'));
                         }]);
                     }])
                     ->where('pt_slug', $slug)
                     ->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))
                     ->first();
+
         return $result;
     }
 
