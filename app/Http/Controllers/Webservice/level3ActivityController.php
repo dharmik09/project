@@ -572,11 +572,11 @@ class level3ActivityController extends Controller {
                     }
 
                     $education['profession_education_path'] = (isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content)) ? $profession_education_path->pfic_content : '';
-                    $education['high_school_req'] = $high_school;
-                    $education['junior_college_req'] = $junior_college;
-                    $education['bachelor_degree_req'] = $bachelor_degree;
-                    $education['masters_degree_req'] = $masters_degree;
-                    $education['PhD_req'] = $phd_degree;
+                    $education['high_school_req'] = number_format( (float) $high_school, 2, '.', '');
+                    $education['junior_college_req'] = number_format( (float) $junior_college, 2, '.', '');
+                    $education['bachelor_degree_req'] = number_format( (float) $bachelor_degree, 2, '.', '');
+                    $education['masters_degree_req'] = number_format( (float) $masters_degree, 2, '.', '');
+                    $education['PhD_req'] = number_format( (float) $phd_degree, 2, '.', '');
 
                     $professionsData->education = $education;
 

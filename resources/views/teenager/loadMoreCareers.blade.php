@@ -12,7 +12,9 @@
         <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
         </div>
         <div class="careers-content">
-            <h4>{{ $myCareer->pf_name }}</h4>
+            <a href="{{ url('/teenager/career-detail') }}/{{$myCareer->pf_slug}}">
+                <h4>{{ $myCareer->pf_name}}</h4>
+            </a>
         </div>
     </div>
 </div>
@@ -22,6 +24,9 @@
 </center>
 @endforelse
 @if (!empty($myCareers) && $myCareersCount > 10)
+    <div id="career-loader" class="loader_con remove-my-careers-row">
+        <img src="{{Storage::url('img/loading.gif')}}">
+    </div>
     <p class="text-center remove-my-careers-row">
         <a id="load-more-career" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myCareer->careerId }}">load more</a>
     </p>

@@ -38,7 +38,12 @@ class NotificaionController extends Controller {
             $data = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo);
 
             foreach($data as $key => $value){
-                $data[$key]->n_sender_image = Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo);
+                if(isset($value->senderTeenager) && $value->senderTeenager != '') {
+                    $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
+                } else {
+                    $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+                }
+                $data[$key]->n_sender_image = Storage::url($teenPhoto);
                 if($value->n_record_id != 0){
                     $data[$key]->n_request_status = $value->community->tc_status;
                 }
@@ -125,6 +130,36 @@ class NotificaionController extends Controller {
 
         } else {
             $this->log->error('Parameter missing error' , array('api-name'=> 'getNotification'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+    }
+
+    public function changeNotificationStatus(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'readNotification'));
+        if($request->userId != "" && $teenager) {
+
+            $id = $request->notificationId;
+            $data =  $this->objNotifications->ChangeNotificationsReadStatus($id,Config::get('constant.NOTIFICATION_STATUS_READ'));
+            
+            if(isset($data)){
+                $response['data'] = [];
+                $response['message'] = trans('appmessages.default_success_msg');
+            }
+            else{
+                $response['data'] = [];
+                $response['message'] = trans('appmessages.default_error_msg');
+            }
+
+            $response['status'] = 1;
+            $response['login'] = 1;
+
+            $this->log->info('Response for change Notifications status to read' , array('api-name'=> 'readNotification'));
+
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'readNotification'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);

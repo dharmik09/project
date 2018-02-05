@@ -309,6 +309,7 @@ class DashboardController extends Controller
                     $getTeenagerAttemptedProfession[$key]->attempted = 1;
                     $getTeenagerAttemptedProfession[$key]->pf_logo = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $getTeenagerAttemptedProfession[$key]->pf_logo_thumb = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                    $getTeenagerAttemptedProfession[$key]->pf_slug = $profession->pf_slug;
                 }
             }
             $response['login'] = 1;
@@ -396,16 +397,18 @@ class DashboardController extends Controller
                 $response["seeMoreFlag"] = 0;
             }
             $matchArr = ['potential', 'strong', 'unlikely'];
+            $careerData = [];
             foreach ($relatedCareers as $career) {
                 $careersArr = [];
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
                 $careersArr['matched'] = $matchArr[rand(0,2)];
-                $data['related_career'][] = $careersArr;
+                $careerData[] = $careersArr;
             }
             $data['strong'] = 4;
             $data['potential'] = 3;
             $data['unlikely'] = 5;
+            $data['related_career'] = $careerData;
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -440,16 +443,18 @@ class DashboardController extends Controller
                 $response["seeMoreFlag"] = 0;
             }
             $matchArr = ['potential', 'strong', 'unlikely'];
+            $careerData = [];
             foreach ($relatedCareers as $career) {
                 $careersArr = [];
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
                 $careersArr['matched'] = $matchArr[rand(0,2)];
-                $data['related_career'][] = $careersArr;
+                $careerData[] = $careersArr;
             }
             $data['strong'] = 4;
             $data['potential'] = 3;
             $data['unlikely'] = 5;
+            $data['related_career'] = $careerData;
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -489,6 +494,7 @@ class DashboardController extends Controller
                 }
                 $teenArr['t_photo'] = $teenagerThumbImage;
                 $teenArr['t_uniqueid'] = $guru->t_uniqueid;
+                $teenArr['t_coins'] = $guru->t_coins;
                 $data[] = $teenArr;
             }
             $response['login'] = 1;

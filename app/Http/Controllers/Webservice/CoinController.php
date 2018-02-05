@@ -20,6 +20,7 @@ use App\Transactions;
 use App\DeductedCoins;
 use App\TemplateDeductedCoins;
 use App\Teenagers;
+use App\Notifications;
 
 class CoinController extends Controller
 {
@@ -42,6 +43,7 @@ class CoinController extends Controller
         $this->objDeductedCoins = new DeductedCoins;
         $this->objTemplateDeductedCoins = new TemplateDeductedCoins;
         $this->objTeenager = new Teenagers;
+        $this->objNotifications = new Notifications;
     }
 
     /* Request Params : getProCoinsPackages
@@ -414,7 +416,13 @@ class CoinController extends Controller
                 $giftedCoins += $userData['t_coins'];
             }
             $result = $this->teenagersRepository->updateTeenagerCoinsDetail($request->giftedUserId, $giftedCoins);
-
+            $notificationData['n_sender_id'] = $teenager->id;
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_receiver_id'] = $request->giftedUserId;
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
+            $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> gifted you '.$request->giftedCoins.' coins';
+            $this->objNotifications->insertUpdate($notificationData);
             //Mail to both users
             //Login user mail
             $userArray = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);

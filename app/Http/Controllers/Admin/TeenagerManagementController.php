@@ -30,6 +30,7 @@ use Cache;
 use App\LearningStyle;
 use App\Professions;
 use App\TeenagerCoinsGift;
+use App\Notifications;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -65,6 +66,7 @@ class TeenagerManagementController extends Controller {
         $this->relationIconOriginalImageUploadPath = Config::get('constant.RELATION_ICON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
         $this->learningStyleThumbImageUploadPath = Config::get('constant.LEARNING_STYLE_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objNotifications = new Notifications();
          
         $this->log = new Logger('admin-teenager');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
@@ -1208,6 +1210,15 @@ class TeenagerManagementController extends Controller {
             }
         }
         $result = $this->teenagersRepository->updateTeenagerCoinsDetail($id, $coins);
+
+        $notificationData['n_sender_id'] = '0';
+        $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_ADMIN');
+        $notificationData['n_receiver_id'] = $id;
+        $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+        $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
+        $notificationData['n_notification_text'] = '<strong> Admin </strong> gifted you '.$giftCoins.' coins';
+        $this->objNotifications->insertUpdate($notificationData);
+
         $userArray = $this->teenagersRepository->getTeenagerByTeenagerId($id);
         $objGiftUser = new TeenagerCoinsGift();
         if($flag) {

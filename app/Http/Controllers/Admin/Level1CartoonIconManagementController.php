@@ -71,6 +71,7 @@ class Level1CartoonIconManagementController extends Controller
         $cartoonIconDetail['id'] = e(input::get('id'));
         $cartoonIconDetail['ci_name'] = e(input::get('l1ci_name'));
         $cartoonIconDetail['ci_category'] = e(input::get('ci_category'));
+        $cartoonIconDetail['ci_description'] = e(input::get('ci_description'));
         $cartoonIconDetail['deleted'] = e(input::get('deleted'));
         $hiddenLogo     = e(input::get('hidden_logo'));
         $cartoonIconDetail['ci_image']    = $hiddenLogo;

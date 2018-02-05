@@ -82,6 +82,7 @@ Route::post('/fetch-career-search-dropdown/', 'Teenager\ProfessionController@get
 Route::post('/get-dropdown-search-result/', 'Teenager\ProfessionController@getDropdownSearchResult');
 Route::get('/my-careers/', 'Teenager\ProfessionController@getTeenagerCareers');
 Route::post('/get-my-careers-search/', 'Teenager\ProfessionController@getTeenagerCareersSearch');
+Route::post('/get-teenagers-for-starrated/', 'Teenager\ProfessionController@getTeenagerWhoStarRatedCareer');
 
 //Tag
 Route::get('/career-tag/{slug}', 'Teenager\ProfessionTagController@index');
@@ -109,6 +110,7 @@ Route::get('/my-network', 'Teenager\DashboardController@getMyNetworkDetails');
 Route::post('/search-network', 'Teenager\DashboardController@getMyNetworkDetails');
 Route::post('/get-network-members-by-filter', 'Teenager\DashboardController@getMyNetworkDetails');
 Route::get('/network-member/{uniqueId}', 'Teenager\CommunityManagementController@getMemberDetails');
+Route::post('/load-more-member-connections', 'Teenager\CommunityManagementController@loadMoreMemberConnections');
 
 Route::post('get-level2-activity', 'Teenager\level2ActivityController@index')->name('getLevel2Activity');
 Route::post('save-level2-activity', 'Teenager\level2ActivityController@saveLevel2Ans')->name('saveLevel2Activity');
@@ -125,6 +127,7 @@ Route::post('/registerUserInAppLozic', 'Teenager\ChatController@registerUserInAp
 Route::get('/get-notification-count', 'Teenager\ChatController@getUnreadNotificationCount');
 Route::post('/get-page-wise-notification', 'Teenager\ChatController@getPageWiseNotification');
 Route::post('/delete-notification', 'Teenager\ChatController@deleteNotification');
+Route::post('/read-notification', 'Teenager\ChatController@changeNotificationStatus');
 
 //Help
 Route::post('/get-help-text', 'Teenager\HelpController@getHelpTextBySlug');

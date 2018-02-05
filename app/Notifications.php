@@ -56,7 +56,13 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
      */
     public function getUnreadNotificationByUserId($userId)
     {
-        return Notifications::where('n_receiver_id',$userId)->where('n_read_status',Config::get('constant.NOTIFICATION_STATUS_UNREAD'))->where('deleted',config::get('constant.ACTIVE_FLAG'))->count();
+        return Notifications::where(function($query) use ($userId) {
+                                $query->where('n_receiver_id', '=', $userId)
+                                    ->orWhere('n_receiver_id', '=', 0);
+                            })
+                            ->where('n_read_status',Config::get('constant.NOTIFICATION_STATUS_UNREAD'))
+                            ->where('deleted',config::get('constant.ACTIVE_FLAG'))
+                            ->count();
     }
 
     /**
@@ -67,7 +73,10 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
         return Notifications::orderBy('created_at','DESC')
                             ->with('senderTeenager')
                             ->with('community')
-                            ->where('n_receiver_id',$userId)
+                            ->where(function($query) use ($userId) {
+                                $query->where('n_receiver_id', '=', $userId)
+                                    ->orWhere('n_receiver_id', '=', 0);
+                            })
                             ->where('n_receiver_type',$type)
                             ->where('deleted',config::get('constant.ACTIVE_FLAG'))
                             ->skip($record)
@@ -78,10 +87,10 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
     /**
      * Change Notifications read Status
      */
-    public function ChangeNotificationsReadStatus($idArray,$status)
+    public function ChangeNotificationsReadStatus($id,$status)
     {
         
-        $response =  Notifications::whereIn('id', $idArray)->update(['n_read_status' => $status]);
+        $response =  Notifications::where('id', $id)->update(['n_read_status' => $status]);
         return $response;
     }
 

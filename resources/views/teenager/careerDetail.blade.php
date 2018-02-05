@@ -136,7 +136,7 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
-                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
+                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a><div class="favourite-text">Career has been selected as favourite</div></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                             </div>
                             <?php
                                 $profession_description = $professionsData->professionHeaders->filter(function($item) {
@@ -336,7 +336,7 @@
                                     <div class="block">
                                         <h4>Salary Range</h4>
                                         @if(isset($salary_range->pfic_content) && !empty($salary_range->pfic_content))
-                                            <p><?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?> {!!$salary_range->pfic_content!!}</p>
+                                            <p>{!!$salary_range->pfic_content!!}</p>
                                         @endif
                                     </div>
 
@@ -682,7 +682,7 @@
                             <div class="bg-white">
                                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
                                     <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Leaderboard</span></span></a></li>
-                                    <li class="custom-tab col-xs-6 tab-color-3"><a data-toggle="tab" href="#menu4"><span class="dt"><span class="dtc">Fans of this career</span></span></a></li>
+                                    <li class="custom-tab col-xs-6 tab-color-3"><a data-toggle="tab" href="#menu4" onclick="getFansTeenForCareerFromTabButton();"><span class="dt"><span class="dtc">Fans of this career</span></span></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="menu3" class="tab-pane fade in active">
@@ -729,47 +729,14 @@
                                         <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
                                     </div>
                                     <div id="menu4" class="tab-pane fade in">
-                                        <div class="team-list">
-                                            <div class="flex-item">
-                                                <div class="team-detail">
-                                                    <div class="team-img">
-                                                        <img src="{{ Storage::url('img/ellen.jpg') }}" alt="team">
-                                                    </div>
-                                                    <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-item">
-                                                <div class="team-point">
-                                                    520,000 points
-                                                    <a href="#" title="Chat">
-                                                        <i class="icon-chat">
-                                                            <!-- -->
-                                                        </i>
-                                                    </a>
-                                                </div>
-                                            </div>
+                                        <div id="fav-teenager-list"></div>
+                                        <div class="text-center load-more" id="loadMoreButton">
+                                            <div id="loader_con"></div>
+                                            <p class="text-center">
+                                                <a href="javascript:void(0)" id="load-more-data" title="load more">load more</a>
+                                                <input type="hidden" id="pageValue" value="0">
+                                            </p>
                                         </div>
-                                        <div class="team-list">
-                                            <div class="flex-item">
-                                                <div class="team-detail">
-                                                    <div class="team-img">
-                                                        <img src="{{ Storage::url('img/alex.jpg') }}" alt="team">
-                                                    </div>
-                                                    <a href="#" title="Alex Murphy">Alex Murphy</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-item">
-                                                <div class="team-point">
-                                                    515,000 points
-                                                    <a href="#" title="Chat">
-                                                        <i class="icon-chat">
-                                                            <!-- -->
-                                                        </i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -812,6 +779,7 @@
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-primary" role="progressbar" data-width="{{$value['score']}}">
                                                         </div>
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%; background-color:#65c6e6;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -981,6 +949,10 @@
             success : function (response) {
                 if (response != '') {
                     $('#add-to-star').addClass('favourite-career');
+                    $(".favourite-text").show();
+                    setTimeout(function () {
+                        $(".favourite-text").hide();
+                    }, 2500);
                 }
             }
         });
@@ -1191,5 +1163,44 @@
     <?php
         }
     ?>
+
+    $(document).on('click','#load-more-data', function(){    
+        getFansTeenForCareer();
+    });
+
+    function getFansTeenForCareerFromTabButton(){
+        if( !$('#menu4').hasClass('active') ){
+            $("#fav-teenager-list").html('');
+            getFansTeenForCareer();
+        }
+    }
+
+    function getFansTeenForCareer(){
+        $("#loader_con").html('<img src="{{Storage::url('img/loading.gif')}}">');
+        var pageNo = $('#pageValue').val();
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-teenagers-for-starrated')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'page_no':pageNo,'professionId':{{$professionsData->id}}},
+            success: function (response) {
+                if(response.teenagersCount != 10){
+                    $('#loadMoreButton').removeClass('text-center');
+                    $('#loadMoreButton').removeClass('load-more');
+                    $('#loadMoreButton').addClass('notification-complete');
+                    $('#loadMoreButton').html("");
+                }
+                else{
+                }
+                $('#pageValue').val(response.pageNo);
+                $("#fav-teenager-list").append(response.teenagers);
+                $("#loader_con").html('');
+            }
+        });
+    }
 </script>
 @stop

@@ -572,7 +572,7 @@
                                         <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
                                     </div>
                                     <div class="careers-content">
-                                        <h4>{{ $myCareer->pf_name }}</h4>
+                                        <h4><a href="{{ url('/teenager/career-detail') }}/{{$myCareer->pf_slug}}">{{ $myCareer->pf_slug }}</a></h4>
                                     </div>
                                 </div>
                             </div>
@@ -582,6 +582,9 @@
                             </center>
                             @endforelse
                             @if (!empty($myCareers) && $myCareersCount > 10)
+                                <div id="career-loader" class="loader_con remove-my-careers-row">
+                                    <img src="{{Storage::url('img/loading.gif')}}">
+                                </div>
                                 <p class="text-center remove-my-careers-row">
                                     <a id="load-more-career" href="javascript:void(0)" title="load more" class="load-more" data-id="{{$myCareer->careerId}}">load more</a>
                                 </p>
@@ -619,6 +622,9 @@
                             </center>
                         @endforelse
                         @if (!empty($myConnections->toArray()) && $myConnectionsCount > 10)
+                            <div id="menu2-loader-con" class="loader_con remove-my-connection-row">
+                                <img src="{{Storage::url('img/loading.gif')}}">
+                            </div>
                             <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myConnection->id }}">load more</a></p>
                         @endif
                     </div>
@@ -1228,6 +1234,7 @@
     }
 
     $(document).on('click','#load-more-connection',function(){
+        $("#menu2-loader-con").show();
         var lastTeenId = $(this).data('id');
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'lastTeenId=' + lastTeenId;
@@ -1240,18 +1247,17 @@
             },
             dataType : "text",
             success : function (data) {
+                $("#menu2-loader-con").hide();
                 if(data != '') {
-                    //$('#remove-row').remove();
                     $('.remove-my-connection-row').remove();
                     $('.my-connection').append(data);
-                } else {
-                    //$('#btn-more').html("No Data");
-                }
+                } 
             }
         });
     });
     
     $(document).on('click','#load-more-career',function(){
+        $("#career-loader").show();
         var lastAttemptedId = $(this).attr('data-id');
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'lastAttemptedId=' + lastAttemptedId;
@@ -1264,10 +1270,10 @@
             },
             dataType : "text",
             success : function (data) {
+                $("#career-loader").hide();
                 if(data != '') {
                     $('.remove-my-careers-row').remove();
                     $('.my-career').append(data);
-                } else {
                 }
             }
         });
