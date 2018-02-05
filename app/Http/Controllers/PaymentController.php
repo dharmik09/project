@@ -26,12 +26,13 @@ use Auth;
 use Redirect;
 use Mail;
 use PDF;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class PaymentController extends Controller {
 
 	use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-	public function __construct(TeenagersRepository $teenagersRepository,  TemplatesRepository $templatesRepository, CoinRepository $coinRepository,ParentsRepository $parentsRepository, SchoolsRepository $schoolsRepository, SponsorsRepository $sponsorsRepository)
+	public function __construct(TeenagersRepository $teenagersRepository,  TemplatesRepository $templatesRepository, CoinRepository $coinRepository,ParentsRepository $parentsRepository, SchoolsRepository $schoolsRepository, SponsorsRepository $sponsorsRepository, FileStorageRepository $fileStorageRepository)
     {
         $this->objTeenagers = new Teenagers;
         $this->teenagersRepository = $teenagersRepository;
@@ -47,6 +48,7 @@ class PaymentController extends Controller {
         $this->objTransactions = new Transactions;
         $this->objPurchasedCoins = new PurchasedCoins;
         $this->objInvoice = new Invoice;
+        $this->fileStorageRepository = $fileStorageRepository;
     }
     public function orderResponse(Request $request)
     {
@@ -155,7 +157,14 @@ class PaymentController extends Controller {
                     $saveTransactionDetail['c_package_name'] = $coinsDetail[0]->c_package_name;
                     $saveTransactionDetail['name'] = $userArray['t_name'];
                     $responseData['transactionDetail'] = $saveTransactionDetail;
+
+                    $pathOriginal = public_path($this->invoiceUploadedPath . $fileName);
 					PDF::loadView('exportInvoicePDF', $responseData)->save($this->invoiceUploadedPath.$fileName);
+
+                    //Uploading on AWS
+                    $originalFile = $this->fileStorageRepository->addFileToStorage($fileName, $this->invoiceUploadedPath, $pathOriginal, "s3");
+                    \File::delete($this->invoiceUploadedPath . $fileName);
+
                     if ($result) {
                         return Redirect::to("teenager/buy-procoins")->with('success', trans('labels.coinpurchasedsuccess'));
                     } else {
@@ -235,7 +244,12 @@ class PaymentController extends Controller {
                     $saveTransactionDetail['name'] = $userArray->p_first_name;
                     $responseData['transactionDetail'] = $saveTransactionDetail;
 
+                    $parentInvoicePath = public_path($this->invoiceUploadedPath . $fileName);
                     PDF::loadView('exportInvoicePDF',$responseData)->save($this->invoiceUploadedPath.$fileName);
+
+                    //Uploading on AWS
+                    $originalFile = $this->fileStorageRepository->addFileToStorage($fileName, $this->invoiceUploadedPath, $parentInvoicePath, "s3");
+                    \File::delete($this->invoiceUploadedPath . $fileName);
                     if ($result) {
                         return Redirect::to("parent/my-coins")->with('success', trans('labels.coinpurchasedsuccess'));
                     } else {
@@ -333,7 +347,13 @@ class PaymentController extends Controller {
                 $saveTransactionDetail['name'] = $userArray->sp_admin_name;
                 $responseData['transactionDetail'] = $saveTransactionDetail;
 
+                $sponsorInvoicePath = public_path($this->invoiceUploadedPath . $fileName);
                 PDF::loadView('exportInvoicePDF', $responseData)->save($this->invoiceUploadedPath.$fileName);
+
+                //Uploading on AWS
+                $originalFile = $this->fileStorageRepository->addFileToStorage($fileName, $this->invoiceUploadedPath, $sponsorInvoicePath, "s3");
+                \File::delete($this->invoiceUploadedPath . $fileName);
+                
                 if ($result) {
                     if($flag) {
                         return Redirect::to("sponsor/my-coins")->with('success', trans('labels.coinpurchasedsuccess'));
