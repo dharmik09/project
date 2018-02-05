@@ -682,7 +682,7 @@
                             <div class="bg-white">
                                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
                                     <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Leaderboard</span></span></a></li>
-                                    <li class="custom-tab col-xs-6 tab-color-3"><a data-toggle="tab" href="#menu4"><span class="dt"><span class="dtc">Fans of this career</span></span></a></li>
+                                    <li class="custom-tab col-xs-6 tab-color-3"><a data-toggle="tab" href="#menu4" onclick="getFansTeenForCareerFromTabButton();"><span class="dt"><span class="dtc">Fans of this career</span></span></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="menu3" class="tab-pane fade in active">
@@ -729,47 +729,14 @@
                                         <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
                                     </div>
                                     <div id="menu4" class="tab-pane fade in">
-                                        <div class="team-list">
-                                            <div class="flex-item">
-                                                <div class="team-detail">
-                                                    <div class="team-img">
-                                                        <img src="{{ Storage::url('img/ellen.jpg') }}" alt="team">
-                                                    </div>
-                                                    <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-item">
-                                                <div class="team-point">
-                                                    520,000 points
-                                                    <a href="#" title="Chat">
-                                                        <i class="icon-chat">
-                                                            <!-- -->
-                                                        </i>
-                                                    </a>
-                                                </div>
-                                            </div>
+                                        <div id="fav-teenager-list"></div>
+                                        <div class="text-center load-more" id="loadMoreButton">
+                                            <div id="loader_con"></div>
+                                            <p class="text-center">
+                                                <a href="javascript:void(0)" id="load-more-data" title="load more">load more</a>
+                                                <input type="hidden" id="pageValue" value="0">
+                                            </p>
                                         </div>
-                                        <div class="team-list">
-                                            <div class="flex-item">
-                                                <div class="team-detail">
-                                                    <div class="team-img">
-                                                        <img src="{{ Storage::url('img/alex.jpg') }}" alt="team">
-                                                    </div>
-                                                    <a href="#" title="Alex Murphy">Alex Murphy</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-item">
-                                                <div class="team-point">
-                                                    515,000 points
-                                                    <a href="#" title="Chat">
-                                                        <i class="icon-chat">
-                                                            <!-- -->
-                                                        </i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -1191,5 +1158,44 @@
     <?php
         }
     ?>
+
+    $(document).on('click','#load-more-data', function(){    
+        getFansTeenForCareer();
+    });
+
+    function getFansTeenForCareerFromTabButton(){
+        if( !$('#menu4').hasClass('active') ){
+            $("#fav-teenager-list").html('');
+            getFansTeenForCareer();
+        }
+    }
+
+    function getFansTeenForCareer(){
+        $("#loader_con").html('<img src="{{Storage::url('img/loading.gif')}}">');
+        var pageNo = $('#pageValue').val();
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-teenagers-for-starrated')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'page_no':pageNo,'professionId':{{$professionsData->id}}},
+            success: function (response) {
+                if(response.teenagersCount != 10){
+                    $('#loadMoreButton').removeClass('text-center');
+                    $('#loadMoreButton').removeClass('load-more');
+                    $('#loadMoreButton').addClass('notification-complete');
+                    $('#loadMoreButton').html("");
+                }
+                else{
+                }
+                $('#pageValue').val(response.pageNo);
+                $("#fav-teenager-list").append(response.teenagers);
+                $("#loader_con").html('');
+            }
+        });
+    }
 </script>
 @stop

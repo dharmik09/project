@@ -257,4 +257,20 @@ class Teenagers extends Authenticatable {
       return $result;
     }
 
+    public function starRatedProfession(){
+        return $this->hasOne(StarRatedProfession::class, 'srp_teenager_id');
+    }
+
+    public function getAllTeenWhoStarRatedCareer($page,$professionId, $userId){
+        $this->professionId = $professionId;
+        $return = $this->select('*')
+                ->whereHas('starRatedProfession', function ($query) {
+                    $query->where('srp_profession_id',$this->professionId);
+                })
+                ->take(10)
+                ->skip($page)
+                ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
+                ->get();
+        return $return;
+    }
 }

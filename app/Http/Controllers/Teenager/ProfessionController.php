@@ -11,6 +11,7 @@ use App\ProfessionHeaders;
 use App\MultipleIntelligent;
 use App\Apptitude;
 use App\Personality;
+use App\Teenagers;
 use Auth;
 use Config;
 use Storage;
@@ -33,6 +34,7 @@ class ProfessionController extends Controller {
         $this->objMultipleIntelligent = new MultipleIntelligent;
         $this->objApptitude = new Apptitude;
         $this->objPersonality = new Personality;
+        $this->objTeenagers = new Teenagers;
         $this->aptitudeThumb = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
         $this->miThumb = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
         $this->personalityThumb = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
@@ -317,6 +319,20 @@ class ProfessionController extends Controller {
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
         return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath','teenagerStrength'));
+    }
+
+    public function getTeenagerWhoStarRatedCareer()
+    {
+        $user = Auth::guard('teenager')->user();
+        $pageNo = Input::get('page_no');
+        $record = $pageNo * 10;
+        $professionId = Input::get('professionId');
+        $teenagerData = $this->objTeenagers->getAllTeenWhoStarRatedCareer($record, $professionId, $user->id);        
+        $view = view('teenager.basic.level3TeenagerFansForCareer',compact('teenagerData'));
+        $response['teenagersCount'] = count($teenagerData);
+        $response['teenagers'] = $view->render();
+        $response['pageNo'] = $pageNo+1;
+        return $response;
     }
 
     //Calculate teenager strength and interest score percentage
