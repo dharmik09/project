@@ -39,6 +39,7 @@
                         $ci_category = $value->ci_category;
                         $ci_name = $value->ci_name;
                         $ci_image = $value->ci_image;
+                        $ci_description = $value->ci_description;
                         $deleted = $value->deleted;
                         $cpm_profession_id = $value->cpm_profession_id;
                     }
@@ -47,6 +48,7 @@
                     $ci_category = '';
                     $ci_name = '';
                     $ci_image = '';
+                    $ci_description = '';
                     $deleted = '';
                     $cpm_profession_id = '';
                 }
@@ -98,6 +100,12 @@
                                     } ?>> {{$value->cic_name}}</option>
                                     <?php } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ci_description" class="col-sm-2 control-label">{{trans('labels.formlbldescription')}}</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" id="ci_description" name="ci_description" rows="8">{{$ci_description}}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
