@@ -57,6 +57,7 @@ class ProfessionManagementController extends Controller {
         $this->objProfessionWiseTag = new ProfessionWiseTag;
         $this->objCountry = new Country;
         $this->loggedInUser = Auth::guard('admin');
+        $this->objNotifications = new Notifications();
     }
 
     public function index() {
@@ -245,6 +246,14 @@ class ProfessionManagementController extends Controller {
                     $response = $this->objProfessionWiseTag->insertUpdate($professionWiseTagData);
                 }
             }
+
+            $notificationData['n_sender_id'] = '0';
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_ADMIN');
+            $notificationData['n_receiver_id'] = 0;
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_ADD_PROFESSION');
+            $notificationData['n_notification_text'] = '<strong> Admin </strong> added new profession <strong>'.$professionDetail['pf_name'].'</strong>';
+            $this->objNotifications->insertUpdate($notificationData);
             
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_PROFESSIONS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.professionupdatesuccess'), serialize($professionDetail), $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/professions".$postData['pageRank'])->with('success', trans('labels.professionupdatesuccess'));

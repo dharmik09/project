@@ -20,12 +20,14 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Mail;
 use App\TeenagerCoinsGift;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications;
 
 class SchoolManagementController extends Controller
 {
     public function __construct(FileStorageRepository $fileStorageRepository, SchoolsRepository $schoolsRepository, TemplatesRepository $templatesRepository, TeenagersRepository $teenagersRepository)
     {
         $this->objSchools                = new Schools();
+        $this->objNotifications          = new Notifications();
         $this->schoolsRepository         = $schoolsRepository;
         $this->teenagersRepository       = $teenagersRepository;
         $this->templateRepository = $templatesRepository;
@@ -260,6 +262,14 @@ class SchoolManagementController extends Controller
         $return = $this->schoolsRepository->editToApprovedSchool($id);
         if($return)
         {
+            $notificationData['n_sender_id'] = '0';
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_ADMIN');
+            $notificationData['n_receiver_id'] = 0;
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_SCHOOL_APPROVE');
+            $notificationData['n_notification_text'] = '<strong> Admin </strong> has approved school <strong>'.$return->sc_name.'</strong>';
+            $this->objNotifications->insertUpdate($notificationData);
+            
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.schoolapprovesuccess'), '', $_SERVER['REMOTE_ADDR']);
             $SchoolDetailbyId = $this->schoolsRepository->getSchoolById($id);
             /*$teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
