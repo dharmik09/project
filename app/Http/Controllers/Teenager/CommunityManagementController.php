@@ -106,7 +106,7 @@ class CommunityManagementController extends Controller {
                 $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
             }
             $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
-            $myConnectionCount = $this->communityRepository->getMyConnectionsCount($teenDetails->id);
+            $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($teenDetails->id);
             $userData = Auth::guard('teenager')->user();
             $notificationData['n_sender_id'] = $userData->id;
             $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
@@ -115,7 +115,7 @@ class CommunityManagementController extends Controller {
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW');
             $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has viewed your profile';
             $this->objNotifications->insertUpdate($notificationData);
-            return view('teenager.networkMember', compact('teenagerTrait', 'teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectionStatus', 'myConnectionCount'));
+            return view('teenager.networkMember', compact('teenagerTrait', 'teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectionStatus', 'myConnectionsCount'));
         } else {
             return Redirect::back()->with('error', 'Member not found');
         }
@@ -278,5 +278,14 @@ class CommunityManagementController extends Controller {
             $this->communityRepository->changeTeenConnectionStatusById($id,Config::get('constant.CONNECTION_REJECT_STATUS'));
             return Redirect::back()->with('success', 'Request declined successfully');
         }
+    }
+
+    public function loadMoreMemberConnections()
+    {
+        $lastTeenId = Input::get('lastTeenId');
+        $loggedInTeen = Input::get('teenId');
+        $myConnections = $this->communityRepository->getMyConnections($loggedInTeen, array(), $lastTeenId);
+        $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($loggedInTeen, array(), $lastTeenId);
+        return view('teenager.loadMoreMyConnections', compact('myConnections', 'myConnectionsCount'));   
     }
 }

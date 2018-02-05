@@ -85,7 +85,7 @@
                         <h1>{{$teenDetails->t_name}}</h1>
                         <ul class="area-detail">
                             <li>{{ $getCityArea }} Area</li>
-                            <li>{{ $myConnectionCount }} {{ ($myConnectionCount == 1) ? "Connection" : "Connections" }} </li>
+                            <li>{{ $myConnectionsCount }} {{ ($myConnectionsCount == 1) ? "Connection" : "Connections" }} </li>
                         </ul>
                         <ul class="social-media">
                             <li><a href="https://facebook.com/{{$teenDetails->t_fb_social_identifier}}" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
@@ -231,7 +231,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div id="menu3" class="tab-pane fade">
+                    <div id="menu3" class="tab-pane fade my-connection">
                         <div class="sec-popup">
                             <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop4" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                             <div class="hide" id="pop4">
@@ -240,35 +240,7 @@
                                 </div>
                             </div>
                         </div>
-                        @forelse($myConnections as $myConnection)
-                        <div class="team-list">
-                            <div class="flex-item">
-                                <div class="team-detail">
-                                    <div class="team-img">
-                                        <?php
-                                            if($myConnection->t_photo != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo) > 0) {
-                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo;
-                                            } else {
-                                                $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
-                                            }
-                                        ?>
-                                        <img src="{{ Storage::url($teenImage) }}" alt="team">
-                                    </div>
-                                    <a href="#" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <div class="team-point">
-                                    {{ $myConnection->t_coins }} points
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        @empty
-                            <center>
-                                <h3>No Records found.</h3>
-                            </center>
-                        @endforelse
+                        @include('teenager/loadMoreMyConnections')
                     </div>
                 </div>
             </div>
@@ -360,5 +332,27 @@
             $("#btnSaveTrait").attr("disabled", true);
         }
     }
+    $(document).on('click','#load-more-connection',function(){
+        $("#menu2-loader-con").show();
+        var lastTeenId = $(this).data('id');
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'lastTeenId=' + lastTeenId + "&teenId=" + '{{$teenDetails->id}}';
+        $.ajax({
+            url : '{{ url("teenager/load-more-member-connections") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            dataType : "text",
+            success : function (data) {
+                $("#menu2-loader-con").hide();
+                if(data != '') {
+                    $('.remove-my-connection-row').remove();
+                    $('.my-connection').append(data);
+                } 
+            }
+        });
+    });
 </script>
 @stop

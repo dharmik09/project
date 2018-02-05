@@ -124,7 +124,13 @@
                                         ?>
                                         <img src="{{ Storage::url($teenImage) }}" alt="team">
                                     </div>
-                                    <a href="{{ url('teenager/network-member') }}/{{$myConnection->t_uniqueid }}" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
+                                    <?php 
+                                        if ($myConnection->t_uniqueid == Auth::guard('teenager')->user()->t_uniqueid) {
+                                            $url = "javascript:void(0)";
+                                        } else {
+                                            $url = url('teenager/network-member/' . $myConnection->t_uniqueid);
+                                        } ?>
+                                    <a href="{{ $url }}" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
                                 </div>
                             </div>
                             <div class="flex-item">
