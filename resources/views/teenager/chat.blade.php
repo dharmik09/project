@@ -84,7 +84,6 @@
                                         <li><a href="{{url('teenager/accept-request').'/'.$value->n_record_id}}" title="accept" class="accept">Accept</a></li>
                                         <li><a href="{{url('teenager/decline-request').'/'.$value->n_record_id}}" title="decline" class="decline">Decline</a></li>
                                     @endif
-                                    <div id="pageWiseNotifications"></div>
                                 </ul>
                                 @endif
                             </div>
