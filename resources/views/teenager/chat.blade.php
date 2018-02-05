@@ -75,7 +75,7 @@
                             </div>
                             <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a><span class="date">{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans()}}</span>
                                 @if($value->n_record_id != 0)
-                                <ul class="btn-list">
+                                <ul class="btn-list text-right">
                                     @if($value->community->tc_status == 1)
                                         <li><a href="#" title="accept" class="accept">Accepted</a></li>
                                     @elseif($value->community->tc_statsus == 2)
