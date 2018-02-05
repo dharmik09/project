@@ -1,6 +1,7 @@
 @extends('layouts.teenager-master')
 
 @push('script-header')
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <title>Careers</title>
 @endpush
 
