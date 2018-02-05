@@ -177,7 +177,8 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
      */
      public function editToApprovedSchool($id)
      {
-        $return = $this->model->where('id', $id)->update(['sc_isapproved' => 1]);
+        $this->model->where('id', $id)->update(['sc_isapproved' => 1]);
+        $return = $this->model->where('id', $id)->first();
         return $return;
      }
 

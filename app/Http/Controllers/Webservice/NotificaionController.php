@@ -38,7 +38,12 @@ class NotificaionController extends Controller {
             $data = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo);
 
             foreach($data as $key => $value){
-                $data[$key]->n_sender_image = Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo);
+                if(isset($value->senderTeenager) && $value->senderTeenager != '') {
+                    $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
+                } else {
+                    $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+                }
+                $data[$key]->n_sender_image = Storage::url($teenPhoto);
                 if($value->n_record_id != 0){
                     $data[$key]->n_request_status = $value->community->tc_status;
                 }
