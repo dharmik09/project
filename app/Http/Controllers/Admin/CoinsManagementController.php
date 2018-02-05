@@ -21,6 +21,7 @@ use App\Invoice;
 use PDF;
 use Mail;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use Storage;
 
 class CoinsManagementController extends Controller {
 
@@ -180,8 +181,8 @@ class CoinsManagementController extends Controller {
         }
         if ($fileName != '') {
             header('Content-type: application/pdf');
-            if (File::exists(public_path($this->invoiceUploadedPath.$fileName))) {
-                readfile(public_path($this->invoiceUploadedPath.$fileName));
+            if (Storage::size($this->invoiceUploadedPath.$fileName) > 0) {
+                readfile(Storage::url($this->invoiceUploadedPath.$fileName));
             } else {
                 return Redirect::to("admin/invoice")->with('error', trans('labels.invoicenotavailable'));
             }
