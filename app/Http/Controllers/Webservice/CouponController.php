@@ -13,6 +13,8 @@ use Config;
 use Storage;
 use Helpers;
 use Mail;
+use App\Notifications;
+use App\Teenagers;
 
 class CouponController extends Controller
 {
@@ -30,6 +32,8 @@ class CouponController extends Controller
         $this->teenagerThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->couponOriginalImageUploadPath = Config::get('constant.COUPON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->couponThumbImageUploadPath = Config::get('constant.COUPON_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objNotifications = new Notifications();
+        $this->objTeenagers = new Teenagers();
     }
 
     /* Request Params : getCoupons
@@ -149,6 +153,9 @@ class CouponController extends Controller
                             $data['tcu_allocated_email'] = $teenager->t_email;
                             $data['tcu_consumed_email'] = (isset($request->consumedEmail) && !empty($request->consumedEmail) && $request->consumedEmail != '' && $request->type == 'gift') ? $request->consumedEmail : $teenager->t_email;
                             $data['tcu_type'] = $request->type;
+                            $data['couponData'] = $couponData;
+                            $data['consumedEmail'] = $request->consumedEmail;
+                            $data['teenager'] = $teenager;
 
                             Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
                                 $message->subject($data['subject']);
@@ -159,7 +166,20 @@ class CouponController extends Controller
                                 $teenagerConsumeCouponData['tcu_allocated_email'] = $data['tcu_allocated_email'];
                                 $teenagerConsumeCouponData['tcu_consumed_email'] = $data['tcu_consumed_email'];
                                 $teenagerConsumeCouponData['tcu_type'] = $data['tcu_type'];
-                                $this->couponsRepository->saveTeenagerConsumedCoupon($teenagerConsumeCouponData);
+                                $coupanResponse = $this->couponsRepository->saveTeenagerConsumedCoupon($teenagerConsumeCouponData);
+                                $teenager = $data['teenager'];
+                                $giftedUserData = $this->objTeenagers->getTeenagersDataByEmailId($data['consumedEmail']);
+                                if($teenager->id != $giftedUserData->id){
+                                    if($coupanResponse){
+                                        $notificationData['n_sender_id'] = $teenager->id;
+                                        $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                                        $notificationData['n_receiver_id'] = $giftedUserData->id;
+                                        $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                                        $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_COUPANS');
+                                        $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> gifted you '.$data['couponData']->cp_code.' coupan';
+                                        $this->objNotifications->insertUpdate($notificationData);
+                                    }
+                                }
                                     });
                             $response['status'] = 1;
                             $response['message'] = trans('appmessages.default_success_msg');

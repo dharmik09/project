@@ -16,6 +16,7 @@ use Mail;
 use Carbon\Carbon;
 use App\Events\SendMail;
 use Event;
+use App\Notifications;
 
 class CommunityController extends Controller
 {
@@ -31,6 +32,7 @@ class CommunityController extends Controller
         $this->templateRepository = $templateRepository;
         $this->teenagersRepository = $teenagersRepository;
         $this->teenagerThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objNotifications = new Notifications();
     }
 
     /* Request Params : communityNewConnections
@@ -211,7 +213,17 @@ class CommunityController extends Controller
                     $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
                     $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
 
-                    $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+                    $connectionResponse = $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+                    
+                    $notificationData['n_sender_id'] = $teenager->id;
+                    $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                    $notificationData['n_receiver_id'] = $data['tc_receiver_id'];
+                    $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                    $notificationData['n_record_id'] = $connectionResponse->id;
+                    $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
+                    $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has sent you a connection request';
+                    $this->objNotifications->insertUpdate($notificationData);
+
                     $response['message'] = "Connection request sent successfully!";
                 } else {
                     $response['message'] = trans('validation.somethingwrong');

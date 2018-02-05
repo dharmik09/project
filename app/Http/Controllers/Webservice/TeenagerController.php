@@ -10,6 +10,7 @@ use App\Services\Level1Activity\Contracts\Level1ActivitiesRepository;
 use App\Services\Community\Contracts\CommunityRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Teenagers;
+use App\Notifications;
 use Helpers;
 use App\Country;
 use Config;
@@ -33,6 +34,7 @@ class TeenagerController extends Controller
         $this->teenThumbImageHeight = Config::get('constant.TEEN_THUMB_IMAGE_HEIGHT');
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
         $this->objCountry = new Country();
+        $this->objNotifications = new Notifications();
         
     }
 
@@ -177,6 +179,15 @@ class TeenagerController extends Controller
                 //Connection Status 0,1,2 :: 0 -> pendding, 1 -> connected, 2->rejected
                 //checkTeenConnectionStatus($receiverId, $senderId) :: Here teenagerId => receiverId and userId => senderId
                 $response['connectionStatus'] = $this->communityRepository->checkTeenConnectionStatus($request->teenagerId, $request->userId);
+
+            $notificationData['n_sender_id'] = $teenager->id;
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_receiver_id'] = $networkTeenager->id;
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW');
+            $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has viewed your profile';
+            $this->objNotifications->insertUpdate($notificationData);
+
                 $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($request->teenagerId);
                 $arrayData = [];
                 if(isset($teenagerTrait[0]) && $teenagerTrait) {
