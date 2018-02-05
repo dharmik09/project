@@ -110,6 +110,7 @@ Route::get('/my-network', 'Teenager\DashboardController@getMyNetworkDetails');
 Route::post('/search-network', 'Teenager\DashboardController@getMyNetworkDetails');
 Route::post('/get-network-members-by-filter', 'Teenager\DashboardController@getMyNetworkDetails');
 Route::get('/network-member/{uniqueId}', 'Teenager\CommunityManagementController@getMemberDetails');
+Route::post('/load-more-member-connections', 'Teenager\CommunityManagementController@loadMoreMemberConnections');
 
 Route::post('get-level2-activity', 'Teenager\level2ActivityController@index')->name('getLevel2Activity');
 Route::post('save-level2-activity', 'Teenager\level2ActivityController@saveLevel2Ans')->name('saveLevel2Activity');

@@ -51,7 +51,7 @@
                             @endif
                             <div class="overlay">
                                 @if(isset($average_per_year_salary))
-                                    <span class="salary">Average Salary per year : {{ ($countryId == 1) ? "&#x20B9;" : "$" }}
+                                    <span class="salary">Average Salary per year : {!! ($countryId == 1) ? "<i class='fa fa-inr'></i>" : "<i class='fa fa-dollar'></i>" !!}
                                         {{ (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? strip_tags($average_per_year_salary->pfic_content) : '' }}
                                     </span>
                                 @else
