@@ -491,6 +491,7 @@ class DashboardController extends Controller
                 }
                 $teenArr['t_photo'] = $teenagerThumbImage;
                 $teenArr['t_uniqueid'] = $guru->t_uniqueid;
+                $teenArr['t_coins'] = $guru->t_coins;
                 $data[] = $teenArr;
             }
             $response['login'] = 1;
