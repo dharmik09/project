@@ -343,3 +343,6 @@ CREATE TABLE `pro_n_notifications` (
 
 //Added new field in profession subject table ## 31-01-2017
 ALTER TABLE `pro_ps_profession_subjects` ADD `ps_slug` VARCHAR(255) NOT NULL AFTER `ps_name`;
+
+//Added new field in cartoon icons table ## 05-02-2017
+ALTER TABLE `pro_ci_cartoon_icons` ADD `ci_description` TEXT NULL AFTER `ci_image`;
