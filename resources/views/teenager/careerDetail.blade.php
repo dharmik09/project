@@ -779,6 +779,7 @@
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-primary" role="progressbar" data-width="{{$value['score']}}">
                                                         </div>
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%; background-color:#65c6e6;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             @endforeach
