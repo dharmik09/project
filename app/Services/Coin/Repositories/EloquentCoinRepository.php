@@ -69,8 +69,8 @@ implements CoinRepository
     {
         $coins = DB::table(config::get('databaseconstants.TBL_COINS_PACKAGE'))
                     ->selectRaw('*')
-                    ->whereRaw('deleted IN (1)')
-                    ->where('id',$id)
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
+                    ->where('id', $id)
                     ->get();
         return $coins;
     }
