@@ -336,7 +336,7 @@
                                     <div class="block">
                                         <h4>Salary Range</h4>
                                         @if(isset($salary_range->pfic_content) && !empty($salary_range->pfic_content))
-                                            <p><?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?> {!!$salary_range->pfic_content!!}</p>
+                                            <p>{!!$salary_range->pfic_content!!}</p>
                                         @endif
                                     </div>
 
