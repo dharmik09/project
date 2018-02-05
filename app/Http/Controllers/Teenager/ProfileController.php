@@ -28,6 +28,8 @@ use Response;
 use App\Country;
 use App\Teenagers;
 use Input;
+use Image;
+use DB;
 
 class ProfileController extends Controller
 {

@@ -62,7 +62,7 @@
                 @if(count($notificationData)>0)
                     <div class="notification-list">
                         @foreach($notificationData as $key => $value)
-                        <div class="notification-block <?php echo ($value->n_read_status == 1) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block">
+                        <div class="notification-block <?php echo ($value->n_read_status == 1) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block" onclick="readNotification('{{$value->id}}')">
                             <div class="notification-img"><img src="{{Storage::url(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo)}}" alt="notification img"></div>
                             <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a><span class="date">{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans()}}</span>
                                 @if($value->n_record_id != 0)
@@ -333,6 +333,23 @@
             },
             data: {'id':id},
             success: function (response) {
+            }
+        });
+    }
+
+    function readNotification(id){
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/read-notification')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'notification_id':id},
+            success: function (response) {
+                $("#"+id+"notification-block").removeClass('unread');
+                $("#"+id+"notification-block").addClass('read');
             }
         });
     }

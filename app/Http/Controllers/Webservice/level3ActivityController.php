@@ -716,41 +716,40 @@ class level3ActivityController extends Controller {
                 $data = $this->baskets->getBasketsAndProfessionByProfessionId($careerId, $teenager->id, $countryId);
                             
                 if($data){
-                    foreach ($data as $key => $value) {
                         
-                        if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
-                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
+                        if($data->b_logo != '' && Storage::size($this->basketThumbUrl . $data->b_logo) > 0){
+                            $data->b_logo = Storage::url($this->basketThumbUrl . $data->b_logo);
                         }
                         else{
-                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                            $data->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                         }
         
-                        $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                        $youtubeId = Helpers::youtube_id_from_url($data->b_video);
                         if($youtubeId != ''){
-                            $data[$key]->b_video = $youtubeId;
-                            $data[$key]->type_video = '1'; //Youtube
+                            $data->b_video = $youtubeId;
+                            $data->type_video = '1'; //Youtube
                         }
                         else{
-                            $data[$key]->type_video = '2'; //Dropbox
+                            $data->type_video = '2'; //Dropbox
                         }
         
-                        $data[$key]->total_basket_profession = count($value->profession);
-                        $data[$key]->basket_completed_profession = '12';
-                        $data[$key]->strong_match = '12';
-                        $data[$key]->potential_match = '12';
-                        $data[$key]->unlikely_match = '12';
+                        $data->total_basket_profession = count($data->profession);
+                        $data->basket_completed_profession = '12';
+                        $data->strong_match = '12';
+                        $data->potential_match = '12';
+                        $data->unlikely_match = '12';
 
-                        foreach ($value->profession as $k => $v) {
+                        foreach ($data->profession as $k => $v) {
                             if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
-                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                                $data->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
                             }
                             else{
-                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                                $data->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                             }
-                            $data[$key]->profession[$k]->completed = rand(0,1);
+                            $data->profession[$k]->completed = rand(0,1);
                         }
 
-                    }
+
                     $response['data']['baskets'] = $data;
                 }
                 else{
@@ -839,6 +838,29 @@ class level3ActivityController extends Controller {
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);
+    }
+
+    public function addStarToCareer(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Add Career to my career'.$request->userId , array('api-name'=> 'addStarToCareer'));
+        if($request->userId != "" && $teenager) {
+            $careerId = $request->careerId;
+            $careerDetails['srp_teenager_id'] = $request->userId;
+            $careerDetails['srp_profession_id'] = $careerId;
+            $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
+            
+            $response['status'] = 1;
+            $response['login'] = 1;
+            $response['message'] = "Added";
+            $response['data'] = ['careerId' => $request->careerId];
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'addStarToCareer'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+        exit;
     }
 
 }

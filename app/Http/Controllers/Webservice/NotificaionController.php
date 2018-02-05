@@ -129,5 +129,35 @@ class NotificaionController extends Controller {
         }
         return response()->json($response, 200);
     }
+
+    public function changeNotificationStatus(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'readNotification'));
+        if($request->userId != "" && $teenager) {
+
+            $id = $request->notificationId;
+            $data =  $this->objNotifications->ChangeNotificationsReadStatus($id,Config::get('constant.NOTIFICATION_STATUS_READ'));
+            
+            if(isset($data)){
+                $response['data'] = [];
+                $response['message'] = trans('appmessages.default_success_msg');
+            }
+            else{
+                $response['data'] = [];
+                $response['message'] = trans('appmessages.default_error_msg');
+            }
+
+            $response['status'] = 1;
+            $response['login'] = 1;
+
+            $this->log->info('Response for change Notifications status to read' , array('api-name'=> 'readNotification'));
+
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'readNotification'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+    }
     
 }
