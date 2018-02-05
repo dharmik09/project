@@ -136,7 +136,7 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
-                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
+                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a><div class="favourite-text">Career has been selected as favourite</div></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                             </div>
                             <?php
                                 $profession_description = $professionsData->professionHeaders->filter(function($item) {
@@ -948,6 +948,10 @@
             success : function (response) {
                 if (response != '') {
                     $('#add-to-star').addClass('favourite-career');
+                    $(".favourite-text").show();
+                    setTimeout(function () {
+                        $(".favourite-text").hide();
+                    }, 2500);
                 }
             }
         });

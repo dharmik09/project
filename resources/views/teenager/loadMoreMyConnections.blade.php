@@ -4,7 +4,7 @@
         <div class="team-detail">
             <div class="team-img">
                 <?php
-                    if(isset($myConnection->t_photo) && $myConnection->t_photo != '') {
+                    if(isset($myConnection->t_photo) && $myConnection->t_photo != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH') . $myConnection->t_photo) > 0) {
                         $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$myConnection->t_photo;
                     } else {
                         $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
