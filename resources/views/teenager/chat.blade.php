@@ -346,20 +346,22 @@
     }
 
     function readNotification(id){
-        var CSRF_TOKEN = "{{ csrf_token() }}";
-        $.ajax({
-            type: 'POST',
-            url: "{{url('teenager/read-notification')}}",
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            },
-            data: {'notification_id':id},
-            success: function (response) {
-                $("#"+id+"notification-block").removeClass('unread');
-                $("#"+id+"notification-block").addClass('read');
-            }
-        });
+        if(!$("#"+id+"notification-block").hasClass('read')){
+            var CSRF_TOKEN = "{{ csrf_token() }}";
+            $.ajax({
+                type: 'POST',
+                url: "{{url('teenager/read-notification')}}",
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                data: {'notification_id':id},
+                success: function (response) {
+                    $("#"+id+"notification-block").removeClass('unread');
+                    $("#"+id+"notification-block").addClass('read');
+                }
+            });
+        }
     }
 </script>
 @stop
