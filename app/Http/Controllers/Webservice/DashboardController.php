@@ -30,6 +30,7 @@ use App\Services\Community\Contracts\CommunityRepository;
 use App\CareerMapping;
 use App\ProfessionWiseSubject;
 use App\TeenagerPromiseScore;
+use App\ProfessionSubject;
 
 class DashboardController extends Controller
 {
@@ -65,6 +66,8 @@ class DashboardController extends Controller
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
         $this->objProfessionWiseSubject = new ProfessionWiseSubject;
         $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
+        $this->subjectOriginalImageUploadPath = Config::get("constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH");
+        $this->objProfessionSubject = new ProfessionSubject; 
     }
 
     /* Request Params : getDashboardDetail
@@ -198,18 +201,37 @@ class DashboardController extends Controller
         if($teenager) {
             $data = [];
             if($request->interestType != "" && $request->interestSlug != "") {
-                $interestThumbImageUploadPath = $this->interestThumbImageUploadPath;
-                $interest = $this->objInterest->getInterestDetailBySlug($request->interestSlug);
-                if($interest) {
-                    $interest->it_video = ($interest->it_video != "") ? Helpers::youtube_id_from_url($interest->it_video) : "";
-                    $interest->it_logo = ($interest->it_logo != "" && Storage::url($this->interestThumbImageUploadPath . $interest->it_logo) > 0) ? Storage::url($this->interestThumbImageUploadPath . $interest->it_logo) : Storage::url($this->interestThumbImageUploadPath . "proteen-logo.png");
+                if(substr($request->interestSlug, 0, 3) === "it_") {
+                    $interest = $this->objInterest->getInterestDetailBySlug($request->interestSlug);
+                    if ($interest) {
+                        $interestThumbImageUploadPath = $this->interestThumbImageUploadPath;
+                        $interest->it_video = ($interest->it_video != "") ? Helpers::youtube_id_from_url($interest->it_video) : "";
+                        $data['id'] = $interest->id;
+                        $data['title'] = $interest->it_name;
+                        $data['slug'] = $interest->it_slug;
+                        if ($interest->it_logo != "" && Storage::size($this->interestThumbImageUploadPath . $interest->it_logo) > 0 ) {
+                            $data['logo'] = Storage::url($this->interestThumbImageUploadPath . $interest->it_logo);
+                        } else {
+                            $data['logo'] = Storage::url($this->interestThumbImageUploadPath . 'proteen-logo.png');
+                        }
+                        $data['video'] = $interest->it_video;
+                        $data['details'] = $interest->it_description;
+                    }    
+                } else {
+                    $subjectDetails = $this->objProfessionSubject->getSubjectDetailsBySlug($request->interestSlug);
+                    if ($subjectDetails) {
+                        $data['id'] = $subjectDetails->id;
+                        $data['title'] = $subjectDetails->ps_name;
+                        $data['slug'] = $subjectDetails->ps_slug;
+                        if ($subjectDetails->ps_image != "" && Storage::size($this->subjectOriginalImageUploadPath . $subjectDetails->ps_image) > 0 ) {
+                            $data['logo'] = Storage::url($this->subjectOriginalImageUploadPath . $subjectDetails->ps_image);
+                        } else {
+                            $data['logo'] = Storage::url($this->subjectOriginalImageUploadPath . 'proteen-logo.png');
+                        }
+                        $data['video'] = "";
+                        $data['details'] = "";
+                    }
                 }
-                $data['id'] = $interest->id;
-                $data['title'] = $interest->it_name;
-                $data['slug'] = $interest->it_slug;
-                $data['logo'] = $interest->it_logo;
-                $data['video'] = $interest->it_video;
-                $data['details'] = $interest->it_description;
                 $response['message'] = trans('appmessages.default_success_msg');
                 $response['login'] = 1;
             } else {
@@ -426,15 +448,19 @@ class DashboardController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             $data = [];
-            $slug = $request->interestSlug;
-            $subSlug = explode('it_', $slug);
+            if(substr($request->interestSlug, 0, 3) === "it_") {
+                $subSlug = explode('it_', $request->interestSlug);
+                $slug = $subSlug[1];
+            } else {
+                $slug = $request->interestSlug;
+            }
             if (isset($request->lastCareerId) && !empty($request->lastCareerId)) {
                 $lastCareerId = $request->lastCareerId;
             } else {
                 $lastCareerId = '';
             }
-            $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($subSlug[1], $lastCareerId);
-            $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1], $lastCareerId);
+            $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($slug, $lastCareerId);
+            $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($slug, $lastCareerId);
             if (isset($relatedCareersCount) && $relatedCareersCount > Config::get('constant.RECORD_PER_PAGE')) {
                 $response["seeMoreFlag"] = 1;
             } else {
