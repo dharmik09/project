@@ -251,12 +251,8 @@ class ProfessionController extends Controller {
     {
         $user = Auth::guard('teenager')->user();
         $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
-        
-        if($user->t_view_information == 1) {
-            $countryId = 2; // United States
-        } else {
-            $countryId = 1; // India
-        }
+        //1=India, 2=US
+        $countryId = ($user->t_view_information == 1) ? 2 : 1;
 
         $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
         $professionsData = ($professionsData) ? $professionsData : [];
@@ -268,7 +264,7 @@ class ProfessionController extends Controller {
         
         foreach ($careerMapHelperArray as $key => $value) {
             $data = [];
-            if($professionsData->careerMapping[$value] != 'L'){
+            if(isset($professionsData->careerMapping[$value]) && $professionsData->careerMapping[$value] != 'L'){
                 $arr = explode("_", $key);
                 if($arr[0] == 'apt'){
                     $apptitudeData = $this->objApptitude->getApptitudeDetailBySlug($key);
@@ -277,20 +273,6 @@ class ProfessionController extends Controller {
                     $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeData->apt_slug); 
                     $careerMappingdata[] = $data;  
                 }
-                // elseif($arr[0] == 'mit'){
-                //     $multipleIntelligentData = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($key);
-                //     $data['cm_name'] = $multipleIntelligentData->mit_name;
-                //     $data['cm_image_url'] = Storage::url($this->miThumb.$multipleIntelligentData->mit_logo);
-                //     $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$multipleIntelligentData->mi_slug);
-                //     $careerMappingdata[] = $data;
-                // }
-                // elseif($arr[0] == 'pt'){
-                //     $personalityData = $this->objPersonality->getPersonalityDetailBySlug($key);
-                //     $data['cm_name'] = $personalityData->pt_name;
-                //     $data['cm_image_url'] = Storage::url($this->personalityThumb.$personalityData->pt_logo);
-                //     $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityData->pt_slug);
-                //     $careerMappingdata[] = $data;
-                // }
             }
         }
         

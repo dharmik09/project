@@ -152,526 +152,54 @@
                             </ul>
                             <div class="tab-content">
                                 <div id="menu1" class="tab-pane fade in active">
-                                    <?php
-                                        $profession_outlook = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_outlook';
-                                        })->first();
-                                    ?>
-                                    
-                                    <div class="block">
-                                        <h4> Outlook</h4>
-                                        @if(isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content))
-                                            <p>{!!$profession_outlook->pfic_content!!}</p>
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $AI_redundancy_threat = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'ai_redundancy_threat';
-                                        })->first();
-                                    ?>
-                                    
-                                    <div class="block">
-                                        <h4> AI Redundancy Threat</h4>
-                                        @if(isset($AI_redundancy_threat->pfic_content) && !empty($AI_redundancy_threat->pfic_content))
-                                            <p>{!!$AI_redundancy_threat->pfic_content!!}</p>
-                                        @endif
-                                    </div>
-
-                                    <div class="block">
-                                        <h4>Subjects</h4>
-                                        @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
-                                            <div class="img-list">
-                                                <ul>
-                                                    @forelse($professionsData->professionSubject as $professionSubject)
-                                                        @if($professionSubject->parameter_grade == 'M' || $professionSubject->parameter_grade == 'H')
-                                                            <li>
-                                                                <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="compatia logo">
-                                                                <a href="{{url('/teenager/interest')}}/it_{{$professionSubject->subject['ps_slug']}}"><span>{{$professionSubject->subject['ps_name']}}</span></a>
-                                                            </li>
-                                                        @endif
-                                                    @empty
-                                                    @endforelse
-                                                </ul>
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    <div class="block">
-                                        <h4>Abilities</h4>
-                                        @if(isset($professionsData->ability) && !empty($professionsData->ability))
-                                            <div class="img-list">
-                                                <ul>
-                                                    @foreach($professionsData->ability as $key => $value)
-                                                        <li>
-                                                            <img src="{{ $value['cm_image_url'] }}" alt="compatia logo">
-                                                            <a href="{{$value['cm_slug_url']}}"><span>{{$value['cm_name']}}</span></a>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $profession_job_activities = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_job_activities';
-                                        })->first();
-                                    ?>
-                                    
-                                    <div class="block">
-                                        <h4>Activities</h4>
-                                        @if(isset($profession_job_activities->pfic_content) && !empty($profession_job_activities->pfic_content))
-                                            {!!$profession_job_activities->pfic_content!!}
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $profession_workplace = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_workplace';
-                                        })->first();
-                                    ?>
-                                    
-                                    <div class="block">
-                                        <h4>Work Place</h4>
-                                        @if(isset($profession_workplace->pfic_content) && !empty($profession_workplace->pfic_content))
-                                            {!!$profession_workplace->pfic_content!!}
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $profession_skills = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_skills';
-                                        })->first();
-                                    ?>
-                                    
-                                    <div class="block">
-                                        <h4>Skills</h4>
-                                        @if(isset($profession_skills->pfic_content) && !empty($profession_skills->pfic_content))
-                                            {!!$profession_skills->pfic_content!!}
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $profession_personality = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_personality';
-                                        })->first();
-                                    ?>
-                                    
-                                    <div class="block">
-                                        <h4>Personality</h4>
-                                        @if(isset($profession_personality->pfic_content) && !empty($profession_personality->pfic_content))
-                                            {!!$profession_personality->pfic_content!!}
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $profession_education_path = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_education_path';
-                                        })->first();
-                                    ?>
-                                    <div class="block">
-                                        <h4>Education</h4>
-                                        @if(isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content))
-                                        <p>{!!$profession_education_path->pfic_content!!}</p>
-                                        @endif
-                                        <div id="education_chart"></div>  
-                                    </div>
-
-                                    <div class="block">
-                                        <h4>Certifications</h4>
-                                        @if(isset($professionsData->professionCertificates) && !empty($professionsData->professionCertificates))
-                                            <div class="img-list">
-                                                <ul>
-                                                    @forelse($professionsData->professionCertificates as $professionCertificate)
-                                                    <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
-                                                    @empty
-                                                    @endforelse
-                                                </ul>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    
-                                    <?php
-                                        $profession_licensing = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_licensing';
-                                        })->first();
-                                    ?>
-                                    <div class="block">
-                                        <h4>Licensing</h4>
-                                        @if(isset($profession_licensing->pfic_content) && !empty($profession_licensing->pfic_content))
-                                            <p>{!!$profession_licensing->pfic_content!!}</p>
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $profession_experience = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_experience';
-                                        })->first();
-                                    ?>
-                                    <div class="block">
-                                        <h4>Experience</h4>
-                                        @if(isset($profession_experience->pfic_content) && !empty($profession_experience->pfic_content))
-                                            {!!strip_tags($profession_experience->pfic_content)!!}
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $profession_growth_path = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_growth_path';
-                                        })->first();
-                                    ?>
-                                    <div class="block">
-                                        <h4>Growth Path</h4>
-                                        @if(isset($profession_growth_path->pfic_content) && !empty($profession_growth_path->pfic_content))
-                                        <p>{!!$profession_growth_path->pfic_content!!}</p>
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $salary_range = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'salary_range';
-                                        })->first();
-                                    ?>
-                                    <div class="block">
-                                        <h4>Salary Range</h4>
-                                        @if(isset($salary_range->pfic_content) && !empty($salary_range->pfic_content))
-                                            <p>{!!$salary_range->pfic_content!!}</p>
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $profession_bridge = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'profession_bridge';
-                                        })->first();
-                                    ?>
-                                    <div class="block">
-                                        <h4>Apprenticeships</h4>
-                                        @if(isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content))
-                                            <p>{!!$profession_bridge->pfic_content!!}</p>
-                                        @endif
-                                    </div>
-
-                                    <?php
-                                        $trends_infolinks_usa = $professionsData->professionHeaders->filter(function($item) {
-                                            return $item->pfic_title == 'trends_infolinks';
-                                        })->first();
-                                    ?>
-                                    <div class="block">
-                                        <h4>General Information and Links</h4>
-                                        @if(isset($trends_infolinks_usa->pfic_content) && !empty($trends_infolinks_usa->pfic_content))
-                                            <p>{!!$trends_infolinks_usa->pfic_content!!}</p>
-                                        @endif
-                                    </div>
+                                    @include('teenager/basic/careerDetailInfoSection')
                                 </div>
                                 <div id="menu2" class="tab-pane fade in ">
+                                    <!-- Section for booster scale --> 
                                     <div class="explore-table table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Competitors</th>
-                                                    <th>Score</th>
-                                                    <th>Rank</th>
-                                                    <th>Points</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>106</td>
-                                                    <td>60</td>
-                                                    <td>4</td>
-                                                    <td>60/1600</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        @include('teenager/basic/careerBoosterScaleSection')
                                     </div>
+                                    <!-- Section for promise plus --> 
                                     <div class="promise-plus-outer">
-                                        <div class="promise-plus front_page">
-                                            <div class="heading">
-                                                <span><i class="icon-plus"></i></span>
-                                                <h3>Promise Plus</h3>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate.</p>
-                                            <div class="unbox-btn"><a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal"><span class="unbox-me">Unbox Me</span><span class="coins-outer"><span class="coins"></span> 25000</span></a></div>
-                                            <div class="modal fade" id="myModal" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content custom-modal">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                            <h4 class="modal-title">Congratulations!</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>You have 42,000 ProCoins available.</p>
-                                                            <p>Click OK to consume your 250 ProCoins and play on</p>
-                                                        </div>
-                                                        <div class="modal-footer"><button type="button" class="btn btn-primary btn-next" data-dismiss="modal">ok</button><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="promise-plus-overlay">
-                                            <div class="promise-plus">
-                                                <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                <div class="heading">
-                                                    <span class="emojis-img"><img class="emojis-icon-2" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB1AQMAAAC7wWdyAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABdJREFUeNpjYBgFo2AUjIJRMApGwZAEAAfFAAFzojyWAAAAAElFTkSuQmCC"></span>
-                                                    <h3>Promise Plus</h3>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate.</p>
-                                                <button class="btn btn-primary" title="Submit">Sumbit</button>
-                                            </div>
-                                        </div>
+                                        @include('teenager/basic/careerPromisePlusSection')
                                     </div>
+                                    <!-- Section start with virtual play role --> 
                                     <div class="virtual-plus text-center">
                                         <h4><span>Virtual Role Play</span></h4>
                                         <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                                     </div>
+                                    <!-- Section for basic, intermediate quiz with seprate blade --> 
                                     <div class="quiz-sec ">
                                         <div class="row flex-container">
-                                            <div class="col-sm-12">
-                                                <div class="quiz-box quiz-basic">
-                                                    <div class="sec-show">
-                                                        <h3>Quiz</h3>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
-                                                        <span title="Play" class="btn-play btn btn-basic">Play</span>
-                                                    </div>
-                                                    <div class="basic-quiz-area sec-hide">
-                                                        <div class="quiz_view">
-                                                            <div class="clearfix time_noti_view"><span class="time_type pull-left"><i class="icon-alarm"></i><span class="time-tag">0:0</span></span><span class="help_noti pull-right"><span class="pull-right close"><i class="icon-close"></i></span></span></div>
-                                                            <div class="quiz-que">
-                                                                <p class="que"><i class="icon-arrow-simple"></i>Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor?</p>
-                                                                <div class="quiz-ans">
-                                                                    <div class="radio"><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label></div>
-                                                                    <div class="clearfix"><a href="#" class="next-que pull-right"><i class="icon-hand"></i></a></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @include('teenager/basic/careerBasicQuizSection')
                                         </div>
                                         <div class="row flex-container">
-                                            <div class="quiz-intermediate">
-                                                <div class="sec-show clearfix">
-                                                    <div class="col-sm-6 flex-items">
-                                                        <div class="quiz-box">
-                                                            <div class="img"><img src="{{ Storage::url('img/img-dummy.png') }}" alt="quiz image"></div>
-                                                            <h6>Lorem Ipsum</h6>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit.</p>
-                                                            <div class="unbox-btn"><a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal1"><span class="unbox-me">Unbox Me</span><span class="coins-outer"><span class="coins"></span> 25000</span></a></div>
-                                                            <div class="modal fade" id="myModal1" role="dialog">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content custom-modal">
-                                                                        <div class="modal-header">
-                                                                            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                            <h4 class="modal-title">Congratulations!</h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>You have 42,000 ProCoins available.</p>
-                                                                            <p>Click OK to consume your 250 ProCoins and play on</p>
-                                                                        </div>
-                                                                        <div class="modal-footer"><button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 flex-items">
-                                                        <div class="quiz-box">
-                                                            <div class="img"><img src="{{ Storage::url('img/img-dummy.png') }}" alt="quiz image"></div>
-                                                            <h6>Lorem Ipsum</h6>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit.</p>
-                                                            <div class="unbox-btn"><a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal2"><span class="unbox-me">Unbox Me</span><span class="coins-outer"><span class="coins"></span> 25000</span></a></div>
-                                                            <div class="modal fade" id="myModal2" role="dialog">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content custom-modal">
-                                                                        <div class="modal-header">
-                                                                            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                            <h4 class="modal-title">Congratulations!</h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>You have 42,000 ProCoins available.</p>
-                                                                            <p>Click OK to consume your 250 ProCoins and play on</p>
-                                                                        </div>
-                                                                        <div class="modal-footer"><button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 flex-items">
-                                                        <div class="quiz-box">
-                                                            <div class="img"><img src="{{ Storage::url('img/img-dummy.png') }}" alt="quiz image"></div>
-                                                            <h6>Lorem Ipsum</h6>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit.</p>
-                                                            <div class="unbox-btn"><a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal3"><span class="unbox-me">Unbox Me</span><span class="coins-outer"><span class="coins"></span> 25000</span></a></div>
-                                                            <div class="modal fade" id="myModal3" role="dialog">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content custom-modal">
-                                                                        <div class="modal-header">
-                                                                            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                            <h4 class="modal-title">Congratulations!</h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>You have 42,000 ProCoins available.</p>
-                                                                            <p>Click OK to consume your 250 ProCoins and play on</p>
-                                                                        </div>
-                                                                        <div class="modal-footer"><button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 flex-items">
-                                                        <div class="quiz-box">
-                                                            <div class="img"><img src="{{ Storage::url('img/img-dummy.png') }}" alt="quiz image"></div>
-                                                            <h6>Lorem Ipsum</h6>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit.</p>
-                                                            <div class="unbox-btn"><a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal4"><span class="unbox-me">Unbox Me</span><span class="coins-outer"><span class="coins"></span> 25000</span></a></div>
-                                                            <div class="modal fade" id="myModal4" role="dialog">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content custom-modal">
-                                                                        <div class="modal-header">
-                                                                            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                            <h4 class="modal-title">Congratulations!</h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>You have 42,000 ProCoins available.</p>
-                                                                            <p>Click OK to consume your 250 ProCoins and play on</p>
-                                                                        </div>
-                                                                        <div class="modal-footer"><button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="quiz-area sec-hide">
-                                                    <div class="quiz_view">
-                                                        <div class="clearfix time_noti_view"><span class="time_type pull-left"><i class="icon-alarm"></i><span class="time-tag">0:0</span></span><span class="help_noti pull-right"><span class="pull-right close"><i class="icon-close"></i></span></span></div>
-                                                        <div class="quiz-que">
-                                                            <p class="que"><i class="icon-arrow-simple"></i>Identify the correct terminology for the piece of furniture:</p>
-                                                            <div class="quiz-ans">
-                                                                <div class="question-img">
-                                                                    <img src="{{ Storage::url('img/question-img.jpg') }}" title="Click to enlarge image" class="pop-me">
-                                                                </div>
-                                                                <div class="radio"><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label></div>
-                                                                <div class="clearfix"><a href="#" class="next-que pull-right"><i class="icon-hand"></i></a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @include('teenager/basic/careerIntermediateQuizSection')
                                         </div>
-                                    </div>
+                                    </div>  
+                                    <!-- Section for real world --> 
                                     <div class="virtual-plus text-center real-world">
                                         <h4><span>Real-world role Play</span></h4>
                                         <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                                     </div>
+                                    <!-- Section for advance level -->
                                     <div class="quiz-advanced quiz-sec">
-                                        <div class="sec-upload clearfix sec-show">
-                                            <div class="row flex-container">
-                                                <div class="col-sm-4 flex-items">
-                                                    <div class="quiz-box">
-                                                        <div class="img"><i class="icon-image"></i></div>
-                                                        <p>Image nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt.</p>
-                                                        <span title="Upload" class="btn-play btn btn-advanced">Upload</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 flex-items">
-                                                    <div class="quiz-box">
-                                                        <div class="img"><i class="icon-video"></i></div>
-                                                        <p>Image nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt.</p>
-                                                        <span title="Upload" class="btn-play btn btn-advanced">Upload</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 flex-items">
-                                                    <div class="quiz-box">
-                                                        <div class="img"><i class="icon-document"></i></div>
-                                                        <p>Image nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt.</p>
-                                                        <span title="Upload" class="btn-play btn btn-advanced">Upload</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="upload-screen quiz-box sec-hide">
-                                            <h4>Purchasing Agents & Buyers (Farm Products)</h4>
-                                            <span class="pull-right close"><i class="icon-close"></i></span>
-                                            <div class="upload-img" id="img-preview">
-                                                <span>photo upload</span>
-                                                <input type="file" name="pic" accept="image/*" onchange="readURL(this);">
-                                            </div>
-                                            <button class="btn-primary" type="submit" title="Submit">Submit</button>
-                                            <div class="upload-content">
-                                                <div class="no-data">
-                                                    <div class="nodata-middle">
-                                                        No Image found
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @include('teenager/basic/careerAdvanceQuizSection')
                                     </div>
+                                    <!-- Section for competitive role play -->
                                     <div class="virtual-plus text-center competitive-role">
                                         <h4><span>competitive role Play</span></h4>
                                         <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                                         <div class="competitive-list quiz-sec">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="quiz-box">
-                                                        <div class="img">
-                                                            <img src="{{ Storage::url('img/abl-logo.png') }}" alt="abl logo">
-                                                        </div>
-                                                        <h6>Company Name</h6>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit.</p>
-                                                        <ul class="btn-list">
-                                                            <li><a href="#" title="learn more" class="btn">learn more</a></li>
-                                                            <li><a href="#" title="Apply" class="btn btn-apply">Apply</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="quiz-box">
-                                                        <div class="img">
-                                                            <img src="{{ Storage::url('img/ryantec-logo.png') }}" alt="ryantec logo">
-                                                        </div>
-                                                        <h6>Company Name</h6>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit.</p>
-                                                        <ul class="btn-list">
-                                                            <li><a href="#" title="learn more" class="btn">learn more</a></li>
-                                                            <li><a href="#" title="Apply" class="btn btn-apply">Apply</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="overlay">
-                                                <div class="overlay-inner">
-                                                    <div class="icon"><!--<i class="icon-lock"></i>-->
-                                                    <img src="{{ Storage::url('img/img-lock.png') }}" alt="lock image"></div>
-                                                    <p>Complete previous section<br> to unlock</p>
-                                                </div>
-                                            </div>
+                                            @include('teenager/basic/careerCompetitiveRoleSection')        
                                         </div>
                                     </div>
+                                    <!-- Section for challenge play -->
                                     <div class="virtual-plus text-center challenge-play">
                                         <h4><span>challenge Play</span></h4>
                                         <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                                         <div class="form-challenge">
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col-sm-8">
-                                                        <div class="form-group custom-select">
-                                                            <select class="form-control">
-                                                                <option value="Select a parent or mentor">Select a parent or mentor</option>
-                                                                <option value="Parent">Parent</option>
-                                                                <option value="Mentor 1">Mentor 1</option>
-                                                                <option value="Mentor 2">Mentor 2</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <button class="btn btn-submit" type="submit" title="a=Add">Submit</button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                            @include('teenager/basic/careerChallengePlaySection')            
                                         </div>
                                     </div>
                                 </div>
@@ -1103,7 +631,6 @@
             $chartArray[] = array('y'=> (int) $phd_degree, 'name' => 'PhD', 'color' => '#00caa7');
     ?>
             var educationChartData = <?php echo json_encode($chartArray);  ?>;
-            console.log(educationChartData);
             loadChart('column','',educationChartData,'education_chart');
 
             function loadChart(chartType,total,chartData,loadDiv){
