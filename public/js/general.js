@@ -326,6 +326,21 @@ $(document).ready(function () {
         }
     }); 
 });
+    //back to top
+    $(window).scroll(function() {
+        var scrolly = $(window).scrollTop()
+        if (scrolly > 150) {
+            $(".back-to-top").addClass("show")
+        } else {
+            $(".back-to-top").removeClass("show")
+        }
+    })
+    $(".back-to-top").click(function(e) {
+        e.preventDefault();
+        $("html, body").stop().animate({
+            scrollTop: 0
+        }, 1000);
+    });
 });
 /*$(document).ready(function () {
     // Handler for .ready() called.

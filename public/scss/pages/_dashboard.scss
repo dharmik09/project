@@ -513,7 +513,14 @@ h6 {
         .next-que {
             color: $p-cl;
             font-size: 90px;
-            transform: rotate(-130deg);
+            transform: rotate(50deg);
+            @include maxms{
+                font-size: 80px;
+            }
+            i{
+                display: inline-block;
+                transform: scaleX(-1);
+            }
         }
     }
 }

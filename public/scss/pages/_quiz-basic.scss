@@ -1,7 +1,10 @@
 .quiz-container {
     padding: 40px 30px;
-    @include maxsm{
+    @include maxsm {
         padding: 20px 15px;
+    }
+    @include maxms {
+        padding: 20px 0;
     }
 }
 
@@ -19,8 +22,11 @@
         em {
             font-family: h;
         }
-        img{
-            width: 90px;height: 90px;margin:0 auto 10px;display: block;
+        img {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 10px;
+            display: block;
         }
     }
     .correct {
@@ -127,14 +133,17 @@
             font-size: 14px;
         }
     }
-    .t-cell{
+    .t-cell {
         padding-right: 20px;
     }
 }
 
 .quiz-text {
-    width: 60%;
-    margin: 0 auto;
+    //width: 60%;
+    //margin: 0 auto;
+    .block-grp{
+        text-align: center;
+    }
     .form-control {
         border: none;
         border-bottom: 2px solid $i-cl;
@@ -145,6 +154,15 @@
         }
         @include maxms {
             font-size: 14px;
+        }
+        &.form-block {
+            width: 35px;
+            display: inline-block;
+            border: 2px solid;
+            height: 35px;
+            padding: 2px;
+            font-size: 15px;
+            text-align: center;
         }
     }
 }
@@ -166,10 +184,12 @@
             vertical-align: top;
             &:nth-child(even) {
                 margin-right: 0;
-                
+
             }
-            @include maxsm{
-                width: 80px;height: 80px;margin: 0 0 9px;
+            @include maxsm {
+                width: 80px;
+                height: 80px;
+                margin: 0 0 9px;
             }
             .drag-box {
                 width: 100%;
@@ -217,7 +237,8 @@
             border-radius: 3px;
             /*transition: width 250ms ease-in-out;*/
             transition: width 30s ease-in-out;
-            margin-top: -3px;margin-left: -2px;
+            margin-top: -3px;
+            margin-left: -2px;
         }
     }
 }
@@ -243,8 +264,8 @@
             padding: 10px;
             margin-bottom: 15px;
             img {
-                width:70px;
-                height:70px;
+                width: 70px;
+                height: 70px;
             }
         }
     }
@@ -276,50 +297,314 @@
             }
         }
     }
-    &.full-width{
+    &.full-width {
         width: 100%;
-        li{
+        li {
             min-height: auto;
         }
     }
 }
-.multiple-select{
-        font-size: 14px;
+
+.multiple-select {
+    font-size: 14px;
     text-align: center;
     margin-bottom: 20px;
     color: #66c6e6
 }
-.width-50{
-    label{
+
+.width-50 {
+    label {
         width: 40%;
-        float: left;
-        //padding: 0 15px;
+        float: left; //padding: 0 15px;
         margin: 0 10px 25px;
-        @include maxsm{
-            width: 100%;margin: 0 0 25px;
+        @include maxsm {
+            width: 100%;
+            margin: 0 0 25px;
         }
-        img{
-            width: 90px !important;height: 90px !important;margin: 0 auto !important;
+        img {
+            width: 90px !important;
+            height: 90px !important;
+            margin: 0 auto !important;
         }
     }
 }
-.question-img.quiz-inter.double-img{
+
+.question-img.quiz-inter.double-img {
     max-width: 100%;
-    span{
+    span {
         display: inline-block;
-        width: 50%;margin-left: -4px;padding: 0 15px;
+        width: 50%;
+        margin-left: -4px;
+        padding: 0 15px;
     }
 }
-.modal-screen{
+
+.modal-screen {
     text-align: left !important;
-    h3{
-        text-decoration: underline;
-        font-size: 25px;
-        @include maxsm{
-            font-size: 20px;
+    h3 {
+        //text-decoration: underline;
+        color: $h-cl !important;
+        font-size: 25px !important;
+        padding-right: 30px;
+        @include maxsm {
+            font-size: 20px !important;
+        }
+        @include maxms {
+            font-size: 18px !important;
         }
     }
-    ol{
+    ol {
         margin-bottom: 20px;
     }
+}
+
+.upload-screen .btn-primary.btn-go {
+    padding: 8px 35px;
+}
+
+.cost-estimator {
+    border-color: transparent !important;
+    .nav {
+        margin: 0 -20px;
+        border-color: $p-cl;
+        > li {
+            margin-right: 3px;
+            > a {
+                background-color: $p-cl;
+                color: $white;
+                border-radius: 5px 5px 0 0;
+            }
+            &.active {
+                a {
+                    background-color: $i-cl;
+                    color: $white;
+                }
+            }
+            &:hover {
+                a {
+                    background-color: $i-cl;
+                    color: $white;
+                }
+            }
+        }
+    }
+    .tab-content {
+        padding-top: 30px;
+    }
+    .upload-content {
+        position: relative;
+    }
+}
+
+.upld-img {
+    list-style: none;
+    text-align: center;
+    padding: 30px 0 15px 0;
+    li {
+        width: 47%;
+        margin: 1%;
+        display: inline-block;
+        position: relative;
+        text-align: left;
+        @include maxlg {
+            width: 100%;
+            margin: 0;
+            padding: 0 15px;
+        }
+        @include maxms {
+            padding: 0 5px;
+        }
+        .upd-detail {
+            .img-cont {
+                float: left;
+                padding: 5px;
+                border: 1px solid #6f6f6f;
+                margin-right: 5px;
+                img {
+                    width: 90px;
+                    height: 90px;
+                    display: block;
+                    @include maxsm {
+                        width: 70px;
+                        height: 70px;
+                    }
+                }
+                .img-inner {
+                    position: relative;
+                    cursor: zoom-in;
+                }
+                .under-progress {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 25px;
+                    width: 100%;
+                    text-align: center;
+                    line-height: 25px;
+                    background: #888888;
+                    color: $white;
+                    font-size: 12px;
+                    @include maxsm {
+                        font-size: 10px;
+                        height: 21px;
+                        line-height: 1.8;
+                    }
+                    &.under-review {
+                        background: $i-cl;
+                    }
+                    &.approved {
+                        background: green;
+                    }
+                }
+            }
+            .detail-cont {
+                border: 1px solid $p-cl;
+                margin-left: 102px;
+                height: 102px;
+                padding: 5px 5px 16px 5px;
+                background: rgba(212, 56, 35, 0.22);
+                overflow: hidden;
+                position: relative;
+                @include maxsm {
+                    height: auto;
+                    min-height: 82px;
+                    margin-left: 82px;
+                }
+                .cst-grp {
+                    position: absolute;
+                    top: 3px;
+                    right: 5px;
+                    .btn-dlt {
+                        border: none;
+                        background: transparent;
+                        color: #888;
+                        font-size: 15px;
+                        line-height: 20px;
+                        display: inline-block;
+                        vertical-align: middle;
+                        cursor: pointer;
+                        -webkit-transition: all 0.5s;
+                        -moz-transition: all 0.5s;
+                        -o-transition: all 0.5s;
+                        transition: all 0.5s;
+                        margin-left: 9px;
+                    }
+                    .pnt-get {
+                        border: 1px solid #000;
+                        font-size: 10px;
+                        padding: 2px;
+                        line-height: 1;
+                        border-radius: 3px;
+                        color: #fff;
+                        background: #000;
+                    }
+                }
+            }
+            .date {
+                border-bottom: 1px solid $p-cl;
+                margin-bottom: 5px;
+                padding-bottom: 5px;
+                min-height: 40px;
+                p {
+                    font-size: 11px;
+                    color: #888888;
+                    margin-bottom: 0;
+                    padding-right: 23px;
+                    &.approved-date,
+                    &.approved-by {
+                        color: green;
+                    }
+                }
+            }
+            .view-img {
+                position: absolute;
+                right: 5px;
+                bottom: 0;
+                font-size: 12px;
+                color: $p-cl;
+                cursor: pointer;
+                -webkit-transition: all 0.5s;
+                -moz-transition: all 0.5s;
+                -o-transition: all 0.5s;
+                transition: all 0.5s;
+            }
+        }
+    }
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.9);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content (Image) */
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+
+    /* Caption of Modal Image (Image Text) - Same Width as the Image */
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+
+    /* Add Animation - Zoom in the Modal */
+    .modal-content,
+    #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    @keyframes zoom {
+        from {
+            transform: scale(0)
+        }
+        to {
+            transform: scale(1)
+        }
+    }
+
+    /* The Close Button */
+    .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close-modal:hover,
+    .close-modal:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
 }
