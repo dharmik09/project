@@ -186,7 +186,7 @@
                                 <div class="panel panel-default factual quiz1">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_1')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_1')}}" @if($secComplete1 != 1) onclick="fetch2ActiityQuestion(this.id)" @endif>Profile Builder 1<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_1')}}">{{$section1}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_1')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_1')}}" @if($secComplete1 != 1) onclick="fetch2ActivityQuestion(this.id)" @endif>Profile Builder 1<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_1')}}">{{$section1}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_1')}}">
@@ -198,7 +198,7 @@
                                 <div class="panel panel-default factual quiz2">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_2')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_2')}}" @if($secComplete2 != 1) onclick="fetch2ActiityQuestion(this.id)" @endif >Profile Builder 2<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_2')}}">{{$section2}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_2')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_2')}}" @if($secComplete2 != 1) onclick="fetch2ActivityQuestion(this.id)" @endif >Profile Builder 2<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_2')}}">{{$section2}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_2')}}">
@@ -210,7 +210,7 @@
                                 <div class="panel panel-default factual quiz3">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_3')}}" class="collapsed career-lc" id="{{Config::get('constant.LEVEL2_SECTION_3')}}" @if($secComplete3 != 1) onclick="fetch2ActiityQuestion(this.id)" @endif >Profile Builder 3<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_3')}}">{{$section3}}</span></a>
+                                            <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_3')}}" class="collapsed career-lc" id="{{Config::get('constant.LEVEL2_SECTION_3')}}" @if($secComplete3 != 1) onclick="fetch2ActivityQuestion(this.id)" @endif >Profile Builder 3<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_3')}}">{{$section3}}</span></a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_3')}}">
@@ -250,10 +250,7 @@
 
 @section('script')
 <script>
-    
-    var timeCount = '600';
-    var count = timeCount;
-
+    var count;
     jQuery(document).ready(function($) {
         var counter = setInterval(timer, 1000);
 
@@ -272,14 +269,12 @@
                 secondPassed();
             }
             count = count - 1;
-            if (count == 60) {
-                //saveBoosterPoints(teenagerId, professionId, 2, isyoutube);
-            }
+            //$("#blackhole").val(count);
         }
         $(".expandStrength").hide();
     });
 
-    function fetch2ActiityQuestion(id) {
+    function fetch2ActivityQuestion(id) {
         if ( !$("#accordion"+id).hasClass("in") ) {
             $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
             $("#section"+id).addClass('loading-screen-parent loading-large');
@@ -288,16 +283,17 @@
             $.ajax({
                 type: 'POST',
                 url: "{{url('teenager/get-level2-activity')}}",
-                dataType: 'json',
+                //dataType: 'html',
                 headers: {
                     'X-CSRF-TOKEN': CSRF_TOKEN
                 },
                 data: {'section_id':id},
                 success: function (response) {
-                    count = response.timer;
+                    //count = response.timer;
                     $("#section"+id).removeClass('loading-screen-parent loading-large');
-                    $("#section"+id).hide().html(response.activities).fadeIn('slow');
-                    $("#percentageSection"+id).html(response.sectionPercentage);
+                    //$("#section"+id).hide().html(response.activities).fadeIn('slow');
+                    //$("#percentageSection"+id).html(response.sectionPercentage);
+                    $(".quiz"+id).hide().html(response).fadeIn('slow');
                 }
             });
         }
@@ -337,7 +333,7 @@
         $.ajax({
             type: 'POST',
             url: "{{url('teenager/save-level2-activity')}}",
-            dataType: 'json',
+            //dataType: 'json',
             //async: false,
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
@@ -346,8 +342,9 @@
             success: function (response) {
                 count = response.timer;
                 $("#section"+section).removeClass('loading-screen-parent loading-large');
-                $("#section"+section).hide().html(response.activities).fadeIn('slow');
-                $("#percentageSection"+section).html(response.sectionPercentage);
+                $(".quiz"+section).hide().html(response).fadeIn('slow');
+                //$("#section"+section).hide().html(response.activities).fadeIn('slow');
+                //$("#percentageSection"+section).html(response.sectionPercentage);
                 getTeenagerInterestData("{{Auth::guard('teenager')->user()->id}}");
                 getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
             }
