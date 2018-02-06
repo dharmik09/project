@@ -90,8 +90,8 @@ class RestLessController extends Controller
         $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();
         if($sponsorDetail->count() > 0) {
             foreach ($sponsorDetail as $sponsor) {
-                $sponsor->sp_logo_thumb = (isset($sponsor->sp_photo) && $sponsor->sp_photo != "") ? Storage::url($this->sponsorThumbImageUploadPath . $sponsor->sp_photo) : Storage::url($this->sponsorThumbImageUploadPath . "proteen-logo.png");
-                $sponsor->sp_logo = (isset($sponsor->sp_photo) && $sponsor->sp_photo != "") ? Storage::url($this->sponsorOriginalImageUploadPath . $sponsor->sp_photo) : Storage::url($this->sponsorOriginalImageUploadPath . "proteen-logo.png");
+                $sponsor->sp_logo_thumb = (isset($sponsor->sp_logo) && $sponsor->sp_logo != "" && Storage::size($this->sponsorThumbImageUploadPath . $sponsor->sp_logo) > 0) ? Storage::url($this->sponsorThumbImageUploadPath . $sponsor->sp_logo) : Storage::url($this->sponsorThumbImageUploadPath . "proteen-logo.png");
+                $sponsor->sp_logo = (isset($sponsor->sp_logo) && $sponsor->sp_logo != "" && Storage::size($this->sponsorOriginalImageUploadPath . $sponsor->sp_logo) > 0) ? Storage::url($this->sponsorOriginalImageUploadPath . $sponsor->sp_logo) : Storage::url($this->sponsorOriginalImageUploadPath . "proteen-logo.png");
                 $sponsor->sponsor_id = (isset($sponsor->sponsor_id)) ? $sponsor->sponsor_id : 0;
                 $sponsor->sp_email = (isset($sponsor->sp_email)) ? $sponsor->sp_email : "";
                 $sponsor->sp_admin_name = (isset($sponsor->sponsor->sp_admin_name)) ? $sponsor->sp_admin_name : "";
