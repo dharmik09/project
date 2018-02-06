@@ -2545,6 +2545,7 @@ Class Helpers {
      
     public static function verifyEmailIsReal($toemail, $fromemail, $getdetails = false)
     {
+        $result = 'valid';
         // Get the domain of the email recipient
         $email_arr = explode('@', $toemail);
         $domain = array_slice($email_arr, -1);
@@ -3041,5 +3042,21 @@ Class Helpers {
            $profileComplete = $profileComplete + (count($level1Icons)*Config::get('constant.TEEN_LEVEL1_ICON_PROFILE_COMPLETE'))/4;
        }       
        return intval($profileComplete);
+    }
+
+    //Advertisements image size array
+    public static function adsSizeType()
+    {
+        $sizeType = array('1' => '343 X 400', '2' => '343 X 800', '3' => '850 X 90');
+        return $sizeType;
+    }
+
+    public static function get_string_between($string, $start, $end){
+        $string = ' ' . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return '';
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return strtolower(substr($string, $ini, $len));
     }
 }

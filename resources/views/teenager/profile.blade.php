@@ -420,7 +420,7 @@
                     <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="icon-img">
-                                <a href="javascript:void(0);" data-placement="bottom" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id,!" data-toggle="tooltip">
+                                <a href="javascript:void(0);" data-placement="bottom" title="{{ str_limit($teenagerMyIcon['iconDescription'], $limit = 100, $end = '...') }}" data-toggle="tooltip">
                                     <img src="{{ $teenagerMyIcon['iconImage'] }}">
                                 </a>
                             </div>
