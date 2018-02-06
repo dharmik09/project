@@ -5,7 +5,7 @@
                 <div class="team-detail">
                     <div class="team-img">
                         <?php
-                            if(isset($value->t_photo) && $value->t_photo != '') {
+                            if(isset($value->t_photo) && $value->t_photo != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$value->t_photo) > 0) {
                                 $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$value->t_photo;
                             } else {
                                 $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
@@ -29,4 +29,5 @@
         </div>
     @endforeach
 @else
+	<div class="sec-forum"><span>No result Found</span></div>
 @endif
