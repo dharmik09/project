@@ -64,8 +64,8 @@
     }
 }
 
-.icon-add a{
-    
+.icon-add a {
+
     &:hover {
         img {
             background-position: 0 40%;
@@ -81,6 +81,22 @@
     background-position: 0 0%;
 }
 
+.respond-request {
+    margin-top: -9px;
+    @include maxsm {
+        margin-top: 0;
+    }
+}
+
+.respond-request a:hover img,
+.respond-request a:focus img {
+    background-position: 0 0%;
+}
+
+.respond-request a em {
+    margin-top: 0px !important;
+}
+
 .sec-member {
     &:before {
         display: none;
@@ -91,6 +107,9 @@
     padding-bottom: 82px;
     @include maxms {
         padding-bottom: 30px;
+    }
+    h1 {
+        max-width: 470px;
     }
     .chat-icon {
         font-size: 74px;
@@ -351,5 +370,33 @@
         border-bottom: 3px solid transparent;
         border-right: 6px solid #fff;
         z-index: 0;
+    }
+}
+
+.request-function {
+    font-size: 15px;
+    margin: 0 -8px 0;
+    width: 80px;
+    ul {
+        margin-bottom: 0;
+    }
+    li a {
+        color: $lightgrey !important;
+        &.accept {
+            color: green !important;
+
+        }
+        &.decline {
+            color: $p-cl !important;
+            i {
+                display: inline-block;
+                transform: rotate(180deg);
+            }
+        }
+        i {
+            //  color: $lightgrey;
+            margin-right: 5px;
+        }
+
     }
 }

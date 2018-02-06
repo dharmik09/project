@@ -126,21 +126,32 @@ class ProfileController extends Controller
         if (isset($teenagerIcons) && !empty($teenagerIcons)) {
             foreach ($teenagerIcons as $key => $icon) {
                 if ($icon->ti_icon_type == 1) {
+                    $fictionIconArr = [];
                     if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
-                        $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
+                        $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
                     } else {
-                        $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                        $fictionIconArr[] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
                     }
+                    $fictionIconArr['iconDescription'] = $icon->ci_description;
+                    $fictionIcon[] = $fictionIconArr;
                 } else if ($icon->ti_icon_type == 2) {
+                    $nonFictionArr = [];
                     if ($icon->nonfiction_image != '' && Storage::size($this->humanThumbImageUploadPath . $icon->nonfiction_image) > 0) {
-                        $nonFiction[] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
+                        $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
                     } else {
-                        $nonFiction[] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                        $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
                     }
+                    $nonFictionArr['iconDescription'] = $icon->hi_description;
+                    $nonFiction[] = $nonFictionArr;
                 } else {
+                    $relationIconArr = [];
                     if ($icon->ti_icon_image != '' && Storage::size($this->relationIconThumbImageUploadPath . $icon->ti_icon_image) > 0) {
-                        $relationIcon[] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
+                        $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
+                    } else {
+                        $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . 'proteen-logo.png');
                     }
+                    $relationIconArr['iconDescription'] = "";
+                    $relationIcon[] = $relationIconArr;
                 }
             }
             $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);

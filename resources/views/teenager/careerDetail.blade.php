@@ -715,6 +715,9 @@
             },
             data: {'page_no':pageNo,'professionId':{{$professionsData->id}}},
             success: function (response) {
+                if(response.teenagersCount == 0){
+                    $("#fav-teenager-list").html('<div class="sec-forum"><span>No result Found</span></div>');
+                }
                 if(response.teenagersCount != 10){
                     $('#loadMoreButton').removeClass('text-center');
                     $('#loadMoreButton').removeClass('load-more');

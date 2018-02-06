@@ -69,6 +69,7 @@ class Level1HumanIconManagementController extends Controller
         $humanIconDetail['id'] = e(input::get('id'));
         $humanIconDetail['hi_name'] = e(input::get('hi_name'));
         $humanIconDetail['hi_category'] = e(input::get('hi_category'));
+        $humanIconDetail['hi_description'] = e(input::get('hi_description'));
         $humanIconDetail['deleted'] = e(input::get('deleted'));
         $hiddenLogo     = e(input::get('hidden_logo'));
         $humanIconDetail['hi_image']    = $hiddenLogo;

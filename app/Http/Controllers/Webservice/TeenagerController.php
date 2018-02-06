@@ -171,7 +171,8 @@ class TeenagerController extends Controller
                 }
                 $networkTeenager->t_about_info = (isset($networkTeenager->t_about_info) && !empty($networkTeenager->t_about_info)) ? $networkTeenager->t_about_info : "";
                 $response['teenagerLocationArea'] = $getCityArea. " Area";
-                $response['profileComplete'] = "Profile 62% complete";
+                $profileComplete = Helpers::calculateProfileComplete($request->userId);
+                $response['profileComplete'] = "Profile ". $profileComplete ."% complete";
                 $response['facebookUrl'] = "https://facebook.com";
                 $response['googleUrl'] = "https://google.com";
                 $response['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->teenagerId);

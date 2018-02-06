@@ -39,6 +39,7 @@
                         $hi_category = $value->hi_category;
                         $hi_name = $value->hi_name;
                         $hi_image = $value->hi_image;
+                        $hi_description = $value->hi_description;
                         $deleted = $value->deleted;
                         $hpm_profession_id = $value->hpm_profession_id;
                     }
@@ -47,6 +48,7 @@
                     $hi_category = '';
                     $hi_name = '';
                     $hi_image = '';
+                    $hi_description = '';
                     $deleted = '';
                     $hpm_profession_id = '';
                 }
@@ -98,6 +100,12 @@
                                     } ?>> {{$value->hic_name}}</option>
                                 <?php } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hi_description" class="col-sm-2 control-label">{{trans('labels.formlbldescription')}}</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" id="hi_description" name="hi_description" rows="8">{{$hi_description}}</textarea>
                             </div>
                         </div>
                         <div class="form-group">

@@ -3012,7 +3012,7 @@ Class Helpers {
     {
        $objLevel1Activity = new Level1Activity(); 
        $objLevel2Activity = new Level2Activity(); 
-       $user = Auth::guard('teenager')->user();
+       $user = Teenagers::find($teenagerId);
        $profileComplete = 0;
        
        //Calculate for basic profile
