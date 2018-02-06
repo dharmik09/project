@@ -70,6 +70,9 @@ class CommunityManagementController extends Controller {
     {
         $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($uniqueId);
         if (isset($teenDetails) && !empty($teenDetails)) {
+            if($teenDetails->id == Auth::guard('teenager')->user()->id){
+                return Redirect::to("teenager/my-profile");
+            }
             $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($teenDetails->id);
             $connectionStatus = $this->communityRepository->checkTeenConnectionStatusForNetworkMemberPage($teenDetails->id, Auth::guard('teenager')->user()->id);
             $myConnections = $this->communityRepository->getMyConnections($teenDetails->id);
