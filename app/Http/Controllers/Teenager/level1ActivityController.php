@@ -654,6 +654,8 @@ class Level1ActivityController extends Controller
                     $isQuestionCompleted = 0;
                 }
 
+                $saveBoosterPoint = $this->teenagersRepository->saveLevel1Part2BoosterPoints($teenagerID, Helpers::getConfigValueByKey('LEVEL1_ICON_SELECTION_POINTS'));
+                
                 $response['level1'] = $this->teenagersRepository->getTeenagerTotalBoosterPointsForLevel1($teenagerID);
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');

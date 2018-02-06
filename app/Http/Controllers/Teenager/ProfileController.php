@@ -102,6 +102,11 @@ class ProfileController extends Controller
         $data = [];
         $teenSponsorIds = [];
         $user = Auth::guard('teenager')->user();
+
+        //$getTeenagerBasicBooster = $this->teenagersRepository->getTeenagerBasicBooster($user->id);
+        //$p = $this->level1ActivitiesRepository->saveTeenagerActivityResponseOneByOne($user->id, array());
+        //echo "<pre/>"; print_r($p); die();
+
         $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenThumbImageUploadPath.'proteen-logo.png');
         $countries = $this->objCountry->getAllCounries();
         $sponsorDetail = $this->sponsorsRepository->getApprovedSponsors();

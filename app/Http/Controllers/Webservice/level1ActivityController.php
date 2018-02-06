@@ -684,6 +684,8 @@ class Level1ActivityController extends Controller
                     $response['qualityAttempted'] = 'no';
                 }
 
+                $saveBoosterPoint = $this->teenagersRepository->saveLevel1Part2BoosterPoints($teenagerID, Helpers::getConfigValueByKey('LEVEL1_ICON_SELECTION_POINTS'));
+                
                 $message = Helpers::sendMilestoneNotification(2000);
                 $response['displayMsg'] = $message;
                 $response['status'] = 1;

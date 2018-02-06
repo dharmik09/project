@@ -89,10 +89,12 @@ class DashboardController extends Controller
             $teenager->c_name = ( isset(Country::getCountryDetail($teenager->t_country)->c_name) ) ? Country::getCountryDetail($teenager->t_country)->c_name : "";
             $teenager->country_id = $teenager->t_country;
 
-            $teenager->progress = 62;
-            $teenager->total_points = 10000;
-            $teenager->recent_progress = "You advanced 7% on your last visit. Well done you!";
+            $basicBoosterPoint = $this->teenagersRepository->getTeenagerBasicBooster($teenager->id);
 
+            $teenager->progress = 62;
+            $teenager->total_points = ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? $basicBoosterPoint['Total'] : 0;
+            $teenager->recent_progress = "You advanced 7% on your last visit. Well done you!";
+            
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');

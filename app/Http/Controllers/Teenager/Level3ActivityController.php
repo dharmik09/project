@@ -12,6 +12,7 @@ use Helpers;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Redirect;
 use Request;
+use App\Teenagers;
 use Carbon\Carbon;  
 use App\TeenagerBoosterPoint;
 use App\Services\Professions\Contracts\ProfessionsRepository;
@@ -71,6 +72,12 @@ class Level3ActivityController extends Controller {
             } else {
                 $teenagerLevel3PointsRow['tlb_points'] = $points;
                 $teenagerLevelPoints = $this->teenagerBoosterPoint->addTeenagerBoosterPoint($teenagerLevel3PointsRow);                
+            }
+            $proCoins = Teenagers::find($teenagerId);
+            $configValue = Helpers::getConfigValueByKey('PROCOINS_FACTOR_L1');
+            if($proCoins) {
+                $proCoins->t_coins = (int)$proCoins->t_coins + ( $points * $configValue );
+                $proCoins->save();
             }
         }        
         echo "success";
