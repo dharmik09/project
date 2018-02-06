@@ -1133,7 +1133,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
 
     public function getTeenagerSelectedIcon($userId) {
         $teenagerFictionIcon = DB::select(DB::raw("SELECT
-                                            pro_ti_teenager_icons.*,pro_ci_cartoon_icons.ci_image as fiction_image,ci_name,cic_name
+                                            pro_ti_teenager_icons.*,pro_ci_cartoon_icons.ci_image as fiction_image,ci_name,cic_name,ci_description
                                             FROM pro_ti_teenager_icons
                                             LEFT JOIN pro_ci_cartoon_icons ON pro_ti_teenager_icons.ti_icon_id = pro_ci_cartoon_icons.id
                                             LEFT JOIN pro_cic_cartoon_icons_category ON pro_cic_cartoon_icons_category.id = pro_ci_cartoon_icons.ci_category
