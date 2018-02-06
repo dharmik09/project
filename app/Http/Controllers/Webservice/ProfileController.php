@@ -50,9 +50,9 @@ class ProfileController extends Controller
     }
 
     /* Request Params : getTeenagerProfileData
-    *  loginToken, userId
-    *  Service after loggedIn user
-    */
+     *  loginToken, userId
+     *  Service after loggedIn user
+     */
     public function getTeenagerProfileData(Request $request)
     {
 		$response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
@@ -111,7 +111,8 @@ class ProfileController extends Controller
             }
             $teenager->t_about_info = (isset($teenager->t_about_info) && !empty($teenager->t_about_info)) ? $teenager->t_about_info : "";
             $response['teenagerLocationArea'] = $getCityArea. " Area";
-            $response['profileComplete'] = "Profile 62% complete";
+            $profileComplete = Helpers::calculateProfileComplete($request->userId);
+            $response['profileComplete'] = "Profile ". $profileComplete ."% complete";
             $response['facebookUrl'] = "https://facebook.com";
             $response['googleUrl'] = "https://google.com";
             $response['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->userId);
@@ -312,7 +313,8 @@ class ProfileController extends Controller
                     }
                     
                     $response['teenagerLocationArea'] = $getCityArea. " Area";
-                    $response['profileComplete'] = "Profile 62% complete";
+                    $profileComplete = Helpers::calculateProfileComplete($request->userId);
+                    $response['profileComplete'] = "Profile ". $profileComplete ."% complete";
                     $response['facebookUrl'] = "https://facebook.com";
                     $response['googleUrl'] = "https://google.com";
                     $response['connectionsCount'] = $this->communityRepository->getMyConnectionsCount($request->userId);
