@@ -91,18 +91,47 @@
                             <li><a href="https://facebook.com/{{$teenDetails->t_fb_social_identifier}}" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
                             <li><a href="https://plus.google.com/{{$teenDetails->t_social_identifier}}" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                         </ul>
-                        @if ($connectionStatus == 0)
+                        @if ($connectionStatus['count'] == 0)
 	                        <div class="chat-icon add-icon sent-icon">
 	                            <a href="javascript:void(0)" title="Invitation Sent">
 	                            	<img class="request-send" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Invitation Sent"><em>Invitation Sent</em>
 	                            </a>
 	                        </div>
-                        @elseif($connectionStatus == 1)
-							<div class="chat-icon add-icon accepted-icon">
-	                            <a href="javascript:void(0)" title="Connected">
-	                            	<img class="accepted-member" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Invitation Accepted"><em>Connected</em>
-	                            </a>
-	                        </div>
+                        @elseif($connectionStatus['count'] == 1)
+                            <div class="chat-icon add-icon accepted-icon">
+                                <a href="javascript:void(0)" title="Connected">
+                                    <img class="accepted-member" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Invitation Accepted"><em>Connected</em>
+                                </a>
+                            </div>
+                        @elseif($connectionStatus['count'] == 3)
+                            @if($connectionStatus['connectionDetails']->tc_status == 0)
+    							<div class="chat-icon add-icon respond-request" >
+                                    <a href="javascript:void(0)" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
+                                        <img class="respond-icon" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==">
+                                        <em>Respond</em>
+                                    </a>
+                                </div>
+                                <div class="hide" id="pop2">
+                                    <div class="request-function">
+                                        <ul class="clearfix">
+                                            <li><a href="{{url('teenager/accept-request').'/'.$connectionStatus['connectionDetails']->id}}" title="Accept" class="accept"><i class="icon-thumb"></i>Accept</a></li>
+                                            <li><a href="{{url('teenager/decline-request').'/'.$connectionStatus['connectionDetails']->id}}" title="decline" class="decline"><i class="icon-thumb"></i>Decline</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            @elseif($connectionStatus['connectionDetails']->tc_status == 1)
+                                <div class="chat-icon add-icon accepted-icon">
+                                    <a href="javascript:void(0)" title="Connected">
+                                        <img class="accepted-member" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Invitation Accepted"><em>Connected</em>
+                                    </a>
+                                </div>
+                            @elseif($connectionStatus['connectionDetails']->tc_status == 2)
+                                <div class="chat-icon add-icon icon-add">
+                                    <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add Connection">
+                                        <img class="add-member" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AQMAAAAAMksxAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAA9JREFUeNpjYBgFowA7AAACHAABV3wEvQAAAABJRU5ErkJggg==" alt="Add"><em>Add Connection</em>
+                                    </a>
+                                </div>
+                            @endif
                         @else
 							<div class="chat-icon add-icon icon-add">
 	                            <a href="{{ url('teenager/send-request-to-teenager') }}/{{ $teenDetails->t_uniqueid }}" title="Add Connection">

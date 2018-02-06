@@ -1006,7 +1006,7 @@ input:checked + .slider:before {
         max-width: 717px;
         margin: 0 auto 15px;
         padding-left: 70px;
-        @include maxms{
+        @include maxms {
             padding-left: 30px;
         }
     }
@@ -1142,10 +1142,10 @@ input:checked + .slider:before {
 /*---icon voted---*/
 
 .icon-voted {
-    padding-bottom: 60px;
+    // padding-bottom: 60px;
     text-align: center;
     @include maxmd {
-        padding-bottom: 30px;
+        // padding-bottom: 30px;
     }
     h2 {
         font-size: 54px;
@@ -1206,6 +1206,21 @@ input:checked + .slider:before {
                     /*width: 100%;*/
                 }
             }
+            .tooltip.bottom .tooltip-arrow{
+                border-bottom-color:$white;
+            }
+            .tooltip-inner {
+                border: 1px solid $white;
+                background: $white;
+                border-radius: 5px;
+                z-index: 99;
+                box-shadow: 0px 1px 17px -4px #989494;
+                //font-size: 14px;
+                color: $lightgrey;
+            }
+        }
+        .owl-stage-outer {
+            padding-bottom: 80px;
         }
         .owl-nav {
             position: absolute;
@@ -1526,10 +1541,10 @@ input:checked + .slider:before {
         }
     }
     .careers-tab {
-       // text-align: center;
-       // width: 60%;
+        // text-align: center;
+        // width: 60%;
         margin: 0 auto;
-        @include maxsm{
+        @include maxsm {
             text-align: center;
         }
         .careers-block {
@@ -1556,7 +1571,7 @@ input:checked + .slider:before {
                 width: 60%;
                 text-align: left;
                 vertical-align: middle;
-                @include maxsm{
+                @include maxsm {
                     height: auto !important;
                 }
                 h4 {
@@ -1565,9 +1580,9 @@ input:checked + .slider:before {
                     font-family: h;
                     line-height: 1.2;
                     font-weight: 400;
-                    a{
+                    a {
                         color: $r-cl;
-                        &:hover{
+                        &:hover {
                             color: $p-cl;
                         }
                     }
@@ -1639,7 +1654,7 @@ input:checked + .slider:before {
                     height: 63px; // margin-right: 20px;
                 }
             }
-           > a {
+            > a {
                 display: table;
                 margin: 0 10px 0 20px;
                 line-height: 1.2;
@@ -2565,7 +2580,7 @@ a:focus {
                         display: inline-flex;
                         align-items: center;
                         justify-content: center;
-                        
+
                     }
                 }
             }
@@ -2840,6 +2855,7 @@ a:focus {
         }
     }
 }
-.remove-my-careers-row{
+
+.remove-my-careers-row {
     clear: both;
 }

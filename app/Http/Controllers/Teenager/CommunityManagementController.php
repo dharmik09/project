@@ -71,8 +71,9 @@ class CommunityManagementController extends Controller {
         $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($uniqueId);
         if (isset($teenDetails) && !empty($teenDetails)) {
             $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($teenDetails->id);
-            $connectionStatus = $this->communityRepository->checkTeenConnectionStatus($teenDetails->id, Auth::guard('teenager')->user()->id);
+            $connectionStatus = $this->communityRepository->checkTeenConnectionStatusForNetworkMemberPage($teenDetails->id, Auth::guard('teenager')->user()->id);
             $myConnections = $this->communityRepository->getMyConnections($teenDetails->id);
+            // echo "<pre>"; print_r($connectionStatus); exit;
             $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($teenDetails->id);
             $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
             $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
