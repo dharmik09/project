@@ -30,7 +30,7 @@
                     <ul class="nav-bar clearfix">
                         <li class="n-user submenu-container">
                             <?php $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png'); ?>
-                            <a href="javascript:void(0);"><i class="i-user"><img src="{{ $user_profile_thumb_image }}" alt="user icon"></i><div  id="notificationCount"></div></a>
+                            <a href="javascript:void(0);"><i class="i-user"><img src="{{ $user_profile_thumb_image }}" alt="user icon"></i><div id="notificationCount"></div></a>
                             <div class="submenu">
                                 <div class="user-snapshot">
                                     <div class="user-avatar">

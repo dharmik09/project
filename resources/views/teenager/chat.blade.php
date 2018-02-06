@@ -341,6 +341,8 @@
             },
             data: {'id':id},
             success: function (response) {
+                $("#pageWiseNotifications").html('');
+                fetchNotification(1);
             }
         });
     }
