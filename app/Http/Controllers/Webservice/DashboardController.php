@@ -425,6 +425,7 @@ class DashboardController extends Controller
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
                 $careersArr['matched'] = $matchArr[rand(0,2)];
+                $careersArr['attempted'] = rand(0,1);
                 $careerData[] = $careersArr;
             }
             $data['strong'] = 4;
@@ -475,6 +476,7 @@ class DashboardController extends Controller
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
                 $careersArr['matched'] = $matchArr[rand(0,2)];
+                $careersArr['attempted'] = rand(0,1);
                 $careerData[] = $careersArr;
             }
             $data['strong'] = 4;
