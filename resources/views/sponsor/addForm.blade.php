@@ -83,6 +83,15 @@
                         <div class="col-md-5 col-sm-4 u_image">
                             <div class="sponsor_detail">
                                 <div class="">
+                                    <div class="size-type" style="display: none;">
+                                        <select class="select-style" id="sa_size_type" name="sa_size_type">
+                                            <?php $sizeList = Helpers::adsSizeType(); ?>
+                                            <option value="">Select</option>
+                                            <?php foreach ($sizeList as $key => $val) { ?>
+                                                <option value="{{$key}}">{{$val}}</option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                     <span>(The size of the image must be 730 x 50 pixels.)</span>
                                     <div class="sponsor_image">
                                         <div class="upload_image">
@@ -106,6 +115,7 @@
                                             </div>                                                                                                                                    
                                         </div>
                                     </div>
+                                    <div class="photo-error"></div>
                                 </div>                                                               
                             </div>
                         </div>
@@ -325,20 +335,20 @@ jQuery(document).ready(function () {
             return false;
         });
 
-        $(".profilePhoto").change(function (e) {
-            var ext = this.value.match(/\.(.+)$/)[1];
-            switch (ext)
-            {
-                case 'jpg':
-                case 'bmp':
-                case 'png':
-                case 'jpeg':
-                    break;
-                default:
-                    alert('Image type not allowed');
-                    this.value = '';
-            }
-        });
+        // $(".profilePhoto").change(function (e) {
+        //     var ext = this.value.match(/\.(.+)$/)[1];
+        //     switch (ext)
+        //     {
+        //         case 'jpg':
+        //         case 'bmp':
+        //         case 'png':
+        //         case 'jpeg':
+        //             break;
+        //         default:
+        //             alert('Image type not allowed');
+        //             this.value = '';
+        //     }
+        // });
 
 <?php if (isset($activityDetail->id) && $activityDetail->id != '0') { ?>
             var validationRules = {
@@ -426,9 +436,11 @@ jQuery(document).ready(function () {
 
 
     function getCredit(type) {
+        $(".size-type").hide();
         if (type == 1) {
             var configKey = 'Ads ProCoins';
             $('#ads_image_dimension').show();
+            $(".size-type").show();
         } else if (type == 2) {
             var configKey = 'Event ProCoins';
             $('#ads_image_dimension').hide();
@@ -451,6 +463,62 @@ jQuery(document).ready(function () {
                 $("#creditdeducted").val(type);
             }
         });
+
+    }
+
+    function readURL(input) {
+        var activityType = $("#type").val();
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                //var a = document.querySelector("#img-preview");
+                var a = document.querySelector(".profilePhoto");
+                if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
+                    if (activityType == 1) {
+                        var sizeType = $("#sa_size_type").val();
+                        if (sizeType == 1) {
+                            if (input.files[0].width != 343 && input.files[0].height != 400) {
+                                $(".photo-error").text("Image width must be 343px and Height 400px");
+                                $(this).val('');
+                            } else {
+                                a.style.backgroundImage = "url('" + e.target.result + "')";
+                                a.className = "upload-img activated";
+                            }
+                        } else if (sizeType == 2) {
+                            if (input.files[0].width != 343 && input.files[0].height != 800) {
+                                $(".photo-error").text("Image width must be 343px and Height 800px");
+                                $(this).val('');
+                            } else {
+                                a.style.backgroundImage = "url('" + e.target.result + "')";
+                                a.className = "upload-img activated";
+                            }
+                        } else {
+                            if (input.files[0].width != 850 && input.files[0].height != 90) {
+                                $(".photo-error").text("Image width must be 850px and Height 90px");
+                                $(this).val('');
+                            } else {
+                                a.style.backgroundImage = "url('" + e.target.result + "')";
+                                a.className = "upload-img activated";
+                            }
+                        }
+                    } else {
+                        if (input.files[0].width != 730 && input.files[0].height != 50) {
+                        $(".photo-error").text("Image width must be 730px and Height 50px");
+                            $(this).val('');
+                        } else {
+                            a.style.backgroundImage = "url('" + e.target.result + "')";
+                            // document.getElementById("#").className = "activated";
+                            a.className = "upload-img activated";
+                        }
+                    }
+                } else {
+                    $(".photo-error").text("File type not allowed");
+                    $(this).val('');
+                }
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 </script>
 @stop

@@ -3044,6 +3044,13 @@ Class Helpers {
        return intval($profileComplete);
     }
 
+    //Advertisements image size array
+    public static function adsSizeType()
+    {
+        $sizeType = array('1' => '343 X 400', '2' => '343 X 800', '3' => '850 X 90');
+        return $sizeType;
+    }
+
     public static function get_string_between($string, $start, $end){
         $string = ' ' . $string;
         $ini = strpos($string, $start);

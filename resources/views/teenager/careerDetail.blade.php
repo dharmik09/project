@@ -363,7 +363,6 @@
 @stop
 @section('script')
 <script src="{{ asset('backend/js/highchart.js')}}"></script>
-
 <script>
     $(document).ready(function() {
         $('.play-icon').click(function() {
@@ -545,7 +544,7 @@
             elseif($countryId == 2){ // United States
                 $high_school = strip_tags($high_school_req->pfic_content);
             }
-        }else{
+        } else {
             $high_school = 0;
         }
 
@@ -562,7 +561,7 @@
             elseif($countryId == 2){ // United States
                 $junior_college = strip_tags($junior_college_req->pfic_content);
             }
-        }else{
+        } else {
             $junior_college = 0;
         }
 
@@ -579,7 +578,7 @@
             elseif($countryId == 2){ // United States
                 $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
             }
-        }else{
+        } else {
             $bachelor_degree = 0;
         }
 
