@@ -87,8 +87,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/searchCommunityNewConnections', 'Webservice\CommunityController@searchCommunityNewConnections');
 	Route::post('/searchCommunityMyConnections', 'Webservice\CommunityController@searchCommunityMyConnections');
 	Route::post('/sendConnectionRequest', 'Webservice\CommunityController@sendConnectionRequest');
-	Route::post('/acceptConnectionRequest', 'Webservice\CommunityController@acceptRequest');
-	Route::post('/declineConnectionRequest', 'Webservice\CommunityController@declineRequest');
+	Route::post('/acceptDeclineConnectionRequest', 'Webservice\CommunityController@acceptDeclineConnectionRequest');
 	
 	//Interest Management
 	Route::post('/getInterestDetailPage', 'Webservice\DashboardController@getInterestDetailPage');

@@ -246,12 +246,12 @@ class CommunityController extends Controller
      *  loginToken, userId, record_id
      *  Service after loggedIn user
     */
-    public function acceptRequest(Request $request)
+    public function acceptDeclineConnectionRequest(Request $request)
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-            if($request->recordId != ""){ 
+            if($request->recordId != "" && $request->status != ""){ 
 
                 $recordId = $request->recordId;       
                 
@@ -269,57 +269,7 @@ class CommunityController extends Controller
                 }
                 elseif($checkConnectionResponse == 0)
                 {
-                    $updateResponse = $this->communityRepository->changeTeenConnectionStatusById($recordId,Config::get('constant.CONNECTION_ACCEPT_STATUS'));
-                    if($updateResponse){
-                        $response['status'] = 1;
-                        $response['message'] = trans('appmessages.default_success_msg');
-                    }
-                    else{
-                        $response['status'] = 0;
-                        $response['message'] = trans('appmessages.default_error_msg');
-                    }
-                }
-                
-                $response['login'] = 1;
-            }
-            else {
-                $response['message'] = trans('appmessages.missing_data_msg');
-            }
-
-        } else {
-            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
-        }
-        return response()->json($response, 200);
-    }
-
-    /* Request Params : declineConnectionRequest
-     *  loginToken, userId, record_id
-     *  Service after loggedIn user
-    */
-    public function declineRequest(Request $request)
-    {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        if($request->userId != "" && $teenager) {
-            if($request->recordId != ""){ 
-
-                $recordId = $request->recordId;       
-                
-                $checkConnectionResponse = $this->communityRepository->checkTeenConnectionStatusById($recordId);
-                
-                if($checkConnectionResponse == 1)
-                {
-                    $response['status'] = 0;
-                    $response['message'] = 'You have already accepted request';
-                }
-                elseif($checkConnectionResponse == 2)
-                {
-                    $response['status'] = 0;
-                    $response['message'] = 'You have already Declined request';
-                }
-                elseif($checkConnectionResponse == 0)
-                {
-                    $updateResponse = $this->communityRepository->changeTeenConnectionStatusById($recordId,Config::get('constant.CONNECTION_REJECT_STATUS'));
+                    $updateResponse = $this->communityRepository->changeTeenConnectionStatusById($recordId,$request->status);
                     if($updateResponse){
                         $response['status'] = 1;
                         $response['message'] = trans('appmessages.default_success_msg');
