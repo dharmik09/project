@@ -1140,7 +1140,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                                             where ti_icon_type = 1 AND ti_icon_id != 0 AND ti_teenager=" . $userId));
 
         $teenagerNonFictionIcon = DB::select(DB::raw("SELECT
-                                            pro_ti_teenager_icons.*,pro_hi_human_icons.hi_image as nonfiction_image,hi_name,hic_name
+                                            pro_ti_teenager_icons.*,pro_hi_human_icons.hi_image as nonfiction_image,hi_name,hic_name,hi_description
                                             FROM pro_ti_teenager_icons
                                             LEFT JOIN pro_hi_human_icons ON pro_ti_teenager_icons.ti_icon_id = pro_hi_human_icons.id
                                             LEFT JOIN pro_hi_human_icons_category ON pro_hi_human_icons_category.id = pro_hi_human_icons.hi_category

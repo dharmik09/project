@@ -346,3 +346,6 @@ ALTER TABLE `pro_ps_profession_subjects` ADD `ps_slug` VARCHAR(255) NOT NULL AFT
 
 //Added new field in cartoon icons table ## 05-02-2017
 ALTER TABLE `pro_ci_cartoon_icons` ADD `ci_description` TEXT NULL AFTER `ci_image`;
+
+//Added new field in human icons table ## 06-02-2017
+ALTER TABLE `pro_hi_human_icons` ADD `hi_description` TEXT NULL AFTER `hi_image`;

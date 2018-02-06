@@ -420,8 +420,8 @@
                     <li class="col-sm-3 col-xs-6">
                         <figure>
                             <div class="icon-img">
-                                <a href="javascript:void(0);" data-placement="bottom" title="" data-toggle="tooltip">
-                                    <img src="{{ $teenagerMyIcon }}">
+                                <a href="javascript:void(0);" data-placement="bottom" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id,!" data-toggle="tooltip">
+                                    <img src="{{ $teenagerMyIcon['iconImage'] }}">
                                 </a>
                             </div>
                         </figure>
@@ -1020,6 +1020,7 @@
         }
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
+        $('[data-toggle="tooltip"]').tooltip(); 
     });
     
     $(window).on("load", function(e) {
@@ -1742,5 +1743,6 @@
         //     }
         // });
     }
+      
 </script>
 @stop

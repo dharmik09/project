@@ -86,3 +86,9 @@
 .add-member { background-position: 0 60%; background-size: 100%; }
 .request-send-hover { background-position: 0 80%; background-size: 100%; }
 .request-send { background-position: 0 100%; background-size: 100%; }
+
+.respond-icon-hover, .respond-icon
+{ max-width: 100%; background-size: 100%; background-image: url('../img/respond.png'); }
+ 
+.respond-icon-hover { background-position: 0 0%; background-size: 100%; }
+.respond-icon { background-position: 0 100%; background-size: 100%; }
