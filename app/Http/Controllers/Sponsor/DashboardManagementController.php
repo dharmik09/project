@@ -179,6 +179,11 @@ class DashboardManagementController extends Controller
                     $imageHeight = 90;
                     break;
 
+                case '4':
+                    $imageWidth = 1200;
+                    $imageHeight = 90;
+                    break;
+
                 default:
                     $imageWidth = 730;
                     $imageHeight = 50;
@@ -209,28 +214,28 @@ class DashboardManagementController extends Controller
                 $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->saOrigionalImagePath, $pathOriginal, "s3");
                 $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->saThumbImagePath, $pathThumb, "s3");
 
-                if ($activityDetail['sa_size_type'] == 1) {
-                    $pathSmall = public_path($this->saSmallImagePath . $fileName);
-                    $smallImage = public_path($this->saSmallImagePath . $fileName); 
-                    Image::make($file->getRealPath())->resize($this->saSmallImageWidth, $this->saSmallImageHeight)->save($pathSmall);
-                    if ($hiddenLogo != '') { 
-                        $imageSmall = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->saSmallImagePath, "s3");
-                    }
-                    //Uploading on AWS
-                    $smallImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->saSmallImagePath, $pathSmall, "s3");
-                    \File::delete($this->saSmallImagePath . $fileName);
-                }
-                if ($activityDetail['sa_size_type'] == 3) {
-                    $pathBanner = public_path($this->saBannerImagePath . $fileName);
-                    $bannerImage = public_path($this->saBannerImagePath . $fileName); 
-                    Image::make($file->getRealPath())->resize($this->saBannerImageWidth, $this->saBannerImageHeight)->save($pathBanner);
-                    if ($hiddenLogo != '') { 
-                        $imageBanner = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->saBannerImagePath, "s3");
-                    }
-                    //Uploading on AWS
-                    $bannerImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->saBannerImagePath, $pathBanner, "s3");
-                    \File::delete($this->saBannerImagePath . $fileName);
-                }
+                // if ($activityDetail['sa_size_type'] == 1) {
+                //     $pathSmall = public_path($this->saSmallImagePath . $fileName);
+                //     $smallImage = public_path($this->saSmallImagePath . $fileName); 
+                //     Image::make($file->getRealPath())->resize($this->saSmallImageWidth, $this->saSmallImageHeight)->save($pathSmall);
+                //     if ($hiddenLogo != '') { 
+                //         $imageSmall = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->saSmallImagePath, "s3");
+                //     }
+                //     //Uploading on AWS
+                //     $smallImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->saSmallImagePath, $pathSmall, "s3");
+                //     \File::delete($this->saSmallImagePath . $fileName);
+                // }
+                // if ($activityDetail['sa_size_type'] == 3) {
+                //     $pathBanner = public_path($this->saBannerImagePath . $fileName);
+                //     $bannerImage = public_path($this->saBannerImagePath . $fileName); 
+                //     Image::make($file->getRealPath())->resize($this->saBannerImageWidth, $this->saBannerImageHeight)->save($pathBanner);
+                //     if ($hiddenLogo != '') { 
+                //         $imageBanner = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->saBannerImagePath, "s3");
+                //     }
+                //     //Uploading on AWS
+                //     $bannerImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->saBannerImagePath, $pathBanner, "s3");
+                //     \File::delete($this->saBannerImagePath . $fileName);
+                // }
                 \File::delete($this->saOrigionalImagePath . $fileName);
                 \File::delete($this->saThumbImagePath . $fileName);
                 $activityDetail['sa_image'] = $fileName;

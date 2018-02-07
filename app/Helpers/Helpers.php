@@ -3018,7 +3018,7 @@ Class Helpers {
     //Advertisements image size array
     public static function adsSizeType()
     {
-        $sizeType = array('1' => '343 X 400', '2' => '343 X 800', '3' => '850 X 90');
+        $sizeType = array('1' => '343 X 400', '2' => '343 X 800', '3' => '850 X 90', '4' => '1200 X 90');
         return $sizeType;
     }
 

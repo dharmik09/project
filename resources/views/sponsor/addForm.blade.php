@@ -395,6 +395,11 @@ jQuery(document).ready(function () {
                     imageHeight = 90;
                     break;
 
+                case '4':
+                    imageWidth = 1200;
+                    imageHeight = 90;
+                    break;
+
                 default:
                     imageWidth = 730;
                     imageHeight = 50;
@@ -512,6 +517,11 @@ jQuery(document).ready(function () {
 
             case '3':
                 imageWidth = 850;
+                imageHeight = 90;
+                break;
+
+            case '4':
+                imageWidth = 1200;
                 imageHeight = 90;
                 break;
 
