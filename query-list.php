@@ -350,7 +350,6 @@ ALTER TABLE `pro_ci_cartoon_icons` ADD `ci_description` TEXT NULL AFTER `ci_imag
 //Added new field in human icons table ## 06-02-2017
 ALTER TABLE `pro_hi_human_icons` ADD `hi_description` TEXT NULL AFTER `hi_image`;
 
-
 //Added new table to store max value of PROMISE parameters
 CREATE TABLE `pro_promise_parameters_max_score` (
   `id` int(10) UNSIGNED NOT NULL,
