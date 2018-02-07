@@ -469,3 +469,10 @@ Route::get('/addAppVersion', 'Admin\AppVersionManagementController@add');
 Route::post('/saveAppVersion', 'Admin\AppVersionManagementController@save');
 Route::get('/editAppVersion/{id}', 'Admin\AppVersionManagementController@edit');
 Route::get('/deleteAppVersion/{id}', 'Admin\AppVersionManagementController@delete');
+
+//Forum
+Route::get('/forumQuestions', 'Admin\ForumQuestionManagementController@index');
+Route::get('/addForumQuestion', 'Admin\ForumQuestionManagementController@add');
+Route::post('/saveForumQuestion', 'Admin\ForumQuestionManagementController@save');
+Route::get('/editForumQuestion/{id}', 'Admin\ForumQuestionManagementController@edit');
+Route::get('/deleteForumQuestion/{id}', 'Admin\ForumQuestionManagementController@delete');

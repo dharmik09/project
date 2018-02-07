@@ -735,5 +735,12 @@ return [
     'traitslblheadaction' => 'Actions',
     'level1traitdeletesuccess' => 'Level1 Trait deleted Successfully',
     'level1traitupdatesuccess' => 'Level1 Trait updated Successfully',
+    'lblforum' => 'Forum',
+    'lblenterquestion' => 'Enter Question',
+    'lblforumquestion' => 'Forum Question',
+    'lblforumanswer' => 'Forum Answer',
     'traitscompletionmessage' => 'All traits completed',
+    'forumquestionupdatesuccess' => 'Forum question updated successfully',
+    'forumquestiondeletesuccess' => 'Forum question deleted successfully',
+    'forumanswerupdatesuccess' => 'Forum Answer updated successfully',
 ];
