@@ -576,7 +576,7 @@
                                         <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
                                     </div>
                                     <div class="careers-content">
-                                        <h4><a href="{{ url('/teenager/career-detail') }}/{{$myCareer->pf_slug}}">{{ str_limit($myCareer->pf_name, $limit = 45, $end = '...') }}</a></h4>
+                                        <h4><a href="{{ url('/teenager/career-detail') }}/{{$myCareer->pf_slug}}" title="{{$myCareer->pf_name}}">{{ str_limit($myCareer->pf_name, $limit = 45, $end = '...') }}</a></h4>
                                     </div>
                                 </div>
                             </div>
