@@ -1021,6 +1021,23 @@
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
         $('[data-toggle="tooltip"]').tooltip(); 
+        
+         function equalhight() {
+                var $height = 0;
+                $(".careers-block .careers-content").each(function() {
+                    $(this).css("height", "auto");
+                    if (($(this).outerHeight()) > $height) {
+                        $height = $(this).outerHeight();
+                    }
+                });
+                $(".careers-block .careers-content").each(function() {
+                    $(this).css("height", $height);
+                });
+            }
+            equalhight();
+            $(window).resize(function() {
+                equalhight();
+            })
     });
     
     $(window).on("load", function(e) {
