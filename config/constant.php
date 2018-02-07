@@ -337,4 +337,11 @@ return [
     'PARENT_USER_TYPE_FLAG' => '2',
     'SPONSOR_USER_TYPE_FLAG' => '4',
     
+    'SA_SMALL_IMAGE_UPLOAD_PATH' => 'uploads/sponsoractivity/300_250/',
+    'SA_SMALL_IMAGE_HEIGHT' => '300',
+    'SA_SMALL_IMAGE_WIDTH' => '250',
+
+    'SA_BANNER_IMAGE_UPLOAD_PATH' => 'uploads/sponsoractivity/300_50/',
+    'SA_BANNER_IMAGE_HEIGHT' => '300',
+    'SA_BANNER_IMAGE_WIDTH' => '50',
 ];

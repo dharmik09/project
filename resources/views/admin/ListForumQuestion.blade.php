@@ -6,7 +6,8 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        {{trans('labels.lblforumanswer')}}
+        {{trans('labels.lblforumquestion')}}
+        <a href="{{ url('admin/addForumQuestion') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
     </h1>
 </section>
 
@@ -20,14 +21,11 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
-                    <h3>{{trans('labels.lblforumquestion')}}</h3>
-                    <p>{{$questionData->fq_que}}</p>
                     <table id="listLevel1Traits" class="table table-striped display" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>{{trans('labels.serialnumber')}}</th>
-                                <th>{{trans('labels.lblforumteenname')}}</th>
-                                <th>{{trans('labels.lblforumanswertime')}}</th>
+                                <th>{{trans('labels.lblforumquestion')}}</th>
                                 <th>{{trans('labels.lblforumanswer')}}</th>
                                 <th>{{trans('labels.activityblheadstatus')}}</th>
                                 <th>{{trans('labels.traitslblheadaction')}}</th>
@@ -42,30 +40,10 @@
                                     <?php echo $serialno; ?>
                                 </td>
                                 <td>
-                                    {{ucfirst($value->teenager->t_name).' '.ucfirst($value->teenager->t_lastname)}}
+                                    {{$value->fq_que}}
                                 </td>
                                 <td>
-                                    {{date('jS M Y',strtotime($value->created_at))}}
-                                </td>
-                                <td>
-                                    @if(strlen($value->fq_ans)>50)
-                                        {{substr($value->fq_ans, 0, 50) . '...'}}
-                                        <a href="#" data-toggle="modal" data-target="#forumAnswerModel{{$value->id}}">Read More</a>
-                                        <div class="modal modal-centered fade" id="forumAnswerModel{{$value->id}}" tabindex="-1" role="dialog" aria-labelledby="forumAnswerModel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h3>Forum Answer</h3>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        {{$value->fq_ans}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @else
-                                        {{$value->fq_ans}}
-                                    @endif
+                                    <a href="{{url('admin/forumAnswer').'/'.$value->id}}" target="_blank" class="btn btn-default">View Answer</a>
                                 </td>
                                 <td>
                                     @if ($value->deleted == 1)
@@ -75,11 +53,8 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($value->deleted == 1)
-                                        <a href="{{ url('/admin/changeanswerstatus').'/'.$value->id.'/'.Config::get('constant.INACTIVE_FLAG')}}" class="btn btn-block btn-danger btn-xs">{{trans('labels.lblmarkasinactive')}}</a>
-                                    @else
-                                        <a href="{{ url('/admin/changeanswerstatus').'/'.$value->id.'/'.Config::get('constant.ACTIVE_FLAG')}}" class="btn btn-block btn-success btn-xs">{{trans('labels.lblmarkasactive')}}</a>
-                                    @endif
+                                    <a href="{{ url('/admin/editForumQuestion') }}/{{$value->id}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
+                                    <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteForumQuestion') }}/{{$value->id}}"><i class="i_delete fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @empty
