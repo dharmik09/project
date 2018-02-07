@@ -426,3 +426,6 @@ ALTER TABLE `pro_promise_parameters_max_score`
 
 //Add new field in sponsor activity table ## 06-02-2017
 ALTER TABLE `pro_sa_sponsor_activity` ADD `sa_size_type` VARCHAR(255) NULL DEFAULT NULL AFTER `sa_type`;
+
+//Alter sponsor size type column datatype ## 07-02-2017
+ALTER TABLE `pro_sa_sponsor_activity` CHANGE `sa_size_type` `sa_size_type` TINYINT(1) NULL DEFAULT NULL;
