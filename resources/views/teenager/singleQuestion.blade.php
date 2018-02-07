@@ -100,39 +100,39 @@
         })
     });
 
-    // $(window).load(function() {
-    //     $('.text-overflow').each(function(index, el) {
-    //         var parent = $(el).closest('.full-text');
-    //         var btn = parent.find('.read-more');
-    //         var elementHt = parent.find('.text-full').outerHeight();
-    //         if (elementHt > 70) {
-    //             btn.addClass('less');
-    //             btn.css('display', 'block');
-    //         }
-    //         btn.click(function(e) {
-    //             e.stopPropagation();
-    //             e.preventDefault();
-    //             if ($(this).hasClass('less')) {
-    //                 $(this).removeClass('less');
-    //                 $(this).addClass('more');
-    //                 $(this).text('Read Less');
-    //                 $(this).attr('title', 'Read Less');
-    //                 var ht = $(this).closest('.full-text').find('.text-full').outerHeight();
-    //                 $(this).closest('.full-text').find('.text-overflow').animate({
-    //                     'height': ht
-    //                 });
-    //             } else {
-    //                 $(this).addClass('less');
-    //                 $(this).removeClass('more');
-    //                 $(this).text('Read More');
-    //                 $(this).attr('title', 'Read More');
-    //                 $(this).closest('.full-text').find('.text-overflow').animate({
-    //                     'height': '70px'
-    //                 });
-    //             }
-    //         });
-    //     });
-    // });
+    function readMoreLess(){
+        $('.text-overflow').each(function(index, el) {
+            var parent = $(el).closest('.full-text');
+            var btn = parent.find('.read-more');
+            var elementHt = parent.find('.text-full').outerHeight();
+            if (elementHt > 70) {
+                btn.addClass('less');
+                btn.css('display', 'block');
+            }
+            btn.click(function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                if ($(this).hasClass('less')) {
+                    $(this).removeClass('less');
+                    $(this).addClass('more');
+                    $(this).text('Read Less');
+                    $(this).attr('title', 'Read Less');
+                    var ht = $(this).closest('.full-text').find('.text-full').outerHeight();
+                    $(this).closest('.full-text').find('.text-overflow').animate({
+                        'height': ht
+                    });
+                } else {
+                    $(this).addClass('less');
+                    $(this).removeClass('more');
+                    $(this).text('Read More');
+                    $(this).attr('title', 'Read More');
+                    $(this).closest('.full-text').find('.text-overflow').animate({
+                        'height': '70px'
+                    });
+                }
+            });
+        });
+    }
     
     function checkAnswerEntered() {
         var answer = $('#answer').val();
@@ -167,6 +167,7 @@
                 }
                 $("#answerList").append(response.answers);
                 $("#loader_con").html('');
+                readMoreLess();
             }
         });
     }
