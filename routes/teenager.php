@@ -135,3 +135,6 @@ Route::get('/payment', 'Teenager\CoinManagementController@payment');
 
 //L3
 Route::post('/teen-l3-career-research', 'Teenager\Level3ActivityController@level3CareerResearch');
+
+//Level 4 question answer related routes
+Route::post('/play-basic-level-activity', 'Teenager\Level4ActivityController@professionBasicQuestion');

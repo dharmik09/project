@@ -207,7 +207,7 @@ class DashboardController extends Controller
                     $interest = $this->objInterest->getInterestDetailBySlug($request->interestSlug);
                     if ($interest) {
                         $interestThumbImageUploadPath = $this->interestThumbImageUploadPath;
-                        $interest->it_video = ($interest->it_video != "") ? Helpers::youtube_id_from_url($interest->it_video) : "";
+                        $interest->it_video = ($interest->it_video != "") ? Helpers::youtube_id_from_url($interest->it_video) : "WoelVRjFO4A";
                         $data['id'] = $interest->id;
                         $data['title'] = $interest->it_name;
                         $data['slug'] = $interest->it_slug;
@@ -260,6 +260,7 @@ class DashboardController extends Controller
             if($request->strengthType != "" && $request->strengthSlug != "") {
                 $getStrengthTypeRelatedInfo = Helpers::getStrengthTypeRelatedInfo($request->strengthType, $request->strengthSlug);
                 $getStrengthTypeRelatedInfo['details'] = $getStrengthTypeRelatedInfo['description'];
+                $getStrengthTypeRelatedInfo['video'] = (!empty($getStrengthTypeRelatedInfo['video'])) ? $getStrengthTypeRelatedInfo['video'] : "WoelVRjFO4A";
                 unset($getStrengthTypeRelatedInfo['description']);
                 $data = $getStrengthTypeRelatedInfo;
                 $response['message'] = trans('appmessages.default_success_msg');

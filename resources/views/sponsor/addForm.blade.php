@@ -78,12 +78,12 @@
                                 @endif
                                <input type="text" id="type" name="type_name" value="{{$value}}" class="cst_input_primary" readonly="readonly">
                             @endif
-                            <div class="size-type select-style" style="display: none;">
+                            <div class="size-type select-style">
                                 <select class="" id="sa_size_type" name="sa_size_type">
                                     <?php $sizeList = Helpers::adsSizeType(); ?>
                                     <option value="">Select Image Size</option>
                                     <?php foreach ($sizeList as $key => $val) { ?>
-                                        <option value="{{$key}}">{{$val}}</option>
+                                        <option value="{{$key}}" <?php if (!empty($activityDetail) && $key == $activityDetail->sa_size_type) { ?> selected <?php } ?> >{{$val}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -93,7 +93,7 @@
                             <div class="sponsor_detail">
                                 <div class="">
                                     
-                                    <span>(The size of the image must be 730 x 50 pixels.)</span>
+                                    <!-- <span>(The size of the image must be 730 x 50 pixels.)</span> -->
                                     <div class="sponsor_image">
                                         <div class="upload_image">
                                             <?php
@@ -333,7 +333,6 @@ $("#startdate").datepicker({
     var imageWidth = 730;
     var imageHeight = 50;
 jQuery(document).ready(function () {
-        
         $('#creditdeducted').keypress(function () {
             return false;
         });
@@ -377,6 +376,30 @@ jQuery(document).ready(function () {
                     required: true
                 }
             }
+            $('.size-type').show();
+            $('#sa_size_type option:not(:selected)').attr("disabled", true); 
+            var sa_size_type = $('#sa_size_type').val();
+            switch (sa_size_type) {
+                case '1':
+                    imageWidth = 343;
+                    imageHeight = 400;
+                    break;
+
+                case '2':
+                    imageWidth = 343;
+                    imageHeight = 800;
+                    break;
+
+                case '3':
+                    imageWidth = 850;
+                    imageHeight = 90;
+                    break;
+
+                default:
+                    imageWidth = 730;
+                    imageHeight = 50;
+                    break;
+            }
 <?php } else { ?>
             var validationRules = {
                 type: {
@@ -404,6 +427,7 @@ jQuery(document).ready(function () {
                     url: true
                 }
             }
+            $('.size-type').hide(); 
 <?php } ?>
         $("#addActivity").validate({
             rules: validationRules,

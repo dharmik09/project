@@ -350,7 +350,6 @@ ALTER TABLE `pro_ci_cartoon_icons` ADD `ci_description` TEXT NULL AFTER `ci_imag
 //Added new field in human icons table ## 06-02-2017
 ALTER TABLE `pro_hi_human_icons` ADD `hi_description` TEXT NULL AFTER `hi_image`;
 
-
 //Added new table to store max value of PROMISE parameters
 CREATE TABLE `pro_promise_parameters_max_score` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -427,3 +426,6 @@ ALTER TABLE `pro_promise_parameters_max_score`
 
 //Add new field in sponsor activity table ## 06-02-2017
 ALTER TABLE `pro_sa_sponsor_activity` ADD `sa_size_type` VARCHAR(255) NULL DEFAULT NULL AFTER `sa_type`;
+
+//Alter sponsor size type column datatype ## 07-02-2017
+ALTER TABLE `pro_sa_sponsor_activity` CHANGE `sa_size_type` `sa_size_type` TINYINT(1) NULL DEFAULT NULL;
