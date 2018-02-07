@@ -85,16 +85,15 @@ class ForumController extends Controller {
     {
         $loggedInTeen = Auth::guard('teenager')->user();
         $data = [];
-        $data['id'] = e(Input::get('id'));
         $data['fq_ans'] = e(Input::get('answer'));
         $data['fq_que_id'] = e(Input::get('queId'));
         $data['fq_teenager_id'] = $loggedInTeen->id;
 
         $response = $this->objForumAnswers->insertUpdate($data);
         if ($response) {
-             return Redirect::to("teenager/fetch-question/".Crypt::encrypt($data['fq_que_id']))->with('success',trans('labels.forumanswerupdatesuccess'));
+             return Redirect::to("teenager/forum-question/".Crypt::encrypt($data['fq_que_id']))->with('success',trans('labels.forumanswerupdatesuccess'));
         } else {
-            return Redirect::to("teenager/fetch-question/".Crypt::encrypt($data['fq_que_id']))->with('error', trans('labels.commonerrormessage'));
+            return Redirect::to("teenager/forum-question/".Crypt::encrypt($data['fq_que_id']))->with('error', trans('labels.commonerrormessage'));
         } 
     }
 

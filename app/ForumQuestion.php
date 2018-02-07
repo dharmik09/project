@@ -66,6 +66,7 @@ class ForumQuestion extends Model
                                 ->skip($skip)
                                 ->take($limit)
                                 ->where('deleted',Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('id','DESC')
                                 ->get();
         return $return;
     }
