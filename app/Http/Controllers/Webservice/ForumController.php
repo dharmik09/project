@@ -22,7 +22,7 @@ class ForumController extends Controller {
     	$this->teenagersRepository = $teenagersRepository;
         $this->objForumQuestion = new ForumQuestion();
         $this->objForumAnswers = new ForumAnswers();
-        $this->log = new Logger('api-level1-activity-controller');
+        $this->log = new Logger('api-forum-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
     }
 
@@ -80,7 +80,7 @@ class ForumController extends Controller {
     public function getForumQuestionByQuestionIdPageWise(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getForumQuestion'));
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getForumAnswer'));
         if($request->userId != "" && $teenager) {
             if($request->queId != "" && $teenager) {
 	            $record = 0;
@@ -125,9 +125,44 @@ class ForumController extends Controller {
 	        	$response['message'] = trans('appmessages.missing_data_msg');
 	        }
 
-            $this->log->info('Response for fetch Forum Question page wise' , array('api-name'=> 'getForumQuestion'));
+            $this->log->info('Response for fetch Forum Question\'s answer page wise' , array('api-name'=> 'getForumAnswer'));
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'getForumQuestion'));
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getForumAnswer'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+    }
+
+    public function saveForumQuestionByQuestionId(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'saveForumAnswer'));
+        if($request->userId != "" && $teenager) {
+            if($request->queId != "" && $request->answer != "") {
+
+            	$answerData['fq_ans'] = $request->answer;
+            	$answerData['fq_que_id'] = $request->queId;
+            	$answerData['fq_teenager_id'] = $teenager->id;
+	            
+	            $data = $this->objForumAnswers->insertUpdate($answerData);            
+	            if($data){
+	                $response['status'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                }
+                else{
+                    $response['status'] = 0;
+                    $response['message'] = trans('appmessages.default_error_msg');
+                }
+	            $response['login'] = 1;
+	        }
+	        else
+	        {
+	        	$response['message'] = trans('appmessages.missing_data_msg');
+	        }
+
+            $this->log->info('Response for Forum Question\'s Answer save or not' , array('api-name'=> 'saveForumAnswer'));
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'saveForumAnswer'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);

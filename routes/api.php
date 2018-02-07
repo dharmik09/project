@@ -149,6 +149,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//Forum
 	Route::post('/getForumQuestion', 'Webservice\ForumController@getForumQuestionPageWise');
 	Route::post('/getForumAnswer', 'Webservice\ForumController@getForumQuestionByQuestionIdPageWise');
+	Route::post('/saveForumAnswer', 'Webservice\ForumController@saveForumQuestionByQuestionId');
 	
 
 });
