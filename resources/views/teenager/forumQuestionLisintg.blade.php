@@ -123,6 +123,10 @@
                 else{
                     $('#pageNo').val(response.pageNo);
                 }
+                if(response.questions.length < 1){
+                    $("#questionList").append('<div class="sec-forum"><span>No question found</span></div>');
+                    $('#loadMoreButton').html("");
+                }
                 $("#questionList").append(response.questions);
                 $("#loader_con").html('');
                 readMoreLess();
