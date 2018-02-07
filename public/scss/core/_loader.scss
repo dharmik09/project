@@ -240,23 +240,68 @@
     text-align: center;
     margin-bottom: 7px;
 }
+@-moz-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -moz-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -moz-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+  60% {
+    -moz-transform: translateY(-15px);
+    transform: translateY(-15px);
+  }
+}
+@-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -webkit-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+  60% {
+    -webkit-transform: translateY(-15px);
+    transform: translateY(-15px);
+  }
+}
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40% {
+    -moz-transform: translateY(-30px);
+    -ms-transform: translateY(-30px);
+    -webkit-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+  60% {
+    -moz-transform: translateY(-15px);
+    -ms-transform: translateY(-15px);
+    -webkit-transform: translateY(-15px);
+    transform: translateY(-15px);
+  }
+}
 .back-to-top {
     position: fixed;
     bottom: 20px;
     display: block;
     right: 20px;
-    background: $i-cl;
-    color: $white;
-    font-size: 40px;
     cursor: pointer;
     display: none;
-    padding: 0px 12px;
-    line-height: 45px;
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    &:hover{
-        background: $h-cl;
-        color: $white;
+    width: 55px;
+    height: 55px;
+    @include maxsm {
+        width: 40px;
+        height: 40px;
+    }
+    &:hover {
+  animation: bounce 1s infinite;
     }
 }

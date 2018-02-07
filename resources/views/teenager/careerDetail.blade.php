@@ -312,16 +312,20 @@
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion1">
                                         <div class="panel-body">
-                                            @foreach($teenagerStrength as $key => $value)
+                                            @forelse($teenagerStrength as $key => $value)
                                                 <div class="progress-block">
                                                     <div class="skill-name">{{$value['name']}}</div>
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-primary" role="progressbar" data-width="{{$value['score']}}">
                                                         </div>
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%; background-color:#65c6e6;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$value['lowscoreH']}}%; background-color:#65c6e6;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            @empty
+                                            <div class="progress-block">
+                                                Please attempt at least one section of Profile Builder to view your strength Advanced View!
+                                            </div>
+                                            @endforelse
                                         </div>
                                     </div>
                                 </div>

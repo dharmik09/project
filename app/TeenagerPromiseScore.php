@@ -44,4 +44,10 @@ class TeenagerPromiseScore extends Model {
         }
         return $teenDetails;
     }
+    
+    public function getTeenagerPromiseScore($teenagerId) 
+    {
+        $findData = TeenagerPromiseScore::where('teenager_id', $teenagerId)->first();       
+        return $findData;
+    }
 }

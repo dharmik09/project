@@ -17,6 +17,8 @@ use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Redirect;
 use Response;
 use Storage;
+use App\TeenagerPromiseScore;
+use App\PromiseParametersMaxScore;
 
 class HomeController extends Controller
 {
@@ -41,6 +43,8 @@ class HomeController extends Controller
         $this->objFAQ = new FAQ;
         $this->faqThumbImageUploadPath = Config::get('constant.FAQ_THUMB_IMAGE_UPLOAD_PATH');
         $this->objVideo = new Video();
+        $this->objTeenagerPromiseScore = new TeenagerPromiseScore();
+        $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
     }
 
     /**
@@ -119,24 +123,39 @@ class HomeController extends Controller
     public function getInterestDetail(Request $request) {
         $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->teenagerId);
-        if($teenager) {
-            $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
-            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->teenagerId);
-            $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
-            $teenagerInterest = [];
-            
-            foreach($teenagerInterestArr as $interestKey => $interestVal){
-                if ($interestVal < 1) { 
-                    continue; 
-                } else {
-                    $itName = Helpers::getInterestBySlug($interestKey);
-                    $teenItScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['interest'][$interestKey], $interestVal);
-                    $teenagerInterest[$interestKey] = (array('type' => 'interest', 'score' => $teenItScore, 'slug' => $interestKey, 'link' => url('teenager/interest/').'/'.$interestKey, 'name' => $itName));
+        if($teenager) 
+        {            
+            $teenagerInterest = $arraypromiseParametersMaxScoreBySlug = [];                        
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+            }            
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($request->teenagerId);
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
+            {
+                $teenPromiseScore = $teenPromiseScore->toArray();                                
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+                {                 
+                    $arr = explode("_", $paramkey);
+                    $first = $arr[0];
+                    if ($first == 'it')
+                    {
+                        if($paramvalue < 1)
+                        {
+                            continue;
+                        }
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerInterest[$paramkey] = (array('type' => 'interest', 'score' => $teenAptScore, 'slug' => $paramkey, 'link' => url('teenager/interest/').'/'.$paramkey, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name']));
+                    }
                 }
+            }else{
+                $response['message'] = "Please attemp atleast one section of Profile Builder to view your strength!";
             }
-            
             return view('teenager.basic.myInterest', compact('teenagerInterest'));
-            exit;
+            exit;                        
         } else {
             $response['message'] = "Something went wrong!";
         }
@@ -149,36 +168,39 @@ class HomeController extends Controller
     */
     public function getStrengthDetail(Request $request) {
         $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-        $teenager = $this->teenagersRepository->getTeenagerById($request->teenagerId);
+        $teenager = $this->teenagersRepository->getTeenagerById($request->teenagerId);        
+  
         if($teenager) {
-            $teenagerStrength = [];
+            $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
             
-            $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
-            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($request->teenagerId);
-            //Apptitude Array
-            $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
-            $finalTeenagerAptitude = [];
-            foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
-                $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-                $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
-                $teenagerStrength[] = (array('slug' => $apptitudeKey, 'score' => $teenAptScore, 'points' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeKey));
-            }
-            //Personality Array
-            $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
-            $finalTeenagerPersonality = [];
-            foreach($teenagerPersonality as $personalityKey => $personalityVal) {
-                $ptName = Helpers::getPersonalityBySlug($personalityKey);
-                $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
-                $teenagerStrength[] = (array('slug' => $personalityKey, 'score' => $teenPtScore, 'points' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityKey));
-            }
-            //MI Array
-            $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
-            foreach($teenagerMI as $miKey => $miVal) {
-                $mitName = Helpers::getMIBySlug($miKey);
-                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
-                $teenagerStrength[] = (array('slug' => $miKey, 'score' => $teenMIScore, 'points' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
             }
             
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($request->teenagerId);
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
+            {
+                $teenPromiseScore = $teenPromiseScore->toArray();                
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+                {                    
+                    if (strpos($paramkey, 'apt_') !== false) {                       
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey));
+                    }elseif(strpos($paramkey, 'pt_') !== false){
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey));
+                    }elseif(strpos($paramkey, 'mit_') !== false){
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey));
+                    }
+                }
+            }else{
+                $response['message'] = "Please attemp atleast one section of Profile Builder to view your strength!";
+            }
             return view('teenager.basic.myStrength', compact('teenagerStrength'));
             exit;
         } else {
