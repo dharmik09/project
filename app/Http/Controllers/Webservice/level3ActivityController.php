@@ -646,7 +646,7 @@ class level3ActivityController extends Controller {
                             else{
                                 $data['ps_image'] = Storage::url($this->professionSubjectImagePath . $this->professionDefaultProteenImage);
                             }
-                            
+                            $data['ps_type'] = Config::get('constant.INTEREST_TYPE');   
                             $subjects[] = $data;
                         }
                     }
