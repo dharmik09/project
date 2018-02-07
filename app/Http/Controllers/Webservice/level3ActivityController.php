@@ -637,17 +637,20 @@ class level3ActivityController extends Controller {
                     $subjects = [];
                     if(count($professionsData->professionSubject)>0){
                         foreach ($professionsData->professionSubject as $key => $value){
-                            $data = [];
-                            
-                            $data = $value->subject;
-                            if($value->subject['ps_image'] != '' && Storage::size($this->professionSubjectImagePath . $value->subject['ps_image']) > 0){
-                                $data['ps_image'] = Storage::url($this->professionSubjectImagePath . $value->subject['ps_image']);
+                            if($value->parameter_grade == 'M' || $value->parameter_grade == 'H')
+                            {
+                                $subjectData = [];
+                                
+                                $subjectData = $value->subject;
+                                if($value->subject['ps_image'] != '' && Storage::size($this->professionSubjectImagePath . $value->subject['ps_image']) > 0){
+                                    $subjectData['ps_image'] = Storage::url($this->professionSubjectImagePath . $value->subject['ps_image']);
+                                }
+                                else{
+                                    $subjectData['ps_image'] = Storage::url($this->professionSubjectImagePath . $this->professionDefaultProteenImage);
+                                }
+                                $subjectData['ps_type'] = Config::get('constant.INTEREST_TYPE');   
+                                $subjects[] = $subjectData;
                             }
-                            else{
-                                $data['ps_image'] = Storage::url($this->professionSubjectImagePath . $this->professionDefaultProteenImage);
-                            }
-                            $data['ps_type'] = Config::get('constant.INTEREST_TYPE');   
-                            $subjects[] = $data;
                         }
                     }
                     $professionsData->subjects = $subjects;
