@@ -280,10 +280,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ad-sec-h">
-                            <div class="t-table">
-                                <div class="table-cell">
-                                    Ad 850 x 90
+                        <div class="ad-slider owl-carousel">
+                            <div class="ad-sec-h">
+                                <div class="t-table">
+                                    <div class="table-cell">
+                                        Ad 850 x 90
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -354,17 +356,21 @@
                                 @endforelse
                             </ul>
                         </div>
-                        <div class="ad-v">
-                            <div class="t-table">
-                                <div class="table-cell">
-                                    Ad 343 x 400
+                        <div class="ad-slider owl-carousel">
+                            <div class="ad-v">
+                                <div class="t-table">
+                                    <div class="table-cell">
+                                        Ad 343 x 400
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="ad-v-2">
-                            <div class="t-table">
-                                <div class="table-cell">
-                                    Ad 343 x 800
+                        <div class="ad-slider owl-carousel">
+                            <div class="ad-v-2">
+                                <div class="t-table">
+                                    <div class="table-cell">
+                                        Ad 343 x 800
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -755,7 +761,15 @@
         $('.sec-hide').removeClass('active');
         $('#basicLevelData').html('');
     });
-    
+    $('.ad-slider').owlCarousel({
+        loop: true,
+        margin: 10,
+        items: 1,
+        nav: false,
+        dots: false,
+        smartSpeed: 500,
+        autoplay:true,
+    });
 </script>
 
 @stop
