@@ -49,11 +49,11 @@ class Sponsors extends Authenticatable {
     {
         $ads = DB::table('pro_sa_sponsor_activity')
               ->join(Config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor", 'pro_sa_sponsor_activity.sa_sponsor_id', '=', 'sponsor.id')
-              ->selectRaw('pro_sa_sponsor_activity.id,pro_sa_sponsor_activity.sa_image,sponsor.sp_company_name,pro_sa_sponsor_activity.sa_image_href')
-              ->whereRaw('pro_sa_sponsor_activity.deleted = 1')
-              ->whereRaw('pro_sa_sponsor_activity.sa_start_date <= "'.date('Y-m-d').'"')
-              ->whereRaw('pro_sa_sponsor_activity.sa_end_date >= "'.date('Y-m-d').'"')
-              ->whereIn('pro_sa_sponsor_activity.sa_sponsor_id',$sponsorArr)
+              ->selectRaw('pro_sa_sponsor_activity.*')
+              ->where('pro_sa_sponsor_activity.deleted', 1)
+              ->where('pro_sa_sponsor_activity.sa_start_date', '<=', date('Y-m-d'))
+              ->where('pro_sa_sponsor_activity.sa_end_date', '>=', date('Y-m-d'))
+              ->whereIn('pro_sa_sponsor_activity.sa_sponsor_id', $sponsorArr)
               ->get();
         return $ads; 
     }

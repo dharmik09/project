@@ -23,10 +23,11 @@ use Request;
 use App\StarRatedProfession; 
 use App\TeenagerPromiseScore;
 use App\PromiseParametersMaxScore;
+use App\Services\Teenagers\Contracts\TeenagersRepository;
 
 class ProfessionController extends Controller {
 
-    public function __construct(ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository) 
+    public function __construct(ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository, TeenagersRepository $teenagersRepository) 
     {
         $this->professionsRepository = $professionsRepository;
         $this->baskets = new Baskets();
@@ -42,6 +43,7 @@ class ProfessionController extends Controller {
         $this->personalityThumb = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
         $this->objTeenagerPromiseScore = new TeenagerPromiseScore();
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
+        $this->teenagersRepository = $teenagersRepository;
     }
 
     public function listIndex(){
@@ -314,7 +316,28 @@ class ProfessionController extends Controller {
             }
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
-        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath','teenagerStrength'));
+        $adsDetails = Helpers::getAds($user->id);
+        $mediumAdImages = [];
+        $largeAdImages = [];
+        $bannerAdImages = [];
+        if (isset($adsDetails) && !empty($adsDetails)) {
+            foreach ($adsDetails as $ad) {
+                switch ($ad['sizeType']) {
+                    case '1':
+                        $mediumAdImages[] = $ad;
+                        break;
+
+                    case '2':
+                        $largeAdImages[] = $ad;
+                        break; 
+
+                    case '3':
+                        $bannerAdImages[] = $ad;
+                        break;
+                };
+            }
+        }
+        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages'));
     }
 
     public function getTeenagerWhoStarRatedCareer()

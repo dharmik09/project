@@ -281,13 +281,21 @@
                             </div>
                         </div>
                         <div class="ad-slider owl-carousel">
+                            @forelse ($bannerAdImages as $bannerAdImage)
+                            <div class="ad-sec-h">
+                                <div class="t-table">
+                                    <img src="{{$bannerAdImage['image']}}">
+                                </div>
+                            </div>
+                            @empty
                             <div class="ad-sec-h">
                                 <div class="t-table">
                                     <div class="table-cell">
-                                        Ad 850 x 90
+                                        No Ads available
                                     </div>
                                 </div>
                             </div>
+                            @endforelse
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -357,22 +365,38 @@
                             </ul>
                         </div>
                         <div class="ad-slider owl-carousel">
+                            @forelse ($mediumAdImages as $mediumAdImage)
+                            <div class="ad-v">
+                                <div class="t-table">
+                                    <img src="{{$mediumAdImage['image']}}">
+                                </div>
+                            </div>
+                            @empty
                             <div class="ad-v">
                                 <div class="t-table">
                                     <div class="table-cell">
-                                        Ad 343 x 400
+                                        No Ads available
                                     </div>
                                 </div>
                             </div>
+                            @endforelse
                         </div>
                         <div class="ad-slider owl-carousel">
+                            @forelse ($largeAdImages as $largeAdImage)
+                            <div class="ad-v-2">
+                                <div class="t-table">
+                                    <img src="{{$largeAdImage['image']}}">
+                                </div>
+                            </div>
+                            @empty
                             <div class="ad-v-2">
                                 <div class="t-table">
                                     <div class="table-cell">
-                                        Ad 343 x 800
+                                        No Ads available
                                     </div>
                                 </div>
                             </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
