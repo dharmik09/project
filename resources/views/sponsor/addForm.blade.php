@@ -78,20 +78,21 @@
                                 @endif
                                <input type="text" id="type" name="type_name" value="{{$value}}" class="cst_input_primary" readonly="readonly">
                             @endif
+                            <div class="size-type select-style" style="display: none;">
+                                <select class="" id="sa_size_type" name="sa_size_type">
+                                    <?php $sizeList = Helpers::adsSizeType(); ?>
+                                    <option value="">Select Image Size</option>
+                                    <?php foreach ($sizeList as $key => $val) { ?>
+                                        <option value="{{$key}}">{{$val}}</option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-1 col-sm-2 input_title"><span></span></div>
                         <div class="col-md-5 col-sm-4 u_image">
                             <div class="sponsor_detail">
                                 <div class="">
-                                    <div class="size-type" style="display: none;">
-                                        <select class="select-style" id="sa_size_type" name="sa_size_type">
-                                            <?php $sizeList = Helpers::adsSizeType(); ?>
-                                            <option value="">Select</option>
-                                            <?php foreach ($sizeList as $key => $val) { ?>
-                                                <option value="{{$key}}">{{$val}}</option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
+                                    
                                     <span>(The size of the image must be 730 x 50 pixels.)</span>
                                     <div class="sponsor_image">
                                         <div class="upload_image">
@@ -103,7 +104,7 @@
                                                 $image = Storage::url($uploadSAOrigionalPath . 'proteen-logo.png');
                                             }
                                             ?>    
-                                            <input type='file' name="sa_image" onchange="readURL(this);" class="profilePhoto" accept=".png, .jpg, .jpeg, .bmp"/>                                            
+                                            <input type='file' name="sa_image" onchange="readImageURL(this);" class="profilePhoto" accept=".png, .jpg, .jpeg, .bmp"/>                                            
                                             <div class="placeholder_image sponsor update_profile full_width">
                                                 <span>
                                                     <?php if (!empty($image)) { ?>
@@ -183,7 +184,7 @@
                                 <input type="text" name="location" class="cst_input_primary" placeholder="Please enter location" value="{{$sa_location}}">
                             </div>
                         </div>
-                        <div class="clearfix start_end_date right">
+                        <div class="clearfix start_end_date right" style="margin-top: 10px;">
                             <div class="col-md-2 col-sm-4 input_title"><span>Enter URL</span></div>
                             <div class="col-md-10 col-sm-8">      
                                 <input type="text" name="image_href" id="image_href" class="cst_input_primary" placeholder="Your HTML link for users to connect" value="{{$sa_image_href}}">
@@ -329,8 +330,10 @@ $("#startdate").datepicker({
         }
     });
  <?php }?>
-
+    var imageWidth = 730;
+    var imageHeight = 50;
 jQuery(document).ready(function () {
+        
         $('#creditdeducted').keypress(function () {
             return false;
         });
@@ -437,6 +440,9 @@ jQuery(document).ready(function () {
 
     function getCredit(type) {
         $(".size-type").hide();
+        $(".photo-error").text("");
+        $(".profilePhoto").val("");
+        $(".upload_image").css("background-image", "none");
         if (type == 1) {
             var configKey = 'Ads ProCoins';
             $('#ads_image_dimension').show();
@@ -466,50 +472,57 @@ jQuery(document).ready(function () {
 
     }
 
-    function readURL(input) {
-        var activityType = $("#type").val();
+    $("#sa_size_type").change(function() {
+        var sizeType = $(this).val();
+        $(".upload_image").css("background-image", "none");
+        switch (sizeType) {
+            case '1':
+                imageWidth = 343;
+                imageHeight = 400;
+                break;
+
+            case '2':
+                imageWidth = 343;
+                imageHeight = 800;
+                break;
+
+            case '3':
+                imageWidth = 850;
+                imageHeight = 90;
+                break;
+
+            default:
+                imageWidth = 730;
+                imageHeight = 50;
+                break;
+        }
+    });
+        
+
+    function readImageURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                //var a = document.querySelector("#img-preview");
-                var a = document.querySelector(".profilePhoto");
+                var a = document.querySelector(".upload_image");
                 if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
-                    if (activityType == 1) {
-                        var sizeType = $("#sa_size_type").val();
-                        if (sizeType == 1) {
-                            if (input.files[0].width != 343 && input.files[0].height != 400) {
-                                $(".photo-error").text("Image width must be 343px and Height 400px");
-                                $(this).val('');
-                            } else {
-                                a.style.backgroundImage = "url('" + e.target.result + "')";
-                                a.className = "upload-img activated";
-                            }
-                        } else if (sizeType == 2) {
-                            if (input.files[0].width != 343 && input.files[0].height != 800) {
-                                $(".photo-error").text("Image width must be 343px and Height 800px");
-                                $(this).val('');
-                            } else {
-                                a.style.backgroundImage = "url('" + e.target.result + "')";
-                                a.className = "upload-img activated";
-                            }
-                        } else {
-                            if (input.files[0].width != 850 && input.files[0].height != 90) {
-                                $(".photo-error").text("Image width must be 850px and Height 90px");
-                                $(this).val('');
-                            } else {
-                                a.style.backgroundImage = "url('" + e.target.result + "')";
-                                a.className = "upload-img activated";
-                            }
-                        }
+                    if (input.files[0].size > 3000000) {
+                        $(".photo-error").text("File size is too large. Maximum 3MB allowed");
+                        $(this).val('');
                     } else {
-                        if (input.files[0].width != 730 && input.files[0].height != 50) {
-                        $(".photo-error").text("Image width must be 730px and Height 50px");
-                            $(this).val('');
-                        } else {
-                            a.style.backgroundImage = "url('" + e.target.result + "')";
-                            // document.getElementById("#").className = "activated";
-                            a.className = "upload-img activated";
-                        }
+                        var activityType = $("#type").val();
+                        var image = new Image();
+                        image.src = e.target.result;
+                        image.onload = function() {
+                            if ((this.height !== imageHeight) || (this.width !== imageWidth)) {
+                                $(".photo-error").text("Image width must be " + imageWidth + "px and Height " + imageHeight + "px");
+                                $(this).val('');
+                                a.style.backgroundImage = "";
+                            } else {
+                                a.style.backgroundImage = "url('" + e.target.result + "')";
+                                a.className = "upload_image activated";
+                                $(".photo-error").text("");
+                            }
+                        };
                     }
                 } else {
                     $(".photo-error").text("File type not allowed");
@@ -520,5 +533,7 @@ jQuery(document).ready(function () {
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+
 </script>
 @stop

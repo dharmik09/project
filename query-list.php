@@ -425,4 +425,5 @@ ALTER TABLE `pro_promise_parameters_max_score`
 ALTER TABLE `pro_promise_parameters_max_score`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
-//  
+//Add new field in sponsor activity table ## 06-02-2017
+ALTER TABLE `pro_sa_sponsor_activity` ADD `sa_size_type` VARCHAR(255) NULL DEFAULT NULL AFTER `sa_type`;
