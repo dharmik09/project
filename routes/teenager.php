@@ -138,3 +138,10 @@ Route::post('/teen-l3-career-research', 'Teenager\Level3ActivityController@level
 
 //Level 4 question answer related routes
 Route::post('/play-basic-level-activity', 'Teenager\Level4ActivityController@professionBasicQuestion');
+
+//Forum Module
+Route::get('/forum-questions', 'Teenager\ForumController@index');
+Route::post('/fetch-page-wise-forum-questions', 'Teenager\ForumController@getIndex');
+Route::get('/fetch-question/{id}', 'Teenager\ForumController@getQuestionByQuestionId');
+Route::post('/fetch-question-answer', 'Teenager\ForumController@getAnswerByQuestionId');
+Route::post('/save-forum-answer', 'Teenager\ForumController@saveForumAnswer');
