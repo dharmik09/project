@@ -160,8 +160,19 @@ class DashboardController extends Controller
                 $careerConsideration = $notSetArray;
             }
         }
-
-        return view('teenager.home', compact('basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers'));
+        $adsDetails = Helpers::getAds($user->id);
+        $advertisements = [];
+        foreach ($adsDetails as $ad) {
+            if ($ad['sizeType'] == 4) {
+                if ($ad['image'] != '') {
+                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ad['image']);
+                } else {
+                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                }
+                $advertisements[] = $ad;
+            } 
+        }
+        return view('teenager.home', compact('basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers', 'advertisements'));
     }
 
     //Update meta information for teenager

@@ -241,6 +241,23 @@
                 </div>
             </div>
             <!-- Row End -->
+            <div class="ad-slider owl-carousel">
+                @forelse ($advertisements as $ad)
+                <div class="ad-sec-h">
+                    <div class="t-table">
+                        <img src="{{$ad['image']}}">
+                    </div>
+                </div>
+                @empty
+                <div class="ad-sec-h">
+                    <div class="t-table">
+                        <div class="table-cell">
+                            No Ads available
+                        </div>
+                    </div>
+                </div>
+                @endforelse
+            </div>
         </div>
     </div>
     <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
@@ -509,5 +526,15 @@
             }
         });
     } 
+
+    $('.ad-slider').owlCarousel({
+        loop: true,
+        margin: 10,
+        items: 1,
+        nav: false,
+        dots: false,
+        smartSpeed: 500,
+        autoplay:true,
+    });
 </script>
 @stop
