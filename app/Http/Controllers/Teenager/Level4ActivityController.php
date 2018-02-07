@@ -45,8 +45,14 @@ class Level4ActivityController extends Controller {
                 $activity = [];
                 $timer = 0;
             }
-            
-            return view('teenager.basic.careerBasicQuizSection', compact('activity', 'timer', 'professionId'));
+
+            $response = [];
+            $response['data'] = $activity;
+            $response['timer'] = $timer;
+            $response['professionId'] = $professionId;
+            $response['status'] = 1;
+                        
+            return view('teenager.basic.careerBasicQuizSection', compact('response'));
         }
         $response['status'] = 0;
         $response['message'] = "Something went wrong!";

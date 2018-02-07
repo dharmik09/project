@@ -474,7 +474,7 @@ h6 {
     .quiz-ans {
         padding-left: 86px;
         @include maxlg {
-            padding-left: 70px;
+            padding-left: 15px;
         }
         @include maxms {
             padding-left: 10px;
@@ -514,7 +514,7 @@ h6 {
             color: $p-cl;
             font-size: 90px;
             transform: rotate(50deg);
-            @include maxms{
+            @include maxsm{
                 font-size: 80px;
             }
             i{
