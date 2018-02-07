@@ -52,6 +52,7 @@
             </div>
         </nav>
         @yield('content')
+        <a class="back-to-top" href="#" title="Back to top"><i class="fa fa-angle-up"><!-- --></i></a>
         <footer>
             <div class="container">
                 <div class="left">

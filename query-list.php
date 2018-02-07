@@ -350,5 +350,80 @@ ALTER TABLE `pro_ci_cartoon_icons` ADD `ci_description` TEXT NULL AFTER `ci_imag
 //Added new field in human icons table ## 06-02-2017
 ALTER TABLE `pro_hi_human_icons` ADD `hi_description` TEXT NULL AFTER `hi_image`;
 
+
+//Added new table to store max value of PROMISE parameters
+CREATE TABLE `pro_promise_parameters_max_score` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `parameter_slug` varchar(255) NOT NULL,
+  `parameter_name` varchar(255) NOT NULL,
+  `parameter_max_score` int(11) UNSIGNED NOT NULL,
+  `parameter_low_score_for_H` int(11) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pro_promise_parameters_max_score`
+--
+
+INSERT INTO `pro_promise_parameters_max_score` (`id`, `parameter_slug`, `parameter_name`, `parameter_max_score`, `parameter_low_score_for_H`, `created_at`, `updated_at`) VALUES
+(1, 'apt_scientific_reasoning', 'Scientific Reasoning', 5, 5, '2018-02-06 11:06:40', '2018-02-06 11:06:40'),
+(2, 'apt_verbal_reasoning', 'Verbal Reasoning', 10, 7, '2018-02-06 11:06:40', '2018-02-06 11:06:40'),
+(3, 'apt_numerical_ability', 'Numerical Ability', 4, 4, '2018-02-06 11:09:38', '2018-02-06 11:09:38'),
+(4, 'apt_logical_reasoning', 'Logical Reasoning', 15, 9, '2018-02-06 11:09:38', '2018-02-06 11:09:38'),
+(5, 'apt_social_ability', 'Social Ability', 5, 4, '2018-02-06 11:16:48', '2018-02-06 11:16:48'),
+(6, 'apt_artistic_ability', 'Artistic Ability', 1, 1, '2018-02-06 11:16:48', '2018-02-06 11:16:48'),
+(7, 'apt_spatial_ability', 'Spatial Ability', 3, 2, '2018-02-06 11:18:00', '2018-02-06 11:18:00'),
+(8, 'apt_creativity', 'Creativity', 1, 1, '2018-02-06 11:18:00', '2018-02-06 11:18:00'),
+(9, 'apt_clerical_ability', 'Clerical Ability', 1, 1, '2018-02-06 11:18:36', '2018-02-06 11:18:36'),
+(10, 'pt_conventional', 'Conventional', 2, 2, '2018-02-06 11:33:47', '2018-02-06 11:33:47'),
+(11, 'pt_enterprising', 'Enterprising', 1, 1, '2018-02-06 11:33:47', '2018-02-06 11:33:47'),
+(12, 'pt_investigative', 'Investigative', 1, 1, '2018-02-06 11:35:13', '2018-02-06 11:35:13'),
+(13, 'pt_social', 'Social', 2, 1, '2018-02-06 11:35:13', '2018-02-06 11:35:13'),
+(14, 'pt_artistic', 'Artistic', 1, 1, '2018-02-06 11:36:12', '2018-02-06 11:36:12'),
+(15, 'pt_mechanical', 'Mechanical', 1, 1, '2018-02-06 11:36:12', '2018-02-06 11:36:12'),
+(16, 'mit_interpersonal', 'Interpersonal', 8, 5, '2018-02-06 11:40:28', '2018-02-06 11:40:28'),
+(17, 'mit_logical', 'Logical', 20, 14, '2018-02-06 11:40:28', '2018-02-06 11:40:28'),
+(18, 'mit_linguistic', 'Linguistic', 10, 8, '2018-02-06 11:42:07', '2018-02-06 11:42:07'),
+(19, 'mit_intrapersonal', 'Intrapersonal', 7, 5, '2018-02-06 11:42:07', '2018-02-06 11:42:07'),
+(20, 'mit_musical', 'Musical', 6, 5, '2018-02-06 11:43:06', '2018-02-06 11:43:06'),
+(21, 'mit_spatial', 'Spatial', 9, 7, '2018-02-06 11:43:06', '2018-02-06 11:43:06'),
+(22, 'mit_bodilykinesthetic', 'Bodily-Kinesthetic', 5, 5, '2018-02-06 11:44:38', '2018-02-06 11:44:38'),
+(23, 'mit_naturalist', 'Naturalist', 6, 5, '2018-02-06 11:44:38', '2018-02-06 11:44:38'),
+(24, 'mit_existential', 'Existential', 4, 3, '2018-02-06 11:45:10', '2018-02-06 11:45:10'),
+(25, 'it_people', 'People', 1, 0, '2018-02-06 11:47:10', '2018-02-06 11:47:10'),
+(26, 'it_nature', 'Nature and Travel', 5, 0, '2018-02-06 11:47:10', '2018-02-06 11:47:10'),
+(27, 'it_technical', 'Technical and Engineering', 1, 0, '2018-02-06 11:48:16', '2018-02-06 11:48:16'),
+(28, 'it_creative_fine_arts', 'Creative, Fine Arts', 2, 0, '2018-02-06 11:48:16', '2018-02-06 11:48:16'),
+(29, 'it_numerical', 'Numbers, Accounts and Money', 1, 0, '2018-02-06 11:49:22', '2018-02-06 11:49:22'),
+(30, 'it_computers', 'Computers, Programming, Logic', 1, 0, '2018-02-06 11:49:22', '2018-02-06 11:49:22'),
+(31, 'it_research', 'Research', 1, 0, '2018-02-06 11:50:28', '2018-02-06 11:50:28'),
+(32, 'it_performing_arts', 'Performing Arts', 3, 0, '2018-02-06 11:50:28', '2018-02-06 11:50:28'),
+(33, 'it_social', 'Social', 1, 0, '2018-02-06 11:51:16', '2018-02-06 11:51:16'),
+(34, 'it_sports', 'Sports', 3, 0, '2018-02-06 11:51:16', '2018-02-06 11:51:16'),
+(35, 'it_language', 'Language, Reading, Writing', 1, 0, '2018-02-06 11:51:58', '2018-02-06 11:51:58'),
+(36, 'it_artistic', 'Art and Fashion', 1, 0, '2018-02-06 11:51:58', '2018-02-06 11:51:58'),
+(37, 'it_musical', 'Music and Singing', 1, 0, '2018-02-06 11:52:19', '2018-02-06 11:52:19');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pro_promise_parameters_max_score`
+--
+ALTER TABLE `pro_promise_parameters_max_score`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pro_promise_parameters_max_score`
+--
+ALTER TABLE `pro_promise_parameters_max_score`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
 //Add new field in sponsor activity table ## 06-02-2017
 ALTER TABLE `pro_sa_sponsor_activity` ADD `sa_size_type` VARCHAR(255) NULL DEFAULT NULL AFTER `sa_type`;
