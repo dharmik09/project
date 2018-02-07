@@ -146,4 +146,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/deleteNotification', 'Webservice\NotificaionController@deleteNotification');
 	Route::post('/readNotification', 'Webservice\NotificaionController@changeNotificationStatus');
 
+	//Forum
+	Route::post('/getForumQuestion', 'Webservice\ForumController@getForumQuestionPageWise');
+	Route::post('/getForumAnswer', 'Webservice\ForumController@getForumQuestionByQuestionIdPageWise');
+	
+
 });
