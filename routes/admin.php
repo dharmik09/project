@@ -472,7 +472,9 @@ Route::get('/deleteAppVersion/{id}', 'Admin\AppVersionManagementController@delet
 
 //Forum
 Route::get('/forumQuestions', 'Admin\ForumQuestionManagementController@index');
+Route::get('/forumAnswer/{queId}', 'Admin\ForumQuestionManagementController@getForumAnswer');
 Route::get('/addForumQuestion', 'Admin\ForumQuestionManagementController@add');
 Route::post('/saveForumQuestion', 'Admin\ForumQuestionManagementController@save');
 Route::get('/editForumQuestion/{id}', 'Admin\ForumQuestionManagementController@edit');
 Route::get('/deleteForumQuestion/{id}', 'Admin\ForumQuestionManagementController@delete');
+Route::get('/changeanswerstatus/{ansId}/{status}', 'Admin\ForumQuestionManagementController@changeAnswerStatus');

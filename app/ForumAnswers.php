@@ -60,7 +60,7 @@ class ForumAnswers extends Model
     }
 
     /**
-     * get all Forum Question's Answers 
+     * get Page Wise Forum Question's Answers 
      * Returns Answers for perticular Question With teenager data
      */
     public function getPageWiseForumAnswersWithTeenagerDataByQuestionId($queId,$skip) {
@@ -69,6 +69,19 @@ class ForumAnswers extends Model
                                 ->take(5)
                                 ->where('fq_que_id',$queId)
                                 ->where('deleted',Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('created_at','DESC')
+                                ->get();
+        return $return;
+    }
+
+    /**
+     * get all Forum Question's Answers 
+     * Returns Answers for perticular Question With teenager data
+     */
+    public function getAllForumAnswersWithTeenagerDataByQuestionId($queId) {
+        $return = ForumAnswers::with('teenager')
+                                ->where('fq_que_id',$queId)
+                                ->where('deleted','<>',Config::get('constant.DELETED_FLAG'))
                                 ->orderBy('created_at','DESC')
                                 ->get();
         return $return;

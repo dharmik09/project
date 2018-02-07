@@ -739,8 +739,13 @@ return [
     'lblenterquestion' => 'Enter Question',
     'lblforumquestion' => 'Forum Question',
     'lblforumanswer' => 'Forum Answer',
+    'lblforumteenname' => 'Teenager Name',
+    'lblforumanswertime' => 'Date & Time',
+    'lblforumanswer' => 'Forum Answer',
     'traitscompletionmessage' => 'All traits completed',
     'forumquestionupdatesuccess' => 'Forum question updated successfully',
     'forumquestiondeletesuccess' => 'Forum question deleted successfully',
     'forumanswerupdatesuccess' => 'Forum Answer updated successfully',
+    'lblmarkasactive' => 'Mark as Active',
+    'lblmarkasinactive' => 'Mark as Inactive',
 ];

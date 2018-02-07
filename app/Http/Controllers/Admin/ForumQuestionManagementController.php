@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\ForumQuestionRequest;
 use App\Http\Controllers\Controller;
 use App\ForumQuestion;
+use App\ForumAnswers;
 use Auth;
 use Input;
 use Config;
@@ -15,14 +16,29 @@ class ForumQuestionManagementController extends Controller
 {
     public function __construct() {
         $this->objForumQuestion = new ForumQuestion;
+        $this->objForumAnswers = new ForumAnswers;
     }
 
     public function index() {
         $data = $this->objForumQuestion->getAllForumQuestion();
-        // echo "<pre>";
-        // print_r($data);
-        // exit;
-        return view('admin.ListForumAnswers', compact('data'));
+        return view('admin.ListForumQuestion', compact('data'));
+    }
+
+    public function getForumAnswer($queId) {
+        $data = $this->objForumAnswers->getAllForumAnswersWithTeenagerDataByQuestionId($queId);
+        $questionData = $this->objForumQuestion->find($queId);
+        return view('admin.ListForumAnswers', compact('data','questionData'));
+    }
+
+    public function changeAnswerStatus($ansId, $status) {
+        $data['id'] = $ansId;
+        $data['deleted'] = $status;
+        $response = $this->objForumAnswers->insertUpdate($data);
+        if ($response) {
+             return Redirect::back()->with('success',trans('labels.forumquestionupdatesuccess'));
+        } else {
+            return Redirect::back()->with('error', trans('labels.commonerrormessage'));
+        }
     }
 
     public function add() {
