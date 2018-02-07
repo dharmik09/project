@@ -45,6 +45,8 @@ class level3ActivityController extends Controller {
         $this->professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionTagImagePath = Config('constant.PROFESSION_TAG_THUMB_IMAGE_UPLOAD_PATH');
+        $this->saSmallImagePath = Config::get('constant.SA_SMALL_IMAGE_UPLOAD_PATH');
+        $this->saBannerImagePath = Config::get('constant.SA_BANNER_IMAGE_UPLOAD_PATH');
         $this->log = new Logger('api-level1-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
     }
@@ -672,6 +674,34 @@ class level3ActivityController extends Controller {
                         }
                     }
                     $professionsData->tags = $tags;
+                    $adsDetails = Helpers::getAds($request->userId);
+                    $mediumAdImages = [];
+                    $bannerAdImages = [];
+                    if (isset($adsDetails) && !empty($adsDetails)) {
+                        foreach ($adsDetails as $ad) {
+                            switch ($ad['sizeType']) {
+                                case '1':
+                                    if ($ad['image'] != '') {
+                                        $ad['image'] = Storage::url($this->saSmallImagePath . $ad['image']);
+                                    } else {
+                                        $ad['image'] = Storage::url($this->saSmallImagePath . 'proteen-logo.png');
+                                    }
+                                    $mediumAdImages[] = $ad;
+                                    break;
+                                
+                                case '3':
+                                    if ($ad['image'] != '') {
+                                        $ad['image'] = Storage::url($this->saBannerImagePath . $ad['image']);
+                                    } else {
+                                        $ad['image'] = Storage::url($this->saBannerImagePath . 'proteen-logo.png');
+                                    }
+                                    $bannerAdImages[] = $ad;
+                                    break;
+                            };
+                        }
+                    }
+                    $professionsData->mediumSizeAds = $mediumAdImages;
+                    $professionsData->bannerSizeAds = $bannerAdImages;
 
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);

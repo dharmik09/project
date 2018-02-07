@@ -1027,11 +1027,12 @@ Class Helpers {
                         $adsData = [];
                         $adsData['id'] = $ads->id;
                         $adsData['sizeType'] = $ads->sa_size_type;
-                        if ($ads->sa_image != '') {
-                            $adsData['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->sa_image);
-                        } else {
-                            $adsData['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                        }
+                        $adsData['image'] = $ads->sa_image;
+                        // if ($ads->sa_image != '') {
+                        //     $adsData['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->sa_image);
+                        // } else {
+                        //     $adsData['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                        // }
                         $adsArr[] = $adsData;
                     }
                 }
