@@ -171,7 +171,18 @@
                                     <!-- Section for basic, intermediate quiz with seprate blade --> 
                                     <div class="quiz-sec ">
                                         <div class="row flex-container">
-                                            @include('teenager/basic/careerBasicQuizSection')
+                                            <div class="col-sm-12">
+                                                <div class="quiz-box quiz-basic">
+                                                    <div class="sec-show">
+                                                        <h3>Quiz</h3>
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                                        <span title="Play" class="btn-play btn btn-basic">Play</span>
+                                                    </div>
+                                                    <div class="basic-quiz-area sec-hide" id="basicLevelData">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row flex-container">
                                             @include('teenager/basic/careerIntermediateQuizSection')
@@ -269,10 +280,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ad-sec-h">
-                            <div class="t-table">
-                                <div class="table-cell">
-                                    Ad 850 x 90
+                        <div class="ad-slider owl-carousel">
+                            <div class="ad-sec-h">
+                                <div class="t-table">
+                                    <div class="table-cell">
+                                        Ad 850 x 90
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -301,16 +314,20 @@
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion1">
                                         <div class="panel-body">
-                                            @foreach($teenagerStrength as $key => $value)
+                                            @forelse($teenagerStrength as $key => $value)
                                                 <div class="progress-block">
                                                     <div class="skill-name">{{$value['name']}}</div>
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-primary" role="progressbar" data-width="{{$value['score']}}">
                                                         </div>
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%; background-color:#65c6e6;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$value['lowscoreH']}}%; background-color:#65c6e6;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            @empty
+                                            <div class="progress-block">
+                                                Please attempt at least one section of Profile Builder to view your strength Advanced View!
+                                            </div>
+                                            @endforelse
                                         </div>
                                     </div>
                                 </div>
@@ -339,17 +356,21 @@
                                 @endforelse
                             </ul>
                         </div>
-                        <div class="ad-v">
-                            <div class="t-table">
-                                <div class="table-cell">
-                                    Ad 343 x 400
+                        <div class="ad-slider owl-carousel">
+                            <div class="ad-v">
+                                <div class="t-table">
+                                    <div class="table-cell">
+                                        Ad 343 x 400
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="ad-v-2">
-                            <div class="t-table">
-                                <div class="table-cell">
-                                    Ad 343 x 800
+                        <div class="ad-slider owl-carousel">
+                            <div class="ad-v-2">
+                                <div class="t-table">
+                                    <div class="table-cell">
+                                        Ad 343 x 800
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -369,8 +390,8 @@
            $(this).hide();
                 $('video').show();
                 $('img').hide();
-                
-        })
+        });
+        
         $('#iframe-video-click').on('click', function(ev) {
             var youtubeVideo = '{{$videoCode}}';
             if(youtubeVideo == ''){
@@ -391,14 +412,7 @@
             $('.promise-plus-overlay').hide();
             $('.front_page').show(500);
         })
-        $('.btn-basic').click(function() {
-            $('.quiz-basic .sec-show').addClass('hide');
-            $('.quiz-basic .basic-quiz-area').addClass('active');
-        })
-        $('.quiz-box .close').click(function() {
-            $('.sec-show').removeClass('hide');
-            $('.sec-hide').removeClass('active');
-        });
+        
         $('.btn-intermediate').click(function(){
             $('.quiz-intermediate .sec-show').addClass('hide');
             $('.quiz-intermediate .sec-hide').addClass('active');
@@ -435,32 +449,7 @@
           });
         });
     });
-    // timer
-    jQuery(document).ready(function($) {
-        var count = 1;
-        var counter = setInterval(timer, 1000);
-        function secondPassed() {
-            var minutes = Math.round((count - 30) / 60);
-            var remainingcount = count % 60;
-            if (remainingcount < 10) {
-                remainingcount = "0" + remainingcount;
-            }
-            $('.time-tag,.time-tag').text(minutes + ":" + remainingcount);
-            $('.time-tag').show();
-        }
-        function timer() {
-            if (count < 0) {
-            }
-            else {
-                secondPassed();
-            }
-            count = count + 1;
-            if (count == 60)
-            {
-                //saveBoosterPoints(teenagerId, professionId, 2,isyoutube);
-            }
-        }
-    });
+    
 
     $(document).on('click','#add-to-star', function(){
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -731,5 +720,56 @@
             }
         });
     }
+
+    //Basic level data query
+    var basicCount;
+    jQuery(document).ready(function($) {
+        console.log(basicCount);
+        var counter = setInterval(basicTimer, 1000);
+        function basicSecondPassed() {
+            var minutes = Math.round((basicCount - 30) / 60);
+            var remainingcount = basicCount % 60;
+            if (remainingcount < 10) {
+                remainingcount = "0" + remainingcount;
+            }
+            $('.basic-time-tag, .basic-time-tag').text(minutes + ":" + remainingcount);
+            $('.time-tag').show();
+        }
+        function basicTimer() {
+            if (basicCount < 0) { }
+            else {
+                basicSecondPassed();
+            }
+            basicCount = basicCount - 1;
+        }
+    });
+    $(document).on('click', '.btn-basic', function(e) {
+        $.ajax({
+            url: "{{url('teenager/play-basic-level-activity')}}",
+            type : 'POST',
+            data : { 'professionId' : '{{$professionsData->id}}' },
+            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+            success: function(data){
+                $('.quiz-basic .sec-show').addClass('hide');
+                $('.quiz-basic .basic-quiz-area').addClass('active');
+                $('#basicLevelData').html(data);
+            }
+        });
+    });
+    $(document).on('click', '.quiz_view .close', function(e) {
+        $('.sec-show').removeClass('hide');
+        $('.sec-hide').removeClass('active');
+        $('#basicLevelData').html('');
+    });
+    $('.ad-slider').owlCarousel({
+        loop: true,
+        margin: 10,
+        items: 1,
+        nav: false,
+        dots: false,
+        smartSpeed: 500,
+        autoplay:true,
+    });
 </script>
+
 @stop

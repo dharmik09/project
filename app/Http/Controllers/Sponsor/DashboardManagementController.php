@@ -116,6 +116,7 @@ class DashboardManagementController extends Controller
         $activityDetail['sa_sponsor_id'] = $this->loggedInUser->user()->id;
         $activityDetail['sa_image']    = $hiddenLogo;
         $activityDetail['sa_type']    = e(input::get('type'));
+        $activityDetail['sa_size_type'] = e(input::get('sa_size_type'));
         $activityDetail['sa_name']   = e(input::get('sa_name'));
         $activityDetail['sa_apply_level'] =    e(input::get('level'));
         $activityDetail['sa_location']  = e(input::get('location'));
@@ -156,17 +157,37 @@ class DashboardManagementController extends Controller
             $fileName = 'sponsoractivity_' . time() . '.' . $file->getClientOriginalExtension();
             $width = Image::make($file->getRealPath())->width();
             $height = Image::make($file->getRealPath())->height();
-            if($width != 730 && $height != 50 && $activityDetail['sa_type'] == 1)
-            {
-                if($activityDetail['id'] > 0){
-                    return Redirect::to("sponsor/edit/".$activityDetail['id'])->withErrors('Image width must be 730px and Height 50px')->withInput();
-                    exit;
-                }else{
-                    return Redirect::to("sponsor/data-add")->withErrors('Image width must be 730px and Height 50px')->withInput();
-                    exit;
-                }
-            }
-            else{
+            switch ($activityDetail['sa_size_type']) {
+                case '1':
+                    $imageWidth = 343;
+                    $imageHeight = 400;
+                    break;
+
+                case '2':
+                    $imageWidth = 343;
+                    $imageHeight = 800;
+                    break;
+
+                case '3':
+                    $imageWidth = 850;
+                    $imageHeight = 90;
+                    break;
+
+                default:
+                    $imageWidth = 730;
+                    $imageHeight = 50;
+                    break;
+            };
+        
+            if (($width != $imageWidth || $height != $imageHeight) && $activityDetail['sa_type'] == 1) {
+                    if($activityDetail['id'] > 0) {
+                        return Redirect::to("sponsor/edit/".$activityDetail['id'])->withErrors('Image width must be '. $imageWidth .'px and Height ' . $imageHeight .'px')->withInput();
+                        exit;
+                    } else {
+                        return Redirect::to("sponsor/data-add")->withErrors('Image width must be '. $imageWidth .'px and Height '. $imageHeight .'px')->withInput();
+                        exit;
+                    }
+            } else {
                 $pathOriginal = public_path($this->saOrigionalImagePath . $fileName);
                 $pathThumb = public_path($this->saThumbImagePath . $fileName);
                 Image::make($file->getRealPath())->save($pathOriginal);

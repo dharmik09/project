@@ -224,7 +224,7 @@ class Level1ActivityController extends Controller
             $response['message'] = trans('appmessages.default_success_msg');
             $response['dataOfLastAttempt'] = $questionsArray;
         } else {
-            $response['status'] == 0;
+            $response['status'] = 0;
             $response['message'] = trans('appmessages.invalid_userid_msg');
         }
         return response()->json($response, 200);

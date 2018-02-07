@@ -21,6 +21,8 @@ use Helpers;
 use Redirect;
 use Request;   
 use App\StarRatedProfession; 
+use App\TeenagerPromiseScore;
+use App\PromiseParametersMaxScore;
 
 class ProfessionController extends Controller {
 
@@ -38,6 +40,8 @@ class ProfessionController extends Controller {
         $this->aptitudeThumb = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
         $this->miThumb = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
         $this->personalityThumb = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objTeenagerPromiseScore = new TeenagerPromiseScore();
+        $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
     }
 
     public function listIndex(){
@@ -279,29 +283,35 @@ class ProfessionController extends Controller {
         unset($professionsData->careerMapping);
         $professionsData->ability = $careerMappingdata;
 
-        $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails(Auth::guard('teenager')->user()->id);
-        $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
-        $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
-
-        foreach($teenagerMI as $miKey => $miVal) {
-            $mitName = Helpers::getMIBySlug($miKey);
-            $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
-                $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'max' => $teenagerAPIMaxScore['MI'][$miKey]));
-        }
-
-        $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
-        foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
-            $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-            $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
-            $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'max' => $teenagerAPIMaxScore['aptitude'][$apptitudeKey]));
-        }
-        $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
-        foreach($teenagerPersonality as $personalityKey => $personalityVal) {
-            $ptName = Helpers::getPersonalityBySlug($personalityKey);
-            $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
-            $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'max' => $teenagerAPIMaxScore['personality'][$personalityKey]));
-        }
-        $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
+        $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
+            
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+            }
+            
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore(Auth::guard('teenager')->user()->id);
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
+            {
+                $teenPromiseScore = $teenPromiseScore->toArray();                
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+                {                    
+                    if (strpos($paramkey, 'apt_') !== false) {                       
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                    }elseif(strpos($paramkey, 'pt_') !== false){
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
+                    }elseif(strpos($paramkey, 'mit_') !== false){
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+               
+                    }
+                }
+            }
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
         return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId','professionCertificationImagePath','professionSubjectImagePath','teenagerStrength'));

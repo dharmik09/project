@@ -576,7 +576,7 @@
                                         <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
                                     </div>
                                     <div class="careers-content">
-                                        <h4><a href="{{ url('/teenager/career-detail') }}/{{$myCareer->pf_slug}}">{{ $myCareer->pf_slug }}</a></h4>
+                                        <h4><a href="{{ url('/teenager/career-detail') }}/{{$myCareer->pf_slug}}">{{ $myCareer->pf_name }}</a></h4>
                                     </div>
                                 </div>
                             </div>
@@ -1021,6 +1021,23 @@
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
         $('[data-toggle="tooltip"]').tooltip(); 
+        
+         function equalhight() {
+                var $height = 0;
+                $(".careers-block .careers-content").each(function() {
+                    $(this).css("height", "auto");
+                    if (($(this).outerHeight()) > $height) {
+                        $height = $(this).outerHeight();
+                    }
+                });
+                $(".careers-block .careers-content").each(function() {
+                    $(this).css("height", $height);
+                });
+            }
+            equalhight();
+            $(window).resize(function() {
+                equalhight();
+            })
     });
     
     $(window).on("load", function(e) {
