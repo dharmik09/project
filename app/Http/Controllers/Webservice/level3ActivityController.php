@@ -47,6 +47,7 @@ class level3ActivityController extends Controller {
         $this->professionTagImagePath = Config('constant.PROFESSION_TAG_THUMB_IMAGE_UPLOAD_PATH');
         $this->saSmallImagePath = Config::get('constant.SA_SMALL_IMAGE_UPLOAD_PATH');
         $this->saBannerImagePath = Config::get('constant.SA_BANNER_IMAGE_UPLOAD_PATH');
+        $this->saOrigionalImagePath = Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->log = new Logger('api-level1-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
     }
@@ -679,23 +680,21 @@ class level3ActivityController extends Controller {
                     $bannerAdImages = [];
                     if (isset($adsDetails) && !empty($adsDetails)) {
                         foreach ($adsDetails as $ad) {
+                            if ($ad['image'] != '') {
+                                $ad['image'] = Storage::url($this->saOrigionalImagePath . $ad['image']);
+                            } else {
+                                $ad['image'] = Storage::url($this->saOrigionalImagePath . 'proteen-logo.png');
+                            }
                             switch ($ad['sizeType']) {
                                 case '1':
-                                    if ($ad['image'] != '') {
-                                        $ad['image'] = Storage::url($this->saSmallImagePath . $ad['image']);
-                                    } else {
-                                        $ad['image'] = Storage::url($this->saSmallImagePath . 'proteen-logo.png');
-                                    }
                                     $mediumAdImages[] = $ad;
                                     break;
                                 
                                 case '3':
-                                    if ($ad['image'] != '') {
-                                        $ad['image'] = Storage::url($this->saBannerImagePath . $ad['image']);
-                                    } else {
-                                        $ad['image'] = Storage::url($this->saBannerImagePath . 'proteen-logo.png');
-                                    }
                                     $bannerAdImages[] = $ad;
+                                    break;
+
+                                default:
                                     break;
                             };
                         }
