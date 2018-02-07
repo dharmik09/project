@@ -19,6 +19,10 @@
         border: 2px solid $r-cl;
         border-radius: 6px;
         margin-bottom: 25px;
+        transition: 0.3s all ease-out;
+        &:hover{
+            transform: scale(1.05);
+        }
         em {
             font-family: h;
         }
@@ -76,8 +80,13 @@
             font-size: 23px;
             color: $r-cl;
             height: 100%;
+            transition: .3s all ease-out;
+            cursor: pointer;
             @include maxms {
                 font-size: 16px;
+            }
+            &:hover{
+                transform: scale(1.05);
             }
         }
     }
@@ -105,6 +114,12 @@
     .video-img {
         max-width: 350px;
         margin: 0 auto 30px;
+    }
+    .btn-next{
+        font-size: 16px;padding: 9px 45px;transition: 0.3s all ease-out;
+        &:hover{
+            background: $i-cl;border-color: $i-cl;
+        }
     }
 }
 
@@ -194,6 +209,11 @@
             .drag-box {
                 width: 100%;
                 height: 100%;
+                cursor: -webkit-grab;
+                transition: .3s all ease-out;
+                &:hover{
+                    transform: scale(1.05);
+                }
                 img {
                     width: 100%;
                     height: 100%;
@@ -283,7 +303,10 @@
             min-height: 92px;
             padding: 10px 30px 10px 10px;
             margin-bottom: 15px;
-            position: relative; //cursor: -webkit-grab;
+            position: relative; cursor: -webkit-grab;transition: .3s all ease-out;
+            &:hover{
+                transform: scale(1.05);
+            }
             .ui-icon {
                 position: absolute;
                 content: '';
@@ -607,4 +630,9 @@
         cursor: pointer;
     }
 
+}
+.quiz-que .que{
+    @include maxmd{
+        font-size: 26px;
+    }
 }
