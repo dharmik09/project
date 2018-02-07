@@ -120,7 +120,7 @@
                         <div class="forum-que-block t-table">
                             <div class="author-img t-cell"><a href="#" title="Kelly Cheng"><img src="{{ Storage::url('img/proteen-logo.png') }}" alt="author img"></a></div>
                             <div class="forum-que t-cell">
-                                <h4><a href="{{url('teenager/fetch-question/'.Crypt::encrypt($value->id))}}" title="{{$value->fq_que}}">{{$value->fq_que}}</a></h4>
+                                <h4><a href="{{url('teenager/forum-question/'.Crypt::encrypt($value->id))}}" title="{{$value->fq_que}}">{{$value->fq_que}}</a></h4>
                                 <ul class="que-detail">
                                     <li class="author-name"><a href="#" title="ProTeen Admin">ProTeen Admin</a></li>
                                     <li class="posted-date">{{date('jS M Y',strtotime($value->created_at))}}</li>
@@ -139,8 +139,6 @@
                                         
                                         if(isset($value->latestAnswer)){
                                             $answerText = $value->latestAnswer->fq_ans;
-                                            $answerTextPart1 = substr($answerText, 0, 400);
-                                            $answerTextPart2 = substr($answerText, 400);
 
                                             $answerTime = date('jS M Y',strtotime($value->latestAnswer->created_at));
 
@@ -155,20 +153,14 @@
                                 </div>
                             </div>
                             @if(strlen($answerText)>0)
-                                <div class="forum-answer">
-                                    <div class="text-full accordion">
-                                        <div class="accordion-group">
-                                            <p>
-                                                {{$answerTextPart1}}
-                                                <span class="accordion-body collapse" id="viewdetails{{$value->id}}">{{$answerTextPart2}}
-                                                </span>
-                                            </p>
-                                        </div>
+                                <div class="forum-answer text-overflow">
+                                    <div class="text-full">
+                                        <p>{{$answerText}}</p>
                                     </div>
                                 </div>
-                                <span><a data-toggle="collapse" data-target="#viewdetails{{$value->id}}" readMoreClass">Read More</a></span>
+                                <span><a href="#" title="Read More" class="read-more">Read More</a></span>
                             @else
-                                <div class="sec-forum"><span>No Answer Found</span></div>
+                                <div class="sec-forum"><span>No answer yet, Be the first to answer this question</span></div>
                             @endif
                         </div>
                     </div>
@@ -184,16 +176,6 @@
 @stop
 @section('script')
 <script>
-
-    $('.readMoreClass').click(function(){
-        var $this = $(this);
-        $this.toggleClass('readMoreClass');
-        if($this.hasClass('readMoreClass')){
-            $this.text('Read More');         
-        } else {
-            $this.text('Read Less');
-        }
-    });
 
    var ischat = '<?php echo Auth::guard('teenager')->user()->is_chat_initialized?>';
    if(ischat == 0){

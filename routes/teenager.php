@@ -142,6 +142,6 @@ Route::post('/play-basic-level-activity', 'Teenager\Level4ActivityController@pro
 //Forum Module
 Route::get('/forum-questions', 'Teenager\ForumController@index');
 Route::post('/fetch-page-wise-forum-questions', 'Teenager\ForumController@getIndex');
-Route::get('/fetch-question/{id}', 'Teenager\ForumController@getQuestionByQuestionId');
+Route::get('/forum-question/{id}', 'Teenager\ForumController@getQuestionByQuestionId');
 Route::post('/fetch-question-answer', 'Teenager\ForumController@getAnswerByQuestionId');
 Route::post('/save-forum-answer', 'Teenager\ForumController@saveForumAnswer');

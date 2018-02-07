@@ -68,15 +68,39 @@
 @stop
 @section('script')
 <script>
-    $('.readMoreClass').click(function(){
-        var $this = $(this);
-        $this.toggleClass('readMoreClass');
-        if($this.hasClass('readMoreClass')){
-            $this.text('Read More');         
-        } else {
-            $this.text('Read Less');
-        }
-    });
+    function readMoreLess(){
+        $('.text-overflow').each(function(index, el) {
+            var parent = $(el).closest('.full-text');
+            var btn = parent.find('.read-more');
+            var elementHt = parent.find('.text-full').outerHeight();
+            if (elementHt > 70) {
+                btn.addClass('less');
+                btn.css('display', 'block');
+            }
+            btn.click(function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                if ($(this).hasClass('less')) {
+                    $(this).removeClass('less');
+                    $(this).addClass('more');
+                    $(this).text('Read Less');
+                    $(this).attr('title', 'Read Less');
+                    var ht = $(this).closest('.full-text').find('.text-full').outerHeight();
+                    $(this).closest('.full-text').find('.text-overflow').animate({
+                        'height': ht
+                    });
+                } else {
+                    $(this).addClass('less');
+                    $(this).removeClass('more');
+                    $(this).text('Read More');
+                    $(this).attr('title', 'Read More');
+                    $(this).closest('.full-text').find('.text-overflow').animate({
+                        'height': '70px'
+                    });
+                }
+            });
+        });
+    }
 
     function fetchQuestion(pageNo){
         $("#loader_con").html('<img src="{{Storage::url('img/loading.gif')}}">');
@@ -101,6 +125,7 @@
                 }
                 $("#questionList").append(response.questions);
                 $("#loader_con").html('');
+                readMoreLess();
             }
         });
     }
