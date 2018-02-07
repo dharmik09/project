@@ -13,6 +13,7 @@ use App\StarRatedProfession;
 use App\MultipleIntelligent;
 use App\Apptitude;
 use App\Personality;
+use App\Teenagers;
 use Config;
 use Storage;
 use Helpers;  
@@ -31,6 +32,7 @@ class level3ActivityController extends Controller {
         $this->baskets = new Baskets();
         $this->professions = new Professions();
         $this->professionHeaders = new ProfessionHeaders();
+        $this->objTeenagers = new Teenagers;
         $this->objStarRatedProfession = new StarRatedProfession;
         $this->basketThumbUrl = Config::get('constant.BASKET_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionThumbUrl = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
@@ -894,5 +896,52 @@ class level3ActivityController extends Controller {
         return response()->json($response, 200);
         exit;
     }
+
+    
+    public function getCareerFansPageWise(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getAllCareers'));
+        if($request->userId != "" && $teenager) {
+            if($request->careerId != "") {            
+                $record = 0;
+                
+                if($request->pageNo != '' && $request->pageNo > 1){
+                    $record = ($request->pageNo-1) * 10;
+                }
+
+                $data = $this->objTeenagers->getAllTeenWhoStarRatedCareer($record, $request->careerId, $teenager->id);
+                
+                if($data){
+                    foreach($data as $key => $value){
+                        if(isset($value->t_photo) && $value->t_photo != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$value->t_photo) > 0) {
+                                $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$value->t_photo;
+                        } else {
+                            $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+                        }
+                        $data[$key]->t_photo = Storage::url($teenPhoto);
+                    }
+                    $response['data'] = $data;
+                }
+                else{
+                    $response['data'] = trans('appmessages.data_empty_msg');
+                }
+
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+            } else {
+                $response['status'] = 0;
+                $response['login'] = 1;
+                $this->log->error('Parameter missing error' , array('api-name'=> 'getAllCareers'));
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+            $this->log->info('Response for Level3 get All careers' , array('api-name'=> 'getAllCareers'));
+        } else {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'getAllCareers'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);
+    }  
 
 }
