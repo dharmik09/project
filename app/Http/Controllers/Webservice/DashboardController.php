@@ -90,8 +90,8 @@ class DashboardController extends Controller
             $teenager->country_id = $teenager->t_country;
 
             $basicBoosterPoint = $this->teenagersRepository->getTeenagerBasicBooster($teenager->id);
-
-            $teenager->progress = 62;
+            $profileComplete = Helpers::calculateProfileComplete($teenager->id);
+            $teenager->progress = $profileComplete;
             $teenager->total_points = ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? $basicBoosterPoint['Total'] : 0;
             $teenager->recent_progress = "You advanced 7% on your last visit. Well done you!";
             

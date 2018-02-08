@@ -130,7 +130,7 @@ class ProfileController extends Controller
                     if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
                         $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
                     } else {
-                        $fictionIconArr[] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                        $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
                     }
                     $fictionIconArr['iconDescription'] = $icon->ci_description;
                     $fictionIcon[] = $fictionIconArr;
@@ -158,6 +158,7 @@ class ProfileController extends Controller
         } else {
             $teenagerMyIcons = array();
         }
+        
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
         $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
         $myConnections = $this->communityRepository->getMyConnections($user->id);

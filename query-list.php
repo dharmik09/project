@@ -429,3 +429,25 @@ ALTER TABLE `pro_sa_sponsor_activity` ADD `sa_size_type` VARCHAR(255) NULL DEFAU
 
 //Alter sponsor size type column datatype ## 07-02-2017
 ALTER TABLE `pro_sa_sponsor_activity` CHANGE `sa_size_type` `sa_size_type` TINYINT(1) NULL DEFAULT NULL;
+
+//Added new table for forum question #07-02-2018 Jaimin
+CREATE TABLE `pro_fq_forum_questions` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `fq_que` text NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL,
+ `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted',
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1
+
+//Added new table for forum answer #07-02-2018 Jaimin
+  CREATE TABLE `pro_fq_forum_answers` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `fq_que_id` bigint(20) NOT NULL,
+ `fq_teenager_id` bigint(20) NOT NULL,
+ `fq_ans` text NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL,
+ `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted  ',
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=83 DEFAULT CHARSET=latin1

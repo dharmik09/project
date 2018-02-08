@@ -220,7 +220,7 @@ class TeenagerController extends Controller
     }
 
     /* Request Params : getMemberConnections
-    *  loginToken, userId, teenagerId
+    *  loginToken, userId, teenagerId, lastTeenId
     */
     public function getMemberConnections(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
@@ -233,6 +233,12 @@ class TeenagerController extends Controller
                 $lastTeenId = '';
             }
             $memberConnections = $this->communityRepository->getMyConnections($request->teenagerId, array(), $lastTeenId);
+            $memberConnectionsCount = $this->communityRepository->getMyConnectionsCount($request->teenagerId, array(), $lastTeenId);
+            if (isset($memberConnectionsCount) && $memberConnectionsCount > 10) {
+                $loadMoreFlag = 1;
+            } else {
+                $loadMoreFlag = 0;
+            }
             foreach ($memberConnections as $connection) {
                 //Teenager thumb Image
                 $teenagerThumbImage = '';
@@ -255,6 +261,7 @@ class TeenagerController extends Controller
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $connections;
+            $response['loadMoreFlag'] = $loadMoreFlag;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }

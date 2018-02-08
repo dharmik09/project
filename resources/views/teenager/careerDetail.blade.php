@@ -282,13 +282,21 @@
                             </div>
                         </div>
                         <div class="ad-slider owl-carousel">
+                            @forelse ($bannerAdImages as $bannerAdImage)
+                            <div class="ad-sec-h">
+                                <div class="t-table">
+                                    <img src="{{$bannerAdImage['image']}}">
+                                </div>
+                            </div>
+                            @empty
                             <div class="ad-sec-h">
                                 <div class="t-table">
                                     <div class="table-cell">
-                                        Ad 850 x 90
+                                        No Ads available
                                     </div>
                                 </div>
                             </div>
+                            @endforelse
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -340,13 +348,13 @@
                         <div class="sec-tags">
                             <h4>Tags</h4>
                             <div class="sec-popup">
-                                <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                <a href="javascript:void(0);" onclick="getHelpText('career-tags')" data-toggle="clickover" data-popover-content="#career-tags" class="help-icon custompop" rel="popover" data-placement="bottom">
                                     <i class="icon-question"></i>
                                 </a>
-                                <div class="hide" id="pop1">
+                                <div class="hide" id="career-tags">
                                     <div class="popover-data">
                                         <a class="close popover-closer"><i class="icon-close"></i></a>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                                        <span class="career-tags"></span>
                                     </div>
                                 </div>
                             </div>
@@ -358,22 +366,38 @@
                             </ul>
                         </div>
                         <div class="ad-slider owl-carousel">
+                            @forelse ($mediumAdImages as $mediumAdImage)
+                            <div class="ad-v">
+                                <div class="t-table">
+                                    <img src="{{$mediumAdImage['image']}}">
+                                </div>
+                            </div>
+                            @empty
                             <div class="ad-v">
                                 <div class="t-table">
                                     <div class="table-cell">
-                                        Ad 343 x 400
+                                        No Ads available
                                     </div>
                                 </div>
                             </div>
+                            @endforelse
                         </div>
                         <div class="ad-slider owl-carousel">
+                            @forelse ($largeAdImages as $largeAdImage)
+                            <div class="ad-v-2">
+                                <div class="t-table">
+                                    <img src="{{$largeAdImage['image']}}">
+                                </div>
+                            </div>
+                            @empty
                             <div class="ad-v-2">
                                 <div class="t-table">
                                     <div class="table-cell">
-                                        Ad 343 x 800
+                                        No Ads available
                                     </div>
                                 </div>
                             </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>

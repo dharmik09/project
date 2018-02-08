@@ -15,6 +15,7 @@ use Redirect;
 use Request;
 use App\Services\Schools\Contracts\SchoolsRepository;  
 use App\Notifications;
+use App\ForumQuestion;
 use Carbon\Carbon;  
 
 class ChatController extends Controller {
@@ -25,6 +26,7 @@ class ChatController extends Controller {
         $this->teenagersRepository = $teenagersRepository;
         $this->schoolsRepository = $schoolsRepository;
         $this->objNotifications = new Notifications();
+        $this->objForumQuestion = new ForumQuestion();
     }
 
     /*
@@ -36,7 +38,10 @@ class ChatController extends Controller {
         $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png');
         $record = 0;
         $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$loggedInTeen,$record);
-        return view('teenager.chat',compact('user_profile_thumb_image','notificationData'));        
+        $limit = 3;
+        $skip = 0;
+        $forumQuestionData = $this->objForumQuestion->getAllForumQuestionAndAnswersWithTeenagerData($limit,$skip);
+        return view('teenager.chat',compact('user_profile_thumb_image','notificationData','forumQuestionData'));        
     }
 
     public function getPageWiseNotification()

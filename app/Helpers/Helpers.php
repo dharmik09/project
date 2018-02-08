@@ -1010,64 +1010,35 @@ Class Helpers {
         return $multipleIntelligence;
     }
 
-    public static function getAds($teenagerId,$type='ios') {
+    public static function getAds($teenagerId) {
         $teenagerSponsor = DB::table('pro_ts_teenager_sponsors')->where('ts_teenager', $teenagerId)->get();
         $objSponsor = new Sponsors();
-        $objGenericAds = new GenericAds();
-        $AdsArr = array();
-        $AdsArr['ads_image'] = [];
-        if (isset($teenagerSponsor) && !empty($teenagerSponsor)) {
+        $adsArr = [];
+        $sponsorArr = [];
+        if (isset($teenagerSponsor) && count($teenagerSponsor) > 0) {
             foreach ($teenagerSponsor as $key => $val) {
                 $sponsorArr[] = $val->ts_sponsor;
             }
             // Get sponsor Ads
-            $sponsorAds = $objSponsor->getSponsorsAds($sponsorArr);
-
-            if (isset($sponsorAds) && !empty($sponsorAds)) {
-                foreach ($sponsorAds as $key => $ads) {
-                    if ($ads->sa_image != '') {
-                        if($type == 'web'){
-                            //$AdsArr['ads_image'][$ads->sa_image_href] = asset(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->sa_image);
-                            $AdsArr['ads_image'][$ads->sa_image_href] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->sa_image);
-                            
-                        }else{
-                        //    $AdsArr['ads_image'][] = asset(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->sa_image);
-                            $AdsArr['ads_image'][] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->sa_image);
-                        }
-                        
-                    } else {
-                        if($type == 'web'){
-                            //$AdsArr['ads_image'][$ads->sa_image_href] = asset(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                            $AdsArr['ads_image'][$ads->sa_image_href] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                        }else{
-                            //$AdsArr['ads_image'][] = asset(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                            $AdsArr['ads_image'][] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                        }
-                        
+            if (!empty($sponsorArr)) {
+                $sponsorAds = $objSponsor->getSponsorsAds($sponsorArr);
+                if (isset($sponsorAds) && !empty($sponsorAds)) {
+                    foreach ($sponsorAds as $key => $ads) {
+                        $adsData = [];
+                        $adsData['id'] = $ads->id;
+                        $adsData['sizeType'] = $ads->sa_size_type;
+                        $adsData['image'] = $ads->sa_image;
+                        // if ($ads->sa_image != '') {
+                        //     $adsData['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->sa_image);
+                        // } else {
+                        //     $adsData['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                        // }
+                        $adsArr[] = $adsData;
                     }
                 }
-            } else {
-                $AdsArr['ads_image'] = [];
-            }
-
-            return $AdsArr;
-        } else {
-            $genericAds = $objGenericAds->getGenericAds();
-            if (isset($genericAds) && !empty($genericAds)) {
-                foreach ($genericAds as $key => $ads) {
-                    if ($ads->ga_image != "") {
-                        //$AdsArr['ads_image'][] = asset(Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->ga_image);
-                        $AdsArr['ads_image'][] = Storage::url(Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->ga_image);
-                    } else {
-                        $AdsArr['ads_image'][] = Storage::url(Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                        //$AdsArr['ads_image'][] = asset(Config::get('constant.GENERIC_ADS_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                    }
-                }
-            } else {
-                $AdsArr['ads_image'] = [];
-            }
-            return $AdsArr;
+            } 
         }
+        return $adsArr;
     }
 
     //check Any Level Record from tlcr table.
@@ -3047,7 +3018,7 @@ Class Helpers {
     //Advertisements image size array
     public static function adsSizeType()
     {
-        $sizeType = array('1' => '343 X 400', '2' => '343 X 800', '3' => '850 X 90');
+        $sizeType = array('1' => '343 X 400', '2' => '343 X 800', '3' => '850 X 90', '4' => '1200 X 90');
         return $sizeType;
     }
 

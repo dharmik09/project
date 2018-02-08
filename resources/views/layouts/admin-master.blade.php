@@ -322,9 +322,14 @@
                                             <i class="{{ (Request::is('admin/helpText')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i><span>Tooltip Management</span>
                                         </a>
                                     </li>
-                                     <li class="{{ (Request::is('admin/faq') || Request::is('admin/addFaq') || Request::is('admin/editFaq/*') || Request::is('admin/saveFaq') || Request::is('admin/deleteFaq/*')) ? 'active' : '' }} treeview">
+                                    <li class="{{ (Request::is('admin/faq') || Request::is('admin/addFaq') || Request::is('admin/editFaq/*') || Request::is('admin/saveFaq') || Request::is('admin/deleteFaq/*')) ? 'active' : '' }} treeview">
                                         <a href="{{ url('admin/faq') }}">
                                             <i class="{{ (Request::is('admin/faq')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i><span>FAQ</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ (Request::is('admin/forumQuestions') || Request::is('admin/addForumQuestion') || Request::is('admin/editForumQuestion/*')) ? 'active' : '' }} treeview">
+                                        <a href="{{ url('admin/forumQuestions') }}">
+                                            <i class="{{ (Request::is('admin/forumQuestions')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i><span>{{trans('labels.lblforum')}}</span>
                                         </a>
                                     </li>
                                      <li class="{{ (Request::is('admin/testimonials') || Request::is('admin/addTestimonial') || Request::is('admin/editTestimonial/*') || Request::is('admin/saveTestimonial') || Request::is('admin/deleteTestimonial/*')) ? 'active' : '' }} treeview">
