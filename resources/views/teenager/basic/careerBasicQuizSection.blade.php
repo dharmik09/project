@@ -82,9 +82,20 @@
                     </span>
                 </span>
             </div>
-            <div class="quiz-que">
-                Quiz completed!
+            <div class="cong-block">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <span class="emojis-img"><img  alt="Congratulations" src="{{Storage::url('img/Original-image/icon-4.png')}}"></span>
+                        <span class="emojis-img emojis-icon"><i class="icon-thumb"></i></span>
+                    </div>
+                    <div class="col-xs-8">
+                        <h2>Congratulations!</h2>
+                        <p>Ronak Luhar ! You are now a rookie ProTeen Meat Poultry and Fish Cutters and Trimmers.</p>
+                        <!-- <p><strong><span class="font-blue">Your Score : </span> 2500</strong></p> -->
+                    </div>
+                </div>
             </div>
+            
         </div>
     @else
         <div class="quiz_view">
