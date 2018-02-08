@@ -252,7 +252,11 @@ class level3ActivityController extends Controller {
                 $searchValue = $request->searchText;
                 $data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
                 if($data) {
+                    
+                    $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+
                     foreach ($data as $key => $value) {
+                        //print_r($value); die();
                         if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
                         } else {
@@ -269,10 +273,9 @@ class level3ActivityController extends Controller {
 
                         $data[$key]->total_basket_profession = count($value->profession);
                         $data[$key]->basket_completed_profession = '12';
-                        $data[$key]->strong_match = '12';
-                        $data[$key]->potential_match = '12';
-                        $data[$key]->unlikely_match = '12';
-
+                        
+                        $match = $nomatch = $moderate = [];
+                    
                         foreach ($value->profession as $k => $v) {
                             if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
@@ -280,12 +283,28 @@ class level3ActivityController extends Controller {
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                             }
                             $data[$key]->profession[$k]->completed = rand(0,1);
+
+                            $data[$key]->profession[$k]->matched = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                            
+                            if($data[$key]->profession[$k]->matched == "match") {
+                                $match[] = $data[$key]->profession[$k]->matched;
+                            } else if($data[$key]->profession[$k]->matched == "nomatch") {
+                                $nomatch[] = $data[$key]->profession[$k]->matched;
+                            } else if($data[$key]->profession[$k]->matched == "moderate") {
+                                $moderate[] = $data[$key]->profession[$k]->matched;
+                            } else {
+                                $notSetcareersArr[] = $data[$key]->profession[$k]->matched;
+                            }
                         }
 
+                        $data[$key]->strong_match = count($match);
+                        $data[$key]->potential_match = count($nomatch);
+                        $data[$key]->unlikely_match = count($moderate);
                     }
+
                     $response['data']['baskets'] = $data;
-                    $response['data']['total_profession'] = '200';
-                    $response['data']['completed_profession'] = '123';
+                    //$response['data']['total_profession'] = '200';
+                    //$response['data']['completed_profession'] = '123';
                 } else {
                     $response['data'] = trans('appmessages.data_empty_msg');
                 }
@@ -825,34 +844,26 @@ class level3ActivityController extends Controller {
         if($request->userId != "" && $teenager) {
             if($request->searchText != "" && $teenager) {
                 $searchText = $request->searchText;
-
                 $data = $this->baskets->getBasketsAndStarRatedProfessionByUserIdAndSearchValue($teenager->id,$searchText);
-
-                if($data){
+                $getTeenagerHML = Helpers::getTeenagerMatchScale($teenager->id);
+                
+                if($data) {
                     foreach ($data as $key => $value) {
-                        
                         if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
-                        }
-                        else{
+                        } else {
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                         }
                         
                         $youtubeId = Helpers::youtube_id_from_url($value->b_video);
-                        if($youtubeId != ''){
+                        if($youtubeId != '') {
                             $data[$key]->b_video = $youtubeId;
                             $data[$key]->type_video = '1'; //Youtube
-                        }
-                        else{
+                        } else {
                             $data[$key]->type_video = '2'; //Dropbox
                         }
 
-                        $data[$key]->total_basket_profession = count($value->profession);
-                        $data[$key]->basket_completed_profession = '12';
-                        $data[$key]->strong_match = '12';
-                        $data[$key]->potential_match = '12';
-                        $data[$key]->unlikely_match = '12';
-
+                        $match = $nomatch = $moderate = [];
                         foreach ($value->profession as $k => $v) {
                             if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
@@ -861,8 +872,26 @@ class level3ActivityController extends Controller {
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                             }
                             $data[$key]->profession[$k]->completed = rand(0,1);
+
+                            $data[$key]->profession[$k]->matched = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                            if($data[$key]->profession[$k]->matched == "match") {
+                                $match[] = $v->id;
+                            } else if($data[$key]->profession[$k]->matched == "nomatch") {
+                                $nomatch[] = $v->id;
+                            } else if($data[$key]->profession[$k]->matched == "moderate") {
+                                $moderate[] = $v->id;
+                            } else {
+                                $notSetArray[] = $v->id;
+                            }
+
                         }
                         
+                        $data[$key]->total_basket_profession = count($value->profession);
+                        $data[$key]->basket_completed_profession = '12';
+                        $data[$key]->strong_match = count($match);
+                        $data[$key]->potential_match = count($moderate);
+                        $data[$key]->unlikely_match = count($nomatch);
+
                     }
                     $response['data']['baskets'] = $data;
                 }
@@ -934,8 +963,7 @@ class level3ActivityController extends Controller {
                         $data[$key]->t_photo = Storage::url($teenPhoto);
                     }
                     $response['data'] = $data;
-                }
-                else{
+                } else {
                     $response['data'] = trans('appmessages.data_empty_msg');
                 }
 

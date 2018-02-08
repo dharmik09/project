@@ -104,7 +104,7 @@
                                                         <figure>
                                                             <div class="category-img" style="background-image: url('{{ Storage::url($professionImagePath.$v->pf_logo) }} ')"></div>
                                                             <figcaption>
-                                                                <a href="{{url('teenager/career-detail/')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{$v->pf_name}}</a>
+                                                                <a href="{{url('teenager/career-detail/')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{ str_limit($v->pf_name, $limit = 35, $end = '...') }}</a>
                                                             </figcaption>
                                                             @if(count($v->professionAttempted)>0)
                                                                 <span class="complete">Complete</span>
