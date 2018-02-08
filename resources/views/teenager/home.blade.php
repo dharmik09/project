@@ -316,22 +316,6 @@
         }
     }
     
-    function getHelpText(helpSlug)
-    {
-        var CSRF_TOKEN = "{{ csrf_token() }}";
-        $.ajax({
-            type: 'POST',
-            url: "{{url('teenager/get-help-text')}}",
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            },
-            data: {'helpSlug':helpSlug},
-            success: function(response) {
-                $("."+helpSlug).text(response);                
-            }
-        });
-    }
-
     function saveAns(queId, key = '') {
         <?php if ($user->is_sound_on == Config::get('constant.SOUND_FLAG_ON')) { ?>
             var audio = $("#audio_"+key);

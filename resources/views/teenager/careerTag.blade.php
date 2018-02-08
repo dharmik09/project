@@ -20,13 +20,13 @@
                 <div class="heading-sec clearfix">
                     <h1>{{$professionsTagData->pt_name}}</h1>
                     <div class="sec-popup">
-                        <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
+                        <a href="javascript:void(0);" onclick="getHelpText('tags-details')" data-toggle="clickover" data-popover-content="#tags-details" class="help-icon custompop" rel="popover" data-placement="bottom">
                             <i class="icon-question"></i>
                         </a>
-                        <div class="hide" id="pop1">
+                        <div class="hide" id="tags-details">
                             <div class="popover-data">
                                 <a class="close popover-closer"><i class="icon-close"></i></a>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                                <span class="tags-details"></span>
                             </div>
                         </div>
                     </div>
