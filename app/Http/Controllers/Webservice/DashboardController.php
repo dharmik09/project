@@ -358,13 +358,12 @@ class DashboardController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
-            
             $teenagerCareers = $this->professionsRepository->getMyCareers($request->userId);
             $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($request->userId)->toArray() : [];
-
             $getAllActiveProfessions = Helpers::getActiveProfessions();
             
             $allProfessions = [];
+            $match = $nomatch = $moderate = [];
             if($getAllActiveProfessions) {
                 foreach($getAllActiveProfessions as $key => $profession) {
                     $array = [];
@@ -375,7 +374,23 @@ class DashboardController extends Controller
                     $array['pf_logo_thumb'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $array['matched'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
                     $array['attempted'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
-                    $allProfessions[] = $array;
+                    //$allProfessions[] = $array;
+                    if($array['matched'] == "match") {
+                        $match[] = $array;
+                    } else if($array['matched'] == "nomatch") {
+                        $nomatch[] = $array;
+                    } else if($array['matched'] == "moderate") {
+                        $moderate[] = $array;
+                    } else {
+                        $notSetArray[] = $array;
+                    }
+                }
+                if(count($match) < 1 && count($moderate) < 1) {
+                    $allProfessions = $nomatch;
+                } else if(count($match) > 0 || count($moderate) > 0) {
+                    $allProfessions = array_merge($match, $moderate);
+                } else {
+                    $allProfessions = $notSetArray;
                 }
             }
 
