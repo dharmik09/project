@@ -148,50 +148,50 @@ class level3ActivityController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getCareersByBasketId'));
         if($request->userId != "" && $teenager) {
-
-            if($teenager->t_view_information == 1){
-                $this->countryId = 2; // United States
-            }else{
-                $this->countryId = 1; // India
-            }
-
+            
+            $this->countryId = ($teenager->t_view_information == 1) ? 2 : 1;
             $basketId = $request->basketId;
 
-            $careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId,$this->countryId);
+            $careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId, $this->countryId);
 
-            if($careersData){
-
-                if($careersData->b_logo != '' && Storage::size($this->basketThumbUrl.$careersData->b_logo) > 0){
+            if($careersData) {
+                if($careersData->b_logo != '' && Storage::size($this->basketThumbUrl.$careersData->b_logo) > 0) {
                     $careersData->b_logo = Storage::url($this->basketThumbUrl.$careersData->b_logo);
-                }
-                else{
+                } else {
                     $careersData->b_logo = Storage::url($this->basketThumbUrl.$this->basketDefaultProteenImage);
                 }
-                
                 $youtubeId = Helpers::youtube_id_from_url($careersData->b_video);
-                if($youtubeId != ''){
+                if($youtubeId != '') {
                     $careersData->b_video = $youtubeId;
                     $careersData->type_video = '1'; //Youtube
-                }
-                else{
+                } else {
                     $careersData->type_video = '2'; //Dropbox
                 }
 
                 $careersData->total_basket_profession = count($careersData->profession);
                 $careersData->basket_completed_profession = '12';
-                $careersData->strong_match = '12';
-                $careersData->potential_match = '12';
-                $careersData->unlikely_match = '12';
+        
+                $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+                $match = $nomatch = $moderate = [];
 
                 foreach ($careersData->profession as $key => $value) {
-                
-                    if($value->pf_logo != '' && Storage::size($this->professionThumbUrl . $value->pf_logo) > 0){
+                    if($value->pf_logo != '' && Storage::size($this->professionThumbUrl . $value->pf_logo) > 0) {
                         $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $value->pf_logo);
-                    }
-                    else{
+                    } else {
                         $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                     }
-                    
+                    //H,M,L Data
+                    $careersData->profession[$key]->matched = isset($getTeenagerHML[$value->id]) ? $getTeenagerHML[$value->id] : '';
+                    if($careersData->profession[$key]->matched == "match") {
+                        $match[] = $careersData->profession[$key]->matched;
+                    } else if($careersData->profession[$key]->matched == "nomatch") {
+                        $nomatch[] = $careersData->profession[$key]->matched;
+                    } else if($careersData->profession[$key]->matched == "moderate") {
+                        $moderate[] = $careersData->profession[$key]->matched;
+                    } else {
+                        $notSetcareersArr[] = $careersData->profession[$key]->matched;
+                    }
+
                     $average_per_year_salaryData = $value->professionHeaders->filter(function($item) {
                                                     return $item->pfic_title == 'average_per_year_salary';
                                                 })->first();
@@ -218,6 +218,10 @@ class level3ActivityController extends Controller {
                     unset($careersData->profession[$key]->professionHeaders);
                 }
 
+                $careersData->strong_match = count($match);
+                $careersData->potential_match = count($moderate);
+                $careersData->unlikely_match = count($nomatch);
+
                 $response['data']['baskets'] = $careersData;
                 $response['data']['total_profession'] = '200';
                 $response['data']['completed_profession'] = '123';
@@ -242,20 +246,16 @@ class level3ActivityController extends Controller {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'searchCareers'));
+        
         if($request->userId != "" && $teenager) {
             if($request->searchText != "") {
-
                 $searchValue = $request->searchText;
-                
                 $data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
-                            
-                if($data){
+                if($data) {
                     foreach ($data as $key => $value) {
-                        
                         if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
-                        }
-                        else{
+                        } else {
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                         }
 
@@ -263,8 +263,7 @@ class level3ActivityController extends Controller {
                         if($youtubeId != ''){
                             $data[$key]->b_video = $youtubeId;
                             $data[$key]->type_video = '1'; //Youtube
-                        }
-                        else{
+                        } else {
                             $data[$key]->type_video = '2'; //Dropbox
                         }
 
@@ -277,8 +276,7 @@ class level3ActivityController extends Controller {
                         foreach ($value->profession as $k => $v) {
                             if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
-                            }
-                            else{
+                            } else {
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                             }
                             $data[$key]->profession[$k]->completed = rand(0,1);
@@ -288,8 +286,7 @@ class level3ActivityController extends Controller {
                     $response['data']['baskets'] = $data;
                     $response['data']['total_profession'] = '200';
                     $response['data']['completed_profession'] = '123';
-                }
-                else{
+                } else {
                     $response['data'] = trans('appmessages.data_empty_msg');
                 }
 
