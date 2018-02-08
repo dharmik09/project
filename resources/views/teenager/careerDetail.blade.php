@@ -53,23 +53,23 @@
             <h1>{{$professionsData->pf_name}}</h1>
            
             <div class="career-banner banner-landing">
-                    <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
-                    <div>
-                        <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
-                    </div>
-                    <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
-                    @if($videoCode == '')
-              
-                    <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls style="width: 100%;min-width: 100%;">
-                            <!-- MP4 must be first for iPad! -->
-                            <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->  
-                            Your browser does not support HTML5 video.
-                    </video>
-               
-                    @else
-                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
-                    @endif   
+                <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
+                <div>
+                    <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                 </div>
+                <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
+                @if($videoCode == '')
+          
+                <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls style="width: 100%;min-width: 100%;">
+                        <!-- MP4 must be first for iPad! -->
+                        <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->  
+                        Your browser does not support HTML5 video.
+                </video>
+           
+                @else
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                @endif   
+            </div>
             <div class="detail-content">
                 <div class="row">
                     <div class="col-md-8">
@@ -177,6 +177,7 @@
                                                         <h3>Quiz</h3>
                                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                                                         <span title="Play" class="btn-play btn btn-basic">Play</span>
+                                                        <span class="btn-play btn-play-basic" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
                                                     </div>
                                                     <div class="basic-quiz-area sec-hide" id="basicLevelData">
                                                         
@@ -404,34 +405,41 @@
         </section>
     </div>
         <!-- mid section end-->
-    </div>
+</div>
+    <span id="setResponse" value="0"></span>
+    <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
+    <audio id="audio_1" src="{{ Storage::url('frontend/audio/L1A_1.wav')}}"></audio>
+    <audio id="audio_2" src="{{ Storage::url('frontend/audio/L1A_2.wav')}}"></audio>
 @stop
+
 @section('script')
 <script src="{{ asset('backend/js/highchart.js')}}"></script>
 <script>
     $(document).ready(function() {
+        
         $('.play-icon').click(function() {
-           $(this).hide();
-                $('video').show();
-                $('img').hide();
+            $(this).hide();
+            $('video').show();
+            $('img').hide();
         });
         
         $('#iframe-video-click').on('click', function(ev) {
             var youtubeVideo = '{{$videoCode}}';
-            if(youtubeVideo == ''){
+            if(youtubeVideo == '') {
                 $("#dropbox_video_player")[0].play();
-            }else{
+            } else {
                 $('img').hide();
                 $('iframe').show();
                 $("#iframe-video")[0].src += "&autoplay=1";
                 ev.preventDefault();
             }
-            
         });
+        
         $('.btn-next').click(function() {
             $('.front_page').hide();
             $('.promise-plus-overlay').show(500);
         })
+        
         $('.promise-plus-overlay .close').click(function() {
             $('.promise-plus-overlay').hide();
             $('.front_page').show(500);
@@ -441,39 +449,39 @@
             $('.quiz-intermediate .sec-show').addClass('hide');
             $('.quiz-intermediate .sec-hide').addClass('active');
         })
+        
         $('.quiz-area .close').click(function() {
-             $('.sec-show').removeClass('hide');
+            $('.sec-show').removeClass('hide');
             $('.sec-hide').removeClass('active');
         });
+        
         $('.btn-advanced').click(function(){
             $('.quiz-advanced .sec-show').addClass('hide');
             $('.quiz-advanced .sec-hide').addClass('active');
         })
+        
         $('.upload-screen .close').click(function() {
-             $('.sec-show').removeClass('hide');
+            $('.sec-show').removeClass('hide');
             $('.sec-hide').removeClass('active');
         });
 
         $(".progress-match").each(function(){
-
-          var $bar = $(this).find(".bar");
-          var $val = $(this).find("span");
-          var perc = parseInt( $val.text(), 10);
-
-          $({p:0}).animate({p:perc}, {
-            duration: 3000,
-            easing: "swing",
-            step: function(p) {
-              $bar.css({
-                transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
-                // 45 is to add the needed rotation to have the green borders at the bottom
-              });
-              $val.text(p|0);
-            }
-          });
+            var $bar = $(this).find(".bar");
+            var $val = $(this).find("span");
+            var perc = parseInt( $val.text(), 10);
+            $({p:0}).animate({p:perc}, {
+                duration: 3000,
+                easing: "swing",
+                step: function(p) {
+                    $bar.css({
+                        transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
+                        // 45 is to add the needed rotation to have the green borders at the bottom
+                    });
+                    $val.text(p|0);
+                }
+            });
         });
     });
-    
 
     $(document).on('click','#add-to-star', function(){
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -499,15 +507,14 @@
     });
     
     var youtubeVideo = '{{$videoCode}}';
-    if(youtubeVideo == ''){
-      var isYouTube = 0;
-    }
-    else{
-      var isYouTube = 1;  
+    if(youtubeVideo == '') {
+        var isYouTube = 0;
+    } else {
+        var isYouTube = 1;
     }
     
     setTimeout(function() {
-       saveBoosterPoints({{$professionsData->id}},2,isYouTube);
+        saveBoosterPoints({{$professionsData->id}}, 2, isYouTube);
     }, 60000);
     
     function saveBoosterPoints(professionId, type, isYouTube)
@@ -522,7 +529,6 @@
                 'X-CSRF-TOKEN': CSRF_TOKEN,
             },
             success : function (response) {
-                
             }
         });
     }
@@ -631,7 +637,7 @@
         if($high_school == 0 && $junior_college == 0 && $bachelor_degree == 0 && $masters_degree == 0 && $phd_degree == 0)
         {    
     ?>
-            $('#education_chart').html('');
+        $('#education_chart').html('');
     <?php
         }
         else
@@ -642,63 +648,63 @@
             $chartArray[] = array('y'=> (int) $masters_degree, 'name' => 'Masters', 'color' => '#27a6b5');
             $chartArray[] = array('y'=> (int) $phd_degree, 'name' => 'PhD', 'color' => '#00caa7');
     ?>
-            var educationChartData = <?php echo json_encode($chartArray);  ?>;
-            loadChart('column','',educationChartData,'education_chart');
+        var educationChartData = <?php echo json_encode($chartArray);  ?>;
+        loadChart('column','',educationChartData,'education_chart');
 
-            function loadChart(chartType,total,chartData,loadDiv){
-                $('#'+loadDiv).highcharts({
-                    chart: {
-                        type: chartType,
+        function loadChart(chartType,total,chartData,loadDiv){
+            $('#'+loadDiv).highcharts({
+                chart: {
+                    type: chartType,
+                },
+                title: {
+                    text: ''
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    type: 'category',
+                    title: {
+                        text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Level of education attained by people in this career in the US" : "Level of education attained by people currently working in this career" ?>',
+                        style: {
+                            fontSize:'16px'
+                        }
                     },
+                    labels: {
+                        style: {
+                            fontSize:'13px'
+                        }
+                    }
+                },
+                legend: {
+                    enabled:false
+                },
+                yAxis: {                
                     title: {
                         text: ''
-                    },
-                    subtitle: {
-                        text: ''
-                    },
-                    xAxis: {
-                        type: 'category',
-                        title: {
-                            text : 'Note : <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? "Level of education attained by people in this career in the US" : "Level of education attained by people currently working in this career" ?>',
-                            style: {
-                                fontSize:'16px'
-                            }
-                        },
-                        labels: {
-                            style: {
-                                fontSize:'13px'
-                            }
+                    },                
+                    lineWidth: 0                
+                },
+                            
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: false,
+                            format: ''
                         }
-                    },
-                    legend: {
-                        enabled:false
-                    },
-                    yAxis: {                
-                        title: {
-                            text: ''
-                        },                
-                        lineWidth: 0                
-                    },
-                                
-                    plotOptions: {
-                        series: {
-                            borderWidth: 0,
-                            dataLabels: {
-                                enabled: false,
-                                format: ''
-                            }
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: ''
-                    },
-                    series: [{
-                            colorByPoint: true,
-                            data: chartData
-                        }]
-                   
-                });
-            }
+                    }
+                },
+                tooltip: {
+                    pointFormat: ''
+                },
+                series: [{
+                        colorByPoint: true,
+                        data: chartData
+                    }]
+               
+            });
+        }
     <?php
         }
     ?>
@@ -748,7 +754,6 @@
     //Basic level data query
     var basicCount;
     jQuery(document).ready(function($) {
-        console.log(basicCount);
         var counter = setInterval(basicTimer, 1000);
         function basicSecondPassed() {
             var minutes = Math.round((basicCount - 30) / 60);
@@ -765,26 +770,43 @@
                 basicSecondPassed();
             }
             basicCount = basicCount - 1;
+            $("#blackhole").val(basicCount);           
+            if (basicCount == -1) {
+                autoSubmitBasicAnswer();
+            }
         }
     });
+
     $(document).on('click', '.btn-basic', function(e) {
+        e.preventDefault();
+        $(".btn-play-basic").show();
+        $(".btn-basic").hide();
+        getBasicQuestions('{{$professionsData->id}}');
+    });
+
+    function getBasicQuestions(professionId) {
         $.ajax({
             url: "{{url('teenager/play-basic-level-activity')}}",
             type : 'POST',
             data : { 'professionId' : '{{$professionsData->id}}' },
             headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
             success: function(data){
+                $("#setResponse").val("0");
                 $('.quiz-basic .sec-show').addClass('hide');
                 $('.quiz-basic .basic-quiz-area').addClass('active');
                 $('#basicLevelData').html(data);
             }
-        });
-    });
+        }); 
+    }
+    
     $(document).on('click', '.quiz_view .close', function(e) {
         $('.sec-show').removeClass('hide');
         $('.sec-hide').removeClass('active');
         $('#basicLevelData').html('');
+        $(".btn-basic").show();
+        $(".btn-play-basic").hide();
     });
+    
     $('.ad-slider').owlCarousel({
         loop: true,
         margin: 10,
@@ -794,6 +816,140 @@
         smartSpeed: 500,
         autoplay:true,
     });
+
+    function saveBasicAnswer() {
+        $("#basicErrorGoneMsg").html('');
+        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
+            var audio = document.getElementById('audio_1');
+            audio.play();
+        <?php } ?>
+        var validCheck = 0;
+
+        if ($('.optionSelection [name="' + optionName + '"]:checked').length > 0) {
+            validCheck = 1;
+            $(".basic-time-tag").css('visibility', 'hidden');
+        }
+        
+        if (validCheck == 1) {
+            $("#setResponse").val("1");
+            var form_data = $("#level4_activity_ans").serialize();
+            $('.basic-question-loader').parent().toggleClass('loading-screen-parent');
+            $('.basic-question-loader').show();
+            $('.saveMe').css('visibility', 'hidden');
+            
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-basic-level-activity')}}",
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                cache: false,
+                success: function(data) {
+                    $('.basic-question-loader').hide();
+                    $('.basic-question-loader').parent().removeClass('loading-screen-parent');
+                    var obj = $.parseJSON(data);
+                    if (obj.status == 1) {
+                        $.each(obj.data, function(key, value) {
+                            if (value == 1) {
+                                $('.class' + key).addClass("correct");
+                            } else {
+                                $('.class' + key).addClass("incorrect");
+                            }
+                        });
+                        setTimeout( function() {
+                            getBasicQuestions('{{$professionsData->id}}'); 
+                        }, 1000);
+                    } else {
+                        $("#setResponse").val("0");
+                        $('.saveMe').css('visibility', 'visible');
+                        $(".basic-time-tag").css('visibility', 'visible');
+                        $("html, body").animate({
+                            scrollTop: $('#basicErrorGoneMsg').offset().top 
+                        }, 300);
+                        $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+obj.message+'</span></div></div></div>');
+                        setTimeout( function() {
+                            getBasicQuestions('{{$professionsData->id}}'); 
+                        }, 1000);
+                    }
+                }
+            });
+        } else {
+            $('.basic-question-loader').hide();
+            $('.basic-question-loader').parent().removeClass('loading-screen-parent');
+            $("html, body").animate({
+                scrollTop: $('#basicErrorGoneMsg').offset().top 
+            }, 300);
+            $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select at-least one answer!</span></div></div></div>');
+        }
+    }
+
+    function autoSubmitBasicAnswer() {
+        if ($("#setResponse").val() == 0) {
+            $("#setResponse").val("1");
+            var questionID = $("#questionID").val();
+            var answerID = 0;
+            var timer = 0;
+            var form_data = 'questionID=' + questionID + '&answerID[0]=' + answerID + '&timer=' + timer;
+            $('.basic-question-loader').parent().toggleClass('loading-screen-parent');
+            $('.basic-question-loader').show();
+            $('.saveMe').css('visibility', 'hidden');
+                        
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-basic-level-activity')}}",
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                cache: false,
+                success: function(data) {
+                    $('.basic-question-loader').hide();
+                    $('.basic-question-loader').parent().removeClass('loading-screen-parent');
+                    var obj = $.parseJSON(data);
+                    if (obj.status == 1) {
+                        $('.saveMe').css('visibility', 'hidden');
+                        $.each(obj.data, function(key, value) {
+                            if (value == 1) {
+                                $('.class' + key).addClass("correct");
+                            } else {
+                                $('.class' + key).addClass("incorrect");
+                            }
+                        });
+                        setTimeout( function() {
+                            getBasicQuestions('{{$professionsData->id}}'); 
+                        }, 1000);
+                    } else {
+                        $('.saveMe').css('visibility', 'visible');
+                        $("#setResponse").val("0");
+                        $(".basic-time-tag").css('visibility', 'visible');
+                        $("html, body").animate({
+                            scrollTop: $('#basicErrorGoneMsg').offset().top 
+                        }, 300);
+                        $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+obj.message+'</span></div></div></div>');
+                        setTimeout( function() {
+                            getBasicQuestions('{{$professionsData->id}}'); 
+                        }, 1000);
+                    }
+                }
+            });
+        }
+    }
+
+    $(document).on('change', '.selectionCheck', function(evt) { 
+        if (limitSelect > 1) {
+            if ($('input.multiCast:checked').length > limitSelect) {
+                this.checked = false;
+                $("#basicErrorGoneMsg").html('');
+                $("html, body").animate({
+                    scrollTop: $('#basicErrorGoneMsg').offset().top 
+                }, 300);
+                $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">You can select maximum '+ limitSelect +' options</span></div></div></div>');
+                // setTimeout(function() {
+                //     $("#basicErrorGoneMsg").html('');
+                // }, 3000);
+            }
+        }    
+    });
+
 </script>
 
 @stop

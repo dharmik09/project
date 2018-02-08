@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Country;
 use Config;
+use DB;
 
 class Teenagers extends Authenticatable {
 
