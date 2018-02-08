@@ -297,6 +297,7 @@
     display: none;
     width: 55px;
     height: 55px;
+    z-index: 999;
     @include maxsm {
         width: 40px;
         height: 40px;

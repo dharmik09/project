@@ -341,9 +341,13 @@ class ProfessionController extends Controller {
                     case '3':
                         $bannerAdImages[] = $ad;
                         break;
+
+                    default:
+                        break;
                 };
             }
         }
+        //$teenagerSponsors = $this-> 
         return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages'));
     }
 

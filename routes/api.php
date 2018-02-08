@@ -155,5 +155,6 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//Tag
 	Route::post('/getTagDetails', 'Webservice\TagController@getTagDetails');
 	
-
+	//HelpText
+	Route::post('/getHelpText', 'Webservice\HelpController@getHelpTextBySlug');
 });
