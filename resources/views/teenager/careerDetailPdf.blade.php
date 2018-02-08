@@ -326,27 +326,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="advanced-sec">
-                            <div class="panel-group" id="accordion">
-                                <div class="panel panel-default">
-                                    <div class="panel-collapse collapse in" id="accordion1">
-                                        <div class="panel-body">
-                                            @forelse($teenagerStrength as $key => $value)
-                                                <div class="progress-block">
-                                                    <div class="skill-name">{{$value['name']}}</div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar progress-bar-primary" role="progressbar" data-width="{{$value['score']}}">
-                                                        </div>
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$value['lowscoreH']}}%; background-color:#65c6e6;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            @empty
-                                            @endforelse
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="sec-tags">
                             <h4>Tags</h4>
                             <ul class="tag-list">

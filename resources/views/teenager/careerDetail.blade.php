@@ -144,7 +144,9 @@
                                     
                                     <span>
                                         <!-- <a href="{{url('teenager/get-carrer-pdf/'.$professionsData->pf_slug)}}" title="print"><i class="icon-print"></i></a> -->
-                                        <a href="#" onclick="getCareerDetailPdf();" title="print"><i class="icon-print"></i></a>
+                                        <div id="print_loader">
+                                            <a href="javascript:void(0)" onclick="getCareerDetailPdf();" title="print"><i class="icon-print"></i></a>
+                                        </div> 
                                     </span>
                                 </div>
                             </div>
@@ -828,17 +830,18 @@
     });
 
     function getCareerDetailPdf(){
+        $("#print_loader").html('<img src="{{Storage::url('img/loading.gif')}}">');
         var chartHtml = $('#education_chart').html();
         var CSRF_TOKEN = "{{ csrf_token() }}";
         $.ajax({
             type: 'POST',
             url: "{{url('teenager/get-carrer-pdf')}}",
-            dataType: 'json',
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
             data: {'slug':'{{$professionsData->pf_slug}}','chartHtml':chartHtml},
-            success: function (response) {
+            success: function (response) {                
+                $("#print_loader").html('<a href="javascript:void(0)" onclick="getCareerDetailPdf();" title="print" id=""><i class="icon-print"></i></a>');
             }
         });
     }
