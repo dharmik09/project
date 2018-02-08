@@ -13,7 +13,7 @@
                         ?>
                         <img src="{{ Storage::url($teenPhoto) }}" alt="team">
                     </div>
-                    <a href="#" title="{{$value->t_name}}">{{$value->t_name}}</a>
+                    <a href="{{url('teenager/network-member/'.$value->t_uniqueid)}}" title="{{$value->t_name}}">{{$value->t_name}}</a>
                 </div>
             </div>
             <div class="flex-item">

@@ -149,7 +149,7 @@ class DashboardController extends Controller
                 } else if($array['match_scale'] == "moderate") {
                     $moderate[] = $array;
                 } else {
-                    $notSetArray = $array;
+                    $notSetArray[] = $array;
                 }
             }
             if(count($match) < 1 && count($moderate) < 1) {

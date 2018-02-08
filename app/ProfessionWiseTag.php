@@ -61,4 +61,12 @@ class ProfessionWiseTag extends Model
     public function profession(){
         return $this->belongsTo(Professions::class, 'profession_id');
     }
+
+    /**
+     * check Profession Wise Tag exist
+     */
+    public function checkProfessionWiseTagByTagIdAndProfessionId($tagId,$professionId) {
+        $return = ProfessionWiseTag::where('tag_id',$tagId)->where('profession_id',$professionId)->first();
+        return $return;
+    }
 }

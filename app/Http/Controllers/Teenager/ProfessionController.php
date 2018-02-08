@@ -19,7 +19,8 @@ use Input;
 use Mail;
 use Helpers;
 use Redirect;
-use Request;   
+use Request; 
+use PDF;  
 use App\StarRatedProfession; 
 use App\TeenagerPromiseScore;
 use App\PromiseParametersMaxScore;
@@ -42,6 +43,7 @@ class ProfessionController extends Controller {
         $this->miThumb = Config::get('constant.MI_THUMB_IMAGE_UPLOAD_PATH');
         $this->personalityThumb = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
         $this->objTeenagerPromiseScore = new TeenagerPromiseScore();
+        $this->careerDetailsPdfUploadedPath = Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH');
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
         $this->teenagersRepository = $teenagersRepository;
     }
@@ -528,4 +530,103 @@ class ProfessionController extends Controller {
         return response()->json($response, 200);
         exit;
     }
+
+    public function getCarrerPdf()
+    {
+        $slug = Input::get('slug');
+        $chartHtml = Input::get('chartHtml');
+        $user = Auth::guard('teenager')->user();
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
+        //1=India, 2=US
+        $countryId = ($user->t_view_information == 1) ? 2 : 1;
+
+        $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
+        $professionsData = ($professionsData) ? $professionsData : [];
+        if(!$professionsData) {
+            return Redirect::to("teenager/list-career")->withErrors("Invalid professions data");
+        }
+        $careerMapHelperArray = Helpers::getCareerMapColumnName();
+        $careerMappingdata = [];
+        
+        foreach ($careerMapHelperArray as $key => $value) {
+            $data = [];
+            if(isset($professionsData->careerMapping[$value]) && $professionsData->careerMapping[$value] != 'L'){
+                $arr = explode("_", $key);
+                if($arr[0] == 'apt'){
+                    $apptitudeData = $this->objApptitude->getApptitudeDetailBySlug($key);
+                    $data['cm_name'] = $apptitudeData->apt_name;   
+                    $data['cm_image_url'] = Storage::url($this->aptitudeThumb . $apptitudeData->apt_logo);
+                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeData->apt_slug); 
+                    $careerMappingdata[] = $data;  
+                }
+            }
+        }
+        
+        unset($professionsData->careerMapping);
+        $professionsData->ability = $careerMappingdata;
+
+        $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
+            
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+            }
+            
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore(Auth::guard('teenager')->user()->id);
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
+            {
+                $teenPromiseScore = $teenPromiseScore->toArray();                
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+                {                    
+                    if (strpos($paramkey, 'apt_') !== false) {                       
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                    }elseif(strpos($paramkey, 'pt_') !== false){
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
+                    }elseif(strpos($paramkey, 'mit_') !== false){
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+               
+                    }
+                }
+            }
+        $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $adsDetails = Helpers::getAds($user->id);
+        $mediumAdImages = [];
+        $largeAdImages = [];
+        $bannerAdImages = [];
+        if (isset($adsDetails) && !empty($adsDetails)) {
+            foreach ($adsDetails as $ad) {
+                if ($ad['image'] != '') {
+                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ad['image']);
+                } else {
+                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                }
+                switch ($ad['sizeType']) {
+                    case '1':
+                        $mediumAdImages[] = $ad;
+                        break;
+
+                    case '2':
+                        $largeAdImages[] = $ad;
+                        break; 
+
+                    case '3':
+                        $bannerAdImages[] = $ad;
+                        break;
+                };
+            }
+        }
+        $fileName = time().'.pdf';
+        $checkPDF = PDF::loadView('teenager.careerDetailPdf',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml'))->save($this->careerDetailsPdfUploadedPath.$fileName);
+        if(isset($checkPDF)){
+            return Storage::url($this->careerDetailsPdfUploadedPath.$fileName);
+        }
+    }
+
 }
