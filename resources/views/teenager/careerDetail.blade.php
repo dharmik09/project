@@ -829,7 +829,6 @@
 
     function getCareerDetailPdf(){
         var chartHtml = $('#education_chart').html();
-        alert(chartHtml);
         var CSRF_TOKEN = "{{ csrf_token() }}";
         $.ajax({
             type: 'POST',
@@ -840,7 +839,6 @@
             },
             data: {'slug':'{{$professionsData->pf_slug}}','chartHtml':chartHtml},
             success: function (response) {
-                alert(response);
             }
         });
     }
