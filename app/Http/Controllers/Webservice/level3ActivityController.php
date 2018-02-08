@@ -105,22 +105,37 @@ class level3ActivityController extends Controller {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getAllCareers'));
+        
         if($request->userId != "" && $teenager) {
-
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+            $match = $nomatch = $moderate = [];
             $data = $this->professions->getActiveProfessionsOrderByName();
-            
-            if($data){
-                $response['data'] = $data;
-            }
-            else{
-                $response['data'] = trans('appmessages.data_empty_msg');
-            }
 
+            if($data) {
+                foreach ($data as $key => $value) {
+                    $value->matched = isset($getTeenagerHML[$value->id]) ? $getTeenagerHML[$value->id] : '';
+                    if($value->matched == "match") {
+                        $match[] = $value->id;
+                    } else if($value->matched == "nomatch") {
+                        $nomatch[] = $value->id;
+                    } else if($value->matched == "moderate") {
+                        $moderate[] = $value->id;
+                    } else {
+                        $notSetArray[] = $value->id;
+                    }
+                }
+            }
+            
+            $response['strong'] = count($match);
+            $response['potential'] = count($moderate);
+            $response['unlikely'] = count($nomatch);
+            
+            $response['data'] = $data;
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
-
             $this->log->info('Response for Level3 get All careers' , array('api-name'=> 'getAllCareers'));
+
         } else {
             $this->log->error('Parameter missing error' , array('api-name'=> 'getAllCareers'));
             $response['message'] = trans('appmessages.missing_data_msg');
