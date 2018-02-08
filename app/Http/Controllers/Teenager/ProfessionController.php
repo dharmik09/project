@@ -347,7 +347,17 @@ class ProfessionController extends Controller {
                 };
             }
         }
-        //$teenagerSponsors = $this-> 
+        $teenagerSponsors = $this->teenagersRepository->getTeenagerSelectedSponsor($user->id);
+        $sponsorArr = [];
+        if (isset($teenagerSponsor) && count($teenagerSponsor) > 0) {
+            foreach ($teenagerSponsor as $key => $val) {
+                $sponsorArr[] = $val->ts_sponsor;
+            }
+        }
+        $scholarshipPrograms = [];
+        if (!empty($sponsorArr)) {
+            $scholarshipPrograms = $this->obj->getActivityByTypeAndSponsor($sponsorArr, 3);
+        }
         return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages'));
     }
 

@@ -347,6 +347,7 @@ class DashboardController extends Controller
         if($teenager) {
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareers($request->userId);
+            $careersCount = $this->professionsRepository->getMyCareersCount($request->userId);
             if($getTeenagerAttemptedProfession) {
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
                     $getTeenagerAttemptedProfession[$key]->matched = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
@@ -359,6 +360,7 @@ class DashboardController extends Controller
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
+            $response['careersCount'] = (isset($careersCount)) ? $careersCount : 0;
             $response['data'] = $getTeenagerAttemptedProfession;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
