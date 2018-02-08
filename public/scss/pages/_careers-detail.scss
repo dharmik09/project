@@ -1110,6 +1110,11 @@
             }
         }
     }
+    .owl-stage-outer{
+        [class*=col-]{
+            width: 100%;
+        }
+    }
 }
 .competitive-list .row{margin: 0 !important;}
 .challenge-play {
