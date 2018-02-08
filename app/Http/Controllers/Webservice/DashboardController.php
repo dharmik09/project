@@ -31,6 +31,7 @@ use App\CareerMapping;
 use App\ProfessionWiseSubject;
 use App\TeenagerPromiseScore;
 use App\ProfessionSubject;
+use App\PromiseParametersMaxScore;
 
 class DashboardController extends Controller
 {
@@ -67,7 +68,8 @@ class DashboardController extends Controller
         $this->objProfessionWiseSubject = new ProfessionWiseSubject;
         $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
         $this->subjectOriginalImageUploadPath = Config::get("constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH");
-        $this->objProfessionSubject = new ProfessionSubject; 
+        $this->objProfessionSubject = new ProfessionSubject;
+        $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
     }
 
     /* Request Params : getDashboardDetail
@@ -113,25 +115,39 @@ class DashboardController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
-            $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
             if (isset($request->teenagerId) && !empty($request->teenagerId)) {
                 $userId = $request->teenagerId;
             } else {
                 $userId = $request->userId;
             }
-            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($userId);
-            $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
-            $teenagerInterest = [];
-            foreach($teenagerInterestArr as $interestKey => $interestVal){
-                if ($interestVal < 1) { 
-                    continue; 
-                } else {
-                    $itName = Helpers::getInterestBySlug($interestKey);
-                    $teenItScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['interest'][$interestKey], $interestVal);
-                    $teenagerInterest[] = (array('type' => 'interest', 'points' => $teenItScore, 'slug' => $interestKey, 'link' => url('teenager/interest/').'/'.$interestKey, 'name' => $itName));
-                }
-            }
             
+            $teenagerInterest = $arraypromiseParametersMaxScoreBySlug = [];                        
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+            }            
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($userId);
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
+            {
+                $teenPromiseScore = $teenPromiseScore->toArray();                                
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+                {                 
+                    $arr = explode("_", $paramkey);
+                    $first = $arr[0];
+                    if ($first == 'it')
+                    {
+                        if($paramvalue < 1)
+                        {
+                            continue;
+                        }
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerInterest[] = (array('type' => 'interest', 'points' => $teenAptScore, 'slug' => $paramkey, 'link' => url('teenager/interest/').'/'.$paramkey, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name']));
+                    }
+                }
+            }            
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -150,37 +166,39 @@ class DashboardController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
-            $teenagerStrength = [];
+            $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
             
-            $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+            }
+            
             if (isset($request->teenagerId) && !empty($request->teenagerId)) {
                 $userId = $request->teenagerId;
             } else {
                 $userId = $request->userId;
             }
-            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($userId);
-            //Apptitude Array
-            $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
-            $finalTeenagerAptitude = [];
-            foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
-                $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-                $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
-                $teenagerStrength[] = (array('slug' => $apptitudeKey, 'points' => $teenAptScore, 'score' => $apptitudeVal, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeKey));
-            }
-            //Personality Array
-            $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
-            $finalTeenagerPersonality = [];
-            foreach($teenagerPersonality as $personalityKey => $personalityVal) {
-                $ptName = Helpers::getPersonalityBySlug($personalityKey);
-                $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
-                $teenagerStrength[] = (array('slug' => $personalityKey, 'points' => $teenPtScore, 'score' => $personalityVal, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$personalityKey));
-            }
-            //MI Array
-            $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
-            foreach($teenagerMI as $miKey => $miVal) {
-                $mitName = Helpers::getMIBySlug($miKey);
-                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
-                $teenagerStrength[] = (array('slug' => $miKey, 'points' => $teenMIScore, 'score' => $miVal, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$miKey));
+            
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($userId);
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
+            {
+                $teenPromiseScore = $teenPromiseScore->toArray();                
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+                {                    
+                    if (strpos($paramkey, 'apt_') !== false) {                       
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('slug' => $paramkey, 'points' => $teenAptScore, 'score' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey));
+                    }elseif(strpos($paramkey, 'pt_') !== false){
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('slug' => $paramkey, 'points' => $teenAptScore, 'score' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey));
+                    }elseif(strpos($paramkey, 'mit_') !== false){
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('slug' => $paramkey, 'points' => $teenAptScore, 'score' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey));
+                    }
+                }
             }
             
             $response['login'] = 1;
@@ -329,6 +347,7 @@ class DashboardController extends Controller
         if($teenager) {
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareers($request->userId);
+            $careersCount = $this->professionsRepository->getMyCareersCount($request->userId);
             if($getTeenagerAttemptedProfession) {
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
                     $getTeenagerAttemptedProfession[$key]->matched = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
@@ -341,6 +360,7 @@ class DashboardController extends Controller
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
+            $response['careersCount'] = (isset($careersCount)) ? $careersCount : 0;
             $response['data'] = $getTeenagerAttemptedProfession;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
@@ -505,19 +525,32 @@ class DashboardController extends Controller
             } else {
                 $response["seeMoreFlag"] = 0;
             }
-            $matchArr = ['potential', 'strong', 'unlikely'];
+
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             $careerData = [];
+            $match = $nomatch = $moderate = [];
+
             foreach ($relatedCareers as $career) {
                 $careersArr = [];
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
-                $careersArr['matched'] = $matchArr[rand(0,2)];
+                $careersArr['matched'] = isset($getTeenagerHML[$career->id]) ? $getTeenagerHML[$career->id] : '';
                 $careersArr['attempted'] = rand(0,1);
                 $careerData[] = $careersArr;
+                //Counting Data
+                if($careersArr['matched'] == "match") {
+                    $match[] = $careersArr['id'];
+                } else if($careersArr['matched'] == "nomatch") {
+                    $nomatch[] = $careersArr['id'];
+                } else if($careersArr['matched'] == "moderate") {
+                    $moderate[] = $careersArr['id'];
+                } else {
+                    $notSetcareersArr[] = $careersArr['id'];
+                }
             }
-            $data['strong'] = 4;
-            $data['potential'] = 3;
-            $data['unlikely'] = 5;
+            $data['strong'] = count($match);
+            $data['potential'] = count($moderate);
+            $data['unlikely'] = count($nomatch);
             $data['related_career'] = $careerData;
             $response['login'] = 1;
             $response['status'] = 1;
@@ -571,4 +604,5 @@ class DashboardController extends Controller
         return response()->json($response, 200);
         exit;
     }
+    
 }

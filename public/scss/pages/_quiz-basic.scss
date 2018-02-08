@@ -699,6 +699,10 @@
     }
 }
 
+.quiz_view .quiz-ans .box .correct em {
+    color: green !important;
+}
+
 .level-complete {
     padding: 10px 0;
     .cong-hero {
@@ -711,7 +715,7 @@
         @include maxsm {
             max-width: 90px;
         }
-        @include maxms{
+        @include maxms {
             max-width: 80px;
         }
     }
@@ -769,7 +773,7 @@
             @include maxmd {
                 padding: 50px 15px 30px;
             }
-            @include maxms{
+            @include maxms {
                 padding: 40px 15px 25px;
             }
             .social {
@@ -795,7 +799,7 @@
                 font-family: hn-b;
                 font-size: 20px;
                 margin-bottom: 0;
-                @include maxms{
+                @include maxms {
                     font-size: 17px;
                 }
                 a {
@@ -816,24 +820,58 @@
         }
     }
 }
-.cong-block{
+
+.cong-block {
     text-align: center;
-    padding: 20px 0;
-    .emojis-img{
-        display: inline-block;
-        color: $p-cl;
-        &.emojis-icon{
-            transform: scalex(-1);
-            vertical-align: middle;
-            font-size: 80px;padding:23px 10px 0 0;
+    padding: 20px;
+    .col-xs-4 {
+        @include maxms {
+            padding: 0 !important;
         }
     }
-    h2{
+    .emojis-img {
+        display: inline-block;
+        color: $p-cl;
+        /*@include maxlg {
+            max-width: 70px;
+        }*/
+        @include maxsm {
+            max-width: 60px;
+        }
+        @include maxms {
+            max-width: 50px;
+        }
+        &.emojis-icon {
+            //transform: scalex(-1);
+            vertical-align: middle;
+            font-size: 70px;
+            padding: 23px 0px 0 10px;
+            @include maxlg {
+                font-size: 50px;
+            }
+            @include maxsm {
+                font-size: 30px;
+                    padding: 16px 0px 0 5px;
+            }
+            @include maxms {
+                font-size: 25px;
+                padding-left: 0px;
+            }
+        }
+    }
+    h2 {
         color: $p-cl;
         margin-bottom: 25px;
         padding-bottom: 15px;
         position: relative;
-        &:before{
+        @include maxsm {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+        @include maxms {
+            font-size: 21px;
+        }
+        &:before {
             position: absolute;
             content: '';
             width: 25%;
@@ -845,7 +883,32 @@
             transform: translateX(-50%);
         }
     }
-    p{
+    p {
         font-size: 20px;
+        strong {
+            font-family: am;
+            font-weight: 500;
+            font-size: 30px;
+            @include maxmd{
+                font-size: 25px;
+            }
+            @include maxsm{
+                font-size: 22px;
+            }
+            @include maxms{
+                font-size: 18px;
+            }
+        }
+        @include maxmd {
+            font-size: 17px;
+        }
+        @include maxsm {
+            font-size: 15px;
+        }
     }
+}
+
+.quiz_view .quiz-ans .box .correct input:checked ~ em {
+    background: transparent !important;
+    color: green !important;
 }

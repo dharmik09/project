@@ -451,3 +451,6 @@ CREATE TABLE `pro_fq_forum_questions` (
  `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted  ',
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=83 DEFAULT CHARSET=latin1
+
+//Add new field for sponsor activity table ## 08-02-2017
+ALTER TABLE `pro_sa_sponsor_activity` ADD `sa_description` TEXT NULL AFTER `sa_credit_used`;

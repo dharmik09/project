@@ -975,6 +975,26 @@
             }
         }    
     });
+
+    if ($('.competitive-sec').children().length > 2 ) {
+            $('.competitive-sec').owlCarousel({
+                loop: true,
+                margin: 10,
+                items: 2,
+                nav: false,
+                dots: true,
+                smartSpeed: 500,
+                autoplay:false,
+                responsive : {
+                    0: {
+                        items: 1
+                    },
+                    768: {
+                        items: 2
+                    },
+                }
+            });
+        }
 </script>
 
 @stop

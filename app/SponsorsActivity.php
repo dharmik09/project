@@ -10,8 +10,22 @@ class SponsorsActivity extends Model
 {
 
     protected $table = 'pro_sp_sponsor';
-//    protected $fillable = ['id','sa_sponsor_id', 'sa_type','sa_name','sa_apply_level','sa_location','sa_image','sa_image_href','sa_credit_used','sa_start_date','sa_end_date','deleted','created_at','updated_at'];
+
     protected $guarded = [];
+
+    //Get activity details by activity type
+    public function getActivityByTypeAndSponsor($sponsorArr, $activityType) {
+	    $ads = DB::table('pro_sa_sponsor_activity')
+	              ->join(Config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor", 'pro_sa_sponsor_activity.sa_sponsor_id', '=', 'sponsor.id')
+	              ->selectRaw('pro_sa_sponsor_activity.*, sponsor.sp_company_name')
+	              ->where('pro_sa_sponsor_activity.deleted', 1)
+	              ->where('pro_sa_sponsor_activity.sa_start_date', '<=', date('Y-m-d'))
+	              ->where('pro_sa_sponsor_activity.sa_end_date', '>=', date('Y-m-d'))
+	              ->where('pro_sa_sponsor_activity.sa_type', $activityType)
+	              ->whereIn('pro_sa_sponsor_activity.sa_sponsor_id', $sponsorArr)
+	              ->get();
+        return $ads;  
+    }
 }
 
 
