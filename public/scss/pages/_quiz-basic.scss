@@ -66,12 +66,15 @@
             z-index: 0;
             font-family: h;
             pointer-events: none;
+            @include maxms {
+                top: 6px;
+            }
         }
         select {
             appearance: none;
         }
         .form-control {
-            padding: 8px 30px !important;
+            padding: 8px 30px 8px 10px !important;
             text-align: center;
             border: 2px solid $r-cl;
             border-radius: 6px;
@@ -82,6 +85,10 @@
             height: 100%;
             transition: .3s all ease-out;
             cursor: pointer;
+            @include maxsm {
+                font-size: 18px;
+                padding: 6px 30px;
+            }
             @include maxms {
                 font-size: 16px;
             }
@@ -636,7 +643,7 @@
 
 .quiz-que .que {
     @include maxmd {
-        font-size: 26px;
+        font-size: 23px;
     }
 }
 
@@ -654,16 +661,6 @@
         transition: 0.3s all ease-out;
         position: relative;
         cursor: pointer;
-        &:before {
-            content: '';
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: rgba(244, 67, 54, 0.25);
-            position: absolute;
-            opacity: 0;
-        }
         &:hover {
             transform: scale(1.05);
         }
@@ -671,6 +668,13 @@
             font-family: h;
             padding: 8px 15px;
             display: block;
+            @include maxsm {
+                padding: 6px 15px;
+                font-size: 18px !important;
+            }
+            @include maxms {
+                font-size: 15px !important;
+            }
         }
         img {
             width: 90px;
@@ -692,5 +696,156 @@
         em {
             color: $p-cl !important;
         }
+    }
+}
+
+.level-complete {
+    padding: 10px 0;
+    .cong-hero {
+        max-width: 100px;
+        overflow: hidden;
+        border: 2px solid $p-cl;
+        margin: 0 auto;
+        border-radius: 50%;
+        padding: 5px;
+        @include maxsm {
+            max-width: 90px;
+        }
+        @include maxms{
+            max-width: 80px;
+        }
+    }
+    .level-box {
+        max-width: 350px;
+        margin: 30px auto;
+        text-align: center;
+        overflow: hidden;
+        p {
+            color: $white;
+            @include maxms {
+                font-size: 15px;
+            }
+        }
+        .box-head {
+            background: $p-cl;
+            padding: 15px 15px;
+            position: relative;
+            @include maxsm {
+                padding: 10px 15px;
+            }
+            &:before {
+                position: absolute;
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 210px solid transparent;
+                border-right: 173px solid transparent;
+                border-top: 21px solid $p-cl;
+                bottom: -21px;
+                right: 0px;
+                z-index: 9;
+                @include maxms {
+                    border-left: 141px solid transparent;
+                    border-right: 124px solid transparent;
+                    border-top: 19px solid $p-cl;
+                    bottom: -19px;
+                }
+            }
+            p {
+                color: $white;
+                font-family: 'am';
+                font-size: 25px;
+                text-transform: capitalize;
+                margin-bottom: 0;
+                @include maxsm {
+                    font-size: 20px;
+                }
+            }
+        }
+        .box-content {
+            padding: 60px 15px 40px;
+            background: $i-cl;
+            position: relative;
+            @include maxmd {
+                padding: 50px 15px 30px;
+            }
+            @include maxms{
+                padding: 40px 15px 25px;
+            }
+            .social {
+                padding: 0;
+                list-style-type: none;
+                margin: 15px 0 0;
+                li {
+                    display: inline-block;
+                    font-size: 17px;
+                    margin-left: 10px;
+                    a {
+                        color: $white;
+                        &:hover {
+                            color: $lightgrey;
+                        }
+                    }
+                }
+            }
+        }
+        .feedback-text {
+            margin: 20px 0;
+            p {
+                font-family: hn-b;
+                font-size: 20px;
+                margin-bottom: 0;
+                @include maxms{
+                    font-size: 17px;
+                }
+                a {
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+        .level-btn {
+            .btn {
+                padding: 8px 15px;
+                &.try {
+                    background-color: $i-cl;
+                    border-color: $i-cl;
+                }
+            }
+        }
+    }
+}
+.cong-block{
+    text-align: center;
+    padding: 20px 0;
+    .emojis-img{
+        display: inline-block;
+        color: $p-cl;
+        &.emojis-icon{
+            transform: scalex(-1);
+            vertical-align: middle;
+            font-size: 80px;padding:23px 10px 0 0;
+        }
+    }
+    h2{
+        color: $p-cl;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        position: relative;
+        &:before{
+            position: absolute;
+            content: '';
+            width: 25%;
+            height: 2px;
+            background: $p-cl;
+            bottom: 0;
+            left: 50%;
+            margin: 0 auto;
+            transform: translateX(-50%);
+        }
+    }
+    p{
+        font-size: 20px;
     }
 }

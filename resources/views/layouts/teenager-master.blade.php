@@ -123,10 +123,10 @@
                 </div>
             </div>
         </footer>
-        <div id="loading-wrapper">
+<!--         <div id="loading-wrapper">
             <div id="loading-text"><span>Loading...</span></div>
             <div id="loading-content"></div>
-        </div>
+        </div> -->
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->

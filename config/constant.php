@@ -344,4 +344,6 @@ return [
     'SA_BANNER_IMAGE_UPLOAD_PATH' => 'uploads/sponsoractivity/300_50/',
     'SA_BANNER_IMAGE_HEIGHT' => '300',
     'SA_BANNER_IMAGE_WIDTH' => '50',
+
+    'CAREER_DETAILS_PDF_UPLOAD_PATH' => 'uploads/careerDetailsPdf/',
 ];

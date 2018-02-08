@@ -342,36 +342,35 @@
                     text-align: left;
                     li {
                         display: inline-block;
-                        margin: 0 0px 30px;
-                        //opacity: 0.7;
+                        margin: 0 0px 30px; //opacity: 0.7;
                         vertical-align: top;
                         width: 50%;
                         margin-left: -4px;
                         padding: 0 15px;
-                       
+
                         @include maxms {
                             width: 100%;
                         }
                         .logo-img {
-                           max-height: 190px;
-                            @include maxsm{
+                            max-height: 190px;
+                            @include maxsm {
                                 max-height: 120px;
                             }
-                            @include maxms{
+                            @include maxms {
                                 max-height: 180px;
                             }
-                            img{
+                            img {
                                 //height: 100%;
                                 height: 190px;
                                 width: 100%;
-                                @include maxsm{
+                                @include maxsm {
                                     height: 120px;
                                 }
-                                @include maxms{
+                                @include maxms {
                                     height: 180px;
                                 }
                             }
-                            
+
                         }
                         span {
                             display: block;
@@ -380,7 +379,7 @@
                             margin: 10px 0;
                             font-weight: 700;
                             color: $r-cl;
-                            @include maxsm{
+                            @include maxsm {
                                 font-size: 16px;
                             }
                         }
@@ -750,7 +749,7 @@
             }
             .next-que {
                 transform: rotate(0) !important;
-                i{
+                i {
                     transform: scaleX(1);
                 }
                 @include maxsm {
@@ -1037,6 +1036,12 @@
                     @include maxlg {
                         margin-right: 10px;
                     }
+                    @include maxms{
+                        margin-bottom: 10px;
+                        &:last-child{
+                            margin-bottom: 0;
+                        }
+                    }
                     &:last-child {
                         margin-right: 0;
                     }
@@ -1088,8 +1093,25 @@
             }
         }
     }
-}
+    .owl-dots {
+        text-align: center;
+        margin:10px 0 20px;
+        .owl-dot {
+            border-radius: 50%;
+            display: inline-block;
+            height: 12px;
+            margin-right: 21px;
+            width: 12px;
+            background: #27a6b5;
+            &.active,
+            &:hover {
+                background: $p-cl;
 
+            }
+        }
+    }
+}
+.competitive-list .row{margin: 0 !important;}
 .challenge-play {
     h4 {
         color: $h-cl;
@@ -1228,9 +1250,13 @@
 
 .ad-sec-h {
     height: 90px;
-    width: 99.5%;
+    max-width: 850px;
+    width: 100%;
     background: $white;
     margin: 5px 0 50px;
+    img {
+        height: 90px;
+    }
     @include maxsm {
         margin-bottom: 40px;
     }
@@ -1455,16 +1481,32 @@
 }
 
 .ad-v {
-    width: 100%;
+    max-width: 343px;
     height: 400px;
     background: $white;
+    width: 100%;
     margin-bottom: 7px;
+    .d-table {
+        width: auto;
+        height: auto;
+        img {
+            // height: 400px;
+        }
+    }
 }
 
 .ad-v-2 {
+    max-width: 343px;
     width: 100%;
     height: 800px;
     background: $white;
+    .d-table {
+        width: auto;
+        height: auto;
+        img {
+            // height: 800px;
+        }
+    }
 }
 
 .teaser-content {
