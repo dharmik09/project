@@ -250,7 +250,7 @@ class DashboardController extends Controller
     }
 
     /* Request Params : getStrengthDetailPage
-    *  loginToken, userId, type, slug
+    *  loginToken, userId, strengthType, strengthSlug
     */
     public function getStrengthDetailPage(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
@@ -259,8 +259,11 @@ class DashboardController extends Controller
             $data = [];
             if($request->strengthType != "" && $request->strengthSlug != "") {
                 $getStrengthTypeRelatedInfo = Helpers::getStrengthTypeRelatedInfo($request->strengthType, $request->strengthSlug);
-                $getStrengthTypeRelatedInfo['details'] = $getStrengthTypeRelatedInfo['description'];
-                $getStrengthTypeRelatedInfo['video'] = (!empty($getStrengthTypeRelatedInfo['video'])) ? $getStrengthTypeRelatedInfo['video'] : "WoelVRjFO4A";
+                
+                if($getStrengthTypeRelatedInfo) {
+                    $getStrengthTypeRelatedInfo['details'] = ( isset($getStrengthTypeRelatedInfo['description']) ) ? $getStrengthTypeRelatedInfo['description'] : "";
+                    $getStrengthTypeRelatedInfo['video'] = ( isset($getStrengthTypeRelatedInfo['video']) && $getStrengthTypeRelatedInfo['video'] != "" ) ? $getStrengthTypeRelatedInfo['video'] : "WoelVRjFO4A";
+                }
                 unset($getStrengthTypeRelatedInfo['description']);
                 $data = $getStrengthTypeRelatedInfo;
                 $response['message'] = trans('appmessages.default_success_msg');
