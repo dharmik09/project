@@ -25,6 +25,7 @@ use App\StarRatedProfession;
 use App\TeenagerPromiseScore;
 use App\PromiseParametersMaxScore;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
+use App\SponsorsActivity;
 
 class ProfessionController extends Controller {
 
@@ -46,6 +47,7 @@ class ProfessionController extends Controller {
         $this->careerDetailsPdfUploadedPath = Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH');
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
         $this->teenagersRepository = $teenagersRepository;
+        $this->objSponsorsActivity = new SponsorsActivity;
     }
 
     public function listIndex(){
@@ -349,16 +351,16 @@ class ProfessionController extends Controller {
         }
         $teenagerSponsors = $this->teenagersRepository->getTeenagerSelectedSponsor($user->id);
         $sponsorArr = [];
-        if (isset($teenagerSponsor) && count($teenagerSponsor) > 0) {
-            foreach ($teenagerSponsor as $key => $val) {
+        if (isset($teenagerSponsors) && count($teenagerSponsors) > 0) {
+            foreach ($teenagerSponsors as $key => $val) {
                 $sponsorArr[] = $val->ts_sponsor;
             }
         }
         $scholarshipPrograms = [];
         if (!empty($sponsorArr)) {
-            $scholarshipPrograms = $this->obj->getActivityByTypeAndSponsor($sponsorArr, 3);
+            $scholarshipPrograms = $this->objSponsorsActivity->getActivityByTypeAndSponsor($sponsorArr, 3);
         }
-        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages'));
+        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms'));
     }
 
     public function getTeenagerWhoStarRatedCareer()

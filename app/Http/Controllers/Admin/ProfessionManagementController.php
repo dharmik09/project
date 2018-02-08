@@ -530,7 +530,7 @@ class ProfessionManagementController extends Controller {
         foreach ($results as $key => $value) {
                 $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
                 $data = [];
-                $count = 1;
+                $count = 0;
                 foreach ($value as $k => $v) {
                     if($k != 'profession_name' && $v == "Yes"){
                         $tagData = $this->objTag->getProfessionTagByName($excelHeaderData[0][$count]);
@@ -546,8 +546,8 @@ class ProfessionManagementController extends Controller {
                             }
                             $response = $this->objProfessionWiseTag->insertUpdate($data);
                         }
-                        $count++;
                     }
+                    $count++;
                 }
         }
         

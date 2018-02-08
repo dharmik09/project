@@ -525,19 +525,32 @@ class DashboardController extends Controller
             } else {
                 $response["seeMoreFlag"] = 0;
             }
-            $matchArr = ['potential', 'strong', 'unlikely'];
+
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             $careerData = [];
+            $match = $nomatch = $moderate = [];
+
             foreach ($relatedCareers as $career) {
                 $careersArr = [];
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
-                $careersArr['matched'] = $matchArr[rand(0,2)];
+                $careersArr['matched'] = isset($getTeenagerHML[$career->id]) ? $getTeenagerHML[$career->id] : '';
                 $careersArr['attempted'] = rand(0,1);
                 $careerData[] = $careersArr;
+                //Counting Data
+                if($careersArr['matched'] == "match") {
+                    $match[] = $careersArr['id'];
+                } else if($careersArr['matched'] == "nomatch") {
+                    $nomatch[] = $careersArr['id'];
+                } else if($careersArr['matched'] == "moderate") {
+                    $moderate[] = $careersArr['id'];
+                } else {
+                    $notSetcareersArr[] = $careersArr['id'];
+                }
             }
-            $data['strong'] = 4;
-            $data['potential'] = 3;
-            $data['unlikely'] = 5;
+            $data['strong'] = count($match);
+            $data['potential'] = count($moderate);
+            $data['unlikely'] = count($nomatch);
             $data['related_career'] = $careerData;
             $response['login'] = 1;
             $response['status'] = 1;
@@ -591,4 +604,5 @@ class DashboardController extends Controller
         return response()->json($response, 200);
         exit;
     }
+    
 }
