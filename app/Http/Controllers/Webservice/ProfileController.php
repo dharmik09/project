@@ -525,6 +525,7 @@ class ProfileController extends Controller
                             'type' => "points_achieved",
                             'name' => "Points Achieved",
                             'color' => "#ff5f44",
+                            'achievementsCount' => "10",
                             'child_data' => [
                                                 ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
                                                 ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
