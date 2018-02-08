@@ -1063,7 +1063,7 @@ Class Helpers {
     }
 
     public static function type() {
-        $type = array('1' => 'Ad', '2' => 'Event', '3' => 'Contest');
+        $type = array('1' => 'Ad', '2' => 'Event', '3' => 'Scholarship Program');
         return $type;
     }
 

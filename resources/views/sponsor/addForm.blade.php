@@ -57,7 +57,7 @@
                             
                             @if(empty($activityDetail))
                             <div class="select-style">
-                                <?php $type = Helpers::type(); ?>
+                                <?php $type = Helpers::type(); $sizeType = "hide"; ?>
                                 <select id="type" name="type" onchange="getCredit(this.value)" >
                                     <option value="">{{trans('labels.selecttype')}}</option>
                                     <?php foreach ($type as $key => $value) { ?>
@@ -70,15 +70,21 @@
                                 <input type="hidden" name="type" value="{{$sa_type}}">
                                 <?php $value = ''; ?>
                                 @if($sa_type == 1)
-                                    <?php $value = "Ad"; ?>
+                                    <?php 
+                                        $value = "Ad";
+                                        $sizeType = ""; ?>
                                 @elseif($sa_type == 2)
-                                    <?php $value = "Event"; ?>
+                                    <?php 
+                                        $value = "Event"; 
+                                        $sizeType = "hide"; ?>
                                 @elseif($sa_type == 3)
-                                    <?php $value = "Contest"; ?>
+                                    <?php 
+                                        $value = "Scholarship"; 
+                                        $sizeType = "hide";    ?>
                                 @endif
                                <input type="text" id="type" name="type_name" value="{{$value}}" class="cst_input_primary" readonly="readonly">
                             @endif
-                            <div class="size-type select-style">
+                            <div class="size-type select-style {{$sizeType}}">
                                 <select class="" id="sa_size_type" name="sa_size_type">
                                     <?php $sizeList = Helpers::adsSizeType(); ?>
                                     <option value="">Select Image Size</option>
@@ -251,6 +257,22 @@
                                 <input type="text" name="creditdeducted" id="creditdeducted" class="cst_input_primary" placeholder="" readonly value="{{$sa_credit}}">            
                             </div>
                         </div>
+
+                        <?php
+                        if (old('sa_description'))
+                            $sa_description = old('sa_description');
+                        elseif ($activityDetail)
+                            $sa_description = $activityDetail->sa_description;
+                        else
+                            $sa_description = '';
+                        ?>
+                        <div class="clearfix start_end_date left">
+                            <div class="col-md-2 col-sm-4 input_title"><span class="special">Description</span></div>
+                            <div class="col-md-10 col-sm-8">                                
+                            <div class="mandatory">*</div>
+                                <textarea id="sa_description" name="sa_description" class="cst_input_primary" rows="4">{{$sa_description}}</textarea>            
+                            </div>
+                        </div>
                        
                     </div>
                     <div class="button_container">
@@ -330,8 +352,8 @@ $("#startdate").datepicker({
         }
     });
  <?php }?>
-    var imageWidth = 730;
-    var imageHeight = 50;
+    //var imageWidth = 730;
+    //var imageHeight = 50;
 jQuery(document).ready(function () {
         $('#creditdeducted').keypress(function () {
             return false;
@@ -376,7 +398,7 @@ jQuery(document).ready(function () {
                     required: true
                 }
             }
-            $('.size-type').show();
+            //$('.size-type').show();
             $('#sa_size_type option:not(:selected)').attr("disabled", true); 
             var sa_size_type = $('#sa_size_type').val();
             switch (sa_size_type) {
@@ -432,7 +454,7 @@ jQuery(document).ready(function () {
                     url: true
                 }
             }
-            $('.size-type').hide(); 
+            //$('.size-type').hide(); 
 <?php } ?>
         $("#addActivity").validate({
             rules: validationRules,
@@ -468,14 +490,14 @@ jQuery(document).ready(function () {
 
 
     function getCredit(type) {
-        $(".size-type").hide();
+        $(".size-type").addClass('hide');
         $(".photo-error").text("");
         $(".profilePhoto").val("");
         $(".upload_image").css("background-image", "none");
         if (type == 1) {
             var configKey = 'Ads ProCoins';
             $('#ads_image_dimension').show();
-            $(".size-type").show();
+            $(".size-type").removeClass('hide');
         } else if (type == 2) {
             var configKey = 'Event ProCoins';
             $('#ads_image_dimension').hide();
@@ -526,8 +548,8 @@ jQuery(document).ready(function () {
                 break;
 
             default:
-                imageWidth = 730;
-                imageHeight = 50;
+                //imageWidth = 730;
+                //imageHeight = 50;
                 break;
         }
     });
@@ -547,7 +569,7 @@ jQuery(document).ready(function () {
                         var image = new Image();
                         image.src = e.target.result;
                         image.onload = function() {
-                            if ((this.height !== imageHeight) || (this.width !== imageWidth)) {
+                            if ((this.height !== imageHeight || this.width !== imageWidth) && (activityType == 'Ad' || activityType == 1)) {
                                 $(".photo-error").text("Image width must be " + imageWidth + "px and Height " + imageHeight + "px");
                                 $(this).val('');
                                 a.style.backgroundImage = "";

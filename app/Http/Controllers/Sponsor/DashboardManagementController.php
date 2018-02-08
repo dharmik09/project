@@ -127,7 +127,7 @@ class DashboardManagementController extends Controller
         $activityDetail['sa_apply_level'] =    e(input::get('level'));
         $activityDetail['sa_location']  = e(input::get('location'));
         $activityDetail['sa_image_href']  = e(input::get('image_href'));
-
+        $activityDetail['sa_description'] = e(input::get('sa_description'));
         //$startdate = input::get('startdate');
         if (Input::get('startdate') != '') {
             $sdate = Input::get('startdate');
