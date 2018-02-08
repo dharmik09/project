@@ -250,7 +250,7 @@ class DashboardController extends Controller
     }
 
     /* Request Params : getStrengthDetailPage
-    *  loginToken, userId, type, slug
+    *  loginToken, userId, strengthType, strengthSlug
     */
     public function getStrengthDetailPage(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
@@ -259,8 +259,11 @@ class DashboardController extends Controller
             $data = [];
             if($request->strengthType != "" && $request->strengthSlug != "") {
                 $getStrengthTypeRelatedInfo = Helpers::getStrengthTypeRelatedInfo($request->strengthType, $request->strengthSlug);
-                $getStrengthTypeRelatedInfo['details'] = $getStrengthTypeRelatedInfo['description'];
-                $getStrengthTypeRelatedInfo['video'] = (!empty($getStrengthTypeRelatedInfo['video'])) ? $getStrengthTypeRelatedInfo['video'] : "WoelVRjFO4A";
+                
+                if($getStrengthTypeRelatedInfo) {
+                    $getStrengthTypeRelatedInfo['details'] = ( isset($getStrengthTypeRelatedInfo['description']) ) ? $getStrengthTypeRelatedInfo['description'] : "";
+                    $getStrengthTypeRelatedInfo['video'] = ( isset($getStrengthTypeRelatedInfo['video']) && $getStrengthTypeRelatedInfo['video'] != "" ) ? $getStrengthTypeRelatedInfo['video'] : "WoelVRjFO4A";
+                }
                 unset($getStrengthTypeRelatedInfo['description']);
                 $data = $getStrengthTypeRelatedInfo;
                 $response['message'] = trans('appmessages.default_success_msg');
@@ -355,13 +358,12 @@ class DashboardController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
-            
             $teenagerCareers = $this->professionsRepository->getMyCareers($request->userId);
             $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($request->userId)->toArray() : [];
-
             $getAllActiveProfessions = Helpers::getActiveProfessions();
             
             $allProfessions = [];
+            $match = $nomatch = $moderate = [];
             if($getAllActiveProfessions) {
                 foreach($getAllActiveProfessions as $key => $profession) {
                     $array = [];
@@ -372,7 +374,23 @@ class DashboardController extends Controller
                     $array['pf_logo_thumb'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $array['matched'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
                     $array['attempted'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
-                    $allProfessions[] = $array;
+                    //$allProfessions[] = $array;
+                    if($array['matched'] == "match") {
+                        $match[] = $array;
+                    } else if($array['matched'] == "nomatch") {
+                        $nomatch[] = $array;
+                    } else if($array['matched'] == "moderate") {
+                        $moderate[] = $array;
+                    } else {
+                        $notSetArray[] = $array;
+                    }
+                }
+                if(count($match) < 1 && count($moderate) < 1) {
+                    $allProfessions = $nomatch;
+                } else if(count($match) > 0 || count($moderate) > 0) {
+                    $allProfessions = array_merge($match, $moderate);
+                } else {
+                    $allProfessions = $notSetArray;
                 }
             }
 
@@ -419,19 +437,36 @@ class DashboardController extends Controller
             } else {
                 $response["seeMoreFlag"] = 0;
             }
-            $matchArr = ['potential', 'strong', 'unlikely'];
+            
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+
             $careerData = [];
-            foreach ($relatedCareers as $career) {
-                $careersArr = [];
-                $careersArr['id'] = $career->id;
-                $careersArr['pf_name'] = $career->pf_name;
-                $careersArr['matched'] = $matchArr[rand(0,2)];
-                $careersArr['attempted'] = rand(0,1);
-                $careerData[] = $careersArr;
+            $match = $nomatch = $moderate = [];
+
+            if($relatedCareers) {
+                foreach ($relatedCareers as $career) {
+                    $careersArr = [];
+                    $careersArr['id'] = $career->id;
+                    $careersArr['pf_name'] = $career->pf_name;
+                    $careersArr['matched'] = isset($getTeenagerHML[$career->id]) ? $getTeenagerHML[$career->id] : '';
+                    $careersArr['attempted'] = rand(0,1);
+                    $careerData[] = $careersArr;
+                    //Counting Data
+                    if($careersArr['matched'] == "match") {
+                        $match[] = $careersArr;
+                    } else if($careersArr['matched'] == "nomatch") {
+                        $nomatch[] = $careersArr;
+                    } else if($careersArr['matched'] == "moderate") {
+                        $moderate[] = $careersArr;
+                    } else {
+                        $notSetcareersArr[] = $careersArr;
+                    }
+                }
             }
-            $data['strong'] = 4;
-            $data['potential'] = 3;
-            $data['unlikely'] = 5;
+            
+            $data['strong'] = count($match);
+            $data['potential'] = count($moderate);
+            $data['unlikely'] = count($nomatch);
             $data['related_career'] = $careerData;
             $response['login'] = 1;
             $response['status'] = 1;
