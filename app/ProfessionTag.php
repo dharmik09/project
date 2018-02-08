@@ -40,11 +40,11 @@ class ProfessionTag extends Model
     }
 
     public function getProfessionTagByName($name) {
-        $result = $this->where('pt_name', $name)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
+        $result = $this->where('pt_name', $name)->where('deleted', Config::get('constant.ACTIVE_FLAG'))->first();
         return $result;
     }
     public function getProfessionTagBySlug($slug) {
-        $result = $this->where('pt_slug', $slug)->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->first();
+        $result = $this->where('pt_slug', $slug)->where('deleted', Config::get('constant.ACTIVE_FLAG'))->first();
         return $result;
     }
 

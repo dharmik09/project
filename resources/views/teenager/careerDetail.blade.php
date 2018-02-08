@@ -136,7 +136,17 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
-                                <div class="list-icon"><span><a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a><div class="favourite-text">Career has been selected as favourite</div></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
+                                <div class="list-icon">
+                                    <span>
+                                        <a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a>
+                                        <div class="favourite-text">Career has been selected as favourite</div>
+                                    </span>
+                                    
+                                    <span>
+                                        <!-- <a href="{{url('teenager/get-carrer-pdf/'.$professionsData->pf_slug)}}" title="print"><i class="icon-print"></i></a> -->
+                                        <a href="#" onclick="getCareerDetailPdf();" title="print"><i class="icon-print"></i></a>
+                                    </span>
+                                </div>
                             </div>
                             <?php
                                 $profession_description = $professionsData->professionHeaders->filter(function($item) {
@@ -709,7 +719,7 @@
 
     function getFansTeenForCareerFromTabButton(){
         if( !$('#menu4').hasClass('active') ){
-            $("#fav-teenager-list").html('');
+            $("#menu4").html('<div id="fav-teenager-list"></div><div class="text-center load-more" id="loadMoreButton"><div id="loader_con"></div><p class="text-center"><a href="javascript:void(0)" id="load-more-data" title="load more">load more</a><input type="hidden" id="pageValue" value="0"></p></div>');
             getFansTeenForCareer();
         }
     }
@@ -794,6 +804,24 @@
         smartSpeed: 500,
         autoplay:true,
     });
+
+    function getCareerDetailPdf(){
+        var chartHtml = $('#education_chart').html();
+        alert(chartHtml);
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-carrer-pdf')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'slug':'{{$professionsData->pf_slug}}','chartHtml':chartHtml},
+            success: function (response) {
+                alert(response);
+            }
+        });
+    }
 </script>
 
 @stop

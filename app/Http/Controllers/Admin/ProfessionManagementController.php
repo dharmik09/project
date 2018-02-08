@@ -532,6 +532,12 @@ class ProfessionManagementController extends Controller {
                             $data = [];
                             $data['profession_id'] = $professionsData->id;
                             $data['tag_id'] = $tagData->id;
+                            
+                            $checkIfRecordExist = $this->objProfessionWiseTag->checkProfessionWiseTagByTagIdAndProfessionId($tagData->id,$professionsData->id);
+                            if(count($checkIfRecordExist)>0)
+                            {
+                                $data['id'] = $checkIfRecordExist->id;
+                            }
                             $response = $this->objProfessionWiseTag->insertUpdate($data);
                         }
                         $count++;

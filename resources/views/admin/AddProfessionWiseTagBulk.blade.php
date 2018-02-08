@@ -37,7 +37,7 @@
                     <div class="box-body">
 
                     <div class="form-group">
-                        <label for="p_bulk" class="col-sm-3 control-label">{{trans('labels.formprofessionwisecertificatebulkupload')}}</label>
+                        <label for="p_bulk" class="col-sm-3 control-label">{{trans('labels.professionwisetagbulkupload')}}</label>
                         <div class="col-sm-6">
                             <input type="file" id="p_bulk" name="p_bulk" />
                         </div>
