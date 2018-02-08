@@ -748,6 +748,7 @@
                         $(".photo-error").text("File size is too large. Maximum 3MB allowed");
                         $(this).val('');
                     } else {
+                        a.style.backgroundImage = ""; return false;
                         a.style.backgroundImage = "url('" + e.target.result + "')";
                         // document.getElementById("#").className = "activated";
                         a.className = "upload-img activated";

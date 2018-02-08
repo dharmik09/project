@@ -283,7 +283,7 @@
                         <div class="ad-slider owl-carousel">
                             @forelse ($bannerAdImages as $bannerAdImage)
                             <div class="ad-sec-h">
-                                <div class="t-table">
+                                <div class="d-table">
                                     <img src="{{$bannerAdImage['image']}}">
                                 </div>
                             </div>
@@ -367,7 +367,7 @@
                         <div class="ad-slider owl-carousel">
                             @forelse ($mediumAdImages as $mediumAdImage)
                             <div class="ad-v">
-                                <div class="t-table">
+                                <div class="d-table">
                                     <img src="{{$mediumAdImage['image']}}">
                                 </div>
                             </div>
@@ -384,7 +384,7 @@
                         <div class="ad-slider owl-carousel">
                             @forelse ($largeAdImages as $largeAdImage)
                             <div class="ad-v-2">
-                                <div class="t-table">
+                                <div class="d-table">
                                     <img src="{{$largeAdImage['image']}}">
                                 </div>
                             </div>

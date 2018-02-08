@@ -20,7 +20,7 @@
         border-radius: 6px;
         margin-bottom: 25px;
         transition: 0.3s all ease-out;
-        &:hover{
+        &:hover {
             transform: scale(1.05);
         }
         em {
@@ -29,7 +29,7 @@
         img {
             width: 90px;
             height: 90px;
-            margin: 0 auto 10px;
+            margin: 10px auto;
             display: block;
         }
     }
@@ -66,12 +66,15 @@
             z-index: 0;
             font-family: h;
             pointer-events: none;
+            @include maxms {
+                top: 6px;
+            }
         }
         select {
             appearance: none;
         }
         .form-control {
-            padding: 8px 30px !important;
+            padding: 8px 30px 8px 10px !important;
             text-align: center;
             border: 2px solid $r-cl;
             border-radius: 6px;
@@ -82,23 +85,24 @@
             height: 100%;
             transition: .3s all ease-out;
             cursor: pointer;
+            @include maxsm {
+                font-size: 18px;
+                padding: 6px 30px;
+            }
             @include maxms {
                 font-size: 16px;
             }
-            &:hover{
+            &:hover {
                 transform: scale(1.05);
             }
         }
     }
 }
 
-.quiz-ans .radio.box,
-.quiz-ans .checkbox.box {
+.quiz_view .quiz-ans .box {
     input:checked ~ em {
-        color: $i-cl !important;
-    }
-    input:checked + label {
-        border-color: $i-cl !important;
+        color: $r-cl !important;
+        background: rgba(0, 0, 0, 0.1);
     }
 }
 
@@ -115,10 +119,13 @@
         max-width: 350px;
         margin: 0 auto 30px;
     }
-    .btn-next{
-        font-size: 16px;padding: 9px 45px;transition: 0.3s all ease-out;
-        &:hover{
-            background: $i-cl;border-color: $i-cl;
+    .btn-next {
+        font-size: 16px;
+        padding: 9px 45px;
+        transition: 0.3s all ease-out;
+        &:hover {
+            background: $i-cl;
+            border-color: $i-cl;
         }
     }
 }
@@ -156,7 +163,7 @@
 .quiz-text {
     //width: 60%;
     //margin: 0 auto;
-    .block-grp{
+    .block-grp {
         text-align: center;
     }
     .form-control {
@@ -211,7 +218,7 @@
                 height: 100%;
                 cursor: -webkit-grab;
                 transition: .3s all ease-out;
-                &:hover{
+                &:hover {
                     transform: scale(1.05);
                 }
                 img {
@@ -303,8 +310,10 @@
             min-height: 92px;
             padding: 10px 30px 10px 10px;
             margin-bottom: 15px;
-            position: relative; cursor: -webkit-grab;transition: .3s all ease-out;
-            &:hover{
+            position: relative;
+            cursor: -webkit-grab;
+            transition: .3s all ease-out;
+            &:hover {
                 transform: scale(1.05);
             }
             .ui-icon {
@@ -329,10 +338,10 @@
 }
 
 .multiple-select {
-    font-size: 14px;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #66c6e6
+    font-size: 14px !important;
+    text-align: center !important;
+    margin-bottom: 20px !important;
+    color: #66c6e6 !important;
 }
 
 .width-50 {
@@ -347,7 +356,7 @@
         img {
             width: 90px !important;
             height: 90px !important;
-            margin: 0 auto !important;
+            margin: 14px auto 10px !important;
         }
     }
 }
@@ -631,8 +640,212 @@
     }
 
 }
-.quiz-que .que{
-    @include maxmd{
-        font-size: 26px;
+
+.quiz-que .que {
+    @include maxmd {
+        font-size: 23px;
+    }
+}
+
+.box {
+    .checker {
+        display: none !important;
+    }
+    label.checkbox,
+    label.radio {
+        padding: 0;
+        text-align: center;
+        border: 2px solid $r-cl;
+        border-radius: 6px;
+        margin-bottom: 25px;
+        transition: 0.3s all ease-out;
+        position: relative;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.05);
+        }
+        em {
+            font-family: h;
+            padding: 8px 15px;
+            display: block;
+            @include maxsm {
+                padding: 6px 15px;
+                font-size: 18px !important;
+            }
+            @include maxms {
+                font-size: 15px !important;
+            }
+        }
+        img {
+            width: 90px;
+            height: 90px;
+            margin: 10px auto;
+            display: block;
+        }
+    }
+    .correct {
+        border-color: green;
+        color: green;
+        em {
+            color: green !important;
+        }
+    }
+    .incorrect {
+        border-color: $p-cl;
+        color: $p-cl;
+        em {
+            color: $p-cl !important;
+        }
+    }
+}
+
+.level-complete {
+    padding: 10px 0;
+    .cong-hero {
+        max-width: 100px;
+        overflow: hidden;
+        border: 2px solid $p-cl;
+        margin: 0 auto;
+        border-radius: 50%;
+        padding: 5px;
+        @include maxsm {
+            max-width: 90px;
+        }
+        @include maxms{
+            max-width: 80px;
+        }
+    }
+    .level-box {
+        max-width: 350px;
+        margin: 30px auto;
+        text-align: center;
+        overflow: hidden;
+        p {
+            color: $white;
+            @include maxms {
+                font-size: 15px;
+            }
+        }
+        .box-head {
+            background: $p-cl;
+            padding: 15px 15px;
+            position: relative;
+            @include maxsm {
+                padding: 10px 15px;
+            }
+            &:before {
+                position: absolute;
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 210px solid transparent;
+                border-right: 173px solid transparent;
+                border-top: 21px solid $p-cl;
+                bottom: -21px;
+                right: 0px;
+                z-index: 9;
+                @include maxms {
+                    border-left: 141px solid transparent;
+                    border-right: 124px solid transparent;
+                    border-top: 19px solid $p-cl;
+                    bottom: -19px;
+                }
+            }
+            p {
+                color: $white;
+                font-family: 'am';
+                font-size: 25px;
+                text-transform: capitalize;
+                margin-bottom: 0;
+                @include maxsm {
+                    font-size: 20px;
+                }
+            }
+        }
+        .box-content {
+            padding: 60px 15px 40px;
+            background: $i-cl;
+            position: relative;
+            @include maxmd {
+                padding: 50px 15px 30px;
+            }
+            @include maxms{
+                padding: 40px 15px 25px;
+            }
+            .social {
+                padding: 0;
+                list-style-type: none;
+                margin: 15px 0 0;
+                li {
+                    display: inline-block;
+                    font-size: 17px;
+                    margin-left: 10px;
+                    a {
+                        color: $white;
+                        &:hover {
+                            color: $lightgrey;
+                        }
+                    }
+                }
+            }
+        }
+        .feedback-text {
+            margin: 20px 0;
+            p {
+                font-family: hn-b;
+                font-size: 20px;
+                margin-bottom: 0;
+                @include maxms{
+                    font-size: 17px;
+                }
+                a {
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+        .level-btn {
+            .btn {
+                padding: 8px 15px;
+                &.try {
+                    background-color: $i-cl;
+                    border-color: $i-cl;
+                }
+            }
+        }
+    }
+}
+.cong-block{
+    text-align: center;
+    padding: 20px 0;
+    .emojis-img{
+        display: inline-block;
+        color: $p-cl;
+        &.emojis-icon{
+            transform: scalex(-1);
+            vertical-align: middle;
+            font-size: 80px;padding:23px 10px 0 0;
+        }
+    }
+    h2{
+        color: $p-cl;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        position: relative;
+        &:before{
+            position: absolute;
+            content: '';
+            width: 25%;
+            height: 2px;
+            background: $p-cl;
+            bottom: 0;
+            left: 50%;
+            margin: 0 auto;
+            transform: translateX(-50%);
+        }
+    }
+    p{
+        font-size: 20px;
     }
 }
