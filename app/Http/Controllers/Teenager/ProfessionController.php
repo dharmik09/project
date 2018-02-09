@@ -26,6 +26,7 @@ use App\TeenagerPromiseScore;
 use App\PromiseParametersMaxScore;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\SponsorsActivity;
+use App\TeenagerScholarshipProgram;
 
 class ProfessionController extends Controller {
 
@@ -48,6 +49,7 @@ class ProfessionController extends Controller {
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
         $this->teenagersRepository = $teenagersRepository;
         $this->objSponsorsActivity = new SponsorsActivity;
+        $this->objTeenagerScholarshipProgram = new TeenagerScholarshipProgram;
     }
 
     public function listIndex(){
@@ -360,7 +362,22 @@ class ProfessionController extends Controller {
         if (!empty($sponsorArr)) {
             $scholarshipPrograms = $this->objSponsorsActivity->getActivityByTypeAndSponsor($sponsorArr, 3);
         }
-        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms'));
+        $appliedScholershipDetails = $this->objTeenagerScholarshipProgram->getAllScholarshipProgramsByTeenId($user->id);
+        $scholarshipProgramIds = [];
+        if (isset($appliedScholershipDetails) && count($appliedScholershipDetails) > 0) {
+            foreach ($appliedScholershipDetails as $appliedScholershipDetail) {
+                $scholarshipProgramIds[] = $appliedScholershipDetail->tsp_activity_id;
+            }
+        }
+        $expiredScholarshipPrograms = $this->objSponsorsActivity->getExpiredActivityByTypeAndSponsor($sponsorArr, 3);
+        $expiredActivityIds = [];
+        if (isset($expiredScholarshipPrograms) && count($expiredScholarshipPrograms) > 0) {
+            foreach ($expiredScholarshipPrograms as $expiredScholarshipProgram) {
+                $expiredActivityIds[] = $expiredScholarshipProgram->id;
+            }
+        }
+        $exceptScholarshipIds = array_unique(array_merge($scholarshipProgramIds, $expiredActivityIds));
+        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds'));
     }
 
     public function getTeenagerWhoStarRatedCareer()
@@ -639,6 +656,22 @@ class ProfessionController extends Controller {
         if(isset($checkPDF)){
             return Storage::url($this->careerDetailsPdfUploadedPath.$fileName);
         }
+    }
+
+    //Store records of teenager scholarship program
+    public function applyForScholarshipProgram()
+    {
+        $activityDetails = [];
+        $activityDetails['tsp_activity_id'] = Input::get('activityId');
+        $activityDetails['tsp_teenager_id'] = Auth::guard('teenager')->user()->id;
+        $adsDetails = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
+        if (isset($adsDetails) && !empty($adsDetails)) {
+            $message = "applied";
+        } else {
+            $adsDetails = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
+            $message = "success"; 
+        }
+        return $message;
     }
 
 }

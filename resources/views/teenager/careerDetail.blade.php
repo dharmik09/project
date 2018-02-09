@@ -998,6 +998,33 @@
                 }
             });
         }
+
+    function applyForScholarshipProgram(activityId)
+    {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'activityId=' + activityId;
+        $.ajax({
+            url : '{{ url("teenager/apply-for-scholarship-program") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+            },
+            success : function (response) {
+                if (response == 'applied') {
+                    $("#scholarship_message_"+activityId).text("You have already applied for this program");
+                } else {
+                    $("#scholarship_message_"+activityId).text("You successfully applied for this scholarship program");
+                }
+                $("#scholarship_message_"+activityId).show();
+                setTimeout(function () {
+                    $("#scholarship_message_"+activityId).hide();
+                }, 2500)
+                $("#apply_"+activityId).text("Applied");
+                $("#apply_"+activityId).attr("disabled","disabled");
+            }
+        });
+    }
 </script>
 
 @stop
