@@ -952,6 +952,14 @@ class level3ActivityController extends Controller {
                 }
 
                 $data = $this->objTeenagers->getAllTeenWhoStarRatedCareer($record, $request->careerId, $teenager->id);
+                $dataNextPage = $this->objTeenagers->getAllTeenWhoStarRatedCareer(($record+10), $request->careerId, $teenager->id);
+                
+                if(count($dataNextPage)>0){
+                    $response['next'] = 1;
+                }
+                else{
+                    $response['next'] = 0;
+                }
                 
                 if($data){
                     foreach($data as $key => $value){
