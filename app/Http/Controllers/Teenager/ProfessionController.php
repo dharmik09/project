@@ -362,11 +362,11 @@ class ProfessionController extends Controller {
         if (!empty($sponsorArr)) {
             $scholarshipPrograms = $this->objSponsorsActivity->getActivityByTypeAndSponsor($sponsorArr, 3);
         }
-        $appliedScholershipDetails = $this->objTeenagerScholarshipProgram->getAllScholarshipProgramsByTeenId($user->id);
+        $appliedScholarshipDetails = $this->objTeenagerScholarshipProgram->getAllScholarshipProgramsByTeenId($user->id);
         $scholarshipProgramIds = [];
-        if (isset($appliedScholershipDetails) && count($appliedScholershipDetails) > 0) {
-            foreach ($appliedScholershipDetails as $appliedScholershipDetail) {
-                $scholarshipProgramIds[] = $appliedScholershipDetail->tsp_activity_id;
+        if (isset($appliedScholarshipDetails) && count($appliedScholarshipDetails) > 0) {
+            foreach ($appliedScholarshipDetails as $appliedScholarshipDetail) {
+                $scholarshipProgramIds[] = $appliedScholarshipDetail->tsp_activity_id;
             }
         }
         $expiredScholarshipPrograms = $this->objSponsorsActivity->getExpiredActivityByTypeAndSponsor($sponsorArr, 3);
