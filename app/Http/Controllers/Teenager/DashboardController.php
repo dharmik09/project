@@ -133,33 +133,35 @@ class DashboardController extends Controller
         $getAllActiveProfessions = Helpers::getActiveProfessions();
         $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($user->id)->toArray() : [];
 
+        $careerConsideration = [];
         $match = $nomatch = $moderate = [];
-        if($getAllActiveProfessions) {
-            foreach($getAllActiveProfessions as $profession) {
-                $array = [];
-                $array['id'] = $profession->id;
-                $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
-                $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
-                $array['pf_name'] = $profession->pf_name;
-                $array['pf_slug'] = $profession->pf_slug;
-                if($array['match_scale'] == "match") {
-                    $match[] = $array;
-                } else if($array['match_scale'] == "nomatch") {
-                    $nomatch[] = $array;
-                } else if($array['match_scale'] == "moderate") {
-                    $moderate[] = $array;
-                } else {
-                    $notSetArray[] = $array;
-                }
-            }
-            if(count($match) < 1 && count($moderate) < 1) {
-                $careerConsideration = $nomatch;
-            } else if(count($match) > 0 || count($moderate) > 0) {
-                $careerConsideration = array_merge($match, $moderate);
-            } else {
-                $careerConsideration = $notSetArray;
-            }
-        }
+        // if($getAllActiveProfessions) {
+        //     foreach($getAllActiveProfessions as $profession) {
+        //         $array = [];
+        //         $array['id'] = $profession->id;
+        //         $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+        //         $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+        //         $array['pf_name'] = $profession->pf_name;
+        //         $array['pf_slug'] = $profession->pf_slug;
+        //         if($array['match_scale'] == "match") {
+        //             $match[] = $array;
+        //         } else if($array['match_scale'] == "nomatch") {
+        //             $nomatch[] = $array;
+        //         } else if($array['match_scale'] == "moderate") {
+        //             $moderate[] = $array;
+        //         } else {
+        //             $notSetArray[] = $array;
+        //         }
+        //     }
+        //     if(count($match) < 1 && count($moderate) < 1) {
+        //         $careerConsideration = $nomatch;
+        //     } else if(count($match) > 0 || count($moderate) > 0) {
+        //         $careerConsideration = array_merge($match, $moderate);
+        //     } else {
+        //         $careerConsideration = $notSetArray;
+        //     }
+        // }
+
         $adsDetails = Helpers::getAds($user->id);
         $advertisements = [];
         foreach ($adsDetails as $ad) {
@@ -172,6 +174,7 @@ class DashboardController extends Controller
                 $advertisements[] = $ad;
             } 
         }
+
         return view('teenager.home', compact('basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers', 'advertisements'));
     }
 

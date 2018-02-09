@@ -338,9 +338,9 @@
                                                 <div class="progress-block">
                                                     <div class="skill-name">{{$value['name']}}</div>
                                                     <div class="progress">
-                                                        <div class="progress-bar progress-bar-primary" role="progressbar" data-width="{{$value['score']}}">
+                                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin = "0" aria-valuemax = "100" style="width: {{$value['score']}}%;">
                                                         </div>
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$value['lowscoreH']}}%; background-color:#65c6e6;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$value['lowscoreH']}}%; background-color:#65c6e6;" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             @empty
@@ -980,6 +980,33 @@
                 }
             });
         }
+
+    function applyForScholarshipProgram(activityId)
+    {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'activityId=' + activityId;
+        $.ajax({
+            url : '{{ url("teenager/apply-for-scholarship-program") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+            },
+            success : function (response) {
+                if (response == 'applied') {
+                    $("#scholarship_message_"+activityId).text("You have already applied for this program");
+                } else {
+                    $("#scholarship_message_"+activityId).text("You successfully applied for this scholarship program");
+                }
+                $("#scholarship_message_"+activityId).show();
+                setTimeout(function () {
+                    $("#scholarship_message_"+activityId).hide();
+                }, 2500)
+                $("#apply_"+activityId).text("Applied");
+                $("#apply_"+activityId).attr("disabled","disabled");
+            }
+        });
+    }
 </script>
 
 @stop

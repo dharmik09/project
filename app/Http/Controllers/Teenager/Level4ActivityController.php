@@ -36,7 +36,7 @@ class Level4ActivityController extends Controller {
         $userId = Auth::guard('teenager')->user()->id;
         if($userId > 0 && $professionId != '') {
             $totalQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
-            
+            $professionName = $this->professionsRepository->getProfessionNameById($professionId);
             $basicCompleted = 0; 
             if(isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && ($totalQuestion[0]->NoOfTotalQuestions == $totalQuestion[0]->NoOfAttemptedQuestions) ) {
                 $basicCompleted = 1;
@@ -55,6 +55,8 @@ class Level4ActivityController extends Controller {
             $response['data'] = $activity;
             $response['timer'] = $timer;
             $response['professionId'] = $professionId;
+            $response['professionName'] = $professionName;
+            $response['teenagerName'] = Auth::guard('teenager')->user()->t_name . ' '.Auth::guard('teenager')->user()->t_lastname;
             $response['status'] = 1;
             return view('teenager.basic.careerBasicQuizSection', compact('response'));
         }

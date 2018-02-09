@@ -338,15 +338,26 @@ class DashboardController extends Controller
     }
 
     /* Request Params : getTeenagerCareers
-    *  loginToken, userId
+    *  loginToken, userId, lastCareerId
     *  ["match", "nomatch", "moderate"]
     */
     public function getTeenagerCareers(Request $request) {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
+            if (isset($request->lastCareerId) && !empty($request->lastCareerId)) {
+                $lastCareerId = $request->lastCareerId;
+            } else {
+                $lastCareerId = "";
+            }
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
-            $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareers($request->userId);
+            $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareersSlotWise($request->userId, $lastCareerId);
+            $myCareersCount = $this->professionsRepository->getMyCareersCount($request->userId, $lastCareerId);
+            if (isset($myCareersCount) && $myCareersCount > 10) {
+                $response['loadMoreFlag'] = 1;
+            } else {
+                $response['loadMoreFlag'] = 0;
+            }
             $careersCount = $this->professionsRepository->getMyCareersCount($request->userId);
             if($getTeenagerAttemptedProfession) {
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
@@ -378,6 +389,15 @@ class DashboardController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+            if(!$getTeenagerHML) {
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['data'] = [];
+                $response['message'] = "Please attempt at least one section of Profile Builder to view your suggested careers!";
+                return response()->json($response, 200);
+                exit;
+            }
+
             $teenagerCareers = $this->professionsRepository->getMyCareers($request->userId);
             $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($request->userId)->toArray() : [];
             $getAllActiveProfessions = Helpers::getActiveProfessions();
@@ -393,7 +413,8 @@ class DashboardController extends Controller
                     $array['pf_logo'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $array['pf_logo_thumb'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $array['matched'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
-                    $array['attempted'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+                    $array['attempted'] = rand(0,1);
+                    $array['star_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
                     //$allProfessions[] = $array;
                     if($array['matched'] == "match") {
                         $match[] = $array;
@@ -405,7 +426,7 @@ class DashboardController extends Controller
                         $notSetArray[] = $array;
                     }
                 }
-                if(count($match) < 1 && count($moderate) < 1) {
+                if(count($match) < 1 && count($moderate) < 1 && count($nomatch) > 0) {
                     $allProfessions = $nomatch;
                 } else if(count($match) > 0 || count($moderate) > 0) {
                     $allProfessions = array_merge($match, $moderate);

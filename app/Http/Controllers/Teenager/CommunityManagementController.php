@@ -183,47 +183,32 @@ class CommunityManagementController extends Controller {
         $connectedTeen = $this->communityRepository->checkTeenConnectionStatus($receiverTeenDetails->id, Auth::guard('teenager')->user()->id);
         if ($connectedTeen == 2) {
             $data = array();
-            $replaceArray = array();
             
-            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName('send-connection-request-to-teen');
             $connectionUniqueId = uniqid("", TRUE);
+
+            $data['tc_unique_id'] = $connectionUniqueId;
+            $data['tc_sender_id'] = Auth::guard('teenager')->user()->id;
+            $data['tc_receiver_id'] = $receiverTeenDetails->id;
+
+            $connectionRequestData['tc_unique_id'] = $data['tc_unique_id'];
+            $connectionRequestData['tc_sender_id'] = $data['tc_sender_id'];
+            $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
+            $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
+
+            $response = $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+
+            $userData = Auth::guard('teenager')->user();
+            $notificationData['n_sender_id'] = $userData->id;
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_receiver_id'] = $data['tc_receiver_id'];
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_record_id'] = $response->id;
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
+            $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has sent you a connection request';
+            $this->objNotifications->insertUpdate($notificationData);
+
+            return Redirect::back()->with('success', 'Connection request sent successfully');
             
-            $replaceArray['RECEIVER_TEEN_NAME'] = $receiverTeenDetails->t_name;
-            $replaceArray['SENDER_TEEN_NAME'] = $senderTeenDetails->t_name;
-            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-            
-            if (isset($emailTemplateContent) && !empty($emailTemplateContent)) {
-                $data['subject'] = $emailTemplateContent->et_subject;
-                $data['toEmail'] = $receiverTeenDetails->t_email;
-                $data['toName'] = (isset($receiverTeenDetails->t_name) && !empty($receiverTeenDetails->t_name)) ? $receiverTeenDetails->t_name : "";
-                $data['content'] = $content;
-                $data['tc_unique_id'] = $connectionUniqueId;
-                $data['tc_sender_id'] = Auth::guard('teenager')->user()->id;
-                $data['tc_receiver_id'] = $receiverTeenDetails->id;
-                
-                Event::fire(new SendMail("emails.Template", $data));
-
-                $connectionRequestData['tc_unique_id'] = $data['tc_unique_id'];
-                $connectionRequestData['tc_sender_id'] = $data['tc_sender_id'];
-                $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
-                $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
-
-                $response = $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
-
-                $userData = Auth::guard('teenager')->user();
-                $notificationData['n_sender_id'] = $userData->id;
-                $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
-                $notificationData['n_receiver_id'] = $data['tc_receiver_id'];
-                $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
-                $notificationData['n_record_id'] = $response->id;
-                $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
-                $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has sent you a connection request';
-                $this->objNotifications->insertUpdate($notificationData);
-
-                return Redirect::back()->with('success', 'Connection request sent successfully');
-            } else {
-                return Redirect::back()->with('error', trans('validation.somethingwrong'));
-            }
         } else {
             return Redirect::back()->with('error', 'Request already sent');
         }

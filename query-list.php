@@ -441,7 +441,7 @@ CREATE TABLE `pro_fq_forum_questions` (
 ) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1
 
 //Added new table for forum answer #07-02-2018 Jaimin
-  CREATE TABLE `pro_fq_forum_answers` (
+CREATE TABLE `pro_fq_forum_answers` (
  `id` bigint(20) NOT NULL AUTO_INCREMENT,
  `fq_que_id` bigint(20) NOT NULL,
  `fq_teenager_id` bigint(20) NOT NULL,
@@ -454,3 +454,14 @@ CREATE TABLE `pro_fq_forum_questions` (
 
 //Add new field for sponsor activity table ## 08-02-2017
 ALTER TABLE `pro_sa_sponsor_activity` ADD `sa_description` TEXT NULL AFTER `sa_credit_used`;
+
+//Add new table teenager sponsorship program ## 09-02-2017
+CREATE TABLE IF NOT EXISTS `pro_tsp_teenager_scholarship_program` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `tsp_activity_id` int(11) UNSIGNED NOT NULL,
+  `tsp_teenager_id` int(11) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'timestamp',
+  `deleted` tinyint(1) DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

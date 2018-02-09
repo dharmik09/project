@@ -26,6 +26,7 @@ use App\TeenagerPromiseScore;
 use App\PromiseParametersMaxScore;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\SponsorsActivity;
+use App\TeenagerScholarshipProgram;
 
 class ProfessionController extends Controller {
 
@@ -48,6 +49,7 @@ class ProfessionController extends Controller {
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
         $this->teenagersRepository = $teenagersRepository;
         $this->objSponsorsActivity = new SponsorsActivity;
+        $this->objTeenagerScholarshipProgram = new TeenagerScholarshipProgram;
     }
 
     public function listIndex(){
@@ -360,7 +362,22 @@ class ProfessionController extends Controller {
         if (!empty($sponsorArr)) {
             $scholarshipPrograms = $this->objSponsorsActivity->getActivityByTypeAndSponsor($sponsorArr, 3);
         }
-        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms'));
+        $appliedScholarshipDetails = $this->objTeenagerScholarshipProgram->getAllScholarshipProgramsByTeenId($user->id);
+        $scholarshipProgramIds = [];
+        if (isset($appliedScholarshipDetails) && count($appliedScholarshipDetails) > 0) {
+            foreach ($appliedScholarshipDetails as $appliedScholarshipDetail) {
+                $scholarshipProgramIds[] = $appliedScholarshipDetail->tsp_activity_id;
+            }
+        }
+        $expiredScholarshipPrograms = $this->objSponsorsActivity->getExpiredActivityByTypeAndSponsor($sponsorArr, 3);
+        $expiredActivityIds = [];
+        if (isset($expiredScholarshipPrograms) && count($expiredScholarshipPrograms) > 0) {
+            foreach ($expiredScholarshipPrograms as $expiredScholarshipProgram) {
+                $expiredActivityIds[] = $expiredScholarshipProgram->id;
+            }
+        }
+        $exceptScholarshipIds = array_unique(array_merge($scholarshipProgramIds, $expiredActivityIds));
+        return view('teenager.careerDetail', compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds'));
     }
 
     public function getTeenagerWhoStarRatedCareer()
@@ -500,9 +517,17 @@ class ProfessionController extends Controller {
             $getAllActiveProfessions = Helpers::getActiveProfessions();
             $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
             
+            if(!$getTeenagerHML) {
+                $response['status'] = 0;
+                $response['message'] = "Please attempt at least one section of Profile Builder to view your suggested careers!";
+                return response()->json($response, 200);
+                exit;
+            }
+
             $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($user->id)->toArray() : [];
 
             $match = $nomatch = $moderate = [];
+
             if($getAllActiveProfessions) {
                 foreach($getAllActiveProfessions as $profession) {
                     $array = [];
@@ -620,6 +645,22 @@ class ProfessionController extends Controller {
             @readfile($pdfPath);
             exit;                      
         }
+    }
+
+    //Store records of teenager scholarship program
+    public function applyForScholarshipProgram()
+    {
+        $activityDetails = [];
+        $activityDetails['tsp_activity_id'] = Input::get('activityId');
+        $activityDetails['tsp_teenager_id'] = Auth::guard('teenager')->user()->id;
+        $checkIfAlreadyApplied = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
+        if (isset($checkIfAlreadyApplied) && !empty($checkIfAlreadyApplied)) {
+            $message = "applied";
+        } else {
+            $appliedForScholarship = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
+            $message = "success"; 
+        }
+        return $message;
     }
 
 }
