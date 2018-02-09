@@ -157,4 +157,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	
 	//HelpText
 	Route::post('/getHelpText', 'Webservice\HelpController@getHelpTextBySlug');
+
+	//L4 Activity Controller
+	Route::post('/getScholarshipProgramsDetails', 'Webservice\Level4ActivityController@getScholarshipProgramsDetails');
 });
