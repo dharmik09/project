@@ -146,8 +146,8 @@
                                                             }
                                                         ?>
                                                             <li>
-                                                                <img src="{{ Storage::url($subjectImageUrl) }}" alt="compatia logo">
-                                                                <a href="{{url('/teenager/interest')}}/it_{{$professionSubject->subject['ps_slug']}}"><span>{{$professionSubject->subject['ps_name']}}</span></a>
+                                                                <img src="{{ Storage::url($subjectImageUrl) }}" style="width: 200px;height: 200px;" alt="{{$professionSubject->subject['ps_name']}}">
+                                                                <span>{{$professionSubject->subject['ps_name']}}</span>
                                                             </li>
                                                         @endif
                                                     @empty
@@ -164,8 +164,8 @@
                                                 <ul>
                                                     @foreach($professionsData->ability as $key => $value)
                                                         <li>
-                                                            <img src="{{ $value['cm_image_url'] }}" alt="compatia logo">
-                                                            <a href="{{$value['cm_slug_url']}}"><span>{{$value['cm_name']}}</span></a>
+                                                            <img src="{{ $value['cm_image_url'] }}" style="width: 200px;height: 200px;" alt="{{$value['cm_name']}}">
+                                                            <span>{{$value['cm_name']}}</span>
                                                         </li>
                                                     @endforeach
                                                 </ul>
@@ -235,7 +235,7 @@
                                         @if(isset($profession_education_path->pfic_content) && !empty($profession_education_path->pfic_content))
                                         <p>{!!$profession_education_path->pfic_content!!}</p>
                                         @endif
-                                        <div id="education_chart">{!!$chartHtml!!}</div>  
+                                        
                                     </div>
 
                                     <div class="block">
@@ -244,7 +244,7 @@
                                             <div class="img-list">
                                                 <ul>
                                                     @forelse($professionsData->professionCertificates as $professionCertificate)
-                                                    <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
+                                                    <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="{{$professionCertificate->certificate['pc_image']}}"></li>
                                                     @empty
                                                     @endforelse
                                                 </ul>
@@ -331,7 +331,7 @@
                             <h4>Tags</h4>
                             <ul class="tag-list">
                                 @forelse($professionsData->professionTags as $professionTags)
-                                    <li><a href="{{ url('/teenager/career-tag/'.$professionTags->tag['pt_slug']) }}" title="Lorem ipsum">{{$professionTags->tag['pt_name']}}</a></li>
+                                    <li>{{$professionTags->tag['pt_name']}}</li>
                                 @empty
                                 @endforelse
                             </ul>

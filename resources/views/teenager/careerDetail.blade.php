@@ -143,9 +143,8 @@
                                     </span>
                                     
                                     <span>
-                                        <!-- <a href="{{url('teenager/get-carrer-pdf/'.$professionsData->pf_slug)}}" title="print"><i class="icon-print"></i></a> -->
                                         <div id="print_loader">
-                                            <a href="javascript:void(0)" onclick="getCareerDetailPdf();" title="print"><i class="icon-print"></i></a>
+                                            <a href="{{url('teenager/get-career-pdf/'.$professionsData->pf_slug)}}" target="_blank" title="print"><i class="icon-print"></i></a>
                                         </div> 
                                     </span>
                                 </div>
@@ -828,24 +827,7 @@
         smartSpeed: 500,
         autoplay:true,
     });
-
-    function getCareerDetailPdf(){
-        $("#print_loader").html('<img src="{{Storage::url('img/loading.gif')}}">');
-        var chartHtml = $('#education_chart').html();
-        var CSRF_TOKEN = "{{ csrf_token() }}";
-        $.ajax({
-            type: 'POST',
-            url: "{{url('teenager/get-carrer-pdf')}}",
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            },
-            data: {'slug':'{{$professionsData->pf_slug}}','chartHtml':chartHtml},
-            success: function (response) {                
-                $("#print_loader").html('<a href="javascript:void(0)" onclick="getCareerDetailPdf();" title="print" id=""><i class="icon-print"></i></a>');
-            }
-        });
-    }
-
+    
     function saveBasicAnswer() {
         $("#basicErrorGoneMsg").html('');
         <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
@@ -998,6 +980,33 @@
                 }
             });
         }
+
+    function applyForScholarshipProgram(activityId)
+    {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'activityId=' + activityId;
+        $.ajax({
+            url : '{{ url("teenager/apply-for-scholarship-program") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+            },
+            success : function (response) {
+                if (response == 'applied') {
+                    $("#scholarship_message_"+activityId).text("You have already applied for this program");
+                } else {
+                    $("#scholarship_message_"+activityId).text("You successfully applied for this scholarship program");
+                }
+                $("#scholarship_message_"+activityId).show();
+                setTimeout(function () {
+                    $("#scholarship_message_"+activityId).hide();
+                }, 2500)
+                $("#apply_"+activityId).text("Applied");
+                $("#apply_"+activityId).attr("disabled","disabled");
+            }
+        });
+    }
 </script>
 
 @stop
