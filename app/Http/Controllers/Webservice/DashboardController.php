@@ -338,15 +338,26 @@ class DashboardController extends Controller
     }
 
     /* Request Params : getTeenagerCareers
-    *  loginToken, userId
+    *  loginToken, userId, lastCareerId
     *  ["match", "nomatch", "moderate"]
     */
     public function getTeenagerCareers(Request $request) {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
+            if (isset($request->lastCareerId) && !empty($request->lastCareerId)) {
+                $lastCareerId = $request->lastCareerId;
+            } else {
+                $lastCareerId = "";
+            }
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
-            $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareers($request->userId);
+            $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareersSlotWise($request->userId, $lastCareerId);
+            $myCareersCount = $this->professionsRepository->getMyCareersSlotWise($request->userId, $lastCareerId);
+            if (isset($myCareersCount) && count($myCareersCount) > 0) {
+                $response['loadMoreFlag'] = 1;
+            } else {
+                $response['loadMoreFlag'] = 0;
+            }
             $careersCount = $this->professionsRepository->getMyCareersCount($request->userId);
             if($getTeenagerAttemptedProfession) {
                 foreach($getTeenagerAttemptedProfession as $key => $profession) {
