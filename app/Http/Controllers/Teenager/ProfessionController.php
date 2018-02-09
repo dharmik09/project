@@ -517,9 +517,17 @@ class ProfessionController extends Controller {
             $getAllActiveProfessions = Helpers::getActiveProfessions();
             $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
             
+            if(!$getTeenagerHML) {
+                $response['status'] = 0;
+                $response['message'] = "Please attempt at least one section of Profile Builder to view your suggested careers!";
+                return response()->json($response, 200);
+                exit;
+            }
+
             $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($user->id)->toArray() : [];
 
             $match = $nomatch = $moderate = [];
+
             if($getAllActiveProfessions) {
                 foreach($getAllActiveProfessions as $profession) {
                     $array = [];

@@ -441,7 +441,7 @@ CREATE TABLE `pro_fq_forum_questions` (
 ) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1
 
 //Added new table for forum answer #07-02-2018 Jaimin
-  CREATE TABLE `pro_fq_forum_answers` (
+CREATE TABLE `pro_fq_forum_answers` (
  `id` bigint(20) NOT NULL AUTO_INCREMENT,
  `fq_que_id` bigint(20) NOT NULL,
  `fq_teenager_id` bigint(20) NOT NULL,

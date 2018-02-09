@@ -231,7 +231,7 @@
                                     <span class="dashboard-career-consider"></span>
                                 </div>
                             </div>
-                            <div class="careers-container consideration-section">
+                            <div class="careers-container consideration-section consideration-section-data">
                         		<div class="career-data">
 							        <h3 href="javascript:void(0);" class="interest-section">Careers consideration!</h3>
 							    </div>        
@@ -487,7 +487,7 @@
                     // not json
                 }
                 if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
-                    $('.consideration-section').html('<div class="career-data"><h3 href="javascript:void(0);" class="interest-section">'+ valueOf.message +'</h3></div>');
+                    $('.consideration-section').html('<div class=""><h3 href="javascript:void(0);" class="interest-section">'+ valueOf.message +'</h3></div>');
                 } else {
                     $(".consideration-section").html(response).fadeIn('slow');
                 }
