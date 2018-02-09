@@ -352,8 +352,8 @@ class DashboardController extends Controller
             }
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareersSlotWise($request->userId, $lastCareerId);
-            $myCareersCount = $this->professionsRepository->getMyCareersSlotWise($request->userId, $lastCareerId);
-            if (isset($myCareersCount) && count($myCareersCount) > 0) {
+            $myCareersCount = $this->professionsRepository->getMyCareersCount($request->userId, $lastCareerId);
+            if (isset($myCareersCount) && $myCareersCount > 10) {
                 $response['loadMoreFlag'] = 1;
             } else {
                 $response['loadMoreFlag'] = 0;
