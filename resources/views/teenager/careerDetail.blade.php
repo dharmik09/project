@@ -143,9 +143,8 @@
                                     </span>
                                     
                                     <span>
-                                        <!-- <a href="{{url('teenager/get-carrer-pdf/'.$professionsData->pf_slug)}}" title="print"><i class="icon-print"></i></a> -->
                                         <div id="print_loader">
-                                            <a href="javascript:void(0)" onclick="getCareerDetailPdf();" title="print"><i class="icon-print"></i></a>
+                                            <a href="{{url('teenager/get-career-pdf/'.$professionsData->pf_slug)}}" target="_blank" title="print"><i class="icon-print"></i></a>
                                         </div> 
                                     </span>
                                 </div>
@@ -828,24 +827,7 @@
         smartSpeed: 500,
         autoplay:true,
     });
-
-    function getCareerDetailPdf(){
-        $("#print_loader").html('<img src="{{Storage::url('img/loading.gif')}}">');
-        var chartHtml = $('#education_chart').html();
-        var CSRF_TOKEN = "{{ csrf_token() }}";
-        $.ajax({
-            type: 'POST',
-            url: "{{url('teenager/get-carrer-pdf')}}",
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            },
-            data: {'slug':'{{$professionsData->pf_slug}}','chartHtml':chartHtml},
-            success: function (response) {                
-                $("#print_loader").html('<a href="javascript:void(0)" onclick="getCareerDetailPdf();" title="print" id=""><i class="icon-print"></i></a>');
-            }
-        });
-    }
-
+    
     function saveBasicAnswer() {
         $("#basicErrorGoneMsg").html('');
         <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>

@@ -560,10 +560,8 @@ class ProfessionController extends Controller {
         exit;
     }
 
-    public function getCarrerPdf()
+    public function getCareerPdf($slug)
     {
-        $slug = Input::get('slug');
-        $chartHtml = Input::get('chartHtml');
         $user = Auth::guard('teenager')->user();
         $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
         //1=India, 2=US
@@ -596,65 +594,48 @@ class ProfessionController extends Controller {
 
         $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
             
-            //Get Max score for MI parameters
-            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
-            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
-            foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
-                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
-            }
-            
-            //Get teenager promise score 
-            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore(Auth::guard('teenager')->user()->id);
-            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
-            {
-                $teenPromiseScore = $teenPromiseScore->toArray();                
-                foreach($teenPromiseScore as $paramkey=>$paramvalue)
-                {                    
-                    if (strpos($paramkey, 'apt_') !== false) {                       
-                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
-                    }elseif(strpos($paramkey, 'pt_') !== false){
-                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
-                    }elseif(strpos($paramkey, 'mit_') !== false){
-                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
-               
-                    }
-                }
-            }
-        $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $adsDetails = Helpers::getAds($user->id);
-        $mediumAdImages = [];
-        $largeAdImages = [];
-        $bannerAdImages = [];
-        if (isset($adsDetails) && !empty($adsDetails)) {
-            foreach ($adsDetails as $ad) {
-                if ($ad['image'] != '') {
-                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ad['image']);
-                } else {
-                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                }
-                switch ($ad['sizeType']) {
-                    case '1':
-                        $mediumAdImages[] = $ad;
-                        break;
+        //Get Max score for MI parameters
+        $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+        $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+        foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
+            $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+        }
 
-                    case '2':
-                        $largeAdImages[] = $ad;
-                        break; 
+        //Get teenager promise score 
+        $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore(Auth::guard('teenager')->user()->id);
+        if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
+        {
+            $teenPromiseScore = $teenPromiseScore->toArray();                
+            foreach($teenPromiseScore as $paramkey=>$paramvalue)
+            {                    
+                if (strpos($paramkey, 'apt_') !== false) {                       
+                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                    $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                }elseif(strpos($paramkey, 'pt_') !== false){
+                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                    $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
+                }elseif(strpos($paramkey, 'mit_') !== false){
+                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                    $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
 
-                    case '3':
-                        $bannerAdImages[] = $ad;
-                        break;
-                };
+                }
             }
         }
-        $fileName = time().'.pdf';
+        $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
+        
+        $fileName = $professionsData->pf_slug."-".time().'.pdf';
         $checkPDF = PDF::loadView('teenager.careerDetailPdf',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml'))->save($this->careerDetailsPdfUploadedPath.$fileName);
-        if(isset($checkPDF)){
-            return Storage::url($this->careerDetailsPdfUploadedPath.$fileName);
+        
+        if(isset($checkPDF))
+        {
+            $pdfPath = public_path($this->careerDetailsPdfUploadedPath.$fileName);           
+            header('Content-type: application/pdf');
+            header('Content-Disposition: inline; filename='.$fileName);
+            header('Content-Transfer-Encoding: binary');
+            header('Content-Length: ' . filesize($pdfPath));
+            @readfile($pdfPath);
+            exit;                      
         }
     }
 

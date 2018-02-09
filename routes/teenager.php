@@ -72,7 +72,7 @@ Route::post('/save-first-level-icon-quality', 'Teenager\Level1ActivityController
 //Career
 Route::get('/career-detail/{slug}', 'Teenager\ProfessionController@careerDetails');
 Route::post('/add-star-to-career', 'Teenager\ProfessionController@addStarToCareer');
-Route::post('/get-carrer-pdf', 'Teenager\ProfessionController@getCarrerPdf');
+Route::get('/get-career-pdf/{slug}', 'Teenager\ProfessionController@getCareerPdf');
 Route::get('/list-career', 'Teenager\ProfessionController@listIndex');
 Route::post('/career-list', 'Teenager\ProfessionController@listGetIndex');
 Route::post('/search-career-list', 'Teenager\ProfessionController@listGetSearch');
