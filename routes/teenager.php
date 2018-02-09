@@ -36,8 +36,8 @@ Route::post('/get-career-consideration', 'Teenager\ProfessionController@getCaree
 
 
 //Help
-Route::get('help', 'Teenager\HomeController@help');
-Route::post('/search-help', 'Teenager\HomeController@help')->name('search-help');
+Route::get('help', 'Teenager\FAQController@help');
+Route::post('/search-help', 'Teenager\FAQController@help')->name('search-help');
 
 //ProCoins Gift
 Route::get('/gift-coins/', 'Teenager\CoinManagementController@getGiftCoins');
