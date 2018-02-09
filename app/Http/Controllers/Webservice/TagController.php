@@ -76,7 +76,7 @@ class TagController extends Controller {
 		                        $notSetArray[] = $value->id;
 		                    }
 		                    $professionData['completed'] = rand(0,1);
-			                $profession[] = $professionData; 		                
+			                $profession[] = $professionData;	                
 		            	}
 		            }
 
