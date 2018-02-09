@@ -653,11 +653,11 @@ class ProfessionController extends Controller {
         $activityDetails = [];
         $activityDetails['tsp_activity_id'] = Input::get('activityId');
         $activityDetails['tsp_teenager_id'] = Auth::guard('teenager')->user()->id;
-        $adsDetails = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
-        if (isset($adsDetails) && !empty($adsDetails)) {
+        $checkIfAlreadyApplied = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
+        if (isset($checkIfAlreadyApplied) && !empty($checkIfAlreadyApplied)) {
             $message = "applied";
         } else {
-            $adsDetails = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
+            $appliedForScholarship = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
             $message = "success"; 
         }
         return $message;
