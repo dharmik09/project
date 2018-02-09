@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-xs-8">
                         <h2>Congratulations!</h2>
-                        <p>Ronak Luhar ! You are now a rookie ProTeen Meat Poultry and Fish Cutters and Trimmers.</p>
+                        <p>{{ ucwords($response['teenagerName']) }} ! You are now a rookie ProTeen {{$response['professionName']}}.</p>
                         <!-- <p><strong><span class="font-blue">Your Score : </span> 2500</strong></p> -->
                     </div>
                 </div>
