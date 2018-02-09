@@ -362,15 +362,16 @@ class level3ActivityController extends Controller {
                             $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                         }
                         $data[$key]->profession[$k]->completed = rand(0,1);
+                        
                         $data[$key]->profession[$k]->matched = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
                         if($data[$key]->profession[$k]->matched == "match") {
-                            $match[] = $value->id;
+                            $match[] = $v->id;
                         } else if($data[$key]->profession[$k]->matched == "nomatch") {
-                            $nomatch[] = $value->id;
+                            $nomatch[] = $v->id;
                         } else if($data[$key]->profession[$k]->matched == "moderate") {
-                            $moderate[] = $value->id;
+                            $moderate[] = $v->id;
                         } else {
-                            $notSetArray[] = $value->id;
+                            $notSetArray[] = $v->id;
                         }
                     }
                     $data[$key]->strong_match = count($match);
@@ -779,10 +780,9 @@ class level3ActivityController extends Controller {
         if($request->userId != "" && $teenager) {
             if($request->careerId != "") {
                 $careerId = $request->careerId;
-
                 if($teenager->t_view_information == 1){
                     $countryId = 2; // United States
-                }else{
+                } else { 
                     $countryId = 1; // India
                 }
 
@@ -808,9 +808,9 @@ class level3ActivityController extends Controller {
         
                         $data->total_basket_profession = count($data->profession);
                         $data->basket_completed_profession = '12';
-                        $data->strong_match = '12';
-                        $data->potential_match = '12';
-                        $data->unlikely_match = '12';
+                        
+                        $match = $nomatch = $moderate = [];
+                        $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
 
                         foreach ($data->profession as $k => $v) {
                             if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
@@ -820,8 +820,22 @@ class level3ActivityController extends Controller {
                                 $data->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                             }
                             $data->profession[$k]->completed = rand(0,1);
+
+                            $data->profession[$k]->matched = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                            if($data->profession[$k]->matched == "match") {
+                                $match[] = $v->id;
+                            } else if($data->profession[$k]->matched == "nomatch") {
+                                $nomatch[] = $v->id;
+                            } else if($data->profession[$k]->matched == "moderate") {
+                                $moderate[] = $v->id;
+                            } else {
+                                $notSetArray[] = $v->id;
+                            }
                         }
 
+                        $data->strong_match = count($match);
+                        $data->potential_match = count($moderate);
+                        $data->unlikely_match = count($nomatch);
 
                     $response['data']['baskets'] = $data;
                 }
