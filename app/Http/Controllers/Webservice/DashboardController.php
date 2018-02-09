@@ -63,7 +63,7 @@ class DashboardController extends Controller
         $this->personalityThumbImageUploadPath = Config::get('constant.PERSONALITY_THUMB_IMAGE_UPLOAD_PATH');
         $this->communityRepository = $communityRepository;
         $this->objCareerMapping = new CareerMapping;
-        $this->log = new Logger('api-restless-controller');
+        $this->log = new Logger('api-dashboard-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
         $this->objProfessionWiseSubject = new ProfessionWiseSubject;
         $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
@@ -621,6 +621,39 @@ class DashboardController extends Controller
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+    
+    /* Request Params : getDashboardAdvertisements
+     *  loginToken, userId
+     */
+    public function getDashboardAdvertisements(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager) {
+            $data = [];
+            $adsDetails = Helpers::getAds($request->userId);
+            $advertisements = [];
+            foreach ($adsDetails as $ad) {
+                if ($ad['sizeType'] == 4) {
+                    if ($ad['image'] != '') {
+                        $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ad['image']);
+                    } else {
+                        $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                    }
+                    $advertisements[] = $ad;
+                }
+            }
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $advertisements;
+            //Store log in System
+            $this->log->info('Retrieve dashboard page advertisements', array('userId' => $request->userId));
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
