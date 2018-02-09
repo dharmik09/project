@@ -404,7 +404,8 @@ class DashboardController extends Controller
                     $array['pf_logo'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $array['pf_logo_thumb'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $array['matched'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
-                    $array['attempted'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+                    $array['attempted'] = rand(0,1);
+                    $array['star_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
                     //$allProfessions[] = $array;
                     if($array['matched'] == "match") {
                         $match[] = $array;
