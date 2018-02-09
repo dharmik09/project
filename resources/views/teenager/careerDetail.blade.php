@@ -61,9 +61,9 @@
                 @if($videoCode == '')
           
                 <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls style="width: 100%;min-width: 100%;">
-                        <!-- MP4 must be first for iPad! -->
-                        <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->  
-                        Your browser does not support HTML5 video.
+                    <!-- MP4 must be first for iPad! -->
+                    <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->  
+                    Your browser does not support HTML5 video.
                 </video>
            
                 @else

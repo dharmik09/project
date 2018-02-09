@@ -468,6 +468,7 @@ class DashboardController extends Controller
                     $careersArr = [];
                     $careersArr['id'] = $career->id;
                     $careersArr['pf_name'] = $career->pf_name;
+                    $careersArr['pf_slug'] = $career->pf_slug;
                     $careersArr['matched'] = isset($getTeenagerHML[$career->id]) ? $getTeenagerHML[$career->id] : '';
                     $careersArr['attempted'] = rand(0,1);
                     $careerData[] = $careersArr;
@@ -534,6 +535,7 @@ class DashboardController extends Controller
                 $careersArr = [];
                 $careersArr['id'] = $career->id;
                 $careersArr['pf_name'] = $career->pf_name;
+                $careersArr['pf_slug'] = $career->pf_slug;
                 $careersArr['matched'] = isset($getTeenagerHML[$career->id]) ? $getTeenagerHML[$career->id] : '';
                 $careersArr['attempted'] = rand(0,1);
                 $careerData[] = $careersArr;
