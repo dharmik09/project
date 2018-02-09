@@ -712,6 +712,7 @@ return [
     'professionwisetagbulkupload' => 'Profession Tag Bulk Upload',
     'professionwisetagbulkuploadtagnotfound' => 'Tag not found. Please add new tag or check tag name in excel',
     'professionwisetagbulkuploadsuccess' => 'Profession wise tags uploaded successfully',
+    'professionwiseTagbulkuploadprofessionnotfound' => 'Profession not found. Please add new profession or check profession name in excel',
     'appversion' => 'App Version',
     'appversionforceupdate' => 'Force Update',
     'appversiondevicetype' => 'Device Type',
