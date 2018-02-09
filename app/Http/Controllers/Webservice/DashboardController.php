@@ -389,6 +389,15 @@ class DashboardController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+            if(!$getTeenagerHML) {
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['data'] = [];
+                $response['message'] = "Please attempt at least one section of Profile Builder to view your suggested careers!";
+                return response()->json($response, 200);
+                exit;
+            }
+
             $teenagerCareers = $this->professionsRepository->getMyCareers($request->userId);
             $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($request->userId)->toArray() : [];
             $getAllActiveProfessions = Helpers::getActiveProfessions();
@@ -417,7 +426,7 @@ class DashboardController extends Controller
                         $notSetArray[] = $array;
                     }
                 }
-                if(count($match) < 1 && count($moderate) < 1) {
+                if(count($match) < 1 && count($moderate) < 1 && count($nomatch) > 0) {
                     $allProfessions = $nomatch;
                 } else if(count($match) > 0 || count($moderate) > 0) {
                     $allProfessions = array_merge($match, $moderate);

@@ -56,7 +56,7 @@ class Level4ActivityController extends Controller {
             $response['timer'] = $timer;
             $response['professionId'] = $professionId;
             $response['professionName'] = $professionName;
-            $response['teenagerName'] = Auth::guard('teenager')->user()->name . ' '.Auth::guard('teenager')->user()->t_lastname;
+            $response['teenagerName'] = Auth::guard('teenager')->user()->t_name . ' '.Auth::guard('teenager')->user()->t_lastname;
             $response['status'] = 1;
             return view('teenager.basic.careerBasicQuizSection', compact('response'));
         }
