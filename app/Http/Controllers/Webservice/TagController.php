@@ -42,6 +42,9 @@ class TagController extends Controller {
 	                }
 
 	            	$profession = [];
+	            	$getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+            		$match = $nomatch = $moderate = [];
+
 		            foreach($data->professionTags as $key => $value){
 		            	$professionData = [];
 		            	if(isset($value->profession)){
@@ -55,16 +58,32 @@ class TagController extends Controller {
 			                }
 			                $professionData['pf_logo'] = Storage::url($professionLogo);
 			                $youtubeId = Helpers::youtube_id_from_url($value->profession->pf_video);
-			                if($youtubeId != ''){
+			                if($youtubeId != '') {
 			                    $professionData['pf_video'] = $youtubeId;
 			                    $professionData['type_video'] = '1'; //Youtube
-			                }
-			                else{
+			                } else {
 			                    $professionData['type_video'] = '2'; //Dropbox
 			                }
-			                $profession[] = $professionData; 		                
+			                
+			                $professionData['matched'] = isset($getTeenagerHML[$value->id]) ? $getTeenagerHML[$value->id] : '';
+		                    if($professionData['matched'] == "match") {
+		                        $match[] = $value->id;
+		                    } else if($professionData['matched'] == "nomatch") {
+		                        $nomatch[] = $value->id;
+		                    } else if($professionData['matched'] == "moderate") {
+		                        $moderate[] = $value->id;
+		                    } else {
+		                        $notSetArray[] = $value->id;
+		                    }
+		                    $professionData['completed'] = rand(0,1);
+			                $profession[] = $professionData;	                
 		            	}
 		            }
+
+		            $response['strong'] = count($match);
+		            $response['potential'] = count($moderate);
+		            $response['unlikely'] = count($nomatch);
+		            
 		            $data['profession'] = $profession;
 		            unset($data->professionTags);
 	                $response['data'] = $data;
