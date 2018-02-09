@@ -146,7 +146,7 @@
                                                             }
                                                         ?>
                                                             <li>
-                                                                <img src="{{ Storage::url($subjectImageUrl) }}" alt="{{$professionSubject->subject['ps_name']}}">
+                                                                <img src="{{ Storage::url($subjectImageUrl) }}" style="width: 200px;height: 200px;" alt="{{$professionSubject->subject['ps_name']}}">
                                                                 <span>{{$professionSubject->subject['ps_name']}}</span>
                                                             </li>
                                                         @endif
@@ -164,7 +164,7 @@
                                                 <ul>
                                                     @foreach($professionsData->ability as $key => $value)
                                                         <li>
-                                                            <img src="{{ $value['cm_image_url'] }}" alt="{{$value['cm_name']}}">
+                                                            <img src="{{ $value['cm_image_url'] }}" style="width: 200px;height: 200px;" alt="{{$value['cm_name']}}">
                                                             <span>{{$value['cm_name']}}</span>
                                                         </li>
                                                     @endforeach
