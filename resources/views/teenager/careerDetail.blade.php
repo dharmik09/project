@@ -197,65 +197,63 @@
                                             </div>
                                         </div>
                                         <div class="row flex-container">
-                                            <div class="quiz-intermediate">
-                                                <div class="sec-show clearfix">
-                                                    @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
-                                                        @foreach($getQuestionTemplateForProfession as $templateProfession)
-                                                            <div class="col-sm-6 flex-items">
-                                                                <div class="quiz-box">
-                                                                    <div class="img">
-                                                                        <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
-                                                                        <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
-                                                                    </div>
-                                                                    <h6>{!! $templateProfession->gt_template_title !!}</h6>
-                                                                    <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
-                                                                    <div class="unbox-btn">
-                                                                        <a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal1">
-                                                                            <span class="unbox-me">Unbox Me</span>
-                                                                            <span class="coins-outer">
-                                                                                <span class="coins"></span> 
-                                                                                25000
-                                                                            </span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="modal fade" id="myModal1" role="dialog">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content custom-modal">
-                                                                                <div class="modal-header">
-                                                                                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                                    <h4 class="modal-title">Congratulations!</h4>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <p>You have 42,000 ProCoins available.</p>
-                                                                                    <p>Click OK to consume your 250 ProCoins and play on</p>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button>
-                                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                            <div class="col-sm-12">
+                                                <div class="quiz-intermediate">
+                                                    <div class="sec-show clearfix">
+                                                        <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
+                                                            <div class="loading-text">
+                                                                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+                                                            </div>
+                                                            <div class="loading-content"></div>
+                                                        </div>
+                                                        
+                                                        @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
+                                                            @foreach($getQuestionTemplateForProfession as $templateProfession)
+                                                                <div class="col-sm-6 flex-items">
+                                                                    <div class="quiz-box">
+                                                                        <div class="img">
+                                                                            <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
+                                                                            <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
+                                                                        </div>
+                                                                        <h6>{!! $templateProfession->gt_template_title !!}</h6>
+                                                                        <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
+                                                                        <div class="unbox-btn">
+                                                                            <a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
+                                                                                <span class="unbox-me">Unbox Me</span>
+                                                                                <span class="coins-outer">
+                                                                                    <span class="coins"></span> 
+                                                                                    25000
+                                                                                </span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content custom-modal">
+                                                                                    <div class="modal-header">
+                                                                                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                                                                                        <h4 class="modal-title">Congratulations!</h4>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <p>You have 42,000 ProCoins available.</p>
+                                                                                        <p>Click OK to consume your {{$templateProfession->gt_coins}} ProCoins and play on</p>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button>
+                                                                                        <span class="btn-play btn-play-intermediate" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
+                                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
+                                                            @endforeach
+                                                        @else
 
-                                                    @endif
-                                                </div>
-                                                <div class="quiz-area sec-hide">
-                                                    <div class="quiz_view">
-                                                        <div class="clearfix time_noti_view"><span class="time_type pull-left"><i class="icon-alarm"></i><span class="time-tag">0:0</span></span><span class="help_noti pull-right"><span class="pull-right close"><i class="icon-close"></i></span></span></div>
-                                                        <div class="quiz-que">
-                                                            <p class="que"><i class="icon-arrow-simple"></i>Identify the correct terminology for the piece of furniture:</p>
-                                                            <div class="quiz-ans">
-                                                                <div class="question-img">
-                                                                    <img src="{{ Storage::url('img/question-img.jpg') }}" title="Click to enlarge image" class="pop-me">
-                                                                </div>
-                                                                <div class="radio"><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label></div>
-                                                                <div class="clearfix"><a href="#" class="next-que pull-right"><i class="icon-hand"></i></a></div>
-                                                            </div>
-                                                        </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -476,12 +474,12 @@
             </div>
         </section>
     </div>
-        <!-- mid section end-->
 </div>
-    <span id="setResponse" value="0"></span>
-    <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
-    <audio id="audio_1" src="{{ Storage::url('frontend/audio/L1A_1.wav')}}"></audio>
-    <audio id="audio_2" src="{{ Storage::url('frontend/audio/L1A_2.wav')}}"></audio>
+<span id="setResponse" value="0"></span>
+<span id="setResponseIntermediate" value="0"></span>
+<audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
+<audio id="audio_1" src="{{ Storage::url('frontend/audio/L1A_1.wav')}}"></audio>
+<audio id="audio_2" src="{{ Storage::url('frontend/audio/L1A_2.wav')}}"></audio>
 @stop
 
 @section('script')
@@ -515,17 +513,17 @@
         $('.promise-plus-overlay .close').click(function() {
             $('.promise-plus-overlay').hide();
             $('.front_page').show(500);
-        })
-        
-        $('.btn-intermediate').click(function(){
-            $('.quiz-intermediate .sec-show').addClass('hide');
-            $('.quiz-intermediate .sec-hide').addClass('active');
-        })
+        });
         
         $('.quiz-area .close').click(function() {
             $('.sec-show').removeClass('hide');
             $('.sec-hide').removeClass('active');
         });
+
+        // $('#intermediateLevelData .close').click(function() {
+        //     $('.intermediate-question .sec-show').removeClass('hide');
+        //     $('.sec-hide').removeClass('active');
+        // });
         
         $('.btn-advanced').click(function(){
             $('.quiz-advanced .sec-show').addClass('hide');
@@ -871,6 +869,58 @@
         }); 
     }
     
+    //Intermediate level data query
+    var intermediateCount;
+    jQuery(document).ready(function($) {
+        var counter = setInterval(intermediateTimer, 1000);
+        function intermediateSecondPassed() {
+            var minutes = Math.round((intermediateCount - 30) / 60);
+            var remainingcount = intermediateCount % 60;
+            if (remainingcount < 10) {
+                remainingcount = "0" + remainingcount;
+            }
+            $('.intermediate-time-tag, .intermediate-time-tag').text(minutes + ":" + remainingcount);
+            $('.time-tag').show();
+        }
+        function intermediateTimer() {
+            if (intermediateCount < 0) { }
+            else {
+                intermediateSecondPassed();
+            }
+            intermediateCount = intermediateCount - 1;
+            $("#blackholeIntermediate").val(intermediateCount);           
+            if (intermediateCount == -1) {
+                //autoSubmitIntermediateAnswer();
+            }
+        }
+    });
+
+    $(document).on('click', '.btn-intermediate', function(e) {
+        e.preventDefault();
+        getIntermediateQuestions('{{$professionsData->id}}');
+    });
+
+    function getIntermediateQuestions(templateId) {
+        templateId = 1;
+        $('.intermediate-first-question-loader').parent().toggleClass('loading-screen-parent');
+        $('.intermediate-first-question-loader').show();
+            
+        $.ajax({
+            url: "{{url('teenager/play-intermediate-level-activity')}}",
+            type : 'POST',
+            data : { 'professionId' : '{{$professionsData->id}}', 'templateId' : templateId },
+            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+            success: function(data){
+                $("#setResponseIntermediate").val("0");
+                $('.quiz-intermediate .sec-show').addClass('hide');
+                $('.quiz-intermediate .intermediate-question').addClass('active');
+                $('#intermediateLevelData').html(data);
+                $('.intermediate-first-question-loader').hide();
+                $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
+            }
+        }); 
+    }
+
     $(document).on('click', '.quiz_view .close', function(e) {
         $('.sec-show').removeClass('hide');
         $('.sec-hide').removeClass('active');

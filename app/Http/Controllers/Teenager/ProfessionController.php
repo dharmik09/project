@@ -277,8 +277,8 @@ class ProfessionController extends Controller {
         $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionsData->id);
         if( isset($getQuestionTemplateForProfession[0]) ) {
             foreach($getQuestionTemplateForProfession as $key => $professionTemplate) {
-                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($user->id, $professionId, $professionTemplate->gt_template_id);
-                $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($user->id, $professionId, $professionTemplate->gt_template_id);
+                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($user->id, $professionsData->id, $professionTemplate->gt_template_id);
+                $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($user->id, $professionsData->id, $professionTemplate->gt_template_id);
                 $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
                 $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
                 if (empty($intermediateActivities) || ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
