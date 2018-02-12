@@ -63,13 +63,16 @@ class SEOCareerController extends Controller {
     {   
         $countryId = 1;
         
-        $professionsData = $this->professions->getProfessionDetailBySlug($slug, $countryId);
-       
+        //get all profession data for search
+        $allProfessions = $this->professions->getActiveProfessions();              
+        
+        //get profession data by slug
+        $professionsData = $this->professions->getProfessionDetailBySlug($slug, $countryId);       
         $professionsData = ($professionsData) ? $professionsData : [];
         if(!$professionsData) {
             return Redirect::to("teenager/list-career")->withErrors("Invalid professions data");
         }
         
-        return view('teenager.seoTeaser',compact('professionsData','countryId'));
+        return view('teenager.seoTeaser',compact('professionsData','countryId','allProfessions'));
     }
 }

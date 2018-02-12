@@ -10,6 +10,7 @@
         <!-- mid section-->
         <div class="container">
             <section class="career-detail">
+                <input type="text" name="search" id="autocomplete" placeholder="search..." style="    position: relative;display: inline-block;">
                 <h1>{{$professionsData->pf_name}}</h1>
                 <div class="career-banner banner-landing">
                     <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
@@ -863,77 +864,103 @@
     </div>
 @stop
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $('.play-icon').click(function() {
-                $(this).hide();
-                $('video').show();
-                $('img').hide();
-            });
 
-            $('#iframe-video-click').on('click', function(ev) {
-                var youtubeVideo = '{{$videoCode}}';
-                if(youtubeVideo == '') {
-                    $("#dropbox_video_player")[0].play();
-                } else {
-                    $('img').hide();
-                    $('iframe').show();
-                    $("#iframe-video")[0].src += "&autoplay=1";
-                    ev.preventDefault();
-                }
-            });
-            
-            $('.btn-next').click(function() {
-                $('.front_page').hide();
-                $('.promise-plus-overlay').show(500);
-            })
-            $('.promise-plus-overlay .close').click(function() {
-                $('.promise-plus-overlay').hide();
-                $('.front_page').show(500);
-            })
-            $('.btn-basic').click(function() {
-                $('.quiz-basic .sec-show').addClass('hide');
-                $('.quiz-basic .basic-quiz-area').addClass('active');
-            })
-            $('.quiz-box .close').click(function() {
-                $('.sec-show').removeClass('hide');
-                $('.sec-hide').removeClass('active');
-            });
-            $('.btn-intermediate').click(function(){
-                $('.quiz-intermediate .sec-show').addClass('hide');
-                $('.quiz-intermediate .sec-hide').addClass('active');
-            })
-            $('.quiz-area .close').click(function() {
-                 $('.sec-show').removeClass('hide');
-                $('.sec-hide').removeClass('active');
-            });
-            $('.btn-advanced').click(function(){
-                $('.quiz-advanced .sec-show').addClass('hide');
-                $('.quiz-advanced .sec-hide').addClass('active');
-            })
-            $('.upload-screen .close').click(function() {
-                 $('.sec-show').removeClass('hide');
-                $('.sec-hide').removeClass('active');
-            });
+<script src="{{ asset('frontend/js/jquery.autocomplete.min.js') }}"></script>
 
-            $(".progress-match").each(function(){
+<?php
+$finalSearchArray = '';
+$suggestion = '';
+if (!empty($allProfessions)) {
+    foreach ($allProfessions as $value) {
+        $searchArray[] = array('value' => $value->pf_name, 'slug' => $value->pf_slug);
+    }
+    $finalSearchArray = json_encode($searchArray);
+}
+?>
 
-              var $bar = $(this).find(".bar");
-              var $val = $(this).find("span");
-              var perc = parseInt( $val.text(), 10);
-
-              $({p:0}).animate({p:perc}, {
-                duration: 3000,
-                easing: "swing",
-                step: function(p) {
-                  $bar.css({
-                    transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
-                    // 45 is to add the needed rotation to have the green borders at the bottom
-                  });
-                  $val.text(p|0);
-                }
-              });
-            });
+<script>
+    $(document).ready(function() {
+        $('.play-icon').click(function() {
+            $(this).hide();
+            $('video').show();
+            $('img').hide();
         });
-    </script>
+
+        $('#iframe-video-click').on('click', function(ev) {
+            var youtubeVideo = '{{$videoCode}}';
+            if(youtubeVideo == '') {
+                $("#dropbox_video_player")[0].play();
+            } else {
+                $('img').hide();
+                $('iframe').show();
+                $("#iframe-video")[0].src += "&autoplay=1";
+                ev.preventDefault();
+            }
+        });
+
+        $('.btn-next').click(function() {
+            $('.front_page').hide();
+            $('.promise-plus-overlay').show(500);
+        })
+        $('.promise-plus-overlay .close').click(function() {
+            $('.promise-plus-overlay').hide();
+            $('.front_page').show(500);
+        })
+        $('.btn-basic').click(function() {
+            $('.quiz-basic .sec-show').addClass('hide');
+            $('.quiz-basic .basic-quiz-area').addClass('active');
+        })
+        $('.quiz-box .close').click(function() {
+            $('.sec-show').removeClass('hide');
+            $('.sec-hide').removeClass('active');
+        });
+        $('.btn-intermediate').click(function(){
+            $('.quiz-intermediate .sec-show').addClass('hide');
+            $('.quiz-intermediate .sec-hide').addClass('active');
+        })
+        $('.quiz-area .close').click(function() {
+             $('.sec-show').removeClass('hide');
+            $('.sec-hide').removeClass('active');
+        });
+        $('.btn-advanced').click(function(){
+            $('.quiz-advanced .sec-show').addClass('hide');
+            $('.quiz-advanced .sec-hide').addClass('active');
+        })
+        $('.upload-screen .close').click(function() {
+             $('.sec-show').removeClass('hide');
+            $('.sec-hide').removeClass('active');
+        });
+
+        $(".progress-match").each(function(){
+
+          var $bar = $(this).find(".bar");
+          var $val = $(this).find("span");
+          var perc = parseInt( $val.text(), 10);
+
+          $({p:0}).animate({p:perc}, {
+            duration: 3000,
+            easing: "swing",
+            step: function(p) {
+              $bar.css({
+                transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
+                // 45 is to add the needed rotation to have the green borders at the bottom
+              });
+              $val.text(p|0);
+            }
+          });
+        });
+    });
+
+    $(window).bind("load", function() {
+    var currencies = <?php echo $finalSearchArray ?>
+        // setup autocomplete function pulling from currencies[] array
+        $('#autocomplete').autocomplete({
+            lookup: currencies,
+            onSelect: function(suggestion) {
+                window.location.href = "<?php echo url('career-detail/') ?>/" + suggestion.slug;
+            }
+        });
+
+    });
+</script>
 @stop
