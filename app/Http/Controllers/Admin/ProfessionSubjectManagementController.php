@@ -46,11 +46,11 @@ class ProfessionSubjectManagementController extends Controller
 
     public function save(ProfessionSubjectRequest $professionSubjectRequest) {
         $subjectDetail = [];
-        $hiddenLogo     = e(input::get('hidden_logo'));
-        $subjectDetail['id'] = e(Input::get('id'));
-        $subjectDetail['ps_name'] = e(Input::get('ps_name'));
-        $subjectDetail['ps_slug'] = e(Input::get('ps_slug'));
-        $subjectDetail['deleted'] = e(Input::get('deleted'));
+        $hiddenLogo     = input::get('hidden_logo');
+        $subjectDetail['id'] = Input::get('id');
+        $subjectDetail['ps_name'] = Input::get('ps_name');
+        $subjectDetail['ps_slug'] = Input::get('ps_slug');
+        $subjectDetail['deleted'] = Input::get('deleted');
 
         if (Input::file())
         {
