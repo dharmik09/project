@@ -75,6 +75,18 @@ class Professions extends Model {
         return $result;
     }
 
+    public function getProfessionDetailBySlug($slug,$countryId) {
+        $this->country_id = $countryId;
+        $result = $this->select('*')
+                ->with(['professionHeaders' => function ($query) {
+                            $query->where('country_id',$this->country_id);
+                        }])               
+                ->where('deleted', '1')
+                ->where('pf_slug', $slug)
+                ->first();
+        return $result;
+    }
+    
     public function professionHeaders(){
         return $this->hasMany(ProfessionHeaders::class, 'pfic_profession');
     }
@@ -702,4 +714,12 @@ class Professions extends Model {
         return $getTotalCompeting;
     }
 
+    /*
+     * Get Random profession slug for SEO career pages
+     */
+    public function getRandomProfession()
+    {
+        $professionData = $this->inRandomOrder()->first();
+        return $professionData;
+    }
 }

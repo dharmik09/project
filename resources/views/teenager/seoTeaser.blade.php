@@ -1,4 +1,4 @@
-@extends('layouts.teenager-master')
+@extends('layouts.home-master')
 
 @push('script-header')
     <title>Seo teasor</title>
@@ -10,12 +10,24 @@
         <!-- mid section-->
         <div class="container">
             <section class="career-detail">
-                <h1>Career Title</h1>
-                <div class="banner-landing banner-detail">
+                <h1>{{$professionsData->pf_name}}</h1>
+                <div class="career-banner banner-landing">
+                    <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
                     <div>
-                        <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
+                        <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                     </div>
-                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NpEaa2P7qZI?autoplay=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                    <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
+                    @if($videoCode == '')
+
+                    <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls style="width: 100%;min-width: 100%;">
+                        <!-- MP4 must be first for iPad! -->
+                        <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->  
+                        Your browser does not support HTML5 video.
+                    </video>
+
+                    @else
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                    @endif   
                 </div>
                 <div class="detail-content">
                     <div class="row">
@@ -23,49 +35,74 @@
                             <div class="career-stat">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <ul class="color-1">
-                                            <li class="icon"><i class="icon-dollor"></i></li>
-                                            <li>
-                                                <h4>$40,000 - $60,000</h4>
-                                                <p>average per year</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <ul class="color-2">
-                                            <li class="icon"><i class="icon-clock"></i></li>
-                                            <li>
-                                                <h4>35 - 40</h4>
-                                                <p>hours per week</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <ul class="color-3">
-                                            <li class="icon"><i class="icon-pro-user"></i></li>
-                                            <li>
-                                                <h4>242,000 positions</h4>
-                                                <p>US employment 2017</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <ul class="color-4">
-                                            <li class="icon"><i class="icon-pro-user"></i></li>
-                                            <li>
-                                                <h4>474,000 positions</h4>
-                                                <p>projected for 2027</p>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <ul class="color-1">
+                                        <li class="icon"><?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?></li>
+                                        <?php
+                                            $average_per_year_salary = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'average_per_year_salary';
+                                            })->first();
+                                        ?>
+                                        <li>
+                                            <h4><?php echo (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? $average_per_year_salary->pfic_content : '' ?></h4>
+                                            <p>Average per year</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="color-2">
+                                        <li class="icon"><i class="icon-clock"></i></li>
+                                        <?php
+                                            $work_hours_per_week = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'work_hours_per_week';
+                                            })->first();
+                                        ?>
+                                        <li>
+                                            <h4><?php echo (isset($work_hours_per_week->pfic_content) && !empty($work_hours_per_week->pfic_content)) ? $work_hours_per_week->pfic_content : '' ?></h4>
+                                            <p>Hours per week</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="color-3">
+                                        <li class="icon"><i class="icon-pro-user"></i></li>
+                                        <?php
+                                            $positions_current = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'positions_current';
+                                            })->first();
+                                        ?>
+                                        <li>
+                                            <h4><?php echo (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '' ?></h4>
+                                            <p>Employment 2017</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="color-4">
+                                        <li class="icon"><i class="icon-pro-user"></i></li>
+                                        <?php
+                                            $positions_projected = $professionsData->professionHeaders->filter(function($item) {
+                                                return $item->pfic_title == 'positions_projected';
+                                            })->first();
+                                        ?>
+                                        <li>
+                                            <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
+                                            <p>Projected for 2026</p>
+                                        </li>
+                                    </ul>
+                                </div>
                                 </div>
                             </div>
                             <div class="description">
                                 <div class="heading">
-                                    <h4>Career Title</h4>
+                                    <h4>{{$professionsData->pf_name}}</h4>
                                     <div class="list-icon"><span><a href="#" title="Like"><i class="icon-star"></i></a></span><span><a href="#" title="print"><i class="icon-print"></i></a></span></div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                <?php
+                                $profession_description = $professionsData->professionHeaders->filter(function($item) {
+                                    return $item->pfic_title == 'profession_description';
+                                })->first();
+                            ?>
+                            <p><?php echo (isset($profession_description->pfic_content) && !empty($profession_description->pfic_content)) ? $profession_description->pfic_content : '' ?></p>
                             </div>
                             <div class="career-detail-tab bg-white">
                                 <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
@@ -817,7 +854,7 @@
                         </div>
                     </div>
                     <div class="teaser-overlay">
-                        <p><a href="#" title="Read More" class="btn btn-border">Read More</a></p>
+                        <p><a href="{{ url('/teenager/login') }}" title="Read More" class="btn btn-border">Read More</a></p>
                     </div>
                 </div>
             </section>
@@ -830,8 +867,22 @@
         $(document).ready(function() {
             $('.play-icon').click(function() {
                 $(this).hide();
-                $('iframe').show();
-            })
+                $('video').show();
+                $('img').hide();
+            });
+
+            $('#iframe-video-click').on('click', function(ev) {
+                var youtubeVideo = '{{$videoCode}}';
+                if(youtubeVideo == '') {
+                    $("#dropbox_video_player")[0].play();
+                } else {
+                    $('img').hide();
+                    $('iframe').show();
+                    $("#iframe-video")[0].src += "&autoplay=1";
+                    ev.preventDefault();
+                }
+            });
+            
             $('.btn-next').click(function() {
                 $('.front_page').hide();
                 $('.promise-plus-overlay').show(500);
