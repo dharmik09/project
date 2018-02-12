@@ -18,12 +18,17 @@
             <ul class="btn-list">
                 <li><a href="#" title="learn more" class="btn">learn more</a></li>
                 <?php 
-                    if (!empty($exceptScholarshipIds) && in_array($scholarshipProgram->id, $exceptScholarshipIds)) {
+                    if (!empty($expiredActivityIds) && in_array($scholarshipProgram->id, $expiredActivityIds)) {
                         $callbleFunction = "";
-                        $buttonText = "Applied";
+                        $buttonText = "Expired";
                      } else {
-                        $callbleFunction = "applyForScholarshipProgram($scholarshipProgram->id)";
-                        $buttonText = "Apply";
+                        if (!empty($scholarshipProgramIds) && in_array($scholarshipProgram->id, $scholarshipProgramIds)) {
+                            $callbleFunction = "";
+                            $buttonText = "Applied";
+                        } else {
+                            $callbleFunction = "applyForScholarshipProgram($scholarshipProgram->id)";
+                            $buttonText = "Apply";
+                        }
                      } ?>
                 <li><a href="javascript:void(0)" id="apply_{{$scholarshipProgram->id}}" title="Apply" class="btn btn-apply" onclick="{{$callbleFunction}}" >{{$buttonText}}</a><span id="scholarship_message_{{$scholarshipProgram->id}}" style="position: absolute; text-align: center; width: 300px; left: 50%; -webkit-transform: translatex(-50%);
     -ms-transform: translatex(-50%); -o-transform: translatex(-50%); transform: translatex(-50%); padding: 10px; border: 1px solid #fff; background: #fff;-webkit-border-radius: 5px; border-radius: 5px; margin-top: 55px; z-index: 99;-webkit-box-shadow: 0 1px 17px -4px #989494; box-shadow: 0 1px 17px -4px #989494; font-size: 14px; color: rgba(22,28,34,.7); display: none;" ></span></li>
