@@ -2212,17 +2212,17 @@ Class Helpers {
         $saveDedecutedCoins['dc_user_id'] = $userId;
         $saveDedecutedCoins['dc_user_type'] = $type;
         $saveDedecutedCoins['dc_profession_id'] = $professionId;
-        $saveDedecutedCoins['dc_component_name'] = $componentsData[0]->id;
+        $saveDedecutedCoins['dc_component_name'] = $componentsData->id;
         $saveDedecutedCoins['dc_total_coins'] = $coins;
         $saveDedecutedCoins['dc_start_date'] = date('y-m-d');
-        $saveDedecutedCoins['dc_end_date'] = date('Y-m-d', strtotime("+".$componentsData[0]->pc_valid_upto." days"));
-        $saveDedecutedCoins['dc_days'] = $componentsData[0]->pc_valid_upto;
+        $saveDedecutedCoins['dc_end_date'] = date('Y-m-d', strtotime("+".$componentsData->pc_valid_upto." days"));
+        $saveDedecutedCoins['dc_days'] = $componentsData->pc_valid_upto;
 
         $returnData = $objDeductedCoins->saveDeductedCoinsDetail($saveDedecutedCoins);
         return true;
     }
 
-    public static function calculateRemaningDays($enddate) {
+    public static function calculateRemainingDays($enddate) {
         $Current_date = strtotime(date('Y-m-d H:i:s'));
 
         $end_date = strtotime($enddate);
@@ -2232,7 +2232,7 @@ Class Helpers {
            $final_date = round(abs($date) / 86400, 2);
         }
         $days = round($final_date);
-        return 0;
+        return $days;
     }
 
     public static function getAllUserTypes() {
@@ -2249,7 +2249,7 @@ Class Helpers {
         $saveDedecutedCoins['pdc_user_id'] = $loginUserId;
         $saveDedecutedCoins['pdc_other_user_id'] = $userId;
         $saveDedecutedCoins['pdc_profession_id'] = $professionId;
-        $saveDedecutedCoins['pdc_component_name'] = $componentsData[0]->id;
+        $saveDedecutedCoins['pdc_component_name'] = $componentsData->id;
         $saveDedecutedCoins['pdc_total_coins'] = $coins;
         $saveDedecutedCoins['pdc_deducted_date'] = date('y-m-d');
 

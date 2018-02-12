@@ -118,11 +118,11 @@ class CoinManagementController extends Controller {
             $objDeductedCoins = new DeductedCoins();
             $componentsData = $objPaidComponent->getPaidComponentsData('Enterprise Report');
             if(isset($componentsData) && !empty($componentsData)){
-                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData[0]->id,4);
+                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData->id,4);
             }
             $days = 0;
             if (!empty($deductedCoinsDetail->toArray())) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             return $days;
             exit;
@@ -137,7 +137,7 @@ class CoinManagementController extends Controller {
             $objDeductedCoins = new DeductedCoins();
             $componentsData = $objPaidComponent->getPaidComponentsData('Enterprise Report');
 
-            return $componentsData[0]->pc_required_coins;
+            return $componentsData->pc_required_coins;
             exit;
         }
         return view('sponsor.login'); exit;
@@ -148,7 +148,7 @@ class CoinManagementController extends Controller {
             $sponsorId = Input::get('sponsorId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('Enterprise Report');
-            $coins = $componentsData[0]->pc_required_coins;
+            $coins = $componentsData->pc_required_coins;
 
             $sponsorData = $this->sponsorsRepository->getSponsorDataForCoinsDetail($sponsorId);
             if (!empty($sponsorData)) {
@@ -170,10 +170,10 @@ class CoinManagementController extends Controller {
             $objDeductedCoins = new DeductedCoins();
 
             $componentsData = $objPaidComponent->getPaidComponentsData('Enterprise Report');
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData[0]->id,4);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData->id,4);
             $days = 0;
             if (!empty($deductedCoinsDetail)) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             return view('sponsor.gerRemaningDays',compact('days'));
             /*$data = $days.' Days Left';

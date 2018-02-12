@@ -269,7 +269,7 @@ class CoinManagementController extends Controller {
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
 
-            return $componentsData[0]->pc_required_coins;
+            return $componentsData->pc_required_coins;
             exit;
         }
         return view('parent.login'); exit;
@@ -295,10 +295,10 @@ class CoinManagementController extends Controller {
 
             if ($professionId != 0) {
                 $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
-                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData[0]->id);
+                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData->id);
                 $days = 0;
                 if (!empty($deductedCoinsDetail)) {
-                    $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
                 }
                 /*$data = '<div class="promisebtn timer_btn">
                             <a href="javascript:void(0);" class="promise" title="" onclick="getPromisePlus('.$professionId.', '.$parentId.','.$days.');" data-ref="#'.$professionId.'">
@@ -313,10 +313,10 @@ class CoinManagementController extends Controller {
                 exit;
             } else {
                 $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
-                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
+                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
                 $days = 0;
                 if (!empty($deductedCoinsDetail)) {
-                    $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
                 }
                 return view('parent.getRemainingDays',compact('days'));
                 /*$data = '<span class="coinsnum">'.$days.' Days Left</span>';
@@ -332,7 +332,7 @@ class CoinManagementController extends Controller {
             $parentId = Input::get('parentId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
-            $coins = $componentsData[0]->pc_required_coins;
+            $coins = $componentsData->pc_required_coins;
             $parentData = $this->parentsRepository->getParentById($parentId);
 
             if (!empty($parentData)) {
@@ -354,10 +354,10 @@ class CoinManagementController extends Controller {
             $objDeductedCoins = new DeductedCoins();
 
             $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
             $days = 0;
             if (!empty($deductedCoinsDetail)) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             return view('parent.getRemainingDaysForReport',compact('days'));
             /*$data = $days.' Days Left';
@@ -434,7 +434,7 @@ class CoinManagementController extends Controller {
             $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,$template_id,2);
             $days = 0;
             if (!empty($deductedCoinsDetail->toArray())) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->tdc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
             }
             $userData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($template_id);
             $coins = $userData['gt_coins'];
