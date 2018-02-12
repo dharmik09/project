@@ -17,8 +17,8 @@
         </span>
 
         <div class="rank_local">
-            <span style="font-size: 14px;"><?php echo ($teenagerId == Auth::teenager()->id())?"My":''; ?> Rank : {{$response['rank']}}</span>
-            <span style="font-size: 14px;"><?php echo ($teenagerId == Auth::teenager()->id())?"My":''; ?> Points : {{$response['yourscore']}}</span>
+            <span style="font-size: 14px;"><?php echo ($teenagerId == Auth::guard('parent')->user()->id)?"My":''; ?> Rank : {{$response['rank']}}</span>
+            <span style="font-size: 14px;"><?php echo ($teenagerId == Auth::guard('parent')->user()->id)?"My":''; ?> Points : {{$response['yourscore']}}</span>
         </div>
 
         <div class="ahchivement">

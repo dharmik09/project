@@ -464,7 +464,7 @@ class DashboardManagementController extends Controller {
             $response['rank'] = 0;
         }
 
-        return view('teenager.badgesRank',compact('response','teenagerId'));
+        return view('parent.badgesRank',compact('response','teenagerId'));
         exit;
     }
 
@@ -497,19 +497,20 @@ class DashboardManagementController extends Controller {
                     $objPaidComponent = new PaidComponent();
                     $objDeductedCoins = new DeductedCoins();
                     $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
-
+                   
                     if(isset($componentsData) && !empty($componentsData)){
                         $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData[0]->id);
                     }
+                    
                     $days = 0;
-                    if (!empty($deductedCoinsDetail)) {
+                    if (count($deductedCoinsDetail) > 0) {                       
                         $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
                     }
                     $response['remainingDays'] = $days;
                     $response['required_coins'] = $componentsData[0]->pc_required_coins;
                     //get profession name and logo
                     $professionData = $this->professionsRepository->getProfessionsById($professionId);
-
+                   
                     $professionName = isset($professionData[0]->pf_name)?$professionData[0]->pf_name:'';
                     if (isset($professionData[0]->pf_logo) && $professionData[0]->pf_logo != '') {
                         $profession_logo = Storage::url($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo);
@@ -569,18 +570,20 @@ class DashboardManagementController extends Controller {
     {
         $professionId = Input::get('professionId');
         $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($professionId);
+       
         $professionName = '';
         if (isset($professionHeaderDetail) && !empty($professionHeaderDetail)) {
             $professionName = $professionHeaderDetail[0]->pf_name;
-            if (strpos($professionHeaderDetail[2]->pfic_content, "Salary Range") !== FALSE) {
-                $profession_acadamic_path = substr($professionHeaderDetail[2]->pfic_content, 0, strpos($professionHeaderDetail[2]->pfic_content, 'Salary Range'));
+            if(!empty($professionHeaderDetail[15]->pfic_content)) {
+                $profession_acadamic_path = $professionHeaderDetail[15]->pfic_content;
             } else {
                 $profession_acadamic_path = '';
             }
         } else {
             $profession_acadamic_path = '';
         }
-        return view('teenager.educationPath',compact('profession_acadamic_path','professionName'));
+         
+        return view('parent.educationPath',compact('profession_acadamic_path','professionName'));
         exit;
     }
 
