@@ -32,7 +32,8 @@ class Level4ActivityController extends Controller {
     /* Request Params : getScholarshipProgramsDetails
      *  loginToken, userId
      */
-    public function getScholarshipProgramsDetails(Request $request) {
+    public function getScholarshipProgramsDetails(Request $request) 
+    {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if ($teenager) {
@@ -81,7 +82,17 @@ class Level4ActivityController extends Controller {
                 $scholarshipData['title'] = $scholarshipProgram->sa_name;
                 $scholarshipData['details'] = $scholarshipProgram->sa_description;
                 $scholarshipData['learnMoreLink'] = url('teenager/learnMoreL4');
-                $scholarshipData['is_applied'] = (!empty($exceptScholarshipIds) && in_array($scholarshipProgram->id, $exceptScholarshipIds)) ? 1 : 0;
+                $scholarshipData['is_expired'] = (!empty($expiredActivityIds) && in_array($scholarshipProgram->id, $expiredActivityIds)) ? 1 : 0;
+                $scholarshipData['is_applied'] = (!empty($scholarshipProgramIds) && in_array($scholarshipProgram->id, $scholarshipProgramIds)) ? 1 : 0;
+                if (!empty($expiredActivityIds) && in_array($scholarshipProgram->id, $expiredActivityIds)) {
+                    $scholarshipData['activityStatus'] = "expired";
+                } else {
+                    if (!empty($appliedScholarshipDetails) && in_array($scholarshipProgram->id, $scholarshipProgramIds)) {
+                        $scholarshipData['activityStatus'] = "applied";
+                    } else {
+                        $scholarshipData['activityStatus'] = "apply";
+                    }
+                }
                 $scholarshipDetailsArr[] = $scholarshipData;
             }
             //Store log in System
@@ -93,6 +104,50 @@ class Level4ActivityController extends Controller {
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : applyForScholarshipProgram
+     *  loginToken, userId, activityId
+     */
+    public function applyForScholarshipProgram(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->activityId) && !empty($request->activityId)) {
+                $activityDetails = [];
+                $activityDetails['tsp_activity_id'] = $request->activityId;
+                $activityDetails['tsp_teenager_id'] = $request->userId;
+                //Check if user already applied for this scholarship program
+                $checkIfAlreadyApplied = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
+                if (isset($checkIfAlreadyApplied) && !empty($checkIfAlreadyApplied)) {
+                    $response['message'] = "You have already applied for this scholarship program";
+                    //Store log in System
+                    $this->log->info('User already registered for scholarship program.', array('userId'=>$request->userId, 'scholarshipId' => $request->activityId));
+                } else {
+                    //Store scholarship application details
+                    $appliedForScholarship = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
+                    if (isset($appliedForScholarship) && !empty($appliedForScholarship)) {
+                        $response['message'] = "You have successfully applied for this scholarship program";
+                        //Store log in System
+                        $this->log->info('User successfully registered for scholarship program', array('userId' => $request->userId, 'scholarshipId' => $request->activityId));
+                    } else {
+                        $response['message'] = "Failed to applied for this scholarship program, Please try again later";
+                        //Store log in System
+                        $this->log->info('User failed to registered for scholarship program', array('userId' => $request->userId, 'scholarshipId' => $request->activityId));
+                    } 
+                }
+                $response['status'] = 1;
+            } else {
+               $response['message'] = trans('appmessages.missing_data_msg'); 
+               $response['status'] = 0;
+            }
+            $response['login'] = 1;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }

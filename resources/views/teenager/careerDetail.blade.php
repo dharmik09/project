@@ -1058,6 +1058,7 @@
                     $("#scholarship_message_"+activityId).text("You have already applied for this program");
                 } else {
                     $("#scholarship_message_"+activityId).text("You successfully applied for this scholarship program");
+                    $("#apply_"+activityId).prop('onclick',null).off('click');
                 }
                 $("#scholarship_message_"+activityId).show();
                 setTimeout(function () {

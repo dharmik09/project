@@ -396,7 +396,7 @@ class ProfessionController extends Controller {
             }
         }
         $exceptScholarshipIds = array_unique(array_merge($scholarshipProgramIds, $expiredActivityIds));
-        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds'));
+        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds'));
     }
 
     public function getTeenagerWhoStarRatedCareer()
@@ -672,11 +672,11 @@ class ProfessionController extends Controller {
         $activityDetails = [];
         $activityDetails['tsp_activity_id'] = Input::get('activityId');
         $activityDetails['tsp_teenager_id'] = Auth::guard('teenager')->user()->id;
-        $adsDetails = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
-        if (isset($adsDetails) && !empty($adsDetails)) {
+        $checkIfAlreadyApplied = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
+        if (isset($checkIfAlreadyApplied) && !empty($checkIfAlreadyApplied)) {
             $message = "applied";
         } else {
-            $adsDetails = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
+            $appliedForScholarship = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
             $message = "success"; 
         }
         return $message;
