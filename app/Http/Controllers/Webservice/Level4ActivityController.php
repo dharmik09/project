@@ -82,7 +82,17 @@ class Level4ActivityController extends Controller {
                 $scholarshipData['title'] = $scholarshipProgram->sa_name;
                 $scholarshipData['details'] = $scholarshipProgram->sa_description;
                 $scholarshipData['learnMoreLink'] = url('teenager/learnMoreL4');
-                $scholarshipData['is_applied'] = (!empty($exceptScholarshipIds) && in_array($scholarshipProgram->id, $exceptScholarshipIds)) ? 1 : 0;
+                $scholarshipData['is_expired'] = (!empty($expiredActivityIds) && in_array($scholarshipProgram->id, $expiredActivityIds)) ? 1 : 0;
+                $scholarshipData['is_applied'] = (!empty($scholarshipProgramIds) && in_array($scholarshipProgram->id, $scholarshipProgramIds)) ? 1 : 0;
+                if (!empty($expiredActivityIds) && in_array($scholarshipProgram->id, $expiredActivityIds)) {
+                    $scholarshipData['activityStatus'] = "expired";
+                } else {
+                    if (!empty($appliedScholarshipDetails) && in_array($scholarshipProgram->id, $scholarshipProgramIds)) {
+                        $scholarshipData['activityStatus'] = "applied";
+                    } else {
+                        $scholarshipData['activityStatus'] = "apply";
+                    }
+                }
                 $scholarshipDetailsArr[] = $scholarshipData;
             }
             //Store log in System
