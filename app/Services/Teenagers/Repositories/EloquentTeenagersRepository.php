@@ -1608,8 +1608,8 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         return $data;
     }
 
-    public function updateTeenagerCoinsDetail($userid, $Coins) {
-        $userDetail = $this->model->where('id', $userid)->update(['t_coins' => $Coins]);
+    public function updateTeenagerCoinsDetail($userid, $coins) {
+        $userDetail = $this->model->where('id', $userid)->update(['t_coins' => $coins]);
         return $userDetail;
     }
 

@@ -106,6 +106,7 @@ Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@i
 
 //Learning Guidance
 Route::get('/learning-guidance', 'Teenager\HomeController@learningGuidance');
+Route::post('/save-consumed-coins-details', 'Teenager\HomeController@saveConsumedCoinsDetails');
 	
 //Network
 Route::get('/my-network', 'Teenager\DashboardController@getMyNetworkDetails');

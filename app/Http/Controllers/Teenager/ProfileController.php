@@ -30,6 +30,8 @@ use App\Teenagers;
 use Input;
 use Image;
 use DB;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class ProfileController extends Controller
 {
@@ -57,6 +59,8 @@ class ProfileController extends Controller
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
         $this->communityRepository = $communityRepository;
         $this->professionsRepository = $professionsRepository;
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
     }
 
     public function setSoundOnOff($data) {
@@ -164,7 +168,14 @@ class ProfileController extends Controller
         $myConnections = $this->communityRepository->getMyConnections($user->id);
         $myCareers = $this->professionsRepository->getMyCareersSlotWise($user->id);
         $myCareersCount = $this->professionsRepository->getMyCareersCount($user->id);
-        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount'));   
+        $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
+        $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($user->id, $componentsData->id, 1);
+        $remainingDaysForLg = 0;
+        if (!empty($deductedCoinsDetail[0])) {
+            $remainingDaysForLg = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+        }
+
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount', 'remainingDaysForLg', 'componentsData'));   
     }
 
     //Store my profile data
