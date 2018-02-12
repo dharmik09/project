@@ -46,12 +46,12 @@ class ProfessionTagManagementController extends Controller
 
     public function save(ProfessionTagRequest $ProfessionTagRequest) {
         $tagDetail = [];
-        $hiddenLogo = e(input::get('hidden_logo'));
-        $tagDetail['id'] = e(Input::get('id'));
-        $tagDetail['pt_name'] = e(Input::get('pt_name'));
-        $tagDetail['pt_slug'] = e(Input::get('pt_slug'));
-        $tagDetail['pt_description'] = e(Input::get('pt_description'));
-        $tagDetail['deleted'] = e(Input::get('deleted'));
+        $hiddenLogo = input::get('hidden_logo');
+        $tagDetail['id'] = Input::get('id');
+        $tagDetail['pt_name'] = Input::get('pt_name');
+        $tagDetail['pt_slug'] = Input::get('pt_slug');
+        $tagDetail['pt_description'] = Input::get('pt_description');
+        $tagDetail['deleted'] = Input::get('deleted');
 
         if (Input::file())
         {

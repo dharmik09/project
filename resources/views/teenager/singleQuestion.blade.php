@@ -156,11 +156,17 @@
             },
             data: {'page_no':pageNo,'queId':{{$forumQuestionData->id}}},
             success: function (response) {
-                if(response.answersCount != 5){
+                if(response.answersCount == 0){
+                   $('#loadMoreButton').addClass('userData'); 
+                   $('#loadMoreButton').html('<div class="no-data"><div class="data-content"><div><i class="icon-empty-folder"></i></div><p>No answer yet, Be the first to answer this question</p></div></div>');
+               
+                }    
+                else if(response.answersCount != 5){
+                    
                     $('#loadMoreButton').removeClass('text-center');
                     $('#loadMoreButton').removeClass('load-more');
                     $('#loadMoreButton').addClass('answer-complete');
-                    $('#loadMoreButton').html("<center><p>No more answers<p></center>");
+                    $('#loadMoreButton').html("<center><p>No more answers<p></center");
                 }
                 else{
                     $('#pageNo').val(response.pageNo);

@@ -58,7 +58,7 @@
                 <div class="left">
                     <ul class="links">
                         <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
-                        <li><a href="#">Careers</a></li>
+                        <li><a href="{{ url('careers') }}">Careers</a></li>
                         <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
                         <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>

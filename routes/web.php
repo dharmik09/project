@@ -145,3 +145,7 @@ Route::group(['prefix' => 'school'], function () {
 
 Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('parent.verify-parent-teen-pair');
 Route::post('/ccavenue/response', 'PaymentController@orderResponse');
+
+//SEO Pages
+Route::get('/careers', 'Teenager\SEOCareerController@careers');
+Route::get('/career-detail/{slug}', 'Teenager\SEOCareerController@careerDetails');
