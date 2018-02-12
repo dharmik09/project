@@ -26,6 +26,12 @@ class Level4ActivityController extends Controller {
         $this->teenagersRepository = $teenagersRepository;   
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;   
         $this->teenagerBoosterPoint = new TeenagerBoosterPoint();
+        $this->extraQuestionDescriptionTime = Config::get('constant.EXTRA_QUESTION_DESCRIPTION');
+        $this->questionDescriptionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->questionDescriptionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_THUMB_IMAGE_UPLOAD_PATH');
+        $this->optionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->optionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH');
+        
     }
 
     /*
@@ -146,5 +152,64 @@ class Level4ActivityController extends Controller {
 
         return response()->json($response, 200);
         exit;
-    }  
+    }
+
+    /*
+     * Get L4 Intermediate career questions
+    */
+    public function professionIntermediateQuestion() {
+        $professionId = Input::get('professionId');
+        $templateId = Input::get('templateId');
+        $userId = Auth::guard('teenager')->user()->id;
+        if($userId > 0 && $professionId != '' && $templateId != '') {
+            $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($userId, $professionId, $templateId);
+            $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($userId, $professionId, $templateId);
+            $professionName = $this->professionsRepository->getProfessionNameById($professionId);
+            
+            $basicCompleted = 0;
+            // if(isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && ($totalQuestion[0]->NoOfTotalQuestions == $totalQuestion[0]->NoOfAttemptedQuestions) ) {
+            //     $basicCompleted = 1;
+            // }
+            
+            //$activities = $this->level4ActivitiesRepository->getNotAttemptedActivities($userId, $professionId);
+            if (isset($intermediateActivities[0]) && !empty($intermediateActivities[0])) {
+                $intermediateActivitiesData = $intermediateActivities[0];
+                
+                $intermediateActivitiesData->gt_temlpate_answer_type = Helpers::getAnsTypeFromGamificationTemplateId($intermediateActivitiesData->l4ia_question_template);
+                $intermediateActivitiesData->l4ia_extra_question_time = 120;
+                $timer = $intermediateActivitiesData->l4ia_question_time;
+                $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
+                $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "") ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) : '';
+                $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
+
+                $getQuestionImage = $this->level4ActivitiesRepository->getQuestionMultipleImages($intermediateActivitiesData->activityID);
+                if (isset($getQuestionImage) && !empty($getQuestionImage)) {
+                    foreach ($getQuestionImage as $key => $image) {
+                        $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = ( $image['image'] != "" && Storage::size($this->questionDescriptionORIGINALImage . $image['image']) > 0 ) ? Storage::url($this->questionDescriptionORIGINALImage . $image['image']) : Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png');
+                        $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
+                    }
+                } else {
+                    $intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
+                }
+            } else {
+                $intermediateActivitiesData = [];
+                $timer = 0;
+            }
+            //print_r($intermediateActivitiesData); die();
+            $response = [];
+            $response['basicCompleted'] = 0;
+            $response['data'] = $intermediateActivitiesData;
+            $response['timer'] = $timer;
+            $response['professionId'] = $professionId;
+            $response['professionName'] = $professionName;
+            $response['teenagerName'] = Auth::guard('teenager')->user()->t_name . ' '.Auth::guard('teenager')->user()->t_lastname;
+            $response['status'] = 1;
+            return view('teenager.basic.careerIntermediateQuizQuestion', compact('response'));
+        }
+        $response['status'] = 0;
+        $response['message'] = "Something went wrong!";
+
+        return response()->json($response, 200);
+        exit;
+    }
 }
