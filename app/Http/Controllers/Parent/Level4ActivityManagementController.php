@@ -391,7 +391,7 @@ class Level4ActivityManagementController extends Controller {
                                 $days = 0;
 
                                 if (!empty($deductedCoinsDetail->toArray())) {
-                                    $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->tdc_end_date);
+                                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
                                 }
                                 $getQuestionTemplateForProfession[$key]->remaningDays = $days;
                                 $intermediateActivities = [];
