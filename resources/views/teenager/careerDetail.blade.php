@@ -158,14 +158,14 @@
                         </div>
                         <div class="career-detail-tab bg-white">
                             <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                                <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Career Details</span></span></a></li>
-                                <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">Explore <span class="tab-complete">21% Complete</span></span></span></a></li>
+                                <li class="custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Career Details</span></span></a></li>
+                                <li class="active custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">Explore <span class="tab-complete">21% Complete</span></span></span></a></li>
                             </ul>
                             <div class="tab-content">
-                                <div id="menu1" class="tab-pane fade in active">
+                                <div id="menu1" class="tab-pane fade in">
                                     @include('teenager/basic/careerDetailInfoSection')
                                 </div>
-                                <div id="menu2" class="tab-pane fade in ">
+                                <div id="menu2" class="tab-pane fade in active">
                                     <!-- Section for booster scale --> 
                                     <div class="explore-table table-responsive">
                                         @include('teenager/basic/careerBoosterScaleSection')
@@ -197,7 +197,68 @@
                                             </div>
                                         </div>
                                         <div class="row flex-container">
-                                            @include('teenager/basic/careerIntermediateQuizSection')
+                                            <div class="quiz-intermediate">
+                                                <div class="sec-show clearfix">
+                                                    @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
+                                                        @foreach($getQuestionTemplateForProfession as $templateProfession)
+                                                            <div class="col-sm-6 flex-items">
+                                                                <div class="quiz-box">
+                                                                    <div class="img">
+                                                                        <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
+                                                                        <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
+                                                                    </div>
+                                                                    <h6>{!! $templateProfession->gt_template_title !!}</h6>
+                                                                    <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
+                                                                    <div class="unbox-btn">
+                                                                        <a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal1">
+                                                                            <span class="unbox-me">Unbox Me</span>
+                                                                            <span class="coins-outer">
+                                                                                <span class="coins"></span> 
+                                                                                25000
+                                                                            </span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="modal fade" id="myModal1" role="dialog">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content custom-modal">
+                                                                                <div class="modal-header">
+                                                                                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                                                                                    <h4 class="modal-title">Congratulations!</h4>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <p>You have 42,000 ProCoins available.</p>
+                                                                                    <p>Click OK to consume your 250 ProCoins and play on</p>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button>
+                                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+
+                                                    @endif
+                                                </div>
+                                                <div class="quiz-area sec-hide">
+                                                    <div class="quiz_view">
+                                                        <div class="clearfix time_noti_view"><span class="time_type pull-left"><i class="icon-alarm"></i><span class="time-tag">0:0</span></span><span class="help_noti pull-right"><span class="pull-right close"><i class="icon-close"></i></span></span></div>
+                                                        <div class="quiz-que">
+                                                            <p class="que"><i class="icon-arrow-simple"></i>Identify the correct terminology for the piece of furniture:</p>
+                                                            <div class="quiz-ans">
+                                                                <div class="question-img">
+                                                                    <img src="{{ Storage::url('img/question-img.jpg') }}" title="Click to enlarge image" class="pop-me">
+                                                                </div>
+                                                                <div class="radio"><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label></div>
+                                                                <div class="clearfix"><a href="#" class="next-que pull-right"><i class="icon-hand"></i></a></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>  
                                     <!-- Section for real world --> 

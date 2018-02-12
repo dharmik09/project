@@ -20,6 +20,7 @@ use App\PaidComponent;
 use App\DeductedCoins;
 use App\Transactions;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\TeenagerScholarshipProgram;
 
 class DashboardManagementController extends Controller
 {
@@ -45,6 +46,7 @@ class DashboardManagementController extends Controller
         $this->saBannerImagePath = Config::get('constant.SA_BANNER_IMAGE_UPLOAD_PATH');
         $this->saBannerImageHeight = Config::get('constant.SA_BANNER_IMAGE_HEIGHT');
         $this->saBannerImageWidth = Config::get('constant.SA_BANNER_IMAGE_WIDTH');
+        $this->objTeenagerScholarshipProgram = new TeenagerScholarshipProgram;
     }
 
     public function index()
@@ -550,5 +552,12 @@ class DashboardManagementController extends Controller
             exit;
         }
         return view('sponsor.login'); exit;
+    }
+
+    public function getTeenagerWhoseAppliedForScholarship()
+    {
+        $activityId = Input::get('activityId');
+        $teenAppliedForScholarship = $this->objTeenagerScholarshipProgram->getAllTeensByScholarshipId($activityId);
+        return view('sponsor.appliedForScholarship', compact('teenAppliedForScholarship'));
     }
 }
