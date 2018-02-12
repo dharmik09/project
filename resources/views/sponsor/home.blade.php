@@ -150,7 +150,8 @@
                                 {{$active == 1?'Active':'Inactive'}}
                             </td>
                             <td>
-                                <a href="{{ url('/sponsor/edit') }}/{{$acDetails->id}}" class="btn_edit"><i class="fa fa-edit"></i></a>
+                                <a href="{{ url('/sponsor/edit') }}/{{$acDetails->id}}" class="btn_edit"><i class="fa fa-edit"></i></a> @if($acDetails->sa_type == 3)| <a onclick="getTeenWhoseAppliedForProgram(<?php echo $acDetails->id; ?>)" class="btn_edit" style="cursor:pointer;" title="Applied for Scholarship"><i class="fa fa-users" aria-hidden="true"></i></a>
+                                @endif
                             </td>
                         </tr>
                         @empty 
@@ -253,78 +254,112 @@
     </div>
 </div>
 
+@if(!empty($activityDetail))
+<div id="teenager_details" class="modal fade cst_modals" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content rank_list_global">
+            <span id="appliedForScholarship"></span>
+        </div>
+    </div>
+</div>
+@endif
+
 @stop
 @section('script')
 
 <script type="text/javascript">
     $('.table_container').mCustomScrollbar({axis: "x"});
-                                function getCouponCompeting(couponId) {
-                                    if (couponId > 0) {
-                                        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                                        var form_data = 'couponId=' + couponId;
-                                        $('.ajax-loader').show();
-                                        $.ajax({
-                                            type: 'get',
-                                            data: form_data,
-                                            dataType: 'html',
-                                            url: "{{ url('/sponsor/get-coupon-competing')}}",
-                                            headers: {
-                                                'X-CSRF-TOKEN': CSRF_TOKEN
-                                            },
-                                            cache: false,
-                                            success: function(data) {
-                                                $("#couponCompeting").html(data);
-                                                $("#rank_list_global").modal('show');
-                                                $('.ajax-loader').hide();
-                                                $(".table_container_outer").mCustomScrollbar({
-                                                    axis: "yx"
-                                                });
-                                            }
-                                        });
-                                    }
-                                }
-$(document).on('click', '#report', function (e) {
-
-    var sponsor_id = '{{ $loggedInUser->user()->id }}';
-    $.ajax({
-        url: "{{ url('/sponsor/get-available-coins') }}",
-        type: 'POST',
-        data: {
-            "_token": '{{ csrf_token() }}',
-            "sponsorId": sponsor_id
-        },
-        success: function(response) {
-            days = response;
+    function getCouponCompeting(couponId) {
+        if (couponId > 0) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var form_data = 'couponId=' + couponId;
+            $('.ajax-loader').show();
             $.ajax({
-                url: "{{ url('/sponsor/get-available-coins-for-sponsor') }}",
-                type: 'POST',
-                data: {
-                    "_token": '{{ csrf_token() }}',
-                    "sponsorId": '{{ $loggedInUser->user()->id }}'
+                type: 'get',
+                data: form_data,
+                dataType: 'html',
+                url: "{{ url('/sponsor/get-coupon-competing')}}",
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
                 },
-                success: function(response) {
-                    coins = response;
-                    $.ajax({
-                        url: "{{ url('/sponsor/get-coins-for-sponsor') }}",
-                        type: 'POST',
-                        data: {
-                            "_token": '{{ csrf_token() }}',
-                            "sponsorId": '{{ $loggedInUser->user()->id }}'
-                        },
-                        success: function(response) {
-                            if (response > 1) {
-                                if (days == 0) {
-                                    $(".confirm_coins").text('<?php echo 'You have '; ?>' + format(response) + '<?php echo ' ProCoins available.'; ?>');
-                                    $(".confirm_detail").text('<?php echo 'Click OK to consume your ';?>' + format(coins) + '<?php echo ' ProCoins and play on'; ?>');
-                                    $.ui.dialog.prototype._focusTabbable = function(){};
-                                    $( "#confirm" ).dialog({
-
-                                    resizable: false,
-                                    height: "auto",
-                                    width: 400,
-                                    draggable: false,
-                                    modal: true,
-                                    buttons: [
+                cache: false,
+                success: function(data) {
+                    $("#couponCompeting").html(data);
+                    $("#rank_list_global").modal('show');
+                    $('.ajax-loader').hide();
+                    $(".table_container_outer").mCustomScrollbar({
+                        axis: "yx"
+                    });
+                }
+            });
+        }
+    }
+    $('.table_container').mCustomScrollbar({axis: "x"});
+    function getTeenWhoseAppliedForProgram(activityId) {
+        if (activityId > 0) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var form_data = 'activityId=' + activityId;
+            $('.ajax-loader').show();
+            $.ajax({
+                type: 'get',
+                data: form_data,
+                dataType: 'html',
+                url: "{{ url('/sponsor/get-teenager-whose-applied-for-scholarship')}}",
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                cache: false,
+                success: function(data) {
+                    $("#appliedForScholarship").html(data);
+                    $("#teenager_details").modal('show');
+                    $('.ajax-loader').hide();
+                    $(".table_container_outer").mCustomScrollbar({
+                        axis: "yx"
+                    });
+                }
+            });
+        }
+    }
+    $(document).on('click', '#report', function (e) {
+        var sponsor_id = '{{ $loggedInUser->user()->id }}';
+        $.ajax({
+            url: "{{ url('/sponsor/get-available-coins') }}",
+            type: 'POST',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "sponsorId": sponsor_id
+            },
+            success: function(response) {
+                days = response;
+                $.ajax({
+                    url: "{{ url('/sponsor/get-available-coins-for-sponsor') }}",
+                    type: 'POST',
+                    data: {
+                        "_token": '{{ csrf_token() }}',
+                        "sponsorId": '{{ $loggedInUser->user()->id }}'
+                    },
+                    success: function(response) {
+                        coins = response;
+                        $.ajax({
+                            url: "{{ url('/sponsor/get-coins-for-sponsor') }}",
+                            type: 'POST',
+                            data: {
+                                "_token": '{{ csrf_token() }}',
+                                "sponsorId": '{{ $loggedInUser->user()->id }}'
+                            },
+                            success: function(response) {
+                                if (response > 1) {
+                                    if (days == 0) {
+                                        $(".confirm_coins").text('<?php echo 'You have '; ?>' + format(response) + '<?php echo ' ProCoins available.'; ?>');
+                                        $(".confirm_detail").text('<?php echo 'Click OK to consume your ';?>' + format(coins) + '<?php echo ' ProCoins and play on'; ?>');
+                                        $.ui.dialog.prototype._focusTabbable = function(){};
+                                        $( "#confirm" ).dialog({
+                                            resizable: false,
+                                            height: "auto",
+                                            width: 400,
+                                            draggable: false,
+                                            modal: true,
+                                            buttons: [
                                             {
                                                 text: "Ok",
                                                 class : 'btn primary_btn',
@@ -343,9 +378,9 @@ $(document).on('click', '#report', function (e) {
                                                 }
                                             }
                                           ]
-                                    });
-                                } else {
-                                    showReport(days);
+                                        });
+                                    } else {
+                                        showReport(days);
                                 }
 
                             } else {
@@ -454,7 +489,6 @@ function giftCoins(coins)
            $('#gift').modal('show');
         }
     });
-
 }
 
 </script>

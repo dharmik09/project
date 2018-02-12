@@ -9,7 +9,7 @@ Route::post('/get-available-coins-for-sponsor/', 'Sponsor\CoinManagementControll
 Route::post('/get-coins-for-sponsor/', 'Sponsor\CoinManagementController@getCoinsForSponsor')->name('get-coins-for-sponsor');
 Route::post('/get-remainig-days-for-sponsor/', 'Sponsor\CoinManagementController@getremainigdaysForSponsor')->name('get-remainig-days-for-sponsor');
 Route::post('/purchased-coins-to-view-report', 'Sponsor\DashboardManagementController@purchasedCoinsToViewReport')->name('purchased-coins-to-view-report');
-
+Route::get('/get-teenager-whose-applied-for-scholarship', 'Sponsor\DashboardManagementController@getTeenagerWhoseAppliedForScholarship');
 
 //Advertisements
 Route::get('/data-add/', 'Sponsor\DashboardManagementController@addForm')->name('data-add');
