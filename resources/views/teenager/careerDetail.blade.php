@@ -196,6 +196,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="flexSeprator" style="padding:10px;"></div>
                                         <div class="row flex-container">
                                             <div class="col-sm-12">
                                                 <div class="quiz-intermediate">
@@ -238,8 +239,7 @@
                                                                                         <p>Click OK to consume your {{$templateProfession->gt_coins}} ProCoins and play on</p>
                                                                                     </div>
                                                                                     <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button>
-                                                                                        <span class="btn-play btn-play-intermediate" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
+                                                                                        <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
                                                                                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                                                                                     </div>
                                                                                 </div>
@@ -854,6 +854,12 @@
         getBasicQuestions('{{$professionsData->id}}');
     });
 
+    function getNextIntermediateQuestion(templateId) {
+        $(".btn-play-intermediate").show();
+        $(".next-intermediate .btn-intermediate").hide();
+        getIntermediateQuestions(templateId);
+    }
+
     function getBasicQuestions(professionId) {
         $.ajax({
             url: "{{url('teenager/play-basic-level-activity')}}",
@@ -895,13 +901,11 @@
         }
     });
 
-    $(document).on('click', '.btn-intermediate', function(e) {
-        e.preventDefault();
-        getIntermediateQuestions('{{$professionsData->id}}');
-    });
+    function getConceptData(templateId) {
+        getIntermediateQuestions(templateId);
+    }
 
     function getIntermediateQuestions(templateId) {
-        templateId = 1;
         $('.intermediate-first-question-loader').parent().toggleClass('loading-screen-parent');
         $('.intermediate-first-question-loader').show();
             
@@ -914,7 +918,11 @@
                 $("#setResponseIntermediate").val("0");
                 $('.quiz-intermediate .sec-show').addClass('hide');
                 $('.quiz-intermediate .intermediate-question').addClass('active');
+                $("html, body").animate({
+                    scrollTop: $('#flexSeprator').offset().top 
+                }, 300);
                 $('#intermediateLevelData').html(data);
+                
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
             }
@@ -1056,6 +1064,125 @@
         }
     }
 
+    function saveIntermediateAnswer() {
+        $("#intermediateErrorGoneMsg").html('');
+        
+        $('.stopOnSubmit iframe').attr("src", jQuery(".stopOnSubmit iframe").attr("src"));
+        var isAudio = $("#checkAudio").val();
+        if(typeof isAudio !== "undefined"){
+            var audioStop = document.getElementById('onOffAudio');
+            audioStop.pause();
+            $("#onOffAudio").prop('muted',true);
+        }
+        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
+            var audio = document.getElementById('audio_1');
+            audio.play();
+        <?php } ?>
+        var validCheck = 0;
+        var setSMsg = 0;
+        if ($("#singleLineCheck").attr('value') === "yes") {
+            setSMsg = 1;            
+            if ($('[name="answer[0]"]').val().trim() !== '') {
+                validCheck = 1;
+                $(".intermediate-time-tag").css('visibility', 'hidden');
+            }
+        } else {
+            if ($('.optionSelectionIntermediate [name="' + optionName + '"]:checked').length > 0) {
+                validCheck = 1;
+                $(".intermediate-time-tag").css('visibility', 'hidden');
+            }
+        }
+
+        if (validCheck === 1) {
+            var form_data = $("#level4_intermediate_activity_ans").serialize();
+            $('.intermediate-question-loader').parent().toggleClass('loading-screen-parent');
+            $('.intermediate-question-loader').show();
+            $("#setResponse").val("1");
+            $('.saveIntMe').css('visibility', 'hidden');
+            
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                //async: false,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                cache: false,
+                success: function(data) {
+                    $('.intermediate-question-loader').hide();
+                    $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                    var obj = $.parseJSON(data);
+                    console.log(obj);
+                    if (obj.status == 1) {
+                        if (obj.answerType == "single_line_answer") {
+                            $("#answerRightWrongMsg").show();
+                            $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct Answer Is : " + obj.systemCorrectAnswerText + "");
+                            if (obj.systemCorrectAnswer == 1) {
+                                $(".response_message_outer").addClass("response_message beta mrTop15");
+                            } else {
+                                $(".response_message_outer").addClass("response_message alpha mrTop15");
+                            }
+                        } else if (obj.answerType === "option_choice_with_response" || obj.answerType === "filling_blank" || obj.answerType === "option_choice" || obj.answerType === "true_false") {
+                            $("#answerRightWrongMsg").show();
+                            $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
+                            if (obj.systemCorrectAnswer == 1) {
+                                $(".response_message_outer").addClass("response_message beta mrTop15");
+                            } else {
+                                $(".response_message_outer").addClass("response_message alpha mrTop15");
+                            }
+                            $.each(obj.systemCorrectAnswer2, function(key, value) {
+                                if (value == 1) {
+                                    $('.class' + key).addClass("correct");
+                                } else {
+                                    $('.class' + key).addClass("incorrect");
+                                }
+                            });
+                            if (obj.answerType === "option_choice") {
+                                if (obj.questionAnswerText !== '') {
+                                    var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'></div><div class=''>" + obj.questionAnswerText + "</div></div></div>";
+                                    $('#showResponseMessage').html(phtml);
+                                }
+                            }
+                            if (obj.answerType === "option_choice_with_response") {
+                                if (obj.questionAnswerText && obj.questionAnswerText !== '') {
+                                    var phtmlImg = '';
+                                    if (obj.questionAnswerImage && obj.questionAnswerImage !== '') {
+                                        phtmlImg = "<img src=" + obj.questionAnswerImage + " />";
+                                    }
+                                    var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'>" + phtmlImg + "</div><div class='info_body'>" + obj.questionAnswerText + "</div></div></div>";
+                                    $('#showResponseMessage').html(phtml);
+                                }
+                            }
+                        } else {
+                        }
+                        $('.saveIntMe').css('visibility', 'hidden');
+                        $('.next-intermediate').show();
+                    } else {
+                        $("#showResponseMessage").text(obj.message);
+                        var urlSet = obj.redirect;
+                        //setTimeout("location.reload(true);", 3000);
+                    }
+                }
+            });
+        } else {
+            if (setSMsg === 1) {
+                $('.intermediate-question-loader').hide();
+                $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                $("html, body").animate({
+                    scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+                }, 300);
+                $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, Fillup the answer!</span></div></div></div>');
+            } else {
+                $('.intermediate-question-loader').hide();
+                $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                $("html, body").animate({
+                    scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+                }, 300);
+                $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select at-least one answer!</span></div></div></div>');
+            }
+        }
+    }
+
     $(document).on('change', '.selectionCheck', function(evt) { 
         if (limitSelect > 1) {
             if ($('input.multiCast:checked').length > limitSelect) {
@@ -1090,7 +1217,7 @@
                     },
                 }
             });
-        }
+    }
 
     function applyForScholarshipProgram(activityId)
     {

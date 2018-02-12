@@ -1,6 +1,13 @@
 @if( isset($response['data']) && !empty($response['data']) )
-    <div id="basicErrorGoneMsg"></div>
+    <div id="intermediateErrorGoneMsg"></div>
     <div class="quiz_view">
+        <div class="loading-screen loading-wrapper-sub intermediate-question-loader" style="display:none;">
+            <div class="loading-text">
+                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+            </div>
+            <div class="loading-content"></div>
+        </div>
+        
         <div class="clearfix time_noti_view">
             <span class="time_type pull-left">
                 <i class="icon-alarm"></i>
@@ -53,13 +60,12 @@
                     @if(isset($response['data']->totalCorrectOptions) &&  $response['data']->totalCorrectOptions > 1)
                         <span class="colorYellow">(You can select multiple answers for this question)</span>
                     @endif
-                    <div class="answer-statement" style="display:none;">
+                    <div class="answer-statement response_message_outer" style="display:none;">
                         <p id="answerRightWrongMsg"></p>
                     </div>
                     <h2 class="colorYellow" id="systemCorrectAnswerText"></h2>
-                    <div class="clearfix">
-                        <div style="text-align: left;" id="showResponseMessage">
-                        </div>
+                    <div class="clearfix answer-statement">
+                        <p id="showResponseMessage"></p>
                     </div>
                     <?php
                         $input = '';
@@ -70,13 +76,10 @@
                             $optionType = "radio";
                             $optionName = "answer[0]";
                         }
-                        //$setFlag = 2;
                     ?>
-                    <div class="box">
+                    <div class="box optionSelectionIntermediate">
                         @if(isset($response['data']->options) && !empty($response['data']->options))
-                         
-                        @php( shuffle($response['data']->options) )
-                            
+                            @php( shuffle($response['data']->options) )
                             @foreach($response['data']->options as $keyOption => $option)
                                 <label class="{{$optionType}} class{{$option['optionId']}}">
                                     <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
@@ -84,20 +87,19 @@
                                     <em>{!! $option['optionText'] !!}</em>
                                 </label>
                             @endforeach
-
                         @else
-                            <div class='outer_con'>Opps ! No, any options.</div>
+                            <br/><p><strong>No Any Options For This Question.</strong></p>
                         @endif
-                            
                     </div>
-                    
+                    <div class="text-center next-intermediate" style="display: none;">
+                        <span class="btn-play btn-play-intermediate" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
+                        <button class="btn btn-primary btn-next btn-intermediate" type="button" title="Next" onClick="getNextIntermediateQuestion(2);">Next</button>
+                    </div>
                     <div class="clearfix">
-                        <a href="#" class="next-que pull-right">
+                        <a href="javascript:void(0);" class="next-que pull-right saveIntMe" onClick="saveIntermediateAnswer();">
                             <i class="icon-hand"></i>
                         </a>
                     </div>
-
-
                 </div>
             </div>
         </form>
@@ -144,7 +146,9 @@
 @endif
 <script type="text/javascript">
     var intermediateCount = {{ (isset($response['timer']) && $response['timer'] != "") ? $response['timer'] : 0 }};
-    // var optionType = '{{ (isset($optionType) && $optionType != '') ? $optionType : 0 }}';
-    // var optionName = '{{ (isset($optionName) && $optionName != '') ? $optionName : "radio" }}';
-    // var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
+    var ansTypeSet = "{{ (isset($response['data']->gt_temlpate_answer_type)) ? $response['data']->gt_temlpate_answer_type : 0 }}";
+    var setPopupTime = {{ (isset($setPopupTime)) ? $setPopupTime : 0 }};
+    var optionType = "{{ isset($optionType) ? $optionType : 'radio' }}";
+    var optionName = "{{ isset($optionName) ? $optionName : 'answerID[0]' }}";
+    var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
 </script>

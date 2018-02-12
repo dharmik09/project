@@ -142,6 +142,7 @@ Route::post('/teen-l3-career-research', 'Teenager\Level3ActivityController@level
 Route::post('/play-basic-level-activity', 'Teenager\Level4ActivityController@professionBasicQuestion');
 Route::post('/save-basic-level-activity', 'Teenager\Level4ActivityController@saveBasicLevelActivity');
 Route::post('/play-intermediate-level-activity', 'Teenager\Level4ActivityController@professionIntermediateQuestion');
+Route::post('/save-intermediate-level-activity', 'Teenager\Level4ActivityController@saveIntermediateLevelActivity');
 
 //Forum Module
 Route::get('/forum-questions', 'Teenager\ForumController@index');
