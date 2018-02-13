@@ -1206,16 +1206,15 @@ input:checked + .slider:before {
                     /*width: 100%;*/
                 }
             }
-            .tooltip.bottom .tooltip-arrow{
-                border-bottom-color:$white;
+            .tooltip.bottom .tooltip-arrow {
+                border-bottom-color: $white;
             }
             .tooltip-inner {
                 border: 1px solid $white;
                 background: $white;
                 border-radius: 5px;
                 z-index: 99;
-                box-shadow: 0px 1px 17px -4px #989494;
-                //font-size: 14px;
+                box-shadow: 0px 1px 17px -4px #989494; //font-size: 14px;
                 color: $lightgrey;
             }
         }
@@ -2858,4 +2857,26 @@ a:focus {
 
 .remove-my-careers-row {
     clear: both;
+}
+
+.sec-guidance {
+    .btn-primary {
+        padding: 0;
+    }
+    .unbox-btn .btn-primary > span {
+        margin-left: -6px;
+        @include maxsm {
+            margin-left: -4px;
+        }
+    }
+    .unbox-btn .btn-primary .unbox-me {
+        @include maxms {
+            padding: 9px 10px;
+        }
+    }
+    .unbox-btn .btn-primary > span {
+        @include maxms {
+            padding: 9px 8px;
+        }
+    }
 }

@@ -754,7 +754,7 @@ class level3ActivityController extends Controller {
                     $response['data'] = $professionsData;
                 }
                 else{
-                    $response['data'] = trans('appmessages.data_empty_msg');
+                    $response['data'] = [];
                 }
 
                 $response['status'] = 1;

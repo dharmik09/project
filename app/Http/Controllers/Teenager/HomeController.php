@@ -207,8 +207,9 @@ class HomeController extends Controller
     {
         $teenId = Auth::guard('teenager')->user()->id;
         $consumedCoins = Input::get('consumedCoins');
+        $componentName = Input::get('componentName');
         //$remainingDaysForLg = 0;
-        $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
+        $componentsData = $this->objPaidComponent->getPaidComponentsData($componentName);
         $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1);
         $days = 0;
         if (!empty($deductedCoinsDetail[0])) {
@@ -223,7 +224,7 @@ class HomeController extends Controller
                 $deductCoins = $userDetail['t_coins'] - $consumedCoins;
             }
             $returnData = $this->teenagersRepository->updateTeenagerCoinsDetail($teenId, $deductCoins);
-            $return = Helpers::saveDeductedCoinsData($teenId, 1, $consumedCoins, Config::get('constant.LEARNING_STYLE'), 0);
+            $return = Helpers::saveDeductedCoinsData($teenId, 1, $consumedCoins, $componentName, 0);
             if ($return) {
                 $updatedDeductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1);
                 if (!empty($updatedDeductedCoinsDetail)) {
@@ -231,7 +232,14 @@ class HomeController extends Controller
                 }
             } 
             //Store log in System
-            $this->log->info('User coins consumed for learning guidance.', array('userId' => $teenId));
+            if ($componentName == Config::get('constant.ADVANCE_ACTIVITY')) {
+                $coinsConsumedFor = "Advance activity";
+            } else if ($componentName == Config::get('constant.LEARNING_STYLE')) {
+                $coinsConsumedFor = "Learning guidance";
+            } else {
+                $coinsConsumedFor = "";
+            }
+            $this->log->info('User coins consumed for' . $coinsConsumedFor, array('userId' => $teenId));
         } 
         return $remainingDays;
     }

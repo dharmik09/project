@@ -223,6 +223,7 @@ return [
     'PROMISE_PLUS' => 'PROMISE Plus',
     'LEARNING_STYLE' => 'Learning Guidance',
     'BASIC_REQUIRED_COINS' => '1850000',
+    'ADVANCE_ACTIVITY' => 'Advance Activity ProCoins',
 
     'LS_LOW_MIN_RANGE' => 0,
     'LS_LOW_MAX_RANGE' => 30,
