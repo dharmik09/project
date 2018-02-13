@@ -163,7 +163,7 @@
     }
     #showResponseMessage{
         margin-bottom: 0;
-        padding: 10px 0;
+        padding: 10px;
     }
     #showResponseMessage:empty{
         display: none;
@@ -926,5 +926,9 @@
 
 .quiz_view .quiz-ans .box .correct input:checked ~ em {
     background: $m-cl !important;
+    color: $white !important;
+}
+.quiz_view .quiz-ans .box .incorrect input:checked ~ em {
+    background: $p-cl !important;
     color: $white !important;
 }

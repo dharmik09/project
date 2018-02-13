@@ -873,6 +873,7 @@
 
 .quiz-intermediate {
     position: relative;
+    margin: 0 -20px;
     .quiz-que {
         .que {
             font-size: 28px;
@@ -927,10 +928,10 @@
         margin: 0 20px 30px;
         padding: 20px;
         .question-img {
-            max-width: 200px;
+            //max-width: 200px;
             margin: 0 auto 30px;
             @include maxms {
-                max-width: 150px;
+               // max-width: 150px;
             }
         }
     }
@@ -1462,6 +1463,7 @@
         height: 12px;
         background: #ebebeb;
     }
+    .unbox-btn .btn-primary .coins-outer{margin-left: -5px;}
 }
 
 .sec-tags {
@@ -1702,10 +1704,14 @@ text.highcharts-xaxis-title {
     left: 74.5px;
     max-height: 300px;
     z-index: 9999;
-    background: #fff;
+    background: $white;
     margin-top: -1px;
    border:  1px solid #727476;
     padding: 10px;
     line-height: 1.46;
-    font-size: 15px;
+    font-size: 16px;
+    max-height: 450px !important;overflow-y: scroll;
+    .autocomplete-suggestion{
+        cursor: pointer;margin-bottom: 7px;
+    }
 }

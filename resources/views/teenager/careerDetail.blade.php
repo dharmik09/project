@@ -1040,7 +1040,7 @@
                         });
                         setTimeout( function() {
                             getBasicQuestions('{{$professionsData->id}}'); 
-                        }, 1000);
+                        }, 3500);
                     } else {
                         $("#setResponse").val("0");
                         $('.saveMe').css('visibility', 'visible');
@@ -1051,7 +1051,7 @@
                         $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+obj.message+'</span></div></div></div>');
                         setTimeout( function() {
                             getBasicQuestions('{{$professionsData->id}}'); 
-                        }, 1000);
+                        }, 3500);
                     }
                 }
             });
@@ -1098,7 +1098,7 @@
                         });
                         setTimeout( function() {
                             getBasicQuestions('{{$professionsData->id}}'); 
-                        }, 1000);
+                        }, 3500);
                     } else {
                         $('.saveMe').css('visibility', 'visible');
                         $("#setResponse").val("0");
@@ -1109,7 +1109,7 @@
                         $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+obj.message+'</span></div></div></div>');
                         setTimeout( function() {
                             getBasicQuestions('{{$professionsData->id}}'); 
-                        }, 1000);
+                        }, 3500);
                     }
                 }
             });
@@ -1166,20 +1166,18 @@
                     var obj = $.parseJSON(data);
                     if (obj.status == 1) {
                         if (obj.answerType == "single_line_answer") {
-                            $("#answerRightWrongMsg").show();
                             $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct Answer Is : " + obj.systemCorrectAnswerText + "");
                             if (obj.systemCorrectAnswer == 1) {
-                                $(".response_message_outer").addClass("response_message beta mrTop15");
+                                $(".response_message_outer").addClass("correct");
                             } else {
-                                $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                $(".response_message_outer").addClass("incorrect");
                             }
                         } else if (obj.answerType === "option_choice_with_response" || obj.answerType === "filling_blank" || obj.answerType === "option_choice" || obj.answerType === "true_false") {
-                            $("#answerRightWrongMsg").show();
                             $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
                             if (obj.systemCorrectAnswer == 1) {
-                                $(".response_message_outer").addClass("response_message beta mrTop15");
+                                $(".response_message_outer").addClass("correct");
                             } else {
-                                $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                $(".response_message_outer").addClass("incorrect");
                             }
                             $.each(obj.systemCorrectAnswer2, function(key, value) {
                                 if (value == 1) {
@@ -1190,7 +1188,7 @@
                             });
                             if (obj.answerType === "option_choice") {
                                 if (obj.questionAnswerText !== '') {
-                                    var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'></div><div class=''>" + obj.questionAnswerText + "</div></div></div>";
+                                    var phtml = "<p>" + obj.questionAnswerText + "</p>";
                                     $('#showResponseMessage').html(phtml);
                                 }
                             }
@@ -1200,7 +1198,7 @@
                                     if (obj.questionAnswerImage && obj.questionAnswerImage !== '') {
                                         phtmlImg = "<img src=" + obj.questionAnswerImage + " />";
                                     }
-                                    var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'>" + phtmlImg + "</div><div class='info_body'>" + obj.questionAnswerText + "</div></div></div>";
+                                    var phtml = "<div class='t-table'><div class='t-cell'>" + phtmlImg + "</div><div class='t-cell'><p>" + obj.questionAnswerText + "</p></div></div>";
                                     $('#showResponseMessage').html(phtml);
                                 }
                             }
