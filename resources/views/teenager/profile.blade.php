@@ -740,7 +740,7 @@
                     <p id="lg_sub_message"></p>
                 </div>
                 <div class="modal-footer">
-                    <button id="lg_buy" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="" style="display: none;">buy</button>
+                    <a id="lg_buy" href="{{ url('teenager/buy-procoins') }}" type="submit" class="btn btn-primary btn-next" style="display: none;">buy</a>
                     <button id="lg_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins({{$componentsData->pc_required_coins}});" style="display: none;" >ok </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
