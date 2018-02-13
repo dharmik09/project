@@ -42,7 +42,7 @@ class ForumController extends Controller {
             
             if($data){
 	            foreach($data as $key => $value){
-	            	if(isset($value->latestAnswer->teenager)){
+	            	if(isset($value->latestAnswer)){
 
 		            	if(isset($value->latestAnswer->teenager)){
 
@@ -63,6 +63,12 @@ class ForumController extends Controller {
             }
             else{
                 $response['data'] = trans('appmessages.data_empty_msg');
+            }
+
+            $dataNext = $this->objForumQuestion->getAllForumQuestionAndAnswersWithTeenagerData($limit, ($record+5));
+            $response['next'] = 0;
+            if(count($dataNext)>0){
+                $response['next'] = 1;                
             }
 
             $response['status'] = 1;
@@ -115,6 +121,12 @@ class ForumController extends Controller {
 	            else{
 	                $response['data'] = trans('appmessages.data_empty_msg');
 	            }
+
+                $dataNext = $this->objForumAnswers->getPageWiseForumAnswersWithTeenagerDataByQuestionId($request->queId, ($record+5));
+                $response['next'] = 0;
+                if(count($dataNext)>0){
+                    $response['next'] = 1;                
+                }
 
 	            $response['status'] = 1;
 	            $response['login'] = 1;
