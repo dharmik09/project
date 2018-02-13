@@ -73,6 +73,6 @@ class SEOCareerController extends Controller {
             return Redirect::to("teenager/list-career")->withErrors("Invalid professions data");
         }
         
-        return view('teenager.seoTeaser',compact('professionsData','countryId','allProfessions'));
+        return view('teenager.seoTeaser',compact('professionsData','countryId','allProfessions','slug'));
     }
 }

@@ -12,7 +12,7 @@
             <section class="career-detail">
                 <form>
                     <div class="form-group search-bar clearfix">
-                        <input type="text" placeholder="search career..." tabindex="1" id="autocomplete" class="form-control search-feild">
+                        <input type="text" placeholder="search career..." value="{{$slug or ''}}" tabindex="1" id="autocomplete" class="form-control search-feild">
                         <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
                     </div>
                 </form>
