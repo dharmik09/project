@@ -55,10 +55,10 @@
                         </div>
                     @endif
                     @if(isset($response['data']->l4ia_question_description) && $response['data']->l4ia_question_description != '')
-                        <h3 class="colorWhite">{!! ucfirst($response['data']->l4ia_question_description) !!}</h3>
+                        <div class="colorWhite">{!! ucfirst($response['data']->l4ia_question_description) !!}</div>
                     @endif
                     @if(isset($response['data']->totalCorrectOptions) &&  $response['data']->totalCorrectOptions > 1)
-                        <span class="colorYellow">(You can select multiple answers for this question)</span>
+                        <p class="multiple-select">(You can select multiple answers for this question)</p>
                     @endif
                     <div class="answer-statement response_message_outer">
                         <p id="answerRightWrongMsg"></p>

@@ -227,7 +227,7 @@ class Level4ActivityController extends Controller {
             $response['teenagerName'] = Auth::guard('teenager')->user()->t_name . ' '.Auth::guard('teenager')->user()->t_lastname;
             $response['status'] = 1;
             //print_r($intermediateActivitiesData); die();
-            if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && in_array($intermediateActivitiesData->gt_temlpate_answer_type, ["option_choice", "option_choice_with_response"]) ) {
+            if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && in_array($intermediateActivitiesData->gt_temlpate_answer_type, ["option_choice", "option_choice_with_response", "true_false"]) ) {
                 return view('teenager.basic.careerIntermediateOptionChoiceQuestion', compact('response'));
             }
             return view('teenager.basic.careerIntermediateQuizQuestion', compact('response'));
