@@ -30,10 +30,13 @@ use App\SponsorsActivity;
 use App\TeenagerScholarshipProgram;
 use App\PaidComponent;
 use App\DeductedCoins;
+use App\TeenParentChallenge;
+use App\Services\Parents\Contracts\ParentsRepository;
+use App\Services\Template\Contracts\TemplatesRepository;
 
 class ProfessionController extends Controller {
 
-    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository, TeenagersRepository $teenagersRepository) 
+    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository, TeenagersRepository $teenagersRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository) 
     {
         $this->professionsRepository = $professionsRepository;
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;
@@ -56,6 +59,9 @@ class ProfessionController extends Controller {
         $this->objTeenagerScholarshipProgram = new TeenagerScholarshipProgram;
         $this->objPaidComponent = new PaidComponent;
         $this->objDeductedCoins = new DeductedCoins;
+        $this->objTeenParentChallenge = new TeenParentChallenge;
+        $this->parentsRepository = $parentsRepository;
+        $this->templatesRepository = $templatesRepository;
     }
 
     public function listIndex(){
@@ -406,7 +412,8 @@ class ProfessionController extends Controller {
         if (!empty($deductedCoinsDetail[0])) {
             $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
         }
-        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData'));
+        $teenagerParents = $this->teenagersRepository->getTeenParents($user->id);
+        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents'));
     }
 
     public function getTeenagerWhoStarRatedCareer()
@@ -690,6 +697,55 @@ class ProfessionController extends Controller {
             $message = "success"; 
         }
         return $message;
+    }
+
+    //Store records for parent/mentor challenge request
+    public function challengeToParentAndMentor()
+    {
+        $teenagerId = Auth::guard('teenager')->user()->id;
+        $professionId = Input::get('professionId');
+        $parentId =Input::get('parentId');
+
+        $saveData = [];
+        $saveData['tpc_teenager_id'] = $teenagerId;
+        $saveData['tpc_parent_id'] = $parentId;
+        $saveData['tpc_profession_id'] = $professionId;
+
+        $result = $this->objTeenParentChallenge->getTeenParentRequestDetail($saveData);
+
+        if (isset($result) && $result) {
+            $response['status'] = 0;
+            $response['message'] = trans('labels.parentchallengeexist');
+            return response()->json($response, 200);
+            exit;
+        } else {
+            $this->objTeenParentChallenge->saveTeenParentRequestDetail($saveData);
+            $teenDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenagerId);
+            $parentDetail = $this->parentsRepository->getParentDetailByParentId($parentId);
+            $professionName =  $this->professionsRepository->getProfessionNameById($professionId);
+            //send mail
+            $replaceArray = array();
+            $replaceArray['USER_NAME'] = $parentDetail['p_first_name'];
+            $replaceArray['TEEN_NAME'] = $teenDetail['t_name'];
+            $replaceArray['PROFESSION_NAME'] = $professionName;
+            $emailTemplateContent = $this->templatesRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEEN_CHALLEGE_REQUEST_TEMPLATE'));
+            $content = $this->templatesRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $data = array();
+            $data['subject'] = $emailTemplateContent->et_subject;
+            $data['toEmail'] = $parentDetail['p_email'];
+            $data['toName'] = $parentDetail['p_first_name'];
+            $data['content'] = $content;
+
+            Mail::send(['html' => 'emails.Template'], $data , function ($m) use ($data) {
+                $m->from(Config::get('constant.FROM_MAIL_ID'), 'Teen Challenge ');
+                $m->subject($data['subject']);
+                $m->to($data['toEmail'], $data['toName']);
+            });
+            $response['status'] = 1;
+            $response['message'] = trans('labels.parentchallengesuccess');
+            return response()->json($response, 200);
+            exit;
+        }
     }
 
 }
