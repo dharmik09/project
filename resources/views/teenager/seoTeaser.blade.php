@@ -10,7 +10,12 @@
         <!-- mid section-->
         <div class="container">
             <section class="career-detail">
-                <input type="text" name="search" id="autocomplete" placeholder="search..." style="    position: relative;display: inline-block;">
+                <form>
+                    <div class="form-group search-bar clearfix">
+                        <input type="text" placeholder="search career..." tabindex="1" id="autocomplete" class="form-control search-feild">
+                        <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                    </div>
+                </form>
                 <h1>{{$professionsData->pf_name}}</h1>
                 <div class="career-banner banner-landing">
                     <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
@@ -93,6 +98,7 @@
                                 </div>
                                 </div>
                             </div>
+                            <div class="teaser-content">
                             <div class="description">
                                 <div class="heading">
                                     <h4>{{$professionsData->pf_name}}</h4>
@@ -607,6 +613,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </div>
                         <div class="col-md-4">
                             <div class="sec-match">
