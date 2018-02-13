@@ -221,8 +221,9 @@ return [
     'FROM_MAIL_ID' => 'info@proteenlife.com',
     'GIFT_COINS_PROCESS' => 'Gift coins process complete Successfully',
     'PROMISE_PLUS' => 'PROMISE Plus',
-    'LEARNING_STYLE' => 'Learning Guidance',
+    'LEARNING_STYLE' => 'learningStyleing Guidance',
     'BASIC_REQUIRED_COINS' => '1850000',
+    'ADVANCE_ACTIVITY' => 'Advance Activity ProCoins',
 
     'LS_LOW_MIN_RANGE' => 0,
     'LS_LOW_MAX_RANGE' => 30,

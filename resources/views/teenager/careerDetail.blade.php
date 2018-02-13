@@ -219,11 +219,11 @@
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
                                                                         <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
                                                                         <div class="unbox-btn">
-                                                                            <a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
+                                                                            <a href="javascript:void(0)" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getAdvanceActivtyDetails();" @endif class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
                                                                                 <span class="unbox-me">Unbox Me</span>
                                                                                 <span class="coins-outer">
                                                                                     <span class="coins"></span> 
-                                                                                    25000
+                                                                                    {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
                                                                                 </span>
                                                                             </a>
                                                                         </div>
@@ -1208,6 +1208,7 @@
                 dots: true,
                 smartSpeed: 500,
                 autoplay:false,
+                autoHeight: true,
                 responsive : {
                     0: {
                         items: 1

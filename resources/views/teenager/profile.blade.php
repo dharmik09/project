@@ -642,11 +642,18 @@
         <div class="container">
             <h2>Learning Guidance</h2>
             {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
-            <p class="text-center">
+            <!-- <p class="text-center">
                 <a href="{{ ($remainingDaysForLg > 0) ? url('/teenager/learning-guidance') : 'javascript:void(0)' }}" @if($remainingDaysForLg <= 0) onclick="getLearningGuidanceDetails();" @endif title="learn more" class="btn btn-primary">learn more
                     <span id="lg_paid_details">{{ ($remainingDaysForLg > 0) ? $remainingDaysForLg . 'days left' : $componentsData->pc_required_coins }}</span>
                 </a>
-            </p>
+            </p> -->
+            <div class="unbox-btn text-center">
+                <a href="{{ ($remainingDaysForLg > 0) ? url('/teenager/learning-guidance') : 'javascript:void(0)' }}" title="Learn More" class="btn-primary" @if($remainingDaysForLg <= 0) onclick="getLearningGuidanceDetails();" @endif >
+                    <span class="unbox-me">Learn More</span>
+                    <span class="coins-outer">
+                    <span class="coins"></span> {{ ($remainingDaysForLg > 0) ? $remainingDaysForLg . ' days left' : $componentsData->pc_required_coins }}</span>
+                </a>
+            </div>
         </div>
     </section>
     <div class="sec-record" id="sec-record">

@@ -2191,7 +2191,7 @@ Class Helpers {
     }
 
     public static function getAllElememtName() {
-        $currency = array('1' => 'PROMISE Plus', '2' => 'Learning Guidance', '3' => 'Parent Report', '4' => 'School Report', '5' => 'Enterprise Report', '6' => 'Counsellors Report','7' => 'Ads ProCoins' , '8' => 'Event ProCoins' ,'9' => 'Contest ProCoins', '10' => 'Coupon ProCoins');
+        $currency = array('1' => 'PROMISE Plus', '2' => 'Learning Guidance', '3' => 'Parent Report', '4' => 'School Report', '5' => 'Enterprise Report', '6' => 'Counsellors Report','7' => 'Ads ProCoins' , '8' => 'Event ProCoins' ,'9' => 'Contest ProCoins', '10' => 'Coupon ProCoins', '11' => 'Advance Activity ProCoins');
         return $currency;
     }
 
