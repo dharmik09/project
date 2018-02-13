@@ -22,7 +22,7 @@
         <form id = "level4_intermediate_activity_ans" action="" role = "form" enctype = "multipart/form-data" method = "POST" autocomplete = "off" autocorrect = "off" autocapitalize = "off" spellcheck = "false">
             <input type = "hidden" name = "_token" value = "{{ csrf_token() }}">
             <input type = "hidden" id = "questionID" name = "questionID" value = "{{$response['data']->activityID}}" >
-            <input type ="hidden" id="blackhole" name="timer" />
+            <input type ="hidden" id="blackholeIntermediate" name="timer" />
             <input type ="hidden" id="ajax_answer_type" name="ajax_answer_type" value="{{$response['data']->gt_temlpate_answer_type}}" />
         
             <div class="quiz-que">
@@ -80,12 +80,41 @@
                     <div class="box optionSelectionIntermediate">
                         @if(isset($response['data']->options) && !empty($response['data']->options))
                             @php( shuffle($response['data']->options) )
+                            @php( $setFlag = 2 )
                             @foreach($response['data']->options as $keyOption => $option)
-                                <label class="{{$optionType}} class{{$option['optionId']}}">
-                                    <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
-                                    <span class="checker"></span>
-                                    <em>{!! $option['optionText'] !!}</em>
-                                </label>
+                                <?php
+                                    $option['optionImage'] = "";
+                                    if ($option['optionText'] == '') {
+                                        if ($option['optionAsImage'] != '') {
+                                            $optionAsImage = $option['optionAsImage'];
+                                        } else {
+                                            $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                        }
+                                        $option['optionImage'] = "<em><img src='$optionAsImage' alt='image' title='click image to enlarge' class='pop_up_me' /></em>";
+                                    }
+                                    
+                                    $extraSpan = '';
+                                    if ($option['optionImageText'] != '') {
+                                        $extraSpan = "<em>" . $option['optionImageText'] . "</em>";
+                                    }
+                                ?>
+                                @if ($setFlag % 2 == 0)
+                                    <div class="width-50 clearfix">
+                                @endif
+                                    
+                                    <label class="{{$optionType}} class{{$option['optionId']}}">
+                                        <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
+                                        <span class="checker"></span>
+                                        {!! $option['optionImage'] !!}
+                                        {!! $extraSpan !!}
+                                        <em>{!! $option['optionText'] !!}</em>
+                                    </label>
+                                    
+                                @php($setFlag++)
+                                @if ($setFlag != 2 && $setFlag % 2 == 0)
+                                    </div>
+                                @endif
+                                
                             @endforeach
                         @else
                             <br/><p><strong>No Any Options For This Question.</strong></p>
@@ -105,7 +134,7 @@
         </form>
     </div>
 @else
-    @if( isset($response['basicCompleted']) && $response['basicCompleted'] == 1 )
+    @if( isset($response['intermediateCompleted']) && $response['intermediateCompleted'] == 1 )
         <div class="quiz_view">
             <div class="clearfix time_noti_view">
                 <span class="help_noti pull-right">

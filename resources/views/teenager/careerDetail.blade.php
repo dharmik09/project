@@ -1149,7 +1149,7 @@
             var form_data = $("#level4_intermediate_activity_ans").serialize();
             $('.intermediate-question-loader').parent().toggleClass('loading-screen-parent');
             $('.intermediate-question-loader').show();
-            $("#setResponse").val("1");
+            $("#setResponseIntermediate").val("1");
             $('.saveIntMe').css('visibility', 'hidden');
             
             $.ajax({

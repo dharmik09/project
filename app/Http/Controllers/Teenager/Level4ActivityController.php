@@ -33,6 +33,7 @@ class Level4ActivityController extends Controller {
         $this->questionDescriptionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_THUMB_IMAGE_UPLOAD_PATH');
         $this->optionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->optionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH');
+        $this->answerResponseImageOriginal = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH');
         
     }
 
@@ -168,10 +169,10 @@ class Level4ActivityController extends Controller {
             $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($userId, $professionId, $templateId);
             $professionName = $this->professionsRepository->getProfessionNameById($professionId);
             
-            $basicCompleted = 0;
-            // if(isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && ($totalQuestion[0]->NoOfTotalQuestions == $totalQuestion[0]->NoOfAttemptedQuestions) ) {
-            //     $basicCompleted = 1;
-            // }
+            $intermediateCompleted = 0;
+            if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
+                $intermediateCompleted = 1;
+            }
             
             //$activities = $this->level4ActivitiesRepository->getNotAttemptedActivities($userId, $professionId);
             if (isset($intermediateActivities[0]) && !empty($intermediateActivities[0])) {
@@ -181,9 +182,25 @@ class Level4ActivityController extends Controller {
                 $intermediateActivitiesData->l4ia_extra_question_time = 120;
                 $timer = $intermediateActivitiesData->l4ia_question_time;
                 $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
-                $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "") ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) : '';
+                $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "" && Storage::size($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) : '';
                 $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
+                
+                //Set Question audio
+                if (isset($intermediateActivitiesData->l4ia_question_audio) && $intermediateActivitiesData->l4ia_question_audio != '') {
+                        $intermediateActivitiesData->l4ia_question_audio = Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_audio);
+                } else {
+                    $intermediateActivitiesData->l4ia_question_audio = '';
+                }
 
+                //Set question youtube video
+                $getQuestionVideo = $this->level4ActivitiesRepository->getQuestionVideo($intermediateActivitiesData->activityID);
+                if (isset($getQuestionVideo['video']) && !empty($getQuestionVideo['video'])) {
+                    $intermediateActivitiesData->l4ia_question_video = $getQuestionVideo['video'];
+                } else {
+                    $intermediateActivitiesData->l4ia_question_video = '';
+                }
+
+                //Set question images
                 $getQuestionImage = $this->level4ActivitiesRepository->getQuestionMultipleImages($intermediateActivitiesData->activityID);
                 if (isset($getQuestionImage) && !empty($getQuestionImage)) {
                     foreach ($getQuestionImage as $key => $image) {
@@ -199,15 +216,18 @@ class Level4ActivityController extends Controller {
             }
             //print_r($intermediateActivitiesData); die();
             $response = [];
-            $response['basicCompleted'] = 0;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
+            $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
+            $response['intermediateCompleted'] = 0;
             $response['data'] = $intermediateActivitiesData;
             $response['timer'] = $timer;
             $response['professionId'] = $professionId;
             $response['professionName'] = $professionName;
             $response['teenagerName'] = Auth::guard('teenager')->user()->t_name . ' '.Auth::guard('teenager')->user()->t_lastname;
             $response['status'] = 1;
-            //print_r($intermediateActivitiesData->gt_temlpate_answer_type); die();
-            if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "option_choice") {
+            //print_r($intermediateActivitiesData); die();
+            if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && in_array($intermediateActivitiesData->gt_temlpate_answer_type, ["option_choice", "option_choice_with_response"]) ) {
                 return view('teenager.basic.careerIntermediateOptionChoiceQuestion', compact('response'));
             }
             return view('teenager.basic.careerIntermediateQuizQuestion', compact('response'));
@@ -228,6 +248,7 @@ class Level4ActivityController extends Controller {
         
         if ($userId && $userId > 0) {
             $body = Input::all();
+
             $body['userid'] = Auth::guard('teenager')->user()->id;
             $body['timer'] = (isset($body['timer'])) ? $body['timer'] : 0;
             $questionID = (isset($body['questionID']) && $body['questionID'] > 0) ? $body['questionID'] : '';
@@ -254,6 +275,7 @@ class Level4ActivityController extends Controller {
             } else {
                 $checkOptionIsTrulyQuestionOption = true;
             }
+
             if (isset($getAllQuestionRelatedDataFromQuestionId->l4ia_question_time)) {
                 if ($body['timer'] != 0 && $body['timer'] > 0 && ($getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type != "filling_blank" || $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type != "image_reorder" || $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type != "option_choice_with_response") && ($body['timer'] < $getAllQuestionRelatedDataFromQuestionId->l4ia_question_time)) {
                     $body['timer'] = $getAllQuestionRelatedDataFromQuestionId->l4ia_question_time - $body['timer'];
@@ -280,6 +302,7 @@ class Level4ActivityController extends Controller {
                 $total = $this->teenagersRepository->getTeenagerTotalBoosterPoints($userId);
                 
                 if (isset($getAllQuestionRelatedDataFromQuestionId) && !empty($getAllQuestionRelatedDataFromQuestionId)) {
+                    
                     if ($getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type == "single_line_answer" && isset($body['answer'][0])) {
                         $userAnswer = strtolower(str_replace(' ', '', trim($body['answer'][0])));
                         $systemCorrectAnswer = strtolower(str_replace(' ', '', trim($getAllQuestionRelatedDataFromQuestionId->correct_option)));
@@ -367,10 +390,11 @@ class Level4ActivityController extends Controller {
                             $userData['uls_earned_points'] = $earnedPoints;
                             $result = $objUserLearningStyle->saveUserLearningStyle($userData);
                         }
+
                         $saveLevel4IntemediateActivityAnswer = $this->level4ActivitiesRepository->saveTeenagerIntermediateActivityDropDownAnswer($body['userid'], $data);
                         $response['message'] = trans('appmessages.default_success_msg');
                         $response['status'] = 1;
-                    } else if ($getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type == "image_reorder" || $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type == "option_reorder") {
+                    } else if ( in_array($getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type, [ "image_reorder", "option_reorder" ] ) ) {
                         $orderArray = explode(',', $getAllQuestionRelatedDataFromQuestionId->option_order);
                         $optionsIdArray = explode(',', $getAllQuestionRelatedDataFromQuestionId->options_id);
                         $userAnswerIdArray = explode(',', $body['answer'][0]);
@@ -426,9 +450,8 @@ class Level4ActivityController extends Controller {
                         $saveLevel4IntemediateActivityAnswer = $this->level4ActivitiesRepository->saveTeenagerIntermediateActivityImageReorderAnswer($body['userid'], $data, $userAnswerIdArray2);
                         $response['message'] = trans('appmessages.default_success_msg');
                         $response['status'] = 1;
-                    } else if ($getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type == "filling_blank" || $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type == "true_false" || $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type == "option_choice" || $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type == "option_choice_with_response") {
+                    } else if ( in_array( $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type, ["filling_blank", "true_false", "option_choice", "option_choice_with_response"] ) ) {
                         $checkAnswerFromOption = '';
-
                         $correctOptionsArray = explode(',', $getAllQuestionRelatedDataFromQuestionId->correct_option);
                         
                         if ($getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type == "option_choice") {
@@ -439,10 +462,10 @@ class Level4ActivityController extends Controller {
                             if (isset($body['answer'][0]) && $body['answer'][0] != 0) {
                                 $getAnswerResponseTextAndImage = $this->level4ActivitiesRepository->getAnswerResponseTextAndImage($body['answer'][0]);
                                 if (isset($getAnswerResponseTextAndImage) && !empty($getAnswerResponseTextAndImage)) {
-                                    $response['questionAnswerText'] = (isset($getAnswerResponseTextAndImage['answerResponseText']) && $getAnswerResponseTextAndImage['answerResponseText'] != '') ? $getAnswerResponseTextAndImage['answerResponseText'] : '';
+                                    $response['questionAnswerText'] = ( isset($getAnswerResponseTextAndImage['answerResponseText']) && $getAnswerResponseTextAndImage['answerResponseText'] != '') ? $getAnswerResponseTextAndImage['answerResponseText'] : '';
                                     if (isset($getAnswerResponseTextAndImage['answerResponseImage']) && $getAnswerResponseTextAndImage['answerResponseImage'] != '') {
-                                        if (file_exists($this->answerResponseImageOriginal . $getAnswerResponseTextAndImage['answerResponseImage'])) {
-                                            $response['questionAnswerImage'] = asset($this->answerResponseImageOriginal . $getAnswerResponseTextAndImage['answerResponseImage']);
+                                        if (Storage::size($this->answerResponseImageOriginal . $getAnswerResponseTextAndImage['answerResponseImage']) > 0) {
+                                            $response['questionAnswerImage'] = Storage::url($this->answerResponseImageOriginal . $getAnswerResponseTextAndImage['answerResponseImage']);
                                         } else {
                                             $response['questionAnswerImage'] = '';
                                         }
@@ -482,6 +505,7 @@ class Level4ActivityController extends Controller {
                         $data['l4iaua_order'] = 0;
                         $data['l4iaua_earned_point'] = $earnedPoints;
                         $data['l4iaua_time'] = $body['timer'];
+                        
                         $templateId = $getAllQuestionRelatedDataFromQuestionId->l4ia_question_template;
                         $objProfessionLearningStyle = new ProfessionLearningStyle();
                         $learningId = $objProfessionLearningStyle->getIdByProfessionId($professionId,$templateId);
@@ -498,7 +522,8 @@ class Level4ActivityController extends Controller {
                             $userData['uls_earned_points'] = $earnedPoints;
                             $result = $objUserLearningStyle->saveUserLearningStyle($userData);
                         }
-                        $saveLevel4IntemediateActivityAnswer = $this->level4ActivitiesRepository->saveTeenagerIntermediateActivityFillInBlanksAnswer($userId, $data, $body['answer']);
+
+                        //$saveLevel4IntemediateActivityAnswer = $this->level4ActivitiesRepository->saveTeenagerIntermediateActivityFillInBlanksAnswer($userId, $data, $body['answer']);
                         $response['message'] = trans('appmessages.default_success_msg');
                         $response['status'] = 1;
                     } else {
@@ -531,7 +556,6 @@ class Level4ActivityController extends Controller {
                 $response['redirect'] = '/teenager/level4Inclination/';
             }
         } else {
-            Auth::teenager()->logout();
             $response['status'] = 0;
             $response['message'] = "Invalid User";
             $response['reload'] = 1;

@@ -15,7 +15,7 @@
         <form id = "level4_intermediate_activity_ans" action="" role = "form" enctype = "multipart/form-data" method = "POST" autocomplete = "off" autocorrect = "off" autocapitalize = "off" spellcheck = "false">
             <input type = "hidden" name = "_token" value = "{{ csrf_token() }}">
             <input type = "hidden" id = "questionID" name = "questionID" value = "{{$response['data']->activityID}}" >
-            <input type ="hidden" id="blackhole" name="timer" />
+            <input type ="hidden" id="blackholeIntermediate" name="timer" />
             <input type ="hidden" id="ajax_answer_type" name="ajax_answer_type" value="{{$response['data']->gt_temlpate_answer_type}}" />
         
             <div class="quiz-que">
@@ -327,7 +327,7 @@
         // var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
     </script>
 @else
-    @if( isset($response['basicCompleted']) && $response['basicCompleted'] == 1 )
+    @if( isset($response['intermediateCompleted']) && $response['intermediateCompleted'] == 1 )
         <div class="quiz_view">
             <div class="clearfix time_noti_view">
                 <span class="help_noti pull-right">
