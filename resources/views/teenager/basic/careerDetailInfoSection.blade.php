@@ -25,7 +25,7 @@
 </div>
 
 <div class="block">
-    <h4>Subjects</h4>
+    <h4>Subjects and Interests</h4>
     @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
         <div class="img-list">
             <ul>

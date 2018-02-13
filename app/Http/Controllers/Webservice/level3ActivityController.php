@@ -770,7 +770,9 @@ class level3ActivityController extends Controller {
             $this->log->error('Parameter missing error' , array('api-name'=> 'getCareersDetails'));
             $response['message'] = trans('appmessages.missing_data_msg');
         }
-        return response()->json($response, 200);
+        return response()->json($response, 200,[],JSON_UNESCAPED_SLASHES);
+        //echo json_encode($response, JSON_UNESCAPED_SLASHES);
+        //exit;
     }
 
     public function getBasketByCareerId(Request $request) {
