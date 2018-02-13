@@ -23,7 +23,7 @@
 @empty
     <div class="col-md-12 col-sm-12 col-xs-12 flex-items ">
         <center>
-            <h3>Please attempt at least one section of Profile Builder to view your strength!</h3>
+            <h3>Please attempt at least one section of Profile Builder to view your interests!</h3>
         </center>
     </div>
 @endforelse
