@@ -1465,6 +1465,36 @@
             }
         });
     }
+
+    function challengeToParentAndMentor() {
+        var parent = $("#listParent").val();
+        if (parent === "") {
+            $(".challenge_message").text("Please select at least one parent or mentor from list");
+            return false;
+        } else {
+            $(".challenge_message").text("");
+            $("#parentChallenge").toggleClass('sending').blur();
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var form_data = "parentId=" + parent + "&professionId=" + "{{$professionsData->id}}";
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                url: "{{ url('/teenager/challenge-to-parent-and-mentor') }}",
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                cache: false,
+                success: function(response) {
+                    $("#parentChallenge").removeClass('sending').blur();
+                    $(".challenge_message").show();
+                    $(".challenge_message").text(response.message);
+                    setTimeout(function () {
+                        $(".challenge_message").hide();
+                    }, 2500);
+                }
+            });
+        } 
+    }
 </script>
 
 @stop
