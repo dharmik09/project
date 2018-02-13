@@ -60,9 +60,13 @@
                     @if(isset($response['data']->totalCorrectOptions) &&  $response['data']->totalCorrectOptions > 1)
                         <span class="colorYellow">(You can select multiple answers for this question)</span>
                     @endif
-                    <div class="answer-statement response_message_outer" id="answerRightWrongMsg"></div>
+                    <div class="answer-statement response_message_outer">
+                        <p id="answerRightWrongMsg"></p>
+                    </div>
                     <h2 class="colorYellow" id="systemCorrectAnswerText"></h2>
-                    <div class="clearfix answer-statement" id="showResponseMessage"></div>
+                    <div class="clearfix answer-statement">
+                        <p id="showResponseMessage"></p>
+                    </div>
                     <?php
                         $input = '';
                         if ($response['data']->totalCorrectOptions > 1) {
