@@ -143,6 +143,7 @@
             function setSound(data) {
                 $.ajax('{{url("teenager/set-sound-value/")}}/'+data, {
                     success: function(data) {
+                        location.reload();
                     }
                });
             }
