@@ -642,7 +642,18 @@
         <div class="container">
             <h2>Learning Guidance</h2>
             {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
-            <p class="text-center"><a href="{{ url('/teenager/learning-guidance') }}" title="learn more" class="btn btn-primary">learn more</a></p>
+            <!-- <p class="text-center">
+                <a href="{{ ($remainingDaysForLg > 0) ? url('/teenager/learning-guidance') : 'javascript:void(0)' }}" @if($remainingDaysForLg <= 0) onclick="getLearningGuidanceDetails();" @endif title="learn more" class="btn btn-primary">learn more
+                    <span id="lg_paid_details">{{ ($remainingDaysForLg > 0) ? $remainingDaysForLg . 'days left' : $componentsData->pc_required_coins }}</span>
+                </a>
+            </p> -->
+            <div class="unbox-btn text-center">
+                <a id="lg_unbox" href="{{ ($remainingDaysForLg > 0) ? url('/teenager/learning-guidance') : 'javascript:void(0)' }}" title="Learn More" class="btn-primary" @if($remainingDaysForLg <= 0) onclick="getLearningGuidanceDetails();" @endif >
+                    <span class="unbox-me">Learn More</span>
+                    <span class="coins-outer lg_coins">
+                    <span class="coins"></span> {{ ($remainingDaysForLg > 0) ? $remainingDaysForLg . ' days left' : $componentsData->pc_required_coins }}</span>
+                </a>
+            </div>
         </div>
     </section>
     <div class="sec-record" id="sec-record">
@@ -713,6 +724,25 @@
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="coinsConsumption" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    <h4 id="lg_title" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id="lg_message"></p>
+                    <p id="lg_sub_message"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="lg_buy" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="" style="display: none;">buy</button>
+                    <button id="lg_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins({{$componentsData->pc_required_coins}});" style="display: none;" >ok </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -1761,6 +1791,59 @@
         //     }
         // });
     }
+
+    function getLearningGuidanceDetails() {
+        var teenagerCoins = parseInt("{{Auth::guard('teenager')->user()->t_coins}}");
+        var consumeCoins = parseInt("{{$componentsData->pc_required_coins}}");
+        <?php 
+        if ($remainingDaysForLg > 0) { ?>
+            $("#lg_coins").html("");
+            $("#lg_coins").html('<span class="coins"></span>' + "{{$remainingDaysForLg}}" + " days left");
+        <?php 
+        } else { ?>
+            if (consumeCoins > teenagerCoins) {
+                $("#lg_buy").show();
+                $("#lg_title").text("Notification!");
+                $("#lg_message").text("You don't have enough ProCoins. Please Buy more.");
+            } else {
+                $("#lg_consume_coin").show();
+                $("#lg_title").text("Congratulations!");
+                $("#lg_message").text("You have " + format(teenagerCoins) + " ProCoins available.");
+                $("#lg_sub_message").text("Click OK to consume your " + format(consumeCoins) + " ProCoins and play on");
+            }
+            $('#coinsConsumption').modal('show');
+        <?php } ?>
+    }
+
+    function format(x) {
+        return isNaN(x)?"":x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function saveConsumedCoins(consumedCoins) {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.LEARNING_STYLE')}}";
+        $.ajax({
+            type: 'POST',
+            data: form_data,
+            url: "{{ url('/teenager/save-consumed-coins-details') }}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            cache: false,
+            success: function(response) {
+                $(".lg_coins").html("");
+                if (response > 0) {
+                    $(".lg_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $("#lg_unbox").prop('onclick',null).off('click');
+                } else {
+                    $(".lg_coins").html('<span class="coins"></span> ' + consumedCoins);
+                }
+            }
+        });
+    }
+
+   
+
       
 </script>
 @stop

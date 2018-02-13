@@ -28,6 +28,8 @@ use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\SponsorsActivity;
 use App\TeenagerScholarshipProgram;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class ProfessionController extends Controller {
 
@@ -52,6 +54,8 @@ class ProfessionController extends Controller {
         $this->teenagersRepository = $teenagersRepository;
         $this->objSponsorsActivity = new SponsorsActivity;
         $this->objTeenagerScholarshipProgram = new TeenagerScholarshipProgram;
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
     }
 
     public function listIndex(){
@@ -277,8 +281,8 @@ class ProfessionController extends Controller {
         $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionsData->id);
         if( isset($getQuestionTemplateForProfession[0]) ) {
             foreach($getQuestionTemplateForProfession as $key => $professionTemplate) {
-                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($user->id, $professionId, $professionTemplate->gt_template_id);
-                $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($user->id, $professionId, $professionTemplate->gt_template_id);
+                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($user->id, $professionsData->id, $professionTemplate->gt_template_id);
+                $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($user->id, $professionsData->id, $professionTemplate->gt_template_id);
                 $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
                 $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
                 if (empty($intermediateActivities) || ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
@@ -396,7 +400,13 @@ class ProfessionController extends Controller {
             }
         }
         $exceptScholarshipIds = array_unique(array_merge($scholarshipProgramIds, $expiredActivityIds));
-        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds'));
+        $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.ADVANCE_ACTIVITY'));
+        $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($user->id, $componentsData->id, 1);
+        $remainingDaysForActivity = 0;
+        if (!empty($deductedCoinsDetail[0])) {
+            $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+        }
+        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData'));
     }
 
     public function getTeenagerWhoStarRatedCareer()

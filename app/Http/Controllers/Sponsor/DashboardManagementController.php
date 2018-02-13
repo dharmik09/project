@@ -67,14 +67,14 @@ class DashboardManagementController extends Controller
             $objDeductedCoins = new DeductedCoins();
             $coins = 0;
             if (!empty($componentsData)) {
-                $coins = $componentsData[0]->pc_required_coins;
+                $coins = $componentsData->pc_required_coins;
             }
             
 
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData[0]->id,4);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData->id,4);
             $days = 0;
             if (!empty($deductedCoinsDetail->toArray())) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             
             return view('sponsor.home', compact('activityDetail', 'saThumbImagePath', 'coupons', 'couponThumbImagePath', 'usedCredits', 'coins', 'days', 'sponsorId', 'loggedInUser'));
@@ -531,13 +531,13 @@ class DashboardManagementController extends Controller
             $sponsorId = Input::get('sponsorId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('Enterprise Report');
-            $coins = $componentsData[0]->pc_required_coins;
+            $coins = $componentsData->pc_required_coins;
             $objDeductedCoins = new DeductedCoins();
 
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData[0]->id,4);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($sponsorId,$componentsData->id,4);
             $days = 0;
             if (!empty($deductedCoinsDetail->toArray())) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {
                 $deductedCoins = $coins;

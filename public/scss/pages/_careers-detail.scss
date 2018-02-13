@@ -1050,12 +1050,12 @@
                         font-size: 16px;
                         text-transform: uppercase;
                         text-align: center;
-                        padding: 12px 20px;
+                        padding: 12px 15px;
                         color: $r-cl;
                         border: 1px solid #dddedf;
                         @include maxlg {
-                            font-size: 15px;
-                            padding: 9px 15px;
+                            font-size: 13px;
+                            padding: 9px 10px;
                         }
                         @include maxms {
                             font-size: 14px;

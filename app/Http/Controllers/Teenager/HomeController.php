@@ -19,6 +19,10 @@ use Response;
 use Storage;
 use App\TeenagerPromiseScore;
 use App\PromiseParametersMaxScore;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class HomeController extends Controller
 {
@@ -43,6 +47,10 @@ class HomeController extends Controller
         $this->objVideo = new Video();
         $this->objTeenagerPromiseScore = new TeenagerPromiseScore();
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
+        $this->log = new Logger('teenager-home-controller');
+        $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
 
     /**
@@ -193,5 +201,46 @@ class HomeController extends Controller
         $mul = 100*$teenScore;
         $percentage = $mul/$maxScore;
         return round($percentage);
+    }
+
+    public function saveConsumedCoinsDetails()
+    {
+        $teenId = Auth::guard('teenager')->user()->id;
+        $consumedCoins = Input::get('consumedCoins');
+        $componentName = Input::get('componentName');
+        //$remainingDaysForLg = 0;
+        $componentsData = $this->objPaidComponent->getPaidComponentsData($componentName);
+        $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1);
+        $days = 0;
+        if (!empty($deductedCoinsDetail[0])) {
+            $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+        }
+        $remainingDays = 0;
+        if ($days == 0) {
+            $deductCoins = 0;
+            //deduct coin from user
+            $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($teenId);
+            if (!empty($userDetail)) {
+                $deductCoins = $userDetail['t_coins'] - $consumedCoins;
+            }
+            $returnData = $this->teenagersRepository->updateTeenagerCoinsDetail($teenId, $deductCoins);
+            $return = Helpers::saveDeductedCoinsData($teenId, 1, $consumedCoins, $componentName, 0);
+            if ($return) {
+                $updatedDeductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1);
+                if (!empty($updatedDeductedCoinsDetail)) {
+                    $remainingDays = Helpers::calculateRemainingDays($updatedDeductedCoinsDetail[0]->dc_end_date);
+                }
+            } 
+            //Store log in System
+            if ($componentName == Config::get('constant.ADVANCE_ACTIVITY')) {
+                $coinsConsumedFor = "Advance activity";
+            } else if ($componentName == Config::get('constant.LEARNING_STYLE')) {
+                $coinsConsumedFor = "Learning guidance";
+            } else {
+                $coinsConsumedFor = "";
+            }
+            $this->log->info('User coins consumed for' . $coinsConsumedFor, array('userId' => $teenId));
+        } 
+        return $remainingDays;
     }
 }

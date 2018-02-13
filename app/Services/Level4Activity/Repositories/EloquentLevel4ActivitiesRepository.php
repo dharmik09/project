@@ -307,14 +307,12 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
     public function getQuestionMultipleImages($activityId) {
         $mediaData = [];
         $QuestionImages = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_MEDIA'))->where(['l4iam_question_id' => $activityId, 'l4iam_media_type' => "I"])->get();
-
         if (isset($QuestionImages) && !empty($QuestionImages)) {
             foreach($QuestionImages as $key=>$image){
-            $mediaData[$key]['image'] = $image->l4iam_media_name;
-            $mediaData[$key]['imageDescription'] = $image->l4iam_media_desc;
+                $mediaData[$key]['image'] = $image->l4iam_media_name;
+                $mediaData[$key]['imageDescription'] = $image->l4iam_media_desc;
             }
         }
-
         return $mediaData;
     }
 

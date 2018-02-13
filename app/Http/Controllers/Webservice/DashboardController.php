@@ -338,7 +338,7 @@ class DashboardController extends Controller
     }
 
     /* Request Params : getTeenagerCareers
-    *  loginToken, userId, lastCareerId
+    *  loginToken, userId, lastCareerId, getAllRecords
     *  ["match", "nomatch", "moderate"]
     */
     public function getTeenagerCareers(Request $request) {
@@ -350,8 +350,12 @@ class DashboardController extends Controller
             } else {
                 $lastCareerId = "";
             }
+            if (isset($request->getAllRecords) && $request->getAllRecords == 1) {
+                $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareers($request->userId, $lastCareerId);
+            } else {
+                $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareersSlotWise($request->userId, $lastCareerId);
+            }
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
-            $getTeenagerAttemptedProfession = $this->professionsRepository->getMyCareersSlotWise($request->userId, $lastCareerId);
             $myCareersCount = $this->professionsRepository->getMyCareersCount($request->userId, $lastCareerId);
             if (isset($myCareersCount) && $myCareersCount > 10) {
                 $response['loadMoreFlag'] = 1;

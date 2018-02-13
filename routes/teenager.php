@@ -106,6 +106,7 @@ Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@i
 
 //Learning Guidance
 Route::get('/learning-guidance', 'Teenager\HomeController@learningGuidance');
+Route::post('/save-consumed-coins-details', 'Teenager\HomeController@saveConsumedCoinsDetails');
 	
 //Network
 Route::get('/my-network', 'Teenager\DashboardController@getMyNetworkDetails');
@@ -141,6 +142,8 @@ Route::post('/teen-l3-career-research', 'Teenager\Level3ActivityController@level
 //Level 4 question answer related routes
 Route::post('/play-basic-level-activity', 'Teenager\Level4ActivityController@professionBasicQuestion');
 Route::post('/save-basic-level-activity', 'Teenager\Level4ActivityController@saveBasicLevelActivity');
+Route::post('/play-intermediate-level-activity', 'Teenager\Level4ActivityController@professionIntermediateQuestion');
+Route::post('/save-intermediate-level-activity', 'Teenager\Level4ActivityController@saveIntermediateLevelActivity');
 
 //Forum Module
 Route::get('/forum-questions', 'Teenager\ForumController@index');

@@ -355,15 +355,15 @@ class DashboardManagementController extends Controller {
                             $yourScore = $idAndRank = 0;
                             $professionAttempted[$key]['professionId'] = $val->id;
                             $professionAttempted[$key]['profession_name'] = $val->pf_name;
-                            if(isset($componentsData[0]) && !empty($componentsData)){
-                                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$val->id,2,$componentsData[0]->id);
+                            if(isset($componentsData) && !empty($componentsData)){
+                                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$val->id,2,$componentsData->id);
                             }
                             $days = 0;
                             if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
-                                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
                             }
                             $professionAttempted[$key]['remainingDays'] = $days;
-                            $professionAttempted[$key]['required_coins'] = $componentsData[0]->pc_required_coins;
+                            $professionAttempted[$key]['required_coins'] = $componentsData->pc_required_coins;
                         }
                         else
                         {
@@ -376,24 +376,24 @@ class DashboardManagementController extends Controller {
                 $objPaidComponent = new PaidComponent();
                 $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
                 $coins = 0;
-                if (isset($componentsData[0]) && !empty($componentsData)) {
-                    $coins = $componentsData[0]->pc_required_coins;
+                if (isset($componentsData) && !empty($componentsData)) {
+                    $coins = $componentsData->pc_required_coins;
                 }
-                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
+                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
                 $days = 0;
                 if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
-                    $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
                 }
                 $response['remainingDays'] = $days;
                 $days = 0;
                 $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
-                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
+                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
                 $days = 0;
                 if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
-                    $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
                 }
                 $response['remainingDaysForLS'] = $days;
-                $response['required_coins'] = $componentsData[0]->pc_required_coins;
+                $response['required_coins'] = $componentsData->pc_required_coins;
                 $response['attempted_profession'] = $professionAttempted;
                 $response['teenagerInterest'] = $teenagerInterest;
                 //$response['teenagerMI'] = $finalSortedData;
@@ -464,7 +464,7 @@ class DashboardManagementController extends Controller {
             $response['rank'] = 0;
         }
 
-        return view('teenager.badgesRank',compact('response','teenagerId'));
+        return view('parent.badgesRank',compact('response','teenagerId'));
         exit;
     }
 
@@ -497,19 +497,20 @@ class DashboardManagementController extends Controller {
                     $objPaidComponent = new PaidComponent();
                     $objDeductedCoins = new DeductedCoins();
                     $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
-
+                   
                     if(isset($componentsData) && !empty($componentsData)){
-                        $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData[0]->id);
+                        $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData->id);
                     }
+                    
                     $days = 0;
-                    if (!empty($deductedCoinsDetail)) {
+                    if (count($deductedCoinsDetail) > 0) {                       
                         $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
                     }
                     $response['remainingDays'] = $days;
-                    $response['required_coins'] = $componentsData[0]->pc_required_coins;
+                    $response['required_coins'] = $componentsData->pc_required_coins;
                     //get profession name and logo
                     $professionData = $this->professionsRepository->getProfessionsById($professionId);
-
+                   
                     $professionName = isset($professionData[0]->pf_name)?$professionData[0]->pf_name:'';
                     if (isset($professionData[0]->pf_logo) && $professionData[0]->pf_logo != '') {
                         $profession_logo = Storage::url($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo);
@@ -569,18 +570,20 @@ class DashboardManagementController extends Controller {
     {
         $professionId = Input::get('professionId');
         $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($professionId);
+       
         $professionName = '';
         if (isset($professionHeaderDetail) && !empty($professionHeaderDetail)) {
             $professionName = $professionHeaderDetail[0]->pf_name;
-            if (strpos($professionHeaderDetail[2]->pfic_content, "Salary Range") !== FALSE) {
-                $profession_acadamic_path = substr($professionHeaderDetail[2]->pfic_content, 0, strpos($professionHeaderDetail[2]->pfic_content, 'Salary Range'));
+            if(!empty($professionHeaderDetail[15]->pfic_content)) {
+                $profession_acadamic_path = $professionHeaderDetail[15]->pfic_content;
             } else {
                 $profession_acadamic_path = '';
             }
         } else {
             $profession_acadamic_path = '';
         }
-        return view('teenager.educationPath',compact('profession_acadamic_path','professionName'));
+         
+        return view('parent.educationPath',compact('profession_acadamic_path','professionName'));
         exit;
     }
 
@@ -1325,11 +1328,11 @@ class DashboardManagementController extends Controller {
             $objPaidComponent = new PaidComponent();
             $objDeductedCoins = new DeductedCoins();
             $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
-            $coins = $componentsData[0]->pc_required_coins;
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData[0]->id);
+            $coins = $componentsData->pc_required_coins;
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData->id);
             $days = 0;
             if (!empty($deductedCoinsDetail)) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {
                 $deductCoins = 0;
@@ -1568,11 +1571,11 @@ class DashboardManagementController extends Controller {
             $objPaidComponent = new PaidComponent();
             $objDeductedCoins = new DeductedCoins();
             $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
-            $coins = $componentsData[0]->pc_required_coins;
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
+            $coins = $componentsData->pc_required_coins;
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
             $days = 0;
             if (!empty($deductedCoinsDetail->toArray())) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {
                 $deductCoins = 0;
@@ -1794,12 +1797,12 @@ class DashboardManagementController extends Controller {
             $parentId = Input::get('parentId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
-            $coins = $componentsData[0]->pc_required_coins;
+            $coins = $componentsData->pc_required_coins;
             $objDeductedCoins = new DeductedCoins();
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData[0]->id,2);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
             $days = 0;
             if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {
                 $deductedCoins = $coins;

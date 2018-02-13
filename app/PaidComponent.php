@@ -56,9 +56,9 @@ class PaidComponent extends Model
     public function getPaidComponentsData($name) {
         $result = DB::table(config::get('databaseconstants.TBL_PAID_COMPONENTS'))
                     ->selectRaw('*')
-                    ->where('deleted',1)
+                    ->where('deleted', 1)
                     ->where('pc_element_name', 'like', '%' . $name . '%')
-                    ->get();
+                    ->first();
         return $result;
     }
 }

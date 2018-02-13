@@ -196,66 +196,64 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="flexSeprator" style="padding:10px;"></div>
                                         <div class="row flex-container">
-                                            <div class="quiz-intermediate">
-                                                <div class="sec-show clearfix">
-                                                    @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
-                                                        @foreach($getQuestionTemplateForProfession as $templateProfession)
-                                                            <div class="col-sm-6 flex-items">
-                                                                <div class="quiz-box">
-                                                                    <div class="img">
-                                                                        <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
-                                                                        <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
-                                                                    </div>
-                                                                    <h6>{!! $templateProfession->gt_template_title !!}</h6>
-                                                                    <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
-                                                                    <div class="unbox-btn">
-                                                                        <a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal1">
-                                                                            <span class="unbox-me">Unbox Me</span>
-                                                                            <span class="coins-outer">
-                                                                                <span class="coins"></span> 
-                                                                                25000
-                                                                            </span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="modal fade" id="myModal1" role="dialog">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content custom-modal">
-                                                                                <div class="modal-header">
-                                                                                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                                    <h4 class="modal-title">Congratulations!</h4>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <p>You have 42,000 ProCoins available.</p>
-                                                                                    <p>Click OK to consume your 250 ProCoins and play on</p>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal">ok</button>
-                                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                            <div class="col-sm-12">
+                                                <div class="quiz-intermediate">
+                                                    <div class="sec-show clearfix">
+                                                        <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
+                                                            <div class="loading-text">
+                                                                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+                                                            </div>
+                                                            <div class="loading-content"></div>
+                                                        </div>
+                                                        
+                                                        @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
+                                                            @foreach($getQuestionTemplateForProfession as $templateProfession)
+                                                                <div class="col-sm-6 flex-items">
+                                                                    <div class="quiz-box">
+                                                                        <div class="img">
+                                                                            <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
+                                                                            <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
+                                                                        </div>
+                                                                        <h6>{!! $templateProfession->gt_template_title !!}</h6>
+                                                                        <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
+                                                                        <div class="unbox-btn">
+                                                                            <a href="javascript:void(0)" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
+                                                                                <span class="unbox-me">Unbox Me</span>
+                                                                                <span class="coins-outer">
+                                                                                    <span class="coins"></span> 
+                                                                                    25,000 
+                                                                                </span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content custom-modal">
+                                                                                    <div class="modal-header">
+                                                                                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                                                                                        <h4 class="modal-title">Congratulations!</h4>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <p>You have 42,000 ProCoins available.</p>
+                                                                                        <p>Click OK to consume your {{$templateProfession->gt_coins}} ProCoins and play on</p>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
+                                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
+                                                            @endforeach
+                                                        @else
 
-                                                    @endif
-                                                </div>
-                                                <div class="quiz-area sec-hide">
-                                                    <div class="quiz_view">
-                                                        <div class="clearfix time_noti_view"><span class="time_type pull-left"><i class="icon-alarm"></i><span class="time-tag">0:0</span></span><span class="help_noti pull-right"><span class="pull-right close"><i class="icon-close"></i></span></span></div>
-                                                        <div class="quiz-que">
-                                                            <p class="que"><i class="icon-arrow-simple"></i>Identify the correct terminology for the piece of furniture:</p>
-                                                            <div class="quiz-ans">
-                                                                <div class="question-img">
-                                                                    <img src="{{ Storage::url('img/question-img.jpg') }}" title="Click to enlarge image" class="pop-me">
-                                                                </div>
-                                                                <div class="radio"><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label><label><input type="radio" name="gender"><span class="checker"></span><em>Lorem ipsum dolor sit amet</em></label></div>
-                                                                <div class="clearfix"><a href="#" class="next-que pull-right"><i class="icon-hand"></i></a></div>
-                                                            </div>
-                                                        </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -414,7 +412,14 @@
                                 </div>
                             </div>
                             <div class="text-left">
-                                <div class="unbox-btn"><a href="javascript:void(0);" title="Unbox Me" class="btn-primary"><span class="unbox-me">Unbox Me</span><span class="coins-outer"><span class="coins"></span> 25000</span></a></div>
+                                <div class="unbox-btn">
+                                    <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getAdvanceActivtyDetails();" @endif class="btn-primary">
+                                        <span class="unbox-me">Unbox Me</span>
+                                        <span class="coins-outer activity_coins">
+                                            <span class="coins"></span> {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="sec-tags">
@@ -476,12 +481,31 @@
             </div>
         </section>
     </div>
-        <!-- mid section end-->
 </div>
-    <span id="setResponse" value="0"></span>
-    <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
-    <audio id="audio_1" src="{{ Storage::url('frontend/audio/L1A_1.wav')}}"></audio>
-    <audio id="audio_2" src="{{ Storage::url('frontend/audio/L1A_2.wav')}}"></audio>
+<div class="modal fade" id="coinsConsumption" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    <h4 id="activity_title" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id="activity_message"></p>
+                    <p id="activity_sub_message"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="activity_buy" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="" style="display: none;">buy</button>
+                    <button id="activity_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins({{$componentsData->pc_required_coins}});" style="display: none;" >ok </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<span id="setResponse" value="0"></span>
+<span id="setResponseIntermediate" value="0"></span>
+<audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
+<audio id="audio_1" src="{{ Storage::url('frontend/audio/L1A_1.wav')}}"></audio>
+<audio id="audio_2" src="{{ Storage::url('frontend/audio/L1A_2.wav')}}"></audio>
 @stop
 
 @section('script')
@@ -515,17 +539,17 @@
         $('.promise-plus-overlay .close').click(function() {
             $('.promise-plus-overlay').hide();
             $('.front_page').show(500);
-        })
-        
-        $('.btn-intermediate').click(function(){
-            $('.quiz-intermediate .sec-show').addClass('hide');
-            $('.quiz-intermediate .sec-hide').addClass('active');
-        })
+        });
         
         $('.quiz-area .close').click(function() {
             $('.sec-show').removeClass('hide');
             $('.sec-hide').removeClass('active');
         });
+
+        // $('#intermediateLevelData .close').click(function() {
+        //     $('.intermediate-question .sec-show').removeClass('hide');
+        //     $('.sec-hide').removeClass('active');
+        // });
         
         $('.btn-advanced').click(function(){
             $('.quiz-advanced .sec-show').addClass('hide');
@@ -856,6 +880,12 @@
         getBasicQuestions('{{$professionsData->id}}');
     });
 
+    function getNextIntermediateQuestion(templateId) {
+        $(".btn-play-intermediate").show();
+        $(".next-intermediate .btn-intermediate").hide();
+        getIntermediateQuestions(templateId);
+    }
+
     function getBasicQuestions(professionId) {
         $.ajax({
             url: "{{url('teenager/play-basic-level-activity')}}",
@@ -871,6 +901,60 @@
         }); 
     }
     
+    //Intermediate level data query
+    var intermediateCount;
+    jQuery(document).ready(function($) {
+        var counter = setInterval(intermediateTimer, 1000);
+        function intermediateSecondPassed() {
+            var minutes = Math.round((intermediateCount - 30) / 60);
+            var remainingcount = intermediateCount % 60;
+            if (remainingcount < 10) {
+                remainingcount = "0" + remainingcount;
+            }
+            $('.intermediate-time-tag, .intermediate-time-tag').text(minutes + ":" + remainingcount);
+            $('.time-tag').show();
+        }
+        function intermediateTimer() {
+            if (intermediateCount < 0) { }
+            else {
+                intermediateSecondPassed();
+            }
+            intermediateCount = intermediateCount - 1;
+            $("#blackholeIntermediate").val(intermediateCount);           
+            if (intermediateCount == -1) {
+                //autoSubmitIntermediateAnswer();
+            }
+        }
+    });
+
+    function getConceptData(templateId) {
+        getIntermediateQuestions(templateId);
+    }
+
+    function getIntermediateQuestions(templateId) {
+        $('.intermediate-first-question-loader').parent().toggleClass('loading-screen-parent');
+        $('.intermediate-first-question-loader').show();
+            
+        $.ajax({
+            url: "{{url('teenager/play-intermediate-level-activity')}}",
+            type : 'POST',
+            data : { 'professionId' : '{{$professionsData->id}}', 'templateId' : templateId },
+            headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+            success: function(data){
+                $("#setResponseIntermediate").val("0");
+                $('.quiz-intermediate .sec-show').addClass('hide');
+                $('.quiz-intermediate .intermediate-question').addClass('active');
+                $("html, body").animate({
+                    scrollTop: $('#flexSeprator').offset().top 
+                }, 300);
+                $('#intermediateLevelData').html(data);
+                
+                $('.intermediate-first-question-loader').hide();
+                $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
+            }
+        }); 
+    }
+
     $(document).on('click', '.quiz_view .close', function(e) {
         $('.sec-show').removeClass('hide');
         $('.sec-hide').removeClass('active');
@@ -1006,6 +1090,125 @@
         }
     }
 
+    function saveIntermediateAnswer() {
+        $("#intermediateErrorGoneMsg").html('');
+        
+        $('.stopOnSubmit iframe').attr("src", jQuery(".stopOnSubmit iframe").attr("src"));
+        var isAudio = $("#checkAudio").val();
+        if(typeof isAudio !== "undefined"){
+            var audioStop = document.getElementById('onOffAudio');
+            audioStop.pause();
+            $("#onOffAudio").prop('muted',true);
+        }
+        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
+            var audio = document.getElementById('audio_1');
+            audio.play();
+        <?php } ?>
+        var validCheck = 0;
+        var setSMsg = 0;
+        if ($("#singleLineCheck").attr('value') === "yes") {
+            setSMsg = 1;            
+            if ($('[name="answer[0]"]').val().trim() !== '') {
+                validCheck = 1;
+                $(".intermediate-time-tag").css('visibility', 'hidden');
+            }
+        } else {
+            if ($('.optionSelectionIntermediate [name="' + optionName + '"]:checked').length > 0) {
+                validCheck = 1;
+                $(".intermediate-time-tag").css('visibility', 'hidden');
+            }
+        }
+
+        if (validCheck === 1) {
+            var form_data = $("#level4_intermediate_activity_ans").serialize();
+            $('.intermediate-question-loader').parent().toggleClass('loading-screen-parent');
+            $('.intermediate-question-loader').show();
+            $("#setResponse").val("1");
+            $('.saveIntMe').css('visibility', 'hidden');
+            
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                //async: false,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                cache: false,
+                success: function(data) {
+                    $('.intermediate-question-loader').hide();
+                    $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                    var obj = $.parseJSON(data);
+                    console.log(obj);
+                    if (obj.status == 1) {
+                        if (obj.answerType == "single_line_answer") {
+                            $("#answerRightWrongMsg").show();
+                            $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct Answer Is : " + obj.systemCorrectAnswerText + "");
+                            if (obj.systemCorrectAnswer == 1) {
+                                $(".response_message_outer").addClass("response_message beta mrTop15");
+                            } else {
+                                $(".response_message_outer").addClass("response_message alpha mrTop15");
+                            }
+                        } else if (obj.answerType === "option_choice_with_response" || obj.answerType === "filling_blank" || obj.answerType === "option_choice" || obj.answerType === "true_false") {
+                            $("#answerRightWrongMsg").show();
+                            $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
+                            if (obj.systemCorrectAnswer == 1) {
+                                $(".response_message_outer").addClass("response_message beta mrTop15");
+                            } else {
+                                $(".response_message_outer").addClass("response_message alpha mrTop15");
+                            }
+                            $.each(obj.systemCorrectAnswer2, function(key, value) {
+                                if (value == 1) {
+                                    $('.class' + key).addClass("correct");
+                                } else {
+                                    $('.class' + key).addClass("incorrect");
+                                }
+                            });
+                            if (obj.answerType === "option_choice") {
+                                if (obj.questionAnswerText !== '') {
+                                    var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'></div><div class=''>" + obj.questionAnswerText + "</div></div></div>";
+                                    $('#showResponseMessage').html(phtml);
+                                }
+                            }
+                            if (obj.answerType === "option_choice_with_response") {
+                                if (obj.questionAnswerText && obj.questionAnswerText !== '') {
+                                    var phtmlImg = '';
+                                    if (obj.questionAnswerImage && obj.questionAnswerImage !== '') {
+                                        phtmlImg = "<img src=" + obj.questionAnswerImage + " />";
+                                    }
+                                    var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'>" + phtmlImg + "</div><div class='info_body'>" + obj.questionAnswerText + "</div></div></div>";
+                                    $('#showResponseMessage').html(phtml);
+                                }
+                            }
+                        } else {
+                        }
+                        $('.saveIntMe').css('visibility', 'hidden');
+                        $('.next-intermediate').show();
+                    } else {
+                        $("#showResponseMessage").text(obj.message);
+                        var urlSet = obj.redirect;
+                        //setTimeout("location.reload(true);", 3000);
+                    }
+                }
+            });
+        } else {
+            if (setSMsg === 1) {
+                $('.intermediate-question-loader').hide();
+                $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                $("html, body").animate({
+                    scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+                }, 300);
+                $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, Fillup the answer!</span></div></div></div>');
+            } else {
+                $('.intermediate-question-loader').hide();
+                $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                $("html, body").animate({
+                    scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+                }, 300);
+                $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please, select at-least one answer!</span></div></div></div>');
+            }
+        }
+    }
+
     $(document).on('change', '.selectionCheck', function(evt) { 
         if (limitSelect > 1) {
             if ($('input.multiCast:checked').length > limitSelect) {
@@ -1031,6 +1234,7 @@
                 dots: true,
                 smartSpeed: 500,
                 autoplay:false,
+                autoHeight: true,
                 responsive : {
                     0: {
                         items: 1
@@ -1040,7 +1244,7 @@
                     },
                 }
             });
-        }
+    }
 
     function applyForScholarshipProgram(activityId)
     {
@@ -1066,6 +1270,55 @@
                 }, 2500)
                 $("#apply_"+activityId).text("Applied");
                 $("#apply_"+activityId).attr("disabled","disabled");
+            }
+        });
+    }
+
+    function getAdvanceActivtyDetails() {
+        var teenagerCoins = parseInt("{{Auth::guard('teenager')->user()->t_coins}}");
+        var consumeCoins = parseInt("{{$componentsData->pc_required_coins}}");
+        <?php 
+        if ($remainingDaysForActivity > 0) { ?>
+            $("#activity_coins").html('<span class="coins"></span>' + "{{$remainingDaysForActivity}}" + " days left");
+        <?php 
+        } else { ?>
+            if (consumeCoins > teenagerCoins) {
+                $("#activity_buy").show();
+                $("#activity_title").text("Notification!");
+                $("#activity_message").text("You don't have enough ProCoins. Please Buy more.");
+            } else {
+                $("#activity_consume_coin").show();
+                $("#activity_title").text("Congratulations!");
+                $("#activity_message").text("You have " + format(teenagerCoins) + " ProCoins available.");
+                $("#activity_sub_message").text("Click OK to consume your " + format(consumeCoins) + " ProCoins and play on");
+            }
+            $('#coinsConsumption').modal('show');
+        <?php } ?>
+    }
+
+    function format(x) {
+        return isNaN(x)?"":x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function saveConsumedCoins(consumedCoins) {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.ADVANCE_ACTIVITY')}}";;
+        $.ajax({
+            type: 'POST',
+            data: form_data,
+            url: "{{ url('/teenager/save-consumed-coins-details') }}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            cache: false,
+            success: function(response) {
+                $(".activity_coins").html("");
+                if (response > 0) {
+                    $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $("#activity_unbox").prop('onclick',null).off('click');
+                } else {
+                    $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
+                }
             }
         });
     }

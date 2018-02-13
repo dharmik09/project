@@ -387,13 +387,13 @@ class DashboardController extends Controller {
             $schoolId = Input::get('schoolId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
-            $coins = $componentsData[0]->pc_required_coins;
+            $coins = $componentsData->pc_required_coins;
             $objDeductedCoins = new DeductedCoins();
 
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolId,$componentsData[0]->id,3);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolId,$componentsData->id,3);
             $days = 0;
             if (!empty($deductedCoinsDetail)) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {
                 $deductedCoins = $coins;
@@ -538,7 +538,7 @@ class DashboardController extends Controller {
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
 
-            return $componentsData[0]->pc_required_coins;
+            return $componentsData->pc_required_coins;
             exit;
         }
         return view('school.login'); exit;
@@ -619,7 +619,7 @@ class DashboardController extends Controller {
             $schoolId = Input::get('schoolId');
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
-            $coins = $componentsData[0]->pc_required_coins;
+            $coins = $componentsData->pc_required_coins;
 
             $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
             if (!empty($schoolData)) {
@@ -641,10 +641,10 @@ class DashboardController extends Controller {
             $objDeductedCoins = new DeductedCoins();
 
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolId,$componentsData[0]->id,3);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolId,$componentsData->id,3);
             $days = 0;
             if (!empty($deductedCoinsDetail)) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             return view('school.getRemainingDays',compact('days'));
             /*$data = $days.' Days Left';

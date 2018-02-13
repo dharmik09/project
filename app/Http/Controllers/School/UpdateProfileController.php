@@ -78,12 +78,12 @@ class UpdateProfileController extends Controller {
             $objDeductedCoins = new DeductedCoins();
             $coins = 0;
             if (!empty($componentsData)) {
-                $coins = $componentsData[0]->pc_required_coins;
+                $coins = $componentsData->pc_required_coins;
             }
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolid,$componentsData[0]->id,3);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolid,$componentsData->id,3);
             $days = 0;
             if (!empty($deductedCoinsDetail)) {
-                $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
         }
         else
