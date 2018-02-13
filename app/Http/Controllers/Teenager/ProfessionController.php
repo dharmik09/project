@@ -401,7 +401,7 @@ class ProfessionController extends Controller {
         }
         $exceptScholarshipIds = array_unique(array_merge($scholarshipProgramIds, $expiredActivityIds));
         $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.ADVANCE_ACTIVITY'));
-        $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($user->id, $componentsData->id, 1);
+        $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($user->id, $componentsData->id, 1) : [];
         $remainingDaysForActivity = 0;
         if (!empty($deductedCoinsDetail[0])) {
             $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
