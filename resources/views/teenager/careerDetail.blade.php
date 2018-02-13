@@ -184,7 +184,7 @@
                                         <div class="row flex-container">
                                             <div class="col-sm-12">
                                                 <div class="quiz-box quiz-basic">
-                                                    <div class="sec-show">
+                                                    <div class="sec-show quiz-basic-sec-show">
                                                         <h3>Quiz</h3>
                                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                                                         <span title="Play" class="btn-play btn btn-basic">Play</span>
@@ -198,63 +198,61 @@
                                         </div>
                                         <div id="flexSeprator" style="padding:10px;"></div>
                                         <div class="row flex-container">
-                                            <div class="col-sm-12">
-                                                <div class="quiz-intermediate">
-                                                    <div class="sec-show clearfix">
-                                                        <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-                                                            <div class="loading-text">
-                                                                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                                                            </div>
-                                                            <div class="loading-content"></div>
+                                            <div class="quiz-intermediate">
+                                                <div class="sec-show clearfix quiz-intermediate-sec-show">
+                                                    <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
+                                                        <div class="loading-text">
+                                                            <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
                                                         </div>
-                                                        
-                                                        @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
-                                                            @foreach($getQuestionTemplateForProfession as $templateProfession)
-                                                                <div class="col-sm-6 flex-items">
-                                                                    <div class="quiz-box">
-                                                                        <div class="img">
-                                                                            <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
-                                                                            <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
-                                                                        </div>
-                                                                        <h6>{!! $templateProfession->gt_template_title !!}</h6>
-                                                                        <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
-                                                                        <div class="unbox-btn">
-                                                                            <a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
-                                                                                <span class="unbox-me">Unbox Me</span>
-                                                                                <span class="coins-outer">
-                                                                                    <span class="coins"></span> 
-                                                                                    25000
-                                                                                </span>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
-                                                                            <div class="modal-dialog">
-                                                                                <div class="modal-content custom-modal">
-                                                                                    <div class="modal-header">
-                                                                                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                                        <h4 class="modal-title">Congratulations!</h4>
-                                                                                    </div>
-                                                                                    <div class="modal-body">
-                                                                                        <p>You have 42,000 ProCoins available.</p>
-                                                                                        <p>Click OK to consume your {{$templateProfession->gt_coins}} ProCoins and play on</p>
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
-                                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                                                    </div>
+                                                        <div class="loading-content"></div>
+                                                    </div>
+                                                    
+                                                    @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
+                                                        @foreach($getQuestionTemplateForProfession as $templateProfession)
+                                                            <div class="col-sm-6 flex-items">
+                                                                <div class="quiz-box">
+                                                                    <div class="img">
+                                                                        <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
+                                                                        <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
+                                                                    </div>
+                                                                    <h6>{!! $templateProfession->gt_template_title !!}</h6>
+                                                                    <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
+                                                                    <div class="unbox-btn">
+                                                                        <a href="#" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
+                                                                            <span class="unbox-me">Unbox Me</span>
+                                                                            <span class="coins-outer">
+                                                                                <span class="coins"></span> 
+                                                                                25000
+                                                                            </span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content custom-modal">
+                                                                                <div class="modal-header">
+                                                                                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                                                                                    <h4 class="modal-title">Congratulations!</h4>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <p>You have 42,000 ProCoins available.</p>
+                                                                                    <p>Click OK to consume your {{$templateProfession->gt_coins}} ProCoins and play on</p>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
+                                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            @endforeach
-                                                        @else
+                                                            </div>
+                                                        @endforeach
+                                                    @else
 
-                                                        @endif
-                                                    </div>
-                                                    <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
-                                                        
-                                                    </div>
+                                                    @endif
+                                                </div>
+                                                <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -508,17 +506,17 @@
         $('.btn-next').click(function() {
             $('.front_page').hide();
             $('.promise-plus-overlay').show(500);
-        })
+        });
         
         $('.promise-plus-overlay .close').click(function() {
             $('.promise-plus-overlay').hide();
             $('.front_page').show(500);
         });
         
-        $('.quiz-area .close').click(function() {
-            $('.sec-show').removeClass('hide');
-            $('.sec-hide').removeClass('active');
-        });
+        // $('.quiz-area .close').click(function() {
+        //     $('.sec-show').removeClass('hide');
+        //     $('.sec-hide').removeClass('active');
+        // });
 
         // $('#intermediateLevelData .close').click(function() {
         //     $('.intermediate-question .sec-show').removeClass('hide');
@@ -528,7 +526,7 @@
         $('.btn-advanced').click(function(){
             $('.quiz-advanced .sec-show').addClass('hide');
             $('.quiz-advanced .sec-hide').addClass('active');
-        })
+        });
         
         $('.upload-screen .close').click(function() {
             $('.sec-show').removeClass('hide');
@@ -551,6 +549,7 @@
                 }
             });
         });
+
     });
 
     $(document).on('click','#add-to-star', function(){
@@ -896,7 +895,7 @@
             intermediateCount = intermediateCount - 1;
             $("#blackholeIntermediate").val(intermediateCount);           
             if (intermediateCount == -1) {
-                //autoSubmitIntermediateAnswer();
+                autoSubmitIntermediateAnswer();
             }
         }
     });
@@ -929,12 +928,23 @@
         }); 
     }
 
-    $(document).on('click', '.quiz_view .close', function(e) {
-        $('.sec-show').removeClass('hide');
-        $('.sec-hide').removeClass('active');
+    $(document).on('click', '#basicLevelData .quiz_view .close', function(e) {
+        $('.quiz-basic .sec-show').removeClass('hide');
+        $('.quiz-basic .basic-quiz-area').removeClass('active');
+                
         $('#basicLevelData').html('');
         $(".btn-basic").show();
         $(".btn-play-basic").hide();
+    });
+
+    $(document).on('click', '#intermediateLevelData .quiz_view .close', function(e) {
+        $('.quiz-intermediate .sec-show').removeClass('hide');
+        $('.quiz-intermediate .intermediate-quiz-area').removeClass('active');
+        $('.quiz-intermediate .intermediate-question').removeClass('active');
+                  
+        $('#intermediateLevelData').html('');
+        $(".btn-intermediate").show();
+        $(".btn-play-intermediate").hide();
     });
     
     $('.ad-slider').owlCarousel({
@@ -1112,7 +1122,6 @@
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
-                    console.log(obj);
                     if (obj.status == 1) {
                         if (obj.answerType == "single_line_answer") {
                             $("#answerRightWrongMsg").show();
@@ -1182,6 +1191,126 @@
             }
         }
     }
+
+    function autoSubmitIntermediateAnswer() {
+        if ($("#setResponseIntermediate").val() == 0) {
+            if (ansTypeSet == "option_choice_with_response" || ansTypeSet == "select_from_dropdown_option" || ansTypeSet == "single_line_answer" || ansTypeSet == "filling_blank" || ansTypeSet == "option_choice" || ansTypeSet == "image_reorder" || ansTypeSet == "option_reorder" || ansTypeSet == "true_false") {
+                var intermediateTimer2 = 0;
+                $("#setResponseIntermediate").val("1");           
+                $("#intermediateErrorGoneMsg").html('');
+                var questionID = $("#questionID").val();
+                var answerId = 0;
+                var answer_order = 0;
+                var form_data = 'questionID=' + questionID + '&answer[0]=' + answerId + '&timer=' + intermediateTimer2 + '&answer_order[0]=' + answer_order;
+                
+                $('.intermediate-question-loader').parent().toggleClass('loading-screen-parent');
+                $('.intermediate-question-loader').show();
+            
+                $(".intermediate-time-tag").css('visibility', 'hidden');
+                $.ajax({
+                    type: 'POST',
+                    data: form_data,
+                    dataType: 'html',
+                    url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                    headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                    cache: false,
+                    success: function(data) {
+                        $('.intermediate-question-loader').hide();
+                        $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                        
+                        var obj = $.parseJSON(data);
+                        
+                        if (obj.status == 1) {
+                            if (obj.answerType == "single_line_answer") {
+                                $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct Answer Is : " + obj.systemCorrectAnswerText + "");
+                                if (obj.systemCorrectAnswer == 1) {
+                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                } else {
+                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                }
+                            } else if (obj.answerType === "option_choice_with_response" || obj.answerType === "filling_blank" || obj.answerType === "option_choice" || obj.answerType === "true_false" || obj.answerType === "image_reorder") {
+                                $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
+                                if (obj.systemCorrectAnswer == 1) {
+                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                } else {
+                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                }
+                                if(obj.systemCorrectAnswer2){
+                                    $.each(obj.systemCorrectAnswer2, function(key, value) {
+                                        if (value == 1) {
+                                            $('.class' + key).addClass("correct");
+                                        } else {
+                                            $('.class' + key).addClass("incorrect");
+                                        }
+                                    });
+                                }
+                                if (obj.answerType === "option_choice") {
+                                    if (obj.questionAnswerText !== '') {
+                                        var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'></div><div class=''>" + obj.questionAnswerText + "</div></div></div>";
+                                        $('#showResponseMessage').html(phtml);
+                                    }
+                                }
+                                if (obj.answerType === "option_choice_with_response") {
+                                    if (obj.questionAnswerText && obj.questionAnswerText !== '') {
+                                        var phtmlImg = '';
+                                        if (obj.questionAnswerImage && obj.questionAnswerImage !== '') {
+                                            phtmlImg = "<img src=" + obj.questionAnswerImage + " />";
+                                        }
+                                        var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'>" + phtmlImg + "</div><div class='info_body'>" + obj.questionAnswerText + "</div></div></div>";
+                                        $('#showResponseMessage').html(phtml);
+                                    }
+                                }
+                                if (obj.answerType == "image_reorder") {
+                                    //$("#showResponseMessage").text(obj.answerRightWrongMsg);
+                                    if (obj.systemCorrectAnswer == 1) {
+                                        $(".response_message_outer").addClass("response_message beta mrTop15");
+                                    } else {
+                                        $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                    }
+                                }
+                            } else if (obj.answerType == "select_from_dropdown_option") {
+                                if (obj.systemCorrectAnswer == 1) {
+                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                    $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
+                                    $(".answer_select_box.special_select").addClass("right_answer");
+                                } else {
+                                    $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + ", Correct answer is given below");
+                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                    $("#dropDownTypeSelection option[value='" + obj.systemCorrectOptionOrder + "']").attr("selected", "selected");
+                                    $("#dropDownSelection option[value=" + obj.systemCorrectOptionId + "]").attr("selected", "selected");
+                                    $(".answer_select_box.special_select").addClass("right_answer");
+                                }
+                            } else if (obj.answerType == "option_reorder") {
+                                $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct order is given below");
+                                if (obj.systemCorrectAnswer == 1) {
+                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                } else {
+                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                }
+                                if (obj.systemCorrectOptionOrder) {
+                                    var htmlLI = '';
+                                    $.each(obj.systemCorrectOptionOrder, function(key, value) {
+                                        htmlLI += '<li class="ui-state-default right" id="' + value['optionId'] + '"><span class="sortable_outer_container"><span class="sortable_container"><span class="drag_me_text">' + value['optionText'] + '</span></span></span></li>';
+                                    });
+                                    $("#sortable").html(htmlLI);
+                                } else {
+                                    alert("Refresh the page");
+                                }
+                            } else {
+                            }
+                            $('.saveIntMe').css('visibility', 'hidden');
+                            $('.next-intermediate').show();
+                            //setTimeout("location.reload(true);", 2000);
+                        } else {
+                            $("#showResponseMessage").text(obj.message);
+                            var urlSet = obj.redirect;
+                        }
+                    }
+                });
+            }
+        }
+    }
+
 
     $(document).on('change', '.selectionCheck', function(evt) { 
         if (limitSelect > 1) {

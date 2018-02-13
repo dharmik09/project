@@ -275,7 +275,7 @@ class Level4ActivityController extends Controller {
                 $multiOptionCount = (isset($multiOption['1'])) ? $multiOption['1'] : 0;
             }
             if ($checkOptionIsTrulyQuestionOption) {
-                $professionId = $getAllQuestionRelatedDataFromQuestionId->l4ia_profession_id;
+                $professionId = isset($getAllQuestionRelatedDataFromQuestionId->l4ia_profession_id) ? $getAllQuestionRelatedDataFromQuestionId->l4ia_profession_id : '';
                 $response['profession_id'] = $professionId;
                 $total = $this->teenagersRepository->getTeenagerTotalBoosterPoints($userId);
                 

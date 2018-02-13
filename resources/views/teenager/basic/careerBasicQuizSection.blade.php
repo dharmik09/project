@@ -72,6 +72,12 @@
             </div>
         </form>
     </div>
+    <script type="text/javascript">
+        var basicCount = {{ (isset($response['timer']) && $response['timer'] != "") ? $response['timer'] : 0 }};
+        var optionType = '{{ (isset($optionType) && $optionType != '') ? $optionType : 0 }}';
+        var optionName = '{{ (isset($optionName) && $optionName != '') ? $optionName : "radio" }}';
+        var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
+    </script>
 @else
     @if( isset($response['basicCompleted']) && $response['basicCompleted'] == 1 )
         <div class="quiz_view">
@@ -112,9 +118,3 @@
         </div>
     @endif
 @endif
-<script type="text/javascript">
-    var basicCount = {{ (isset($response['timer']) && $response['timer'] != "") ? $response['timer'] : 0 }};
-    var optionType = '{{ (isset($optionType) && $optionType != '') ? $optionType : 0 }}';
-    var optionName = '{{ (isset($optionName) && $optionName != '') ? $optionName : "radio" }}';
-    var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
-</script>

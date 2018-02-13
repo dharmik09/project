@@ -93,7 +93,7 @@
                     </div>
                     <div class="text-center next-intermediate" style="display: none;">
                         <span class="btn-play btn-play-intermediate" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
-                        <button class="btn btn-primary btn-next btn-intermediate" type="button" title="Next" onClick="getNextIntermediateQuestion(2);">Next</button>
+                        <button class="btn btn-primary btn-next btn-intermediate" type="button" title="Next" onClick="getNextIntermediateQuestion({{$response['data']->l4ia_question_template}});">Next</button>
                     </div>
                     <div class="clearfix">
                         <a href="javascript:void(0);" class="next-que pull-right saveIntMe" onClick="saveIntermediateAnswer();">
