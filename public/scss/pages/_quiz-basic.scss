@@ -34,17 +34,19 @@
         }
     }
     .correct {
-        border-color: green;
-        color: green;
+        border-color: $m-cl;
+        color: $white;
+        background-color: $m-cl;
         em {
-            color: green !important;
+            color: $white !important;
         }
     }
     .incorrect {
         border-color: $p-cl;
-        color: $p-cl;
+        background: $p-cl;
+        color: $white;
         em {
-            color: $p-cl !important;
+            background: $p-cl !important;color: $white;
         }
     }
 }
@@ -109,7 +111,7 @@
 .quiz-ans {
     .question-img {
         &.quiz-inter {
-            max-width: 220px;
+            //max-width: 220px;
         }
     }
     .clearfix {
@@ -131,19 +133,20 @@
 }
 
 .correct {
-    border-color: green !important;
-    color: green !important;
+    border-color: $m-cl !important;
+    color: $white !important;
+    background: $m-cl !important;
 }
 
 .incorrect {
     border-color: $p-cl !important;
-    color: $p-cl !important;
+    background: $p-cl !important;color: $white !important;
 }
 
 .answer-statement {
-    border: 1px solid $i-cl;
+   // border: 1px solid $i-cl;
     margin-bottom: 20px;
-    padding: 10px;
+   // padding: 10px;
     text-align: center;
     background: $i-cl;
     border-radius: 6px;
@@ -157,6 +160,13 @@
     }
     .t-cell {
         padding-right: 20px;
+    }
+    #showResponseMessage{
+        margin-bottom: 0;
+        padding: 10px 0;
+    }
+    #showResponseMessage:empty{
+        display: none;
     }
 }
 
@@ -485,7 +495,7 @@
                         background: $i-cl;
                     }
                     &.approved {
-                        background: green;
+                        background: $m-cl;
                     }
                 }
             }
@@ -544,7 +554,7 @@
                     padding-right: 23px;
                     &.approved-date,
                     &.approved-by {
-                        color: green;
+                        color: $m-cl;
                     }
                 }
             }
@@ -684,23 +694,24 @@
         }
     }
     .correct {
-        border-color: green;
-        color: green;
+        border-color: $m-cl;
+        background: $m-cl;
+        color: $white
         em {
-            color: green !important;
+            color: $white !important;
         }
     }
     .incorrect {
         border-color: $p-cl;
-        color: $p-cl;
+        color: $white;
         em {
-            color: $p-cl !important;
+            color: $white !important;
         }
     }
 }
 
 .quiz_view .quiz-ans .box .correct em {
-    color: green !important;
+    color: $white !important;
 }
 
 .level-complete {
@@ -826,7 +837,12 @@
     padding: 20px;
     .col-xs-4 {
         @include maxms {
-            padding: 0 !important;
+            width: 100%
+        }
+    }
+    .col-xs-8{
+        @include maxms{
+            width: 100%;padding-top: 20px;
         }
     }
     .emojis-img {
@@ -836,7 +852,7 @@
             max-width: 70px;
         }*/
         @include maxsm {
-            max-width: 60px;
+            max-width: 50px;
         }
         @include maxms {
             max-width: 50px;
@@ -847,10 +863,10 @@
             font-size: 70px;
             padding: 23px 0px 0 10px;
             @include maxlg {
-                font-size: 50px;
+                font-size: 43px !important;
             }
             @include maxsm {
-                font-size: 30px;
+                font-size: 24px !important;
                     padding: 16px 0px 0 5px;
             }
             @include maxms {
@@ -909,6 +925,6 @@
 }
 
 .quiz_view .quiz-ans .box .correct input:checked ~ em {
-    background: transparent !important;
-    color: green !important;
+    background: $m-cl !important;
+    color: $white !important;
 }
