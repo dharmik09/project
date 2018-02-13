@@ -863,7 +863,9 @@
             }
         });
         $('.voted-list ul').owlCarousel({
+            <?php if (count($teenagerMyIcons) >= 4) { ?>
                 loop: true,
+            <?php } ?>
                 margin: 0,
                 items: 4,
                 autoplay: false,
