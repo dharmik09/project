@@ -648,9 +648,9 @@
                 </a>
             </p> -->
             <div class="unbox-btn text-center">
-                <a href="{{ ($remainingDaysForLg > 0) ? url('/teenager/learning-guidance') : 'javascript:void(0)' }}" title="Learn More" class="btn-primary" @if($remainingDaysForLg <= 0) onclick="getLearningGuidanceDetails();" @endif >
+                <a id="lg_unbox" href="{{ ($remainingDaysForLg > 0) ? url('/teenager/learning-guidance') : 'javascript:void(0)' }}" title="Learn More" class="btn-primary" @if($remainingDaysForLg <= 0) onclick="getLearningGuidanceDetails();" @endif >
                     <span class="unbox-me">Learn More</span>
-                    <span class="coins-outer">
+                    <span class="coins-outer lg_coins">
                     <span class="coins"></span> {{ ($remainingDaysForLg > 0) ? $remainingDaysForLg . ' days left' : $componentsData->pc_required_coins }}</span>
                 </a>
             </div>
@@ -1797,7 +1797,8 @@
         var consumeCoins = parseInt("{{$componentsData->pc_required_coins}}");
         <?php 
         if ($remainingDaysForLg > 0) { ?>
-            
+            $("#lg_coins").html("");
+            $("#lg_coins").html('<span class="coins"></span>' + "{{$remainingDaysForLg}}" + " days left");
         <?php 
         } else { ?>
             if (consumeCoins > teenagerCoins) {
@@ -1820,7 +1821,7 @@
 
     function saveConsumedCoins(consumedCoins) {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "consumedCoins=" + consumedCoins;
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.LEARNING_STYLE')}}";
         $.ajax({
             type: 'POST',
             data: form_data,
@@ -1830,7 +1831,13 @@
             },
             cache: false,
             success: function(response) {
-                
+                $(".lg_coins").html("");
+                if (response > 0) {
+                    $(".lg_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $("#lg_unbox").prop('onclick',null).off('click');
+                } else {
+                    $(".lg_coins").html('<span class="coins"></span> ' + consumedCoins);
+                }
             }
         });
     }

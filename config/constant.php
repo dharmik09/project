@@ -221,7 +221,7 @@ return [
     'FROM_MAIL_ID' => 'info@proteenlife.com',
     'GIFT_COINS_PROCESS' => 'Gift coins process complete Successfully',
     'PROMISE_PLUS' => 'PROMISE Plus',
-    'LEARNING_STYLE' => 'learningStyleing Guidance',
+    'LEARNING_STYLE' => 'Learning Guidance',
     'BASIC_REQUIRED_COINS' => '1850000',
     'ADVANCE_ACTIVITY' => 'Advance Activity ProCoins',
 

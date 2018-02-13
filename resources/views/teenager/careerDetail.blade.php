@@ -219,11 +219,11 @@
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
                                                                         <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
                                                                         <div class="unbox-btn">
-                                                                            <a href="javascript:void(0)" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getAdvanceActivtyDetails();" @endif class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
+                                                                            <a href="javascript:void(0)" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
                                                                                 <span class="unbox-me">Unbox Me</span>
                                                                                 <span class="coins-outer">
                                                                                     <span class="coins"></span> 
-                                                                                    {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
+                                                                                    25,000 
                                                                                 </span>
                                                                             </a>
                                                                         </div>
@@ -412,7 +412,14 @@
                                 </div>
                             </div>
                             <div class="text-left">
-                                <div class="unbox-btn"><a href="javascript:void(0);" title="Unbox Me" class="btn-primary"><span class="unbox-me">Unbox Me</span><span class="coins-outer"><span class="coins"></span> 25000</span></a></div>
+                                <div class="unbox-btn">
+                                    <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getAdvanceActivtyDetails();" @endif class="btn-primary">
+                                        <span class="unbox-me">Unbox Me</span>
+                                        <span class="coins-outer activity_coins">
+                                            <span class="coins"></span> {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="sec-tags">
@@ -475,6 +482,25 @@
         </section>
     </div>
 </div>
+<div class="modal fade" id="coinsConsumption" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    <h4 id="activity_title" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id="activity_message"></p>
+                    <p id="activity_sub_message"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="activity_buy" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="" style="display: none;">buy</button>
+                    <button id="activity_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins({{$componentsData->pc_required_coins}});" style="display: none;" >ok </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <span id="setResponse" value="0"></span>
 <span id="setResponseIntermediate" value="0"></span>
 <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
@@ -1244,6 +1270,55 @@
                 }, 2500)
                 $("#apply_"+activityId).text("Applied");
                 $("#apply_"+activityId).attr("disabled","disabled");
+            }
+        });
+    }
+
+    function getAdvanceActivtyDetails() {
+        var teenagerCoins = parseInt("{{Auth::guard('teenager')->user()->t_coins}}");
+        var consumeCoins = parseInt("{{$componentsData->pc_required_coins}}");
+        <?php 
+        if ($remainingDaysForActivity > 0) { ?>
+            $("#activity_coins").html('<span class="coins"></span>' + "{{$remainingDaysForActivity}}" + " days left");
+        <?php 
+        } else { ?>
+            if (consumeCoins > teenagerCoins) {
+                $("#activity_buy").show();
+                $("#activity_title").text("Notification!");
+                $("#activity_message").text("You don't have enough ProCoins. Please Buy more.");
+            } else {
+                $("#activity_consume_coin").show();
+                $("#activity_title").text("Congratulations!");
+                $("#activity_message").text("You have " + format(teenagerCoins) + " ProCoins available.");
+                $("#activity_sub_message").text("Click OK to consume your " + format(consumeCoins) + " ProCoins and play on");
+            }
+            $('#coinsConsumption').modal('show');
+        <?php } ?>
+    }
+
+    function format(x) {
+        return isNaN(x)?"":x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function saveConsumedCoins(consumedCoins) {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.ADVANCE_ACTIVITY')}}";;
+        $.ajax({
+            type: 'POST',
+            data: form_data,
+            url: "{{ url('/teenager/save-consumed-coins-details') }}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            cache: false,
+            success: function(response) {
+                $(".activity_coins").html("");
+                if (response > 0) {
+                    $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $("#activity_unbox").prop('onclick',null).off('click');
+                } else {
+                    $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
+                }
             }
         });
     }
