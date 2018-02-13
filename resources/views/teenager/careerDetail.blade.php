@@ -198,60 +198,62 @@
                                         </div>
                                         <div id="flexSeprator" style="padding:10px;"></div>
                                         <div class="row flex-container">
-                                            <div class="quiz-intermediate">
-                                                <div class="sec-show clearfix quiz-intermediate-sec-show">
-                                                    <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-                                                        <div class="loading-text">
-                                                            <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+                                            <div class="col-sm-12">
+                                                <div class="quiz-intermediate">
+                                                    <div class="sec-show clearfix quiz-intermediate-sec-show">
+                                                        <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
+                                                            <div class="loading-text">
+                                                                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+                                                            </div>
+                                                            <div class="loading-content"></div>
                                                         </div>
-                                                        <div class="loading-content"></div>
-                                                    </div>
-                                                    @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
-                                                        @foreach($getQuestionTemplateForProfession as $templateProfession)
-                                                            <div class="col-sm-6 flex-items">
-                                                                <div class="quiz-box">
-                                                                    <div class="img">
-                                                                        <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
-                                                                        <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
-                                                                    </div>
-                                                                    <h6>{!! $templateProfession->gt_template_title !!}</h6>
-                                                                    <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
-                                                                    <div class="unbox-btn">
-                                                                        <a href="javascript:void(0)" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
-                                                                            <span class="unbox-me">Unbox Me</span>
-                                                                            <span class="coins-outer">
-                                                                                <span class="coins"></span> 
-                                                                                25,000 
-                                                                            </span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content custom-modal">
-                                                                                <div class="modal-header">
-                                                                                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                                    <h4 class="modal-title">Congratulations!</h4>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <p>You have 42,000 ProCoins available.</p>
-                                                                                    <p>Click OK to consume your {{$templateProfession->gt_coins}} ProCoins and play on</p>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
-                                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                        @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
+                                                            @foreach($getQuestionTemplateForProfession as $templateProfession)
+                                                                <div class="col-sm-6 flex-items">
+                                                                    <div class="quiz-box">
+                                                                        <div class="img">
+                                                                            <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
+                                                                            <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
+                                                                        </div>
+                                                                        <h6>{!! $templateProfession->gt_template_title !!}</h6>
+                                                                        <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
+                                                                        <div class="unbox-btn">
+                                                                            <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
+                                                                                <span class="unbox-me">Unbox Me</span>
+                                                                                <span class="coins-outer">
+                                                                                    <span class="coins"></span> 
+                                                                                    25,000 
+                                                                                </span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content custom-modal">
+                                                                                    <div class="modal-header">
+                                                                                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                                                                                        <h4 class="modal-title">Congratulations!</h4>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <p>You have 42,000 ProCoins available.</p>
+                                                                                        <p>Click OK to consume your {{$templateProfession->gt_coins}} ProCoins and play on</p>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
+                                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
+                                                            @endforeach
+                                                        @else
 
-                                                    @endif
-                                                </div>
-                                                <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
-                                                    
+                                                        @endif
+                                                    </div>
+                                                    <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
+                                                        
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -871,10 +873,18 @@
         }
     });
 
-    $(document).on('click', '.btn-basic', function(e) {
+    $(document).on('click', '.quiz-basic .btn-basic', function(e) {
         e.preventDefault();
         $(".btn-play-basic").show();
         $(".btn-basic").hide();
+
+        //Close Intermediate activity if working
+        $('.quiz-intermediate .sec-show').removeClass('hide');
+        $('.quiz-intermediate .intermediate-quiz-area').removeClass('active');
+        $('.quiz-intermediate .intermediate-question').removeClass('active');
+        $('#intermediateLevelData').html('');
+        $(".btn-intermediate").show();
+        
         getBasicQuestions('{{$professionsData->id}}');
     });
 
@@ -926,6 +936,13 @@
     });
 
     function getConceptData(templateId) {
+        //Hide Basic level quiz data
+        $('.quiz-basic .sec-show').removeClass('hide');
+        $('.quiz-basic .basic-quiz-area').removeClass('active');
+        $('#basicLevelData').html('');
+        $(".btn-basic").show();
+        $(".btn-play-basic").hide();
+        
         getIntermediateQuestions(templateId);
     }
 
