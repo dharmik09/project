@@ -291,26 +291,8 @@
                         }
                     ?>
 
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="gender">
-                            <span class="checker"></span>
-                            <em>Lorem ipsum dolor sit amet</em>
-                        </label>
-                        <label>
-                            <input type="radio" name="gender">
-                            <span class="checker"></span>
-                            <em>Lorem ipsum dolor sit amet</em>
-                        </label>
-                        <label>
-                            <input type="radio" name="gender">
-                            <span class="checker"></span>
-                            <em>Lorem ipsum dolor sit amet</em>
-                        </label>
-                    </div>
-                    
-                    <div class="clearfix">
-                        <a href="#" class="next-que pull-right">
+                    <div class="clearfix text-center">
+                        <a href="#" class="next-que">
                             <i class="icon-hand"></i>
                         </a>
                     </div>

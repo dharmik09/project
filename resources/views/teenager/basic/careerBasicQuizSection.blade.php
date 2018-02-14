@@ -63,8 +63,8 @@
                         ?>
                     </div>
                     
-                    <div class="clearfix">
-                        <a href="javascript:void(0);" class="next-que pull-right saveMe" onClick="saveBasicAnswer();">
+                    <div class="clearfix text-center">
+                        <a href="javascript:void(0);" class="next-que saveMe" onClick="saveBasicAnswer();">
                             <i class="icon-hand"></i>
                         </a>
                     </div>

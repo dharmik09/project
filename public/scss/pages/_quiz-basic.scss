@@ -42,11 +42,11 @@
         }
     }
     .incorrect {
-        border-color: $p-cl;
-        background: $p-cl;
+        border-color: $cl-analyzing;
+        background: $cl-analyzing;
         color: $white;
         em {
-            background: $p-cl !important;
+            background: $cl-analyzing !important;
             color: $white;
         }
     }
@@ -930,11 +930,17 @@
 .quiz_view .quiz-ans .box .correct input:checked ~ em {
     background: $m-cl !important;
     color: $white !important;
+    border: 2px solid #000;
+    margin: -2px;
+    border-radius: 6px;
 }
 
 .quiz_view .quiz-ans .box .incorrect input:checked ~ em {
     background: $cl-analyzing !important;
     color: $white !important;
+    border: 2px solid #000;
+    margin: -2px;
+    border-radius: 6px;
 }
 
 #answerRightWrongMsg:empty {
