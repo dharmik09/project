@@ -1,5 +1,5 @@
 @if( isset($response['data']) && !empty($response['data']) )
-    <div id="intermediateErrorGoneMsg"></div>
+    <div id="intermediateErrorGoneMsg" class="intermediateErrorGoneMsg"></div>
     <div class="quiz_view">
         <div class="loading-screen loading-wrapper-sub intermediate-question-loader" style="display:none;">
             <div class="loading-text">
