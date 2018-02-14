@@ -1437,14 +1437,22 @@
         if (limitSelect > 1) {
             if ($('input.multiCast:checked').length > limitSelect) {
                 this.checked = false;
-                $("#basicErrorGoneMsg").html('');
-                $("html, body").animate({
-                    scrollTop: $('#basicErrorGoneMsg').offset().top 
-                }, 300);
-                $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">You can select maximum '+ limitSelect +' options</span></div></div></div>');
-                // setTimeout(function() {
-                //     $("#basicErrorGoneMsg").html('');
-                // }, 3000);
+                
+                if($("#basicErrorGoneMsg").hasClass("basicErrorGoneMsg")) {
+                    $("#basicErrorGoneMsg").html('');
+                    $("html, body").animate({
+                        scrollTop: $('#basicErrorGoneMsg').offset().top 
+                    }, 300);
+                    $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">You can select maximum '+ limitSelect +' options</span></div></div></div>');
+                }
+
+                if($("#intermediateErrorGoneMsg").hasClass("intermediateErrorGoneMsg")) {
+                    $("#intermediateErrorGoneMsg").html('');
+                    $("html, body").animate({
+                        scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+                    }, 300);
+                    $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">You can select maximum '+ limitSelect +' options</span></div></div></div>');
+                }
             }
         }    
     });
