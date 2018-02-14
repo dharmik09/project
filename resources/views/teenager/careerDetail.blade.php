@@ -113,7 +113,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '' ?></h4>
-                                            <p>Employment 2017</p>
+                                            <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '<p>Industry Employment 2017</p>' : '<p>Employment 2017</p>' ?>                                            
                                         </li>
                                     </ul>
                                 </div>
@@ -127,7 +127,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
-                                            <p>Projected for 2026</p>
+                                            <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '<p>Projected for 2022</p>' : '<p>Projected for 2026</p>' ?>                                            
                                         </li>
                                     </ul>
                                 </div>
@@ -139,7 +139,7 @@
                                 <div class="list-icon">
                                     <span>
                                         <a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a>
-                                        <div class="favourite-text">Career has been selected as favourite</div>
+                                        <div id="favourite_message" class="favourite-text">Career has been selected as favourite</div>
                                     </span>
                                     
                                     <span>
@@ -510,6 +510,10 @@
 @section('script')
 <script src="{{ asset('backend/js/highchart.js')}}"></script>
 <script>
+    $(window).on("load", function(e) {
+        e.preventDefault();
+        getChallengedParentAndMentorList("{{Auth::guard('teenager')->user()->id}}");
+    });
     $(document).ready(function() {
         
         $('.play-icon').click(function() {
@@ -593,9 +597,9 @@
             success : function (response) {
                 if (response != '') {
                     $('#add-to-star').addClass('favourite-career');
-                    $(".favourite-text").show();
+                    $("#favourite_message").show();
                     setTimeout(function () {
-                        $(".favourite-text").hide();
+                        $("#favourite_message").hide();
                     }, 2500);
                 }
             }
@@ -1485,14 +1489,50 @@
                 cache: false,
                 success: function(response) {
                     $("#parentChallenge").removeClass('sending').blur();
-                    $(".challenge_message").show();
-                    $(".challenge_message").text(response.message);
+                    $("#challenge-text").show();
+                    $("#challenge-text").text(response.message);
                     setTimeout(function () {
-                        $(".challenge_message").hide();
+                        $("#challenge-text").hide();
                     }, 2500);
+                    getChallengedParentAndMentorList();
                 }
             });
         } 
+    }
+    $('.mentor-list ul').owlCarousel({
+        loop: false,
+        margin: 0,
+        items: 4,
+        autoplay: false,
+        autoplayTimeout: 3000,
+        smartSpeed: 1000,
+        nav: false,
+        dots: true,
+        responsive: {
+            0: {
+                items: 2
+            },
+            768: {
+                items: 4
+            },
+        }
+    });
+
+    function getChallengedParentAndMentorList() {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = "professionId=" + "{{$professionsData->id}}";
+        $.ajax({
+            type: 'POST',
+            data: form_data,
+            url: "{{ url('/teenager/get-challenged-parent-and-mentor-list') }}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            cache: false,
+            success: function(response) {
+                $(".form-challenge").html(response);
+            }
+        });
     }
 </script>
 

@@ -413,7 +413,8 @@ class ProfessionController extends Controller {
             $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
         }
         $teenagerParents = $this->teenagersRepository->getTeenParents($user->id);
-        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents'));
+        $challengedAcceptedParents = $this->objTeenParentChallenge->getChallengedParentAndMentorList($professionsData->id, $user->id);
+        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents'));
     }
 
     public function getTeenagerWhoStarRatedCareer()
@@ -746,6 +747,16 @@ class ProfessionController extends Controller {
             return response()->json($response, 200);
             exit;
         }
+    }
+
+    public function getChallengedParentAndMentorList()
+    {
+        $teenId = Auth::guard('teenager')->user()->id;
+        $professionId = Input::get('professionId');
+        $teenagerParents = $this->teenagersRepository->getTeenParents($teenId);
+        $challengedAcceptedParents = $this->objTeenParentChallenge->getChallengedParentAndMentorList($professionId, $teenId); 
+        return view('teenager.basic.careerChallengePlaySection', compact('teenagerParents', 'challengedAcceptedParents'));
+        exit;
     }
 
 }

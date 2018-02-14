@@ -86,6 +86,7 @@ Route::post('/get-my-careers-search/', 'Teenager\ProfessionController@getTeenage
 Route::post('/get-teenagers-for-starrated/', 'Teenager\ProfessionController@getTeenagerWhoStarRatedCareer');
 Route::post('/apply-for-scholarship-program', 'Teenager\ProfessionController@applyForScholarshipProgram');
 Route::post('/challenge-to-parent-and-mentor', 'Teenager\ProfessionController@challengeToParentAndMentor');
+Route::post('/get-challenged-parent-and-mentor-list', 'Teenager\ProfessionController@getChallengedParentAndMentorList');
 
 //Tag
 Route::get('/career-tag/{slug}', 'Teenager\ProfessionTagController@index');
