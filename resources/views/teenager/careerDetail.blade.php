@@ -514,8 +514,13 @@
         e.preventDefault();
         getChallengedParentAndMentorList("{{Auth::guard('teenager')->user()->id}}");
     });
+    
     $(document).ready(function() {
-        
+        $(function() {
+            $(".sortable").sortable();
+            $(".sortable").disableSelection();
+        });
+
         $('.play-icon').click(function() {
             $(this).hide();
             $('video').show();
@@ -970,6 +975,8 @@
                 
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
+                $(".sortable").sortable();
+                $(".sortable").disableSelection();
             }
         }); 
     }
