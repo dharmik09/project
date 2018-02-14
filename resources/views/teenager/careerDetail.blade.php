@@ -1392,15 +1392,15 @@
                                 }
                             } else if (obj.answerType == "select_from_dropdown_option") {
                                 if (obj.systemCorrectAnswer == 1) {
-                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                    $(".response_message_outer").addClass("correct");
                                     $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
-                                    $(".answer_select_box.special_select").addClass("right_answer");
+                                    $(".dropdown-selection-order").addClass("correct");
                                 } else {
                                     $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + ", Correct answer is given below");
-                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                    $(".response_message_outer").addClass("incorrect");
                                     $("#dropDownTypeSelection option[value='" + obj.systemCorrectOptionOrder + "']").attr("selected", "selected");
                                     $("#dropDownSelection option[value=" + obj.systemCorrectOptionId + "]").attr("selected", "selected");
-                                    $(".answer_select_box.special_select").addClass("right_answer");
+                                    $(".dropdown-selection-order").addClass("correct");
                                 }
                             } else if (obj.answerType == "option_reorder") {
                                 $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct order is given below");
