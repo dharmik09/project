@@ -1,7 +1,7 @@
 @extends('layouts.teenager-master')
 
 @push('script-header')
-    <title>Multiple Intelligence</title>
+    <title>Multiple Intelligence : {{ $multipleIntelligence->title }}</title>
 @endpush
 
 @section('content')

@@ -48,6 +48,7 @@ class InterestManagementController extends Controller
     {
     	$interestThumbImageUploadPath = $this->interestThumbImageUploadPath;
         $interestDetails = $this->objInterest->getInterestDetailBySlug($slug);
+        
         $subSlug = explode('it_', $slug);
         $interest = new \stdClass();
         if (isset($interestDetails) && !empty($interestDetails)) {
@@ -64,28 +65,35 @@ class InterestManagementController extends Controller
             $reasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug);
             $nextReasoningGurus = $this->objTeenagerPromiseScore->getTeenagersWithHighestPromiseScore($slug, 1);
         } else {
-            $subjectDetails = $this->objProfessionSubject->getSubjectDetailsBySlug($subSlug[1]);
-            $interest->id = $subjectDetails->id;
-            $interest->name = $subjectDetails->ps_name;
-            $interest->slug = $subjectDetails->ps_slug;
-            $interest->description = "";
-            if ($subjectDetails->ps_image != "" && Storage::size($this->subjectOriginalImageUploadPath . $subjectDetails->ps_image) > 0 ) {
-                $interest->logo = $this->subjectOriginalImageUploadPath . $subjectDetails->ps_image;
-            } else {
-                $interest->logo = $this->subjectOriginalImageUploadPath . 'proteen-logo.png';
+            if(isset($subSlug[1]) && $subSlug[1] != ''){
+                $subjectDetails = $this->objProfessionSubject->getSubjectDetailsBySlug($subSlug[1]);
+                $interest->id = $subjectDetails->id;
+                $interest->name = $subjectDetails->ps_name;
+                $interest->slug = $subjectDetails->ps_slug;
+                $interest->description = "";
+                if ($subjectDetails->ps_image != "" && Storage::size($this->subjectOriginalImageUploadPath . $subjectDetails->ps_image) > 0 ) {
+                    $interest->logo = $this->subjectOriginalImageUploadPath . $subjectDetails->ps_image;
+                } else {
+                    $interest->logo = $this->subjectOriginalImageUploadPath . 'proteen-logo.png';
+                }
+                $interest->video = "";
+                $reasoningGurus = [];
+                $nextReasoningGurus = [];
             }
-            $interest->video = "";
-            $reasoningGurus = [];
-            $nextReasoningGurus = [];
+            else{
+                return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
+            }
         }
         
-        $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($subSlug[1]);
-        $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1]);
-        
+        if(isset($subSlug[1]) && $subSlug[1] != ''){
+            $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($subSlug[1]);
+            $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($subSlug[1]);
+        }
+       
         $userId = Auth::guard('teenager')->user()->id;
         $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
         $matchScaleCount = [];
-        if($relatedCareers) {
+        if(isset($relatedCareers) && count($relatedCareers) > 0) {
             $professionAttemptedCount = 0;
             foreach ($relatedCareers as $k => $v) {
                 $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userId, $v->id, null);
