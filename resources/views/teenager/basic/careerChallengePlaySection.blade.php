@@ -35,7 +35,7 @@
                     </figure>
                 </li>
                 @empty
-                    No Records found found.
+                    No Records found.
                 @endforelse
             </ul>
         </div>
