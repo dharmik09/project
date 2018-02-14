@@ -1,7 +1,7 @@
 @extends('layouts.teenager-master')
 
 @push('script-header')
-    <title>Members</title>
+    <title>Member : {{$teenDetails->t_name}}</title>
 @endpush
 
 @section('content')

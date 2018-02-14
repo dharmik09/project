@@ -1,7 +1,7 @@
 @extends('layouts.teenager-master')
 
 @push('script-header')
-    <title>Interest</title>
+    <title>Interest : {{ $interest->name }}</title>
 @endpush
 
 @section('content')

@@ -1,7 +1,7 @@
 @extends('layouts.teenager-master')
 
 @push('script-header')
-    <title>Careers</title>
+    <title>Career Detail - {{$professionsData->pf_name}}</title>
 @endpush
 
 @section('content')
@@ -387,7 +387,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="">Advanced View</a>
+                                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed">Advanced View</a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion1">
@@ -1531,6 +1531,7 @@
             cache: false,
             success: function(response) {
                 $(".form-challenge").html(response);
+                $(".mentor-list ul").owlCarousel();
             }
         });
     }
