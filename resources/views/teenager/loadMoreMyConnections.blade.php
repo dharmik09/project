@@ -10,7 +10,7 @@
                         $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                     }
                 ?>
-                <img src="{{ Storage::url($teenImage) }}" alt="team">
+                <img src="{{ Storage::url($teenImage) }}" alt="{{ $myConnection->t_name }}">
             </div>
             <a href="{{ url('teenager/network-member') }}/{{$myConnection->t_uniqueid}}" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
         </div>
