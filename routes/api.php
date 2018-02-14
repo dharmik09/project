@@ -163,6 +163,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/applyForScholarshipProgram', 'Webservice\Level4ActivityController@applyForScholarshipProgram');
 	Route::post('/getParentAndMentorListForChallengePlay', 'Webservice\Level4ActivityController@getParentAndMentorListForChallengePlay');
 	Route::post('/challengeToParentOrMentorForProfession', 'Webservice\Level4ActivityController@challengeToParentOrMentorForProfession');
+	Route::post('/getCareerPageAdvanceViewDetails', 'Webservice\Level4ActivityController@getCareerPageAdvanceViewDetails');
 
 	//Advertisements
 	Route::post('/getDashboardAdvertisements', 'Webservice\DashboardController@getDashboardAdvertisements');
