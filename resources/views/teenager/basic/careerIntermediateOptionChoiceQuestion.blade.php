@@ -90,12 +90,12 @@
                                         } else {
                                             $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
                                         }
-                                        $option['optionImage'] = "<em><img src='$optionAsImage' alt='image' title='click image to enlarge' class='pop_up_me' /></em>";
+                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='click image to enlarge' class='pop_up_me' />";
                                     }
                                     
                                     $extraSpan = '';
                                     if ($option['optionImageText'] != '') {
-                                        $extraSpan = "<em>" . $option['optionImageText'] . "</em>";
+                                        $extraSpan = $option['optionImageText'];
                                     }
                                 ?>
                                 @if ($setFlag % 2 == 0)
@@ -105,9 +105,11 @@
                                     <label class="{{$optionType}} class{{$option['optionId']}}">
                                         <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
                                         <span class="checker"></span>
-                                        {!! $option['optionImage'] !!}
-                                        {!! $extraSpan !!}
-                                        <em>{!! $option['optionText'] !!}</em>
+                                        <em>
+                                            {!! $option['optionImage'] !!}
+                                            {!! $extraSpan !!}
+                                            {!! $option['optionText'] !!}
+                                        </em>
                                     </label>
                                     
                                 @php($setFlag++)
