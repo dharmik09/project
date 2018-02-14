@@ -1531,6 +1531,7 @@
             cache: false,
             success: function(response) {
                 $(".form-challenge").html(response);
+                $(".mentor-list ul").owlCarousel();
             }
         });
     }
