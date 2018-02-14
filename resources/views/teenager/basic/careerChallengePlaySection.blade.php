@@ -22,7 +22,7 @@
             <ul class="row owl-carousel">
                 @forelse($challengedAcceptedParents as $parent)
                 <?php 
-                    if (isset($parent->p_photo) && $parent->p_photo != '') {
+                    if (isset($parent->p_photo) && $parent->p_photo != '' && Storage::size(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $challengedParent->p_photo) > 0) {
                         $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $parent->p_photo;
                     } else {
                         $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png";

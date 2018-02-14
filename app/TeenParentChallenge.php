@@ -57,7 +57,7 @@ class TeenParentChallenge  extends Model {
         $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_PARENT_CHALLENGE'). " AS parent_challenge")
                         ->leftjoin(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'profession.id', '=', 'parent_challenge.tpc_profession_id')
                         ->leftjoin(config::get('databaseconstants.TBL_PARENTS') . " AS parent", 'parent.id', '=', 'parent_challenge.tpc_parent_id')
-                        ->selectRaw('parent_challenge.*, profession.pf_name, parent.p_first_name, parent.p_photo, profession.pf_logo')
+                        ->selectRaw('parent_challenge.*, profession.pf_name, parent.id as parentId, parent.p_first_name, parent.p_last_name, parent.p_photo, profession.pf_logo')
                         ->where('parent_challenge.tpc_teenager_id', $teenId)
                         ->where('parent_challenge.tpc_profession_id', $professionId)
                         ->where('parent_challenge.deleted','=', 1)
