@@ -1,7 +1,7 @@
 @extends('layouts.teenager-master')
 
 @push('script-header')
-    <title>Careers</title>
+    <title>Career Detail - {{$professionsData->pf_name}}</title>
 @endpush
 
 @section('content')
@@ -53,7 +53,7 @@
             <h1>{{$professionsData->pf_name}}</h1>
            
             <div class="career-banner banner-landing">
-                <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
+                <img id="profession_image" src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
                 <div>
                     <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                 </div>
@@ -387,7 +387,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="">Advanced View</a>
+                                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed">Advanced View</a>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion1">
@@ -519,7 +519,7 @@
         $('.play-icon').click(function() {
             $(this).hide();
             $('video').show();
-            $('img').hide();
+            $('#profession_image').hide();
         });
         
         $('#iframe-video-click').on('click', function(ev) {
@@ -527,7 +527,7 @@
             if(youtubeVideo == '') {
                 $("#dropbox_video_player")[0].play();
             } else {
-                $('img').hide();
+                $('#profession_image').hide();
                 $('iframe').show();
                 $("#iframe-video")[0].src += "&autoplay=1";
                 ev.preventDefault();
@@ -1609,6 +1609,7 @@
             cache: false,
             success: function(response) {
                 $(".form-challenge").html(response);
+                $(".mentor-list ul").owlCarousel();
             }
         });
     }

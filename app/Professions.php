@@ -57,13 +57,19 @@ class Professions extends Model {
                             $query->where('country_id',$this->country_id);
                         }])
                 ->with(['professionCertificates' => function ($query) {
-                            $query->with('certificate');
+                            $query->with(['certificate' => function ($query){
+                                $query->where('deleted', '1');
+                            }])->where('deleted', '1');
                         }])
                 ->with(['professionTags' => function ($query) {
-                            $query->with('tag');
+                            $query->with(['tag' => function ($query) {
+                                $query->where('deleted', '1');
+                            }])->where('deleted', '1');
                         }])
                 ->with(['professionSubject' => function ($query) {
-                            $query->with('subject');
+                            $query->with(['subject' => function ($query){
+                                $query->where('deleted', '1');
+                            }])->where('deleted', '1');
                         }])
                 ->with('careerMapping')
                 ->with(['starRatedProfession' => function ($query) {

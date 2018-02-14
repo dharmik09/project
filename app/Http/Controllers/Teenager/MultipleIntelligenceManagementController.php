@@ -44,39 +44,51 @@ class MultipleIntelligenceManagementController extends Controller
      * Returns Strength Details Page
      */
     public function index($type, $slug) 
-    {
+    {       
         if (!empty($type) || !empty($slug)) {
             $userId = Auth::guard('teenager')->user()->id;
             $multipleIntelligence = new \stdClass();
             switch($type) {
                 case Config::get('constant.MULTI_INTELLIGENCE_TYPE'):
                     $mi = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($slug);
-                    $multipleIntelligence->title = $mi->mit_name;
-                    $multipleIntelligence->slug = $mi->mi_slug;
-                    $multipleIntelligence->logo = $mi->mit_logo;
-                    $multipleIntelligence->video = $mi->mi_video;
-                    $multipleIntelligence->description = $mi->mi_information;
-                    $miThumbImageUploadPath = $this->miThumbImageUploadPath;
+                    if(isset($mi) && count($mi) > 0) {
+                        $multipleIntelligence->title = $mi->mit_name;
+                        $multipleIntelligence->slug = $mi->mi_slug;
+                        $multipleIntelligence->logo = $mi->mit_logo;
+                        $multipleIntelligence->video = $mi->mi_video;
+                        $multipleIntelligence->description = $mi->mi_information;
+                        $miThumbImageUploadPath = $this->miThumbImageUploadPath;
+                    }else{
+                        return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
+                    }
                     break;
 
                 case Config::get('constant.APPTITUDE_TYPE'):
                     $apptitude = $this->objApptitude->getApptitudeDetailBySlug($slug);
-                    $multipleIntelligence->title = $apptitude->apt_name;
-                    $multipleIntelligence->slug = $apptitude->apt_slug;
-                    $multipleIntelligence->logo = $apptitude->apt_logo;
-                    $multipleIntelligence->video = $apptitude->apt_video;
-                    $multipleIntelligence->description = $apptitude->ap_information;
-                    $miThumbImageUploadPath = $this->apptitudeThumbImageUploadPath;
+                    if(isset($apptitude) && count($apptitude) > 0) {
+                        $multipleIntelligence->title = $apptitude->apt_name;
+                        $multipleIntelligence->slug = $apptitude->apt_slug;
+                        $multipleIntelligence->logo = $apptitude->apt_logo;
+                        $multipleIntelligence->video = $apptitude->apt_video;
+                        $multipleIntelligence->description = $apptitude->ap_information;
+                        $miThumbImageUploadPath = $this->apptitudeThumbImageUploadPath;
+                    }else{
+                        return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
+                    }
                     break;
 
                 case Config::get('constant.PERSONALITY_TYPE'):
                     $personality =$this->objPersonality->getPersonalityDetailBySlug($slug);
-                    $multipleIntelligence->title = $personality->pt_name;
-                    $multipleIntelligence->slug = $personality->pt_slug;
-                    $multipleIntelligence->logo = $personality->pt_logo;
-                    $multipleIntelligence->video = $personality->pt_video;
-                    $multipleIntelligence->description = $personality->pt_information;
-                    $miThumbImageUploadPath = $this->personalityThumbImageUploadPath;
+                    if(isset($personality) && count($personality) > 0) {
+                        $multipleIntelligence->title = $personality->pt_name;
+                        $multipleIntelligence->slug = $personality->pt_slug;
+                        $multipleIntelligence->logo = $personality->pt_logo;
+                        $multipleIntelligence->video = $personality->pt_video;
+                        $multipleIntelligence->description = $personality->pt_information;
+                        $miThumbImageUploadPath = $this->personalityThumbImageUploadPath;
+                    }else{
+                        return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
+                    }
                     break;
 
                 default:

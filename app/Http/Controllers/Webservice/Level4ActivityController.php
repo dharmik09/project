@@ -17,16 +17,25 @@ use Monolog\Handler\StreamHandler;
 use App\SponsorsActivity;
 use App\TeenagerScholarshipProgram;
 use App\TeenParentChallenge;
+use App\Services\Parents\Contracts\ParentsRepository;
+use App\Services\Template\Contracts\TemplatesRepository;
+use Mail;
+use App\PromiseParametersMaxScore;
+use App\TeenagerPromiseScore;
 
 class Level4ActivityController extends Controller {
 
-    public function __construct(TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository) 
+    public function __construct(TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository) 
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->professionsRepository = $professionsRepository;
         $this->objSponsorsActivity = new SponsorsActivity; 
         $this->objTeenagerScholarshipProgram = new TeenagerScholarshipProgram;
         $this->objTeenParentChallenge = new TeenParentChallenge;
+        $this->parentsRepository = $parentsRepository;
+        $this->templatesRepository = $templatesRepository;
+        $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore;
+        $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
         $this->log = new Logger('api-level4-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
     }
@@ -208,6 +217,136 @@ class Level4ActivityController extends Controller {
         }
         return response()->json($response, 200);
         exit;
+    }
+
+    /* Request Params : challengeToParentOrMentorForProfession
+     *  loginToken, userId, parentId, professionId
+     */
+    public function challengeToParentOrMentorForProfession(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->professionId) && !empty($request->professionId) && isset($request->parentId) && !empty($request->parentId)) {
+                
+
+                $saveData = [];
+                $saveData['tpc_teenager_id'] = $request->userId;
+                $saveData['tpc_parent_id'] = $request->parentId;
+                $saveData['tpc_profession_id'] = $request->professionId;
+                $result = $this->objTeenParentChallenge->getTeenParentRequestDetail($saveData);
+                if (isset($result) && $result) {
+                   $response['status'] = 0;
+                    $response['message'] = trans('labels.parentchallengeexist');
+                } else {
+                    $this->objTeenParentChallenge->saveTeenParentRequestDetail($saveData);
+                    $teenDetail = $this->teenagersRepository->getTeenagerByTeenagerId($request->userId);
+                    $parentDetail = $this->parentsRepository->getParentDetailByParentId($request->parentId);
+                    $professionName =  $this->professionsRepository->getProfessionNameById($request->professionId);
+                    //send mail
+                    $replaceArray = array();
+                    $replaceArray['USER_NAME'] = $parentDetail['p_first_name'];
+                    $replaceArray['TEEN_NAME'] = $teenDetail['t_name'];
+                    $replaceArray['PROFESSION_NAME'] = $professionName;
+                    $emailTemplateContent = $this->templatesRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_TEEN_CHALLEGE_REQUEST_TEMPLATE'));
+                    $content = $this->templatesRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                    $mailData = array();
+                    $mailData['subject'] = $emailTemplateContent->et_subject;
+                    $mailData['toEmail'] = $parentDetail['p_email'];
+                    $mailData['toName'] = $parentDetail['p_first_name'];
+                    $mailData['content'] = $content;
+                    Mail::send(['html' => 'emails.Template'], $mailData , function ($m) use ($mailData) {
+                        $m->from(Config::get('constant.FROM_MAIL_ID'), 'Teen Challenge ');
+                        $m->subject($mailData['subject']);
+                        $m->to($mailData['toEmail'], $mailData['toName']);
+                    });
+                    $challengedParents = $this->objTeenParentChallenge->getChallengedParentAndMentorList($request->professionId, $request->userId);
+                    $challengedParentsArr = [];
+                    foreach ($challengedParents as $challengedParent) {
+                        $challengedParentsList = [];
+                        $challengedParentsList['id'] = $challengedParent->parentId;
+                        $challengedParentsList['firstname'] = $challengedParent->p_first_name;
+                        $challengedParentsList['lastname'] = $challengedParent->p_last_name;
+                        if (isset($challengedParent->p_photo) && $challengedParent->p_photo != '' && Storage::size(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $challengedParent->p_photo) > 0) {
+                            $challengedParentsList['photo'] = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $challengedParent->p_photo);
+                        } else {
+                            $challengedParentsList['photo'] = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                        }
+                        $challengedParentsArr[] = $challengedParentsList;
+                    }
+                    //Store log in System
+                    $this->log->info('Teenager challenged to parent/mentor for profession', array('teenId' => $request->userId, 'parentId' => $request->parentId, 'professionId' => $request->professionId));
+                    $data['challengedParentList'] = $challengedParentsArr;
+                    $response['status'] = 1;
+                    $response['message'] = trans('labels.parentchallengesuccess');
+                    $response['data'] = $data;
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getCareerPageAdvanceViewDetails
+     *  loginToken, userId
+     */
+    public function getCareerPageAdvanceViewDetails(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey => $maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+            }
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($request->userId);
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0) {
+                $teenPromiseScore = $teenPromiseScore->toArray();                
+                foreach($teenPromiseScore as $paramkey => $paramvalue) {
+                    if (strpos($paramkey, 'apt_') !== false) {
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                    } else if(strpos($paramkey, 'pt_') !== false) {
+                            $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                            $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
+                    } else if(strpos($paramkey, 'mit_') !== false) {
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                    }
+                }
+            }
+            //Store log in System
+            $this->log->info('User retrieve career advance view details', array('userid' => $request->userId));
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $teenagerStrength;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    //Calculate teenager strength and interest score percentage
+    public function getTeenScoreInPercentage($maxScore, $teenScore) 
+    {
+        if ($teenScore > $maxScore) {
+            $teenScore = $maxScore;
+        }
+        $mul = 100*$teenScore;
+        $percentage = $mul/$maxScore;
+        return round($percentage);
     }
 
 }
