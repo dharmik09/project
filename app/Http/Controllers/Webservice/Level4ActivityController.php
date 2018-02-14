@@ -20,6 +20,8 @@ use App\TeenParentChallenge;
 use App\Services\Parents\Contracts\ParentsRepository;
 use App\Services\Template\Contracts\TemplatesRepository;
 use Mail;
+use App\PromiseParametersMaxScore;
+use App\TeenagerPromiseScore;
 
 class Level4ActivityController extends Controller {
 
@@ -32,6 +34,8 @@ class Level4ActivityController extends Controller {
         $this->objTeenParentChallenge = new TeenParentChallenge;
         $this->parentsRepository = $parentsRepository;
         $this->templatesRepository = $templatesRepository;
+        $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore;
+        $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
         $this->log = new Logger('api-level4-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
     }
@@ -287,6 +291,62 @@ class Level4ActivityController extends Controller {
         }
         return response()->json($response, 200);
         exit;
+    }
+
+    /* Request Params : getCareerPageAdvanceViewDetails
+     *  loginToken, userId
+     */
+    public function getCareerPageAdvanceViewDetails(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey => $maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+            }
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($request->userId);
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0) {
+                $teenPromiseScore = $teenPromiseScore->toArray();                
+                foreach($teenPromiseScore as $paramkey => $paramvalue) {
+                    if (strpos($paramkey, 'apt_') !== false) {
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                    } else if(strpos($paramkey, 'pt_') !== false) {
+                            $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                            $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
+                    } else if(strpos($paramkey, 'mit_') !== false) {
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                    }
+                }
+            }
+            //Store log in System
+            $this->log->info('User retrieve career advance view details', array('userid' => $request->userId));
+            $response['login'] = 1;
+            $response['status'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+            $response['data'] = $teenagerStrength;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    //Calculate teenager strength and interest score percentage
+    public function getTeenScoreInPercentage($maxScore, $teenScore) 
+    {
+        if ($teenScore > $maxScore) {
+            $teenScore = $maxScore;
+        }
+        $mul = 100*$teenScore;
+        $percentage = $mul/$maxScore;
+        return round($percentage);
     }
 
 }

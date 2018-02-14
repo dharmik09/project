@@ -231,8 +231,10 @@ class Level4ActivityController extends Controller {
                 return view('teenager.basic.careerIntermediateOptionChoiceQuestion', compact('response'));
             } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "single_line_answer") {
                 return view('teenager.basic.careerIntermediateSingleLineQuestion', compact('response'));
+            } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "select_from_dropdown_option") {
+                return view('teenager.basic.careerIntermediateDropDownSelectQuestion', compact('response'));
             } else {
-
+                
             }
             return view('teenager.basic.careerIntermediateQuizQuestion', compact('response'));
         }

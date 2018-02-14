@@ -1170,7 +1170,7 @@
                     var obj = $.parseJSON(data);
                     if (obj.status == 1) {
                         if (obj.answerType == "single_line_answer") {
-                            $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct Answer Is : " + obj.systemCorrectAnswerText + "");
+                            $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + ". Correct Answer Is : " + obj.systemCorrectAnswerText + "");
                             if (obj.systemCorrectAnswer == 1) {
                                 $(".response_message_outer").addClass("correct");
                             } else {
@@ -1236,6 +1236,84 @@
         }
     }
 
+    function saveDropDownIntermediateAnswer() {
+        $("#intermediateErrorGoneMsg").html('');
+        $('.stopOnSubmit iframe').attr("src", jQuery(".stopOnSubmit iframe").attr("src"));
+        var isAudio = $("#checkAudio").val();
+        if(typeof isAudio !== "undefined"){
+            var audioStop = document.getElementById('onOffAudio');
+            audioStop.pause();
+            $("#onOffAudio").prop('muted',true);
+        }
+        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
+            var audio = document.getElementById('audio_1');
+            audio.play();
+        <?php } ?>
+        var validCheckAll = 0;
+        var answerValue = $("#dropDownSelection").val();
+        var answerTypeValue = $("#dropDownTypeSelection").val();
+        
+        if (answerValue > 0 && answerTypeValue != '') {
+            validCheckAll = 1;
+            $(".intermediate-time-tag").css('visibility', 'hidden');
+        }
+
+        if (validCheckAll === 1) {
+            var form_data = $("#level4_intermediate_activity_ans").serializeArray();
+            $('.intermediate-question-loader').parent().toggleClass('loading-screen-parent');
+            $('.intermediate-question-loader').show();
+            $("#setResponseIntermediate").val("1");
+            $('.saveIntMe').css('visibility', 'hidden');
+            
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                //async: false,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                cache: false,
+                success: function(data) {
+                    $('.intermediate-question-loader').hide();
+                    $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                    var obj = $.parseJSON(data);
+                    if (obj.status == 1) {
+                        if (obj.answerType == "select_from_dropdown_option") {
+                            if (obj.systemCorrectAnswer == 1) {
+                                $(".response_message_outer").addClass("correct");
+                                $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
+                                $(".dropdown-selection-order").addClass("correct");
+                            } else {
+                                $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + ", Correct answer is given below");
+                                $(".response_message_outer").addClass("incorrect");
+                                $("#dropDownTypeSelection option[value='" + obj.systemCorrectOptionOrder + "']").attr("selected", "selected");
+                                $("#dropDownSelection option[value=" + obj.systemCorrectOptionId + "]").attr("selected", "selected");
+                                $(".dropdown-selection-order").addClass("correct");
+                            }
+                        } else {
+                            $("#answerRightWrongMsg").text("Invalid answer type");
+                        }
+                        $('.saveIntMe').css('visibility', 'hidden');
+                        $('.next-intermediate').show();
+                    } else {
+                        $("#showResponseMessage").text(obj.message);
+                        var urlSet = obj.redirect;
+                        //setTimeout("location.reload(true);", 3000);
+                    }
+                }
+            });
+        } else {
+            $("#intermediateErrorGoneMsg").html('');
+            $('.intermediate-question-loader').hide();
+            $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+            $("html, body").animate({
+                scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+            }, 300);
+            $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please select order and answer!</span></div></div></div>');
+        }
+    }
+
+
     function autoSubmitIntermediateAnswer() {
         if ($("#setResponseIntermediate").val() == 0) {
             if (ansTypeSet == "option_choice_with_response" || ansTypeSet == "select_from_dropdown_option" || ansTypeSet == "single_line_answer" || ansTypeSet == "filling_blank" || ansTypeSet == "option_choice" || ansTypeSet == "image_reorder" || ansTypeSet == "option_reorder" || ansTypeSet == "true_false") {
@@ -1266,11 +1344,11 @@
                         
                         if (obj.status == 1) {
                             if (obj.answerType == "single_line_answer") {
-                                $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct Answer Is : " + obj.systemCorrectAnswerText + "");
+                                $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + ". Correct Answer Is : " + obj.systemCorrectAnswerText + "");
                                 if (obj.systemCorrectAnswer == 1) {
-                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                    $(".response_message_outer").addClass("correct");
                                 } else {
-                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                    $(".response_message_outer").addClass("incorrect");
                                 }
                             } else if (obj.answerType === "option_choice_with_response" || obj.answerType === "filling_blank" || obj.answerType === "option_choice" || obj.answerType === "true_false" || obj.answerType === "image_reorder") {
                                 $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
@@ -1307,29 +1385,29 @@
                                 if (obj.answerType == "image_reorder") {
                                     //$("#showResponseMessage").text(obj.answerRightWrongMsg);
                                     if (obj.systemCorrectAnswer == 1) {
-                                        $(".response_message_outer").addClass("response_message beta mrTop15");
+                                        $(".response_message_outer").addClass("correct");
                                     } else {
-                                        $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                        $(".response_message_outer").addClass("incorrect");
                                     }
                                 }
                             } else if (obj.answerType == "select_from_dropdown_option") {
                                 if (obj.systemCorrectAnswer == 1) {
-                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                    $(".response_message_outer").addClass("correct");
                                     $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
-                                    $(".answer_select_box.special_select").addClass("right_answer");
+                                    $(".dropdown-selection-order").addClass("correct");
                                 } else {
                                     $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + ", Correct answer is given below");
-                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                    $(".response_message_outer").addClass("incorrect");
                                     $("#dropDownTypeSelection option[value='" + obj.systemCorrectOptionOrder + "']").attr("selected", "selected");
                                     $("#dropDownSelection option[value=" + obj.systemCorrectOptionId + "]").attr("selected", "selected");
-                                    $(".answer_select_box.special_select").addClass("right_answer");
+                                    $(".dropdown-selection-order").addClass("correct");
                                 }
                             } else if (obj.answerType == "option_reorder") {
                                 $("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct order is given below");
                                 if (obj.systemCorrectAnswer == 1) {
-                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                    $(".response_message_outer").addClass("correct");
                                 } else {
-                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                    $(".response_message_outer").addClass("incorrect");
                                 }
                                 if (obj.systemCorrectOptionOrder) {
                                     var htmlLI = '';

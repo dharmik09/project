@@ -28,15 +28,6 @@
             <div class="quiz-que">
                 <p class="que"><i class="icon-arrow-simple"></i>{{ $response['data']->l4ia_question_text }}</p>
                 <div class="quiz-ans">
-                    @if(isset($response['data']->gt_temlpate_answer_type) && ( $response['data']->gt_temlpate_answer_type == "option_choice" || $response['data']->gt_temlpate_answer_type == "true_false" || $response['data']->gt_temlpate_answer_type == "single_line_answer" || $response['data']->gt_temlpate_answer_type == "option_choice_with_response" || $response['data']->gt_temlpate_answer_type == "option_reorder" || $response['data']->gt_temlpate_answer_type == "image_reorder" || $response['data']->gt_temlpate_answer_type == "filling_blank"))
-                        @if(isset($response['data']->question_images) && !empty($response['data']->question_images))
-                            @foreach($response['data']->question_images as $key=>$image)
-                                <div class="question-img">
-                                    <img src="{{$image['l4ia_question_image']}}" title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" class="pop-me pop_up_me">
-                                </div>
-                            @endforeach
-                        @endif
-                    @endif
                     @if(isset($response['data']->l4ia_question_audio) && $response['data']->l4ia_question_audio != '')
                         <div class="quiz-audio">
                             <audio controls id="onOffAudio">                        
@@ -77,49 +68,52 @@
                             $optionName = "answer[0]";
                         }
                     ?>
-                    <div class="box optionSelectionIntermediate">
-                        @if(isset($response['data']->options) && !empty($response['data']->options))
-                            @php( shuffle($response['data']->options) )
-                            @php( $setFlag = 2 )
-                            @foreach($response['data']->options as $keyOption => $option)
-                                <?php
-                                    $option['optionImage'] = "";
-                                    if ($option['optionText'] == '') {
-                                        if ($option['optionAsImage'] != '') {
-                                            $optionAsImage = $option['optionAsImage'];
-                                        } else {
-                                            $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
-                                        }
-                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='click image to enlarge' class='pop_up_me' />";
-                                    }
-                                    
-                                    $extraSpan = '';
-                                    if ($option['optionImageText'] != '') {
-                                        $extraSpan = $option['optionImageText'];
-                                    }
-                                ?>
-                                @if ($setFlag % 2 == 0)
-                                    <div class="width-50 clearfix">
-                                @endif
-                                    
-                                    <label class="{{$optionType}} class{{$option['optionId']}}">
-                                        <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
-                                        <span class="checker"></span>
-                                        <em>
-                                            {!! $option['optionImage'] !!}
-                                            {!! $extraSpan !!}
-                                            {!! $option['optionText'] !!}
-                                        </em>
-                                    </label>
-                                    
-                                @php($setFlag++)
-                                @if ($setFlag != 2 && $setFlag % 2 == 0)
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @if(isset($response['data']->question_images) && !empty($response['data']->question_images))
+                                @foreach($response['data']->question_images as $key=>$image)
+                                    <div class="question-img image-left quiz-inter width-50">
+                                        <img src="{{$image['l4ia_question_image']}}" title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" class="pop-me pop_up_me">
                                     </div>
-                                @endif
-                                
-                            @endforeach
+                                @endforeach
+                            @endif
+                        </div>
+                        @if(isset($response['data']->options) && !empty($response['data']->options))
+                            <?php
+                                $inputCollect = $inputCollect2 = '';
+                                $orderArrayCollect = [];
+                                shuffle($response['data']->options);
+                                foreach ($response['data']->options as $keyOption => $option) {
+                                    $orderArrayCollect[] = $option['correctOrder'];
+                                    $inputCollect .= '<option value="' . $option['optionId'] . '">' . $option['optionText'] . '</option>';
+                                }
+                                sort($orderArrayCollect);
+                                if (!empty($orderArrayCollect) && count($orderArrayCollect) > 0) {
+                                    foreach ($orderArrayCollect as $optionOrder) {
+                                        $inputCollect2 .= '<option value="' . $optionOrder . '">' . $optionOrder . '</option>';
+                                    }
+                                }
+                            ?>
+                            <div class="col-sm-6">
+                                <div class="select-box ">
+                                    <div class="custom-select">
+                                        <select name='answer_order[0]' id='dropDownTypeSelection' class="form-control dropdown-selection-order">
+                                            {!! $inputCollect2 !!}
+                                        </select>
+                                    </div>
+                                    <div class="custom-select">
+                                        <select name='answer[0]' id='dropDownSelection' class="form-control dropdown-selection-order">
+                                            {!! $inputCollect !!}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         @else
-                            <br/><p><strong>No Any Options For This Question.</strong></p>
+                            <div class="col-sm-6">
+                                <div class="select-box">
+                                    <span>Opps ! No, any options.</span>
+                                </div>
+                            </div>
                         @endif
                     </div>
                     <div class="text-center next-intermediate" style="display: none;">
@@ -128,7 +122,7 @@
                         <button class="btn btn-primary btn-next btn-intermediate" type="button" title="Next" onClick="getNextIntermediateQuestion({{$response['data']->l4ia_question_template}});">Next</button>
                     </div>
                     <div class="clearfix text-center">
-                        <a href="javascript:void(0);" class="next-que saveIntMe" onClick="saveIntermediateAnswer();">
+                        <a href="javascript:void(0);" class="next-que saveIntMe" onClick="saveDropDownIntermediateAnswer();">
                             <i class="icon-hand"></i>
                         </a>
                     </div>
@@ -136,6 +130,14 @@
             </div>
         </form>
     </div>
+    <script type="text/javascript">
+        var intermediateCount = {{ (isset($response['timer']) && $response['timer'] != "") ? $response['timer'] : 0 }};
+        var ansTypeSet = "{{ (isset($response['data']->gt_temlpate_answer_type)) ? $response['data']->gt_temlpate_answer_type : 0 }}";
+        var setPopupTime = {{ (isset($setPopupTime)) ? $setPopupTime : 0 }};
+        var optionType = "{{ isset($optionType) ? $optionType : 'radio' }}";
+        var optionName = "{{ isset($optionName) ? $optionName : 'answerID[0]' }}";
+        var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
+    </script>
 @else
     @if( isset($response['intermediateCompleted']) && $response['intermediateCompleted'] == 1 )
         <div class="quiz_view">
@@ -176,11 +178,3 @@
         </div>
     @endif
 @endif
-<script type="text/javascript">
-    var intermediateCount = {{ (isset($response['timer']) && $response['timer'] != "") ? $response['timer'] : 0 }};
-    var ansTypeSet = "{{ (isset($response['data']->gt_temlpate_answer_type)) ? $response['data']->gt_temlpate_answer_type : 0 }}";
-    var setPopupTime = {{ (isset($setPopupTime)) ? $setPopupTime : 0 }};
-    var optionType = "{{ isset($optionType) ? $optionType : 'radio' }}";
-    var optionName = "{{ isset($optionName) ? $optionName : 'answerID[0]' }}";
-    var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
-</script>
