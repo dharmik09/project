@@ -1,7 +1,7 @@
 @extends('layouts.teenager-master')
 
 @push('script-header')
-    <title>Teenager : Dashboard Home</title>
+    <title>Teenager : Chat/Notification/Forum</title>
 @endpush
 
 @section('content')

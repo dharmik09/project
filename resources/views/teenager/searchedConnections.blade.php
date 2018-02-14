@@ -27,7 +27,7 @@
                                                 $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                                             }
                                         ?>
-                                        <img src="{{ Storage::url($teenPhoto) }}" alt="team">
+                                        <img src="{{ Storage::url($teenPhoto) }}" alt="{{ $newConnection->t_name }}">
                                     </div>
                                     <a href="{{ url('teenager/network-member') }}/{{$newConnection->t_uniqueid}}" title="{{ $newConnection->t_name }}"> {{ $newConnection->t_name }}</a>
                                 </div>
@@ -77,7 +77,7 @@
                                                 $teenImage = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                                             }
                                         ?>
-                                        <img src="{{ Storage::url($teenImage) }}" alt="team">
+                                        <img src="{{ Storage::url($teenImage) }}" alt="{{ $myConnection->t_name }}">
                                     </div>
                                     <a href="{{ url('teenager/network-member') }}/{{$myConnection->t_uniqueid}}" title="{{ $myConnection->t_name }}"> {{ $myConnection->t_name }}</a>
                                 </div>
