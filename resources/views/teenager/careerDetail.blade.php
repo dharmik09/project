@@ -113,7 +113,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '' ?></h4>
-                                            <p>Employment 2017</p>
+                                            <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '<p>Industry Employment 2017</p>' : '<p>Employment 2017</p>' ?>                                            
                                         </li>
                                     </ul>
                                 </div>
@@ -127,7 +127,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
-                                            <p>Projected for 2026</p>
+                                            <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '<p>Projected for 2022</p>' : '<p>Projected for 2026</p>' ?>                                            
                                         </li>
                                     </ul>
                                 </div>
@@ -218,7 +218,7 @@
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
                                                                         <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
                                                                         <div class="unbox-btn">
-                                                                            <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}">
+                                                                            <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}" >
                                                                                 <span class="unbox-me">Unbox Me</span>
                                                                                 <span class="coins-outer">
                                                                                     <span class="coins"></span> 
@@ -1153,7 +1153,7 @@
             var form_data = $("#level4_intermediate_activity_ans").serialize();
             $('.intermediate-question-loader').parent().toggleClass('loading-screen-parent');
             $('.intermediate-question-loader').show();
-            $("#setResponse").val("1");
+            $("#setResponseIntermediate").val("1");
             $('.saveIntMe').css('visibility', 'hidden');
             
             $.ajax({
@@ -1275,9 +1275,9 @@
                             } else if (obj.answerType === "option_choice_with_response" || obj.answerType === "filling_blank" || obj.answerType === "option_choice" || obj.answerType === "true_false" || obj.answerType === "image_reorder") {
                                 $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
                                 if (obj.systemCorrectAnswer == 1) {
-                                    $(".response_message_outer").addClass("response_message beta mrTop15");
+                                    $(".response_message_outer").addClass("correct");
                                 } else {
-                                    $(".response_message_outer").addClass("response_message alpha mrTop15");
+                                    $(".response_message_outer").addClass("incorrect");
                                 }
                                 if(obj.systemCorrectAnswer2){
                                     $.each(obj.systemCorrectAnswer2, function(key, value) {
@@ -1290,7 +1290,7 @@
                                 }
                                 if (obj.answerType === "option_choice") {
                                     if (obj.questionAnswerText !== '') {
-                                        var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'></div><div class=''>" + obj.questionAnswerText + "</div></div></div>";
+                                        var phtml = "<p>" + obj.questionAnswerText + "</p>";
                                         $('#showResponseMessage').html(phtml);
                                     }
                                 }
@@ -1300,7 +1300,7 @@
                                         if (obj.questionAnswerImage && obj.questionAnswerImage !== '') {
                                             phtmlImg = "<img src=" + obj.questionAnswerImage + " />";
                                         }
-                                        var phtml = "<div class='response_info image_type'><div class='image_detail_outer clearfix'><div class='image_detail_outer_img'>" + phtmlImg + "</div><div class='info_body'>" + obj.questionAnswerText + "</div></div></div>";
+                                        var phtml = "<div class='t-table'><div class='t-cell'>" + phtmlImg + "</div><div class='t-cell'><p>" + obj.questionAnswerText + "</p></div></div>";
                                         $('#showResponseMessage').html(phtml);
                                     }
                                 }
@@ -1354,7 +1354,6 @@
             }
         }
     }
-
 
     $(document).on('change', '.selectionCheck', function(evt) { 
         if (limitSelect > 1) {

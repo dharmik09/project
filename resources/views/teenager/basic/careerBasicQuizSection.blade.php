@@ -92,7 +92,7 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <span class="emojis-img"><img  alt="Congratulations" src="{{Storage::url('img/Original-image/icon-4.png')}}"></span>
-                        <span class="emojis-img emojis-icon" style="font-size:65px !important"><i class="icon-thumb"></i></span>
+                        <span class="emojis-img emojis-icon"><i class="icon-thumb"></i></span>
                     </div>
                     <div class="col-xs-8">
                         <h2>Congratulations!</h2>

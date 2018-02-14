@@ -615,6 +615,7 @@
     @include maxsm {
         margin-top: 35px;
     }
+    .col-sm-12{width: 100%;}
     .row {
         margin: 0 -20px;
         [class*=col-] {
@@ -842,6 +843,9 @@
         margin: 0 -8px;
         [class*=col-] {
             padding: 0 8px;
+            @include maxsm{
+                width: 100%;
+            }
         }
     }
     .quiz-box {
@@ -874,9 +878,15 @@
 .quiz-intermediate {
     position: relative;
     margin: 0 -20px;
+    [class*=col-]{
+        @include maxsm{
+            width: 100%;
+        }
+    }
     .quiz-que {
         .que {
             font-size: 28px;
+            padding-top: 20px;
             @include maxmd {
                 font-size: 24px;
             }
@@ -1448,6 +1458,7 @@
         background: -ms-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
         background: linear-gradient(to right, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1);
+        z-index: 9;
     }
     .skill-name {
         width: 45%;
@@ -1481,6 +1492,7 @@
         margin-bottom: 0;
         height: 12px;
         background: #ebebeb;
+        position: relative;
     }
     .unbox-btn .btn-primary .coins-outer{margin-left: -5px;}
 }
@@ -1552,7 +1564,7 @@
         }
     }
 }
-
+.progress-bar.bg-success{position: absolute;left: 0;}
 .teaser-content {
     filter: blur(3px);
 }

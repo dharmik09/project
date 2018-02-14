@@ -42,11 +42,11 @@
         }
     }
     .incorrect {
-        border-color: $p-cl;
-        background: $p-cl;
+        border-color: $cl-analyzing;
+        background: $cl-analyzing;
         color: $white;
         em {
-            background: $p-cl !important;
+            background: $cl-analyzing !important;
             color: $white;
         }
     }
@@ -356,10 +356,12 @@
 }
 
 .width-50 {
+    text-align: center;
     label {
-        width: 40%;
-        float: left; //padding: 0 15px;
+        width: 45%; // float: left; //padding: 0 15px;
         margin: 0 10px 25px;
+        display: inline-block !important;
+        vertical-align: text-bottom;
         @include maxsm {
             width: 100%;
             margin: 0 0 25px;
@@ -928,11 +930,17 @@
 .quiz_view .quiz-ans .box .correct input:checked ~ em {
     background: $m-cl !important;
     color: $white !important;
+    border: 2px solid #000;
+    margin: -2px;
+    border-radius: 6px;
 }
 
 .quiz_view .quiz-ans .box .incorrect input:checked ~ em {
     background: $cl-analyzing !important;
     color: $white !important;
+    border: 2px solid #000;
+    margin: -2px;
+    border-radius: 6px;
 }
 
 #answerRightWrongMsg:empty {
@@ -964,8 +972,7 @@
             span {
                 margin-top: 10px;
                 font-size: 16px;
-                color: $p-cl;
-                //font-weight: 600;
+                color: $p-cl; //font-weight: 600;
                 font-family: 'am';
                 display: block;
                 text-align: center;
