@@ -1192,7 +1192,7 @@ input:checked + .slider:before {
         }
         li {
             list-style-type: none;
-            width: 100%;
+            //width: 100%;
             .icon-img {
                 height: 100px;
                 width: 100px;
@@ -1220,6 +1220,9 @@ input:checked + .slider:before {
         }
         .owl-stage-outer {
             padding-bottom: 80px;
+            [class*=col-]{
+                width: 100%;
+            }
         }
         .owl-nav {
             position: absolute;

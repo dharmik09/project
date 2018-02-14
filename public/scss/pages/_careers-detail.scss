@@ -1186,6 +1186,7 @@
             display: block;
             color: #fff;
             background: #27a6b5;
+            border-color: #27a6b5;
             width: 100%;
             text-transform: uppercase;
             font-family: hn-b;
@@ -1202,6 +1203,24 @@
                 font-size: 14px;
                 padding: 11px 15px;
 
+            }
+        }
+        .sec-parents{
+            padding: 0;
+            &:before, &:after{
+                display: none;
+            }
+            .mentor-list{
+                margin-top: 30px;
+                max-width: 100%;
+            }
+            .mentor-list [class*=col-]{
+                padding: 0 15px;
+                figcaption{
+                    @include maxms{
+                        font-size: 17px;
+                    }
+                }
             }
         }
     }

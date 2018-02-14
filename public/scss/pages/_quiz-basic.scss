@@ -46,7 +46,8 @@
         background: $p-cl;
         color: $white;
         em {
-            background: $p-cl !important;color: $white;
+            background: $p-cl !important;
+            color: $white;
         }
     }
 }
@@ -139,14 +140,14 @@
 }
 
 .incorrect {
-    border-color: $p-cl !important;
-    background: $p-cl !important;color: $white !important;
+    border-color: $cl-analyzing !important;
+    background: $cl-analyzing !important;
+    color: $white !important;
 }
 
 .answer-statement {
-   // border: 1px solid $i-cl;
-    margin-bottom: 20px;
-   // padding: 10px;
+    // border: 1px solid $i-cl;
+    margin-bottom: 20px; // padding: 10px;
     text-align: center;
     background: $i-cl;
     border-radius: 6px;
@@ -161,11 +162,11 @@
     .t-cell {
         padding-right: 20px;
     }
-    #showResponseMessage{
+    #showResponseMessage {
         margin-bottom: 0;
         padding: 10px;
     }
-    #showResponseMessage:empty{
+    #showResponseMessage:empty {
         display: none;
     }
 }
@@ -696,13 +697,12 @@
     .correct {
         border-color: $m-cl;
         background: $m-cl;
-        color: $white
-        em {
+        color: $white em {
             color: $white !important;
         }
     }
     .incorrect {
-        border-color: $p-cl;
+        border-color: $cl-analyzing;
         color: $white;
         em {
             color: $white !important;
@@ -840,9 +840,10 @@
             width: 100%
         }
     }
-    .col-xs-8{
-        @include maxms{
-            width: 100%;padding-top: 20px;
+    .col-xs-8 {
+        @include maxms {
+            width: 100%;
+            padding-top: 20px;
         }
     }
     .emojis-img {
@@ -867,7 +868,7 @@
             }
             @include maxsm {
                 font-size: 24px !important;
-                    padding: 16px 0px 0 5px;
+                padding: 16px 0px 0 5px;
             }
             @include maxms {
                 font-size: 25px;
@@ -905,13 +906,13 @@
             font-family: am;
             font-weight: 500;
             font-size: 30px;
-            @include maxmd{
+            @include maxmd {
                 font-size: 25px;
             }
-            @include maxsm{
+            @include maxsm {
                 font-size: 22px;
             }
-            @include maxms{
+            @include maxms {
                 font-size: 18px;
             }
         }
@@ -928,7 +929,63 @@
     background: $m-cl !important;
     color: $white !important;
 }
+
 .quiz_view .quiz-ans .box .incorrect input:checked ~ em {
-    background: $p-cl !important;
+    background: $cl-analyzing !important;
     color: $white !important;
+}
+
+#answerRightWrongMsg:empty {
+    display: none;
+}
+
+#answerRightWrongMsg {
+    padding: 10px;
+}
+
+.challengers_table {
+    border: none;
+    white-space: nowrap;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    table {
+        width: 100%;
+        th {
+            border-bottom: 1px solid $p-cl;
+            text-align: center;
+            padding: 0 15px 15px 15px;
+            img {
+                width: 70px;
+                height: 70px;
+                border-radius: 10px;
+                display: inline-block;
+            }
+            span {
+                margin-top: 10px;
+                font-size: 16px;
+                color: $p-cl;
+                //font-weight: 600;
+                font-family: 'am';
+                display: block;
+                text-align: center;
+                width: 100%;
+            }
+        }
+        tr {
+            font-size: 15px;
+            td {
+                padding: 15px;
+            }
+        }
+        .score {
+            color: $m-cl;
+        }
+        .rank {
+            color: $w-cl;
+        }
+        .point {
+            color: $p-cl;
+        }
+    }
 }
