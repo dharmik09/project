@@ -877,6 +877,7 @@
     .quiz-que {
         .que {
             font-size: 28px;
+            padding-top: 20px;
             @include maxmd {
                 font-size: 24px;
             }
