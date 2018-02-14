@@ -16,6 +16,7 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use App\SponsorsActivity;
 use App\TeenagerScholarshipProgram;
+use App\TeenParentChallenge;
 
 class Level4ActivityController extends Controller {
 
@@ -25,6 +26,7 @@ class Level4ActivityController extends Controller {
         $this->professionsRepository = $professionsRepository;
         $this->objSponsorsActivity = new SponsorsActivity; 
         $this->objTeenagerScholarshipProgram = new TeenagerScholarshipProgram;
+        $this->objTeenParentChallenge = new TeenParentChallenge;
         $this->log = new Logger('api-level4-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
     }
@@ -146,6 +148,59 @@ class Level4ActivityController extends Controller {
             } else {
                $response['message'] = trans('appmessages.missing_data_msg'); 
                $response['status'] = 0;
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getParentAndMentorListForChallengePlay
+     *  loginToken, userId, professionId
+     */
+    public function getParentAndMentorListForChallengePlay(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->professionId) && !empty($request->professionId)) {
+                $teenagerParents = $this->teenagersRepository->getTeenParents($request->userId);
+                $parentArr = [];
+                foreach ($teenagerParents as $teenagerParent) {
+                    $parentData = [];
+                    $parentData['id'] = $teenagerParent->id;
+                    $parentData['firstname'] = $teenagerParent->p_first_name;
+                    $parentData['lastname'] = $teenagerParent->p_last_name;
+                    $parentData['email'] = $teenagerParent->p_email;
+                    $parentArr[] = $parentData;
+                }
+                $challengedParents = $this->objTeenParentChallenge->getChallengedParentAndMentorList($request->professionId, $request->userId);
+                $challengedParentsArr = [];
+                foreach ($challengedParents as $challengedParent) {
+                    $challengedParentsList = [];
+                    $challengedParentsList['id'] = $challengedParent->parentId;
+                    $challengedParentsList['firstname'] = $challengedParent->p_first_name;
+                    $challengedParentsList['lastname'] = $challengedParent->p_last_name;
+                    if (isset($challengedParent->p_photo) && $challengedParent->p_photo != '' && Storage::size(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $challengedParent->p_photo) > 0) {
+                        $challengedParentsList['photo'] = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $challengedParent->p_photo);
+                    } else {
+                        $challengedParentsList['photo'] = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    }
+                    $challengedParentsArr[] = $challengedParentsList;
+                }
+                //Store log in System
+                $this->log->info('Retrieve challenge play section data', array('userId'=>$request->userId));
+                $data['information'] = "Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.";
+                $data['parentList'] = $parentArr;
+                $data['challengedParentList'] = $challengedParentsArr;
+                $response['status'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['data'] = $data;
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
             }
             $response['login'] = 1;
         } else {
