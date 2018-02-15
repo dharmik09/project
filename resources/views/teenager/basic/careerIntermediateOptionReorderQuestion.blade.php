@@ -118,7 +118,7 @@
                             shuffle($response['data']->options);
                             //$sorImage = Storage::url('frontend/images/sorting.png');
                             foreach ($response['data']->options as $keyOption => $option) {
-                                $input .= "<li class='ui-state-default' id='" . $option['optionId'] . "'><span class='drag_me_text ui-icon'>" . $option['optionText'] . "</span></li>";
+                                $input .= "<li class='ui-state-default' id='" . $option['optionId'] . "'><span class='drag_me_text ui-icon'></span>" . $option['optionText'] . "</li>";
                             }
                             $input .= "</ul></div>";
                             
