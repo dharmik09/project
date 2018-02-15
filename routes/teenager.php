@@ -154,3 +154,4 @@ Route::post('/fetch-page-wise-forum-questions', 'Teenager\ForumController@getInd
 Route::get('/forum-question/{id}', 'Teenager\ForumController@getQuestionByQuestionId');
 Route::post('/fetch-question-answer', 'Teenager\ForumController@getAnswerByQuestionId');
 Route::post('/save-forum-answer', 'Teenager\ForumController@saveForumAnswer');
+Route::post('/get-user-score-progress', 'Teenager\HomeController@getUserScoreProgress');

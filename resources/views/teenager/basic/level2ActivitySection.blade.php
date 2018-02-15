@@ -54,4 +54,5 @@
 </div>
 <script type="text/javascript">
     var count = '{{$timer}}';
+    var isSectionCompleted = '{{$isSectionCompleted}}';
 </script>
