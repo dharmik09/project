@@ -1,4 +1,4 @@
-<table class="table table-hover">
+<table id="teenToGiftCoin" class="table table-hover">
     <thead>
         <tr>
             <th>{{trans('labels.formlblimage')}}</th>

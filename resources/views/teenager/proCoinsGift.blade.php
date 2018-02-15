@@ -82,7 +82,7 @@
     $( document ).ready(function() {
         $('.mySearch_area').hide();
     });
-    $(document).on('click', '.pagination a', function (e) {
+    $(document).on('click', '#teenToGiftCoin .pagination a', function (e) {
         var search = $("#searchForUser").val();
         var page = $(this).attr('href').split('page=')[1];
         if (search.length == 1 || search.length == 2) {
