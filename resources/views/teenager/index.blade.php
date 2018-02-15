@@ -256,6 +256,7 @@
             nav: true,
             dots: false,
             smartSpeed: 2000,
+            autoplay:10000
         });
         $('.play-icon').click(function () {
             $(this).hide("slow");

@@ -49,6 +49,7 @@ use Carbon\Carbon;
 use App\Jobs\SetProfessionMatchScale;
 use Illuminate\Support\Facades\Auth;
 use App\Level1Activity;
+use App\TeenagerPromiseScore;
 
 Class Helpers {
     /*
@@ -2945,7 +2946,7 @@ Class Helpers {
     }
 
     public static function professionMatchScaleCalculate($array, $userId) {
-        if(isset($array[0]->NoOfTotalQuestions) && $array[0]->NoOfTotalQuestions > 0 && isset($array[0]->NoOfAttemptedQuestions)) {
+        if(isset($array[0]->NoOfTotalQuestions) && $array[0]->NoOfTotalQuestions > 0 && isset($array[0]->NoOfAttemptedQuestions)) {            
             if($array[0]->NoOfAttemptedQuestions >= $array[0]->NoOfTotalQuestions) {
                 dispatch( new SetProfessionMatchScale($userId) );
             }
@@ -3035,5 +3036,11 @@ Class Helpers {
         $ini += strlen($start);
         $len = strpos($string, $end, $ini) - $ini;
         return strtolower(substr($string, $ini, $len));
+    }
+
+    public static function getMyCareerPageFilter()
+    {
+        $filterData = array('1' => 'Industry', '2' => 'Careers', '3' => 'Interest', '4' => 'Sterngth', '5' => 'Subject', '6' => 'Tags');
+        return $filterData;
     }
 }

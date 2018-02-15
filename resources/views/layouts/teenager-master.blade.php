@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="btns">
                                     <a href="{{ url('/teenager/my-profile') }}" title="Profile" class="btn btn-primary btn-small text-uppercase">My Profile</a>
-                                    <a href="{{ url('/teenager/chat') }}" class="btn btn-primary btn-small text-uppercase">Messages</a>
+                                    <a href="{{ url('/teenager/chat') }}" class="btn btn-primary btn-small text-uppercase">ENGAGE</a>
                                     <a href="{{ url('/teenager/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-small text-uppercase">Sign out</a>
                                     <form id="logout-form" action="{{ url('/teenager/logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
@@ -84,7 +84,7 @@
                         <li><a href="{{ url('/teenager/community') }}" title="Community" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/community']) ? 'active' : ''}}">Community</a></li>
                         <li><a href="{{ url('/teenager/my-profile') }}" title="Profile" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/my-profile', 'teenager/edit-profile']) ? 'active' : ''}}">Profile</a></li>
                         <li><a href="{{ url('/teenager/coupons') }}" title="Coupons" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/coupons']) ? 'active' : ''}}">Coupons</a></li>
-                        <li><a href="{{ url('/teenager/chat') }}" title="Chat" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/chat']) ? 'active' : ''}}">Chat</a></li>
+                        <li><a href="{{ url('/teenager/chat') }}" title="Chat" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/chat']) ? 'active' : ''}}">Engage</a></li>
                         <li><a href="{{ url('/teenager/help') }}" title="Help" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager/help']) ? 'active' : ''}}">Help</a></li>
                     </ul>
                     <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">
