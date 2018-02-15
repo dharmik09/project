@@ -11,9 +11,17 @@
         <div class="container">
             <section class="career-detail">
                 <form>
-                    <div class="form-group search-bar clearfix">
-                        <input type="text" placeholder="search career..." value="{{$slug or ''}}" tabindex="1" id="autocomplete" class="form-control search-feild">
-                        <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                    <div class="col-sm-6">
+                        <div class="form-group search-bar clearfix">
+                            <input type="text" placeholder="search career..." value="{{$slug or ''}}" tabindex="1" id="autocomplete" class="form-control search-feild">
+                            <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                        </div>
+                    </div>
+                   
+                    <div class="col-sm-6">
+                        <div class="btn-seo">
+                            <a class="btn btn-primary" href="{{ url('/teenager') }}">Did not find ? Sign-in to let us know &amp; win ProCoins!</a>
+                        </div>
                     </div>
                 </form>
                 <h1>{{$professionsData->pf_name}}</h1>
@@ -78,7 +86,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '' ?></h4>
-                                            <p>Employment 2017</p>
+                                            <p>Industry Employment 2017</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -92,7 +100,7 @@
                                         ?>
                                         <li>
                                             <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
-                                            <p>Projected for 2026</p>
+                                            <p>Projected for 2022</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -861,8 +869,9 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="teaser-overlay">
-                        <p><a href="{{ url('/teenager/login') }}" title="Read More" class="btn btn-border">Read More</a></p>
+                        <p><a href="{{ url('/teenager/login') }}" title="Know More" class="btn btn-border">Know More <span><i class="icon-hand-simple"></i></span></a></p>
                     </div>
                 </div>
             </section>

@@ -615,7 +615,9 @@
     @include maxsm {
         margin-top: 35px;
     }
-    .col-sm-12{width: 100%;}
+    .col-sm-12 {
+        width: 100%;
+    }
     .row {
         margin: 0 -20px;
         [class*=col-] {
@@ -843,7 +845,7 @@
         margin: 0 -8px;
         [class*=col-] {
             padding: 0 8px;
-            @include maxsm{
+            @include maxsm {
                 width: 100%;
             }
         }
@@ -874,14 +876,22 @@
 .popover-content {
     color: $r-cl;
 }
-
+.sec-show.flex-container:before,.sec-show.flex-container:after{display: block;}
 .quiz-intermediate {
     position: relative;
     margin: 0 -20px;
-    [class*=col-]{
-        @include maxsm{
+    [class*=col-] {
+        margin-bottom: 40px;
+        @include maxsm {
             width: 100%;
+            margin-bottom: 30px;
         }
+        @include maxms{
+            margin-bottom: 20px;
+        }
+    }
+    .quiz-box{
+        height: 100%;
     }
     .quiz-que {
         .que {
@@ -941,7 +951,7 @@
             //max-width: 200px;
             margin: 0 auto 30px;
             @include maxms {
-               // max-width: 150px;
+                // max-width: 150px;
             }
         }
     }
@@ -1215,23 +1225,27 @@
 
             }
         }
-        .sec-parents{
+        .sec-parents {
             padding: 0;
-            &:before, &:after{
+            &:before,
+            &:after {
                 display: none;
             }
-            .mentor-list{
+            .mentor-list {
                 margin-top: 30px;
                 max-width: 100%;
             }
-            .mentor-list [class*=col-]{
+            .mentor-list [class*=col-] {
                 padding: 0 15px;
-                figcaption{
-                    @include maxms{
+                figcaption {
+                    @include maxms {
                         font-size: 17px;
                     }
                 }
             }
+        }
+        .invalid{
+            text-align: left !important;
         }
     }
 }
@@ -1494,7 +1508,9 @@
         background: #ebebeb;
         position: relative;
     }
-    .unbox-btn .btn-primary .coins-outer{margin-left: -5px;}
+    .unbox-btn .btn-primary .coins-outer {
+        margin-left: -5px;
+    }
 }
 
 .sec-tags {
@@ -1564,7 +1580,12 @@
         }
     }
 }
-.advanced-sec .progress-bar{position: absolute;left: 0;}
+
+.advanced-sec .progress-bar {
+    position: absolute;
+    left: 0;
+}
+
 .teaser-content {
     filter: blur(3px);
 }
@@ -1596,9 +1617,18 @@
             color: #ff5f44;
             border: 2px solid $cl-complete;
             background: transparent;
-            padding: 10px 83px;
+            padding: 0px 83px;
             text-transform: uppercase;
             line-height: 1.35;
+            span {
+                display: inline-block;
+                font-size: 50px;
+                vertical-align: middle;
+                margin-left: 23px;
+                transform: scaleX(-1);
+                padding-top: 3px;
+                line-height: 1;
+            }
             @include maxsm {
                 padding: 8px 53px;
                 font-size: 15px;
@@ -1687,11 +1717,14 @@ text.highcharts-xaxis-title {
 
 .career-detail {
     .search-bar {
-        max-width: 79%;
-        margin: 0 auto 35px;
-        @include maxms{
-            max-width: 100%;
+        max-width: 100%;
+        margin: 0 0 35px;
+        @include maxsm{
             margin-bottom: 20px;
+        }
+        @include maxms {
+            max-width: 100%;
+           // margin-bottom: 20px;
         }
         &.form-group {
             .form-control {
@@ -1728,21 +1761,37 @@ text.highcharts-xaxis-title {
         }
     }
 }
-.autocomplete-suggestions{
-        position: absolute;
-   width: 100%;
+
+.autocomplete-suggestions {
+    position: absolute;
+    width: 100%;
     top: 200px;
     left: 74.5px;
     max-height: 300px;
     z-index: 9999;
     background: $white;
     margin-top: -1px;
-   border:  1px solid #727476;
+    border: 1px solid #727476;
     padding: 10px;
     line-height: 1.46;
     font-size: 16px;
-    max-height: 450px !important;overflow-y: scroll;
-    .autocomplete-suggestion{
-        cursor: pointer;margin-bottom: 7px;
+    max-height: 450px !important;
+    overflow-y: scroll;
+    .autocomplete-suggestion {
+        cursor: pointer;
+        margin-bottom: 7px;
+    }
+}
+.btn-seo .btn {
+    width: 100%;
+    padding: 17px 15px;
+    font-size: 17px;
+    line-height: 1.25;white-space: inherit;
+    margin-bottom: 35px;
+    @include maxmd{
+        font-size: 15px;
+    }
+    @include maxsm{
+        margin-bottom: 20px;
     }
 }
