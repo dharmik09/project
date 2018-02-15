@@ -749,6 +749,7 @@ class ProfessionController extends Controller {
         }
     }
 
+    //Returns view for challenge play section
     public function getChallengedParentAndMentorList()
     {
         $teenId = Auth::guard('teenager')->user()->id;
@@ -756,6 +757,44 @@ class ProfessionController extends Controller {
         $teenagerParents = $this->teenagersRepository->getTeenParents($teenId);
         $challengedAcceptedParents = $this->objTeenParentChallenge->getChallengedParentAndMentorList($professionId, $teenId); 
         return view('teenager.basic.careerChallengePlaySection', compact('teenagerParents', 'challengedAcceptedParents'));
+        exit;
+    }
+
+    //Returns view for teen/parent challenge score box
+    public function getChallengeScoreDetails()
+    {
+        $teenId = Auth::guard('teenager')->user()->id;
+        $professionId = Input::get('professionId');
+        $parentId = Input::get('parentId');
+        $professionName = '';
+        $getProfessionNameFromProfessionId = $this->professionsRepository->getProfessionsByProfessionId($professionId);
+        if (isset($getProfessionNameFromProfessionId[0]) && !empty($getProfessionNameFromProfessionId[0])) {
+            $professionName = $getProfessionNameFromProfessionId[0]->pf_name;
+        }
+        $level4Booster = Helpers::level4Booster($professionId, $teenId);
+        $level4ParentBooster = Helpers::level4ParentBooster($professionId, $parentId);
+        $teenDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
+        $parentDetail = $this->parentsRepository->getParentDetailByParentId($parentId);
+        $rank = 0;
+        foreach($level4Booster['allData'] AS $key => $value) {
+            if ($level4ParentBooster['yourScore'] != 0) {
+              if ($level4ParentBooster['yourScore'] == $value) {
+                $level4ParentBooster['yourRank'] = $key+1;
+              }
+            } else {
+                $level4ParentBooster['yourRank'] = 0;
+            }
+        }
+        foreach($level4Booster['allData'] AS $key => $value) {
+            if ($level4Booster['yourScore'] != 0) {
+              if ($level4Booster['yourScore'] == $value) {
+                $rank = $key + 1;
+              }
+            } else {
+                $rank = 0;
+            }
+        }
+        return view('teenager.basic.careerChallengeScoreBox', compact('level4Booster','level4ParentBooster','professionName','teenDetail','parentDetail','rank'));
         exit;
     }
 

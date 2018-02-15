@@ -482,24 +482,27 @@
     </div>
 </div>
 <div class="modal fade" id="coinsConsumption" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content custom-modal">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                    <h4 id="activity_title" class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <p id="activity_message"></p>
-                    <p id="activity_sub_message"></p>
-                </div>
-                <div class="modal-footer">
-                    <a id="activity_buy" href="{{ url('teenager/buy-procoins') }}" type="submit" class="btn btn-primary btn-next" style="display: none;">buy</a>
-                    <button id="activity_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins({{$componentsData->pc_required_coins}});" style="display: none;" >ok </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                <h4 id="activity_title" class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p id="activity_message"></p>
+                <p id="activity_sub_message"></p>
+            </div>
+            <div class="modal-footer">
+                <a id="activity_buy" href="{{ url('teenager/buy-procoins') }}" type="submit" class="btn btn-primary btn-next" style="display: none;">buy</a>
+                <button id="activity_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins({{$componentsData->pc_required_coins}});" style="display: none;" >ok </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="scoreModal" role="dialog">
+    
+</div>
 <span id="setResponse" value="0"></span>
 <span id="setResponseIntermediate" value="0"></span>
 <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
@@ -514,8 +517,13 @@
         e.preventDefault();
         getChallengedParentAndMentorList("{{Auth::guard('teenager')->user()->id}}");
     });
+    
     $(document).ready(function() {
-        
+        $(function() {
+            $(".sortable").sortable();
+            $(".sortable").disableSelection();
+        });
+
         $('.play-icon').click(function() {
             $(this).hide();
             $('video').show();
@@ -970,6 +978,8 @@
                 
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
+                $(".sortable").sortable();
+                $(".sortable").disableSelection();
             }
         }); 
     }
@@ -1437,14 +1447,22 @@
         if (limitSelect > 1) {
             if ($('input.multiCast:checked').length > limitSelect) {
                 this.checked = false;
-                $("#basicErrorGoneMsg").html('');
-                $("html, body").animate({
-                    scrollTop: $('#basicErrorGoneMsg').offset().top 
-                }, 300);
-                $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">You can select maximum '+ limitSelect +' options</span></div></div></div>');
-                // setTimeout(function() {
-                //     $("#basicErrorGoneMsg").html('');
-                // }, 3000);
+                
+                if($("#basicErrorGoneMsg").hasClass("basicErrorGoneMsg")) {
+                    $("#basicErrorGoneMsg").html('');
+                    $("html, body").animate({
+                        scrollTop: $('#basicErrorGoneMsg').offset().top 
+                    }, 300);
+                    $("#basicErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">You can select maximum '+ limitSelect +' options</span></div></div></div>');
+                }
+
+                if($("#intermediateErrorGoneMsg").hasClass("intermediateErrorGoneMsg")) {
+                    $("#intermediateErrorGoneMsg").html('');
+                    $("html, body").animate({
+                        scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+                    }, 300);
+                    $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">You can select maximum '+ limitSelect +' options</span></div></div></div>');
+                }
             }
         }    
     });
@@ -1610,6 +1628,25 @@
             success: function(response) {
                 $(".form-challenge").html(response);
                 $(".mentor-list ul").owlCarousel();
+            }
+        });
+    }
+
+    function getChallengeScoreDetails(parentId) {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = "parentId=" + parentId + "&professionId=" + "{{$professionsData->id}}";
+        $.ajax({
+            url: "{{ url('/teenager/get-challenge-score-details') }}",
+            type: 'POST',
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            cache: false,
+            success: function(response) {
+                $('#scoreModal').html(response);
+                $('#scoreModal').modal('show');
+                //$('.ajax-loader').hide();
             }
         });
     }
