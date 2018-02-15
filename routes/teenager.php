@@ -81,6 +81,7 @@ Route::post('/career-grid', 'Teenager\ProfessionController@gridGetIndex');
 Route::post('/search-career-grid', 'Teenager\ProfessionController@gridGetSearch');
 Route::post('/fetch-career-search-dropdown/', 'Teenager\ProfessionController@getSearchDropdown');
 Route::post('/get-dropdown-search-result/', 'Teenager\ProfessionController@getDropdownSearchResult');
+Route::post('/get-my-career-dropdown-search-result', 'Teenager\ProfessionController@getMyCareerDropdownSearchResult');
 Route::get('/my-careers/', 'Teenager\ProfessionController@getTeenagerCareers');
 Route::post('/get-my-careers-search/', 'Teenager\ProfessionController@getTeenagerCareersSearch');
 Route::post('/get-teenagers-for-starrated/', 'Teenager\ProfessionController@getTeenagerWhoStarRatedCareer');
