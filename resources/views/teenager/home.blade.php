@@ -21,8 +21,8 @@
                                 <h4><a href="{{ url('/teenager/edit-profile') }}" title="Edit Profile">edit</a></h4>
                                 <div class="your_progress">
                                     <h6>Your Progress</h6>
-                                    <h2>{{Helpers::calculateProfileComplete(Auth::guard('teenager')->user()->id)}}%</h2>
-                                    <h5>{{ ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? number_format($basicBoosterPoint['Total']) : 0 }} points</h5>
+                                    <h2 id="user_progress">{{Helpers::calculateProfileComplete(Auth::guard('teenager')->user()->id)}}%</h2>
+                                    <h5><span id="user_total_point"> {{ ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? number_format($basicBoosterPoint['Total']) : 0 }}</span> points</h5>
                                     <p>You advanced 7% on your last visit. Well done you!</p>
                                 </div>
                                 <!-- your_progress End -->
@@ -348,6 +348,9 @@
                 //$("#percentageSection"+section).html(response.sectionPercentage);
                 getTeenagerInterestData("{{Auth::guard('teenager')->user()->id}}");
                 getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
+                if(isSectionCompleted){
+                    getUserScoreAndPoint();
+                }
             }
         });
     }
@@ -419,7 +422,7 @@
         getTeenagerInterestData("{{Auth::guard('teenager')->user()->id}}");
         getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
         getCareerConsideration("{{Auth::guard('teenager')->user()->id}}");
-    });
+   });
 
     function getTeenagerInterestData(teenagerId) {
         $('.dashboard-interest-detail .loading-screen-data').parent().toggleClass('loading-screen-parent');
@@ -520,5 +523,21 @@
         smartSpeed: 500,
         autoplay:true,
     });
+    
+    function getUserScoreAndPoint() {
+    	$.ajax({
+            url : '{{ url("teenager/get-user-score-progress") }}',
+            method : "POST",
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            dataType: "json",
+            success : function (response) {
+                if (typeof response.progress !== "undefined" && response.progress != "") {
+                    $('#user_progress').html(response.progress);
+                    $('#user_total_point').html(response.totalpoint);
+                    $('#user_procoins').html(response.procoins);
+                }
+            }
+        });
+    }
 </script>
 @stop

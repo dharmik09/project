@@ -255,4 +255,16 @@ class HomeController extends Controller
         } 
         return $remainingDays;
     }
+    
+    public function getUserScoreProgress()
+    {
+        $user = Auth::guard('teenager')->user();
+        $progress = Helpers::calculateProfileComplete($user->id);
+        $basicBoosterPoint = $this->teenagersRepository->getTeenagerBasicBooster($user->id);
+        $response['progress'] = $progress."%";
+        $response['procoins'] = ($user->t_coins > 0) ? number_format($user->t_coins) : 'No Coins';
+        $response['totalpoint'] = ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? number_format($basicBoosterPoint['Total']) : 0;
+        return response()->json($response, 200);
+        exit;
+    }    
 }

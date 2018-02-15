@@ -82,11 +82,18 @@ class Level2ActivityController extends Controller {
         $sectionPercentage = $response['sectionPercentage'];
 
         $activities = $this->level2ActivitiesRepository->getNotAttemptedActivitiesBySection($user->id, $section);
-
+        
+        if(isset($activities) && !empty($activities))
+        {
+            $isSectionCompleted = false;
+        }else{
+            $isSectionCompleted = true;
+        }
+        
         $dispatchJob = Helpers::professionMatchScaleCalculate($sectionPercentageCollection, $user->id);
         $level2ActivityOriginalImageUploadPath = $this->level2ActivityOriginalImageUploadPath;
 
-        return view('teenager.basic.level2ActivitySection', compact('timer', 'activities', 'section', 'level2ActivityOriginalImageUploadPath', 'sectionPercentage'));
+        return view('teenager.basic.level2ActivitySection', compact('timer', 'activities', 'section', 'level2ActivityOriginalImageUploadPath', 'sectionPercentage','isSectionCompleted'));
     }
 
     public function saveLevel2Ans() {

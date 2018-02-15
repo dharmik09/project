@@ -61,7 +61,9 @@
                         </li>
                         <li class="n-coin submenu-container">
                             <a href="javascript:void(0);">
-                                <span class="coins"></span>{{ (Auth::guard('teenager')->user()->t_coins > 0) ? number_format(Auth::guard('teenager')->user()->t_coins) : 'No Coins' }}</a>
+                                <span class="coins"></span>
+                                <span id="user_procoins">{{ (Auth::guard('teenager')->user()->t_coins > 0) ? number_format(Auth::guard('teenager')->user()->t_coins) : 'No Coins' }}</span>
+                            </a>
                             <div class="submenu">
                                 <h2>My ProCoins</h2>
                                 <div class="btns">

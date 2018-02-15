@@ -281,7 +281,6 @@
                 required: true
             },
             mobile: {
-                required: true,
                 mobilelength: true
             },
             terms_condition: {
@@ -327,9 +326,6 @@
                 'selected_sponsor[]': {
                     required: "Please select atleast one sponsor"
                 },
-                mobile: {
-                    required: 'Mobile number is required'
-                },                                                   
                 terms_condition: { required: 'Please select terms and conditions'
                 },
                 day: { required: 'Date is required',
