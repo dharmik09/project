@@ -8,10 +8,24 @@
         } else {
             $key = 'block';
             $elementClass = '';
-        } ?>
+        }
+        
+        if($strengthValue['scale'] == 'H'){
+            $progressClass = 'progress-strong';
+        }
+        elseif($strengthValue['scale'] == 'M'){
+            $progressClass = 'progress-potential';
+        }
+        elseif($strengthValue['scale'] == 'L'){
+            $progressClass = 'progress-unlikely';
+        }else{
+            $progressClass = '';
+        }
+    ?>
     <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};">
         <div class="my_chart">
-            <div class="progress-radial progress-{{$strengthValue['score']}}">
+            
+            <div class="progress-radial progress-{{$strengthValue['score']}} {{$progressClass}}">
             </div>
             <h4><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthValue['slug']}}"> {{ $strengthValue['name'] }}</a></h4>
         </div>
