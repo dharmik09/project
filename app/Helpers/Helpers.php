@@ -2946,18 +2946,7 @@ Class Helpers {
     }
 
     public static function professionMatchScaleCalculate($array, $userId) {
-        if(isset($array[0]->NoOfTotalQuestions) && $array[0]->NoOfTotalQuestions > 0 && isset($array[0]->NoOfAttemptedQuestions)) {
-            $objTeenagerPromiseScore = new TeenagerPromiseScore;
-            $getLevel2AssessmentResult = Helpers::getTeenAPIScore($userId);
-            //save promise score into the table
-            if(isset($getLevel2AssessmentResult['APIdataSlug']) && count($getLevel2AssessmentResult['APIdataSlug']) > 0) {
-                try {
-                    $saveProfessionScale = $objTeenagerPromiseScore->saveTeenagerPromiseScore($getLevel2AssessmentResult['APIdataSlug'], $userId);
-                } catch(\Exception $e) {
-                    //
-                }
-            }
-            
+        if(isset($array[0]->NoOfTotalQuestions) && $array[0]->NoOfTotalQuestions > 0 && isset($array[0]->NoOfAttemptedQuestions)) {            
             if($array[0]->NoOfAttemptedQuestions >= $array[0]->NoOfTotalQuestions) {
                 dispatch( new SetProfessionMatchScale($userId) );
             }
