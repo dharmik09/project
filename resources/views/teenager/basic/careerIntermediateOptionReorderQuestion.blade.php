@@ -91,7 +91,7 @@
                                 $input .= "<div class='sort-list connectify image_h'>";
                                 $input .= "<ul id='sortable_1' class='reorder_question_type fixed_box'>";
                                 foreach ($LHSText as $key => $LHSoption) {
-                                    $input .= "<li class=''><span class='sortable_outer_container'><span class='sortable_container'>" . $LHSoption . "</span></span></li>";
+                                    $input .= "<li class=''><span class='sortable_outer_container'><span class='sortable_container'></span></span>" . $LHSoption . "</li>";
                                 }
                                 $input .= "</ul>";
                                 $input .= "</div>";
@@ -101,7 +101,7 @@
                                 $input .= "<div class='sort-list connectify image_h'>";
                                 $input .= "<ul id='sortable_1' class='reorder_question_type fixed_box'>";
                                 foreach ($LHSImages as $key1 => $LHSoptionImage) {
-                                    $input .= "<li class=''><span class='sortable_outer_container'><span class='sortable_container'><img src='" . $LHSoptionImage . "' alt='' height='100' class='pop_up_me'/></span></span></li>";
+                                    $input .= "<li class=''><span class='sortable_outer_container'><span class='sortable_container'></span></span><img src='" . $LHSoptionImage . "' alt='' height='100' class='pop_up_me'/></li>";
                                 }
                                 $input .= "</ul>";
                                 $input .= "</div>";
@@ -121,7 +121,6 @@
                                 $input .= "<li class='ui-state-default' id='" . $option['optionId'] . "'><span class='drag_me_text ui-icon'></span>" . $option['optionText'] . "</li>";
                             }
                             $input .= "</ul></div>";
-                            
                         ?>
                         {!! $input !!}
                     @else
@@ -133,7 +132,7 @@
                         <button class="btn btn-primary btn-next btn-intermediate" type="button" title="Next" onClick="getNextIntermediateQuestion({{$response['data']->l4ia_question_template}});">Next</button>
                     </div>
                     <div class="clearfix text-center">
-                        <a href="javascript:void(0);" class="next-que saveIntMe" onClick="saveDropDownIntermediateAnswer();">
+                        <a href="javascript:void(0);" class="next-que saveIntMe" onClick="saveOptionReorderIntermediateAnswer();">
                             <i class="icon-hand"></i>
                         </a>
                     </div>

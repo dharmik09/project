@@ -28,7 +28,7 @@
         font-family: h;
         font-size: 24px;
         color: $r-cl;
-        @include maxmd{
+        @include maxmd {
             font-size: 20px;
         }
         @include maxsm {
@@ -93,7 +93,7 @@
 .procoins {
     margin-bottom: 90px;
     position: relative;
-    @include maxmd{
+    @include maxmd {
         margin-bottom: 50px;
     }
     .icon_arrow {
@@ -159,7 +159,7 @@
             max-width: 100%;
             line-height: 1.3;
         }
-        @include maxms{
+        @include maxms {
             font-size: 14px;
         }
     }
@@ -197,8 +197,7 @@
                 }
                 .icon {
                     //font-size: 140px;
-                    color: $h-cl;
-                    //line-height: 1.35;
+                    color: $h-cl; //line-height: 1.35;
                     margin-bottom: 30px;
                     max-width: 140px;
                     margin: 0 auto 30px;
@@ -211,7 +210,7 @@
                         max-width: 90px;
                         height: 80px;
                     }
-                    @include maxms{
+                    @include maxms {
                         max-width: 70px;
                         height: 60px;
                     }
@@ -255,15 +254,27 @@
                     @include maxsm {
                         font-size: 50px;
                     }
-                    @include maxms{
+                    @include maxms {
                         font-size: 40px;
                     }
                     span {
-                        font-size: 30px;
-                        font-style: normal;
-                        margin-left: 10px;
-                        @include maxms{
-                            font-size: 24px;
+                        //font-size: 30px;
+                        font-style: normal; // margin-left: 10px;
+                        font-size: 70px;
+                        margin-right: 10px;
+                        vertical-align: text-bottom;
+                        line-height: 1;
+                        @include maxlg {
+                            font-size: 60px;
+                        }
+                        @include maxmd {
+                            font-size: 48px;
+                        }
+                        @include maxsm {
+                            font-size: 40px;
+                        }
+                        @include maxms {
+                            font-size: 33px;
                         }
                     }
                 }
@@ -284,7 +295,7 @@
                     @include maxsm {
                         font-size: 30px;
                     }
-                    @include maxms{
+                    @include maxms {
                         font-size: 26px;
                         padding-bottom: 15px;
                         margin-bottom: 15px;
@@ -308,7 +319,7 @@
                             font-size: 24px;
                             margin-left: 5px;
                         }
-                        @include maxms{
+                        @include maxms {
                             font-size: 18px;
                         }
                     }
@@ -324,7 +335,7 @@
                     @include maxsm {
                         font-size: 15px;
                     }
-                    @include maxms{
+                    @include maxms {
                         font-size: 14px;
                     }
                 }
@@ -375,10 +386,11 @@
 .row.flex-container:after {
     display: block;
 }
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    
-}
-@supports (-ms-ime-align:auto) { 
-    .procoins-buy{
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {}
+
+@supports (-ms-ime-align:auto) {
+    .procoins-buy {
         overflow-x: hidden;
-    } }
+    }
+}

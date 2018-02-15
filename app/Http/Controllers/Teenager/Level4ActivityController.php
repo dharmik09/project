@@ -531,7 +531,7 @@ class Level4ActivityController extends Controller {
                             $result = $objUserLearningStyle->saveUserLearningStyle($userData);
                         }
 
-                        //$saveLevel4IntemediateActivityAnswer = $this->level4ActivitiesRepository->saveTeenagerIntermediateActivityFillInBlanksAnswer($userId, $data, $body['answer']);
+                        $saveLevel4IntemediateActivityAnswer = $this->level4ActivitiesRepository->saveTeenagerIntermediateActivityFillInBlanksAnswer($userId, $data, $body['answer']);
                         $response['message'] = trans('appmessages.default_success_msg');
                         $response['status'] = 1;
                     } else {

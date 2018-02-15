@@ -527,7 +527,11 @@ h6 {
         }
     }
 }
-
+.my_career_tab{
+    .quiz_view .quiz-ans .next-que i{
+        transform: scaleX(-1);
+    }
+}
 // Second section start here
 .career-data-color-1 {
     background-color: $m-cl;
