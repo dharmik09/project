@@ -33,6 +33,9 @@ use App\DeductedCoins;
 use App\TeenParentChallenge;
 use App\Services\Parents\Contracts\ParentsRepository;
 use App\Services\Template\Contracts\TemplatesRepository;
+use App\Interest;
+use App\ProfessionSubject;
+use App\ProfessionTag;
 
 class ProfessionController extends Controller {
 
@@ -62,6 +65,9 @@ class ProfessionController extends Controller {
         $this->objTeenParentChallenge = new TeenParentChallenge;
         $this->parentsRepository = $parentsRepository;
         $this->templatesRepository = $templatesRepository;
+        $this->objInterest = new Interest; 
+        $this->objSubject = new ProfessionSubject;
+        $this->objTag = new ProfessionTag;
     }
 
     public function listIndex(){
@@ -469,7 +475,7 @@ class ProfessionController extends Controller {
             }
             $return .= '</select></div>';
         }
-        elseif ($queId == 2) // Careers
+        else if ($queId == 2) // Careers
         {
             $data = $this->professions->getActiveProfessionsOrderByName();
             $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
@@ -478,7 +484,85 @@ class ProfessionController extends Controller {
                     $return .= '<option value="'.$value->id.'">'.$value->pf_name.'</option>';
             }
             $return .= '</select></div>';
-        }
+        } 
+        else if ($queId == 3) // Interest
+        {
+            $data = $this->objInterest->getActiveInterest();
+            $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
+                <option value="0">All Interests</option>';
+            foreach ($data as $key => $value) {
+                    $return .= '<option value="'.$value->id.'">'.$value->it_name.'</option>';
+            }
+            $return .= '</select></div>';
+        } 
+        else if ($queId == 4) // Strength
+        {
+            $personality = $this->objPersonality->getActivepersonality();
+            $ptData = [];
+            if (!empty($personality)) {
+                foreach ($personality as $ptKey => $ptVal) {
+                    $ptArr = [];
+                    $ptArr['id'] = $ptVal->id;
+                    $ptArr['name'] = $ptVal->pt_name;
+                    $ptArr['slug'] = $ptVal->pt_slug;
+                    $ptArr['type'] = Config::get('constant.PERSONALITY_TYPE');
+                    $ptData[] = $ptArr;
+                }
+            }
+
+            $apptitude = $this->objApptitude->getActiveApptitude();
+            $aptData = [];
+            if (!empty($apptitude)) {
+                foreach ($apptitude as $aptKey => $aptVal) {
+                    $aptArr = [];
+                    $aptArr['id'] = $aptVal->id;
+                    $aptArr['name'] = $aptVal->apt_name;
+                    $aptArr['slug'] = $aptVal->apt_slug;
+                    $aptArr['type'] = Config::get('constant.APPTITUDE_TYPE');
+                    $aptData[] = $aptArr;
+                }
+            }
+
+            $mi = $this->objMultipleIntelligent->getActiveMultipleIntelligent();
+            $miData = [];
+            if (!empty($mi)) {
+                foreach ($mi as $key => $val) {
+                    $miArr = [];
+                    $miArr['id'] = $val->id;
+                    $miArr['name'] = $val->mit_name;
+                    $miArr['slug'] = $val->mi_slug;
+                    $miArr['type'] = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
+                    $miData[] = $miArr;
+                }
+            }
+            $data = array_merge($aptData, $ptData, $miData);
+            $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
+                <option value="0">All Strengths</option>';
+            foreach ($data as $key => $value) {
+                    $return .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+            }
+            $return .= '</select></div>';
+        } 
+        else if ($queId == 5) // Subjects
+        {
+            $data = $this->objSubject->getAllProfessionSubjects();
+            $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
+                <option value="0">All Subjects</option>';
+            foreach ($data as $key => $value) {
+                    $return .= '<option value="'.$value->id.'">'.$value->ps_name.'</option>';
+            }
+            $return .= '</select></div>';
+        } 
+        else if ($queId == 6) // Tags
+        {
+            $data = $this->objTag->getAllProfessionTags();
+            $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
+                <option value="0">All Tags</option>';
+            foreach ($data as $key => $value) {
+                    $return .= '<option value="'.$value->id.'">'.$value->pt_name.'</option>';
+            }
+            $return .= '</select></div>';
+        } 
         return $return;
     }
 
@@ -534,7 +618,8 @@ class ProfessionController extends Controller {
         $teenagerTotalProfessionAttemptedCount = $this->professions->getTeenagerTotalProfessionAttemptedOutOfStarRated($user->id);
         $teenagerTotalProfessionStarRatedCount = $this->professions->getteenagerTotalProfessionStarRatedCount($user->id);
         $professionImagePath = Config('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
-        return view('teenager.myCareers', compact('basketsData', 'professionImagePath','teenagerTotalProfessionAttemptedCount','teenagerTotalProfessionStarRatedCount'));
+        $filterData = Helpers::getMyCareerPageFilter();
+        return view('teenager.myCareers', compact('basketsData', 'professionImagePath','teenagerTotalProfessionAttemptedCount','teenagerTotalProfessionStarRatedCount', 'filterData'));
     }
 
     public function getTeenagerCareersSearch()

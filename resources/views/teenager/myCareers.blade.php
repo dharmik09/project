@@ -20,23 +20,16 @@
                         </div>
                         <div class="col-md-3 col-xs-6">
                             <div class="form-group custom-select">
-                                <select tabindex="8" class="form-control">
-                                  <option value="all categories">all categories</option>
-                                  <option value="Strong match">Strong match</option>
-                                  <option value="Potential match">Potential match</option>
-                                  <option value="Unlikely match">Unlikely match</option>
+                                <select id="questionDropdown" tabindex="8" class="form-control" onchange="fetchSearchDropdown();">
+                                  <option value="">all categories</option>
+                                  @foreach ($filterData as $keyFilter => $valFilter)
+                                    <option value="{{$keyFilter}}">{{$valFilter}}</option>
+                                  @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 col-xs-6">
-                            <div class="form-group custom-select bg-blue">
-                                <select tabindex="8" class="form-control">
-                                      <option value="all careers">all careers</option>
-                                      <option value="agriculture">agriculture</option>
-                                      <option value="conservation">conservation</option>
-                                      <option value="Veterinarians">Veterinarians</option>
-                                                                     </select>
-                            </div>
+                        <div id="answerDropdown" class="col-md-3 col-xs-6">
+                            
                         </div>
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group search-bar clearfix">
@@ -156,5 +149,27 @@
             }
         });
     });
+    function fetchSearchDropdown() {
+        if($("#questionDropdown").val() != 0){
+            $("#answerDropdown").html('');
+            var CSRF_TOKEN = "{{ csrf_token() }}";
+            var queId = $("#questionDropdown").val();
+            $.ajax({
+                type: 'POST',
+                url: "{{url('teenager/fetch-career-search-dropdown')}}",
+                dataType: 'html',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                data: {'queId':queId},
+                success: function (response) {
+                    $("#answerDropdown").html(response);
+                }
+            });
+        }
+        else{
+            $("#answerDropdown").html('');
+        }
+    }
 </script>
 @stop

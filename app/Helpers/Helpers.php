@@ -3048,4 +3048,10 @@ Class Helpers {
         $len = strpos($string, $end, $ini) - $ini;
         return strtolower(substr($string, $ini, $len));
     }
+
+    public static function getMyCareerPageFilter()
+    {
+        $filterData = array('1' => 'Industry', '2' => 'Careers', '3' => 'Interest', '4' => 'Sterngth', '5' => 'Subject', '6' => 'Tags');
+        return $filterData;
+    }
 }
