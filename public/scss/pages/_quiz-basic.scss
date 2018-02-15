@@ -997,3 +997,14 @@
         }
     }
 }
+
+.optionSelectionIntermediate {
+    max-width: 50%;
+    margin: 0 auto;
+    @include maxsm{
+        max-width: 80%;
+    }
+    @include maxms{
+        max-width: 100%;
+    }
+}
