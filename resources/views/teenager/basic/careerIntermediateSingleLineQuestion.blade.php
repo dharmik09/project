@@ -77,50 +77,22 @@
                             $optionName = "answer[0]";
                         }
                     ?>
-                    <div class="box optionSelectionIntermediate">
-                        @if(isset($response['data']->options) && !empty($response['data']->options))
-                            @php( shuffle($response['data']->options) )
-                            @php( $setFlag = 2 )
-                            @foreach($response['data']->options as $keyOption => $option)
-                                <?php
-                                    $option['optionImage'] = "";
-                                    if ($option['optionText'] == '') {
-                                        if ($option['optionAsImage'] != '') {
-                                            $optionAsImage = $option['optionAsImage'];
-                                        } else {
-                                            $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
-                                        }
-                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='click image to enlarge' class='pop_up_me' />";
-                                    }
-                                    
-                                    $extraSpan = '';
-                                    if ($option['optionImageText'] != '') {
-                                        $extraSpan = $option['optionImageText'];
-                                    }
-                                ?>
-                                @if ($setFlag % 2 == 0)
-                                    <div class="width-50 clearfix">
-                                @endif
-                                    
-                                    <label class="{{$optionType}} class{{$option['optionId']}}">
-                                        <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
-                                        <span class="checker"></span>
-                                        <em>
-                                            {!! $option['optionImage'] !!}
-                                            {!! $extraSpan !!}
-                                            {!! $option['optionText'] !!}
-                                        </em>
-                                    </label>
-                                    
-                                @php($setFlag++)
-                                @if ($setFlag != 2 && $setFlag % 2 == 0)
-                                    </div>
-                                @endif
-                                
-                            @endforeach
+                    <div class="box optionSelectionIntermediate form-group quiz-text">
+                        
+                        @php($correctOptionLength = strlen($response['data']->correctOption))
+                        <span id='singleLineCheck' value='yes'></span>
+                    
+                        @if (isset($correctOptionLength) && $correctOptionLength > 0)
+                            @php($x = 0)
+                            <div class='block-grp fill_in_blank'>
+                                <input type='text' class="form-control" id='single_line_answer_box' name='answer[{{$x}}]' maxlength='{{$correctOptionLength}}' size='{{$correctOptionLength}}' />
+                            </div>
                         @else
-                            <br/><p><strong>No Any Options For This Question.</strong></p>
+                            <div class='block-grp fill_in_blank'>
+                                <span>Something went wrong with this question!</span>
+                            </div>
                         @endif
+
                     </div>
                     <div class="text-center next-intermediate" style="display: none;">
                         <br/>
@@ -136,6 +108,14 @@
             </div>
         </form>
     </div>
+    <script type="text/javascript">
+        var intermediateCount = {{ (isset($response['timer']) && $response['timer'] != "") ? $response['timer'] : 0 }};
+        var ansTypeSet = "{{ (isset($response['data']->gt_temlpate_answer_type)) ? $response['data']->gt_temlpate_answer_type : 0 }}";
+        var setPopupTime = {{ (isset($setPopupTime)) ? $setPopupTime : 0 }};
+        var optionType = "{{ isset($optionType) ? $optionType : 'radio' }}";
+        var optionName = "{{ isset($optionName) ? $optionName : 'answerID[0]' }}";
+        var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
+    </script>
 @else
     @if( isset($response['intermediateCompleted']) && $response['intermediateCompleted'] == 1 )
         <div class="quiz_view">
@@ -176,11 +156,3 @@
         </div>
     @endif
 @endif
-<script type="text/javascript">
-    var intermediateCount = {{ (isset($response['timer']) && $response['timer'] != "") ? $response['timer'] : 0 }};
-    var ansTypeSet = "{{ (isset($response['data']->gt_temlpate_answer_type)) ? $response['data']->gt_temlpate_answer_type : 0 }}";
-    var setPopupTime = {{ (isset($setPopupTime)) ? $setPopupTime : 0 }};
-    var optionType = "{{ isset($optionType) ? $optionType : 'radio' }}";
-    var optionName = "{{ isset($optionName) ? $optionName : 'answerID[0]' }}";
-    var limitSelect = {{ (isset($response['data']->totalCorrectOptions) && $response['data']->totalCorrectOptions > 1) ? $response['data']->totalCorrectOptions : 1 }};
-</script>
