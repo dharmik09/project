@@ -388,14 +388,14 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
      * return : array/object of the Level1Part2 response
      */
     public function saveTeenagerLevel1Part2($teenIconSelection) {
-      $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->where("ti_teenager", $teenIconSelection['ti_teenager'])->where("ti_icon_type", $teenIconSelection['ti_icon_type'])->where("ti_icon_id", $teenIconSelection['ti_icon_id'])->get();
-      if (!empty($result) && count($result) > 0) {
-        $id = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->where("ti_teenager", $teenIconSelection['ti_teenager'])->where("ti_icon_type", $teenIconSelection['ti_icon_type'])->where("ti_icon_id", $teenIconSelection['ti_icon_id'])->update($teenIconSelection);
-        return $id;
-      } else {
-        $id = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->insertGetId($teenIconSelection);
-        return $id;
-      }
+        $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->where("ti_teenager", $teenIconSelection['ti_teenager'])->where("ti_icon_type", $teenIconSelection['ti_icon_type'])->where("ti_icon_id", $teenIconSelection['ti_icon_id'])->get();
+        if (!empty($result) && count($result) > 0) {
+            $id = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->where("ti_teenager", $teenIconSelection['ti_teenager'])->where("ti_icon_type", $teenIconSelection['ti_icon_type'])->where("ti_icon_id", $teenIconSelection['ti_icon_id'])->update($teenIconSelection);
+            return $id;
+        } else {
+            $id = DB::table(config::get('databaseconstants.TBL_TEENAGER_ICON'))->insertGetId($teenIconSelection);
+            return $id;
+        }
     }
 
     public function saveTeenagerLevel1Part2Qualities($qualityResponseData) {
