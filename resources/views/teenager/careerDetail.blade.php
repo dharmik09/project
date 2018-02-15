@@ -1323,6 +1323,100 @@
         }
     }
 
+    function saveOptionReorderIntermediateAnswer() {
+        $("#intermediateErrorGoneMsg").html('');
+        $('.stopOnSubmit iframe').attr("src", jQuery(".stopOnSubmit iframe").attr("src"));
+        var isAudio = $("#checkAudio").val();
+        if(typeof isAudio !== "undefined"){
+            var audioStop = document.getElementById('onOffAudio');
+            audioStop.pause();
+            $("#onOffAudio").prop('muted',true);
+        }
+        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
+            var audio = document.getElementById('audio_1');
+            audio.play();
+        <?php } ?>
+        var countBox = 1;
+        var arra_ans = [];
+        var validCheckAll = 0;
+        
+        $('#sortable .ui-state-default').each(function() {
+            var id_string = $(this).attr('id');
+            arra_ans.push(id_string);
+        });
+        if (arra_ans.length < 1) {
+            validCheckAll = 0;
+        } else {
+            validCheckAll = 1;
+            $(".intermediate-time-tag").css('visibility', 'hidden');
+        }
+
+        if (validCheckAll === 1) {
+            var form_data = $("#level4_intermediate_activity_ans").serializeArray();
+            form_data.push({name: 'answer[0]', value: arra_ans});
+            $('.intermediate-question-loader').parent().toggleClass('loading-screen-parent');
+            $('.intermediate-question-loader').show();
+            $("#setResponseIntermediate").val("1");
+            $('.saveIntMe').css('visibility', 'hidden');
+            
+            $.ajax({
+                type: 'POST',
+                data: form_data,
+                //async: false,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                cache: false,
+                success: function(data) {
+                    $('.intermediate-question-loader').hide();
+                    $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                    var obj = $.parseJSON(data);
+                    if (obj.status == 1) {
+                        if (obj.answerType == "option_reorder") {
+                        	$("#answerRightWrongMsg").text(obj.answerRightWrongMsg + " Correct order is given below");
+                            if (obj.systemCorrectAnswer == 1) {
+                                $(".response_message_outer").addClass("correct");
+                            } else {
+                                $(".response_message_outer").addClass("incorrect");
+                            }
+                            if (obj.systemCorrectOptionOrder) {
+                                var htmlLI = '';
+                                $.each(obj.systemCorrectOptionOrder, function(key, value) {
+                                    htmlLI += '<li class="ui-state-default right" id="' + value['optionId'] + '"><span class="sortable_outer_container"><span class="sortable_container"><span class="drag_me_text">' + value['optionText'] + '</span></span></span></li>';
+                                });
+                                $("#sortable").html(htmlLI);
+                            } else {
+                                $('.intermediate-question-loader').hide();
+            					$('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+            					$("#intermediateErrorGoneMsg").html('');
+                                if ($("#intermediateErrorGoneMsg").hasClass('intermediateErrorGoneMsg')) {
+                                    $("html, body").animate({
+						                scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+						            }, 300);
+						        }
+						        $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Refresh this page!</span></div></div></div>');
+                            }
+                        } else {
+                            $("#answerRightWrongMsg").text("Invalid answer type");
+                        }
+                        $('.saveIntMe').css('visibility', 'hidden');
+                        $('.next-intermediate').show();
+                    } else {
+                        $("#showResponseMessage").text(obj.message);
+                        var urlSet = obj.redirect;
+                    }
+                }
+            });
+        } else {
+            $("#intermediateErrorGoneMsg").html('');
+            $('.intermediate-question-loader').hide();
+            $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+            $("html, body").animate({
+                scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+            }, 300);
+            $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please select order and answer!</span></div></div></div>');
+        }
+    }
 
     function autoSubmitIntermediateAnswer() {
         if ($("#setResponseIntermediate").val() == 0) {
@@ -1595,6 +1689,7 @@
             });
         } 
     }
+    
     $('.mentor-list ul').owlCarousel({
         loop: false,
         margin: 0,
