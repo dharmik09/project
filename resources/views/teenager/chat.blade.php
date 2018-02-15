@@ -58,7 +58,7 @@
             <!-- sec chat end-->
             <!-- sec notification-->
             <div class="sec-notification">
-                <h2 class="font-blue">All Notifications</h2>
+                <h2 class="font-blue">Notifications</h2>
                 @if(count($notificationData)>0)
                     <div class="notification-list">
                         @foreach($notificationData as $key => $value)
@@ -113,7 +113,7 @@
                 <span>Forum module</span>
             </div>-->
             <div class="forum-module">
-                <h2 class="font-blue">Forum Module</h2>
+                <h2 class="font-blue">Forum</h2>
                 @if(isset($forumQuestionData) && count($forumQuestionData)>0)
                     <div class="forum-container">
                         @foreach($forumQuestionData as $key => $value)
