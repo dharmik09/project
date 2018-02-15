@@ -23,6 +23,9 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use App\PaidComponent;
 use App\DeductedCoins;
+use App\MultipleIntelligentScale;
+use App\ApptitudeTypeScale;
+use App\PersonalityScale;
 
 class HomeController extends Controller
 {
@@ -49,8 +52,12 @@ class HomeController extends Controller
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
         $this->objPaidComponent = new PaidComponent;
         $this->objDeductedCoins = new DeductedCoins;
+        $this->objMIScale = new MultipleIntelligentScale();
+        $this->objApptitudeScale = new ApptitudeTypeScale();
+        $this->objPersonalityScale = new PersonalityScale();
         $this->log = new Logger('teenager-home-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
+        
     }
 
     /**
@@ -135,7 +142,7 @@ class HomeController extends Controller
                     }
                 }
             }else{
-                $response['message'] = "Please attemp atleast one section of Profile Builder to view your strength!";
+                $response['message'] = "Please attemp atleast one section of Profile Builder to view your interest!";
             }
             return view('teenager.basic.myInterest', compact('teenagerInterest'));
             exit;                        
@@ -167,23 +174,28 @@ class HomeController extends Controller
             $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($request->teenagerId);
             if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
             {
-                $teenPromiseScore = $teenPromiseScore->toArray();                
+                $teenPromiseScore = $teenPromiseScore->toArray();  
+                
                 foreach($teenPromiseScore as $paramkey=>$paramvalue)
                 {                    
-                    if (strpos($paramkey, 'apt_') !== false) {                       
+                    if (strpos($paramkey, 'apt_') !== false) { 
+                        $scaleapt = $this->objApptitudeScale->calculateApptitudeHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey));
+                        $teenagerStrength[] = (array('scale'=>$scaleapt,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey));
                     }elseif(strpos($paramkey, 'pt_') !== false){
+                        $scalept = $this->objPersonalityScale->calculatePersonalityHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey));
+                        $teenagerStrength[] = (array('scale'=>$scalept,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey));
                     }elseif(strpos($paramkey, 'mit_') !== false){
+                        $scalemi = $this->objMIScale->calculateMIHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey));
+                        $teenagerStrength[] = (array('scale'=>$scalemi,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey));
                     }
                 }
             }else{
                 $response['message'] = "Please attemp atleast one section of Profile Builder to view your strength!";
             }
+        
             return view('teenager.basic.myStrength', compact('teenagerStrength'));
             exit;
         } else {
