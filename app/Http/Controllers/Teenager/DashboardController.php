@@ -78,8 +78,8 @@ class DashboardController extends Controller
     {
         $data = [];
         $user = Auth::guard('teenager')->user();
-        $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenOriginalImageUploadPath.'proteen-logo.png');
-        $data['user_profile_thumb'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : asset($this->teenThumbImageUploadPath.'proteen-logo.png');
+        $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) : Storage::url($this->teenOriginalImageUploadPath.'proteen-logo.png');
+        $data['user_profile_thumb'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : Storage::url($this->teenThumbImageUploadPath.'proteen-logo.png');
         
         $basicBoosterPoint = $this->teenagersRepository->getTeenagerBasicBooster($user->id);
         
