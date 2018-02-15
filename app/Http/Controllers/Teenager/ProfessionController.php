@@ -883,4 +883,35 @@ class ProfessionController extends Controller {
         exit;
     }
 
+    public function getMyCareerDropdownSearchResult()
+    {
+        $queId = Input::get('queId');
+        $ansId = Input::get('ansId');
+        $user = Auth::guard('teenager')->user();
+        $userId = $user->id;
+        if($user->t_view_information == 1){
+            $countryId = 2; // United States
+        }else{
+            $countryId = 1; // India
+        }
+
+        if($ansId != 0){
+            if($queId == 1) // Industry
+            {
+                $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($ansId, $userId, $countryId);
+            }
+            elseif ($queId == 2) // Careers
+            {
+                $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($ansId, $userId, $countryId);
+                
+            } 
+        }
+        else // All Industry with Careers
+        {         
+            $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByUserId($userId, $countryId);
+        }
+        $professionImagePath = Config('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
+        return view('teenager.basic.searchdMyCareers', compact('basketsData', 'professionImagePath'));
+    }
+
 }
