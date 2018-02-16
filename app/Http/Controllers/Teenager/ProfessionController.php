@@ -900,10 +900,17 @@ class ProfessionController extends Controller {
             {
                 $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($ansId, $userId, $countryId);
             }
-            elseif ($queId == 2) // Careers
+            else if ($queId == 2) // Careers
             {
                 $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($ansId, $userId, $countryId);
-                
+            } 
+            else if ($queId == 5) // Careers
+            {
+                $basketsData = $this->baskets->getProfessionBasketsBySubjectForUser($ansId, $userId, $countryId);
+            } 
+            else if ($queId == 6) // Tags
+            {
+                $basketsData = $this->baskets->getProfessionBasketsByTagForUser($ansId, $userId, $countryId);
             } 
         }
         else // All Industry with Careers
