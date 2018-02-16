@@ -539,7 +539,7 @@ class ProfessionController extends Controller {
             $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
                 <option value="0">All Strengths</option>';
             foreach ($data as $key => $value) {
-                    $return .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+                    $return .= '<option value="'.$value['slug'].'">'.$value['name'].'</option>';
             }
             $return .= '</select></div>';
         } 
@@ -913,7 +913,8 @@ class ProfessionController extends Controller {
             } 
             else if ($queId == 4) // Strength
             {
-                $basketsData = $this->baskets->getProfessionBasketsByStrengthDetailsForUser($ansId, $userId, $countryId);
+                $careersDetails = Helpers::getCareerMapColumnName();
+                $basketsData = $this->baskets->getProfessionBasketsByStrengthDetailsForUser($careersDetails[$ansId], $userId, $countryId);
             } 
             else if ($queId == 5) // Subjects
             {

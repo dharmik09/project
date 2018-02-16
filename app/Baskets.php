@@ -307,6 +307,38 @@ class Baskets extends Model
         return $return;
     }
 
+    public function getProfessionBasketsByStrengthDetailsForUser($strengthSlug, $userId, $countryId)
+    {
+        $this->strengthSlug = $strengthSlug;
+        $this->userId = $userId;
+        $this->countryId = $countryId;
+        $qry = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id',$this->countryId);
+                    }]) 
+                    ->whereHas('careerMapping', function ($query) {
+                            $query->whereIn($this->strengthSlug, ['M', 'H']);
+                        })
+                    ->with('starRatedProfession')
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->whereHas('starRatedProfession')
+                    ->whereHas('careerMapping', function ($query) {
+                        $query->whereIn($this->strengthSlug, ['M', 'H']);
+                    })
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                });
+                
+                
+        $return = $qry->where('deleted', '1')->get();
+        return $return;
+    }
+
     public function getStarredBasketsAndProfessionByUserId($userId){
         $this->userId = $userId;
         $return = $this->select('*')
