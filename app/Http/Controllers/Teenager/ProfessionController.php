@@ -801,20 +801,12 @@ class ProfessionController extends Controller {
                     $careerConsideration = $finalArray;
 
                 } else if(count($match) > 0 || count($moderate) > 0) {
-                    print_r($moderate);
-                    echo "<pre/><br/>";
-                    print_r($match);
-                    
                     if( count($matchHigh) > 0 || count($moderateHigh) > 0 || count($moderateLow) > 0 || count($matchLow) > 0 ) {
-                        asort($matchHigh);
-                        asort($matchLow);
-                        asort($moderateHigh);
-                        asort($moderateLow);
+                        arsort($matchHigh);
+                        arsort($matchLow);
+                        arsort($moderateHigh);
+                        arsort($moderateLow);
                         $mergeAllSortArray = $matchHigh + $matchLow + $moderateHigh + $moderateLow;
-                        echo "<pre/><br/>";
-                        print_r($mergeAllSortArray);
-                        die();
-
                         $careerConsiderationTemp = array_merge($match, $moderate);
                         foreach($mergeAllSortArray as $key => $sortArray) {
                             if(isset($careerConsiderationTemp[$key])) {
@@ -822,11 +814,11 @@ class ProfessionController extends Controller {
                             }
                         }    
                     } else {
-                        asort($matchSecondHigh);
-                        asort($matchSecondLow);
-                        asort($moderateSecondHigh);
-                        asort($moderateSecondLow);
-                        $mergeAllSortArray = array_merge($matchSecondHigh, $matchSecondLow, $moderateSecondHigh, $moderateSecondLow);
+                        arsort($matchSecondHigh);
+                        arsort($matchSecondLow);
+                        arsort($moderateSecondHigh);
+                        arsort($moderateSecondLow);
+                        $mergeAllSortArray = $matchSecondHigh + $matchSecondLow + $moderateSecondHigh + $moderateSecondLow;
                         $careerConsiderationTemp = array_merge($match, $moderate);
                         foreach($mergeAllSortArray as $key => $sortArray) {
                             if(isset($careerConsiderationTemp[$key])) {
