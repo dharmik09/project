@@ -810,11 +810,11 @@ class ProfessionController extends Controller {
                         asort($matchLow);
                         asort($moderateHigh);
                         asort($moderateLow);
-                        $mergeAllSortArray = array_merge($matchHigh, $matchLow, $moderateHigh, $moderateLow);
+                        $mergeAllSortArray = $matchHigh + $matchLow + $moderateHigh + $moderateLow;
                         echo "<pre/><br/>";
                         print_r($mergeAllSortArray);
                         die();
-                        
+
                         $careerConsiderationTemp = array_merge($match, $moderate);
                         foreach($mergeAllSortArray as $key => $sortArray) {
                             if(isset($careerConsiderationTemp[$key])) {
