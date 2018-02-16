@@ -714,19 +714,19 @@ class ProfessionController extends Controller {
 
             $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($user->id)->toArray() : [];
 
-            $match = $nomatch = $moderate = [];
+            $match = $nomatch = $moderate = $matchHigh = $matchLow = $moderateHigh = $moderateLow = $nomatchHign = $nomatchLow = [];
 
             if($getAllActiveProfessions) {
                 foreach($getAllActiveProfessions as $profession) {
                     $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystemByProfession($profession->id);
                     if($getCareerMappingFromSystem) {
-                        $mapingArray = [];
+                        $mappingArray = [];
                         unset($getCareerMappingFromSystem->created_at);
                         unset($getCareerMappingFromSystem->updated_at);
                         unset($getCareerMappingFromSystem->deleted);
-                        print_r(array_count_values((array)$getCareerMappingFromSystem)); die();
-                        $mapingArray = array_count_values((array)$getCareerMappingFromSystem);
-                        if(isset($mapingArray[H]) && isset($mapingArray[M]) && $mapingArray[M] > 0 && $mapingArray[H] > 0) {
+                        
+                        $mappingArray = array_count_values((array)$getCareerMappingFromSystem);
+                        if(isset($mappingArray['H']) && isset($mappingArray['M']) && $mappingArray['M'] > 0 && $mappingArray['H'] > 0) {
                             $array = [];
                             $array['id'] = $profession->id;
                             $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
@@ -737,19 +737,24 @@ class ProfessionController extends Controller {
                             
                             if($array['match_scale'] == "match") {
                                 $match[$profession->id] = $array;
-                                if($mapingArray[H] > 0) {
-                                    $matchHigh[$profession->id] = $mapingArray[H];
+                                if($mappingArray['H'] > 0) {
+                                    $matchHigh[$profession->id] = $mappingArray['H'];
                                 } else {
-                                    $matchLow[$profession->id] = $mapingArray[M];
+                                    $matchLow[$profession->id] = $mappingArray['M'];
                                 }
                             } else if($array['match_scale'] == "nomatch") {
                                 $nomatch[$profession->id] = $array;
+                                if($mappingArray['H'] > 0) {
+                                    $nomatchHigh[$profession->id] = $mappingArray['H'];
+                                } else {
+                                    $nomatchLow[$profession->id] = $mappingArray['M'];
+                                }
                             } else if($array['match_scale'] == "moderate") {
                                 $moderate[$profession->id] = $array;
-                                if($moderateArray[H] > 0) {
-                                    $moderateHigh[$profession->id] = $mapingArray[H];
+                                if($mappingArray['H'] > 0) {
+                                    $moderateHigh[$profession->id] = $mappingArray['H'];
                                 } else {
-                                    $moderateLow[$profession->id] = $mapingArray[M];
+                                    $moderateLow[$profession->id] = $mappingArray['M'];
                                 }
                             } else {
                                 $notSetArray[$profession->id] = $array;
@@ -757,16 +762,39 @@ class ProfessionController extends Controller {
                         } 
                     }
                 }
+
                 if(count($match) < 1 && count($moderate) < 1 && count($nomatch) > 0) {
-                    $careerConsideration = $nomatch;
+                    asort($nomatchHigh);
+                    asort($nomatchLow);
+                    $mergeAllSortArray = array_merge($nomatchHigh, $nomatchLow);
+                    $careerConsiderationTemp = $nomatch;
+                    foreach($mergeAllSortArray as $key => $sortArray) {
+                        if(isset($careerConsiderationTemp[$key])) {
+                            $finalArray[$key] =  $careerConsiderationTemp[$key]; 
+                        }
+                    }
+                    $careerConsideration = $finalArray;
+
                 } else if(count($match) > 0 || count($moderate) > 0) {
-                    $careerConsideration = array_merge($match, $moderate);
+                    asort($matchHigh);
+                    asort($matchLow);
+                    asort($moderateHigh);
+                    asort($moderateLow);
+                    $mergeAllSortArray = array_merge($matchHigh, $matchLow, $moderateHigh, $moderateLow);
+                    $careerConsiderationTemp = array_merge($match, $moderate);
+
+                    foreach($mergeAllSortArray as $key => $sortArray) {
+                        if(isset($careerConsiderationTemp[$key])) {
+                            $finalArray[$key] =  $careerConsiderationTemp[$key]; 
+                        }
+                    }
+                    $careerConsideration = $finalArray;
+                
                 } else {
                     $careerConsideration = $notSetArray;
                 }
-
+                //print_r($careerConsideration);
                 
-
                 return view('teenager.basic.careerConsideration', compact('careerConsideration', 'getTeenagerHML'));
             } else {
                 $response['status'] = 0;
