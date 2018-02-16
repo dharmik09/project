@@ -557,7 +557,7 @@ class ProfessionController extends Controller {
             $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
                 <option value="0">All Interests</option>';
             foreach ($data as $key => $value) {
-                    $return .= '<option value="'.$value->id.'">'.$value->it_name.'</option>';
+                    $return .= '<option value="'.$value->it_slug.'">'.$value->it_name.'</option>';
             }
             $return .= '</select></div>';
         } 
@@ -605,7 +605,7 @@ class ProfessionController extends Controller {
             $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
                 <option value="0">All Strengths</option>';
             foreach ($data as $key => $value) {
-                    $return .= '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+                    $return .= '<option value="'.$value['slug'].'">'.$value['name'].'</option>';
             }
             $return .= '</select></div>';
         } 
@@ -718,21 +718,43 @@ class ProfessionController extends Controller {
 
             if($getAllActiveProfessions) {
                 foreach($getAllActiveProfessions as $profession) {
-                    $array = [];
-                    $array['id'] = $profession->id;
-                    $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
-                    $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
-                    $array['is_completed'] = 0;
-                    $array['pf_name'] = $profession->pf_name;
-                    $array['pf_slug'] = $profession->pf_slug;
-                    if($array['match_scale'] == "match") {
-                        $match[] = $array;
-                    } else if($array['match_scale'] == "nomatch") {
-                        $nomatch[] = $array;
-                    } else if($array['match_scale'] == "moderate") {
-                        $moderate[] = $array;
-                    } else {
-                        $notSetArray[] = $array;
+                    $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystemByProfession($profession->id);
+                    if($getCareerMappingFromSystem) {
+                        $mapingArray = [];
+                        unset($getCareerMappingFromSystem->created_at);
+                        unset($getCareerMappingFromSystem->updated_at);
+                        unset($getCareerMappingFromSystem->deleted);
+                        print_r(array_count_values((array)$getCareerMappingFromSystem)); die();
+                        $mapingArray = array_count_values((array)$getCareerMappingFromSystem);
+                        if(isset($mapingArray[H]) && isset($mapingArray[M]) && $mapingArray[M] > 0 && $mapingArray[H] > 0) {
+                            $array = [];
+                            $array['id'] = $profession->id;
+                            $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+                            $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+                            $array['is_completed'] = 0;
+                            $array['pf_name'] = $profession->pf_name;
+                            $array['pf_slug'] = $profession->pf_slug;
+                            
+                            if($array['match_scale'] == "match") {
+                                $match[$profession->id] = $array;
+                                if($mapingArray[H] > 0) {
+                                    $matchHigh[$profession->id] = $mapingArray[H];
+                                } else {
+                                    $matchLow[$profession->id] = $mapingArray[M];
+                                }
+                            } else if($array['match_scale'] == "nomatch") {
+                                $nomatch[$profession->id] = $array;
+                            } else if($array['match_scale'] == "moderate") {
+                                $moderate[$profession->id] = $array;
+                                if($moderateArray[H] > 0) {
+                                    $moderateHigh[$profession->id] = $mapingArray[H];
+                                } else {
+                                    $moderateLow[$profession->id] = $mapingArray[M];
+                                }
+                            } else {
+                                $notSetArray[$profession->id] = $array;
+                            }
+                        } 
                     }
                 }
                 if(count($match) < 1 && count($moderate) < 1 && count($nomatch) > 0) {
@@ -964,7 +986,7 @@ class ProfessionController extends Controller {
             $countryId = 1; // India
         }
 
-        if($ansId != 0){
+        if($ansId != '' || $ansId != 0){
             if($queId == 1) // Industry
             {
                 $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($ansId, $userId, $countryId);
@@ -973,7 +995,16 @@ class ProfessionController extends Controller {
             {
                 $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($ansId, $userId, $countryId);
             } 
-            else if ($queId == 5) // Careers
+            else if ($queId == 3) // Interest
+            {
+                $basketsData = $this->baskets->getProfessionBasketsByInterestDetailsForUser($ansId, $userId, $countryId);
+            } 
+            else if ($queId == 4) // Strength
+            {
+                $careersDetails = Helpers::getCareerMapColumnName();
+                $basketsData = $this->baskets->getProfessionBasketsByStrengthDetailsForUser($careersDetails[$ansId], $userId, $countryId);
+            } 
+            else if ($queId == 5) // Subjects
             {
                 $basketsData = $this->baskets->getProfessionBasketsBySubjectForUser($ansId, $userId, $countryId);
             } 
