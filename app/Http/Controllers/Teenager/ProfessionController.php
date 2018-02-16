@@ -818,14 +818,14 @@ class ProfessionController extends Controller {
                         $mergeMatchSortArray = $matchHigh + $matchLow;
                         foreach($mergeMatchSortArray as $keyH => $sortArray) {
                             if(isset($careerConsiderationTemp[$keyH])) {
-                                $finalArray[$keyH] =  $careerConsiderationTemp[$keyH]; 
+                                $finalArray[] =  $careerConsiderationTemp[$keyH]; 
                             }
                         }
 
                         $mergeModerateSortArray = $moderateHigh + $moderateLow;
                         foreach($mergeModerateSortArray as $keyM => $sortArray) {
                             if(isset($careerConsiderationTemp[$keyM])) {
-                                $finalArray[$keyM] =  $careerConsiderationTemp[$keyM]; 
+                                $finalArray[] =  $careerConsiderationTemp[$keyM]; 
                             }
                         }
                     } else {
@@ -837,7 +837,7 @@ class ProfessionController extends Controller {
                         $careerConsiderationTemp = array_merge($match, $moderate);
                         foreach($mergeAllSortArray as $key => $sortArray) {
                             if(isset($careerConsiderationTemp[$key])) {
-                                $finalArray[$key] =  $careerConsiderationTemp[$key]; 
+                                $finalArray[] =  $careerConsiderationTemp[$key]; 
                             }
                         }
                     }
