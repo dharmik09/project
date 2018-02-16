@@ -25,8 +25,8 @@
     <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};">
         <div class="my_chart">
             
-            <div class="progress-radial progress-{{$strengthValue['score']}} {{$progressClass}}">
-            </div>
+            <a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthValue['slug']}}" class="progress-radial progress-{{$strengthValue['score']}} {{$progressClass}}">
+            </a>
             <h4><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthValue['slug']}}"> {{ $strengthValue['name'] }}</a></h4>
         </div>
     </div>

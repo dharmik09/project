@@ -766,6 +766,12 @@
 
 .quiz_view .quiz-ans .next-que {
     font-size: 105px;
+    @include maxlg{
+        font-size: 94px;
+    }
+    @include maxmd{
+        font-size: 85px;
+    }
     i {
         transform: scaleX(1);
     }

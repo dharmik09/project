@@ -30,6 +30,13 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
+                            <div class="data-explainations clearfix data-interest">
+                                <div class="content">
+                                    <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
+                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
+                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
+                                </div>
+                            </div>
                             <h2>My Interests <span></span>
                                 <span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-interest')" data-toggle="clickover" data-popover-content="#dashboard-interest" class="help-icon custompop" rel="popover" data-placement="bottom">
                                 <i class="icon-question"></i></a></span>
@@ -56,6 +63,13 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
+                            <div class="data-explainations clearfix data-interest">
+                                <div class="content">
+                                    <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
+                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
+                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
+                                </div>
+                            </div>
                             <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-strength')" data-toggle="clickover" data-popover-content="#dashboard-strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="hide" id="dashboard-strength">
                                 <div class="popover-data">
