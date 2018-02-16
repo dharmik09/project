@@ -28,16 +28,22 @@
     <h4>Subjects and Interests</h4>
     @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
         <div class="img-list">
-            <ul>
+            <ul>                
                 @forelse($professionsData->professionSubject as $professionSubject)
-                    @if($professionSubject->parameter_grade == 'M' || $professionSubject->parameter_grade == 'H')
-                        <li>
-                            <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="{{$professionSubject->subject['ps_name']}}">
-                            <a href="{{url('/teenager/interest')}}/it_{{$professionSubject->subject['ps_slug']}}"><span>{{$professionSubject->subject['ps_name']}}</span></a>
-                        </li>
-                    @endif
+                
+                    @if(count($professionSubject->subject) > 0)
+                        @if($professionSubject->parameter_grade == 'M' || $professionSubject->parameter_grade == 'H')
+                            <li>
+                                <div class="logo-img">
+                                <img src="{{ Storage::url($professionSubjectImagePath.$professionSubject->subject['ps_image']) }}" alt="{{$professionSubject->subject['ps_name']}}">
+                                </div>
+                                <a href="{{url('/teenager/interest')}}/it_{{$professionSubject->subject['ps_slug']}}"><span>{{$professionSubject->subject['ps_name']}}</span></a>                            
+                            </li>
+                        @endif
+                    @endif                
                 @empty
                 @endforelse
+                
             </ul>
         </div>
     @endif
@@ -130,7 +136,11 @@
         <div class="img-list">
             <ul>
                 @forelse($professionsData->professionCertificates as $professionCertificate)
+               
+                @if(count($professionCertificate->certificate) > 0)
                 <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
+                @endif
+                
                 @empty
                 @endforelse
             </ul>

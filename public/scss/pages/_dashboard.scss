@@ -616,19 +616,29 @@ h6 {
     &.data-interest{
         margin-top: -48px;
         text-align: center;
-        background: $bg-offwhite;
+        .content{
+            background: $bg-offwhite;
+            display: inline-block;
+            padding: 0 15px;
+            @include maxsm{
+                padding: 0 10px;
+            }
+        }
         @include maxlg{
             margin-top: -28px;
         }
-        @include maxsm{
+        /*@include maxsm{
             margin-top: 0;
             text-align: left;
-        }
+        }*/
         .data{
             display: inline-block;float: none;
             span{
                 @include maxlg{
                     font-size: 15px;
+                }
+                @include maxms{
+                    font-size: 14px;
                 }
             }
             &:last-child{

@@ -7,6 +7,7 @@
   border-radius: 50%;
   //border: 2px solid #c8cbce;
   background-color: #c8cbce;
+    display: block;
     margin: 0 auto;
     @include maxlg{
         width: 150px;height: 150px;
