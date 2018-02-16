@@ -6,6 +6,7 @@ use DB;
 use Helpers;
 use Config;
 use App\Level4Answers;
+use App\Teenagers;
 use App\Level4Options;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\Services\Repositories\Eloquent\EloquentBaseRepository;
@@ -366,7 +367,6 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             $row['earned_points'] = $response['earned_points'];
             $objLevel4Answers = new Level4Answers();
 
-
             foreach ($answerArray as $ansId) {
                 $row['answer_id'] = $ansId;
                 $answered = $objLevel4Answers->where("teenager_id", $teenagerId)->where("activity_id", $response['questionID'])->where("answer_id", $row['answer_id'])->first();
@@ -381,6 +381,14 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
                 }
             }
             $points += $response['earned_points'];
+
+            //Saving the pro coins data
+            $proCoins = Teenagers::find($teenagerId);
+            $configValue = Helpers::getConfigValueByKey('PROCOINS_FACTOR_L4B');
+            if($proCoins) {
+                $proCoins->t_coins = (int)$proCoins->t_coins + ( $response['earned_points'] * $configValue );
+                $proCoins->save();
+            }
 
             $questionsID[] = $response['questionID'];
             $deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
@@ -428,11 +436,22 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
         if ($teenagerLevelPoints) {
             $teenagerLevelPoints = (array) $teenagerLevelPoints;
             $teenagerLevel4PointsRow['tlb_points'] = $teenagerLevelPoints['tlb_points'] + $data['l4iaua_earned_point'];
+            $teenPoints = $teenagerLevel4PointsRow['tlb_points'];
             DB::table(config::get('databaseconstants.TBL_TEENAGER_LEVEL_BOOSTERS'))->where('id', $teenagerLevelPoints['id'])->update($teenagerLevel4PointsRow);
         } else {
             $teenagerLevel4PointsRow['tlb_points'] = $data['l4iaua_earned_point'];
+            $teenPoints = $teenagerLevel4PointsRow['tlb_points'];
             DB::table(config::get('databaseconstants.TBL_TEENAGER_LEVEL_BOOSTERS'))->insert($teenagerLevel4PointsRow);
         }
+
+        //Saving the pro coins data
+        $proCoins = Teenagers::find($teenagerId);
+        $configValue = Helpers::getConfigValueByKey('PROCOINS_FACTOR_L4I');
+        if($proCoins) {
+            $proCoins->t_coins = (int)$proCoins->t_coins + ( $data['l4iaua_earned_point'] * $configValue );
+            $proCoins->save();
+        }
+
         $returnArray = [];
         $returnArray['questionsID'] = $data['l4iaua_activity_id'];
         $returnArray['total_Points'] = $data['l4iaua_earned_point'];

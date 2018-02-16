@@ -101,7 +101,7 @@
                 <div class="left">
                     <ul class="links">
                         <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
-                        <li><a href="{{ url('/teenager/list-career') }}">Careers</a></li>
+                        <!--<li><a href="{{ url('/teenager/list-career') }}">Careers</a></li>-->
                         <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
                         <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>
@@ -109,6 +109,7 @@
                 </div>
                 <div class="right">
                     <ul class="social">
+                        <li><a href="{{ url('/teenager/list-career') }}">Explore</a></li>
                         <li><a href="https://www.facebook.com/proteenlife/" target="_blank"><i class="icon-facebook"></i></a></li>
                         <li><a href="https://twitter.com/ProTeenLife" target="_blank"><i class="icon-twitter"></i></a></li>
                         <li><a href="https://plus.google.com/109414106711493074923" target="_blank"><i class="icon-google"></i></a></li>

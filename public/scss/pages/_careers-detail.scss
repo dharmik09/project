@@ -880,6 +880,7 @@
 .quiz-intermediate {
     position: relative;
     margin: 0 -20px;
+    .sec-show{padding-top: 20px;}
     [class*=col-] {
         margin-bottom: 40px;
         @include maxsm {

@@ -219,7 +219,7 @@ class Level4ActivityController extends Controller {
             $response['message'] = trans('appmessages.default_success_msg');
             $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
             $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
-            $response['intermediateCompleted'] = 0;
+            $response['intermediateCompleted'] = $intermediateCompleted;
             $response['data'] = $intermediateActivitiesData;
             $response['timer'] = $timer;
             $response['professionId'] = $professionId;

@@ -12,7 +12,7 @@
     ?>
     <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};" > 
         <div class="my_chart">
-            <div class="progress-radial progress-{{$interestValue['score']}}">
+            <div class="progress-radial progress-{{$interestValue['score']}} progress-strong">
             </div>
             <h4>
                 <a href="{{ url('teenager/interest/') }}/{{$interestKey}}">{{ $interestValue['name']}}
