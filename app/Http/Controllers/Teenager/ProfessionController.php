@@ -806,13 +806,28 @@ class ProfessionController extends Controller {
                         arsort($matchLow);
                         arsort($moderateHigh);
                         arsort($moderateLow);
-                        $mergeAllSortArray = $matchHigh + $matchLow + $moderateHigh + $moderateLow;
-                        $careerConsiderationTemp = array_merge($match, $moderate);
-                        foreach($mergeAllSortArray as $key => $sortArray) {
-                            if(isset($careerConsiderationTemp[$key])) {
-                                $finalArray[$key] =  $careerConsiderationTemp[$key]; 
+                        
+                        // $mergeAllSortArray = $matchHigh + $matchLow + $moderateHigh + $moderateLow;
+                        // $careerConsiderationTemp = array_merge($match, $moderate);
+                        // foreach($mergeAllSortArray as $key => $sortArray) {
+                        //     if(isset($careerConsiderationTemp[$key])) {
+                        //         $finalArray[$key] =  $careerConsiderationTemp[$key]; 
+                        //     }
+                        // }    
+
+                        $mergeMatchSortArray = $matchHigh + $matchLow;
+                        foreach($mergeMatchSortArray as $keyH => $sortArray) {
+                            if(isset($careerConsiderationTemp[$keyH])) {
+                                $finalArray[$keyH] =  $careerConsiderationTemp[$keyH]; 
                             }
-                        }    
+                        }
+
+                        $mergeModerateSortArray = $moderateHigh + $moderateLow;
+                        foreach($mergeModerateSortArray as $keyM => $sortArray) {
+                            if(isset($careerConsiderationTemp[$keyM])) {
+                                $finalArray[$keyM] =  $careerConsiderationTemp[$keyM]; 
+                            }
+                        }
                     } else {
                         arsort($matchSecondHigh);
                         arsort($matchSecondLow);
