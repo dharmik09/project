@@ -214,6 +214,18 @@ class Baskets extends Model
                         $query->where('country_id',$this->countryId);
                     }])
                     ->whereHas('professionSubject', function ($query) {
+        $this->subjectId = (isset($subjectId) && $subjectId != "") ? $subjectId : '';
+        $this->userId = $userId;
+        $this->countryId = $countryId;
+        $qry = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id',$this->countryId);
+                    }])
+                    ->whereHas('professionSubject', function ($query) {
                         $query->where('subject_id', $this->subjectId)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                     })
@@ -224,6 +236,67 @@ class Baskets extends Model
                     $query->whereHas('starRatedProfession')
                     ->whereHas('professionSubject', function ($query) {
                         $query->where('subject_id', $this->subjectId)
+                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    })
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                });
+                
+                
+        $return = $qry->where('deleted', '1')->get();
+        return $return;                $query->where('subject_id', $this->subjectId)
+                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    })
+                    ->with('starRatedProfession')
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->whereHas('starRatedProfession')
+                    ->whereHas('professionSubject', function ($query) {
+                        $query->where('subject_id', $this->subjectId)
+                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    })
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                });
+                
+                
+        $return = $qry->where('deleted', '1')->get();
+        return $return;
+    }
+
+    public function getProfessionBasketsByInterestDetailsForUser($interestSlug, $userId, $countryId)
+    {
+        $this->interestSlug = '';
+        if ($interestSlug != '' && strpos($interestSlug, 'it_') !== false) {
+            $subSlug = explode('it_', $interestSlug);
+            $this->interestSlug = $subSlug[1];
+        } 
+        $this->userId = $userId;
+        $this->countryId = $countryId;
+        $qry = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id',$this->countryId);
+                    }])
+                    ->whereHas('professionSubject', function ($query) {
+                        $query->whereHas('subject', function ($query) {
+                            $query->where('ps_slug', $this->interestSlug);
+                        })
+                        ->whereIn('parameter_grade', ['M', 'H'])
+                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    })
+                    ->with('starRatedProfession')
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->whereHas('starRatedProfession')
+                    ->whereHas('professionSubject', function ($query) {
+                        $query->whereHas('subject', function ($query) {
+                            $query->where('ps_slug', $this->interestSlug);
+                        })
+                        ->whereIn('parameter_grade', ['M', 'H'])
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                     })
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
