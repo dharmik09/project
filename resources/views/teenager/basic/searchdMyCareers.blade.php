@@ -55,7 +55,8 @@
                                         <figcaption>
                                             <a href="{{url('teenager/career-detail/')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{ str_limit($v->pf_name, $limit = 35, $end = '...') }}</a>
                                         </figcaption>
-                                        @if(count($v->professionAttempted)>0)
+                                        <?php $v->professionAttempted = rand(0,1); ?>
+                                        @if($v->professionAttempted == 1)
                                             <span class="complete">Complete</span>
                                         @endif
                                     </figure>
