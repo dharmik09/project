@@ -801,6 +801,10 @@ class ProfessionController extends Controller {
                     $careerConsideration = $finalArray;
 
                 } else if(count($match) > 0 || count($moderate) > 0) {
+                    print_r($moderate);
+                    echo "<pre/><br/>";
+                    print_r($match);
+                    die();
                     if( count($matchHigh) > 0 || count($moderateHigh) > 0 || count($moderateLow) > 0 || count($matchLow) > 0 ) {
                         asort($matchHigh);
                         asort($matchLow);
