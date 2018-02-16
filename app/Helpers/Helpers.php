@@ -661,6 +661,10 @@ Class Helpers {
         return $careerMapping;
     }
 
+    public static function getCareerMappingFromSystemByProfession($professionId) {
+        return DB::table('pro_tcm_teenager_career_mapping')->where('tcm_profession', $professionId)->first();
+    }
+
     public static function getSpecificCareerMappingFromSystem($professionId) {
         $careerMapping = DB::table('pro_tcm_teenager_career_mapping')->where('tcm_profession', $professionId)->first();
         return $careerMapping;
