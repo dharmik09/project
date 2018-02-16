@@ -205,7 +205,7 @@
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_1')}}">
                                         <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_1')}}">
-                                            <center><h3>You have successfully {{$section1}} this Quiz</h3></center>
+                                            <center><h3>Aha! You Earned ProCoins!!</h3></center>
                                         </div>
                                     </div>
                                 </div>
@@ -217,7 +217,7 @@
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_2')}}">
                                         <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_2')}}">
-                                            <center><h3>You have successfully {{$section2}} this Quiz</h3></center>
+                                            <center><h3>Aha! You Earned ProCoins!!</h3></center>
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +229,7 @@
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_3')}}">
                                         <div class="panel-body" id="section{{Config::get('constant.LEVEL2_SECTION_3')}}">
-                                            <center><h3>You have successfully {{$section3}} this Quiz</h3></center>
+                                            <center><h3>Aha! You Earned ProCoins!!</h3></center>
                                         </div>
                                     </div>
                                 </div>
