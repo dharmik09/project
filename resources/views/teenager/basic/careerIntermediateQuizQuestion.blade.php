@@ -43,7 +43,7 @@
                             $videoCode = Helpers::youtube_id_from_url($response['data']->l4ia_question_video);
                             $videoCode = ($videoCode != '') ? $videoCode : "ScMzIvxBSi4";
                         ?>
-                        <div class="question_image_level_4 stopOnSubmit">
+                        <div class="question_image_level_4 stopOnSubmit video-img">
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/{{$videoCode}}?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
                         </div>
                     @endif
