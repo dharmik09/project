@@ -762,10 +762,7 @@ class ProfessionController extends Controller {
                         } 
                     }
                 }
-                print_r($match);
-                print_r($moderate);
-                print_r($nomatch);
-                die();
+
                 if(count($match) < 1 && count($moderate) < 1 && count($nomatch) > 0) {
                     asort($nomatchHigh);
                     asort($nomatchLow);
