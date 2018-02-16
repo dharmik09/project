@@ -652,21 +652,43 @@ class ProfessionController extends Controller {
 
             if($getAllActiveProfessions) {
                 foreach($getAllActiveProfessions as $profession) {
-                    $array = [];
-                    $array['id'] = $profession->id;
-                    $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
-                    $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
-                    $array['is_completed'] = 0;
-                    $array['pf_name'] = $profession->pf_name;
-                    $array['pf_slug'] = $profession->pf_slug;
-                    if($array['match_scale'] == "match") {
-                        $match[] = $array;
-                    } else if($array['match_scale'] == "nomatch") {
-                        $nomatch[] = $array;
-                    } else if($array['match_scale'] == "moderate") {
-                        $moderate[] = $array;
-                    } else {
-                        $notSetArray[] = $array;
+                    $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystemByProfession($profession->id);
+                    if($getCareerMappingFromSystem) {
+                        $mapingArray = [];
+                        unset($getCareerMappingFromSystem->created_at);
+                        unset($getCareerMappingFromSystem->updated_at);
+                        unset($getCareerMappingFromSystem->deleted);
+                        print_r(array_count_values((array)$getCareerMappingFromSystem)); die();
+                        $mapingArray = array_count_values((array)$getCareerMappingFromSystem);
+                        if(isset($mapingArray[H]) && isset($mapingArray[M]) && $mapingArray[M] > 0 && $mapingArray[H] > 0) {
+                            $array = [];
+                            $array['id'] = $profession->id;
+                            $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+                            $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+                            $array['is_completed'] = 0;
+                            $array['pf_name'] = $profession->pf_name;
+                            $array['pf_slug'] = $profession->pf_slug;
+                            
+                            if($array['match_scale'] == "match") {
+                                $match[$profession->id] = $array;
+                                if($mapingArray[H] > 0) {
+                                    $matchHigh[$profession->id] = $mapingArray[H];
+                                } else {
+                                    $matchLow[$profession->id] = $mapingArray[M];
+                                }
+                            } else if($array['match_scale'] == "nomatch") {
+                                $nomatch[$profession->id] = $array;
+                            } else if($array['match_scale'] == "moderate") {
+                                $moderate[$profession->id] = $array;
+                                if($moderateArray[H] > 0) {
+                                    $moderateHigh[$profession->id] = $mapingArray[H];
+                                } else {
+                                    $moderateLow[$profession->id] = $mapingArray[M];
+                                }
+                            } else {
+                                $notSetArray[$profession->id] = $array;
+                            }
+                        } 
                     }
                 }
                 if(count($match) < 1 && count($moderate) < 1 && count($nomatch) > 0) {
