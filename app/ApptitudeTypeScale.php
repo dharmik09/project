@@ -109,4 +109,11 @@ class ApptitudeTypeScale extends Model
 
         return $apptitudetypescales;
     }
+    
+    public function getApptitudeScaleById($id)
+    {
+        $apptitudeScale = ApptitudeTypeScale::where('ats_apptitude_type_id',$id)->first();
+
+        return $apptitudeScale;
+    }
 }
