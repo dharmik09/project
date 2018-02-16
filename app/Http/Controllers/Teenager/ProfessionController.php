@@ -676,6 +676,9 @@ class ProfessionController extends Controller {
                 } else {
                     $careerConsideration = $notSetArray;
                 }
+
+                
+
                 return view('teenager.basic.careerConsideration', compact('careerConsideration', 'getTeenagerHML'));
             } else {
                 $response['status'] = 0;
