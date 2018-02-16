@@ -365,13 +365,13 @@ class ProfessionController extends Controller {
                         if($aptituteScale['ats_high_min_score'] == $aptituteScale['ats_high_max_score']){
                             $blueBand = $aptituteScale['ats_moderate_max_score'];
                         }else{
-                            $blueBand = $aptituteScale['ats_high_min_score']; 
+                            $blueBand = $aptituteScale['ats_high_max_score']; 
                         }  
                     }elseif($careerMappingHML == 'M')
                     {
-                        $blueBand = $aptituteScale['ats_moderate_min_score'];
+                        $blueBand = $aptituteScale['ats_moderate_max_score'];
                     }else{
-                        $blueBand = $aptituteScale['ats_low_min_score'];
+                        $blueBand = $aptituteScale['ats_low_max_score'];
                     }
                    
                     $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
@@ -386,13 +386,13 @@ class ProfessionController extends Controller {
                         if($personalityScale['pts_high_min_score'] == $personalityScale['pts_high_max_score']){
                             $blueBand = $personalityScale['pts_moderate_max_score'];
                         }else{
-                            $blueBand = $personalityScale['pts_high_min_score']; 
+                            $blueBand = $personalityScale['pts_high_max_score']; 
                         }  
                     }elseif($careerMappingHML == 'M')
                     {
-                        $blueBand = $personalityScale['pts_moderate_min_score'];
+                        $blueBand = $personalityScale['pts_moderate_max_score'];
                     }else{
-                        $blueBand = $personalityScale['pts_low_min_score'];
+                        $blueBand = $personalityScale['pts_low_max_score'];
                     }
                     $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
                     $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreH' => ((100*$blueBand)/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
@@ -406,13 +406,13 @@ class ProfessionController extends Controller {
                         if($miScale['mts_high_min_score'] == $miScale['mts_high_max_score']){
                             $blueBand = $miScale['mts_moderate_max_score'];
                         }else{
-                            $blueBand = $miScale['mts_high_min_score']; 
+                            $blueBand = $miScale['mts_high_max_score']; 
                         }  
                     }elseif($careerMappingHML == 'M')
                     {
-                        $blueBand = $miScale['mts_moderate_min_score'];
+                        $blueBand = $miScale['mts_moderate_max_score'];
                     }else{
-                        $blueBand = $miScale['mts_low_min_score'];
+                        $blueBand = $miScale['mts_low_max_score'];
                     }
                     $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
                     $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreH' => ((100*$blueBand)/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
