@@ -116,6 +116,11 @@ class MultipleIntelligentScale extends Model
         return $multipleintelligenttype;
     }
 
-    
+    public function getMIScaleById($id)
+    {
+        $miScale = MultipleIntelligentScale::where('mts_mi_type_id',$id)->first();
+
+        return $miScale;
+    }
 
 }

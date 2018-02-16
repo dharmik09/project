@@ -112,5 +112,12 @@ class PersonalityScale extends Model
                                           FROM " . config::get('databaseconstants.TBL_PERSONALITY_TYPE_SCALE'). " AS scale join " .config::get('databaseconstants.TBL_LEVEL2_PERSONALITY')." As personality on personality.id = scale.pts_personality_type_id where personality.deleted=1"), array());
         return $personalitytypescales;
     }
+    
+    public function getPersonalityScaleById($id)
+    {
+        $personalityScale = PersonalityScale::where('pts_personality_type_id',$id)->first();
+
+        return $personalityScale;
+    }
 
 }
