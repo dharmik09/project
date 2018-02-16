@@ -491,7 +491,7 @@ class ProfessionController extends Controller {
             $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
                 <option value="0">All Interests</option>';
             foreach ($data as $key => $value) {
-                    $return .= '<option value="'.$value->id.'">'.$value->it_name.'</option>';
+                    $return .= '<option value="'.$value->it_slug.'">'.$value->it_name.'</option>';
             }
             $return .= '</select></div>';
         } 
@@ -920,7 +920,7 @@ class ProfessionController extends Controller {
             $countryId = 1; // India
         }
 
-        if($ansId != 0){
+        if($ansId != '' || $ansId != 0){
             if($queId == 1) // Industry
             {
                 $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($ansId, $userId, $countryId);
@@ -929,7 +929,15 @@ class ProfessionController extends Controller {
             {
                 $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($ansId, $userId, $countryId);
             } 
-            else if ($queId == 5) // Careers
+            else if ($queId == 3) // Interest
+            {
+                $basketsData = $this->baskets->getProfessionBasketsByInterestDetailsForUser($ansId, $userId, $countryId);
+            } 
+            else if ($queId == 4) // Strength
+            {
+                $basketsData = $this->baskets->getProfessionBasketsByStrengthDetailsForUser($ansId, $userId, $countryId);
+            } 
+            else if ($queId == 5) // Subjects
             {
                 $basketsData = $this->baskets->getProfessionBasketsBySubjectForUser($ansId, $userId, $countryId);
             } 
