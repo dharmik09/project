@@ -174,7 +174,10 @@ class Baskets extends Model
         $this->countryId = $countryId;
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query->with(['professionHeaders' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
                     }])
                     ->whereHas('professionTags', function ($query) {
@@ -204,7 +207,22 @@ class Baskets extends Model
         $this->countryId = $countryId;
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query->with(['professionHeaders' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id',$this->countryId);
+                    }])
+                    ->whereHas('professionSubject', function ($query) {
+        $this->subjectId = (isset($subjectId) && $subjectId != "") ? $subjectId : '';
+        $this->userId = $userId;
+        $this->countryId = $countryId;
+        $qry = $this->select('*')
+                ->with(['profession' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
                     }])
                     ->whereHas('professionSubject', function ($query) {
@@ -222,6 +240,25 @@ class Baskets extends Model
                     })
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 });
+                
+                
+        $return = $qry->where('deleted', '1')->get();
+        return $return;                $query->where('subject_id', $this->subjectId)
+                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    })
+                    ->with('starRatedProfession')
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                }])
+                ->whereHas('profession', function ($query) {
+                    $query->whereHas('starRatedProfession')
+                    ->whereHas('professionSubject', function ($query) {
+                        $query->where('subject_id', $this->subjectId)
+                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    })
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                });
+                
+                
         $return = $qry->where('deleted', '1')->get();
         return $return;
     }
@@ -237,7 +274,10 @@ class Baskets extends Model
         $this->countryId = $countryId;
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query->with(['professionHeaders' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
                     }])
                     ->whereHas('professionSubject', function ($query) {
@@ -274,7 +314,10 @@ class Baskets extends Model
         $this->countryId = $countryId;
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query->with(['professionHeaders' => function ($query) {
+                    $query->with(['professionAttempted' => function ($query) {
+                        $query->where('tpa_teenager', $this->userId);
+                    }])
+                    ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
                     }]) 
                     ->whereHas('careerMapping', function ($query) {
@@ -300,7 +343,8 @@ class Baskets extends Model
         $this->userId = $userId;
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query->whereHas('starRatedProfession')
+                    $query
+                    ->whereHas('starRatedProfession')
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {

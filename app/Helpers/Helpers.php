@@ -3047,4 +3047,6 @@ Class Helpers {
         $filterData = array('1' => 'Industry', '2' => 'Careers', '3' => 'Interest', '4' => 'Strength', '5' => 'Subject', '6' => 'Tags');
         return $filterData;
     }
+
+    
 }

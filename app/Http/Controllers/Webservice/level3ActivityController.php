@@ -20,9 +20,12 @@ use Helpers;
 use Auth;
 use Input;
 use Redirect;
+use App\Interest;
 use Illuminate\Http\Request;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use App\ProfessionSubject;
+use App\ProfessionTag;
 
 class level3ActivityController extends Controller {
 
@@ -50,8 +53,12 @@ class level3ActivityController extends Controller {
         $this->saSmallImagePath = Config::get('constant.SA_SMALL_IMAGE_UPLOAD_PATH');
         $this->saBannerImagePath = Config::get('constant.SA_BANNER_IMAGE_UPLOAD_PATH');
         $this->saOrigionalImagePath = Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->objTeenagers = new Teenagers;
         $this->log = new Logger('api-level1-activity-controller');
-        $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
+        $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log')); 
+        $this->objInterest = new Interest;   
+        $this->objSubject = new ProfessionSubject;
+        $this->objTag = new ProfessionTag;
     }
 
     public function getAllBasktes(Request $request) {
@@ -330,7 +337,7 @@ class level3ActivityController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getTeenagerCareersWithBaket'));
         if($request->userId != "" && $teenager) {
-
+            $sortByArr = $this->getMyCareerPageSubFilterArray();
             $data = $this->baskets->getStarredBasketsAndProfessionByUserId($teenager->id);
             if($data){
                 $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
@@ -378,6 +385,7 @@ class level3ActivityController extends Controller {
                     $data[$key]->potential_match = count($moderate);
                     $data[$key]->unlikely_match = count($nomatch);
                 }
+                $response['data']['sortBy'] = $sortByArr;
                 $response['data']['baskets'] = $data;
                 $response['data']['total_profession'] = '200';
                 $response['data']['completed_profession'] = '123';
@@ -1015,5 +1023,118 @@ class level3ActivityController extends Controller {
         }
         return response()->json($response, 200);
     }  
+
+    public function getMyCareerPageSubFilterArray()
+    {
+        $filterData = Helpers::getMyCareerPageFilter();
+        $industryData = $this->baskets->getActiveBasketsOrderByName();//Industry
+        $industryDetails = [];
+        foreach($industryData as $industry) {
+            $industryArr = [];
+            $industryArr['id'] = $industry->id;
+            $industryArr['name'] = $industry->b_name;
+            $industryDetails[] = $industryArr;
+        }
+        $careersData = $this->professions->getActiveProfessionsOrderByName();//Careers
+        $careerDetails = [];
+        foreach($careersData as $career) {
+            $careerArr = [];
+            $careerArr['id'] = $career->id;
+            $careerArr['name'] = $career->pf_name;
+            $careerDetails[] = $careerArr;
+        }
+        $interestData = $data = $this->objInterest->getActiveInterest(); // Interest
+        $interestDetails = [];
+        foreach($interestData as $interest) {
+            $interestArr = [];
+            $interestArr['id'] = $interest->it_slug;
+            $interestArr['name'] = $interest->it_name;
+            $interestDetails[] = $interestArr;
+        }
+
+        //Get strength details array 
+        $personality = $this->objPersonality->getActivepersonality();
+        $ptData = [];
+        if (!empty($personality)) {
+            foreach ($personality as $ptKey => $ptVal) {
+                $ptArr = [];
+                $ptArr['id'] = $ptVal->id;
+                $ptArr['name'] = $ptVal->pt_name;
+                $ptArr['slug'] = $ptVal->pt_slug;
+                $ptArr['type'] = Config::get('constant.PERSONALITY_TYPE');
+                $ptData[] = $ptArr;
+            }
+        }
+
+        $apptitude = $this->objApptitude->getActiveApptitude();
+        $aptData = [];
+        if (!empty($apptitude)) {
+            foreach ($apptitude as $aptKey => $aptVal) {
+                $aptArr = [];
+                $aptArr['id'] = $aptVal->id;
+                $aptArr['name'] = $aptVal->apt_name;
+                $aptArr['slug'] = $aptVal->apt_slug;
+                $aptArr['type'] = Config::get('constant.APPTITUDE_TYPE');
+                $aptData[] = $aptArr;
+            }
+        }
+
+        $mi = $this->objMultipleIntelligent->getActiveMultipleIntelligent();
+        $miData = [];
+        if (!empty($mi)) {
+            foreach ($mi as $key => $val) {
+                $miArr = [];
+                $miArr['id'] = $val->id;
+                $miArr['name'] = $val->mit_name;
+                $miArr['slug'] = $val->mi_slug;
+                $miArr['type'] = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
+                $miData[] = $miArr;
+            }
+        }
+        $strengthData = array_merge($aptData, $ptData, $miData); //Strength
+        $strengthDetails = [];
+        foreach($strengthData as $strength) {
+            $strengthArr = [];
+            $strengthArr['id'] = $strength['slug'];
+            $strengthArr['name'] = $strength['name'];
+            $strengthDetails[] = $strengthArr;
+        }
+
+        $subjectData = $this->objSubject->getAllProfessionSubjects(); // Subjects
+        $subjectDetails = [];
+        foreach($subjectData as $subject) {
+            $subjectArr = [];
+            $subjectArr['id'] = $subject->id;
+            $subjectArr['name'] = $subject->ps_name;
+            $subjectDetails[] = $subjectArr;
+        }
+        $tagsData = $this->objTag->getAllProfessionTags(); // Tags
+        $tagDetails = [];
+        foreach($tagsData as $tag) {
+            $tagArr = [];
+            $tagArr['id'] = $tag->id;
+            $tagArr['name'] = $tag->pt_name;
+            $tagDetails[] = $tagArr;
+        }
+        $sortByArr = [];
+        foreach ($filterData as $filterKey => $filterVal) {
+            if ($filterKey == 1) {
+                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $industryDetails);
+            } else if ($filterKey == 2) {
+                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $careerDetails);
+            } else if ($filterKey == 3) {
+                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $interestDetails);
+            } else if ($filterKey == 4) {
+                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $strengthDetails);
+            } else if ($filterKey == 5) {
+                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $subjectDetails);
+            } else if ($filterKey == 6) {
+                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $tagDetails);
+            } else {
+                $sortByArr = [];
+            }
+        }
+        return $sortByArr;
+    }
 
 }
