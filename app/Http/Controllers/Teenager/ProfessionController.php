@@ -1007,6 +1007,7 @@ class ProfessionController extends Controller {
         $queId = Input::get('queId');
         $ansId = Input::get('ansId');
         $user = Auth::guard('teenager')->user();
+        $searchText = Input::get('searchText');
         $userId = $user->id;
         if($user->t_view_information == 1){
             $countryId = 2; // United States
@@ -1017,28 +1018,28 @@ class ProfessionController extends Controller {
         if($ansId != '' || $ansId != 0){
             if($queId == 1) // Industry
             {
-                $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($ansId, $userId, $countryId);
+                $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($ansId, $userId, $countryId, $searchText);
             }
             else if ($queId == 2) // Careers
             {
-                $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($ansId, $userId, $countryId);
+                $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($ansId, $userId, $countryId, $searchText);
             } 
             else if ($queId == 3) // Interest
             {
-                $basketsData = $this->baskets->getProfessionBasketsByInterestDetailsForUser($ansId, $userId, $countryId);
+                $basketsData = $this->baskets->getProfessionBasketsByInterestDetailsForUser($ansId, $userId, $countryId, $searchText);
             } 
             else if ($queId == 4) // Strength
             {
                 $careersDetails = Helpers::getCareerMapColumnName();
-                $basketsData = $this->baskets->getProfessionBasketsByStrengthDetailsForUser($careersDetails[$ansId], $userId, $countryId);
+                $basketsData = $this->baskets->getProfessionBasketsByStrengthDetailsForUser($careersDetails[$ansId], $userId, $countryId, $searchText);
             } 
             else if ($queId == 5) // Subjects
             {
-                $basketsData = $this->baskets->getProfessionBasketsBySubjectForUser($ansId, $userId, $countryId);
+                $basketsData = $this->baskets->getProfessionBasketsBySubjectForUser($ansId, $userId, $countryId, $searchText);
             } 
             else if ($queId == 6) // Tags
             {
-                $basketsData = $this->baskets->getProfessionBasketsByTagForUser($ansId, $userId, $countryId);
+                $basketsData = $this->baskets->getProfessionBasketsByTagForUser($ansId, $userId, $countryId, $searchText);
             } 
         }
         else // All Industry with Careers

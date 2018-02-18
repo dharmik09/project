@@ -107,6 +107,7 @@
         var CSRF_TOKEN = "{{ csrf_token() }}";
         var queId = $("#questionDropdown").val();
         var ansId = $("#answerId").val();
+        var searchText = $("#search").val();
         //var view = 'LIST';
         $.ajax({
             type: 'POST',
@@ -115,7 +116,7 @@
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
-            data: {'queId':queId,'ansId':ansId},
+            data: {'queId':queId,'ansId':ansId,'searchText':searchText},
             success: function (response) {
                 $("#maindiv").html(response);
                 $("#maindiv").removeClass('loading-screen-parent');

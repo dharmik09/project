@@ -116,10 +116,11 @@ class Baskets extends Model
     }
 
 
-    public function getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($basketId, $userId, $countryId){
+    public function getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($basketId, $userId, $countryId, $searchText = ''){
         $this->basketId = $basketId;
         $this->userId = $userId;
         $this->countryId = $countryId;
+        $this->searchText = ($searchText != '') ? $searchText : '';
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
@@ -127,11 +128,17 @@ class Baskets extends Model
                     }])
                     ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
-                    }])
-                    ->with('starRatedProfession')
+                    }]);
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->with('starRatedProfession')
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
                     $query->whereHas('starRatedProfession')
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 })
@@ -141,10 +148,11 @@ class Baskets extends Model
         return $return;
     }
 
-    public function getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($professionId, $userId, $countryId){
+    public function getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($professionId, $userId, $countryId, $searchText = ''){
         $this->professionId = (isset($professionId) && !empty($professionId)) ? $professionId : '';
         $this->userId = $userId;
         $this->countryId = $countryId;
+        $this->searchText = ($searchText != '') ? $searchText : '';
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
@@ -152,12 +160,18 @@ class Baskets extends Model
                     }])
                     ->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
-                    }])
-                    ->with('starRatedProfession')
+                    }]);
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->with('starRatedProfession')
                     ->where('id', $this->professionId)
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
                     $query->whereHas('starRatedProfession')
                     ->where('id',$this->professionId)
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
@@ -168,10 +182,11 @@ class Baskets extends Model
         return $return;
     }
 
-    public function getProfessionBasketsByTagForUser($tagId, $userId, $countryId){
-        $this->tagId = (isset($tagId) && $tagId != "") ? $tagId : '';
+    public function getProfessionBasketsByTagForUser($tagId, $userId, $countryId, $searchText = ''){
+        $this->tagId = $tagId;
         $this->userId = $userId;
         $this->countryId = $countryId;
+        $this->searchText = ($searchText != '') ? $searchText : '';  
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
@@ -183,8 +198,11 @@ class Baskets extends Model
                     ->whereHas('professionTags', function ($query) {
                         $query->where('tag_id', $this->tagId)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                    })
-                    ->with('starRatedProfession')
+                    });
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->with('starRatedProfession')
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
@@ -192,8 +210,11 @@ class Baskets extends Model
                     ->whereHas('professionTags', function ($query) {
                         $query->where('tag_id', $this->tagId)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                    })
-                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    });
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 });
                 
                 
@@ -201,10 +222,11 @@ class Baskets extends Model
         return $return;
     }
 
-    public function getProfessionBasketsBySubjectForUser($subjectId, $userId, $countryId){
+    public function getProfessionBasketsBySubjectForUser($subjectId, $userId, $countryId, $searchText = ''){
         $this->subjectId = (isset($subjectId) && $subjectId != "") ? $subjectId : '';
         $this->userId = $userId;
         $this->countryId = $countryId;
+        $this->searchText = ($searchText != '') ? $searchText : '';
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
@@ -214,22 +236,13 @@ class Baskets extends Model
                         $query->where('country_id',$this->countryId);
                     }])
                     ->whereHas('professionSubject', function ($query) {
-        $this->subjectId = (isset($subjectId) && $subjectId != "") ? $subjectId : '';
-        $this->userId = $userId;
-        $this->countryId = $countryId;
-        $qry = $this->select('*')
-                ->with(['profession' => function ($query) {
-                    $query->with(['professionAttempted' => function ($query) {
-                        $query->where('tpa_teenager', $this->userId);
-                    }])
-                    ->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id',$this->countryId);
-                    }])
-                    ->whereHas('professionSubject', function ($query) {
                         $query->where('subject_id', $this->subjectId)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                    })
-                    ->with('starRatedProfession')
+                    });
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->with('starRatedProfession')
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
@@ -237,33 +250,17 @@ class Baskets extends Model
                     ->whereHas('professionSubject', function ($query) {
                         $query->where('subject_id', $this->subjectId)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                    })
-                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    });
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 });
-                
-                
-        $return = $qry->where('deleted', '1')->get();
-        return $return;                $query->where('subject_id', $this->subjectId)
-                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                    })
-                    ->with('starRatedProfession')
-                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                }])
-                ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession')
-                    ->whereHas('professionSubject', function ($query) {
-                        $query->where('subject_id', $this->subjectId)
-                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                    })
-                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                });
-                
-                
         $return = $qry->where('deleted', '1')->get();
         return $return;
     }
 
-    public function getProfessionBasketsByInterestDetailsForUser($interestSlug, $userId, $countryId)
+    public function getProfessionBasketsByInterestDetailsForUser($interestSlug, $userId, $countryId, $searchText = '')
     {
         $this->interestSlug = '';
         if ($interestSlug != '' && strpos($interestSlug, 'it_') !== false) {
@@ -272,6 +269,7 @@ class Baskets extends Model
         } 
         $this->userId = $userId;
         $this->countryId = $countryId;
+        $this->searchText = ($searchText != '') ? $searchText : '';
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
@@ -286,8 +284,11 @@ class Baskets extends Model
                         })
                         ->whereIn('parameter_grade', ['M', 'H'])
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                    })
-                    ->with('starRatedProfession')
+                    });
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->with('starRatedProfession')
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
@@ -298,8 +299,11 @@ class Baskets extends Model
                         })
                         ->whereIn('parameter_grade', ['M', 'H'])
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
-                    })
-                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    });
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 });
                 
                 
@@ -307,11 +311,12 @@ class Baskets extends Model
         return $return;
     }
 
-    public function getProfessionBasketsByStrengthDetailsForUser($strengthSlug, $userId, $countryId)
+    public function getProfessionBasketsByStrengthDetailsForUser($strengthSlug, $userId, $countryId, $searchText = '')
     {
         $this->strengthSlug = $strengthSlug;
         $this->userId = $userId;
         $this->countryId = $countryId;
+        $this->searchText = ($searchText != '') ? $searchText : '';
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
@@ -322,16 +327,22 @@ class Baskets extends Model
                     }]) 
                     ->whereHas('careerMapping', function ($query) {
                             $query->whereIn($this->strengthSlug, ['M', 'H']);
-                        })
-                    ->with('starRatedProfession')
+                        });
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->with('starRatedProfession')
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
                     $query->whereHas('starRatedProfession')
                     ->whereHas('careerMapping', function ($query) {
                         $query->whereIn($this->strengthSlug, ['M', 'H']);
-                    })
-                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    });
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
+                    $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 });
                 
                 
