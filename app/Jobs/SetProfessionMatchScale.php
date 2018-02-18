@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Helpers;
 use App\ProfessionMatchScale;
 use App\TeenagerPromiseScore;
+use App\PromiseParametersMaxScore;
 
 class SetProfessionMatchScale implements ShouldQueue
 {
@@ -49,6 +50,8 @@ class SetProfessionMatchScale implements ShouldQueue
             } catch(\Exception $e) {
                 //
             }
+        } else {
+            $saveProfessionScale = $objTeenagerPromiseScore->saveTeenagerPromiseScore(array(), $this->userId);
         }
 
         if (isset($getCareerMappingFromSystem[0]) && !empty($getCareerMappingFromSystem[0])) { 

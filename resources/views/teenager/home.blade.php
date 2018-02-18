@@ -364,6 +364,7 @@
                 getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
                 if(isSectionCompleted){
                     getUserScoreAndPoint();
+                    getCareerConsideration("{{Auth::guard('teenager')->user()->id}}");
                 }
             }
         });

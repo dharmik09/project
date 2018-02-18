@@ -14,7 +14,7 @@ class TeenagerPromiseScore extends Model {
     public function saveTeenagerPromiseScore($array, $teenagerId) 
     {
     	$findData = [];
-        if($teenagerId > 0 && count($array) > 0) {
+        if($teenagerId > 0) {
         	$findData = TeenagerPromiseScore::where('teenager_id', $teenagerId)->first();
 	        if($findData) {
 	        	$findData->update($array);
