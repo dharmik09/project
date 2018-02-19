@@ -1090,7 +1090,7 @@ class ProfessionController extends Controller {
         }
         else // All Records
         {         
-            $basketsData = $this->baskets->getStarredBasketsAndProfessionByUserId($userId, $countryId);
+            $basketsData = $this->baskets->getStarredBasketsAndProfessionByUserId($userId, $countryId, $searchText);
         }
         $professionImagePath = Config('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
         return view('teenager.basic.searchdMyCareers', compact('basketsData', 'professionImagePath'));
