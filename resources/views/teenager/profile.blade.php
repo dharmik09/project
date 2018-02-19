@@ -412,7 +412,7 @@
     <div class="icon-voted bg-offwhite" id="icon-voted">
         <div class="container">
             <h2>My Role Models</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.</p>
+            <p>Role Models are those who you love, deeply admire & are influenced by in life.</p>
             <div class="voted-list">
                 @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
                 <ul class="row owl-carousel">
