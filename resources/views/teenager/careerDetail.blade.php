@@ -177,7 +177,8 @@
                                     <!-- Section start with virtual play role --> 
                                     <div class="virtual-plus text-center">
                                         <h4><span>Virtual Role Play</span></h4>
-                                        <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                        <p>Instructions: The more you play, the better informed you will be experientially. Some sections will require ProCoins to attempt.</p>
+                                        
                                     </div>
                                     <!-- Section for basic, intermediate quiz with seprate blade --> 
                                     <div class="quiz-sec ">
@@ -186,7 +187,7 @@
                                                 <div class="quiz-box quiz-basic">
                                                     <div class="sec-show quiz-basic-sec-show">
                                                         <h3>Quiz</h3>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                                        <p>Warm up with this basic profession quiz! Better research career detail section before you attempt this!!</p>
                                                         <span title="Play" class="btn-play btn btn-basic">Play</span>
                                                         <span class="btn-play btn-play-basic" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
                                                     </div>

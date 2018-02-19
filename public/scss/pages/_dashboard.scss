@@ -42,6 +42,9 @@ h6 {
         @include maxms {
             font-size: 26px;
         }
+        &.profile-title{
+            display: inline-block;
+        }
     }
     .das_your_profile {
         border: 1px solid $p-cl;
