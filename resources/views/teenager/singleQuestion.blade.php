@@ -158,7 +158,7 @@
             success: function (response) {
                 if(response.answersCount == 0){
                    $('#loadMoreButton').addClass('userData'); 
-                   $('#loadMoreButton').html('<div class="no-data"><div class="data-content"><div><i class="icon-empty-folder"></i></div><p>No answer yet, Be the first to answer this question</p></div></div>');
+                   $('#loadMoreButton').html('<div class="no-data"><div class="data-content"><div><i class="icon-empty-folder"></i></div><p>The first five contributors will win ProCoins! Answer now!!</p></div></div>');
                
                 }    
                 else if(response.answersCount != 5){

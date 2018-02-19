@@ -161,7 +161,7 @@
                                     </div>
                                     <span><a href="#" title="Read More" class="read-more">Read More</a></span>
                                 @else
-                                    <div class="sec-forum"><span>No answer yet, Be the first to answer this question</span></div>
+                                    <div class="sec-forum"><span>The first five contributors will win ProCoins! Answer now!!</span></div>
                                 @endif
                             </div>
                         </div>
