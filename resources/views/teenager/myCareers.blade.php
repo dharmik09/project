@@ -56,25 +56,9 @@
 
         $('#search').keyup(function ()  {
             if($("#search").val().length > 3) {      
-                $('.iframe').attr('src', '');          
-                $("#maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
-                $("#maindiv").addClass('loading-screen-parent');
-                var value = $("#search").val();
-                var CSRF_TOKEN = "{{ csrf_token() }}";
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('teenager/get-my-careers-search')}}",
-                    dataType: 'html',
-                    headers: {
-                        'X-CSRF-TOKEN': CSRF_TOKEN
-                    },
-                    data: {'search_text':value},
-                    success: function (response) {
-                        $("#maindiv").html(response);
-                        $("#maindiv").addClass("dataLoaded");
-                        $("#maindiv").removeClass('loading-screen-parent');
-                    }
-                });
+                fetchDropdownResult();
+            } else {
+                return false;
             }
         });
     });
