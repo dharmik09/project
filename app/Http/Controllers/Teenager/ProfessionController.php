@@ -1088,7 +1088,7 @@ class ProfessionController extends Controller {
                 $basketsData = $this->baskets->getProfessionBasketsByTagForUser($ansId, $userId, $countryId, $searchText);
             } 
         }
-        else // All Industry with Careers
+        else // All Records
         {         
             $basketsData = $this->baskets->getStarredBasketsAndProfessionByUserId($userId, $countryId);
         }

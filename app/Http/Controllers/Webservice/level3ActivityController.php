@@ -337,9 +337,46 @@ class level3ActivityController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getTeenagerCareersWithBaket'));
         if($request->userId != "" && $teenager) {
+            $queId = (isset($request->sortBy) && !empty($request->sortBy)) ? $request->sortBy : '';
+            $ansId = (isset($request->sortOption) && !empty($request->sortOption)) ? $request->sortOption : '';
+            //$userId = $request->userId;
+            if($teenager->t_view_information == 1) {
+                $countryId = 2; // United States
+            } else {
+                $countryId = 1; // India
+            }
+            $data = [];
             $sortByArr = $this->getMyCareerPageSubFilterArray();
-            $data = $this->baskets->getStarredBasketsAndProfessionByUserId($teenager->id);
-            if($data){
+            if($ansId != '' || $ansId != 0){
+                if($queId == 1) // Industry
+                {
+                    $data = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($ansId, $request->userId, $countryId);
+                }
+                else if ($queId == 2) // Careers
+                {
+                    $data = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($ansId, $request->userId, $countryId);
+                } 
+                else if ($queId == 3) // Interest
+                {
+                    $data = $this->baskets->getProfessionBasketsByInterestDetailsForUser($ansId, $request->userId, $countryId);
+                } 
+                else if ($queId == 4) // Strength
+                {
+                    $careersDetails = Helpers::getCareerMapColumnName();
+                    $data = $this->baskets->getProfessionBasketsByStrengthDetailsForUser($careersDetails[$ansId], $request->userId, $countryId);
+                } 
+                else if ($queId == 5) // Subjects
+                {
+                    $data = $this->baskets->getProfessionBasketsBySubjectForUser($ansId, $request->userId, $countryId);
+                } 
+                else if ($queId == 6) // Tags
+                {
+                    $data = $this->baskets->getProfessionBasketsByTagForUser($ansId, $request->userId, $countryId);
+                }
+            } else {
+                $data = $this->baskets->getStarredBasketsAndProfessionByUserId($request->userId, $countryId);
+            }
+            if($data) {
                 $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
                 foreach ($data as $key => $value) {
                     $match = $nomatch = $moderate = [];
@@ -349,7 +386,6 @@ class level3ActivityController extends Controller {
                     else{
                         $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                     }
-
                     $youtubeId = Helpers::youtube_id_from_url($value->b_video);
                     if($youtubeId != '') {
                         $data[$key]->b_video = $youtubeId;
