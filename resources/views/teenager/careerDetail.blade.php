@@ -574,10 +574,11 @@
             $('.quiz-advanced .sec-hide').addClass('active');
         });
         
-        $('.upload-screen .close').click(function() {
-            $('.sec-show').removeClass('hide');
-            $('.sec-hide').removeClass('active');
-        });
+        // $('.upload-screen .close').click(function() {
+        //     alert();
+        //     $('.sec-show').removeClass('hide');
+        //     $('.sec-hide').removeClass('active');
+        // });
 
         $(".progress-match").each(function(){
             var $bar = $(this).find(".bar");
@@ -1752,6 +1753,35 @@
             }
         });
     }
+
+    function getQuestionDataAdvanceLevel(activityType)
+    {
+        $.ajax({
+            url: "{{ url('teenager/get-question-data-advance-level') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "activityType": activityType,
+                "professionId": '{{$professionsData->id}}'
+            },
+            success: function(response) {
+                $('.quiz-advanced').html(response);
+            }
+        });
+    }
+
+    $(document).on("click",".upload-screen .close", function () {
+        $.ajax({
+            url: "{{ url('teenager/get-media-upload-section') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}',
+            },
+            success: function(response) {
+                $('.quiz-advanced').html(response);
+            }
+        });
+    });
 </script>
 
 @stop

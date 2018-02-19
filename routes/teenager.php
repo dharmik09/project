@@ -149,6 +149,10 @@ Route::post('/save-basic-level-activity', 'Teenager\Level4ActivityController@sav
 Route::post('/play-intermediate-level-activity', 'Teenager\Level4ActivityController@professionIntermediateQuestion');
 Route::post('/save-intermediate-level-activity', 'Teenager\Level4ActivityController@saveIntermediateLevelActivity');
 
+//Level 4 Advance Activity
+Route::post('/get-question-data-advance-level', 'Teenager\Level4ActivityController@getQuestionDataAdvanceLevel');
+Route::post('/get-media-upload-section', 'Teenager\Level4ActivityController@getMediaUploadSection');
+
 //Forum Module
 Route::get('/forum-questions', 'Teenager\ForumController@index');
 Route::post('/fetch-page-wise-forum-questions', 'Teenager\ForumController@getIndex');
