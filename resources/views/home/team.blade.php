@@ -11,8 +11,7 @@
         <div class="bg-offwhite">
             <div class="team-heading">
                 <div class="container">
-                    <h1>Team Headline</h1>
-                    <h2>Lorem ipsum dolor sit amet</h2>
+                    <h1>Team <span style="text-transform: capitalize;">ProTeen</span> </h1>
                     <?php $cmsDetails = Helpers::getCmsBySlug('team-page-header-info'); ?>
                     @if (isset($cmsDetails->cms_body) && !empty($cmsDetails->cms_body))
                         {!! $cmsDetails->cms_body !!}
