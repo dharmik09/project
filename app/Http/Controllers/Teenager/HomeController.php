@@ -208,8 +208,9 @@ class HomeController extends Controller
                         $sortedMILData[] = $data;
                     }
                 }
+                $teenagerStrength = array_merge($sortedMIHData, $sortedMIMData, $sortedMILData);
             }
-            $teenagerStrength = array_merge($sortedMIHData, $sortedMIMData, $sortedMILData);
+            
             
             return view('teenager.basic.myStrength', compact('teenagerStrength'));
             exit;
