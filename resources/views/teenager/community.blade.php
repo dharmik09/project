@@ -98,7 +98,7 @@
                     </div>
                     <div id="menu2" class="tab-pane fade my-connection">
                        <div class="sec-popup">
-                            <a href="javascript:void(0);" onclick="getHelpText('community-my-connection')" data-toggle="clickover" data-popover-content="#community-my-connection" class="help-icon custompop" rel="popover" data-placement="bottom">
+                            <a href="javascript:void(0);" onmouseover="getHelpText('community-my-connection')" data-trigger="hover" data-popover-content="#community-my-connection" class="help-icon custompop" rel="popover" data-placement="bottom">
                                 <i class="icon-question">
                                     <!-- -->
                                 </i>

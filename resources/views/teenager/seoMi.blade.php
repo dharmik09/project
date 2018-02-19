@@ -21,7 +21,7 @@
                 <div class="heading-sec clearfix">
                     <h1>Multiple Intelligence Title</h1>
                     <div class="sec-popup">
-                        <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                        <a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                         <div class="hide" id="pop1">
                             <div class="popover-data">
                                 <a class="close popover-closer"><i class="icon-close"></i></a>

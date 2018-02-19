@@ -15,11 +15,14 @@
                         <span class="time-tag" id="blackhole"></span>
                     </span>
                     <span class="sec-popup help_noti">
-                        <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                        <a href="javascript:void(0);" onmouseover="getHelpText('dashboard-profile-builder')" data-trigger="hover" data-popover-content="#dashboard-profile-builder" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                     </span>
-                    <div class="hide popoverContent">
-                        
-                    </div>
+                    <div class="hide" id="dashboard-profile-builder">
+                                <div class="popover-data">
+                                    <a class="close popover-closer"><i class="icon-close"></i></a>
+                                    <span class="dashboard-profile-builder"></span>
+                                </div>
+                            </div>
                 </div>
                 <div class="quiz-que">
                     <p class="que">
