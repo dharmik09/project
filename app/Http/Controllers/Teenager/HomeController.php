@@ -195,7 +195,22 @@ class HomeController extends Controller
             }else{
                 $response['message'] = "Please attemp atleast one section of Profile Builder to view your strength!";
             }
-        
+            $finalSortedData = [];
+            if (isset($teenagerStrength) && !empty($teenagerStrength)) {
+                foreach ($teenagerStrength as $key => $data) {
+                    if ($data['scale'] == 'H') {
+                        $sortedMIHData[] = $data;
+                    }
+                    if ($data['scale'] == 'M') {
+                        $sortedMIMData[] = $data;
+                    }
+                    if ($data['scale'] == 'L') {
+                        $sortedMILData[] = $data;
+                    }
+                }
+            }
+            $teenagerStrength = array_merge($sortedMIHData, $sortedMIMData, $sortedMILData);
+            
             return view('teenager.basic.myStrength', compact('teenagerStrength'));
             exit;
         } else {
