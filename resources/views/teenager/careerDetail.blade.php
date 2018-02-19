@@ -394,9 +394,9 @@
                                         <div class="panel-body">
                                             <div class="data-explainations clearfix data-interest">
                                                 <div class="content">
-                                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Range</span></div>
-                                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Suggested</span></div>
-                                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Assessed</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Maximum</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Ideal</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Your Strength</span></div>
                                                 </div>
                                             </div>
                                             @forelse($teenagerStrength as $key => $value)

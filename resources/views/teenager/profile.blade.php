@@ -427,11 +427,11 @@
                         </figure>
                     </li>
                     @empty
-                    No Icons Found
+                    You can vote your role models in the 'My Votes' section above
                     @endforelse
                 </ul>
                 @else
-                    <h3>No Icons Found</h3>
+                    <h3>You can vote your role models in the 'My Votes' section above</h3>
                 @endif
             </div>
         </div>
