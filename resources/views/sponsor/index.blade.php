@@ -108,7 +108,7 @@
     <!-- masonary section-->
     <section class="sec-masonary">
         <div class="container-large">
-            <h2 class="cl-enterprise">lorem ipsum dolor sit amet</h2>
+            <h2 class="cl-enterprise">Real World Testimonials</h2>
             <div class="row">
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>

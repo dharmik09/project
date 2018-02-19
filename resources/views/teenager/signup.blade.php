@@ -1,7 +1,7 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>{{ trans('labels.appname') }} : Teenager Signup</title>
+    <title>{{ trans('labels.appname') }} : Student Signup</title>
 @endpush
 
 @section('content')
@@ -49,7 +49,7 @@
                             <div class="col-sm-7 flex-tems pull-right">
                                 <div class="full-width">
                                     <span class="icon" data-aos="fade-down"><i class="icon-hand"><!-- --></i></span>
-                                    <h1>teen registration</h1>
+                                    <h1>Student registration</h1>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
                                 </div>
                             </div>

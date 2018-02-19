@@ -1,7 +1,7 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>{{ trans('labels.appname') }} : Teenager Login</title>
+    <title>{{ trans('labels.appname') }} : Student Login</title>
 @endpush
 
 @section('content')
@@ -41,7 +41,7 @@
     <section class="sec-login">
         <div class="container-small">
             <div class="login-form">
-                <h1>teen login</h1>
+                <h1>Student login</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
                 <span class="icon" ><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
 
