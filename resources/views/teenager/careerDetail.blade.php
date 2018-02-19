@@ -383,7 +383,7 @@
                                 <div class="barOverflow">
                                     <div class="bar" style="border-bottom-color:{{$matchName}};border-right-color:{{$matchName}};"></div>
                                 </div>
-                                <span>{{$matchScalePoint}}%</span>
+                                <span>100%</span>
                             </div>
                             <h3>Match</h3>
                         </div>
