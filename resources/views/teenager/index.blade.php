@@ -1,7 +1,7 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>{{ trans('labels.appname') }} : Teenager</title>
+    <title>{{ trans('labels.appname') }} : Student</title>
 @endpush
 
 @section('content')
@@ -23,7 +23,7 @@
                 <div class="col-sm-6 flex-items order-1">
                     <div class="full-width ">
                         <div class="sec-heading">
-                            <h1>Teen</h1>
+                            <h1>Student</h1>
                             <span>Finally there’s a solution! </span>
                             <div class="hand-img" data-aos="zoom-in">
                                 <img src="{{Storage::url('img/hand-img.png')}}" alt="Teenager">
@@ -113,7 +113,7 @@
     <!-- masonary section-->
     <section class="sec-masonary">
         <div class="container-large">
-            <h2>lorem ipsum dolor sit amet</h2>
+            <h2>Real World Testimonials</h2>
             <div class="row">
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>

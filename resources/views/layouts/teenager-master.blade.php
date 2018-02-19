@@ -101,6 +101,7 @@
                 <div class="left">
                     <ul class="links">
                         <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
+                        <li><a href="{{ url('team') }}" title="Team">Team</a></li>
                         <!--<li><a href="{{ url('/teenager/list-career') }}">Careers</a></li>-->
                         <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
                         <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
