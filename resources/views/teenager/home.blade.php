@@ -136,7 +136,9 @@
                                         </div>
                                     </div>
                                     @empty
-                                        <h3>No Records Found.</h3>
+                                    <h3>
+                                        <i class="icon-star"></i> Careers you wish to shortlist
+                                    </h3>
                                     @endforelse
                                 </div>
                             </div>
@@ -177,7 +179,7 @@
                                 </div>
                                 @empty
                                 <div class="col-sm-12">
-                                    <h3>No Records Found</h3>
+                                    <h3>Explore Community to build your networks!</h3>
                                 </div>
                                 @endforelse
                             </div>
@@ -255,7 +257,7 @@
                             </div>
                             <div class="careers-container consideration-section consideration-section-data">
                                 <div class="career-data">
-                                    <h3 href="javascript:void(0);" class="interest-section">Careers consideration!</h3>
+                                    <h3 href="javascript:void(0);" class="interest-section">Build your profile to know careers to consider!</h3>
                                 </div>        
                             </div>
                         </div>

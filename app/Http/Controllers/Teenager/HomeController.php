@@ -161,7 +161,7 @@ class HomeController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->teenagerId);        
   
         if($teenager) {
-            $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
+            $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = $sortedMIHData = $sortedMIMData = $sortedMILData = [];
             
             //Get Max score for MI parameters
             $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();

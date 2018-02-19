@@ -51,7 +51,7 @@
                 </div>
             </div>
         @else
-            <center><h3>You have successfully completed this Quiz</h3></center>
+            <center><h3>Aha! You Earned ProCoins!!</h3></center>
         @endif
     </div>
 </div>
