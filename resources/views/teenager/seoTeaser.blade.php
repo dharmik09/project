@@ -822,7 +822,7 @@
                             <div class="sec-tags">
                                 <h4>Tags</h4>
                                 <div class="sec-popup">
-                                    <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                    <a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
                                         <i class="icon-question"></i>
                                     </a>
                                     <div class="hide" id="pop1">

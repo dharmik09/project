@@ -50,7 +50,7 @@
                 @endif
             </div>
             <div class="sec-popup">
-                <a href="javascript:void(0);" onclick="getHelpText('profile-update')" data-toggle="clickover" data-popover-content="#profile-update" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <a href="javascript:void(0);" onmouseover="getHelpText('profile-update')" data-trigger="hover" data-popover-content="#profile-update" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                 <div class="hide" id="profile-update">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -315,7 +315,7 @@
     <section class="sec-parents" id="sec-parents">
         <div class="container">
             <div class="sec-popup">
-                <a href="javascript:void(0);" onclick="getHelpText('profile-parent-mentor')" data-toggle="clickover" data-popover-content="#profile-parent-mentor" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <a href="javascript:void(0);" onmouseover="getHelpText('profile-parent-mentor')" data-trigger="hover" data-popover-content="#profile-parent-mentor" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                 <div class="hide" id="profile-parent-mentor">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -381,7 +381,7 @@
             </div>
             
             <div class="sec-popup">
-                <a href="javascript:void(0);" onclick="getHelpText('profile-my-vote')" data-toggle="clickover" data-popover-content="#profile-my-vote" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <a href="javascript:void(0);" onmouseover="getHelpText('profile-my-vote')" data-trigger="hover" data-popover-content="#profile-my-vote" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                 <div class="hide" id="profile-my-vote">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -412,7 +412,7 @@
     <div class="icon-voted bg-offwhite" id="icon-voted">
         <div class="container">
             <h2>My Role Models</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id, explicabo vitae delectus eveniet rem doloremque perspiciatis, soluta, officiis mollitia reprehenderit assumenda libero molestias quae et. Tenetur, a, atque.</p>
+            <p>Role Models are those who you love, deeply admire & are influenced by in life.</p>
             <div class="voted-list">
                 @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
                 <ul class="row owl-carousel">

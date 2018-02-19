@@ -121,8 +121,8 @@
     }
     p {
         color: #fff;
-        font-family: 'ht';
-        font-size: 15px;
+        font-family: 'hn-b';
+        font-size: 18px;
         letter-spacing: 1px;
         line-height: 21px;
         list-style: none;
@@ -132,6 +132,7 @@
             margin-left: 0;
             max-width: 100%;
             padding: 0 20px 0 11%;
+            font-size: 15px;
         }
     }
     .dot-container{
@@ -143,7 +144,7 @@
         // transform:translate(50%,-50%);
         transition: all 0.5s;
         position: absolute;
-        bottom: 32.5%;
+        bottom: 31%;
         //left: 13.5%;
         padding-left: 80px;
         

@@ -50,7 +50,7 @@
                 @endif
             </div>
             <div class="sec-popup">
-                <a href="javascript:void(0);" onclick="getHelpText('member-details')" data-toggle="clickover" data-popover-content="#member-details" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <a href="javascript:void(0);" onmouseover="getHelpText('member-details')" data-trigger="hover" data-popover-content="#member-details" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                 <div class="hide" id="member-details">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a> 
@@ -207,7 +207,7 @@
                 <div class="tab-content">
                     <div id="menu1" class="tab-pane fade in active">
                         <div class="sec-popup">
-                            <a href="javascript:void(0);" onclick="getHelpText('member-interest')" data-toggle="clickover" data-popover-content="#member-interest" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                            <a href="javascript:void(0);" onmouseover="getHelpText('member-interest')" data-trigger="hover" data-popover-content="#member-interest" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                             <div class="hide" id="member-interest">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a> 
@@ -236,7 +236,7 @@
                     </div>
                     <div id="menu2" class="tab-pane fade">
                         <div class="sec-popup">
-                            <a href="javascript:void(0);" onclick="getHelpText('member-strength')" data-toggle="clickover" data-popover-content="#member-strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                            <a href="javascript:void(0);" onmouseover="getHelpText('member-strength')" data-trigger="hover" data-popover-content="#member-strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                             <div class="hide" id="member-strength">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a> 
@@ -265,7 +265,7 @@
                     </div>
                     <div id="menu3" class="tab-pane fade my-connection">
                         <div class="sec-popup">
-                            <a href="javascript:void(0);" onclick="getHelpText('member-connections')" data-toggle="clickover" data-popover-content="#member-connections" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                            <a href="javascript:void(0);" onmouseover="getHelpText('member-connections')" data-trigger="hover" data-popover-content="#member-connections" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                             <div class="hide" id="member-connections">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a> 

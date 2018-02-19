@@ -162,6 +162,7 @@ h6 {
         }
     }
     .my_interests {
+        margin-top: 30px;
         h2,.heading-tag {
             font-size: 26px;
             line-height: 30px;
@@ -242,6 +243,9 @@ h6 {
         }
         &.interest-block{
             margin-top: 30px;
+        }
+        .loader-btn{
+            text-align: center !important; margin-top: 5px !important;
         }
     }
     .my_career_tab {
@@ -688,4 +692,10 @@ h6 {
 }
 .career-data-nomatch{
     background: #ccc !important;
+}
+.popover-closer{
+    display: none !important;
+    @include maxsm{
+        display: block !important;
+    }    
 }

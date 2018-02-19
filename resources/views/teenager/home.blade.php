@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                             <h2>My Interests <span></span>
-                                <span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-interest')" data-toggle="clickover" data-popover-content="#dashboard-interest" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                <span class="sec-popup"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-interest')" data-trigger="hover" data-popover-content="#dashboard-interest" class="help-icon custompop" rel="popover" data-placement="bottom">
                                 <i class="icon-question"></i></a></span>
                             </h2>
                             <div class="hide" id="dashboard-interest">
@@ -70,7 +70,7 @@
                                     <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
                                 </div>
                             </div>
-                            <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-strength')" data-toggle="clickover" data-popover-content="#dashboard-strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-strength')" data-trigger="hover" data-popover-content="#dashboard-strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="hide" id="dashboard-strength">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -93,7 +93,7 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
-                            <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-my-career')" data-toggle="clickover" data-popover-content="#dashboard-my-career" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-my-career')" data-trigger="hover" data-popover-content="#dashboard-my-career" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="hide" id="dashboard-my-career">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -136,7 +136,9 @@
                                         </div>
                                     </div>
                                     @empty
-                                        <h3>No Records Found.</h3>
+                                    <h3>
+                                        <i class="icon-star"></i> Careers you wish to shortlist
+                                    </h3>
                                     @endforelse
                                 </div>
                             </div>
@@ -177,7 +179,7 @@
                                 </div>
                                 @empty
                                 <div class="col-sm-12">
-                                    <h3>No Records Found</h3>
+                                    <h3>Explore Community to build your networks!</h3>
                                 </div>
                                 @endforelse
                             </div>
@@ -236,9 +238,17 @@
                             </div>
                         </div>
                         <!-- active_tab_view End -->
+                        
                         <h2 class="das_title custom-section">Careers to consider</h2>
                         <div class="das_your_profile my_interests">
-                            <h2>My likely fit<span></span><span class="sec-popup"><a href="javascript:void(0);" onclick="getHelpText('dashboard-career-consider')" data-toggle="clickover" data-popover-content="#dashboard-career-consider" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <div class="data-explainations clearfix data-interest">
+                             <div class="content">
+                                <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
+                                <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
+                                <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
+                             </div>
+                            </div>
+                            <h2>My likely fit<span></span><span class="sec-popup"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#dashboard-career-consider" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="hide" id="dashboard-career-consider">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -246,9 +256,9 @@
                                 </div>
                             </div>
                             <div class="careers-container consideration-section consideration-section-data">
-                        		<div class="career-data">
-							        <h3 href="javascript:void(0);" class="interest-section">Careers consideration!</h3>
-							    </div>        
+                                <div class="career-data">
+                                    <h3 href="javascript:void(0);" class="interest-section">Build your profile to know careers to consider!</h3>
+                                </div>        
                             </div>
                         </div>
                     </div>

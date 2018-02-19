@@ -35,7 +35,7 @@
 
 @empty
     <div class="career-data">
-        <h3 href="javascript:void(0);" class="interest-section">No any careers consideration!</h3>
+        <h3 href="javascript:void(0);" class="interest-section">Build your profile to know careers to consider!</h3>
     </div>
 @endforelse
 @if(count($careerConsideration) > 0) 

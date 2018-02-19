@@ -707,7 +707,7 @@ class ProfessionController extends Controller {
             
             if(!$getTeenagerHML) {
                 $response['status'] = 0;
-                $response['message'] = "Please attempt at least one section of Profile Builder to view your suggested careers!";
+                $response['message'] = "Build your profile to know careers to consider!";
                 return response()->json($response, 200);
                 exit;
             }

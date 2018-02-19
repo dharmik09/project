@@ -392,6 +392,13 @@
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion1">
                                         <div class="panel-body">
+                                            <div class="data-explainations clearfix data-interest">
+                                                <div class="content">
+                                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Range</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Suggested</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Assessed</span></div>
+                                                </div>
+                                            </div>
                                             @forelse($teenagerStrength as $key => $value)
                                                 <div class="progress-block">
                                                     <div class="skill-name">{{$value['name']}}</div>
@@ -424,7 +431,7 @@
                         <div class="sec-tags">
                             <h4>Tags</h4>
                             <div class="sec-popup">
-                                <a href="javascript:void(0);" onclick="getHelpText('career-tags')" data-toggle="clickover" data-popover-content="#career-tags" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                <a href="javascript:void(0);" onmouseover="getHelpText('career-tags')" data-trigger="hover" data-popover-content="#career-tags" class="help-icon custompop" rel="popover" data-placement="bottom">
                                     <i class="icon-question"></i>
                                 </a>
                                 <div class="hide" id="career-tags">
