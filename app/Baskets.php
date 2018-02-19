@@ -366,17 +366,27 @@ class Baskets extends Model
         return $return;
     }
 
-    public function getStarredBasketsAndProfessionByUserId($userId){
+    public function getStarredBasketsAndProfessionByUserId($userId, $countryId, $searchText = ''){
         $this->userId = $userId;
+        $this->searchText = (isset($searchText) && $searchText != '') ? $searchText : '';
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query
+                    ->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id',$this->countryId);
+                    }]) 
                     ->whereHas('starRatedProfession')
-                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
                 }])
                 ->whereHas('profession', function ($query) {
                     $query->whereHas('starRatedProfession')
-                    ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    if (isset($this->searchText) && !empty($this->searchText)) {
+                        $query->where('pf_name', 'like', '%'.$this->searchText.'%');
+                    }
                 })
                 ->where('deleted' ,'1')
                 ->get();

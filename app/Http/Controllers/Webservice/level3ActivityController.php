@@ -347,6 +347,7 @@ class level3ActivityController extends Controller {
             }
             $data = [];
             $sortByArr = $this->getMyCareerPageSubFilterArray();
+            $response['data']['sortBy'] = $sortByArr;
             if($ansId != '' || $ansId != 0){
                 if($queId == 1) // Industry
                 {
@@ -421,7 +422,6 @@ class level3ActivityController extends Controller {
                     $data[$key]->potential_match = count($moderate);
                     $data[$key]->unlikely_match = count($nomatch);
                 }
-                $response['data']['sortBy'] = $sortByArr;
                 $response['data']['baskets'] = $data;
                 $response['data']['total_profession'] = '200';
                 $response['data']['completed_profession'] = '123';
@@ -910,9 +910,49 @@ class level3ActivityController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getTeenagerCareersWithBaket'));
         if($request->userId != "" && $teenager) {
+            $data = [];
+            $sortByArr = $this->getMyCareerPageSubFilterArray();
+            $response['data']['sortBy'] = $sortByArr;
             if($request->searchText != "" && $teenager) {
                 $searchText = $request->searchText;
-                $data = $this->baskets->getBasketsAndStarRatedProfessionByUserIdAndSearchValue($teenager->id,$searchText);
+                $queId = (isset($request->sortBy) && !empty($request->sortBy)) ? $request->sortBy : '';
+                $ansId = (isset($request->sortOption) && !empty($request->sortOption)) ? $request->sortOption : '';
+                //$userId = $request->userId;
+                if($teenager->t_view_information == 1) {
+                    $countryId = 2; // United States
+                } else {
+                    $countryId = 1; // India
+                }
+                if($ansId != '' || $ansId != 0){
+                    if($queId == 1) // Industry
+                    {
+                        $data = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketIdForUser($ansId, $request->userId, $countryId, $searchText);
+                    }
+                    else if ($queId == 2) // Careers
+                    {
+                        $data = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByProfessionIdForUser($ansId, $request->userId, $countryId, $searchText);
+                    } 
+                    else if ($queId == 3) // Interest
+                    {
+                        $data = $this->baskets->getProfessionBasketsByInterestDetailsForUser($ansId, $request->userId, $countryId, $searchText);
+                    } 
+                    else if ($queId == 4) // Strength
+                    {
+                        $careersDetails = Helpers::getCareerMapColumnName();
+                        $data = $this->baskets->getProfessionBasketsByStrengthDetailsForUser($careersDetails[$ansId], $request->userId, $countryId, $searchText);
+                    } 
+                    else if ($queId == 5) // Subjects
+                    {
+                        $data = $this->baskets->getProfessionBasketsBySubjectForUser($ansId, $request->userId, $countryId, $searchText);
+                    } 
+                    else if ($queId == 6) // Tags
+                    {
+                        $data = $this->baskets->getProfessionBasketsByTagForUser($ansId, $request->userId, $countryId, $searchText);
+                    }
+                } else {
+                    $data = $this->baskets->getStarredBasketsAndProfessionByUserId($request->userId, $countryId, $searchText);
+                }
+                //$data = $this->baskets->getBasketsAndStarRatedProfessionByUserIdAndSearchValue($teenager->id,$searchText);
                 $getTeenagerHML = Helpers::getTeenagerMatchScale($teenager->id);
                 
                 if($data) {
@@ -966,7 +1006,6 @@ class level3ActivityController extends Controller {
                 else{
                     $response['data'] = trans('appmessages.data_empty_msg');
                 }
-
                 $response['status'] = 1;
                 $response['login'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
