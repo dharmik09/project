@@ -256,7 +256,7 @@ class Baskets extends Model
                     }])
                     ->whereHas('professionSubject', function ($query) {
                         $query->where('subject_id', $this->subjectId)
-                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                        ->where('deleted', '1');
                     });
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
@@ -273,7 +273,7 @@ class Baskets extends Model
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
-                    $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    $query->where('deleted', '1');
                 });
         $return = $qry->where('deleted', '1')->get();
         return $return;
