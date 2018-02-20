@@ -4,7 +4,7 @@
     <div class="opinion-ans opinion-ans-functional">
         <div class="row">
             <?php
-                $dasignSetArray = ['4', '3', '5', '4', '5', '3'];
+                $dasignSetArray = ['7', '2', '6', '7', '2', '6'];
             ?>
             @foreach($level1Activities[0]->options as $key => $option)
                 <div class="col-xs-4">
