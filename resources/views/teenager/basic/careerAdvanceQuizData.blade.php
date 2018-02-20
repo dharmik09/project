@@ -26,7 +26,7 @@
         @endforeach
     </ol>
     <div class="text-center">
-        <button class="btn-primary btn btn-go" title="Go">Go! </button>
+        <button class="btn-primary btn btn-go" title="Go" onclick="getLevel4AdvanceStep2Details({{$professionDetail[0]->id}}, {{$type}});">Go! </button>
     </div>
 </div>
 @else

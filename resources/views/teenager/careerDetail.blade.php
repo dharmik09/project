@@ -264,6 +264,10 @@
                                         <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
                                     </div>
                                     <!-- Section for advance level -->
+                                    <div class="alert l4-advance-div" style="display: none;">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                        <span id="l4AdvanceMessage" class="fontWeight"></span>
+                                    </div>
                                     <div class="quiz-advanced quiz-sec">
                                         @include('teenager/basic/careerAdvanceQuizSection')
                                     </div>
@@ -1782,6 +1786,31 @@
             }
         });
     });
+
+    function getLevel4AdvanceStep2Details(professionId, type) {
+        $.ajax({
+            url: "{{ url('teenager/get-level4-advance-step2-details') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "professionId": professionId,
+                "type": type
+            },
+            success: function(response) {
+                if (response.status == 0) {
+                    $(".l4-advance-div").addClass('alert-error danger');
+                    $("#l4AdvanceMessage").text(response.message);
+                    $(".l4-advance-div").show();
+                } else {
+                    $('.quiz-advanced').html(response);
+                }
+                
+                setTimeout(function () {
+                    $(".l4-advance-div").hide();
+                }, 2500);
+            }
+        });
+    }
 </script>
 
 @stop

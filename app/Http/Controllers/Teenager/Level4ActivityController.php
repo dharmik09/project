@@ -573,18 +573,4 @@ class Level4ActivityController extends Controller {
         return response()->json($response, 200);
         exit;
     }
-
-    public function getQuestionDataAdvanceLevel()
-    {
-        $type = Input::get('activityType');
-        $professionId = Input::get('professionId');
-        $professionDetail = $this->professionsRepository->getProfessionsDataFromId($professionId);
-        $activityData = $this->level4ActivitiesRepository->getLevel4AdvanceActivityByType($type);
-        return view('teenager.basic.careerAdvanceQuizData', compact('activityData', 'professionDetail', 'type'));
-    }
-
-    public function getMediaUploadSection()
-    {
-        return view('teenager.basic.careerAdvanceQuizSection');
-    }
 }
