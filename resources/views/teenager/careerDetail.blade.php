@@ -1779,7 +1779,7 @@
         });
     }
 
-    $(document).on("click",".upload-screen .close", function () {
+    function getMediaUploadSection() {
         $.ajax({
             url: "{{ url('teenager/get-media-upload-section') }}",
             type: 'post',
@@ -1790,7 +1790,7 @@
                 $('.quiz-advanced').html(response);
             }
         });
-    });
+    }
 
     function getLevel4AdvanceStep2Details(professionId, type) {
         $.ajax({
@@ -1805,11 +1805,11 @@
                 if (response.status == 0) {
                     $(".l4-advance-div").addClass('alert-error danger');
                     $("#l4AdvanceMessage").text(response.message);
+                    getMediaUploadSection();
                     $(".l4-advance-div").show();
                 } else {
                     $('.quiz-advanced').html(response);
                 }
-                
                 setTimeout(function () {
                     $(".l4-advance-div").hide();
                 }, 2500);

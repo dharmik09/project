@@ -39,7 +39,7 @@ class Level4AdvanceActivityController extends Controller {
         $this->level4MinimumPointsRequirements = Config::get('constant.LEVEL4_MINIMUM_POINTS_REQUIREMENTS');
         $this->level4AdvanceThumbImageUploadPath = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_UPLOAD_PATH');
         $this->level4AdvanceOriginalImageUploadPath = Config::get('constant.LEVEL4_ADVANCE_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $this->log = new Logger('api-level4-advance-activity-controller');
+        $this->log = new Logger('teenager-level4-advance-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
 
@@ -85,6 +85,7 @@ class Level4AdvanceActivityController extends Controller {
             if (in_array($professionId, $professionList)) {
                 $professionId = intval($professionId);
                 $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
+                //$totalBasicQuestion[0]->NoOfAttemptedQuestions = 6;
                 if ($totalBasicQuestion[0]->NoOfTotalQuestions == 0) {
                     $response['status'] = 0;
                     $response['message'] = "Profession Doesn't have any basic questions"; 

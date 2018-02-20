@@ -1,6 +1,6 @@
 @if(isset($activityData) && !empty($activityData))
 <div class="upload-screen quiz-box modal-screen sec-show">
-    <em class="close"><i class="icon-close"></i></em>
+    <em class="close" onclick="getMediaUploadSection();"><i class="icon-close"></i></em>
     <?php
         if (strpos($activityData[0]->l4aa_description, '[PROFESSION_NAME]') !== false) {
             $professionName = (isset($professionDetail) && !empty($professionDetail)) ? $professionDetail[0]->pf_name : '';
