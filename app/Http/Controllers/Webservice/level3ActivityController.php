@@ -54,7 +54,7 @@ class level3ActivityController extends Controller {
         $this->saBannerImagePath = Config::get('constant.SA_BANNER_IMAGE_UPLOAD_PATH');
         $this->saOrigionalImagePath = Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->objTeenagers = new Teenagers;
-        $this->log = new Logger('api-level1-activity-controller');
+        $this->log = new Logger('api-level3-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log')); 
         $this->objInterest = new Interest;   
         $this->objSubject = new ProfessionSubject;
@@ -346,8 +346,6 @@ class level3ActivityController extends Controller {
                 $countryId = 1; // India
             }
             $data = [];
-            $sortByArr = $this->getMyCareerPageSubFilterArray();
-            $response['data']['sortBy'] = $sortByArr;
             if($ansId != '' || $ansId != 0){
                 if($queId == 1) // Industry
                 {
@@ -911,8 +909,6 @@ class level3ActivityController extends Controller {
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getTeenagerCareersWithBaket'));
         if($request->userId != "" && $teenager) {
             $data = [];
-            $sortByArr = $this->getMyCareerPageSubFilterArray();
-            $response['data']['sortBy'] = $sortByArr;
             if($request->searchText != "" && $teenager) {
                 $searchText = $request->searchText;
                 $queId = (isset($request->sortBy) && !empty($request->sortBy)) ? $request->sortBy : '';
@@ -1099,117 +1095,129 @@ class level3ActivityController extends Controller {
         return response()->json($response, 200);
     }  
 
-    public function getMyCareerPageSubFilterArray()
+    public function getMyCareerPageFilterDetails(Request $request)
     {
-        $filterData = Helpers::getMyCareerPageFilter();
-        $industryData = $this->baskets->getActiveBasketsOrderByName();//Industry
-        $industryDetails = [];
-        foreach($industryData as $industry) {
-            $industryArr = [];
-            $industryArr['id'] = $industry->id;
-            $industryArr['name'] = $industry->b_name;
-            $industryDetails[] = $industryArr;
-        }
-        $careersData = $this->professions->getActiveProfessionsOrderByName();//Careers
-        $careerDetails = [];
-        foreach($careersData as $career) {
-            $careerArr = [];
-            $careerArr['id'] = $career->id;
-            $careerArr['name'] = $career->pf_name;
-            $careerDetails[] = $careerArr;
-        }
-        $interestData = $data = $this->objInterest->getActiveInterest(); // Interest
-        $interestDetails = [];
-        foreach($interestData as $interest) {
-            $interestArr = [];
-            $interestArr['id'] = $interest->it_slug;
-            $interestArr['name'] = $interest->it_name;
-            $interestDetails[] = $interestArr;
-        }
-
-        //Get strength details array 
-        $personality = $this->objPersonality->getActivepersonality();
-        $ptData = [];
-        if (!empty($personality)) {
-            foreach ($personality as $ptKey => $ptVal) {
-                $ptArr = [];
-                $ptArr['id'] = $ptVal->id;
-                $ptArr['name'] = $ptVal->pt_name;
-                $ptArr['slug'] = $ptVal->pt_slug;
-                $ptArr['type'] = Config::get('constant.PERSONALITY_TYPE');
-                $ptData[] = $ptArr;
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $filterData = Helpers::getMyCareerPageFilter();
+            $industryData = $this->baskets->getActiveBasketsOrderByName();//Industry
+            $industryDetails = [];
+            foreach($industryData as $industry) {
+                $industryArr = [];
+                $industryArr['id'] = $industry->id;
+                $industryArr['name'] = $industry->b_name;
+                $industryDetails[] = $industryArr;
             }
-        }
-
-        $apptitude = $this->objApptitude->getActiveApptitude();
-        $aptData = [];
-        if (!empty($apptitude)) {
-            foreach ($apptitude as $aptKey => $aptVal) {
-                $aptArr = [];
-                $aptArr['id'] = $aptVal->id;
-                $aptArr['name'] = $aptVal->apt_name;
-                $aptArr['slug'] = $aptVal->apt_slug;
-                $aptArr['type'] = Config::get('constant.APPTITUDE_TYPE');
-                $aptData[] = $aptArr;
+            $careersData = $this->professions->getActiveProfessionsOrderByName();//Careers
+            $careerDetails = [];
+            foreach($careersData as $career) {
+                $careerArr = [];
+                $careerArr['id'] = $career->id;
+                $careerArr['name'] = $career->pf_name;
+                $careerDetails[] = $careerArr;
             }
-        }
-
-        $mi = $this->objMultipleIntelligent->getActiveMultipleIntelligent();
-        $miData = [];
-        if (!empty($mi)) {
-            foreach ($mi as $key => $val) {
-                $miArr = [];
-                $miArr['id'] = $val->id;
-                $miArr['name'] = $val->mit_name;
-                $miArr['slug'] = $val->mi_slug;
-                $miArr['type'] = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
-                $miData[] = $miArr;
+            $interestData = $data = $this->objInterest->getActiveInterest(); // Interest
+            $interestDetails = [];
+            foreach($interestData as $interest) {
+                $interestArr = [];
+                $interestArr['id'] = $interest->it_slug;
+                $interestArr['name'] = $interest->it_name;
+                $interestDetails[] = $interestArr;
             }
-        }
-        $strengthData = array_merge($aptData, $ptData, $miData); //Strength
-        $strengthDetails = [];
-        foreach($strengthData as $strength) {
-            $strengthArr = [];
-            $strengthArr['id'] = $strength['slug'];
-            $strengthArr['name'] = $strength['name'];
-            $strengthDetails[] = $strengthArr;
-        }
 
-        $subjectData = $this->objSubject->getAllProfessionSubjects(); // Subjects
-        $subjectDetails = [];
-        foreach($subjectData as $subject) {
-            $subjectArr = [];
-            $subjectArr['id'] = $subject->id;
-            $subjectArr['name'] = $subject->ps_name;
-            $subjectDetails[] = $subjectArr;
-        }
-        $tagsData = $this->objTag->getAllProfessionTags(); // Tags
-        $tagDetails = [];
-        foreach($tagsData as $tag) {
-            $tagArr = [];
-            $tagArr['id'] = $tag->id;
-            $tagArr['name'] = $tag->pt_name;
-            $tagDetails[] = $tagArr;
-        }
-        $sortByArr = [];
-        foreach ($filterData as $filterKey => $filterVal) {
-            if ($filterKey == 1) {
-                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $industryDetails);
-            } else if ($filterKey == 2) {
-                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $careerDetails);
-            } else if ($filterKey == 3) {
-                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $interestDetails);
-            } else if ($filterKey == 4) {
-                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $strengthDetails);
-            } else if ($filterKey == 5) {
-                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $subjectDetails);
-            } else if ($filterKey == 6) {
-                $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $tagDetails);
-            } else {
-                $sortByArr = [];
+            //Get strength details array 
+            $personality = $this->objPersonality->getActivepersonality();
+            $ptData = [];
+            if (!empty($personality)) {
+                foreach ($personality as $ptKey => $ptVal) {
+                    $ptArr = [];
+                    $ptArr['id'] = $ptVal->id;
+                    $ptArr['name'] = $ptVal->pt_name;
+                    $ptArr['slug'] = $ptVal->pt_slug;
+                    $ptArr['type'] = Config::get('constant.PERSONALITY_TYPE');
+                    $ptData[] = $ptArr;
+                }
             }
+
+            $apptitude = $this->objApptitude->getActiveApptitude();
+            $aptData = [];
+            if (!empty($apptitude)) {
+                foreach ($apptitude as $aptKey => $aptVal) {
+                    $aptArr = [];
+                    $aptArr['id'] = $aptVal->id;
+                    $aptArr['name'] = $aptVal->apt_name;
+                    $aptArr['slug'] = $aptVal->apt_slug;
+                    $aptArr['type'] = Config::get('constant.APPTITUDE_TYPE');
+                    $aptData[] = $aptArr;
+                }
+            }
+
+            $mi = $this->objMultipleIntelligent->getActiveMultipleIntelligent();
+            $miData = [];
+            if (!empty($mi)) {
+                foreach ($mi as $key => $val) {
+                    $miArr = [];
+                    $miArr['id'] = $val->id;
+                    $miArr['name'] = $val->mit_name;
+                    $miArr['slug'] = $val->mi_slug;
+                    $miArr['type'] = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
+                    $miData[] = $miArr;
+                }
+            }
+            $strengthData = array_merge($aptData, $ptData, $miData); //Strength
+            $strengthDetails = [];
+            foreach($strengthData as $strength) {
+                $strengthArr = [];
+                $strengthArr['id'] = $strength['slug'];
+                $strengthArr['name'] = $strength['name'];
+                $strengthDetails[] = $strengthArr;
+            }
+
+            $subjectData = $this->objSubject->getAllProfessionSubjects(); // Subjects
+            $subjectDetails = [];
+            foreach($subjectData as $subject) {
+                $subjectArr = [];
+                $subjectArr['id'] = $subject->id;
+                $subjectArr['name'] = $subject->ps_name;
+                $subjectDetails[] = $subjectArr;
+            }
+            $tagsData = $this->objTag->getAllProfessionTags(); // Tags
+            $tagDetails = [];
+            foreach($tagsData as $tag) {
+                $tagArr = [];
+                $tagArr['id'] = $tag->id;
+                $tagArr['name'] = $tag->pt_name;
+                $tagDetails[] = $tagArr;
+            }
+            $sortByArr = [];
+            foreach ($filterData as $filterKey => $filterVal) {
+                if ($filterKey == 1) {
+                    $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $industryDetails);
+                } else if ($filterKey == 2) {
+                    $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $careerDetails);
+                } else if ($filterKey == 3) {
+                    $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $interestDetails);
+                } else if ($filterKey == 4) {
+                    $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $strengthDetails);
+                } else if ($filterKey == 5) {
+                    $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $subjectDetails);
+                } else if ($filterKey == 6) {
+                    $sortByArr[] = array('id' => $filterKey, 'name' => $filterVal, 'sortData' => $tagDetails);
+                } else {
+                    $sortByArr = [];
+                }
+            }
+            $this->log->info('User retrieved filter details of My career Page', array('userId' => $request->userId, 'api-name'=> 'getMyCareerPageFilterDetails'));
+            $response['data']['sortBy'] = $sortByArr;
+            $response['status'] = 1;
+            $response['login'] = 1;
+            $response['message'] = trans('appmessages.default_success_msg');
+        } else {
+            $this->log->error('Parameter missing error', array('userId' => $request->userId, 'api-name'=> 'getMyCareerPageFilterDetails'));
+            $response['message'] = trans('appmessages.missing_data_msg');
         }
-        return $sortByArr;
+        return response()->json($response, 200);
     }
 
 }
