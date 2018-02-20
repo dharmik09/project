@@ -4,7 +4,8 @@
     <span>Document upload</span>
     <input type="file" name="pic" accept="application/*" onchange="readURL(this);">
 </div>
-<button class="btn-primary" type="submit" title="Submit">Submit</button>
+<div id="docErr" class="photo-error-register"></div>
+<button id="taskSave" class="btn-primary" title="Submit">Submit</button>
 @if(isset($userLevel4AdvanceDocumentTask) && count($userLevel4AdvanceDocumentTask) > 0)
 <div class="upload-content">
     <ul class="upld-img">

@@ -4,7 +4,8 @@
     <span>Video upload</span>
     <input type="file" name="pic" accept="video/*" onchange="readURL(this);">
 </div>
-<button class="btn-primary" type="submit" title="Submit">Submit</button>
+<div id="videoErr" class="photo-error-register"></div>
+<button id="taskSave" class="btn-primary" title="Submit">Submit</button>
 @if(isset($userLevel4AdvanceVideoTask) && count($userLevel4AdvanceVideoTask) > 0)
 <div class="upload-content">
     <ul class="upld-img">

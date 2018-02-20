@@ -4,7 +4,8 @@
     <span>photo upload</span>
     <input type="file" name="pic" accept="image/*" onchange="readURL(this);">
 </div>
-<button class="btn-primary" type="submit" title="Submit">Submit</button>
+<div id="imgErr" class="photo-error-register"></div>
+<button id="taskSave" class="btn-primary" title="Submit">Submit</button>
 @if(isset($userLevel4AdvanceImageTask) && count($userLevel4AdvanceImageTask) > 0)
 <div class="upload-content">
     <ul class="upld-img">
