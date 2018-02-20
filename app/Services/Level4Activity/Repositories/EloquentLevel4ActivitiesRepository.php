@@ -193,26 +193,27 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
                         if (isset($optionAsImage[$key1]) && $optionAsImage[$key1] != '') {
                             $ext = strtolower(pathinfo($optionAsImage[$key1], PATHINFO_EXTENSION)); 
-                            if($ext == 'gif' && $optionAsImage[$key1] != '' && file_exists(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1])){
-                                $temp['optionAsImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1]);
+                            if($ext == 'gif'){
+                                // $temp['optionAsImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1]);                               
+                                $temp['optionAsImage'] = ($optionAsImage[$key1] != "" && Storage::size(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH').$optionAsImage[$key1]) > 0 ) ? Storage::url((Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1])) : Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
                             }
-                            else if($optionAsImage[$key1] != '' && file_exists(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1])) {
-                                $temp['optionAsImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1]);
-                            } else {
-                                $temp['optionAsImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
-                            }
+                            else{
+                               // $temp['optionAsImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1]);
+                                $temp['optionAsImage'] = ($optionAsImage[$key1] != "" && Storage::size(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH').$optionAsImage[$key1]) > 0 ) ? Storage::url((Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1])) : Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                            } 
                         } else {
                             $temp['optionAsImage'] = '';
                         }
+                       
                         if (isset($optionResponseImage[$key1]) && $optionResponseImage[$key1] != '') {
                             $ext = strtolower(pathinfo($optionResponseImage[$key1], PATHINFO_EXTENSION)); 
-                            if($ext == 'gif' && $optionResponseImage[$key1] != '' && file_exists(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1])){
-                                $temp['optionResponseImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1]);
+                            if($ext == 'gif'){
+                                //$temp['optionResponseImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1]);
+                                $temp['optionResponseImage'] = ($optionResponseImage[$key1] != "" && Storage::size(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH').$optionResponseImage[$key1]) > 0 ) ? Storage::url((Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1])) : Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
                             }
-                            if ($optionResponseImage[$key1] != '' && file_exists(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1])) {
-                                $temp['optionResponseImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1]);
-                            } else {
-                                $temp['optionResponseImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                            else{
+                               // $temp['optionResponseImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1]);
+                                $temp['optionResponseImage'] = ($optionResponseImage[$key1] != "" && Storage::size(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH').$optionResponseImage[$key1]) > 0 ) ? Storage::url((Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH') . $optionResponseImage[$key1])) : Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
                             }
                         } else {
                             $temp['optionResponseImage'] = '';
@@ -225,6 +226,9 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
         } else {
             $activities = '';
         }
+//        echo "<pre>";
+//        print_r($activities);
+//        exit;
         return $activities;
     }
 

@@ -1191,8 +1191,7 @@ input:checked + .slider:before {
             }
         }
         li {
-            list-style-type: none;
-            //width: 100%;
+            list-style-type: none; //width: 100%;
             .icon-img {
                 height: 100px;
                 width: 100px;
@@ -1220,7 +1219,7 @@ input:checked + .slider:before {
         }
         .owl-stage-outer {
             padding-bottom: 80px;
-            [class*=col-]{
+            [class*=col-] {
                 width: 100%;
             }
         }
@@ -2098,6 +2097,12 @@ span.password-info {
                     margin-top: 22px;
                 }
             }
+        }
+    }
+    .label_item {
+        .emojis-icon-2 {
+            background-position: 0 9px;
+            background-repeat: no-repeat;
         }
     }
 }
