@@ -50,7 +50,7 @@
                                 <div class="full-width">
                                     <span class="icon" data-aos="fade-down"><i class="icon-hand"><!-- --></i></span>
                                     <h1>Student registration</h1>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+                                    <p>You are about to begin an exciting self-discovery experience! Begin by registering your authentic credentials.</p>
                                 </div>
                             </div>
 

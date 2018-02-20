@@ -196,7 +196,17 @@
                 <!-- Col End -->
                 <div class="col-md-6 col-sm-6 col-xs-12 activity_section">
                     <div class="dashbord_view_left dashbord_view_right">
-                        <h2 class="das_title">Build My Profile</h2>
+                        <h2 class="das_title profile-title">Build My Profile</h2>
+                        <span class="sec-popup help_noti"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-profile-builder')" data-trigger="hover" data-popover-content="#dashboard-profile-builder" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                        
+                        
+                        <div class="hide" id="dashboard-profile-builder">
+                                <div class="popover-data">
+                                    <a class="close popover-closer"><i class="icon-close"></i></a>
+                                    <span class="dashboard-profile-builder"></span>
+                                </div>
+                            </div>
+                        
                         <div class="my_career_tab active_tab_view">
                             <div class="panel-group" id="accordionx">
                                 <div class="panel panel-default factual quiz1">

@@ -177,7 +177,8 @@
                                     <!-- Section start with virtual play role --> 
                                     <div class="virtual-plus text-center">
                                         <h4><span>Virtual Role Play</span></h4>
-                                        <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                        <p>Instructions: The more you play, the better informed you will be experientially. Some sections will require ProCoins to attempt.</p>
+                                        
                                     </div>
                                     <!-- Section for basic, intermediate quiz with seprate blade --> 
                                     <div class="quiz-sec ">
@@ -186,7 +187,7 @@
                                                 <div class="quiz-box quiz-basic">
                                                     <div class="sec-show quiz-basic-sec-show">
                                                         <h3>Quiz</h3>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                                        <p>Warm up with this basic profession quiz! Better research career detail section before you attempt this!!</p>
                                                         <span title="Play" class="btn-play btn btn-basic">Play</span>
                                                         <span class="btn-play btn-play-basic" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
                                                     </div>
@@ -208,6 +209,7 @@
                                                             <div class="loading-content"></div>
                                                         </div>
                                                         @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
+                                                        
                                                             @foreach($getQuestionTemplateForProfession as $templateProfession)
                                                                 <div class="col-sm-6 flex-items">
                                                                     <div class="quiz-box">
@@ -216,7 +218,7 @@
                                                                             <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
                                                                         </div>
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
-                                                                        <p>{!! str_limit($templateProfession->gt_template_descritpion, '100', '...') !!}</p>
+                                                                        <p> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...')) !!}</p>
                                                                         <div class="unbox-btn">
                                                                             <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}" >
                                                                                 <span class="unbox-me">Unbox Me</span>
@@ -261,7 +263,7 @@
                                     <!-- Section for real world --> 
                                     <div class="virtual-plus text-center real-world">
                                         <h4><span>Real-world role Play</span></h4>
-                                        <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                        <p>Instructions: Experience real world tasks in professions roleplay. Compete for a position on the professions leaderboards!</p>
                                     </div>
                                     <!-- Section for advance level -->
                                     <div class="alert l4-advance-div" style="display: none;">
@@ -274,7 +276,7 @@
                                     <!-- Section for competitive role play -->
                                     <div class="virtual-plus text-center competitive-role">
                                         <h4><span>competitive role Play</span></h4>
-                                        <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                        <p>Instructions: Here are tasks by your real world sponsors. Impress them & build your professional reputation early on!</p>
                                         <div class="competitive-list quiz-sec">
                                             @include('teenager/basic/careerCompetitiveRoleSection')        
                                         </div>
@@ -282,7 +284,7 @@
                                     <!-- Section for challenge play -->
                                     <div class="virtual-plus text-center challenge-play">
                                         <h4><span>challenge Play</span></h4>
-                                        <p>Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                                        <p>Instructions: Collaborate for guidance from your mentors or simply have fun role playing professions with your parents. Challenge them!!</p>
                                         <div class="form-challenge">
                                             @include('teenager/basic/careerChallengePlaySection')            
                                         </div>
@@ -374,15 +376,18 @@
                     </div>
                     <div class="col-md-4">
                         <div class="sec-match">
+                            <?php 
+                                $matchScoreArray = ['match' => 100, 'nomatch' => 33, 'moderate' => 66];
+                                $matchScalePoint = ( isset($professionsData->id) && isset($getTeenagerHML[$professionsData->id]) && isset($matchScoreArray[$getTeenagerHML[$professionsData->id]]) ) ? $matchScoreArray[$getTeenagerHML[$professionsData->id]] : 0;
+                            ?>
+                            
+                            <?php if($matchScalePoint == 33){$matchName = '#f58634';}elseif($matchScalePoint == 66){$matchName = '#f1c246';}else{$matchName = '#07c9a7';} ?>
+                            
                             <div class="progress-match">
                                 <div class="barOverflow">
-                                    <div class="bar"></div>
+                                    <div class="bar" style="border-bottom-color:{{$matchName}};border-right-color:{{$matchName}};"></div>
                                 </div>
-                                <?php 
-                                    $matchScoreArray = ['match' => 100, 'nomatch' => 33, 'moderate' => 66];
-                                    $matchScalePoint = ( isset($professionsData->id) && isset($getTeenagerHML[$professionsData->id]) && isset($matchScoreArray[$getTeenagerHML[$professionsData->id]]) ) ? $matchScoreArray[$getTeenagerHML[$professionsData->id]] : 0;
-                                ?>
-                                <span>{{$matchScalePoint}}%</span>
+                                <span>100%</span>
                             </div>
                             <h3>Match</h3>
                         </div>
@@ -398,9 +403,9 @@
                                         <div class="panel-body">
                                             <div class="data-explainations clearfix data-interest">
                                                 <div class="content">
-                                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Range</span></div>
-                                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Suggested</span></div>
-                                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Assessed</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Maximum</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Ideal</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Your Strength</span></div>
                                                 </div>
                                             </div>
                                             @forelse($teenagerStrength as $key => $value)

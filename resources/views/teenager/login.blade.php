@@ -42,7 +42,7 @@
         <div class="container-small">
             <div class="login-form">
                 <h1>Student login</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+                <p>Please enter your registered eMail ID or mobile phone number to login. You may also login using your Facebook or GooglePlus credentials.</p>
                 <span class="icon" ><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
 
                 <div class="form-sec">
