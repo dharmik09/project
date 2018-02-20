@@ -381,15 +381,19 @@
                                 $matchScalePoint = ( isset($professionsData->id) && isset($getTeenagerHML[$professionsData->id]) && isset($matchScoreArray[$getTeenagerHML[$professionsData->id]]) ) ? $matchScoreArray[$getTeenagerHML[$professionsData->id]] : 0;
                             ?>
                             
-                            <?php if($matchScalePoint == 33){$matchName = '#f58634';}elseif($matchScalePoint == 66){$matchName = '#f1c246';}else{$matchName = '#07c9a7';} ?>
+                            <?php if($matchScalePoint == 33)
+                                {$matchName = 'No Match'; $class = 'bar-no-match';}
+                                elseif($matchScalePoint == 66){$matchName = 'Moderate'; $class = 'bar-moderate';}
+                                else{$matchName = 'Match'; $class = 'bar';} 
+                            ?>
                             
                             <div class="progress-match">
                                 <div class="barOverflow">
-                                    <div class="bar" style="border-bottom-color:{{$matchName}};border-right-color:{{$matchName}};"></div>
+                                    <div class="bar {{$class}}"></div>
                                 </div>
                                 <span>100%</span>
                             </div>
-                            <h3>Match</h3>
+                            <h3>{{$matchName}}</h3>
                         </div>
                         <div class="advanced-sec">
                             <div class="panel-group" id="accordion">

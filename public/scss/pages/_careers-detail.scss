@@ -1389,7 +1389,18 @@
             border-bottom-color: #1ec89d;
             /* half azure */
             border-right-color: #1ec89d;
-
+            &.bar-moderate{
+            /* half gray, */
+            border-bottom-color: #f1c246;
+            /* half azure */
+            border-right-color: #f1c246;
+            }
+            &.bar-no-match{
+                /* half gray, */
+            border-bottom-color: #f58634;
+            /* half azure */
+            border-right-color: #f58634;
+            }
         }
 
     }
@@ -1399,14 +1410,14 @@
         bottom: 40px;
         left: 50%;
         transform: translateX(-50%);
-        font-size: 38px;
+        font-size: 26px;
         font-family: hl;
         color: $lightgrey;
         @include maxmd {
-            font-size: 30px;
+            font-size: 24px;
         }
         @include maxms {
-            font-size: 26px;
+            font-size: 20px;
         }
     }
 }
