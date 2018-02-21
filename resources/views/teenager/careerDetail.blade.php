@@ -399,9 +399,7 @@
                                         </a>
                                     <div class="hide" id="career-detail-arc-view">
                                         <div class="popover-data">
-                                            <a class="close popover-closer">
-                                                <i class="icon-close"></i>
-                                            </a>
+                                            <a class="close popover-closer"><i class="icon-close"></i></a>
                                             <span class="career-detail-arc-view"></span>
                                         </div>
                                     </div>
@@ -418,14 +416,15 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed">Advanced View</a>
+                                            <a data-parent="#accordion"  data-toggle="collapse" href="#accordion1" class="collapsed">Advanced View</a>
                                             <div class="sec-popup">
-                                                    <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
-                                            <i class="icon-question"></i>
-                                        </a>
-                                                    <div class="hide" id="pop1">
+                                                    <a href="javascript:void(0);" onmouseover="getHelpText('career-detail-advanced-view')" data-trigger="hover" data-toggle="clickover" data-popover-content="#career-detail-advanced-view" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                                        <i class="icon-question"></i>
+                                                    </a>
+                                                    <div class="hide" id="career-detail-advanced-view">
                                                         <div class="popover-data">
-                                                            <a class="close popover-closer"><i class="icon-close"></i></a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                                                            <a class="close popover-closer"><i class="icon-close"></i></a>
+                                                            <span class="career-detail-advanced-view"></span>
                                                         </div>
                                                     </div>
                                                 </div>
