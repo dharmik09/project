@@ -337,9 +337,7 @@ class ProfessionController extends Controller {
        
         //Get individual profession 24 PROMISE parameters 
 //        $professionCareerMappingData = $professionsData->careerMapping->tcm_scientific_reasoning;
-//        echo "<pre>";
-//        print_r($professionCareerMappingData);
-//        exit;
+
         
         //Get Max score for MI parameters
         $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
