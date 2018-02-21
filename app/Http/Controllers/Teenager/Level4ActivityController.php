@@ -573,4 +573,6 @@ class Level4ActivityController extends Controller {
         return response()->json($response, 200);
         exit;
     }
+
+    
 }

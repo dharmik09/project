@@ -21,6 +21,7 @@ use App\Services\Professions\Contracts\ProfessionsRepository;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Image;
 
 class Level4AdvanceActivityController extends Controller {
 
@@ -39,6 +40,8 @@ class Level4AdvanceActivityController extends Controller {
         $this->level4MinimumPointsRequirements = Config::get('constant.LEVEL4_MINIMUM_POINTS_REQUIREMENTS');
         $this->level4AdvanceThumbImageUploadPath = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_UPLOAD_PATH');
         $this->level4AdvanceOriginalImageUploadPath = Config::get('constant.LEVEL4_ADVANCE_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->level4AdvanceThumbImageWidth = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_WIDTH');
+        $this->level4AdvanceThumbImageHeight = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_HEIGHT');
         $this->log = new Logger('teenager-level4-advance-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
@@ -130,6 +133,78 @@ class Level4AdvanceActivityController extends Controller {
             $response['status'] = 0;
             $response['message'] = trans('appmessages.not_sufficient_booster_points_msg');
             return response()->json($response, 200);
+            exit;
+        }
+    }
+
+    public function submitLevel4AdvanceActivity()
+    {
+        $level4AdvanceData = array();
+        if (Input::file()) {
+            $profession_id = Input::get('profession_id');
+            $media_type = Input::get('media_type');
+            $file = Input::file('media');
+            if (!empty($file)) {
+                $ext = $file->getClientOriginalExtension();
+                $save = false;
+                //check for image extension
+                if ($media_type == 3) {
+                    $validImageExtArr = array('jpg', 'jpeg', 'png', 'bmp', 'PNG');
+                    if (in_array($ext, $validImageExtArr)) {
+                        $save = true;
+                        $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                        $pathOriginal = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                        $pathThumb = public_path($this->level4AdvanceThumbImageUploadPath . $fileName);
+                        Image::make($file->getRealPath())->save($pathOriginal);
+                        Image::make($file->getRealPath())->resize($this->level4AdvanceThumbImageWidth, $this->level4AdvanceThumbImageHeight)->save($pathThumb);
+                        $level4AdvanceData['l4aaua_media_type'] = 3;
+                    } else {
+                        echo "invalid";
+                        exit;
+                    }
+                } elseif ($media_type == 2) {
+                    $validImageExtArr = array('pdf', 'docx', 'doc', 'ppt', 'pptx', 'xls', 'xlsx');
+                    if (in_array($ext, $validImageExtArr)) {
+                        $save = true;
+                        $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                        Input::file('media')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+                        $level4AdvanceData['l4aaua_media_type'] = 2;
+                    } else {
+                        echo "invalid";
+                        exit;
+                    }
+                } elseif ($media_type == 1) {
+                    $validImageExtArr = array('mov', 'avi', 'mp4', 'mkv', 'wmv','flv');
+                    if (in_array($ext, $validImageExtArr)) {
+                        $save = true;
+                        $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                        Input::file('media')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+                        $level4AdvanceData['l4aaua_media_type'] = 1;
+                    } else {
+                        echo "invalid";
+                        exit;
+                    }
+                } else {
+                    echo "invalid media";
+                    exit;
+                }
+                if ($save) {
+                    //Prepare Data for save
+                    $level4AdvanceData['id'] = 0;
+                    $level4AdvanceData['l4aaua_teenager'] = Auth::guard('teenager')->user()->id;
+                    $level4AdvanceData['l4aaua_profession_id'] = $profession_id;
+                    $level4AdvanceData['l4aaua_media_name'] = $fileName;
+                    $this->level4ActivitiesRepository->saveLevel4AdvanceActivityUser($level4AdvanceData);
+                } else {
+                    echo "Something went wrong.";
+                    exit;
+                }
+            } else {
+                echo "required";
+                exit;
+            }
+        } else {
+            echo "required";
             exit;
         }
     }

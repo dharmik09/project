@@ -1,11 +1,16 @@
 <h4>{{(isset($professionDetail) && !empty($professionDetail)) ? $professionDetail[0]->pf_name : ''}}</h4>
 <span class="pull-right close" onclick="getMediaUploadSection();"><i class="icon-close"></i></span>
-<div class="upload-img" id="img-preview">
-    <span>Document upload</span>
-    <input type="file" name="pic" accept="application/*" onchange="readURL(this);">
-</div>
-<div id="docErr" class="photo-error-register"></div>
-<button id="taskSave" class="btn-primary" title="Submit">Submit</button>
+<form id="add_advance_task" class="add_advance_task">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="profession_id" value="{{ $professionId }}">
+    <input type="hidden" name="media_type" id="media_type" value="2">
+    <div class="upload-img" id="img-preview">
+        <span>Document upload</span>
+        <input type="file" name="media" accept="application/*" onchange="readURL(this);">
+    </div>
+    <div id="mediaErr" class="photo-error-register"></div>
+    <button id="taskSave" class="btn-primary" title="Submit" type="submit">Submit</button>
+</form>
 @if(isset($userLevel4AdvanceDocumentTask) && count($userLevel4AdvanceDocumentTask) > 0)
 <div class="upload-content">
     <ul class="upld-img">
