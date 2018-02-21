@@ -458,8 +458,15 @@ class level3ActivityController extends Controller {
                 }
 
                 $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $teenager->id);
-
+                
+                
+                
                 if($professionsData){
+                    
+                    $getTeenagerHML = Helpers::getTeenagerMatchScale($teenager->id);
+                    
+                    $professionHMLScale = isset($getTeenagerHML[$professionsData->id])?$getTeenagerHML[$professionsData->id]:'nomatch';
+                    
                     $professionsData->countryId = $countryId;
                     if($professionsData->pf_logo != '' && Storage::size($this->professionThumbUrl . $professionsData->pf_logo) > 0){
                         $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $professionsData->pf_logo);
@@ -467,7 +474,9 @@ class level3ActivityController extends Controller {
                     else{
                         $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                     }
-
+                    
+                    $professionsData['professionMatchScale'] = $professionHMLScale;
+                    
                     $youtubeId = Helpers::youtube_id_from_url($professionsData->pf_video);
                     if($youtubeId != ''){
                         $professionsData->pf_video = $youtubeId;

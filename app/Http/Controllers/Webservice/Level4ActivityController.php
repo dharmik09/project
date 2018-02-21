@@ -22,6 +22,13 @@ use App\Services\Template\Contracts\TemplatesRepository;
 use Mail;
 use App\PromiseParametersMaxScore;
 use App\TeenagerPromiseScore;
+use App\MultipleIntelligentScale;
+use App\ApptitudeTypeScale;
+use App\PersonalityScale;
+use App\MultipleIntelligent;
+use App\Apptitude;
+use App\Personality;
+use App\Professions;
 
 class Level4ActivityController extends Controller {
 
@@ -36,8 +43,16 @@ class Level4ActivityController extends Controller {
         $this->templatesRepository = $templatesRepository;
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore;
         $this->objTeenagerPromiseScore = new TeenagerPromiseScore;
+        $this->objMultipleIntelligent = new MultipleIntelligent;
+        $this->objApptitude = new Apptitude;
+        $this->objPersonality = new Personality;
+        $this->objMIScale = new MultipleIntelligentScale();
+        $this->objApptitudeScale = new ApptitudeTypeScale();
+        $this->objPersonalityScale = new PersonalityScale();
+        $this->professions = new Professions();
         $this->log = new Logger('api-level4-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
+        
     }
 
     /* Request Params : getScholarshipProgramsDetails
@@ -304,6 +319,11 @@ class Level4ActivityController extends Controller {
             $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
             //Get Max score for MI parameters
             $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $countryId = ($teenager->t_view_information == 1) ? 2 : 1;
+            $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($request->careerSlug, $countryId, $request->userId);
+            
+            $professionPromiseParameters = Helpers::getCareerMapColumnName();
+            
             $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
             foreach($arraypromiseParametersMaxScore as $maxkey => $maxVal){
                 $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
@@ -312,18 +332,72 @@ class Level4ActivityController extends Controller {
             $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($request->userId);
             if(isset($teenPromiseScore) && count($teenPromiseScore) > 0) {
                 $teenPromiseScore = $teenPromiseScore->toArray();                
-                foreach($teenPromiseScore as $paramkey => $paramvalue) {
-                    if (strpos($paramkey, 'apt_') !== false) {
-                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
-                    } else if(strpos($paramkey, 'pt_') !== false) {
-                            $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                            $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
-                    } else if(strpos($paramkey, 'mit_') !== false) {
-                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreOfH' => ((100*$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_low_score_for_H'])/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+            {                    
+                if (strpos($paramkey, 'apt_') !== false) { 
+                    $careerMappingKey = $professionPromiseParameters[$paramkey];
+                    $careerMappingHML = $professionsData->careerMapping->$careerMappingKey;
+                    //get aptitude detail 
+                    $aptitudeDetail =  $this->objApptitude->getApptitudeDetailBySlug($paramkey); 
+                    $aptituteScale = $this->objApptitudeScale->getApptitudeScaleById($aptitudeDetail->id);
+                    if($careerMappingHML == 'H'){
+                        if($aptituteScale['ats_high_min_score'] == $aptituteScale['ats_high_max_score']){
+                            $blueBand = $aptituteScale['ats_moderate_max_score'];
+                        }else{
+                            $blueBand = $aptituteScale['ats_high_max_score']; 
+                        }  
+                    }elseif($careerMappingHML == 'M')
+                    {
+                        $blueBand = $aptituteScale['ats_moderate_max_score'];
+                    }else{
+                        $blueBand = $aptituteScale['ats_low_max_score'];
                     }
+                   
+                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                    $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreOfH' => ((100*$blueBand)/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+                }elseif(strpos($paramkey, 'pt_') !== false){
+                    $careerMappingKey = $professionPromiseParameters[$paramkey];
+                    $careerMappingHML = $professionsData->careerMapping->$careerMappingKey;
+                    //get personality detail 
+                    $personalityDetail =  $this->objPersonality->getPersonalityDetailBySlug($paramkey); 
+                    $personalityScale = $this->objPersonalityScale->getPersonalityScaleById($personalityDetail->id);
+                    if($careerMappingHML == 'H'){
+                        if($personalityScale['pts_high_min_score'] == $personalityScale['pts_high_max_score']){
+                            $blueBand = $personalityScale['pts_moderate_max_score'];
+                        }else{
+                            $blueBand = $personalityScale['pts_high_max_score']; 
+                        }  
+                    }elseif($careerMappingHML == 'M')
+                    {
+                        $blueBand = $personalityScale['pts_moderate_max_score'];
+                    }else{
+                        $blueBand = $personalityScale['pts_low_max_score'];
+                    }
+                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                    $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreOfH' => ((100*$blueBand)/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));               
+                }elseif(strpos($paramkey, 'mit_') !== false){
+                    $careerMappingKey = $professionPromiseParameters[$paramkey];
+                    $careerMappingHML = $professionsData->careerMapping->$careerMappingKey;
+                    //get MI detail 
+                    $miDetail =  $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($paramkey); 
+                    $miScale = $this->objMIScale->getMIScaleById($miDetail->id);
+                    if($careerMappingHML == 'H'){
+                        if($miScale['mts_high_min_score'] == $miScale['mts_high_max_score']){
+                            $blueBand = $miScale['mts_moderate_max_score'];
+                        }else{
+                            $blueBand = $miScale['mts_high_max_score']; 
+                        }  
+                    }elseif($careerMappingHML == 'M')
+                    {
+                        $blueBand = $miScale['mts_moderate_max_score'];
+                    }else{
+                        $blueBand = $miScale['mts_low_max_score'];
+                    }
+                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                    $teenagerStrength[] = (array('earnedScore' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreOfH' => ((100*$blueBand)/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'])));
+           
                 }
+            }
             }
             //Store log in System
             $this->log->info('User retrieve career advance view details', array('userid' => $request->userId));
