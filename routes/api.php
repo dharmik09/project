@@ -168,4 +168,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 
 	//Advertisements
 	Route::post('/getDashboardAdvertisements', 'Webservice\DashboardController@getDashboardAdvertisements');
+
+	//L4 Advance Activity
+	Route::post('/getL4AdvanceActivityMediaWiseDescription', 'Webservice\Level4AdvanceActivityController@getL4AdvanceActivityMediaWiseDescription');
 });
