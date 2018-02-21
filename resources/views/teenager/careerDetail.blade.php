@@ -1823,65 +1823,118 @@
 
     function readURL(input_file) {
         var taskType = $("#activityTasks li.active").attr('id');
+        var tabData = $("#activityTasks li.active a").attr('href');
         if (input_file.files && input_file.files[0]) {
-            $("#imgErr").text('');
-            $("#videoErr").text('');
-            $("#docErr").text('');
+            $("#mediaErr").text('');
             $("#taskSave").removeAttr('disabled');
+            var formData = $(tabData + " .add_advance_task");
             var reader = new FileReader();
             reader.onload = function(e) {
                 var fileType = input_file.files[0];
                 if (taskType == 3) {
                     if (fileType.type == 'image/jpeg' || fileType.type == 'image/jpg' || fileType.type == 'image/png' || fileType.type == 'image/bmp') {
                         if (input_file.files[0].size > 6000000) {
-                            $("#imgErr").text("Maximum File Upload size is 6MB");
-                            $("#taskSave").attr('disabled', 'disabled');
-                            $("#file-input").val('');
+                            formData.find("[id='mediaErr']").text("Maximum File Upload size is 6MB");
+                            formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                            formData.find("#file-input").val('');
                         }else{
-                            $("#imgErr").text(fileType.name);
+                            formData.find("[id='mediaErr']").text(fileType.name);
                         }
                     } else {
-                        $("#imgErr").text("File type not allowed");
-                        $("#taskSave").attr('disabled', 'disabled');
-                        $("#file-input").val('');
+                        formData.find("[id='mediaErr']").text("File type not allowed");
+                        formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                        formData.find("#file-input").val('');
                     }
                 } else if (taskType == 2) {
                     if (fileType.type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || fileType.type == 'application/pdf' || fileType.type == 'application/msword' || fileType.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || fileType.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileType.type == 'application/vnd.ms-powerpoint') {
                         if (input_file.files[0].size > 6000000) {
-                            $("#docErr").text("Maximum File Upload size is 6MB");
-                            $("#taskSave").attr('disabled', 'disabled');
-                            $("#file-input").val('');
+                            formData.find("[id='mediaErr']").text("Maximum File Upload size is 6MB");
+                            formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                            formData.find("#file-input").val('');
                         }else{
-                            $("#docErr").text(fileType.name);
+                            formData.find("[id='mediaErr']").text(fileType.name);
                         }
                     } else {
-                        $("#docErr").text("File type not allowed");
-                        $("#taskSave").attr('disabled', 'disabled');
-                        $("#file-input").val('');
+                        formData.find("[id='mediaErr']").text("File type not allowed");
+                        formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                        formData.find("#file-input").val('');
                     }
                 } else if (taskType == 1) {
                     if (fileType.type == 'video/mp4' || fileType.type == 'audio/x-m4a' || fileType.type == 'video/3gpp' || fileType.type == 'video/mkv' || fileType.type == 'video/avi' || fileType.type == 'video/flv'){
                         if (input_file.files[0].size > 6000000) {
-                            $("#videoErr").text("Maximum File Upload size is 6MB");
-                            $("#taskSave").attr('disabled', 'disabled');
-                            $("#file-input").val('');
+                            formData.find("[id='mediaErr']").text("Maximum File Upload size is 6MB");
+                            formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                            formData.find("#file-input").val('');
                         }else{
-                            $("#videoErr").text(fileType.name);
+                            formData.find("[id='mediaErr']").text(fileType.name);
                         }
                     }else{
-                        $("#videoErr").text("File type not allowed");
-                        $("#taskSave").attr('disabled', 'disabled');
-                        $("#file-input").val('');
+                        formData.find("[id='mediaErr']").text("File type not allowed");
+                        formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                        formData.find("#file-input").val('');
                     }
                 } else {
-                    //$("#imgErr").text("File type not allowed");
-                    $("#taskSave").attr('disabled', 'disabled');
-                    $("#file-input").val('');
+                    formData.find("[id='mediaErr']").text("File type not allowed");
+                    formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                    formData.find("#file-input").val('');
                 }
             };
             reader.readAsDataURL(input_file.files[0]);
         }
     }
+
+    $(document).on('submit','.add_advance_task',function(){
+        var clikedForm = $(this); // Select Form
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        if (clikedForm.find("[name='media']").val() == '') {
+            clikedForm.find("[id='mediaErr']").text("Please upload appropriate media file");
+            return false;
+        } else {
+            $.ajax({
+                url: "{{ url('teenager/submit-level4-advance-activity') }}",
+                type: "POST",
+                data: new FormData(this),
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(data) {
+                    if (data == 'required')
+                    {
+                        // invalid file format.
+                        clikedForm.find("[id='mediaErr']").html("Please select file to upload!").fadeIn();
+                    }
+                    else if (data == 'invalid')
+                    {
+                        // invalid file format.
+                        clikedForm.find("[id='mediaErr']").html("Invalid File !").fadeIn();
+                        //$("#add_advance_task")[0].reset();
+                    }
+                    else if (data == 'invalidmedia')
+                    {
+                        // invalid file format.
+                        clikedForm.find("[id='mediaErr']").html("Invalid Type !").fadeIn();
+                        //$("#add_advance_task")[0].reset();
+                    }
+                    else
+                    {
+                        // view uploaded file.
+                        var taskType = $("#activityTasks li.active").attr('id');
+                        getLevel4AdvanceStep2Details('{{$professionsData->id}}', taskType);
+                    }
+                },
+                error: function(e)
+                {
+                    clikedForm.find("[id='mediaErr']").html(e).fadeIn();
+                }
+            });
+            return false;
+        }
+    });
+
+   
 </script>
 
 @stop
