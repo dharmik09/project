@@ -103,11 +103,15 @@ class Baskets extends Model
                     $query->with(['professionAttempted' => function ($query) {
                         $query->where('tpa_teenager', $this->userId);
                     }])
-                    ->with('starRatedProfession')
+                    ->with(['starRatedProfession' => function ($query) {
+                        $query->where('srp_teenager_id', $this->userId);
+                    }])
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                 })
                 ->where('deleted' ,'1')
