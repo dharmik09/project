@@ -1820,6 +1820,68 @@
             }
         });
     }
+
+    function readURL(input_file) {
+        var taskType = $("#activityTasks li.active").attr('id');
+        if (input_file.files && input_file.files[0]) {
+            $("#imgErr").text('');
+            $("#videoErr").text('');
+            $("#docErr").text('');
+            $("#taskSave").removeAttr('disabled');
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var fileType = input_file.files[0];
+                if (taskType == 3) {
+                    if (fileType.type == 'image/jpeg' || fileType.type == 'image/jpg' || fileType.type == 'image/png' || fileType.type == 'image/bmp') {
+                        if (input_file.files[0].size > 6000000) {
+                            $("#imgErr").text("Maximum File Upload size is 6MB");
+                            $("#taskSave").attr('disabled', 'disabled');
+                            $("#file-input").val('');
+                        }else{
+                            $("#imgErr").text(fileType.name);
+                        }
+                    } else {
+                        $("#imgErr").text("File type not allowed");
+                        $("#taskSave").attr('disabled', 'disabled');
+                        $("#file-input").val('');
+                    }
+                } else if (taskType == 2) {
+                    if (fileType.type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || fileType.type == 'application/pdf' || fileType.type == 'application/msword' || fileType.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || fileType.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileType.type == 'application/vnd.ms-powerpoint') {
+                        if (input_file.files[0].size > 6000000) {
+                            $("#docErr").text("Maximum File Upload size is 6MB");
+                            $("#taskSave").attr('disabled', 'disabled');
+                            $("#file-input").val('');
+                        }else{
+                            $("#docErr").text(fileType.name);
+                        }
+                    } else {
+                        $("#docErr").text("File type not allowed");
+                        $("#taskSave").attr('disabled', 'disabled');
+                        $("#file-input").val('');
+                    }
+                } else if (taskType == 1) {
+                    if (fileType.type == 'video/mp4' || fileType.type == 'audio/x-m4a' || fileType.type == 'video/3gpp' || fileType.type == 'video/mkv' || fileType.type == 'video/avi' || fileType.type == 'video/flv'){
+                        if (input_file.files[0].size > 6000000) {
+                            $("#videoErr").text("Maximum File Upload size is 6MB");
+                            $("#taskSave").attr('disabled', 'disabled');
+                            $("#file-input").val('');
+                        }else{
+                            $("#videoErr").text(fileType.name);
+                        }
+                    }else{
+                        $("#videoErr").text("File type not allowed");
+                        $("#taskSave").attr('disabled', 'disabled');
+                        $("#file-input").val('');
+                    }
+                } else {
+                    //$("#imgErr").text("File type not allowed");
+                    $("#taskSave").attr('disabled', 'disabled');
+                    $("#file-input").val('');
+                }
+            };
+            reader.readAsDataURL(input_file.files[0]);
+        }
+    }
 </script>
 
 @stop
