@@ -13,7 +13,7 @@ a:hover {
     font-family: hn-b;
     border-radius: 5px;
     max-width: 707px;
-    @include maxms{
+    @include maxms {
         font-size: 18px;
         margin-bottom: 30px;
         margin-top: 30px;
@@ -635,11 +635,11 @@ a:hover {
 
 .forum-module {
     padding: 30px 0;
-    @include maxms{
+    @include maxms {
         padding: 20px 0;
     }
     .forum-container {
-       // max-width: 80%;
+        // max-width: 80%;
         margin: 0 auto;
         padding: 30px 0px;
         /*@include maxmd{
@@ -648,8 +648,8 @@ a:hover {
         @include maxsm{
             max-width: 95%;
         }*/
-        @include maxms{
-           // max-width: 100%;
+        @include maxms {
+            // max-width: 100%;
             padding: 10px 0;
         }
         .load-more {
@@ -672,17 +672,17 @@ a:hover {
         border-radius: 4px;
         border: 1px solid #efefef;
         margin-bottom: 12px;
-        @include maxms{
+        @include maxms {
             padding: 15px;
         }
         .forum-que-block {
             margin-bottom: 10px;
         }
-        .que-image{
+        .que-image {
             margin: 10px auto 20px;
             text-align: center;
             max-width: 300px;
-            &.full-img{
+            &.full-img {
                 max-width: 100%;
             }
         }
@@ -703,10 +703,10 @@ a:hover {
         font-size: 20px;
         color: $dark;
         margin-bottom: 3px;
-        @include maxsm{
+        @include maxsm {
             font-size: 18px;
         }
-        @include maxms{
+        @include maxms {
             font-size: 16px;
         }
         a {
@@ -726,7 +726,7 @@ a:hover {
             font-family: h;
             margin-right: 15px;
             position: relative;
-            @include maxms{
+            @include maxms {
                 margin-right: 10px;
             }
             a {
@@ -750,7 +750,7 @@ a:hover {
                 left: -9px;
                 top: 1px;
                 background: #999999;
-                @include maxms{
+                @include maxms {
                     left: -8px;
                 }
             }
@@ -776,7 +776,7 @@ a:hover {
         color: #999999;
         font-family: h;
     }
-    &.no-padding{
+    &.no-padding {
         padding-left: 0;
     }
 }
@@ -785,9 +785,10 @@ a:hover {
     > span {
         text-align: center;
         display: block;
-        .read-more{
-            font-size: 14px;color: $h-cl;
-            &:hover{
+        .read-more {
+            font-size: 14px;
+            color: $h-cl;
+            &:hover {
                 text-decoration: underline;
             }
         }
@@ -802,6 +803,13 @@ a:hover {
     overflow: hidden; //vertical-align: middle
 }
 
+.author-img a {
+    font-size: 40px;
+    transform: scaleX(-1);
+    display: inline-block;
+    line-height: 1;
+}
+
 .ans-detail {
     margin-bottom: 10px;
 }
@@ -812,21 +820,23 @@ a:hover {
     color: $lightgrey;
     line-height: 1.35;
     margin-bottom: 5px;
-    @include maxmd{
+    @include maxmd {
         font-size: 16px;
         line-height: 1.4;
     }
-    @include maxms{
-        font-size: 15px;line-height: 1.5;
+    @include maxms {
+        font-size: 15px;
+        line-height: 1.5;
     }
     p {
         @extend .forum-answer;
     }
 }
+
 .ans-author-detail,
 .forum-que {
     padding: 0 20px;
-    @include maxms{
+    @include maxms {
         padding: 0 12px;
     }
 }
@@ -844,6 +854,7 @@ a:hover {
         vertical-align: top;
     }
 }
+
 .notification-complete {
     text-align: center;
     margin: 15px 0;

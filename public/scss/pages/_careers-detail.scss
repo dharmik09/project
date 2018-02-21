@@ -1357,12 +1357,12 @@
 .sec-match {
     background: $white;
     text-align: center;
-    padding: 40px 0;
+    padding: 16px 0;
     position: relative;
     .progress-match {
         position: relative;
         text-align: center;
-        padding-top: 30px;
+        //padding-top: 30px;
         span {
             font-size: 0;
         }
@@ -1404,21 +1404,37 @@
         }
 
     }
+    h2{
+        font-size: 28px;
+        margin-left: 20px;text-transform:capitalize;
+        @include maxmd {
+            font-size: 24px;
+        }
+        @include maxms {
+            font-size: 20px;
+            margin-left: 30px;
+        }
+    }
     h3 {
         margin-top: 0;
         position: absolute;
-        bottom: 40px;
+        bottom: 10px;
         left: 50%;
         transform: translateX(-50%);
         font-size: 26px;
         font-family: hl;
-        color: $lightgrey;
+        color: $lightgrey;text-transform:capitalize;
         @include maxmd {
             font-size: 24px;
         }
         @include maxms {
             font-size: 20px;
         }
+    }
+    .sec-popup a{
+        font-size: 25px;
+        margin-right: 10px;
+        
     }
 }
 
@@ -1479,6 +1495,10 @@
                 bottom: -11px;
                 left: 20px;
             }
+        }
+        .sec-popup a{
+            padding: 0;margin-top: -50px;margin-right: 10px;
+            &:before, &:after{display: none;}
         }
     }
     .progress-bar-primary {
