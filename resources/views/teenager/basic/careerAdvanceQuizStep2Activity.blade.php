@@ -6,13 +6,13 @@
         <li id="1" <?php if($typeId == 1) { ?> class="active" <?php } ?> ><a data-toggle="tab" href="#submenu2">Video</a></li>
     </ul>
     <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
+        <div id="home" class="tab-pane fade <?php if($typeId == 3 || empty($typeId)) { ?> in active <?php } ?>">
             @include('teenager/basic/l4AdvanceActivityImageTask')
         </div>
-        <div id="submenu1" class="tab-pane fade">
+        <div id="submenu1" class="tab-pane fade <?php if($typeId == 2 || empty($typeId)) { ?> in active <?php } ?>">
             @include('teenager/basic/l4AdvanceActivityDocumentTask')
         </div>
-        <div id="submenu2" class="tab-pane fade">
+        <div id="submenu2" class="tab-pane fade <?php if($typeId == 1 || empty($typeId)) { ?> in active <?php } ?>"">
             @include('teenager/basic/l4AdvanceActivityVideoTask')
         </div>
     </div>
