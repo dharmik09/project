@@ -376,24 +376,42 @@
                     </div>
                     <div class="col-md-4">
                         <div class="sec-match">
+                            <div class="data-explainations clearfix">
+                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
+                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
+                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
+                                </div>
                             <?php 
                                 $matchScoreArray = ['match' => 100, 'nomatch' => 33, 'moderate' => 66];
                                 $matchScalePoint = ( isset($professionsData->id) && isset($getTeenagerHML[$professionsData->id]) && isset($matchScoreArray[$getTeenagerHML[$professionsData->id]]) ) ? $matchScoreArray[$getTeenagerHML[$professionsData->id]] : 0;
                             ?>
                             
                             <?php if($matchScalePoint == 33)
-                                {$matchName = 'No Match'; $class = 'bar-no-match';}
-                                elseif($matchScalePoint == 66){$matchName = 'Moderate'; $class = 'bar-moderate';}
-                                else{$matchName = 'Match'; $class = 'bar';} 
+                                {$matchName = 'No Match'; $class = 'bar-no-match'; $h3class = 'no-match';}
+                                elseif($matchScalePoint == 66){$matchName = 'Moderate'; $class = 'bar-moderate';$h3class = 'moderate-match';}
+                                else{$matchName = 'Match'; $class = 'bar'; $h3class = 'strong-match';} 
                             ?>
                             
                             <div class="progress-match">
+                                <div class="sec-popup">
+                                    <a href="javascript:void(0);" onmouseover="getHelpText('career-detail-arc-view')" data-trigger="hover" data-popover-content="#career-detail-arc-view" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                            <i class="icon-question"></i>
+                                        </a>
+                                    <div class="hide" id="career-detail-arc-view">
+                                        <div class="popover-data">
+                                            <a class="close popover-closer">
+                                                <i class="icon-close"></i>
+                                            </a>
+                                            <span class="career-detail-arc-view"></span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="barOverflow">
                                     <div class="bar {{$class}}"></div>
                                 </div>
                                 <span>100%</span>
                             </div>
-                            <h3>{{$matchName}}</h3>
+                            <h3 class="{{$h3class}}">{{$matchName}}</h3>
                         </div>
                         <div class="advanced-sec">
                             <div class="panel-group" id="accordion">
@@ -401,6 +419,16 @@
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
                                             <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed">Advanced View</a>
+                                            <div class="sec-popup">
+                                                    <a href="javascript:void(0);" data-toggle="clickover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                            <i class="icon-question"></i>
+                                        </a>
+                                                    <div class="hide" id="pop1">
+                                                        <div class="popover-data">
+                                                            <a class="close popover-closer"><i class="icon-close"></i></a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion1">

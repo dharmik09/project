@@ -1242,7 +1242,7 @@ class level3ActivityController extends Controller {
         $this->log->info('Save teenager L3 career research booster point for userId'.$request->userId , array('api-name'=> 'level3CareerResearch'));
         
         if($request->userId != "" && $teenager) {
-            if($request->careerId != "") {
+            if($request->professionId != "") {
                 $teenagerId = $request->userId;
                 $professionId = $request->professionId;
                 $type = $request->type;
