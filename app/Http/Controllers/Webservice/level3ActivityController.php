@@ -1244,7 +1244,7 @@ class level3ActivityController extends Controller {
         if($request->userId != "" && $teenager) {
             if($request->careerId != "") {
                 $teenagerId = $request->userId;
-                $professionId = $request->careerId;
+                $professionId = $request->professionId;
                 $type = $request->type;
                 $isYouTube = $request->isYouTube;
                 $points = ($isYouTube == 1)?config::get('constant.LEVEL3_PROFESSION_POINTS'):(2*config::get('constant.LEVEL3_PROFESSION_POINTS'));
