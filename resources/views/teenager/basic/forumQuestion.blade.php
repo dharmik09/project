@@ -2,7 +2,7 @@
     @foreach($forumQuestionData as $key => $value)
     <div class="single-article">
         <div class="forum-que-block t-table">
-            <div class="author-img t-cell"><a href="#" title="Kelly Cheng"><img src="{{ Storage::url('img/proteen-logo.png') }}" alt="author img"></a></div>
+            <div class="author-img t-cell"><a href="javascript:void(0);"><img src="{{ Storage::url('img/proteen-logo.png') }}" alt="author img"></a></div>
             <div class="forum-que t-cell">
                 <h4><a href="{{url('teenager/forum-question/'.Crypt::encrypt($value->id))}}" title="{{$value->fq_que}}">{{$value->fq_que}}</a></h4>
                 <ul class="que-detail">
