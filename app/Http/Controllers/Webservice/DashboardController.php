@@ -32,6 +32,9 @@ use App\ProfessionWiseSubject;
 use App\TeenagerPromiseScore;
 use App\ProfessionSubject;
 use App\PromiseParametersMaxScore;
+use App\MultipleIntelligentScale;
+use App\ApptitudeTypeScale;
+use App\PersonalityScale;
 
 class DashboardController extends Controller
 {
@@ -70,6 +73,9 @@ class DashboardController extends Controller
         $this->subjectOriginalImageUploadPath = Config::get("constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH");
         $this->objProfessionSubject = new ProfessionSubject;
         $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
+        $this->objMIScale = new MultipleIntelligentScale();
+        $this->objApptitudeScale = new ApptitudeTypeScale();
+        $this->objPersonalityScale = new PersonalityScale();
     }
 
     /* Request Params : getDashboardDetail
@@ -166,7 +172,7 @@ class DashboardController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
-            $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
+            $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = $sortedMIHData = $sortedMIMData = $sortedMILData = [];
             
             //Get Max score for MI parameters
             $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
@@ -188,19 +194,37 @@ class DashboardController extends Controller
                 $teenPromiseScore = $teenPromiseScore->toArray();                
                 foreach($teenPromiseScore as $paramkey=>$paramvalue)
                 {                    
-                    if (strpos($paramkey, 'apt_') !== false) {                       
+                    if (strpos($paramkey, 'apt_') !== false) { 
+                        $scaleapt = $this->objApptitudeScale->calculateApptitudeHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('slug' => $paramkey, 'points' => $teenAptScore, 'score' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey));
+                        $teenagerStrength[] = (array('scale'=>$scaleapt,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey));
                     }elseif(strpos($paramkey, 'pt_') !== false){
+                        $scalept = $this->objPersonalityScale->calculatePersonalityHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('slug' => $paramkey, 'points' => $teenAptScore, 'score' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey));
+                        $teenagerStrength[] = (array('scale'=>$scalept,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey));
                     }elseif(strpos($paramkey, 'mit_') !== false){
+                        $scalemi = $this->objMIScale->calculateMIHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('slug' => $paramkey, 'points' => $teenAptScore, 'score' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey));
+                        $teenagerStrength[] = (array('scale'=>$scalemi,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey));
                     }
                 }
             }
             
+            $finalSortedData = [];
+            if (isset($teenagerStrength) && !empty($teenagerStrength)) {
+                foreach ($teenagerStrength as $key => $data) {
+                    if ($data['scale'] == 'H') {
+                        $sortedMIHData[] = $data;
+                    }
+                    if ($data['scale'] == 'M') {
+                        $sortedMIMData[] = $data;
+                    }
+                    if ($data['scale'] == 'L') {
+                        $sortedMILData[] = $data;
+                    }
+                }
+                $teenagerStrength = array_merge($sortedMIHData, $sortedMIMData, $sortedMILData);
+            }
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');

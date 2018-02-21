@@ -2,6 +2,7 @@
 
 @push('script-header')
     <title>Teenager : Chat/Notification/Forum</title>
+    <link href="https://github.com/AppLozic/Applozic-Web-Plugin/blob/master/src/css/app/fullview/applozic.fullview.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -179,6 +180,7 @@
         
 @stop
 @section('script')
+<script src="https://github.com/AppLozic/Applozic-Web-Plugin/blob/master/src/js/app/fullview/applozic.fullview.js"></script>
 <script>
 
    var ischat = '<?php echo Auth::guard('teenager')->user()->is_chat_initialized?>';
@@ -197,53 +199,61 @@
             },
             success: function(response)
             {
-
             }
         });
     } 
     
    (function(d, m){var s, h;       
-   s = document.createElement("script");
-   s.type = "text/javascript";
-   s.async=true;
-   s.src="https://apps.applozic.com/sidebox.app";
-   h=document.getElementsByTagName('head')[0];
-   h.appendChild(s);
-   window.applozic=m;
-   m.init=function(t){m._globals=t;}})(document, window.applozic || {});
+        s = document.createElement("script");
+        s.type = "text/javascript";
+        s.async=true;
+        s.src="https://apps.applozic.com/sidebox.app";
+        h=document.getElementsByTagName('head')[0];
+        h.appendChild(s);
+        window.applozic=m;
+        m.init=function(t){m._globals=t;}})(document, window.applozic || {});
     
-    window.applozic.init({
-                     appId: '<?php echo Config::get('constant.APP_LOGIC_CHAT_API_KEY') ?>',      //Get your application key from https://www.applozic.com
-                     userId: '<?php echo Auth::guard('teenager')->user()->t_uniqueid ?>',                     //Logged in user's id, a unique identifier for user
-                     userName: '<?php echo Auth::guard('teenager')->user()->t_name ?>',                 //User's display name
-                     imageLink : '<?php echo $user_profile_thumb_image?>',                     //User's profile picture url
-                     email : '',                         //optional
-                     contactNumber: '',                  //optional, pass with internationl code eg: +16508352160
-                     desktopNotification: true,
-                     source: '1',                          // optional, WEB(1),DESKTOP_BROWSER(5), MOBILE_BROWSER(6)
-                     notificationIconLink: 'https://www.applozic.com/favicon.ico',    //Icon to show in desktop notification, replace with your icon
-                     authenticationTypeId: '1',          //1 for password verification from Applozic server and 0 for access Token verification from your server
-                     accessToken: '',                    //optional, leave it blank for testing purpose, read this if you want to add additional security by verifying password from your server https://www.applozic.com/docs/configuration.html#access-token-url
-                     locShare: true,
-                     googleApiKey: "AIzaSyBm-n8IiGLN5c9orHBZw58zDEO6Qb7ckOQ",   // your project google api key
-                     googleMapScriptLoaded : true,   // true if your app already loaded google maps script
-                     autoTypeSearchEnabled : false,     // set to false if you don't want to allow sending message to user who is not in the contact list
-                     loadOwnContacts : true,
-                     olStatus: true,
-                     onInit : function(response) {
-                       $applozic.fn.applozic('getUserDetail', {callback: function(dataresponse) {
-                            if(dataresponse.status === 'success') {
-                               // write your logic                          
-                               //$applozic.fn.applozic('loadTab', '');
-                               getContacts(function(output){
-                                    // here you use the output
-                                    $applozic.fn.applozic('loadContacts', {"contacts": output});
-                               });
-                            }
-                         }
+        window.applozic.init({
+            appId: '<?php echo Config::get('constant.APP_LOGIC_CHAT_API_KEY') ?>',      //Get your application key from https://www.applozic.com
+            userId: '<?php echo Auth::guard('teenager')->user()->t_uniqueid ?>',                     //Logged in user's id, a unique identifier for user
+            userName: '<?php echo Auth::guard('teenager')->user()->t_name ?>',                 //User's display name
+            imageLink : '<?php echo $user_profile_thumb_image?>',                     //User's profile picture url
+            email : '',                         //optional
+            contactNumber: '',                  //optional, pass with internationl code eg: +16508352160
+            desktopNotification: true,
+            source: '1',                          // optional, WEB(1),DESKTOP_BROWSER(5), MOBILE_BROWSER(6)
+            notificationIconLink: 'https://www.applozic.com/favicon.ico',    //Icon to show in desktop notification, replace with your icon
+            authenticationTypeId: '1',          //1 for password verification from Applozic server and 0 for access Token verification from your server
+            accessToken: '',                    //optional, leave it blank for testing purpose, read this if you want to add additional security by verifying password from your server https://www.applozic.com/docs/configuration.html#access-token-url
+            locShare: true,
+            googleApiKey: "AIzaSyBhgs2TAiLfkjI3MCgrkbtVFwZDBxsyBAM",   // your project google api key
+            googleMapScriptLoaded : false,   // true if your app already loaded google maps script
+            autoTypeSearchEnabled : false,     // set to false if you don't want to allow sending message to user who is not in the contact list
+            loadOwnContacts : true,
+            olStatus: true,
+            onInit : function(response) {
+              $applozic.fn.applozic('getUserDetail', {callback: function(dataresponse) {
+                   if(dataresponse.status === 'success') {
+                     // console.log(dataresponse.data.totalUnreadCount);
+                      if(dataresponse.data.totalUnreadCount > 0)
+                      {
+                          //  $('.unreadcount').show();
+                          console.log(dataresponse.data.totalUnreadCount);
+                            //$('.unreadcount').html(dataresponse.data.totalUnreadCount);
+                      }else{
+                          //  $('.unreadcount').hide();
+                      } 
+                      // write your logic                          
+                      //$applozic.fn.applozic('loadTab', '');
+                      getContacts(function(output){
+                           // here you use the output
+                           $applozic.fn.applozic('loadContacts', {"contacts": output});
                       });
-                    }
-                });
+                   }
+                }
+             });
+           }
+       });
     function getContacts(handleData)
     {
         $.ajax({
