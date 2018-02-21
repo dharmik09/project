@@ -26,6 +26,7 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use App\ProfessionSubject;
 use App\ProfessionTag;
+use App\TeenagerBoosterPoint;
 
 class level3ActivityController extends Controller {
 
@@ -59,6 +60,8 @@ class level3ActivityController extends Controller {
         $this->objInterest = new Interest;   
         $this->objSubject = new ProfessionSubject;
         $this->objTag = new ProfessionTag;
+        $this->teenagerBoosterPoint = new TeenagerBoosterPoint();
+
     }
 
     public function getAllBasktes(Request $request) {
@@ -1232,18 +1235,18 @@ class level3ActivityController extends Controller {
     /*
      * Save teen data for L3 career attempt 
      */
-    public function level3CareerResearch()
+    public function saveL3BoosterPointCareerResearch(Request $request)
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Save teenager L3 career research booster point for userId'.$request->userId , array('api-name'=> 'level3CareerResearch'));
         
         if($request->userId != "" && $teenager) {
-            if($request->careerId != "") {
-                $teenagerId = Auth::guard('teenager')->user()->id;
-                $professionId = Input::get('professionId');
-                $type = Input::get('type');
-                $isYouTube = Input::get('isYouTube');
+            if($request->professionId != "") {
+                $teenagerId = $request->userId;
+                $professionId = $request->professionId;
+                $type = $request->type;
+                $isYouTube = $request->isYouTube;
                 $points = ($isYouTube == 1)?config::get('constant.LEVEL3_PROFESSION_POINTS'):(2*config::get('constant.LEVEL3_PROFESSION_POINTS'));
 
                 $teenagerLevelPoints = $this->teenagerBoosterPoint->getTeenagerBoosterPoint($teenagerId,config::get('constant.LEVEL3_ID'));

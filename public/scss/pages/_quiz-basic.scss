@@ -511,6 +511,9 @@
                     &.approved {
                         background: $m-cl;
                     }
+                    &.rejected{
+                        background: $p-cl;
+                    }
                 }
             }
             .detail-cont {
@@ -1017,4 +1020,7 @@
     @include maxms{
         max-width: 100%;
     }
+}
+.form-imgSubmit{
+    margin-bottom: 20px;
 }
