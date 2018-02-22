@@ -106,7 +106,6 @@ class ProfileController extends Controller
         $data = [];
         $teenSponsorIds = [];
         $user = Auth::guard('teenager')->user();
-
         //$getTeenagerBasicBooster = $this->teenagersRepository->getTeenagerBasicBooster($user->id);
         //$p = $this->level1ActivitiesRepository->saveTeenagerActivityResponseOneByOne($user->id, array());
         //echo "<pre/>"; print_r($p); die();
@@ -296,5 +295,30 @@ class ProfileController extends Controller
             exit;
         }
     }
+    
+    public function getUserUnreadMessageCountChat() 
+    {
+        $userIdList['userIdList'] = array(Auth::guard('teenager')->user()->t_uniqueid);
+        $postData =$userIdList;
+        $jsonData = json_encode($postData);
+        
+        $curlObj = curl_init();
 
+        curl_setopt($curlObj, CURLOPT_URL, 'https://apps.applozic.com/rest/ws/user/v2/detail');
+        curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curlObj, CURLOPT_HEADER, 0);
+        curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json','Apz-AppId:'.Config::get('constant.APP_LOGIC_CHAT_API_KEY'),'Apz-Token:BASIC cHJvdGVlbmxpZmVAZ21haWwuY29tOiFQcm9UZWVubGlmZSE='));
+        curl_setopt($curlObj, CURLOPT_POST, 1);
+        curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
+
+        $result = curl_exec($curlObj);
+        $json = json_decode($result);
+        if(isset($json) && !empty($json)){
+            $unreadcount = $json->response[0]->unreadCount;
+        }else{
+            $unreadcount = 0;
+        }
+        echo $unreadcount; exit;                    
+    }
 }

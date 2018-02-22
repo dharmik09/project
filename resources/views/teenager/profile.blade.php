@@ -93,8 +93,8 @@
                                 <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                             </ul>
                             <div class="chat-icon">
-                                <a href="#" title="Chat"><i class="icon-chat"></i>
-                                    <span>3</span></a>
+                                <a href="{{ url('/teenager/chat') }}" title="Chat"><i class="icon-chat"></i>
+                                    <span style="display: none;" id="chatmsgunreadcount"></span></a>
                             </div>
                             
                             <div class="about-info-block">
@@ -1078,6 +1078,7 @@
         getFirstLevelData();
         fetchLevel1TraitQuestion();
         getDefaultAreaLocation();
+        getUserUnreadMessageCountChat();
     });
 
     function getFirstLevelData() {
@@ -1844,7 +1845,23 @@
         });
     }
 
-   
+    function getUserUnreadMessageCountChat()
+    {
+        $.ajax({
+            url: "{{ url('teenager/get-user-unread-message-chat') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}'
+            },
+            success: function(response)
+            {
+                if(response > 0){
+                    $('#chatmsgunreadcount').show();
+                    $('#chatmsgunreadcount').html(response);
+                }                    
+            }
+        });
+    }
 
       
 </script>

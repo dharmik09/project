@@ -2,7 +2,6 @@
 
 @push('script-header')
     <title>Teenager : Chat/Notification/Forum</title>
-    <link href="https://github.com/AppLozic/Applozic-Web-Plugin/blob/master/src/css/app/fullview/applozic.fullview.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -182,7 +181,6 @@
         
 @stop
 @section('script')
-<script src="https://github.com/AppLozic/Applozic-Web-Plugin/blob/master/src/js/app/fullview/applozic.fullview.js"></script>
 <script>
 
    var ischat = '<?php echo Auth::guard('teenager')->user()->is_chat_initialized?>';
@@ -236,15 +234,7 @@
             onInit : function(response) {
               $applozic.fn.applozic('getUserDetail', {callback: function(dataresponse) {
                    if(dataresponse.status === 'success') {
-                     // console.log(dataresponse.data.totalUnreadCount);
-                      if(dataresponse.data.totalUnreadCount > 0)
-                      {
-                          //  $('.unreadcount').show();
-                          console.log(dataresponse.data.totalUnreadCount);
-                            //$('.unreadcount').html(dataresponse.data.totalUnreadCount);
-                      }else{
-                          //  $('.unreadcount').hide();
-                      } 
+                    
                       // write your logic                          
                       //$applozic.fn.applozic('loadTab', '');
                       getContacts(function(output){
