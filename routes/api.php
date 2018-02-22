@@ -173,6 +173,8 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//L4 Advance Activity
 	Route::post('/getL4AdvanceActivityMediaWiseDescription', 'Webservice\Level4AdvanceActivityController@getL4AdvanceActivityMediaWiseDescription');
 	Route::post('/getL4AdvanceActivityUploadedMediaDescription', 'Webservice\Level4AdvanceActivityController@getL4AdvanceActivityUploadedMediaDescription');
+	Route::post('/saveLevel4AdvanceUserTask', 'Webservice\Level4AdvanceActivityController@saveLevel4AdvanceUserTask');
+	Route::post('/submitLevel4AdvanceTaskForReview', 'Webservice\Level4AdvanceActivityController@submitLevel4AdvanceTaskForReview');
 
     //L3 Research Activity 
     Route::post('/saveL3BoosterPointCareerResearch', 'Webservice\level3ActivityController@saveL3BoosterPointCareerResearch');
