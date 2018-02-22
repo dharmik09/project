@@ -423,4 +423,88 @@ class Level4ActivityController extends Controller {
         return round($percentage);
     }
 
+    /* Request Params : getTeenParentChallengeScoreDetails
+     *  loginToken, userId, parentId, careerId
+     */
+    public function getTeenParentChallengeScoreDetails(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->careerId) && !empty($request->careerId) && isset($request->parentId) && !empty($request->parentId)) {
+                    $professionId = $request->careerId;
+                    $parentId = $request->parentId;
+                    $teenId = $request->userId;
+                    $getProfessionNameFromProfessionId = $this->professionsRepository->getProfessionsByProfessionId($professionId);
+                    $data['careerId'] = $professionId; 
+                    $data['careerName'] = (isset($getProfessionNameFromProfessionId[0]) && !empty($getProfessionNameFromProfessionId[0])) ? $getProfessionNameFromProfessionId[0]->pf_name : '';  
+                    $level4Booster = Helpers::level4Booster($professionId, $teenId);
+                    $level4ParentBooster = Helpers::level4ParentBooster($professionId, $parentId);
+                    $teenDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
+                    $parentDetail = $this->parentsRepository->getParentDetailByParentId($parentId);
+
+                    $level4ParentBooster['yourRank'] = 0;
+                    foreach($level4Booster['allData'] AS $key => $value) {
+                        if ($level4ParentBooster['yourScore'] != 0) {
+                            if ($level4ParentBooster['yourScore'] == $value) {
+                                $level4ParentBooster['yourRank'] = $key+1;
+                            } 
+                        }   
+                    }
+                    $rank = 0;
+                    foreach($level4Booster['allData'] AS $key => $value) {
+                        if ($level4Booster['yourScore'] != 0) {
+                            if ($level4Booster['yourScore'] == $value) {
+                                $rank = $key + 1;
+                            } 
+                        } 
+                    }
+
+                    //Parent details
+                    $parentDetailsArr = [];
+                    $parentDetailsArr['id'] = $parentDetail->id;
+                    $parentDetailsArr['name'] = $parentDetail->p_first_name;
+                    if (isset($parentDetail->p_photo) && $parentDetail->p_photo != '' && Storage::size(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $parentDetail->p_photo) > 0) {
+                        $parentDetailsArr['parentPhoto'] = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $parentDetail->p_photo);
+                    } else {
+                        $parentDetailsArr['parentPhoto'] = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    }
+                    $parentDetailsArr['score'] = $level4ParentBooster['yourScore'];
+                    $parentDetailsArr['rank'] = $level4ParentBooster['yourRank'];
+                    $parentDetailsArr['parentPoints'] = $level4ParentBooster['yourScore'];
+                    $parentDetailsArr['parentTotalPoints'] = $level4ParentBooster['totalPobScore'];
+                    $data['parentDetails'] = $parentDetailsArr;
+
+                    //Teenager details
+                    $teenDetailsArr = [];
+                    $teenDetailsArr['id'] = $teenDetail['id'];
+                    $teenDetailsArr['name'] = $teenDetail['t_name'];
+                    if (isset($teenDetail['t_photo']) && $teenDetail['t_photo'] != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH') . $teenDetail['t_photo']) > 0) {
+                        $teenDetailsArr['teenPhoto'] = Storage::url(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH') . $teenDetail['t_photo']);
+                    } else {
+                        $teenDetailsArr['teenPhoto'] = Storage::url(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                    }
+                    $teenDetailsArr['teenScore'] = $level4Booster['yourScore'];
+                    $teenDetailsArr['teenRank'] = $rank;
+                    $teenDetailsArr['teenPoints'] = $level4Booster['yourScore'];
+                    $teenDetailsArr['teenTotalPoints'] = $level4Booster['totalPobScore'];
+                    $data['teenagerDetails'] = $teenDetailsArr;
+
+                    //Store log in System
+                    $this->log->info('Teenager retrieve challenge score details', array('teenId' => $request->userId, 'parentId' => $request->parentId, 'professionId' => $request->professionId));
+                    $response['status'] = 1;
+                    $response['message'] = trans('labels.parentchallengesuccess');
+                    $response['data'] = $data;
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
 }
