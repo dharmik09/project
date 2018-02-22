@@ -1794,8 +1794,10 @@
         });
     }
 
-    function getQuestionDataAdvanceLevel(activityType)
-    {
+    function getQuestionDataAdvanceLevel(activityType) {
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $('#advance_quiz_loader').parent().toggleClass('loading-screen-parent');
+        $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-question-data-advance-level') }}",
             type: 'post',
@@ -1806,11 +1808,16 @@
             },
             success: function(response) {
                 $('.quiz-advanced').html(response);
+                $('#advance_quiz_loader').hide();
+                $('#advance_quiz_loader').parent().removeClass('loading-screen-parent');
             }
         });
     }
 
     function getMediaUploadSection() {
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $('#advance_quiz_loader').parent().toggleClass('loading-screen-parent');
+        $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-media-upload-section') }}",
             type: 'post',
@@ -1819,11 +1826,16 @@
             },
             success: function(response) {
                 $('.quiz-advanced').html(response);
+                $('#advance_quiz_loader').hide();
+                $('#advance_quiz_loader').parent().removeClass('loading-screen-parent');
             }
         });
     }
 
     function getLevel4AdvanceStep2Details(professionId, type) {
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $('#advance_quiz_loader').parent().toggleClass('loading-screen-parent');
+        $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-level4-advance-step2-details') }}",
             type: 'post',
@@ -1844,6 +1856,8 @@
                 setTimeout(function () {
                     $(".l4-advance-div").hide();
                 }, 2500);
+                $('#advance_quiz_loader').hide();
+                $('#advance_quiz_loader').parent().removeClass('loading-screen-parent');
             }
         });
     }
@@ -1910,8 +1924,9 @@
         }
     }
 
-    $(document).on('submit','.add_advance_task',function(){
+    $(document).on('submit','.add_advance_task', function(){
         var clikedForm = $(this); // Select Form
+        clikedForm.find("[id='taskSave']").toggleClass('sending').blur();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         if (clikedForm.find("[name='media']").val() == '') {
             clikedForm.find("[id='mediaErr']").text("Please upload appropriate media file");
@@ -1928,6 +1943,7 @@
                 cache: false,
                 processData: false,
                 success: function(data) {
+                    clikedForm.find("[id='taskSave']").removeClass('sending').blur();
                     if (data.status == 1) {
                         var taskType = $("#activityTasks li.active").attr('id');
                         getLevel4AdvanceStep2Details('{{$professionsData->id}}', taskType);
@@ -1936,6 +1952,7 @@
                 },
                 error: function(e)
                 {
+                    clikedForm.find("[id='taskSave']").removeClass('sending').blur();
                     clikedForm.find("[id='mediaErr']").html(e).fadeIn();
                 }
             });
@@ -1944,6 +1961,8 @@
     });
 
     $(document).on('submit','.advance_task_review',function(){
+        var clikedForm = $(this); // Select Form
+        clikedForm.find("[id='mediaSubmit']").toggleClass('sending').blur();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url: "{{ url('teenager/submit-level4-advance-activity-for-review') }}",
@@ -1956,6 +1975,7 @@
             cache: false,
             processData: false,
             success: function(response) {
+                clikedForm.find("[id='mediaSubmit']").removeClass('sending').blur();
                 if (response.status != 0) {
                     $(".l4-advance-div").addClass('alert-success');
                 } else {
