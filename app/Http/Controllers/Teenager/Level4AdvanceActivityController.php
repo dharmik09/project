@@ -290,7 +290,41 @@ class Level4AdvanceActivityController extends Controller {
         } else {
             $response['status'] = 0;
             $response['message'] = "Something went wrong";
-            $response['mediaType'] = $advanceActivityData[0]->l4aaua_media_type;
+            $response['mediaType'] = 1;
+            return response()->json($response, 200);
+            exit;
+        }
+    }
+
+    /*
+     * Delete user task
+     */
+    public function deleteUserAdvanceTask() {
+        $postData = Input::all();
+        if (isset($postData) && !empty($postData)) {
+            $id = $postData['taskId'];
+            $result = $this->level4ActivitiesRepository->deleteUserAdvanceTask($id);
+            if ($result) {
+                $pathOriginal = public_path($this->level4AdvanceOriginalImageUploadPath . $postData['mediaName']);
+                $pathThumb = public_path($this->level4AdvanceThumbImageUploadPath . $postData['mediaName']);
+                if ($postData['mediaType'] == 3) {
+                    //delete from AWS
+                    $thumbMedia = $this->fileStorageRepository->deleteFileToStorage($postData['mediaName'], $this->level4AdvanceThumbImageUploadPath, "s3");
+                } 
+                $originalMedia = $this->fileStorageRepository->deleteFileToStorage($postData['mediaName'], $this->level4AdvanceOriginalImageUploadPath, "s3");
+                $response['status'] = 1;
+                $response['message'] = "Media deleted successfully";
+                return response()->json($response, 200);
+                exit;
+            } else {
+                $response['status'] = 0;
+                $response['message'] = "Something went wrong";
+                return response()->json($response, 200);
+                exit;
+            }
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Something went wrong";
             return response()->json($response, 200);
             exit;
         }

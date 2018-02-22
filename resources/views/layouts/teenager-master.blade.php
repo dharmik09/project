@@ -14,6 +14,7 @@
         <link href="{{asset('css/magnific-popup.css')}}" rel="stylesheet">
         <link href="{{asset('css/aos.css')}}" rel="stylesheet">
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
+        <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
         
         @stack('script-header')
         @yield('header')
