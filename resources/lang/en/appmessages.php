@@ -57,4 +57,9 @@ return [
     'onlyoneoptionallowedforthisquestion' => 'Only one option allowed for this question',
     'selecetatleastoneoption' => 'Select At least one option to save answer',
     'noquestionsavailable' => 'No questions added by admin',
+    'nointerestfoundmsg' => 'Build your profile to discover professions matching your interests!',
+    'nostrengthfoundmsg' => 'Build your profile to discover your strengths!',
+    'nocareerconsiderfoundmsg' => 'Build your profile to know careers to consider!',
+    'nomycareerfoundmsg' => 'Careers you wish to shortlist',
+    'nonetworkfoundmsg' => 'Explore Community to build your networks!',
 ];

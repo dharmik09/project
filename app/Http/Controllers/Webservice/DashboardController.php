@@ -156,7 +156,11 @@ class DashboardController extends Controller
             }            
             $response['login'] = 1;
             $response['status'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+            if(isset($teenagerInterest) && !empty($teenagerInterest)){
+                $response['message'] = trans('appmessages.default_success_msg');
+            }else{
+                $response['message'] = trans('appmessages.nointerestfoundmsg');
+            }            
             $response['data'] = $teenagerInterest;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
@@ -227,7 +231,12 @@ class DashboardController extends Controller
             }
             $response['login'] = 1;
             $response['status'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+            if(isset($teenagerStrength) && !empty($teenagerStrength)){
+                $response['message'] = trans('appmessages.default_success_msg');
+            }else{
+                $response['message'] = trans('appmessages.nostrengthfoundmsg');
+            }        
+            
             $response['data'] = $teenagerStrength;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
@@ -350,9 +359,14 @@ class DashboardController extends Controller
                 
                 $networkArray[] = array('id' => $network->id, 'uniqueId' => $network->t_uniqueid, 'name' => $network->t_name, 'lastname' => $network->t_lastname, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage); 
             }
+            if(isset($networkArray) && count($networkArray) > 0)
+            {
+                $response['message'] = trans('appmessages.default_success_msg');
+            }else{
+                $response['message'] = trans('appmessages.nonetworkfoundmsg');
+            }
             $response['login'] = 1;
-            $response['status'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+            $response['status'] = 1;            
             $response['data'] = $networkArray;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
@@ -396,9 +410,15 @@ class DashboardController extends Controller
                     $getTeenagerAttemptedProfession[$key]->pf_slug = $profession->pf_slug;
                 }
             }
+            if(isset($getTeenagerAttemptedProfession) && count($getTeenagerAttemptedProfession) > 0)
+            {
+                $response['message'] = trans('appmessages.default_success_msg');
+            }else{
+                $response['message'] = trans('appmessages.nomycareerfoundmsg');
+            }
             $response['login'] = 1;
             $response['status'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+            
             $response['careersCount'] = (isset($careersCount)) ? $careersCount : 0;
             $response['data'] = $getTeenagerAttemptedProfession;
         } else {
@@ -421,7 +441,7 @@ class DashboardController extends Controller
                 $response['login'] = 1;
                 $response['status'] = 1;
                 $response['data'] = [];
-                $response['message'] = "Please attempt at least one section of Profile Builder to view your suggested careers!";
+                $response['message'] = "Build your profile to know careers to consider!";
                 return response()->json($response, 200);
                 exit;
             }
