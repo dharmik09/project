@@ -175,6 +175,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getL4AdvanceActivityUploadedMediaDescription', 'Webservice\Level4AdvanceActivityController@getL4AdvanceActivityUploadedMediaDescription');
 	Route::post('/saveLevel4AdvanceUserTask', 'Webservice\Level4AdvanceActivityController@saveLevel4AdvanceUserTask');
 	Route::post('/submitLevel4AdvanceTaskForReview', 'Webservice\Level4AdvanceActivityController@submitLevel4AdvanceTaskForReview');
+	Route::post('/deleteLevel4AdvanceTask', 'Webservice\Level4AdvanceActivityController@deleteLevel4AdvanceTask');
 
     //L3 Research Activity 
     Route::post('/saveL3BoosterPointCareerResearch', 'Webservice\level3ActivityController@saveL3BoosterPointCareerResearch');

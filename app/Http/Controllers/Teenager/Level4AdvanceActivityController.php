@@ -82,7 +82,7 @@ class Level4AdvanceActivityController extends Controller {
         $total = $this->teenagersRepository->getTeenagerTotalBoosterPoints($userId);
         $professionId = intval($professionId);
         $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
-        $totalBasicQuestion[0]->NoOfAttemptedQuestions = 6;
+        //$totalBasicQuestion[0]->NoOfAttemptedQuestions = 6;
         if ($totalBasicQuestion[0]->NoOfTotalQuestions == 0) {
             $response['status'] = 0;
             $response['message'] = "Profession Doesn't have any basic questions"; 

@@ -164,6 +164,8 @@ class Level4AdvanceActivityController extends Controller {
                                 $mediaData['mediaPath'] = Storage::url($this->level4AdvanceOriginalImageUploadPath . $media);
                             }
 
+                            $mediaData['mediaName'] = $task->l4aaua_media_name;
+
                             //Task status
                             if($task->l4aaua_is_verified == 0) {
                                 $mediaData['mediaStatus'] = 'Uploaded'; 
@@ -412,6 +414,59 @@ class Level4AdvanceActivityController extends Controller {
                 }
                 //Store log in System
                 $this->log->info('User upload level 4 advance activity task', array('userId' => $request->userId));
+                $response['login'] = 1;
+            } else {
+                $response['login'] = 1;
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : submitLevel4AdvanceTaskForReview
+     *  loginToken, userId, careerId, mediaType, taskId, mediaName
+     */
+    public function deleteLevel4AdvanceTask(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if ($request->taskId != "" && $request->mediaType != "" && $request->careerId != "") {
+                $type = $request->mediaType;
+                $taskId = $request->taskId;
+                $professionId = $request->careerId;
+                $validTypeArr = array(Config::get('constant.ADVANCE_IMAGE_TYPE'), Config::get('constant.ADVANCE_DOCUMENT_TYPE'), Config::get('constant.ADVANCE_VIDEO_TYPE'));
+                $professionDetail = $this->professionsRepository->getProfessionsDataFromId($professionId);
+                if (isset($professionDetail) && !empty($professionDetail)) {
+                    if (isset($type) && in_array($type, $validTypeArr)) {
+                        $result = $this->level4ActivitiesRepository->deleteUserAdvanceTask($taskId);
+                        if ($result) {
+                            if ($type == 3) {
+                            //delete from AWS
+                            $thumbMedia = $this->fileStorageRepository->deleteFileToStorage($request->mediaName, $this->level4AdvanceThumbImageUploadPath, "s3");
+                            } 
+                            $originalMedia = $this->fileStorageRepository->deleteFileToStorage($request->mediaName, $this->level4AdvanceOriginalImageUploadPath, "s3");
+                            $response['status'] = 1;
+                            $response['message'] = "Media deleted successfully";
+                            //Store log in System
+                            $this->log->info('User deleted level 4 advance activity task', array('userId' => $request->userId));
+                        } else {
+                            $response['status'] = 0;
+                            $response['message'] = "Something went wrong. Media was not deleted.";
+                        }
+                    } else {
+                        $response['status'] = 0;
+                        $response['message'] = "Invalid task submitted";
+                    }
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = "Invalid profession";
+                }
+                
                 $response['login'] = 1;
             } else {
                 $response['login'] = 1;
