@@ -139,7 +139,9 @@ class level2ActivityController extends Controller {
                     if($section3Collection[0]->NoOfTotalQuestions != 0){
                         $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions >= $section3Collection[0]->NoOfTotalQuestions) ? 100 : ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
                     }
-
+                    if($section1Percentage == 100){
+                        $dispatchJob = Helpers::professionMatchScaleCalculate($section1Collection, $request->userId);
+                    }
                     $data['section_1_Percentage'] = number_format((float)$section1Percentage, 0, '.', '');
                     $data['section_2_Percentage'] = number_format((float)$section2Percentage, 0, '.', '');
                     $data['section_3_Percentage'] = number_format((float)$section3Percentage, 0, '.', '');
