@@ -127,7 +127,7 @@ class ChatController extends Controller {
             $result = curl_exec($curlObj);
             $json = json_decode($result);
             //Update user info 
-            
+          
             $teenagerDetail['is_chat_initialized'] = 1; 
             $update = $this->teenagersRepository->updatePaymentStatus(Auth::guard('teenager')->user()->id, $teenagerDetail);            
             exit;            

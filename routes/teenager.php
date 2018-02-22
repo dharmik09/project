@@ -164,3 +164,6 @@ Route::get('/forum-question/{id}', 'Teenager\ForumController@getQuestionByQuesti
 Route::post('/fetch-question-answer', 'Teenager\ForumController@getAnswerByQuestionId');
 Route::post('/save-forum-answer', 'Teenager\ForumController@saveForumAnswer');
 Route::post('/get-user-score-progress', 'Teenager\HomeController@getUserScoreProgress');
+
+//Get User unread message count chat
+Route::post('/get-user-unread-message-chat', 'Teenager\ProfileController@getUserUnreadMessageCountChat');
