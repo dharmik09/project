@@ -32,8 +32,15 @@ class ChatController extends Controller {
     /*
      * Chat page 
      */
-    public function index()
-    {
+    public function index($otherTeenUniqueId = 0)
+    {        
+        $otherTeenDetails = [];
+        $otherChat = 0;
+        if($otherTeenUniqueId != 0){
+            $otherTeenDetails = $this->teenagersRepository->getTeenagerByUniqueId($otherTeenUniqueId);
+            $otherChat = 1;
+        }        
+         
         $loggedInTeen = Auth::guard('teenager')->user()->id;  
         $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png');
         $record = 0;
@@ -41,7 +48,7 @@ class ChatController extends Controller {
         $limit = 3;
         $skip = 0;
         $forumQuestionData = $this->objForumQuestion->getAllForumQuestionAndAnswersWithTeenagerData($limit,$skip);
-        return view('teenager.chat',compact('user_profile_thumb_image','notificationData','forumQuestionData'));        
+        return view('teenager.chat',compact('user_profile_thumb_image','notificationData','forumQuestionData','otherTeenDetails','otherChat'));        
     }
 
     public function getPageWiseNotification()
