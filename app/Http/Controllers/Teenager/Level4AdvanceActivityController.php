@@ -22,10 +22,11 @@ use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Image;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level4AdvanceActivityController extends Controller {
 
-    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository) 
+    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, FileStorageRepository $fileStorageRepository) 
     {        
         $this->professionsRepository = $professionsRepository;
         $this->teenagersRepository = $teenagersRepository;   
@@ -42,6 +43,7 @@ class Level4AdvanceActivityController extends Controller {
         $this->level4AdvanceOriginalImageUploadPath = Config::get('constant.LEVEL4_ADVANCE_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->level4AdvanceThumbImageWidth = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_WIDTH');
         $this->level4AdvanceThumbImageHeight = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_HEIGHT');
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->log = new Logger('teenager-level4-advance-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
@@ -78,6 +80,7 @@ class Level4AdvanceActivityController extends Controller {
         $total = $this->teenagersRepository->getTeenagerTotalBoosterPoints($userId);
         $professionId = intval($professionId);
         $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
+        //$totalBasicQuestion[0]->NoOfAttemptedQuestions = 6;
         if ($totalBasicQuestion[0]->NoOfTotalQuestions == 0) {
             $response['status'] = 0;
             $response['message'] = "Profession Doesn't have any basic questions"; 
@@ -134,6 +137,13 @@ class Level4AdvanceActivityController extends Controller {
                         $pathThumb = public_path($this->level4AdvanceThumbImageUploadPath . $fileName);
                         Image::make($file->getRealPath())->save($pathOriginal);
                         Image::make($file->getRealPath())->resize($this->level4AdvanceThumbImageWidth, $this->level4AdvanceThumbImageHeight)->save($pathThumb);
+
+                        //Uploading on AWS
+                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $pathOriginal, "s3");
+                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceThumbImageUploadPath, $pathThumb, "s3");
+                        
+                        \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                        \File::delete($this->level4AdvanceThumbImageUploadPath . $fileName);
                         $level4AdvanceData['l4aaua_media_type'] = 3;
                     } else {
                         echo "invalid";
@@ -145,6 +155,10 @@ class Level4AdvanceActivityController extends Controller {
                         $save = true;
                         $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
                         Input::file('media')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+                        $docOriginalPath = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                        //Uploading on AWS
+                        $originalDoc = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $docOriginalPath, "s3");
+                        \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
                         $level4AdvanceData['l4aaua_media_type'] = 2;
                     } else {
                         echo "invalid";
@@ -156,6 +170,10 @@ class Level4AdvanceActivityController extends Controller {
                         $save = true;
                         $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
                         Input::file('media')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+                        $videoOriginalPath = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                        //Uploading on AWS
+                        $originalDoc = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $videoOriginalPath, "s3");
+                        \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
                         $level4AdvanceData['l4aaua_media_type'] = 1;
                     } else {
                         echo "invalid";

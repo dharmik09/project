@@ -17,11 +17,11 @@
         <?php $pendingTask = 0; ?>
         @foreach($userLevel4AdvanceVideoTask as $key=>$task)
         <?php 
-            if(File::exists(public_path($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name)) && $task->l4aaua_media_name != '') { 
-                $media =  url($level4AdvanceOriginalImageUploadPath.'document.png');
-                $mediaPath = url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
+            if(Storage::size($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name) > 0 && $task->l4aaua_media_name != '') { 
+                $media = Storage::url($level4AdvanceOriginalImageUploadPath.'video.png');
+                $mediaPath = Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
             }else{
-                $media =  url($level4AdvanceOriginalImageUploadPath.'no_document.png');
+                $media = Storage::url($level4AdvanceOriginalImageUploadPath.'no-video.jpg');
                 $mediaPath = 'javascript:void(0)';
             }
         ?>
@@ -44,7 +44,7 @@
             <div class="upd-detail clearfix img-type">
                 <div class="img-cont">
                     <div class="img-inner">
-                        <img src="img/agriculture-equipment.jpg" alt="Proteen" class="myImg" title="Click to enlarge">
+                        <img src="{{$media}}" alt="Proteen" class="myImg" title="Click to enlarge">
                         <span class="{{$statusArr['class']}}">{{$statusArr['text']}}</span>
                     </div>
                 </div>

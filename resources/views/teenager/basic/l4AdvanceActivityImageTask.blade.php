@@ -17,11 +17,11 @@
         <?php $pendingTask = 0; ?>
         @foreach($userLevel4AdvanceImageTask as $key=>$task)
         <?php 
-            if(File::exists(public_path($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name)) && $task->l4aaua_media_name != '') { 
-                $media =  url($level4AdvanceOriginalImageUploadPath.'document.png');
-                $mediaPath = url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
+            if(Storage::size($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name) > 0 && $task->l4aaua_media_name != '') { 
+                $media =  Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
+                $mediaPath = Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
             }else{
-                $media =  url($level4AdvanceOriginalImageUploadPath.'no_document.png');
+                $media =  Storage::url($level4AdvanceOriginalImageUploadPath.'proteen-logo.png');
                 $mediaPath = 'javascript:void(0)';
             }
         ?>
