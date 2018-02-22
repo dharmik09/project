@@ -9,7 +9,7 @@
         <input type="file" name="media" accept="application/*" onchange="readURL(this);">
     </div>
     <div id="mediaErr" class="photo-error-register"></div>
-    <button id="taskSave" class="btn-primary" title="Submit" type="submit">Submit</button>
+    <button id="taskSave" class="btn-primary btn-default" title="Submit" type="submit">Submit</button>
 </form>
 <?php $pendingTask = 0; ?>
 @if(isset($userLevel4AdvanceDocumentTask) && count($userLevel4AdvanceDocumentTask) > 0)
@@ -85,7 +85,9 @@
             </li>
             @endforeach
             @if($pendingTask >0)
-            <button id="mediaSubmit" class="btn-primary" type="submit" title="Submit">Submit</button>
+            <div class="media-submit">
+                <button id="mediaSubmit" class="btn-primary btn-default" type="submit" title="Submit">Submit</button>
+            </div>
             @endif
         </form>
     </ul>
