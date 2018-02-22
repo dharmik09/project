@@ -17,10 +17,12 @@ use Monolog\Handler\StreamHandler;
 use App\Services\Template\Contracts\TemplatesRepository;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use Mail;
+use Image;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class Level4AdvanceActivityController extends Controller {
 
-    public function __construct(TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository) 
+    public function __construct(TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, TemplatesRepository $templatesRepository, Level4ActivitiesRepository $level4ActivitiesRepository, FileStorageRepository $fileStorageRepository) 
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->professionsRepository = $professionsRepository;
@@ -30,6 +32,7 @@ class Level4AdvanceActivityController extends Controller {
         $this->level4AdvanceOriginalImageUploadPath = Config::get('constant.LEVEL4_ADVANCE_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->level4AdvanceThumbImageWidth = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_WIDTH');
         $this->level4AdvanceThumbImageHeight = Config::get('constant.LEVEL4_ADVANCE_THUMB_IMAGE_HEIGHT');
+        $this->fileStorageRepository = $fileStorageRepository;
         $this->log = new Logger('api-level4-advance-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));    
         
@@ -208,6 +211,126 @@ class Level4AdvanceActivityController extends Controller {
                     //Store log in System
                     $this->log->info('Retrieve L4 advance activity uploaded media details', array('userId' => $request->userId));
                 }
+                $response['login'] = 1;
+            } else {
+                $response['login'] = 1;
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+     /* Request Params : saveLevel4AdvanceUserTask
+     *  loginToken, userId, careerId, mediaType, mediaFile
+     */
+    public function saveLevel4AdvanceUserTask(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if ($request->careerId != "" && $request->mediaType != "") {
+                $userId = $request->userId;
+                $media_type = $request->mediaType;
+                $profession_id = $request->careerId;
+                $validTypeArr = array(Config::get('constant.ADVANCE_IMAGE_TYPE'), Config::get('constant.ADVANCE_DOCUMENT_TYPE'), Config::get('constant.ADVANCE_VIDEO_TYPE'));
+
+                $professionDetail = $this->professionsRepository->getProfessionsDataFromId($profession_id);
+                if (isset($professionDetail) && !empty($professionDetail)) {
+                    if (isset($media_type) && $media_type != '' && in_array($media_type, $validTypeArr)) {
+                        $file = Input::file('mediaFile');
+                        if (!empty($file)) {
+                            $ext = $file->getClientOriginalExtension();
+                            $save = false;
+                            //check for image extension
+                            if ($media_type == 3) {
+                                $validImageExtArr = array('jpg', 'jpeg', 'png', 'bmp', 'PNG');
+                                if (in_array($ext, $validImageExtArr)) {
+                                    $save = true;
+                                    $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                                    $pathOriginal = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                    $pathThumb = public_path($this->level4AdvanceThumbImageUploadPath . $fileName);
+                                    Image::make($file->getRealPath())->save($pathOriginal);
+                                    Image::make($file->getRealPath())->resize($this->level4AdvanceThumbImageWidth, $this->level4AdvanceThumbImageHeight)->save($pathThumb);
+                                    //Uploading on AWS
+                                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $pathOriginal, "s3");
+                                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceThumbImageUploadPath, $pathThumb, "s3");
+                                    
+                                    \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                    \File::delete($this->level4AdvanceThumbImageUploadPath . $fileName);
+                                    $level4AdvanceData['l4aaua_media_type'] = $media_type;
+                                } else {
+                                    $response['status'] = 0;
+                                    $response['message'] = 'Invalid image file';
+                                }
+                            } elseif ($media_type == 2) {
+                                $validImageExtArr = array('pdf', 'docx', 'doc', 'ppt', 'xls', 'xlsx');
+                                if (in_array($ext, $validImageExtArr)) {
+                                    $save = true;
+                                    $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                                    Input::file('mediaFile')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+
+                                    $docOriginalPath = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                    //Uploading on AWS
+                                    $originalDoc = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $docOriginalPath, "s3");
+                                    \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                    $level4AdvanceData['l4aaua_media_type'] = $media_type;
+                                } else {
+                                    $response['status'] = 0;
+                                    $response['message'] = 'Invalid document file';
+                                }
+                            } elseif ($media_type == 1) {
+                                $validImageExtArr = array('mov', 'avi', 'mp4', 'mkv', 'wmv');
+                                if (in_array($ext, $validImageExtArr)) {
+                                    $save = true;
+                                    $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                                    Input::file('mediaFile')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+
+                                     $videoOriginalPath = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                    //Uploading on AWS
+                                    $originalDoc = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $videoOriginalPath, "s3");
+                                    \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                    $level4AdvanceData['l4aaua_media_type'] = $media_type;
+                                } else {
+                                    $response['status'] = 0;
+                                    $response['message'] = 'Invalid video file';
+                                }
+                            } else {
+                                $response['status'] = 0;
+                                $response['message'] = 'Invalid activity type';
+                            }
+                            if ($save) {
+                                //Prepare Data for save
+                                $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userId);
+                                $level4Booster = Helpers::level4Booster($profession_id, $userId);
+                                $level4Booster['total'] = $getTeenagerBoosterPoints['total'];
+                                $data['level4Booster'] = $level4Booster;
+                                //$response['booster_points'] = '';
+                                $level4AdvanceData['id'] = 0;
+                                $level4AdvanceData['l4aaua_teenager'] = $userId;
+                                $level4AdvanceData['l4aaua_profession_id'] = $profession_id;
+                                $level4AdvanceData['l4aaua_media_name'] = $fileName;
+                                $this->level4ActivitiesRepository->saveLevel4AdvanceActivityUser($level4AdvanceData);
+                                $response['status'] = 1;
+                                $response['message'] = "Media file uploaded successfully";
+                            }
+                        } else {
+                            $response['status'] = 0;
+                            $response['message'] = 'Please upload appropriate media file';
+                        }
+                    } else {
+                        $response['status'] = 0;
+                        $response['message'] = 'Invalid activity type';
+                    }
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = 'Invalid profession';
+                }
+                //Store log in System
+                $this->log->info('User upload level 4 advance activity task', array('userId' => $request->userId));
                 $response['login'] = 1;
             } else {
                 $response['login'] = 1;
