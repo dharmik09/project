@@ -1036,6 +1036,12 @@
         border: none;
         font-family: hn-b;
         padding: 8px 25px;
+            border: none;
+    font-family: hn-b;
+    padding: 8px 25px;
+    background: #ff5f44;
+    border-color: #ff5f44;
+    font-size: 15px;
     }
     .upload-content {
         min-height: 200px;
@@ -1901,4 +1907,15 @@ text.highcharts-xaxis-title {
     @include maxsm {
         margin-bottom: 20px;
     }
+}
+.mediaSubmit .btn-primary{
+        border: none;
+    font-family: hn-b;
+    padding: 8px 25px;
+    border: none;
+    font-family: hn-b;
+    padding: 8px 25px;
+    background: #ff5f44;
+    border-color: #ff5f44;
+    font-size: 15px;
 }

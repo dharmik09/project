@@ -28,7 +28,7 @@
                         $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
                     }
                 ?>
-                <li class="col-sm-3 col-xs-6" onclick="getChallengeScoreDetails({{$parent->parentId}});">
+                <li id="{{$parent->parentId}}" class="col-sm-3 col-xs-6" onclick="getChallengeScoreDetails({{$parent->parentId}});">
                     <figure>
                         <div class="mentor-img" style="background-image: url('{{ Storage::url($parentPhoto) }}')"></div>
                         <figcaption>{{ $parent->p_first_name }}</figcaption>

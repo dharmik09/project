@@ -1776,6 +1776,7 @@
     }
 
     function getChallengeScoreDetails(parentId) {
+        $("#"+parentId).addClass('deactive');
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = "parentId=" + parentId + "&professionId=" + "{{$professionsData->id}}";
         $.ajax({
@@ -1787,6 +1788,7 @@
             },
             cache: false,
             success: function(response) {
+                $("#"+parentId).removeClass('deactive');
                 $('#scoreModal').html(response);
                 $('#scoreModal').modal('show');
                 //$('.ajax-loader').hide();
