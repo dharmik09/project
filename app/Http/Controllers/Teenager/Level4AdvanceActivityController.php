@@ -148,7 +148,9 @@ class Level4AdvanceActivityController extends Controller {
                         \File::delete($this->level4AdvanceThumbImageUploadPath . $fileName);
                         $level4AdvanceData['l4aaua_media_type'] = 3;
                     } else {
-                        echo "invalid";
+                        $response['status'] = 0;
+                        $response['message'] = "Invalid media uploaded";
+                        return response()->json($response, 200);
                         exit;
                     }
                 } elseif ($media_type == 2) {
@@ -163,7 +165,9 @@ class Level4AdvanceActivityController extends Controller {
                         \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
                         $level4AdvanceData['l4aaua_media_type'] = 2;
                     } else {
-                        echo "invalid";
+                        $response['status'] = 0;
+                        $response['message'] = "Invalid media uploaded";
+                        return response()->json($response, 200);
                         exit;
                     }
                 } elseif ($media_type == 1) {
@@ -178,11 +182,15 @@ class Level4AdvanceActivityController extends Controller {
                         \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
                         $level4AdvanceData['l4aaua_media_type'] = 1;
                     } else {
-                        echo "invalid";
+                        $response['status'] = 0;
+                        $response['message'] = "Invalid media uploaded";
+                        return response()->json($response, 200);
                         exit;
                     }
                 } else {
-                    echo "invalid media";
+                    $response['status'] = 0;
+                    $response['message'] = "Invalid media uploaded";
+                    return response()->json($response, 200);
                     exit;
                 }
                 if ($save) {
@@ -192,16 +200,26 @@ class Level4AdvanceActivityController extends Controller {
                     $level4AdvanceData['l4aaua_profession_id'] = $profession_id;
                     $level4AdvanceData['l4aaua_media_name'] = $fileName;
                     $this->level4ActivitiesRepository->saveLevel4AdvanceActivityUser($level4AdvanceData);
+                    $response['status'] = 1;
+                    $response['message'] = "Media file uploaded successfully";
+                    return response()->json($response, 200);
+                    exit;
                 } else {
-                    echo "Something went wrong.";
+                    $response['status'] = 0;
+                    $response['message'] = "Something went wrong";
+                    return response()->json($response, 200);
                     exit;
                 }
             } else {
-                echo "required";
+                $response['status'] = 0;
+                $response['message'] = "Upload appropriate media file, Can not find any uploaded media file";
+                return response()->json($response, 200);
                 exit;
             }
         } else {
-            echo "required";
+            $response['status'] = 0;
+            $response['message'] = "Upload appropriate media file, Can not find any uploaded media file";
+            return response()->json($response, 200);
             exit;
         }
     }

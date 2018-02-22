@@ -1928,29 +1928,11 @@
                 cache: false,
                 processData: false,
                 success: function(data) {
-                    if (data == 'required')
-                    {
-                        // invalid file format.
-                        clikedForm.find("[id='mediaErr']").html("Please select file to upload!").fadeIn();
-                    }
-                    else if (data == 'invalid')
-                    {
-                        // invalid file format.
-                        clikedForm.find("[id='mediaErr']").html("Invalid File !").fadeIn();
-                        //$("#add_advance_task")[0].reset();
-                    }
-                    else if (data == 'invalidmedia')
-                    {
-                        // invalid file format.
-                        clikedForm.find("[id='mediaErr']").html("Invalid Type !").fadeIn();
-                        //$("#add_advance_task")[0].reset();
-                    }
-                    else
-                    {
-                        // view uploaded file.
+                    if (data.status == 1) {
                         var taskType = $("#activityTasks li.active").attr('id');
                         getLevel4AdvanceStep2Details('{{$professionsData->id}}', taskType);
-                    }
+                    } 
+                    clikedForm.find("[id='mediaErr']").html(data.message).fadeIn();
                 },
                 error: function(e)
                 {
