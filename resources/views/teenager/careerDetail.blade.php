@@ -1972,7 +1972,37 @@
         return false;
     });
 
-   
+    function deleteLevel4AdvanceTaskUser(mediaId, mediaName, mediaType) {
+        resdelete = confirm('Are you sure you want to delete this record?');
+        if (resdelete) {
+            $.ajax({
+                url: "{{ url('teenager/delete-user-advance-task') }}",
+                type: 'post',
+                data: {
+                    "_token": '{{ csrf_token() }}',
+                    "taskId": mediaId,
+                    "mediaName": mediaName,
+                    "mediaType": mediaType
+                },
+                success: function(response) {
+                    if (response.status != 0) {
+                        $(".l4-advance-div").addClass('alert-success');
+                    } else {
+                        $(".l4-advance-div").addClass('alert-error danger');
+                    }
+                    $("#l4AdvanceMessage").text(response.message);
+                    $(".l4-advance-div").show();
+                    getLevel4AdvanceStep2Details('{{$professionsData->id}}', mediaType);
+                    setTimeout(function () {
+                        $(".l4-advance-div").hide();
+                    }, 2500);
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+
 </script>
 
 @stop
