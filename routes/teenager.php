@@ -154,6 +154,7 @@ Route::post('/get-question-data-advance-level', 'Teenager\Level4AdvanceActivityC
 Route::post('/get-media-upload-section', 'Teenager\Level4AdvanceActivityController@getMediaUploadSection');
 Route::post('/get-level4-advance-step2-details', 'Teenager\Level4AdvanceActivityController@getLevel4AdvanceStep2Details');
 Route::post('/submit-level4-advance-activity', 'Teenager\Level4AdvanceActivityController@submitLevel4AdvanceActivity');
+Route::post('/submit-level4-advance-activity-for-review', 'Teenager\Level4AdvanceActivityController@submitLevel4AdvanceActivityForReview');
 
 //Forum Module
 Route::get('/forum-questions', 'Teenager\ForumController@index');

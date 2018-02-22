@@ -23,16 +23,18 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Image;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\Services\Template\Contracts\TemplatesRepository;
 
 class Level4AdvanceActivityController extends Controller {
 
-    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, FileStorageRepository $fileStorageRepository) 
+    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, FileStorageRepository $fileStorageRepository, TemplatesRepository $templatesRepository) 
     {        
         $this->professionsRepository = $professionsRepository;
         $this->teenagersRepository = $teenagersRepository;   
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;   
         $this->teenagerBoosterPoint = new TeenagerBoosterPoint();
         $this->extraQuestionDescriptionTime = Config::get('constant.EXTRA_QUESTION_DESCRIPTION');
+        $this->templateRepository = $templatesRepository;
         $this->questionDescriptionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->questionDescriptionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_THUMB_IMAGE_UPLOAD_PATH');
         $this->optionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH');
@@ -80,7 +82,7 @@ class Level4AdvanceActivityController extends Controller {
         $total = $this->teenagersRepository->getTeenagerTotalBoosterPoints($userId);
         $professionId = intval($professionId);
         $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
-        //$totalBasicQuestion[0]->NoOfAttemptedQuestions = 6;
+        $totalBasicQuestion[0]->NoOfAttemptedQuestions = 6;
         if ($totalBasicQuestion[0]->NoOfTotalQuestions == 0) {
             $response['status'] = 0;
             $response['message'] = "Profession Doesn't have any basic questions"; 
@@ -200,6 +202,78 @@ class Level4AdvanceActivityController extends Controller {
             }
         } else {
             echo "required";
+            exit;
+        }
+    }
+
+    //Store records of Level4 advance activity for admin review
+    public function submitLevel4AdvanceActivityForReview() {
+        $postData = Input::all();
+        if (isset($postData['data_id']) && !empty($postData['data_id'])) {
+            //Update the status       
+            $sendMail = false;
+            $advanceActivityData = [];
+            foreach ($postData['data_id'] as $key => $dataid) {
+                if ($postData['data_status'][$key] == 0) {
+                    $sendMail = true;
+                    $updateData['l4aaua_is_verified'] = 1;
+                    $this->level4ActivitiesRepository->updateStatusAdvanceTaskUser($dataid, $updateData);
+                    $advanceActivityData = $this->level4ActivitiesRepository->getUserAdvanceTaskById($dataid);
+                }
+            }
+            if (isset($advanceActivityData) && count($advanceActivityData) > 0) {
+                if ($advanceActivityData[0]->l4aaua_media_type == 1) {
+                    $activityType = 'Video';  
+                } else if($advanceActivityData[0]->l4aaua_media_type == 2) {
+                    $activityType = 'Document';  
+                } else {
+                    $activityType = 'Image';  
+                }
+                $profession = $advanceActivityData[0]->pf_name;
+            } else {
+                $profession = '';
+                $activityType = '';
+            } 
+            
+            if ($sendMail) {
+                //Send notification mail to admin 
+                $teenagerDetailbyId = $this->teenagersRepository->getTeenagerById(Auth::guard('teenager')->user()->id);
+                $replaceArray = array();
+                $replaceArray['TEEN_NAME'] = $teenagerDetailbyId->t_name;
+                $replaceArray['TEEN_EMAIL'] = $teenagerDetailbyId->t_email;
+                $replaceArray['PROFESSION'] = $profession;
+                $replaceArray['ACTIVITY_TYPE'] = $activityType;
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.USER_SUBMITTED_ADVANCE_TASK'));
+                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                $adminEmail = Helpers::getConfigValueByKey('ADMIN_EMAIL');
+                $adminName = Helpers::getConfigValueByKey('ADMIN_NAME');
+                $data = array();
+                $data['subject'] = $emailTemplateContent->et_subject;
+                $data['toEmail'] = $adminEmail;
+                $data['toName'] = $adminName;
+                $data['content'] = $content;
+                $data['teen_id'] = $teenagerDetailbyId->id;
+                Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
+                    $message->subject($data['subject']);
+                    $message->to($data['toEmail'], $data['toName']);
+                });
+                $response['status'] = 1;
+                $response['message'] = "Your tasks has been submitted for review.";
+                $response['mediaType'] = $advanceActivityData[0]->l4aaua_media_type;
+                return response()->json($response, 200);
+                exit;
+            } else {
+                $response['status'] = 0;
+                $response['message'] = "Something went wrong";
+                $response['mediaType'] = $advanceActivityData[0]->l4aaua_media_type;
+                return response()->json($response, 200);
+                exit;
+            }
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Something went wrong";
+            $response['mediaType'] = $advanceActivityData[0]->l4aaua_media_type;
+            return response()->json($response, 200);
             exit;
         }
     }

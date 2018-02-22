@@ -1961,6 +1961,35 @@
         }
     });
 
+    $(document).on('submit','.advance_task_review',function(){
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "{{ url('teenager/submit-level4-advance-activity-for-review') }}",
+            type: "POST",
+            data: new FormData(this),
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(response) {
+                if (response.status != 0) {
+                    $(".l4-advance-div").addClass('alert-success');
+                } else {
+                    $(".l4-advance-div").addClass('alert-error danger');
+                }
+                $("#l4AdvanceMessage").text(response.message);
+                $(".l4-advance-div").show();
+                getLevel4AdvanceStep2Details('{{$professionsData->id}}', response.mediaType);
+                setTimeout(function () {
+                    $(".l4-advance-div").hide();
+                }, 2500);
+            }
+        });
+        return false;
+    });
+
    
 </script>
 
