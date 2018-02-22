@@ -106,6 +106,7 @@ class Level4AdvanceActivityController extends Controller {
                 $total = $this->teenagersRepository->getTeenagerTotalBoosterPoints($userId);
                 $professionId = intval($professionId);
                 $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
+                $totalBasicQuestion[0]->NoOfAttemptedQuestions = 6;
                 if ($totalBasicQuestion[0]->NoOfTotalQuestions == 0) {
                     $response['status'] = 0;
                     $response['message'] = "Profession Doesn't have any basic questions"; 
@@ -224,7 +225,7 @@ class Level4AdvanceActivityController extends Controller {
         exit;
     }
 
-     /* Request Params : saveLevel4AdvanceUserTask
+    /* Request Params : saveLevel4AdvanceUserTask
      *  loginToken, userId, careerId, mediaType, mediaFile
      */
     public function saveLevel4AdvanceUserTask(Request $request) 
@@ -328,6 +329,86 @@ class Level4AdvanceActivityController extends Controller {
                 } else {
                     $response['status'] = 0;
                     $response['message'] = 'Invalid profession';
+                }
+                //Store log in System
+                $this->log->info('User upload level 4 advance activity task', array('userId' => $request->userId));
+                $response['login'] = 1;
+            } else {
+                $response['login'] = 1;
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : submitLevel4AdvanceTaskForReview
+     *  loginToken, userId, careerId, mediaType, taskId
+     */
+    public function submitLevel4AdvanceTaskForReview(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if ($request->taskId != "" && $request->mediaType != "" && $request->careerId != "") {
+                $type = $request->mediaType;
+                $taskId = $request->taskId;
+                $professionId = $request->careerId;
+                $validTypeArr = array(Config::get('constant.ADVANCE_IMAGE_TYPE'), Config::get('constant.ADVANCE_DOCUMENT_TYPE'), Config::get('constant.ADVANCE_VIDEO_TYPE'));
+                $professionDetail = $this->professionsRepository->getProfessionsDataFromId($professionId);
+                $dataIdArr = [];
+                if (isset($professionDetail) && !empty($professionDetail)) {
+                    if (isset($type) && in_array($type, $validTypeArr)) {
+                        if (isset($taskId) && !empty($taskId)) {
+                            $dataIdArr = explode(', ', $taskId);
+                        } 
+                        $sendMail = false;
+                        if (isset($dataIdArr) && !empty($dataIdArr)) {
+                            foreach ($dataIdArr as $key => $dataid) {
+                                $sendMail = true;
+                                $updateData['l4aaua_is_verified'] = 1;
+                                $this->level4ActivitiesRepository->updateStatusAdvanceTaskUser($dataid, $updateData);
+                            }
+                            if ($sendMail) {
+                                //Send notification mail to admin
+                                $teenagerDetailbyId = $this->teenagersRepository->getTeenagerById($request->userId);
+                                $replaceArray = array();
+                                $replaceArray['TEEN_NAME'] = $teenagerDetailbyId->t_name;
+                                $replaceArray['TEEN_EMAIL'] = $teenagerDetailbyId->t_email;
+                                $emailTemplateContent = $this->templatesRepository->getEmailTemplateDataByName(Config::get('constant.USER_SUBMITTED_ADVANCE_TASK'));
+                                $content = $this->templatesRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                                $adminEmail = Helpers::getConfigValueByKey('ADMIN_EMAIL');
+                                $adminName = Helpers::getConfigValueByKey('ADMIN_NAME');
+                                $data = array();
+                                $data['subject'] = $emailTemplateContent->et_subject;
+                                $data['toEmail'] = $adminEmail;
+                                $data['toName'] = $adminName;
+                                $data['content'] = $content;
+                                $data['teen_id'] = $teenagerDetailbyId->id;
+                                Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
+                                            $message->subject($data['subject']);
+                                            $message->to($data['toEmail'], $data['toName']);
+                                        });
+                                $response['status'] = 1;
+                                $response['message'] = "Your tasks has been submitted for review.";
+                            } else {
+                                $response['status'] = 0;
+                                $response['message'] = "Something went wrong";
+                            }
+                        } else {
+                            $response['status'] = 0;
+                            $response['message'] = "Something went wrong";
+                        }
+                    } else {
+                        $response['status'] = 0;
+                        $response['message'] = "Invalid task submitted";
+                    }
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = "Invalid profession";
                 }
                 //Store log in System
                 $this->log->info('User upload level 4 advance activity task', array('userId' => $request->userId));
