@@ -239,7 +239,12 @@ class HomeController extends Controller
         $professionId = Input::get('professionId');
         //$remainingDaysForLg = 0;
         $componentsData = $this->objPaidComponent->getPaidComponentsData($componentName);
-        $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1, $professionId);
+
+        if (isset($professionId) && $professionId != "" && $professionId > 0) {
+            $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailById($teenId, $componentsData->id, 1, $professionId);
+        } else {
+            $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1);
+        }
         $days = 0;
         if (!empty($deductedCoinsDetail[0])) {
             $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
@@ -255,7 +260,11 @@ class HomeController extends Controller
             $returnData = $this->teenagersRepository->updateTeenagerCoinsDetail($teenId, $deductCoins);
             $return = Helpers::saveDeductedCoinsData($teenId, 1, $consumedCoins, $componentName, $professionId);
             if ($return) {
-                $updatedDeductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1);
+                if (isset($professionId) && $professionId != "" && $professionId > 0) {
+                    $updatedDeductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailById($teenId, $componentsData->id, 1, $professionId);
+                } else {
+                    $updatedDeductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1);
+                }
                 if (!empty($updatedDeductedCoinsDetail)) {
                     $remainingDays = Helpers::calculateRemainingDays($updatedDeductedCoinsDetail[0]->dc_end_date);
                 }
