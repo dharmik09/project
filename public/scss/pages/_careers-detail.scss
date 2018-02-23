@@ -1042,6 +1042,11 @@
     background: #ff5f44;
     border-color: #ff5f44;
     font-size: 15px;
+    &:hover{
+        background-color: #65c6e6;
+        border-color: #65c6e6;
+        color: $white;
+    }
     }
     .upload-content {
         min-height: 200px;
@@ -1918,4 +1923,9 @@ text.highcharts-xaxis-title {
     background: #ff5f44;
     border-color: #ff5f44;
     font-size: 15px;
+    &:hover{
+        background-color: #65c6e6;
+        border-color: #65c6e6;
+        color: $white;
+    }
 }
