@@ -320,8 +320,7 @@ $(document)
     });
 </script>
 
-<script>
-    
+<script> 
    var ischat = '<?php echo Auth::guard('teenager')->user()->is_chat_initialized?>';
    if(ischat == 0){
         registerUserInAppLozic();

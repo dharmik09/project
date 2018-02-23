@@ -43,7 +43,7 @@
     text-align: left;
 }
 .mck-videocall-btn {
-        background-image: url(../../../images/mck-videocall-icon.png);
+        background-image: url(../images/mck-videocall-icon.png);
 	background-repeat: no-repeat;
         margin-top: 8px;
         position: absolute;
@@ -107,7 +107,7 @@
 }
 
 .mck-mike-btn {
-        background-image: url(../../../images/mck-mike.png);
+        background-image: url(../images/mck-mike.png);
         background-repeat: no-repeat;
         float :left !important;
         height:18px;
@@ -117,7 +117,7 @@
         cursor: pointer;
 }
 .mck-stop-btn {
-        background-image: url(../../../images/mck-stop.png);
+        background-image: url(../images/mck-stop.png);
         background-repeat: no-repeat;
         float :left !important;
         margin-top: 7px;
@@ -702,7 +702,7 @@ a:hover {
 	padding: 0 10px;
 	min-height: 49px;
 	text-align: left;
-	border-bottom: 1px solid #F3F3F3;
+	/*border-bottom: 1px solid #F3F3F3;*/
 }
 
 .mck-box-top .icon {
@@ -1551,13 +1551,16 @@ ol, ul {
 }
 
 .mck-cont-msg-wrapper p {
-	font-size: 14px;
 	margin: 0px !important;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+        font-size: 16px;
+    font-family: hl;
+    color: #565b5f;
+    line-height: 1.2;
 }
-
+.mck-container .left .people .person:hover p{color: #fff}
 .mck-file-text .mck-file-name img:hover {
 	opacity: 1 !important;
 	background-color: transparent !important;
@@ -1619,7 +1622,7 @@ ol, ul {
 }
 */
 .mck-msg-right .mck-msg-box a {
-	color: #fff;
+	color: #565b5f;
 	text-decoration: underline;
 }
 
@@ -1688,7 +1691,7 @@ ol, ul {
 	border-left-color: #00b0ff;
 	border-width: 8px;
 }
-
+.mck-msg-right .mck-msg-box:after{display: none}
 /* .mck-msg-left .mck-msg-box:before {
     border-color: transparent;
     border-right-color: #ddd;
@@ -1777,7 +1780,7 @@ ol, ul {
 
 .mck-contact-list .mck-alpha-contact-image, .mck-msg-avator .mck-alpha-contact-image
 	{
-	border-radius: 110px;
+	border-radius: 0px;
 }
 
 .mck-msg-avator-bubble .mck-msg-avator {
@@ -1815,8 +1818,8 @@ ol, ul {
 .mck-alpha-contact-image .mck-contact-icon {
 	font-weight: bold;
 	vertical-align: middle;
-	height: 43px;
-	line-height: 43px;
+	height: 90px;
+	line-height: 90px;
 	display: block;
 }
 
@@ -2265,11 +2268,11 @@ ol, ul {
 
 .mck-msg-right .mck-msg-box {
 	float: right;
-	color: #fff;
-	font-size: 14px;
-	margin-right: 15px;
-	min-height: 44px; padding : 10px 14px 12px;
-	background-color: #00b0ff;
+	/*color: #fff;
+	font-size: 14px;*/
+	margin-right: 25px;
+	min-height: 44px; /*padding : 10px 14px 12px;*/
+	/*background-color: #00b0ff;*/
 	-webkit-align-self: flex-start;
 	-ms-flex-item-align: start;
 	align-self: flex-start;
@@ -2279,8 +2282,23 @@ ol, ul {
 	max-width: 85%;
 	display: inline-block;
 	padding: 10px 14px 12px;
+    max-width: 313px;
+    float: right;
+    background: #eee;
+    padding: 15px 20px;
+    margin-bottom: 28px;
+    position: relative;
+    font-size: 18px;
+    color: #565b5f;
+    margin-bottom: 0;
 }
-
+.write{
+        border-top: 1px solid #ff5f44;
+    /*border-left: 1px solid #ff5f44;*/
+    background: #eeeeef;
+    padding: 20px 30px;
+    margin-top: 20px;
+}
 .mck-msg-avator-bubble.mck-msg-right .mck-msg-box {
 	margin-right: 58px;
 }
@@ -2297,21 +2315,58 @@ ol, ul {
 
 .mck-msg-left .mck-msg-box {
 	float: left;
-	color: #1a1a1a;
-	font-size: 14px;
+	/*color: #1a1a1a;
+	font-size: 14px;*/
 	margin-left: 15px;
 	min-height: 44px;
-	padding: 10px 14px 12px;
+	/*padding: 10px 14px 12px;*/
 	max-width: 85%;
 	border-radius: 5px;
-	background-color: #FFFFFF;
+	/*background-color: #FFFFFF;*/
 	-webkit-align-self: flex-end;
 	-ms-flex-item-align: end;
 	align-self: flex-end;
 	-webkit-animation-name: slideFromRight;
 	animation-name: slideFromRight;
+        max-width: 343px;
+    float: left;
+    background: #b4e3f3;
+    padding:15px 20px 15px 30px;
+    margin-bottom: 32px;
+    position: relative;
+    line-height: 1.3;
+        font-size: 18px;
+    color: #565b5f;
+    margin-bottom: 0;
 }
-
+.mck-msg-left .mck-msg-box:before{
+    position: absolute;
+    content: '';
+    border-top: 40px solid #b4e3f3;
+    border-left: 10px solid transparent;
+    border-right: 27px solid transparent;
+    bottom: -21px;
+    left: -16px;
+    -webkit-transform: rotate(40deg);
+    -ms-transform: rotate(40deg);
+    -o-transform: rotate(40deg);
+    transform: rotate(40deg);
+}
+.mck-msg-right .mck-msg-box:before{
+        position: absolute;
+    content: '';
+    border-top: 40px solid #eee;
+    border-right: 10px solid transparent;
+    border-left: 27px solid transparent;
+    bottom: -21px;
+    right: -16px;
+    -webkit-transform: rotate(-47deg);
+    -ms-transform: rotate(-47deg);
+    -o-transform: rotate(-47deg);
+    transform: rotate(-47deg);
+    margin-top: 0;
+}
+.mck-msg-left .mck-msg-box:after{display: none !important;}
 .mck-msg-avator-bubble.mck-msg-left .mck-msg-box {
 	margin-left: 58px;
 }
@@ -2381,7 +2436,7 @@ ol, ul {
 }
 
 .mck-tab-title-w-status, .mck-tab-title-w-typing {
-	line-height: 35px;
+	line-height: 1.3;
 	height: 27px;
 	position: relative;
 }
@@ -3064,7 +3119,7 @@ ol, ul {
 
 .mck-camera-icon {
 	display: block;
-	background-image: url(../../../images/mck-icon-camera.png);
+	background-image: url(../images/mck-icon-camera.png);
 	background-repeat: no-repeat;
 	margin-top: 10px;
 	height: 20px;
@@ -3074,7 +3129,7 @@ ol, ul {
 
 .mck-camera {
 	display: inline-block;
-	background-image: url(../../../images/mck-icon-camera.png);
+	background-image: url(../images/mck-icon-camera.png);
 	background-repeat: no-repeat;
 	height: 20px;
 	width: 20px;
@@ -3125,7 +3180,7 @@ ol, ul {
 	.mck-icon-camera, .mck-icon-marker, .mck-icon-delivered, .mck-icon-read,
 	.mck-icon-sent, .mck-icon-time {
 	display: inline-block;
-	background: url(../../../images/mck-plugin-sprite.png) no-repeat;
+	background: url(../images/mck-plugin-sprite.png) no-repeat;
 	overflow: hidden;
 	text-indent: -9999px;
 	text-align: left;
@@ -3337,7 +3392,7 @@ ol, ul {
 		float: left;
 	}
 	.mck-contact-list .blk-lg-3 {
-		width: 50px;
+		width:25%;
 	}
 	.mck-contact-list .blk-lg-8 {
 		width: 155px;
@@ -3385,7 +3440,7 @@ ol, ul {
 		width: 120px;
 	}
 	.mck-contact-list .blk-lg-9 {
-		width: 200px;
+		width:75%;
 	}
 	.mck-group-member-list .blk-lg-9 {
 		width: 190px
@@ -3532,7 +3587,7 @@ ol, ul {
 
 #mck-audio-call-icon{
     float:none;
-    background-image: url(/resources/images/voicecalling.gif);
+    background-image: url(../images/voicecalling.gif);
 }
 
 .applozic-vid-container{
@@ -3631,4 +3686,33 @@ width:65%;
 }
 .mck-local-media-border{
 	border:solid;
+}
+.mck-alpha-contact-image, .mck-container .left .people .person img{width: 60px !important;height: 60px !important;}
+    .mck-alpha-contact-image .mck-contact-icon{height: 60px !important;line-height: 60px !important;}
+@media (max-width:1200px){
+    
+    .mck-container .left .people .person .name{font-size: 24px !important;}
+    .mck-container .left .people .person .preview, .mck-cont-msg-wrapper p{font-size: 16px;}
+    .mck-container{height: 586px !important;}
+}
+@media (max-width:991px){
+    .mck-tab-title{font-size: 26px !important;padding-right: 0 !important;}
+    .mck-alpha-contact-image, .mck-container .left .people .person img{width: 50px !important;height: 50px !important;}
+    .mck-alpha-contact-image .mck-contact-icon{height: 50px !important;line-height: 50px !important;}
+      .mck-container .left .people .person .name{font-size: 18px !important;margin-bottom: 5px !important;}
+    .mck-container .left .people .person .preview, .mck-cont-msg-wrapper p{font-size: 14px;}
+    .mck-msg-left .mck-msg-box, .mck-msg-right .mck-msg-box{font-size: 16px !important;}
+    .mck-container{height: 486px !important;}
+}
+@media (max-width:767px){
+    .mck-container .left, .mck-message-inner .blk-lg-12{width: 100% !important;}
+    .mck-container .right{     display: none; 
+    width: 100% !important;
+    position: absolute !important;}
+    .mck-container .right.active{display: block;}
+    .mck-contact-list li .blk-lg-9{width: 75%;}
+    .mck-individual-tab-title vis .close{display: block !important;}
+    .mck-tab-title{font-size: 20px !important;}
+    .mck-msg-left .mck-msg-box, .mck-msg-right .mck-msg-box{font-size: 14px !important;padding: 13px 20px !important;}
+    .write{padding: 15px !important;}
 }
