@@ -1824,7 +1824,7 @@
 
     function saveConsumedCoins(consumedCoins) {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.LEARNING_STYLE')}}";
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.LEARNING_STYLE')}}" + "&professionId=" + 0;
         $.ajax({
             type: 'POST',
             data: form_data,

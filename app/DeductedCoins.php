@@ -45,7 +45,7 @@ class DeductedCoins extends Model  {
         return $deductedDetail;
     }
 
-    public function getDeductedCoinsDetailByIdForLS($teenId, $comType, $type) {
+    public function getDeductedCoinsDetailByIdForLS($teenId, $comType, $type, $professionId = '') {
         $deductedDetail = DB::table(config::get('databaseconstants.TBL_DEDUCTED_COINS') . " AS d_coins")
                     ->selectRaw('d_coins.*')
                     ->where('d_coins.dc_user_id',$teenId)
