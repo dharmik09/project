@@ -1805,7 +1805,7 @@
 
     function getQuestionDataAdvanceLevel(activityType) {
         $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
-        $('#advance_quiz_loader').parent().toggleClass('loading-screen-parent');
+        $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-question-data-advance-level') }}",
@@ -1825,7 +1825,7 @@
 
     function getMediaUploadSection() {
         $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
-        $('#advance_quiz_loader').parent().toggleClass('loading-screen-parent');
+        $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-media-upload-section') }}",
@@ -1843,7 +1843,7 @@
 
     function getLevel4AdvanceStep2Details(professionId, type) {
         $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
-        $('#advance_quiz_loader').parent().toggleClass('loading-screen-parent');
+        $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-level4-advance-step2-details') }}",
@@ -1935,12 +1935,12 @@
 
     $(document).on('submit','.add_advance_task', function(){
         var clikedForm = $(this); // Select Form
-        clikedForm.find("[id='taskSave']").toggleClass('sending').blur();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         if (clikedForm.find("[name='media']").val() == '') {
             clikedForm.find("[id='mediaErr']").text("Please upload appropriate media file");
             return false;
         } else {
+            clikedForm.find("[id='taskSave']").toggleClass('sending').blur();
             $.ajax({
                 url: "{{ url('teenager/submit-level4-advance-activity') }}",
                 type: "POST",

@@ -23,6 +23,8 @@ use Input;
 use Image;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class ProfileController extends Controller
 {
@@ -47,6 +49,8 @@ class ProfileController extends Controller
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
     }
 
     /* Request Params : getTeenagerProfileData
@@ -120,6 +124,19 @@ class ProfileController extends Controller
 
             $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
             $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
+            $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
+            $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($request->userId, $componentsData->id, 1) : [];
+            $remainingDaysForActivity = 0;
+            if (!empty($deductedCoinsDetail[0])) {
+                $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+            }
+            $coinConsumptionDetails = [];
+            $coinConsumptionDetails['componentId'] = $componentsData->id;
+            $coinConsumptionDetails['componentName'] = Config::get('constant.LEARNING_STYLE');
+            $coinConsumptionDetails['componentCoins'] = $componentsData->pc_required_coins;
+            $coinConsumptionDetails['remainingDays'] = $remainingDaysForActivity;
+
+            $response['learningGuidanceCoinsDetails'] = $coinConsumptionDetails;
             $response['attemptedCompletionMessage'] = "Your profile survey completed 100%, But if you want to vote more Icon please click on below";
             $response['status'] = 1;
             $response['login'] = 1;

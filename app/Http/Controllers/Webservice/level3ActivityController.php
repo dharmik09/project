@@ -27,6 +27,8 @@ use Monolog\Handler\StreamHandler;
 use App\ProfessionSubject;
 use App\ProfessionTag;
 use App\TeenagerBoosterPoint;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class level3ActivityController extends Controller {
 
@@ -61,7 +63,8 @@ class level3ActivityController extends Controller {
         $this->objSubject = new ProfessionSubject;
         $this->objTag = new ProfessionTag;
         $this->teenagerBoosterPoint = new TeenagerBoosterPoint();
-
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
     }
 
     public function getAllBasktes(Request $request) {
@@ -797,6 +800,21 @@ class level3ActivityController extends Controller {
                     }
                     $professionsData->mediumSizeAds = $mediumAdImages;
                     $professionsData->bannerSizeAds = $bannerAdImages;
+
+                    //Advance activity details
+                    $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.ADVANCE_ACTIVITY'));
+                    $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($request->userId, $componentsData->id, 1, $professionsData->id) : [];
+                    $remainingDaysForActivity = 0;
+                    if (!empty($deductedCoinsDetail[0])) {
+                        $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+                    }
+                    $advanceActivityDetails = [];
+                    $advanceActivityDetails['componentId'] = $componentsData->id;
+                    $advanceActivityDetails['componentName'] = Config::get('constant.ADVANCE_ACTIVITY');
+                    $advanceActivityDetails['componentCoins'] = $componentsData->pc_required_coins;
+                    $advanceActivityDetails['remainingDays'] = $remainingDaysForActivity;
+
+                    $professionsData->advanceActivityDetails = $advanceActivityDetails;
 
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);
