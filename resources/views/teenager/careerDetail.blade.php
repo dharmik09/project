@@ -416,7 +416,13 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordion"  data-toggle="collapse" href="#accordion1" class="collapsed">Advanced View</a>
+                                            <?php 
+                                                if($remainingDaysForActivity > 0) {
+                                                    $collapseClass = "collapse";
+                                                } else {
+                                                    $collapseClass = "";
+                                                } ?>
+                                            <a data-parent="#accordion"  data-toggle="{{$collapseClass}}" href="#accordion1" class="collapsed">Advanced View</a>
                                             <div class="sec-popup">
                                                     <a href="javascript:void(0);" onmouseover="getHelpText('career-detail-advanced-view')" data-trigger="hover" data-toggle="clickover" data-popover-content="#career-detail-advanced-view" class="help-icon custompop" rel="popover" data-placement="bottom">
                                                         <i class="icon-question"></i>
@@ -1686,7 +1692,7 @@
 
     function saveConsumedCoins(consumedCoins) {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.ADVANCE_ACTIVITY')}}";;
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.ADVANCE_ACTIVITY')}}" + "&professionId=" + '{{$professionsData->id}}';
         $.ajax({
             type: 'POST',
             data: form_data,
@@ -1699,6 +1705,7 @@
                 $(".activity_coins").html("");
                 if (response > 0) {
                     $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $(".panel-heading a").attr("data-toggle", "collapse");
                     $("#activity_unbox").prop('onclick',null).off('click');
                 } else {
                     $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
