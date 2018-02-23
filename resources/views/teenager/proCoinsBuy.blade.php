@@ -93,13 +93,19 @@
                                             <img src="{{ $coinImage }}" alt="{{ $altImage }}">
                                         </div>
                                         <h4>{{$val->c_package_name}}</h4>
+
+                                        @if ($val->c_currency == 1) 
                                         <h2 class="price">
-                                            <span>
-                                                &#8377;
-                                                <!-- <i class="fa fa-<?php //if ($val->c_currency == 1) { echo 'inr';} else {echo 'usd';}?>" aria-hidden="true"></i> -->
-                                            </span>
-                                            <?php echo intval($val->c_price); ?>
+                                            <span class="rupee-symbol">
+                                                <i class="fa fa-inr"></i>
+                                            </span><?php echo intval($val->c_price); ?>
                                         </h2>
+                                        @else
+                                        <h2 class="price">
+                                            <span class="dollar-symbol">$</span><?php echo intval($val->c_price); ?>
+                                        </h2>
+                                        @endif
+
                                         <div class="procoins-value"><?php echo number_format($val->c_coins);?> <span>ProCoins</span>
                                         </div>
                                         <p>{{$val->c_description}}</p>
