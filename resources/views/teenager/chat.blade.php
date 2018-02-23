@@ -2,6 +2,14 @@
 
 @push('script-header')
     <title>Teenager : Chat/Notification/Forum</title>
+    <link href="{{asset('chat/css/applozic.combined.min.css')}}" rel="stylesheet">
+    <!-- AutoSuggest Plugin CSS -->
+    <link href="{{asset('chat/css/jquery.atwho.min.css')}}" rel="stylesheet">
+
+    <link href="{{asset('chat/css/applozic.fullview.css')}}" rel="stylesheet">
+
+    <!-- Custom JS -->
+    <link rel="stylesheet" href="{{asset('chat/css/applozic.plugin.css')}}">
 @endpush
 
 @section('content')
@@ -53,7 +61,7 @@
                 <h2 class="font-blue">Chat</h2>
             </div>
             <div class="sec-chat clearfix">
-               
+               @include('teenager/basic/fullViewChat')
             </div>
             <!-- sec chat end-->
             <!-- sec notification-->
@@ -182,22 +190,149 @@
 @stop
 @section('script')
 <script>
+    var $original;
+    if (typeof jQuery !== 'undefined') {
+            $original = jQuery.noConflict(true);
+            $ = $original;
+            jQuery = $original;
+    }
+</script>
 
+<!-- Video Call dependencies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"></script>
+<script type="text/javascript" src="{{asset('chat/js/mck-ringtone-service.js')}}"></script>
+<script type="text/javascript" src="{{asset('chat/js/twilio-video.js')}}"></script>
+<script type="text/javascript" src="{{asset('chat/js/videocall.js')}}"></script>
+
+<!-- Video Call dependencies -->
+<script type="text/javascript" src="{{asset('chat/js/applozic.plugins.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('chat/js/applozic.widget.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('chat/js/applozic.emojis.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('chat/js/applozic.socket.min.js')}}"></script>
+
+<!-- JS for location sharing plugin, remove it if location sharing not required -->
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDKfWHzu9X7Z2hByeW4RRFJrD9SizOzZt4&libraries=places"></script>
+<script type="text/javascript" src="{{asset('chat/js/locationpicker.jquery.min.js')}}"></script>
+
+<!--JS for auto suggest plugin, use it if auto suggestions required -->
+	<!-- 	<script type="text/javascript" src="autosuggest/js/jquery.caret.min.js"></script>
+	    <script type="text/javascript" src="autosuggest/js/jquery.atwho.min.js"></script> -->
+
+
+<script type="text/javascript" src="{{asset('chat/js/applozic.common.js')}}"></script>
+<script type="text/javascript" src="{{asset('chat/js/applozic.fullview.js')}}"></script>
+<script type="text/javascript">
+    var oModal = "";
+    if (typeof $original !== 'undefined') {
+            $ = $original;
+            jQuery = $original;
+            if (typeof $.fn.modal === 'function') {
+                    oModal = $.fn.modal.noConflict();
+            }
+    } else {
+            $ = $applozic;
+            jQuery = $applozic;
+            if (typeof $applozic.fn.modal === 'function') {
+                    oModal = $applozic.fn.modal.noConflict();
+            }
+    }
+</script>
+
+<script src="{{asset('chat/js/recorder.js')}}"></script>
+<script src="{{asset('chat/js/Fr.voice.js')}}"></script>
+<script src="{{asset('chat/js/app.js')}}"></script>
+
+<script type="text/javascript">
+//var $applozic = jQuery.noConflict(true);
+//Sample json contains display name and photoLink for userId
+
+function readMessage() {
+        //console.log(userId);
+}
+//Callback Function to return display name by userId
+/*  function displayName(userId) {
+      //Todo: replace this with users display name
+      var contact = contacts[userId];   // contacts sample given above
+      if (typeof contact !== 'undefined') {
+          return contact.displayName;
+      }
+  }*/
+//Callback Function to return contact image url by userId
+/*  function contactImageSrc(userId) {
+      var contact = contacts[userId]; // contacts sample given above
+      if (typeof contact !== 'undefined') {
+          return contact.imageLink;
+      }
+  }*/
+//callback function execute after plugin initialize.
+function onInitialize(response,data) {
+        if (response.status === 'success') {
+                // $applozic.fn.applozic('loadContacts', {'contacts':contactsJSON});
+                // $applozic.fn.applozic('loadTab', 'shanki.connect');
+                //write your logic exectute after plugin initialize.
+        } else {
+                alert(response.errorMessage);
+        }
+}
+// Examples shows how to define variable for auto suggest
+
+// Function to initialize auto suggest plugin on message textbox
+$(document)
+.ready(
+    function() {
+    //Function to initialize plugin
+    $applozic.fn
+            .applozic({
+                baseUrl : 'https://apps.applozic.com',
+                userId : '<?php echo Auth::guard('teenager')->user()->t_uniqueid ?>', //TODO: replace userId with actual UserId
+                userName : '<?php echo Auth::guard('teenager')->user()->t_name ?>',			//TODO: replace userId with actual UserName
+                appId : '<?php echo Config::get('constant.APP_LOGIC_CHAT_API_KEY') ?>',			//TODO: replace appId with your applicationId
+                accessToken: '',								//TODO: set user access token.for new user it will create new access token
+
+                ojq : $original,
+                obsm : oModal,
+
+                         //optional, leave it blank for testing purpose, read this if you want to add additional security by verifying password from your server https://www.applozic.com/docs/configuration.html#access-token-url
+                //  authenticationTypeId: 1,    //1 for password verification from Applozic server and 0 for access Token verification from your server
+                //	autoTypeSearchEnabled : false,
+                //  messageBubbleAvator: true,
+                notificationIconLink : "https://www.applozic.com/resources/images/applozic_icon.png",
+                notificationSoundLink : "",
+                readConversation : readMessage, // readMessage function defined above
+                onInit : onInitialize, //callback function execute on plugin initialize
+                maxAttachmentSize : 25, //max attachment size in MB
+                desktopNotification : true,
+                locShare : true,
+                video:true,
+                topicBox : true,
+                mapStaticAPIkey: "AIzaSyCWRScTDtbt8tlXDr6hiceCsU83aS2UuZw",
+                googleApiKey : "AIzaSyBhgs2TAiLfkjI3MCgrkbtVFwZDBxsyBAM", // replace it with your Google API key
+                loadOwnContacts : true
+            // initAutoSuggestions : initAutoSuggestions //  function to enable auto suggestions
+            });
+
+            // var contactjson = {"contacts": [{"userId": "user1", "displayName": "Devashish", "imageLink": "https://www.applozic.com/resources/images/applozic_icon.png"}, {"userId": "user2", "displayName": "Adarsh", "imageLink": "https://www.applozic.com/resources/images/applozic_icon.png"}, {"userId": "user3", "displayName": "Shanki", "imageLink": "https://www.applozic.com/resources/images/applozic_icon.png"}]};
+            // To load contact list use below function and pass contacts json in format shown above in variable 'contactjson'.
+            getContacts(function(output){
+                // here you use the output
+                $applozic.fn.applozic('loadContacts', {"contacts": output});
+           });
+    });
+</script>
+
+<script>
+    
    var ischat = '<?php echo Auth::guard('teenager')->user()->is_chat_initialized?>';
    if(ischat == 0){
         registerUserInAppLozic();
    }
-   
-   
-   var enableOtherUserChat = '{{$otherChat}}';
-  
-   
+   var enableOtherUserChat = '{{$otherChat}}';   
    if(enableOtherUserChat > 0){
        otherUserId = '{{(isset($otherTeenDetails->t_uniqueid) && $otherTeenDetails->t_uniqueid != '')?$otherTeenDetails->t_uniqueid:''}}';
        otherUserName = '{{(isset($otherTeenDetails->t_name) && $otherTeenDetails->t_name != '')?$otherTeenDetails->t_name:''}}';
-       openchat(otherUserId,otherUserName);
+       //openchat(otherUserId,otherUserName);
    }else{
-       normalChat();
+      // normalChat();
    }
   
    
