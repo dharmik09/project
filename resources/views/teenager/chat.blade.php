@@ -276,10 +276,32 @@ function onInitialize(response,data) {
 }
 // Examples shows how to define variable for auto suggest
 
+var enableOtherUserChat = '{{$otherChat}}';   
+   if(enableOtherUserChat > 0){
+       otherUserId = '{{(isset($otherTeenDetails->t_uniqueid) && $otherTeenDetails->t_uniqueid != '')?$otherTeenDetails->t_uniqueid:''}}';
+       otherUserName = '{{(isset($otherTeenDetails->t_name) && $otherTeenDetails->t_name != '')?$otherTeenDetails->t_name:''}}';
+       openchat(otherUserId,otherUserName);
+   }else{
+       normalChat();
+   }
+ function getContacts(handleData)
+    {
+        $.ajax({
+            url: "{{ url('/teenager/getChatUsers') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}'
+            },
+            success: function(response)
+            {
+                var contactsJSON = JSON.parse(response);
+                handleData(contactsJSON);
+            }
+        });
+    }
+
 // Function to initialize auto suggest plugin on message textbox
-$(document)
-.ready(
-    function() {
+function normalChat() {
     //Function to initialize plugin
     $applozic.fn
             .applozic({
@@ -292,9 +314,9 @@ $(document)
                 ojq : $original,
                 obsm : oModal,
 
-                         //optional, leave it blank for testing purpose, read this if you want to add additional security by verifying password from your server https://www.applozic.com/docs/configuration.html#access-token-url
+                //  optional, leave it blank for testing purpose, read this if you want to add additional security by verifying password from your server https://www.applozic.com/docs/configuration.html#access-token-url
                 //  authenticationTypeId: 1,    //1 for password verification from Applozic server and 0 for access Token verification from your server
-                //	autoTypeSearchEnabled : false,
+                //  autoTypeSearchEnabled : false,
                 //  messageBubbleAvator: true,
                 notificationIconLink : "https://www.applozic.com/resources/images/applozic_icon.png",
                 notificationSoundLink : "",
@@ -307,7 +329,8 @@ $(document)
                 topicBox : true,
                 mapStaticAPIkey: "AIzaSyCWRScTDtbt8tlXDr6hiceCsU83aS2UuZw",
                 googleApiKey : "AIzaSyBhgs2TAiLfkjI3MCgrkbtVFwZDBxsyBAM", // replace it with your Google API key
-                loadOwnContacts : true
+                loadOwnContacts : true,
+                olStatus: true,        
             // initAutoSuggestions : initAutoSuggestions //  function to enable auto suggestions
             });
 
@@ -317,7 +340,71 @@ $(document)
                 // here you use the output
                 $applozic.fn.applozic('loadContacts', {"contacts": output});
            });
-    });
+    }
+    
+    function openchat(otherUserId,displayName)
+    {
+        $applozic.fn
+            .applozic({
+                baseUrl : 'https://apps.applozic.com',
+                userId : '<?php echo Auth::guard('teenager')->user()->t_uniqueid ?>', //TODO: replace userId with actual UserId
+                userName : '<?php echo Auth::guard('teenager')->user()->t_name ?>',			//TODO: replace userId with actual UserName
+                appId : '<?php echo Config::get('constant.APP_LOGIC_CHAT_API_KEY') ?>',			//TODO: replace appId with your applicationId
+                accessToken: '',								//TODO: set user access token.for new user it will create new access token
+
+                ojq : $original,
+                obsm : oModal,
+
+                //  optional, leave it blank for testing purpose, read this if you want to add additional security by verifying password from your server https://www.applozic.com/docs/configuration.html#access-token-url
+                //  authenticationTypeId: 1,    //1 for password verification from Applozic server and 0 for access Token verification from your server
+                //  autoTypeSearchEnabled : false,
+                //  messageBubbleAvator: true,
+                notificationIconLink : "https://www.applozic.com/resources/images/applozic_icon.png",
+                notificationSoundLink : "",
+                readConversation : readMessage, // readMessage function defined above
+                onInit : onInitialize, //callback function execute on plugin initialize
+                maxAttachmentSize : 25, //max attachment size in MB
+                desktopNotification : true,
+                locShare : true,
+                video:true,
+                topicBox : true,
+                mapStaticAPIkey: "AIzaSyCWRScTDtbt8tlXDr6hiceCsU83aS2UuZw",
+                googleApiKey : "AIzaSyBhgs2TAiLfkjI3MCgrkbtVFwZDBxsyBAM", // replace it with your Google API key
+                loadOwnContacts : true,
+                olStatus: true,        
+				 onInit : function(response) {
+
+			var ischatInitialise = false;
+			if(ischatInitialise){
+				$applozic.fn.applozic('loadTab', '');
+				return false;
+			}
+			if (response === "success") {
+			   if(otherUserId == ''){
+				   $applozic.fn.applozic('loadTab', '');
+				   //$applozic.fn.applozic('loadContacts', {"contacts": contactsJSON});
+			   }else{
+				   $applozic.fn.applozic('loadTab', otherUserId);
+
+				   getContacts(function(output){
+						// here you use the output
+						$applozic.fn.applozic('loadContacts', {"contacts": output});
+				   });
+
+				   //Set username in chat
+				   $('#mck-tab-title').text(displayName);
+				   $('#mck-tab-title').css('textTransform', 'capitalize');
+			   }
+			   var ischatInitialise = true;
+			  // login successful, perform your actions if any, for example: load contacts, getting unread message count, etc
+		   } else {
+			  // error in user login/register (you can hide chat button or refresh page)
+		   }
+		}	
+            });
+        
+    }
+    
 </script>
 
 <script> 
@@ -325,16 +412,7 @@ $(document)
    if(ischat == 0){
         registerUserInAppLozic();
    }
-   var enableOtherUserChat = '{{$otherChat}}';   
-   if(enableOtherUserChat > 0){
-       otherUserId = '{{(isset($otherTeenDetails->t_uniqueid) && $otherTeenDetails->t_uniqueid != '')?$otherTeenDetails->t_uniqueid:''}}';
-       otherUserName = '{{(isset($otherTeenDetails->t_name) && $otherTeenDetails->t_name != '')?$otherTeenDetails->t_name:''}}';
-       //openchat(otherUserId,otherUserName);
-   }else{
-      // normalChat();
-   }
-  
-   
+
    //Register user in applozic if not presents in applozic
     function registerUserInAppLozic()
     {
@@ -351,22 +429,7 @@ $(document)
     } 
     
    
-    function getContacts(handleData)
-    {
-        $.ajax({
-            url: "{{ url('/teenager/getChatUsers') }}",
-            type: 'post',
-            data: {
-                "_token": '{{ csrf_token() }}'
-            },
-            success: function(response)
-            {
-                var contactsJSON = JSON.parse(response);
-                handleData(contactsJSON);
-            }
-        });
-    }
-
+   
     function fetchNotification(pageNo){
         $("#loader_con").html('<img src="{{Storage::url('img/loading.gif')}}">');
         var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -431,68 +494,7 @@ $(document)
         }
     }
     
-    function openchat(otherUserId,displayName)
-    {
-	(function(d, m){var s, h;
-	s = document.createElement("script");
-	s.type = "text/javascript";
-	s.async=true;
-	s.src="https://apps.applozic.com/sidebox.app";
-	h=document.getElementsByTagName('head')[0];
-	h.appendChild(s);
-	window.applozic=m;
-	m.init=function(t){m._globals=t;}})(document, window.applozic || {});
-	
-	window.applozic.init({
-		 appId: '<?php echo Config::get('constant.APP_LOGIC_CHAT_API_KEY') ?>',      //Get your application key from https://www.applozic.com
-		 userId: '<?php echo Auth::guard('teenager')->user()->t_uniqueid ?>',                     //Logged in user's id, a unique identifier for user
-		 userName: '<?php echo Auth::guard('teenager')->user()->t_name ?>',                 //User's display name
-		 imageLink : '<?php echo $user_profile_thumb_image?>',                     //User's profile picture url
-		 email : '',                         //optional
-		 contactNumber: '',                  //optional, pass with internationl code eg: +16508352160
-		 desktopNotification: true,
-		 source: '1',                          // optional, WEB(1),DESKTOP_BROWSER(5), MOBILE_BROWSER(6)
-		 notificationIconLink: 'https://www.applozic.com/favicon.ico',    //Icon to show in desktop notification, replace with your icon
-		 authenticationTypeId: '1',          //1 for password verification from Applozic server and 0 for access Token verification from your server
-		 accessToken: '',                    //optional, leave it blank for testing purpose, read this if you want to add additional security by verifying password from your server https://www.applozic.com/docs/configuration.html#access-token-url
-		 locShare: true,
-		 googleApiKey: "",   // your project google api key
-		 googleMapScriptLoaded : true,   // true if your app already loaded google maps script
-		 autoTypeSearchEnabled : false,     // set to false if you don't want to allow sending message to user who is not in the contact list
-		 loadOwnContacts : true,
-		 olStatus: true,
-		 onInit : function(response) {
-
-			var ischatInitialise = false;
-			if(ischatInitialise){
-				$applozic.fn.applozic('loadTab', '');
-				return false;
-			}
-			if (response === "success") {
-			   if(otherUserId == ''){
-				   $applozic.fn.applozic('loadTab', '');
-				   //$applozic.fn.applozic('loadContacts', {"contacts": contactsJSON});
-			   }else{
-				   $applozic.fn.applozic('loadTab', otherUserId);
-
-				   getContacts(function(output){
-						// here you use the output
-						$applozic.fn.applozic('loadContacts', {"contacts": output});
-				   });
-
-				   //Set username in chat
-				   $('#mck-tab-title').text(displayName);
-				   $('#mck-tab-title').css('textTransform', 'capitalize');
-			   }
-			   var ischatInitialise = true;
-			  // login successful, perform your actions if any, for example: load contacts, getting unread message count, etc
-		   } else {
-			  // error in user login/register (you can hide chat button or refresh page)
-		   }
-		}
-	});
-    }
-    
+   
     function normalChat()
     {
         (function(d, m){var s, h;       

@@ -299,7 +299,7 @@ body {
     color: #27a6b5;
     text-transform: capitalize;
     text-align: right;
-   /* padding-right: 45px;*/
+    padding-right: 15px;
     word-spacing: 4px;
 /*    margin-bottom: 29px;*/
     height: auto;
