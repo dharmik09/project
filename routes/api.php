@@ -101,6 +101,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 
 	//Learning Guidance
 	Route::post('/learningGuidance', 'Webservice\HomeController@learningGuidance');
+	Route::post('/saveConsumedCoinsDetails', 'Webservice\HomeController@saveConsumedCoinsDetails');
 
 	//Level 2 Activity
 	Route::post('/getLevel2Activity', 'Webservice\level2ActivityController@getLevel2Activity');
