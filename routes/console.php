@@ -16,3 +16,7 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('calculateHMLScore {--for=}', function () {
+    $this->info("Calculate Teenagers HML Data");
+})->describe('Calculate Teenagers HML Data');
