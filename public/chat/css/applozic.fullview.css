@@ -2445,6 +2445,7 @@ ol, ul {
 	line-height: 15px;
 	font-size: 12px;
 	opacity: 0.6;
+    text-align: right;
 }
 
 .mck-nav>li {
