@@ -212,14 +212,14 @@
                                     </div>
                                     <ul id="mck-upload-menu-list"
                                         class="mck-dropup-menu mck-upload-menu-list" role="menu">
-                                        <li><a id="mck-file-up" href="#"
+                                        <li><a id="mck-file-up" href="javascript:void(0);"
                                                class="mck-file-upload menu-item" title="File &amp; Photos">
 
                                                 <img src="{{asset('chat/images/mck-icon-photo.png')}}"
                                                      class="menu-icon" alt="File &amp; Photos"> <span>Files
                                                     &amp; Photos</span>
                                             </a></li>
-                                        <li><a id="mck-btn-loc" href="#" class="menu-item"
+                                        <li><a id="mck-btn-loc" href="javascript:void(0);" class="menu-item"
                                                title="Location"> <img
                                                     src="{{asset('chat/images/mck-icon-marker.png')}}" class="menu-icon"
                                                     alt="Location"> <span>Location</span>
