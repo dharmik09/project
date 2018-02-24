@@ -922,7 +922,7 @@ class ProfessionController extends Controller {
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
         
         $fileName = $professionsData->pf_slug."-".time().'.pdf';
-        $checkPDF = PDF::loadView('teenager.careerDetailPdf',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml'))->save($this->careerDetailsPdfUploadedPath.$fileName);
+        $checkPDF = PDF::loadView('teenager.careerDetailPdfInline',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml'))->save($this->careerDetailsPdfUploadedPath.$fileName);
         
         if(isset($checkPDF))
         {
