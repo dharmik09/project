@@ -23,6 +23,8 @@ use Input;
 use Image;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class ProfileController extends Controller
 {
@@ -47,6 +49,8 @@ class ProfileController extends Controller
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
     }
 
     /* Request Params : getTeenagerProfileData
@@ -120,6 +124,19 @@ class ProfileController extends Controller
 
             $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
             $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
+            $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
+            $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($request->userId, $componentsData->id, 1) : [];
+            $remainingDaysForActivity = 0;
+            if (!empty($deductedCoinsDetail[0])) {
+                $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+            }
+            $coinConsumptionDetails = [];
+            $coinConsumptionDetails['componentId'] = $componentsData->id;
+            $coinConsumptionDetails['componentName'] = Config::get('constant.LEARNING_STYLE');
+            $coinConsumptionDetails['componentCoins'] = $componentsData->pc_required_coins;
+            $coinConsumptionDetails['remainingDays'] = $remainingDaysForActivity;
+
+            $response['learningGuidanceCoinsDetails'] = $coinConsumptionDetails;
             $response['attemptedCompletionMessage'] = "Your profile survey completed 100%, But if you want to vote more Icon please click on below";
             $response['status'] = 1;
             $response['login'] = 1;
@@ -480,21 +497,32 @@ class ProfileController extends Controller
             if (isset($teenagerIcons) && !empty($teenagerIcons)) {
                 foreach ($teenagerIcons as $key => $icon) {
                     if ($icon->ti_icon_type == 1) {
+                        $fictionIconArr = [];
                         if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
-                            $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
+                            $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
                         } else {
-                            $fictionIcon[] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                            $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
                         }
+                        $fictionIconArr['iconDescription'] = (isset($icon->ci_description) && !empty($icon->ci_description)) ? $icon->ci_description : '';
+                        $fictionIcon[] = $fictionIconArr;
                     } else if ($icon->ti_icon_type == 2) {
+                        $nonFictionArr = [];
                         if ($icon->nonfiction_image != '' && Storage::size($this->humanThumbImageUploadPath . $icon->nonfiction_image) > 0) {
-                            $nonFiction[] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
+                            $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
                         } else {
-                            $nonFiction[] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                            $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
                         }
+                        $nonFictionArr['iconDescription'] = (isset($icon->hi_description) && !empty($icon->hi_description)) ? $icon->hi_description : '';
+                        $nonFiction[] = $nonFictionArr;
                     } else {
+                        $relationIconArr = [];
                         if ($icon->ti_icon_image != '' && Storage::size($this->relationIconThumbImageUploadPath . $icon->ti_icon_image) > 0) {
-                            $relationIcon[] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
+                            $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
+                        } else {
+                            $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . 'proteen-logo.png');
                         }
+                        $relationIconArr['iconDescription'] = "";
+                        $relationIcon[] = $relationIconArr;
                     }
                 }
                 $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);

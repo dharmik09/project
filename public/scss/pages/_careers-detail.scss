@@ -766,10 +766,10 @@
 
 .quiz_view .quiz-ans .next-que {
     font-size: 105px;
-    @include maxlg{
+    @include maxlg {
         font-size: 94px;
     }
-    @include maxmd{
+    @include maxmd {
         font-size: 85px;
     }
     i {
@@ -882,22 +882,29 @@
 .popover-content {
     color: $r-cl;
 }
-.sec-show.flex-container:before,.sec-show.flex-container:after{display: block;}
+
+.sec-show.flex-container:before,
+.sec-show.flex-container:after {
+    display: block;
+}
+
 .quiz-intermediate {
     position: relative;
     margin: 0 -20px;
-    .sec-show{padding-top: 20px;}
+    .sec-show {
+        padding-top: 20px;
+    }
     [class*=col-] {
         margin-bottom: 40px;
         @include maxsm {
             width: 100%;
             margin-bottom: 30px;
         }
-        @include maxms{
+        @include maxms {
             margin-bottom: 20px;
         }
     }
-    .quiz-box{
+    .quiz-box {
         height: 100%;
     }
     .quiz-que {
@@ -1029,6 +1036,17 @@
         border: none;
         font-family: hn-b;
         padding: 8px 25px;
+            border: none;
+    font-family: hn-b;
+    padding: 8px 25px;
+    background: #ff5f44;
+    border-color: #ff5f44;
+    font-size: 15px;
+    &:hover{
+        background-color: #65c6e6;
+        border-color: #65c6e6;
+        color: $white;
+    }
     }
     .upload-content {
         min-height: 200px;
@@ -1251,7 +1269,7 @@
                 }
             }
         }
-        .invalid{
+        .invalid {
             text-align: left !important;
         }
     }
@@ -1357,12 +1375,14 @@
 .sec-match {
     background: $white;
     text-align: center;
-    padding: 40px 0;
+    padding: 3px 0 5px;
     position: relative;
+    @include maxmd{
+        padding: 10px 0;
+    }
     .progress-match {
         position: relative;
-        text-align: center;
-        padding-top: 30px;
+        text-align: center; //padding-top: 30px;
         span {
             font-size: 0;
         }
@@ -1372,7 +1392,7 @@
             overflow: hidden;
             /* Comment this line to understand the trick */
             width: 185px;
-            height: 90px;
+            height: 87px;
             margin: 0 auto -14px
         }
         .bar {
@@ -1386,38 +1406,81 @@
             box-sizing: border-box;
             border: 10px solid #eee;
             /* half gray, */
-            border-bottom-color: #1ec89d;
+            border-bottom-color: #07c9a7;
             /* half azure */
-            border-right-color: #1ec89d;
-            &.bar-moderate{
-            /* half gray, */
-            border-bottom-color: #f1c246;
-            /* half azure */
-            border-right-color: #f1c246;
-            }
-            &.bar-no-match{
+            border-right-color: #07c9a7;
+            &.bar-moderate {
                 /* half gray, */
-            border-bottom-color: #f58634;
-            /* half azure */
-            border-right-color: #f58634;
+                border-bottom-color: #f1c246;
+                /* half azure */
+                border-right-color: #f1c246;
+            }
+            &.bar-no-match {
+                /* half gray, */
+                border-bottom-color: #f58634;
+                /* half azure */
+                border-right-color: #f58634;
             }
         }
 
     }
-    h3 {
-        margin-top: 0;
-        position: absolute;
-        bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 26px;
-        font-family: hl;
-        color: $lightgrey;
+    h2 {
+        font-size: 28px;
+        margin-left: 20px;
+        text-transform: capitalize;
         @include maxmd {
             font-size: 24px;
         }
         @include maxms {
             font-size: 20px;
+            margin-left: 30px;
+        }
+    }
+    h3 {
+        margin-top: 0;
+        position: absolute;
+        bottom: 10px;
+        left: 46%;
+        transform: translateX(-50%);
+        font-size: 26px;
+        font-family: hl;
+        color: $lightgrey;
+        text-transform: capitalize;
+        &.strong-match {
+            color: #07c9a7;
+        }
+        &.moderate-match {
+            color: $remember-cl;
+        }
+        &.no-match {
+            color: $cl-analyzing;
+        }
+        @include maxmd {
+            font-size: 24px;
+            left: 48%;
+        }
+        @include maxms {
+            font-size: 20px;
+            left: 44%;
+        }
+    }
+    .sec-popup a {
+        font-size: 25px;
+        margin-right: 10px;
+    }
+    .data-explainations {
+        margin: 0px 0 0 14px;
+        @include maxmd{
+            margin-bottom: 10px;
+        }
+        .data {
+            margin-bottom: 5px;
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+        span {
+            font-size: 14px;
         }
     }
 }
@@ -1432,14 +1495,14 @@
 }
 
 .advanced-sec {
-    margin-top: 4px;
+    margin-top: 5px;
     margin-bottom: 20px;
     .panel-heading {
         background: $r-cl;
         padding: 0;
         a {
             display: block;
-            padding: 27px 15px 27px 45px;
+            padding: 20px 15px 20px 45px;
             color: $white;
             font-family: ht;
             font-size: 24px;
@@ -1478,6 +1541,15 @@
                 border-top: 11px solid #565b5f;
                 bottom: -11px;
                 left: 20px;
+            }
+        }
+        .sec-popup a {
+            padding: 0;
+            margin-top: -50px;
+            margin-right: 10px;
+            &:before,
+            &:after {
+                display: none;
             }
         }
     }
@@ -1529,34 +1601,43 @@
     .unbox-btn .btn-primary .coins-outer {
         margin-left: -5px;
     }
-    .data-explainations.data-interest{
+    .data-explainations.data-interest {
         margin: 20px 0;
-        .career-data-color-1{
+        .career-data-color-1 {
             background-color: #d6d5d5;
         }
-        .career-data-color-2{
+        .career-data-color-2 {
             background-color: rgb(101, 198, 230);
         }
-        .career-data-color-3{
+        .career-data-color-3 {
             background: #f28538;
-    background: -webkit-gradient(left top,right top,color-stop(0,#f28538),color-stop(58%,#f2c156),color-stop(100%,#07c9a5));
-    background: -webkit-linear-gradient(left,#f28538 0,#f2c156 58%,#07c9a5 100%);
-    background: -o-linear-gradient(left,#f28538 0,#f2c156 58%,#07c9a5 100%);
-    background: -webkit-gradient(linear,left top,right top,from(#f28538),color-stop(58%,#f2c156),to(#07c9a5));
-    background: linear-gradient(to right,#f28538 0,#f2c156 58%,#07c9a5 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1);
+            background: -webkit-gradient(left top, right top, color-stop(0, #f28538), color-stop(58%, #f2c156), color-stop(100%, #07c9a5));
+            background: -webkit-linear-gradient(left, #f28538 0, #f2c156 58%, #07c9a5 100%);
+            background: -o-linear-gradient(left, #f28538 0, #f2c156 58%, #07c9a5 100%);
+            background: -webkit-gradient(linear, left top, right top, from(#f28538), color-stop(58%, #f2c156), to(#07c9a5));
+            background: linear-gradient(to right, #f28538 0, #f2c156 58%, #07c9a5 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1);
         }
+    }
+    .panel-group {
+        margin-bottom: 5px;
     }
 }
 
 .sec-tags {
-    padding: 0 10px;
+    padding: 34px 10px 0;
     margin-bottom: 40px;
     h4 {
         font-family: hl;
-        font-size: 24px;
+        font-size: 31px;
         color: $r-cl;
         display: inline-block;
+        @include maxlg {
+            font-size: 28px;
+        }
+        @include maxsm {
+            font-size: 24px;
+        }
     }
     .tag-list {
         padding: 0;
@@ -1584,7 +1665,7 @@
         }
     }
     .sec-popup a {
-        font-size: 24px;
+        font-size:28px;
     }
 }
 
@@ -1755,12 +1836,11 @@ text.highcharts-xaxis-title {
     .search-bar {
         max-width: 100%;
         margin: 0 0 35px;
-        @include maxsm{
+        @include maxsm {
             margin-bottom: 20px;
         }
         @include maxms {
-            max-width: 100%;
-           // margin-bottom: 20px;
+            max-width: 100%; // margin-bottom: 20px;
         }
         &.form-group {
             .form-control {
@@ -1818,16 +1898,34 @@ text.highcharts-xaxis-title {
         margin-bottom: 7px;
     }
 }
+
 .btn-seo .btn {
     width: 100%;
     padding: 17px 15px;
     font-size: 17px;
-    line-height: 1.25;white-space: inherit;
+    line-height: 1.25;
+    white-space: inherit;
     margin-bottom: 35px;
-    @include maxmd{
+    @include maxmd {
         font-size: 15px;
     }
-    @include maxsm{
+    @include maxsm {
         margin-bottom: 20px;
+    }
+}
+.mediaSubmit .btn-primary{
+        border: none;
+    font-family: hn-b;
+    padding: 8px 25px;
+    border: none;
+    font-family: hn-b;
+    padding: 8px 25px;
+    background: #ff5f44;
+    border-color: #ff5f44;
+    font-size: 15px;
+    &:hover{
+        background-color: #65c6e6;
+        border-color: #65c6e6;
+        color: $white;
     }
 }

@@ -376,31 +376,64 @@
                     </div>
                     <div class="col-md-4">
                         <div class="sec-match">
+                            <div class="data-explainations clearfix">
+                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
+                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
+                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
+                                </div>
                             <?php 
                                 $matchScoreArray = ['match' => 100, 'nomatch' => 33, 'moderate' => 66];
                                 $matchScalePoint = ( isset($professionsData->id) && isset($getTeenagerHML[$professionsData->id]) && isset($matchScoreArray[$getTeenagerHML[$professionsData->id]]) ) ? $matchScoreArray[$getTeenagerHML[$professionsData->id]] : 0;
                             ?>
                             
                             <?php if($matchScalePoint == 33)
-                                {$matchName = 'No Match'; $class = 'bar-no-match';}
-                                elseif($matchScalePoint == 66){$matchName = 'Moderate'; $class = 'bar-moderate';}
-                                else{$matchName = 'Match'; $class = 'bar';} 
+                                {$matchName = 'No Match'; $class = 'bar-no-match'; $h3class = 'no-match';}
+                                elseif($matchScalePoint == 66){$matchName = 'Moderate'; $class = 'bar-moderate';$h3class = 'moderate-match';}
+                                else{$matchName = 'Match'; $class = 'bar'; $h3class = 'strong-match';} 
                             ?>
                             
                             <div class="progress-match">
+                                <div class="sec-popup">
+                                    <a href="javascript:void(0);" onmouseover="getHelpText('career-detail-arc-view')" data-trigger="hover" data-popover-content="#career-detail-arc-view" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                            <i class="icon-question"></i>
+                                        </a>
+                                    <div class="hide" id="career-detail-arc-view">
+                                        <div class="popover-data">
+                                            <a class="close popover-closer"><i class="icon-close"></i></a>
+                                            <span class="career-detail-arc-view"></span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="barOverflow">
                                     <div class="bar {{$class}}"></div>
                                 </div>
                                 <span>100%</span>
                             </div>
-                            <h3>{{$matchName}}</h3>
+                            <h3 class="{{$h3class}}">{{$matchName}}</h3>
                         </div>
                         <div class="advanced-sec">
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed">Advanced View</a>
+                                            <?php 
+                                                if($remainingDaysForActivity > 0) {
+                                                    $collapseClass = "collapse";
+                                                } else {
+                                                    $collapseClass = "";
+                                                } ?>
+                                            <a data-parent="#accordion"  data-toggle="{{$collapseClass}}" href="#accordion1" class="collapsed">Advanced View</a>
+                                            <div class="sec-popup">
+                                                    <a href="javascript:void(0);" onmouseover="getHelpText('career-detail-advanced-view')" data-trigger="hover" data-toggle="clickover" data-popover-content="#career-detail-advanced-view" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                                        <i class="icon-question"></i>
+                                                    </a>
+                                                    <div class="hide" id="career-detail-advanced-view">
+                                                        <div class="popover-data">
+                                                            <a class="close popover-closer"><i class="icon-close"></i></a>
+                                                            <span class="career-detail-advanced-view"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </h4>
                                     </div>
                                     <div class="panel-collapse collapse" id="accordion1">
@@ -1659,7 +1692,7 @@
 
     function saveConsumedCoins(consumedCoins) {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.ADVANCE_ACTIVITY')}}";;
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.ADVANCE_ACTIVITY')}}" + "&professionId=" + '{{$professionsData->id}}';
         $.ajax({
             type: 'POST',
             data: form_data,
@@ -1672,6 +1705,7 @@
                 $(".activity_coins").html("");
                 if (response > 0) {
                     $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $(".panel-heading a").attr("data-toggle", "collapse");
                     $("#activity_unbox").prop('onclick',null).off('click');
                 } else {
                     $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
@@ -1749,6 +1783,7 @@
     }
 
     function getChallengeScoreDetails(parentId) {
+        $("#"+parentId).addClass('deactive');
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = "parentId=" + parentId + "&professionId=" + "{{$professionsData->id}}";
         $.ajax({
@@ -1760,6 +1795,7 @@
             },
             cache: false,
             success: function(response) {
+                $("#"+parentId).removeClass('deactive');
                 $('#scoreModal').html(response);
                 $('#scoreModal').modal('show');
                 //$('.ajax-loader').hide();
@@ -1767,8 +1803,10 @@
         });
     }
 
-    function getQuestionDataAdvanceLevel(activityType)
-    {
+    function getQuestionDataAdvanceLevel(activityType) {
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
+        $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-question-data-advance-level') }}",
             type: 'post',
@@ -1779,11 +1817,16 @@
             },
             success: function(response) {
                 $('.quiz-advanced').html(response);
+                $('#advance_quiz_loader').hide();
+                $('#advance_quiz_loader').parent().removeClass('loading-screen-parent');
             }
         });
     }
 
     function getMediaUploadSection() {
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
+        $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-media-upload-section') }}",
             type: 'post',
@@ -1792,11 +1835,16 @@
             },
             success: function(response) {
                 $('.quiz-advanced').html(response);
+                $('#advance_quiz_loader').hide();
+                $('#advance_quiz_loader').parent().removeClass('loading-screen-parent');
             }
         });
     }
 
     function getLevel4AdvanceStep2Details(professionId, type) {
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
+        $('#advance_quiz_loader').show();
         $.ajax({
             url: "{{ url('teenager/get-level4-advance-step2-details') }}",
             type: 'post',
@@ -1817,71 +1865,173 @@
                 setTimeout(function () {
                     $(".l4-advance-div").hide();
                 }, 2500);
+                $('#advance_quiz_loader').hide();
+                $('#advance_quiz_loader').parent().removeClass('loading-screen-parent');
             }
         });
     }
 
     function readURL(input_file) {
         var taskType = $("#activityTasks li.active").attr('id');
+        var tabData = $("#activityTasks li.active a").attr('href');
         if (input_file.files && input_file.files[0]) {
-            $("#imgErr").text('');
-            $("#videoErr").text('');
-            $("#docErr").text('');
+            $("#mediaErr").text('');
             $("#taskSave").removeAttr('disabled');
+            var formData = $(tabData + " .add_advance_task");
             var reader = new FileReader();
             reader.onload = function(e) {
                 var fileType = input_file.files[0];
                 if (taskType == 3) {
                     if (fileType.type == 'image/jpeg' || fileType.type == 'image/jpg' || fileType.type == 'image/png' || fileType.type == 'image/bmp') {
                         if (input_file.files[0].size > 6000000) {
-                            $("#imgErr").text("Maximum File Upload size is 6MB");
-                            $("#taskSave").attr('disabled', 'disabled');
-                            $("#file-input").val('');
+                            formData.find("[id='mediaErr']").text("Maximum File Upload size is 6MB");
+                            formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                            formData.find("#file-input").val('');
                         }else{
-                            $("#imgErr").text(fileType.name);
+                            formData.find("[id='mediaErr']").text(fileType.name);
                         }
                     } else {
-                        $("#imgErr").text("File type not allowed");
-                        $("#taskSave").attr('disabled', 'disabled');
-                        $("#file-input").val('');
+                        formData.find("[id='mediaErr']").text("File type not allowed");
+                        formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                        formData.find("#file-input").val('');
                     }
                 } else if (taskType == 2) {
                     if (fileType.type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || fileType.type == 'application/pdf' || fileType.type == 'application/msword' || fileType.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || fileType.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileType.type == 'application/vnd.ms-powerpoint') {
                         if (input_file.files[0].size > 6000000) {
-                            $("#docErr").text("Maximum File Upload size is 6MB");
-                            $("#taskSave").attr('disabled', 'disabled');
-                            $("#file-input").val('');
+                            formData.find("[id='mediaErr']").text("Maximum File Upload size is 6MB");
+                            formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                            formData.find("#file-input").val('');
                         }else{
-                            $("#docErr").text(fileType.name);
+                            formData.find("[id='mediaErr']").text(fileType.name);
                         }
                     } else {
-                        $("#docErr").text("File type not allowed");
-                        $("#taskSave").attr('disabled', 'disabled');
-                        $("#file-input").val('');
+                        formData.find("[id='mediaErr']").text("File type not allowed");
+                        formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                        formData.find("#file-input").val('');
                     }
                 } else if (taskType == 1) {
                     if (fileType.type == 'video/mp4' || fileType.type == 'audio/x-m4a' || fileType.type == 'video/3gpp' || fileType.type == 'video/mkv' || fileType.type == 'video/avi' || fileType.type == 'video/flv'){
                         if (input_file.files[0].size > 6000000) {
-                            $("#videoErr").text("Maximum File Upload size is 6MB");
-                            $("#taskSave").attr('disabled', 'disabled');
-                            $("#file-input").val('');
+                            formData.find("[id='mediaErr']").text("Maximum File Upload size is 6MB");
+                            formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                            formData.find("#file-input").val('');
                         }else{
-                            $("#videoErr").text(fileType.name);
+                            formData.find("[id='mediaErr']").text(fileType.name);
                         }
                     }else{
-                        $("#videoErr").text("File type not allowed");
-                        $("#taskSave").attr('disabled', 'disabled');
-                        $("#file-input").val('');
+                        formData.find("[id='mediaErr']").text("File type not allowed");
+                        formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                        formData.find("#file-input").val('');
                     }
                 } else {
-                    //$("#imgErr").text("File type not allowed");
-                    $("#taskSave").attr('disabled', 'disabled');
-                    $("#file-input").val('');
+                    formData.find("[id='mediaErr']").text("File type not allowed");
+                    formData.find("[id='taskSave']").attr('disabled', 'disabled');
+                    formData.find("#file-input").val('');
                 }
             };
             reader.readAsDataURL(input_file.files[0]);
         }
     }
+
+    $(document).on('submit','.add_advance_task', function(){
+        var clikedForm = $(this); // Select Form
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        if (clikedForm.find("[name='media']").val() == '') {
+            clikedForm.find("[id='mediaErr']").text("Please upload appropriate media file");
+            return false;
+        } else {
+            clikedForm.find("[id='taskSave']").toggleClass('sending').blur();
+            $.ajax({
+                url: "{{ url('teenager/submit-level4-advance-activity') }}",
+                type: "POST",
+                data: new FormData(this),
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(data) {
+                    clikedForm.find("[id='taskSave']").removeClass('sending').blur();
+                    if (data.status == 1) {
+                        var taskType = $("#activityTasks li.active").attr('id');
+                        getLevel4AdvanceStep2Details('{{$professionsData->id}}', taskType);
+                    } 
+                    clikedForm.find("[id='mediaErr']").html(data.message).fadeIn();
+                },
+                error: function(e)
+                {
+                    clikedForm.find("[id='taskSave']").removeClass('sending').blur();
+                    clikedForm.find("[id='mediaErr']").html(e).fadeIn();
+                }
+            });
+            return false;
+        }
+    });
+
+    $(document).on('submit','.advance_task_review',function(){
+        var clikedForm = $(this); // Select Form
+        clikedForm.find("[id='mediaSubmit']").toggleClass('sending').blur();
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "{{ url('teenager/submit-level4-advance-activity-for-review') }}",
+            type: "POST",
+            data: new FormData(this),
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(response) {
+                clikedForm.find("[id='mediaSubmit']").removeClass('sending').blur();
+                if (response.status != 0) {
+                    $(".l4-advance-div").addClass('alert-success');
+                } else {
+                    $(".l4-advance-div").addClass('alert-error danger');
+                }
+                $("#l4AdvanceMessage").text(response.message);
+                $(".l4-advance-div").show();
+                getLevel4AdvanceStep2Details('{{$professionsData->id}}', response.mediaType);
+                setTimeout(function () {
+                    $(".l4-advance-div").hide();
+                }, 2500);
+            }
+        });
+        return false;
+    });
+
+    function deleteLevel4AdvanceTaskUser(mediaId, mediaName, mediaType) {
+        resdelete = confirm('Are you sure you want to delete this record?');
+        if (resdelete) {
+            $.ajax({
+                url: "{{ url('teenager/delete-user-advance-task') }}",
+                type: 'post',
+                data: {
+                    "_token": '{{ csrf_token() }}',
+                    "taskId": mediaId,
+                    "mediaName": mediaName,
+                    "mediaType": mediaType
+                },
+                success: function(response) {
+                    if (response.status != 0) {
+                        $(".l4-advance-div").addClass('alert-success');
+                    } else {
+                        $(".l4-advance-div").addClass('alert-error danger');
+                    }
+                    $("#l4AdvanceMessage").text(response.message);
+                    $(".l4-advance-div").show();
+                    getLevel4AdvanceStep2Details('{{$professionsData->id}}', mediaType);
+                    setTimeout(function () {
+                        $(".l4-advance-div").hide();
+                    }, 2500);
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+
 </script>
 
 @stop

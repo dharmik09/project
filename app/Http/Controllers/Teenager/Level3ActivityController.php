@@ -68,7 +68,7 @@ class Level3ActivityController extends Controller {
             if (isset($teenagerLevelPoints) && !empty($teenagerLevelPoints)) {                               
                 $teenagerLevel3PointsRow['tlb_points'] = $teenagerLevelPoints->tlb_points + $points;   
                 unset($teenagerLevel3PointsRow['updated_at']);
-                $teenagerLevelPoints = $this->teenagerBoosterPoint->updateTeenagerBoosterPoint($teenagerLevelPoints->id,$teenagerLevel3PointsRow);
+                $teenagerLevelPoints = $this->teenagerBoosterPoint->updateTeenagerBoosterPoint($teenagerLevelPoints->id,$teenagerLevel3PointsRow,$points);
             } else {
                 $teenagerLevel3PointsRow['tlb_points'] = $points;
                 $teenagerLevelPoints = $this->teenagerBoosterPoint->addTeenagerBoosterPoint($teenagerLevel3PointsRow);                

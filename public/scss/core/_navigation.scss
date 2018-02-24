@@ -1,12 +1,17 @@
 nav {
     background-color: $dark;
     .logo {
-        padding: 12px 0;
-        @include maxsm {
+        padding:1px 0 0;
+        @include maxsm{
+            img{
+                max-width: 74%;
+            }
+        }
+        @include maxms {
             padding: 12px 0;
             width: 85px;
             img {
-                max-width: 74%;
+                max-width: 80%;
             }
         }
     }

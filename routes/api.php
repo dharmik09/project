@@ -101,6 +101,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 
 	//Learning Guidance
 	Route::post('/learningGuidance', 'Webservice\HomeController@learningGuidance');
+	Route::post('/saveConsumedCoinsDetails', 'Webservice\HomeController@saveConsumedCoinsDetails');
 
 	//Level 2 Activity
 	Route::post('/getLevel2Activity', 'Webservice\level2ActivityController@getLevel2Activity');
@@ -164,8 +165,19 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/applyForScholarshipProgram', 'Webservice\Level4ActivityController@applyForScholarshipProgram');
 	Route::post('/getParentAndMentorListForChallengePlay', 'Webservice\Level4ActivityController@getParentAndMentorListForChallengePlay');
 	Route::post('/challengeToParentOrMentorForProfession', 'Webservice\Level4ActivityController@challengeToParentOrMentorForProfession');
+	Route::post('/getTeenParentChallengeScoreDetails', 'Webservice\Level4ActivityController@getTeenParentChallengeScoreDetails');
 	Route::post('/getCareerPageAdvanceViewDetails', 'Webservice\Level4ActivityController@getCareerPageAdvanceViewDetails');
 
 	//Advertisements
 	Route::post('/getDashboardAdvertisements', 'Webservice\DashboardController@getDashboardAdvertisements');
+
+	//L4 Advance Activity
+	Route::post('/getL4AdvanceActivityMediaWiseDescription', 'Webservice\Level4AdvanceActivityController@getL4AdvanceActivityMediaWiseDescription');
+	Route::post('/getL4AdvanceActivityUploadedMediaDescription', 'Webservice\Level4AdvanceActivityController@getL4AdvanceActivityUploadedMediaDescription');
+	Route::post('/saveLevel4AdvanceUserTask', 'Webservice\Level4AdvanceActivityController@saveLevel4AdvanceUserTask');
+	Route::post('/submitLevel4AdvanceTaskForReview', 'Webservice\Level4AdvanceActivityController@submitLevel4AdvanceTaskForReview');
+	Route::post('/deleteLevel4AdvanceTask', 'Webservice\Level4AdvanceActivityController@deleteLevel4AdvanceTask');
+
+    //L3 Research Activity 
+    Route::post('/saveL3BoosterPointCareerResearch', 'Webservice\level3ActivityController@saveL3BoosterPointCareerResearch');
 });

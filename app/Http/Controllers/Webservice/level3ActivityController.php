@@ -26,6 +26,9 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use App\ProfessionSubject;
 use App\ProfessionTag;
+use App\TeenagerBoosterPoint;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class level3ActivityController extends Controller {
 
@@ -59,6 +62,9 @@ class level3ActivityController extends Controller {
         $this->objInterest = new Interest;   
         $this->objSubject = new ProfessionSubject;
         $this->objTag = new ProfessionTag;
+        $this->teenagerBoosterPoint = new TeenagerBoosterPoint();
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
     }
 
     public function getAllBasktes(Request $request) {
@@ -458,8 +464,15 @@ class level3ActivityController extends Controller {
                 }
 
                 $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $teenager->id);
-
+                
+                
+                
                 if($professionsData){
+                    
+                    $getTeenagerHML = Helpers::getTeenagerMatchScale($teenager->id);
+                    
+                    $professionHMLScale = isset($getTeenagerHML[$professionsData->id])?$getTeenagerHML[$professionsData->id]:'nomatch';
+                    
                     $professionsData->countryId = $countryId;
                     if($professionsData->pf_logo != '' && Storage::size($this->professionThumbUrl . $professionsData->pf_logo) > 0){
                         $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $professionsData->pf_logo);
@@ -467,7 +480,9 @@ class level3ActivityController extends Controller {
                     else{
                         $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                     }
-
+                    
+                    $professionsData['professionMatchScale'] = $professionHMLScale;
+                    
                     $youtubeId = Helpers::youtube_id_from_url($professionsData->pf_video);
                     if($youtubeId != ''){
                         $professionsData->pf_video = $youtubeId;
@@ -785,6 +800,21 @@ class level3ActivityController extends Controller {
                     }
                     $professionsData->mediumSizeAds = $mediumAdImages;
                     $professionsData->bannerSizeAds = $bannerAdImages;
+
+                    //Advance activity details
+                    $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.ADVANCE_ACTIVITY'));
+                    $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($request->userId, $componentsData->id, 1, $professionsData->id) : [];
+                    $remainingDaysForActivity = 0;
+                    if (!empty($deductedCoinsDetail[0])) {
+                        $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+                    }
+                    $advanceActivityDetails = [];
+                    $advanceActivityDetails['componentId'] = $componentsData->id;
+                    $advanceActivityDetails['componentName'] = Config::get('constant.ADVANCE_ACTIVITY');
+                    $advanceActivityDetails['componentCoins'] = $componentsData->pc_required_coins;
+                    $advanceActivityDetails['remainingDays'] = $remainingDaysForActivity;
+
+                    $professionsData->advanceActivityDetails = $advanceActivityDetails;
 
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);
@@ -1219,5 +1249,82 @@ class level3ActivityController extends Controller {
         }
         return response()->json($response, 200);
     }
+    
+    /*
+     * Save teen data for L3 career attempt 
+     */
+    public function saveL3BoosterPointCareerResearch(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        $this->log->info('Save teenager L3 career research booster point for userId'.$request->userId , array('api-name'=> 'level3CareerResearch'));
+        
+        if($request->userId != "" && $teenager) {
+            if($request->professionId != "") {
+                $teenagerId = $request->userId;
+                $professionId = $request->professionId;
+                $type = $request->type;
+                $isYouTube = $request->isYouTube;
+                $points = ($isYouTube == 1)?config::get('constant.LEVEL3_PROFESSION_POINTS'):(2*config::get('constant.LEVEL3_PROFESSION_POINTS'));
 
+                $teenagerLevelPoints = $this->teenagerBoosterPoint->getTeenagerBoosterPoint($teenagerId,config::get('constant.LEVEL3_ID'));
+
+                $addPoint = "no";
+                $teenagerProfessionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($teenagerId, $professionId, $type);
+
+                if (count($teenagerProfessionAttempted) > 0) {
+                   $addedtype = $teenagerProfessionAttempted[0]->tpa_type;
+                    $addedtypeArr = explode(',', $addedtype);
+                    if (!in_array($type, $addedtypeArr)) {
+                        if ($addedtypeArr[0] == '') {
+                            $addedtype = $type;
+                        } else {
+                            $addedtype = $addedtypeArr[0] . ',' . $type;
+                        }
+                        $addData = $this->professionsRepository->addTeenagerProfessionAttempted($teenagerId, $professionId, $addedtype, $operation = 'update');
+                        $addPoint = "yes";
+                    } else {
+                        $addPoint = "no";
+                    } 
+                } else {
+                    $addData = $this->professionsRepository->addTeenagerProfessionAttempted($teenagerId, $professionId, $type, $operation = 'add');
+                    $addPoint = "yes";            
+                }
+
+                $teenagerLevel3PointsRow['tlb_teenager'] = $teenagerId;
+                $teenagerLevel3PointsRow['tlb_level'] = config::get('constant.LEVEL3_ID');
+
+                if ($addPoint == "yes") {            
+                    if (isset($teenagerLevelPoints) && !empty($teenagerLevelPoints)) {                               
+                        $teenagerLevel3PointsRow['tlb_points'] = $teenagerLevelPoints->tlb_points + $points;   
+                        unset($teenagerLevel3PointsRow['updated_at']);
+                        $teenagerLevelPoints = $this->teenagerBoosterPoint->updateTeenagerBoosterPoint($teenagerLevelPoints->id,$teenagerLevel3PointsRow);
+                    } else {
+                        $teenagerLevel3PointsRow['tlb_points'] = $points;
+                        $teenagerLevelPoints = $this->teenagerBoosterPoint->addTeenagerBoosterPoint($teenagerLevel3PointsRow);                
+                    }
+                    $proCoins = Teenagers::find($teenagerId);
+                    $configValue = Helpers::getConfigValueByKey('PROCOINS_FACTOR_L1');
+                    if($proCoins) {
+                        $proCoins->t_coins = (int)$proCoins->t_coins + ( $points * $configValue );
+                        $proCoins->save();
+                    }
+                } 
+                $response['data'] = trans('appmessages.data_empty_msg');
+                $response['status'] = 1;
+                $response['login'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+            }else{
+                $response['status'] = 0;
+                $response['login'] = 1;
+                $this->log->error('Parameter missing error' , array('api-name'=> 'level3CareerResearch'));
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+        }else 
+        {
+            $this->log->error('Parameter missing error' , array('api-name'=> 'level3CareerResearch'));
+            $response['message'] = trans('appmessages.missing_data_msg');
+        }
+        return response()->json($response, 200);  
+    }    
 }

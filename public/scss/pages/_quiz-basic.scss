@@ -306,6 +306,10 @@
             min-height: 92px;
             padding: 10px;
             margin-bottom: 15px;
+            font-size: 18px;
+            @include maxsm{
+                font-size: 14px;
+            }
             img {
                 width: 70px;
                 height: 70px;
@@ -335,6 +339,10 @@
             cursor: -webkit-grab;
             transition: .3s all ease-out;
             overflow-y: auto;
+            font-size: 18px;
+            @include maxsm{
+                font-size: 14px;
+            }
             &:hover {
                 transform: scale(1.05);
             }
@@ -510,6 +518,9 @@
                     }
                     &.approved {
                         background: $m-cl;
+                    }
+                    &.rejected{
+                        background: $p-cl;
                     }
                 }
             }
@@ -1017,4 +1028,7 @@
     @include maxms{
         max-width: 100%;
     }
+}
+.form-imgSubmit{
+    margin-bottom: 20px;
 }

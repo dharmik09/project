@@ -73,6 +73,35 @@ class CommunityManagementController extends Controller {
             if($teenDetails->id == Auth::guard('teenager')->user()->id){
                 return Redirect::to("teenager/my-profile");
             }
+            
+            //register user in applozic if already not available
+            if($teenDetails->is_chat_initialized == 0)
+            {
+                $teenUniqueId = $teenDetails->t_uniqueid;
+                $user_profile_thumb_image = ($teenDetails->t_photo != "" && Storage::size('uploads/teenager/thumb/'.$teenDetails->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.$teenDetails->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png');            
+                //check if user is there on applozic or not
+                $postData = array('userId' => $teenUniqueId,'displayName' => $teenDetails->t_name, 'imageLink'=>$user_profile_thumb_image);
+                $jsonData = json_encode($postData);
+
+                $curlObj = curl_init();
+
+                curl_setopt($curlObj, CURLOPT_URL, 'https://apps.applozic.com/rest/ws/user/v2/create');
+                curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($curlObj, CURLOPT_HEADER, 0);
+                curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json','Apz-AppId:'.Config::get('constant.APP_LOGIC_CHAT_API_KEY'),'Apz-Token:BASIC cHJvdGVlbmxpZmVAZ21haWwuY29tOiFQcm9UZWVubGlmZSE='));
+                curl_setopt($curlObj, CURLOPT_POST, 1);
+                curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
+
+                $result = curl_exec($curlObj);
+                $json = json_decode($result);
+                //Update user info 
+
+                $teenagerDetail['is_chat_initialized'] = 1; 
+                $update = $this->teenagersRepository->updatePaymentStatus($teenDetails->id, $teenagerDetail);            
+                exit; 
+            }
+            
             $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($teenDetails->id);
             $connectionStatus = $this->communityRepository->checkTeenConnectionStatusForNetworkMemberPage($teenDetails->id, Auth::guard('teenager')->user()->id);
             $myConnections = $this->communityRepository->getMyConnections($teenDetails->id);

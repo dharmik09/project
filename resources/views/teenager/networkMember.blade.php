@@ -141,7 +141,7 @@
 	                        </div>
 	                    @endif
                         <div class="chat-icon">
-                            <a href="#" title="Chat"><i class="icon-chat"></i></a>
+                            <a href="{{ url('/teenager/chat') }}/{{$teenDetails->t_uniqueid}}" title="Chat"><i class="icon-chat"></i></a>
                         </div>
                         <p>{{ ($teenDetails->t_about_info != "") ? $teenDetails->t_about_info : "" }}</p>
                     </div>

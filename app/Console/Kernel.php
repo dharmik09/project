@@ -19,7 +19,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\InactiveUserNotification',
         'App\Console\Commands\expiredProCoinsForTeenager',
         'App\Console\Commands\resetAdminGiftedProCoins',
-        'App\Console\Commands\CreateSlug'
+        'App\Console\Commands\CreateSlug',
+        'App\Console\Commands\CalculateHMLScore'
     ];
 
     /**

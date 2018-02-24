@@ -127,6 +127,7 @@ Route::post('save-level1-trait', 'Teenager\Level1ActivityController@saveLevel1Tr
 
 //Chat
 Route::get('/chat', 'Teenager\ChatController@index');
+Route::get('/chat/{uniqueId}', 'Teenager\ChatController@index');
 Route::post('/getChatUsers', 'Teenager\ChatController@getChatUsers');
 Route::post('/registerUserInAppLozic', 'Teenager\ChatController@registerUserInAppLozic');
 
@@ -153,6 +154,9 @@ Route::post('/save-intermediate-level-activity', 'Teenager\Level4ActivityControl
 Route::post('/get-question-data-advance-level', 'Teenager\Level4AdvanceActivityController@getQuestionDataAdvanceLevel');
 Route::post('/get-media-upload-section', 'Teenager\Level4AdvanceActivityController@getMediaUploadSection');
 Route::post('/get-level4-advance-step2-details', 'Teenager\Level4AdvanceActivityController@getLevel4AdvanceStep2Details');
+Route::post('/submit-level4-advance-activity', 'Teenager\Level4AdvanceActivityController@submitLevel4AdvanceActivity');
+Route::post('/submit-level4-advance-activity-for-review', 'Teenager\Level4AdvanceActivityController@submitLevel4AdvanceActivityForReview');
+Route::post('/delete-user-advance-task', 'Teenager\Level4AdvanceActivityController@deleteUserAdvanceTask');
 
 //Forum Module
 Route::get('/forum-questions', 'Teenager\ForumController@index');
@@ -161,3 +165,6 @@ Route::get('/forum-question/{id}', 'Teenager\ForumController@getQuestionByQuesti
 Route::post('/fetch-question-answer', 'Teenager\ForumController@getAnswerByQuestionId');
 Route::post('/save-forum-answer', 'Teenager\ForumController@saveForumAnswer');
 Route::post('/get-user-score-progress', 'Teenager\HomeController@getUserScoreProgress');
+
+//Get User unread message count chat
+Route::post('/get-user-unread-message-chat', 'Teenager\ProfileController@getUserUnreadMessageCountChat');

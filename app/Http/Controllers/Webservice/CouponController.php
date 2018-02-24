@@ -154,7 +154,7 @@ class CouponController extends Controller
                             $data['tcu_consumed_email'] = (isset($request->consumedEmail) && !empty($request->consumedEmail) && $request->consumedEmail != '' && $request->type == 'gift') ? $request->consumedEmail : $teenager->t_email;
                             $data['tcu_type'] = $request->type;
                             $data['couponData'] = $couponData;
-                            $data['consumedEmail'] = $request->consumedEmail;
+                            $data['consumedEmail'] = (isset($request->consumedEmail) && !empty($request->consumedEmail) && $request->consumedEmail != '' && $request->type == 'gift') ? $request->consumedEmail : $teenager->t_email;
                             $data['teenager'] = $teenager;
 
                             Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
