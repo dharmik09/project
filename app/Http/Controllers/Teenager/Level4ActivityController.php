@@ -101,8 +101,8 @@ class Level4ActivityController extends Controller {
                     $array['points'] = 0;
                     $array['timer'] = 0;
                     $array['answerID'] = 0;
-                    $answerID == 0;
-                    $timer == 0;
+                    $answerID = 0;
+                    $timer = 0;
                 }
 
                 if ($answerID == 0 && $timer == 0) {
@@ -129,6 +129,23 @@ class Level4ActivityController extends Controller {
 
                 //Save user response data for basic question
                 $questionsArray = $this->level4ActivitiesRepository->saveTeenagerActivityResponse($userId, $data['answers']);
+
+                $templateId = "L4B";
+                $objProfessionLearningStyle = new ProfessionLearningStyle();
+                $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId, $templateId);
+                if ($learningId != '') {
+                    $objUserLearningStyle = new UserLearningStyle();
+                    $learningData = $objUserLearningStyle->getUserLearningStyle($learningId);
+                    if (!empty($learningData)) {
+                        $array['points'] += $learningData->uls_earned_points;
+                    }
+                    $userData = [];
+                    $userData['uls_learning_style_id'] = $learningId;
+                    $userData['uls_profession_id'] = $professionId;
+                    $userData['uls_teenager_id'] = $userId;
+                    $userData['uls_earned_points'] = $array['points'];
+                    $result = $objUserLearningStyle->saveUserLearningStyle($userData);
+                }
 
                 $getQuestionOPtionFromQuestionId = $this->level4ActivitiesRepository->getQuestionOPtionFromQuestionId($questionID);
                 $answerArrayId = explode(',', $getQuestionOPtionFromQuestionId->options_id);

@@ -17,8 +17,11 @@ use Monolog\Handler\StreamHandler;
 use App\SponsorsActivity;
 use App\TeenagerScholarshipProgram;
 use App\TeenParentChallenge;
+use App\ProfessionLearningStyle;
+use App\UserLearningStyle;
 use App\Services\Parents\Contracts\ParentsRepository;
 use App\Services\Template\Contracts\TemplatesRepository;
+use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use Mail;
 use App\PromiseParametersMaxScore;
 use App\TeenagerPromiseScore;
@@ -32,10 +35,11 @@ use App\Professions;
 
 class Level4ActivityController extends Controller {
 
-    public function __construct(TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository) 
+    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository) 
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->professionsRepository = $professionsRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->objSponsorsActivity = new SponsorsActivity; 
         $this->objTeenagerScholarshipProgram = new TeenagerScholarshipProgram;
         $this->objTeenParentChallenge = new TeenParentChallenge;
@@ -507,4 +511,126 @@ class Level4ActivityController extends Controller {
         exit;
     }
 
+    /* Request Params : getLevel4BasicQuestions
+     *  loginToken, userId, professionId
+     */
+    public function getLevel4BasicQuestions(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->professionId) && $request->professionId != "") {
+                $totalQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($teenager->id, $request->professionId);
+                $activities = $this->level4ActivitiesRepository->getNotAttemptedActivities($teenager->id, $request->professionId);
+                if (isset($activities[0]) && !empty($activities[0])) {
+                    $activity = $activities;
+                } else {
+                    $activity = [];
+                }
+                $totalQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($teenager->id, $request->professionId);
+                $response['status'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['NoOfTotalQuestions'] = $totalQuestion[0]->NoOfTotalQuestions;
+                $response['NoOfAttemptedQuestions'] = $totalQuestion[0]->NoOfAttemptedQuestions;
+                $response['data'] = $activity;
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;     
+    }
+
+    /* Request Params : saveLevel4BasicQuestions
+     *  loginToken, userId, questionId, timer, answerId
+     *  For multi select options answer. It's in commaseprate value in request params answerId.
+     */
+    public function saveLevel4BasicQuestions(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->questionId) && $request->questionId != "") {
+                $timer = ($request->timer != "" && $request->timer > 0) ? $request->timer : 0;
+                $answerID = ($request->answerId != "") ? $request->answerId : 0;
+                //$answerID = (count($answerArray) > 0) ? implode(',', $answerArray) : $answerArray;
+                $questionId = ($request->questionId != "" && $request->questionId > 0) ? $request->questionId : '';
+                
+                $getAllQuestionRelatedDataFromQuestionId = $this->level4ActivitiesRepository->getAllQuestionRelatedDataFromQuestionId($questionId);
+                $array = [];
+
+                if ($getAllQuestionRelatedDataFromQuestionId && !empty($getAllQuestionRelatedDataFromQuestionId)) {
+                    $points = $getAllQuestionRelatedDataFromQuestionId->points;
+                    $type = $getAllQuestionRelatedDataFromQuestionId->type;
+                    $professionId = $getAllQuestionRelatedDataFromQuestionId->profession_id;
+                    
+                    $ansCorrect = $this->level4ActivitiesRepository->checkQuestionRightOrWrong($questionId, $answerID);
+                    
+                    if ($timer != 0 && $getAllQuestionRelatedDataFromQuestionId->timer < $timer) {
+                        $array['points'] = 0;
+                        $array['timer'] = 0;
+                        $array['answerID'] = 0;
+                        $answerID = 0;
+                        $timer = 0;
+                    }
+
+                    if ($answerID == 0 && $timer == 0) {
+                        $array['points'] = 0;
+                        $array['timer'] = 0;
+                        $array['answerID'] = 0;
+                    } else {
+                        $array['points'] = (isset($ansCorrect) && $ansCorrect == 1) ? $points : 0;
+                        $array['answerID'] = $answerID;
+                        $array['timer'] = $timer;
+                    }
+
+                    $array['questionID'] = $questionId;
+                    $array['earned_points'] = $array['points'];
+                    $array['profession_id'] = $professionId;
+
+                    $data['answers'][] = $array;
+
+                    //Save user response data for basic question
+                    $questionsArray = $this->level4ActivitiesRepository->saveTeenagerActivityResponse($request->userId, $data['answers']);
+
+                    $templateId = "L4B";
+                    $objProfessionLearningStyle = new ProfessionLearningStyle();
+                    $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId, $templateId);
+                    if ($learningId != '') {
+                        $objUserLearningStyle = new UserLearningStyle();
+                        $learningData = $objUserLearningStyle->getUserLearningStyle($learningId);
+                        if (!empty($learningData)) {
+                            $array['points'] += $learningData->uls_earned_points;
+                        }
+                        $userData = [];
+                        $userData['uls_learning_style_id'] = $learningId;
+                        $userData['uls_profession_id'] = $professionId;
+                        $userData['uls_teenager_id'] = $request->userId;
+                        $userData['uls_earned_points'] = $array['points'];
+                        $result = $objUserLearningStyle->saveUserLearningStyle($userData);
+                    }
+
+                    $response['status'] = 1;
+                    $response['professionId'] = $professionId;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['data'] = $questionsArray;
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = "Wrong Question Submitted!";
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
 }
