@@ -413,14 +413,14 @@ class ProfessionManagementController extends Controller {
                 $data = [];
                 $count = 0;
                 foreach ($value as $k => $v) {
-                    if($k != 'profession_name' && $v == "Yes"){
+                    if($k != 'profession_name' && strtolower($v) == "yes"){
                         $certificateData = $this->objCertification->getProfessionCertificationByName($excelHeaderData[0][$count]);
                         if ($certificateData){
                             $data = [];
                             $data['profession_id'] = $professionsData->id;
                             $data['certificate_id'] = $certificateData->id;
 
-                            $checkIfRecordExist = $this->objProfessionWiseCertification->checkProfessionWiseCertificateByTagIdAndProfessionId($certificateData->id,$professionsData->id);
+                            $checkIfRecordExist = $this->objProfessionWiseCertification->checkProfessionWiseCertificateByCertificateIdAndProfessionId($certificateData->id,$professionsData->id);
                             if(count($checkIfRecordExist)>0)
                             {
                                 $data['id'] = $checkIfRecordExist->id;
@@ -532,7 +532,7 @@ class ProfessionManagementController extends Controller {
                 $data = [];
                 $count = 0;
                 foreach ($value as $k => $v) {
-                    if($k != 'profession_name' && $v == "Yes"){
+                    if($k != 'profession_name' && strtolower($v) == "yes"){
                         $tagData = $this->objTag->getProfessionTagByName($excelHeaderData[0][$count]);
                         if ($tagData){
                             $data = [];
