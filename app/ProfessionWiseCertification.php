@@ -63,7 +63,7 @@ class ProfessionWiseCertification extends Model
     /**
      * check Profession Wise Certificate exist
      */
-    public function checkProfessionWiseCertificateByTagIdAndProfessionId($certificateId,$professionId) {
+    public function checkProfessionWiseCertificateByCertificateIdAndProfessionId($certificateId,$professionId) {
         $return = ProfessionWiseCertification::where('certificate_id',$certificateId)->where('profession_id',$professionId)->first();
         return $return;
     }
