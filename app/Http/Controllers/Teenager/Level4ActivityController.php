@@ -34,7 +34,6 @@ class Level4ActivityController extends Controller {
         $this->optionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->optionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH');
         $this->answerResponseImageOriginal = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH');
-        
     }
 
     /*
@@ -196,9 +195,10 @@ class Level4ActivityController extends Controller {
                 $intermediateActivitiesData = $intermediateActivities[0];
                 
                 $intermediateActivitiesData->gt_temlpate_answer_type = Helpers::getAnsTypeFromGamificationTemplateId($intermediateActivitiesData->l4ia_question_template);
-                $intermediateActivitiesData->l4ia_extra_question_time = 120;
+                $intermediateActivitiesData->l4ia_extra_question_time = $this->extraQuestionDescriptionTime;
                 $timer = $intermediateActivitiesData->l4ia_question_time;
                 $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
+                //Question Popup Image
                 $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "" && Storage::size($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) : '';
                 $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
                 
@@ -227,6 +227,7 @@ class Level4ActivityController extends Controller {
                 } else {
                     $intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
                 }
+
             } else {
                 $intermediateActivitiesData = [];
                 $timer = 0;
@@ -252,6 +253,9 @@ class Level4ActivityController extends Controller {
                 return view('teenager.basic.careerIntermediateDropDownSelectQuestion', compact('response'));
             } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "option_reorder") {
                 return view('teenager.basic.careerIntermediateOptionReorderQuestion', compact('response'));
+            } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "image_reorder") {
+                //return view('teenager.basic.careerIntermediateImageReorderQuestion', compact('response'));
+                return view('teenager.basic.careerIntermediateQuizQuestion', compact('response'));
             } else {
                 
             }
