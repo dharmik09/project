@@ -101,7 +101,15 @@ class DashboardController extends Controller
             $profileComplete = Helpers::calculateProfileComplete($teenager->id);
             $teenager->progress = $profileComplete;
             $teenager->total_points = ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? $basicBoosterPoint['Total'] : 0;
-            $teenager->recent_progress = "You advanced 7% on your last visit. Well done you!";
+
+            $profileComplete =  Helpers::calculateProfileComplete($teenager->id);
+            if($teenager->t_logout_progress == 0 && $teenager->t_progress_calculations == 0){
+                $teenager->recent_progress = 'Welcome! Now complete your profile';
+            }
+            else{
+                $teenager->recent_progress = "You advanced " . $teenager->t_progress_calculations . "% on your last visit";
+            }
+            //$teenager->recent_progress = "You advanced 7% on your last visit. Well done you!";
             
             $response['login'] = 1;
             $response['status'] = 1;

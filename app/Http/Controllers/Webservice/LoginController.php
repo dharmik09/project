@@ -118,10 +118,13 @@ class LoginController extends Controller
         if($request->userId != "" && $request->deviceId != "" && $request->token != "") {
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($request->userId);
             if ($checkuserexist) {
-                $userId = $request->userId;
+                $user = Teenagers::find($request->userId);
                 $token = $request->token;
                 $result = $this->objDeviceToken->deleteDeviceToken($request->userId, $token);
                 $return = $this->objTeenagerLoginToken->deletedTeenagerLoginDetail($request->userId, $request->deviceId);
+                $currentProgress = Helpers::calculateProfileComplete($request->userId);
+                $increasedProgress = $currentProgress - $user->t_logout_progress;
+                $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($request->userId, $increasedProgress, $currentProgress);
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
             } else {
