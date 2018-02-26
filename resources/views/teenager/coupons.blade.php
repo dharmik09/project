@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <h1 class="font-blue">coupons</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pretium pellentesque commodo.</p>
+                <p>You can avail coupons from your selected sponsors on ProTeen!</p>
             </div>
         </div>
         <!--coupons sec-->
