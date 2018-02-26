@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <h1 class="font-blue">coupons</h1>
-                <p>You can avail coupons from your selected sponsors on ProTeen!</p>
+                <p>Avail coupons from your selected sponsors!</p>
             </div>
         </div>
         <!--coupons sec-->
