@@ -371,7 +371,7 @@ class Level4AdvanceActivityController extends Controller {
                 if (isset($professionDetail) && !empty($professionDetail)) {
                     if (isset($type) && in_array($type, $validTypeArr)) {
                         if (isset($taskId) && !empty($taskId)) {
-                            $dataIdArr = explode(', ', $taskId);
+                            $dataIdArr = explode(',', $taskId);
                         } 
                         $sendMail = false;
                         if (isset($dataIdArr) && !empty($dataIdArr)) {
