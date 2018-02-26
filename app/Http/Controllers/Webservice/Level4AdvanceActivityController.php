@@ -168,15 +168,20 @@ class Level4AdvanceActivityController extends Controller {
 
                             //Task status
                             if($task->l4aaua_is_verified == 0) {
-                                $mediaData['mediaStatus'] = 'Uploaded'; 
+                                $mediaData['mediaStatus'] = 0; 
+                                $mediaData['statusText'] = 'Uploaded'; 
                             } else if($task->l4aaua_is_verified == 1) {
-                                $mediaData['mediaStatus'] = 'Under Review';
+                                $mediaData['mediaStatus'] = 1; 
+                                $mediaData['statusText'] = 'Under Review';
                             } else if($task->l4aaua_is_verified == 2) {
-                                $mediaData['mediaStatus'] = 'Approved';
+                                $mediaData['mediaStatus'] = 2; 
+                                $mediaData['statusText'] = 'Approved';
                             } else if($task->l4aaua_is_verified == 3) {
-                                $mediaData['mediaStatus'] = 'Rejected';
+                                $mediaData['mediaStatus'] = 3; 
+                                $mediaData['statusText'] = 'Rejected';
                             } else {
                                 $mediaData['mediaStatus'] = ''; 
+                                $mediaData['statusText'] = '';
                             }
 
                             //Task delete status
@@ -186,8 +191,9 @@ class Level4AdvanceActivityController extends Controller {
                             $mediaData['mediaEarnedPoints'] = (isset($task->l4aaua_earned_points) && $task->l4aaua_earned_points > 0) ? $task->l4aaua_earned_points : '';
 
                             //Task date
+                            $mediaData['createdDate'] = date('jS M Y', strtotime($task->created_at));
                             if($task->l4aaua_is_verified == 0 || $task->l4aaua_is_verified == 1) {
-                                $mediaData['mediaDate'] = date('jS M Y', strtotime($task->created_at));
+                                $mediaData['mediaDate'] = '';
                                 $mediaData['adminName'] = '';
                             }
                             else if($task->l4aaua_is_verified == 2) {

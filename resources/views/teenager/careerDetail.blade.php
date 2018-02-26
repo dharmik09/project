@@ -2032,6 +2032,32 @@
         }
     }
 
+    function viewImage(taskId) {
+        var modal = document.getElementById('l4advanceImage');
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var imgSrc = $('.l4advance'+taskId).attr('src');
+        var imgAlt = $('.l4advance'+taskId).attr('alt');
+        var modalImg = $("#img01");
+        var captionText = document.getElementById("caption");
+        //$('.myImg').click(function() {
+            modal.style.display = "block";
+            //var newSrc = img;
+            modalImg.attr('src', imgSrc);
+            captionText.innerHTML = imgAlt;
+        //});
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    // $(".close-modal").onclick(function() {
+    //     alert();    
+        
+    // });
+
+    $(document).on("click", '.close-modal', function(event) { 
+        var modal = document.getElementById('l4advanceImage');
+        modal.style.display = "none";
+    });
+
 </script>
 
 @stop

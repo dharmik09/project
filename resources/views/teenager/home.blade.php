@@ -23,7 +23,7 @@
                                     <h6>Your Progress</h6>
                                     <h2 id="user_progress">{{Helpers::calculateProfileComplete(Auth::guard('teenager')->user()->id)}}%</h2>
                                     <h5><span id="user_total_point"> {{ ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? number_format($basicBoosterPoint['Total']) : 0 }}</span> points</h5>
-                                    <p>You advanced 7% on your last visit. Well done you!</p>
+                                    <p>{{ (isset($profileMessage) && !empty($profileMessage)) ? $profileMessage : '' }}<!--  You advanced 7% on your last visit. Well done you! --></p>
                                 </div>
                                 <!-- your_progress End -->
                             </div>

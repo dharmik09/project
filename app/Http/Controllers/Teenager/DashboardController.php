@@ -78,6 +78,13 @@ class DashboardController extends Controller
     {
         $data = [];
         $user = Auth::guard('teenager')->user();
+        $profileMessage = "Welcome to ProTeen";
+        //Profile completion calculation
+        // if ($user->t_progress_calculations > 0) {
+        //     $profileMessage = "You advanced " . $user->t_progress_calculations . "% on your last visit";
+        // } else {
+        //     $profileMessage = "Welcome to the ProTeen";
+        // }
         $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) : Storage::url($this->teenOriginalImageUploadPath.'proteen-logo.png');
         $data['user_profile_thumb'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : Storage::url($this->teenThumbImageUploadPath.'proteen-logo.png');
         
@@ -175,7 +182,7 @@ class DashboardController extends Controller
             } 
         }
 
-        return view('teenager.home', compact('basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers', 'advertisements'));
+        return view('teenager.home', compact('basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers', 'advertisements', 'profileMessage'));
     }
 
     //Update meta information for teenager

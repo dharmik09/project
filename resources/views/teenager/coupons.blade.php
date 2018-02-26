@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <h1 class="font-blue">coupons</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pretium pellentesque commodo.</p>
+                <p>Avail coupons from your selected sponsors!</p>
             </div>
         </div>
         <!--coupons sec-->

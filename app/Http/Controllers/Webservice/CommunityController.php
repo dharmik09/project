@@ -78,6 +78,8 @@ class CommunityController extends Controller
             if(isset($newConnections) && !empty($newConnections) && count($newConnections) > 0) {
                 foreach($newConnections as $newConnection) {
                     $newConnection->t_photo  = ($newConnection->t_photo != "") ? Storage::url($this->teenagerThumbImageUploadPath.$newConnection->t_photo) : Storage::url($this->teenagerThumbImageUploadPath."proteen-logo.png");
+                    $basicBoosterPoint = Helpers::getTeenagerBasicBooster($newConnection->id);
+                    $newConnection->t_coins = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
                     $data['newConnections'][] = $newConnection;
                 }
             }
@@ -147,6 +149,8 @@ class CommunityController extends Controller
             if(isset($myConnections) && !empty($myConnections) && count($myConnections) > 0) {
                 foreach($myConnections as $myConnection) {
                     $myConnection->t_photo  = ($myConnection->t_photo != "") ? Storage::url($this->teenagerThumbImageUploadPath.$myConnection->t_photo) : Storage::url($this->teenagerThumbImageUploadPath."proteen-logo.png");
+                    $basicBoosterPoint = Helpers::getTeenagerBasicBooster($myConnection->id);
+                    $myConnection->t_coins = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
                     $data['myConnections'][] = $myConnection;
                 }
             }
