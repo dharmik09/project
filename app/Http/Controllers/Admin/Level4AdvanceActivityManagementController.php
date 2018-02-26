@@ -27,6 +27,7 @@ use App\UserLearningStyle;
 use App\DeviceToken;
 use Cache;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use Storage;
 
 class Level4AdvanceActivityManagementController extends Controller {
 
@@ -132,15 +133,16 @@ class Level4AdvanceActivityManagementController extends Controller {
             foreach ($postData['note'] as $key => $value) {
                 $data = $this->level4ActivitiesRepository->getImageNameById($key);
                 $photo = $data[0]->l4aaua_media_name;
-                if ($photo != '' && file_exists($this->level4AdvanceThumbImageUploadPath . $photo)) {
+                if ($photo != '' && Storage::size($this->level4AdvanceThumbImageUploadPath . $photo) > 0) {
                     //$image[] = asset($this->level4AdvanceThumbImageUploadPath . $photo);
-                    $image[] = Config::get('constant.DEFAULT_AWS') . $this->level4AdvanceThumbImageUploadPath . $photo;
+                    $image[] = Storage::url($this->level4AdvanceThumbImageUploadPath . $photo);
                 } else {
-                    $image[] = asset("/backend/images/logo.png");
+                    $image[] = Storage::url("/backend/images/logo.png");
                 }
                 $photos[] = $photo;
             }
         }
+
         $saveUserData = array();
         $earnedPoints = 0;
         if (isset($postData['boosterPoint']) && !empty($postData)) {
@@ -171,6 +173,7 @@ class Level4AdvanceActivityManagementController extends Controller {
                     }
                 }
             }
+
             $teenId = $postData['teenager'];
             $professionId = $postData['profession_id'];
             $templateId = '';
@@ -199,6 +202,7 @@ class Level4AdvanceActivityManagementController extends Controller {
                 $userData['uls_earned_points'] = $earnedPoints;
                 $result = $objUserLearningStyle->saveUserLearningStyle($userData);
             }
+
             $ProfessionName = $this->professionsRepository->getProfessionNameById($professionId);
             $result = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
 
@@ -211,9 +215,9 @@ class Level4AdvanceActivityManagementController extends Controller {
                     $data['message'] = "Congratulations! Your L4 Advanced Submission for ". $ProfessionName ." just got approved";
                     $certificatePath = $this->userCerfificatePath;
                     if ($tData->tdt_device_type == 1) {
-                        $return = Helpers::pushNotificationForiPhone($token,$data,$certificatePath);
+                        //$return = Helpers::pushNotificationForiPhone($token,$data,$certificatePath);
                     } else if ($tData->tdt_device_type == 2) {
-                        $return = Helpers::pushNotificationForAndroid($token,$data);
+                        //$return = Helpers::pushNotificationForAndroid($token,$data);
                     }
                 }
             }
@@ -229,7 +233,6 @@ class Level4AdvanceActivityManagementController extends Controller {
             } else if ($postData['typeId'] == 1) {
               $type = 'Video';
             }
-
             $replaceArray = array();
             $replaceArray['TEEN_NAME'] = $result['t_name'];
             $replaceArray['PROFESSION_NAME'] = $ProfessionName;
