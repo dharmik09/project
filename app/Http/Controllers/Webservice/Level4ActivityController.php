@@ -33,6 +33,7 @@ use App\Apptitude;
 use App\Personality;
 use App\Professions;
 use App\TemplateDeductedCoins;
+use App\Jobs\CalculateProfessionCompletePercentage;
 
 class Level4ActivityController extends Controller {
 
@@ -525,7 +526,6 @@ class Level4ActivityController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if ($teenager) {
             if (isset($request->professionId) && $request->professionId != "") {
-                $totalQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($teenager->id, $request->professionId);
                 $activities = $this->level4ActivitiesRepository->getNotAttemptedActivities($teenager->id, $request->professionId);
                 if (isset($activities[0]) && !empty($activities[0])) {
                     $activity = $activities;
@@ -533,6 +533,9 @@ class Level4ActivityController extends Controller {
                     $activity = [];
                 }
                 $totalQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($teenager->id, $request->professionId);
+                if(isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && ($totalQuestion[0]->NoOfTotalQuestions == $totalQuestion[0]->NoOfAttemptedQuestions) ) {
+                    dispatch( new CalculateProfessionCompletePercentage($request->userId, $request->professionId) );
+                }
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
                 $response['NoOfTotalQuestions'] = $totalQuestion[0]->NoOfTotalQuestions;
@@ -619,6 +622,11 @@ class Level4ActivityController extends Controller {
                         $result = $objUserLearningStyle->saveUserLearningStyle($userData);
                     }
 
+                    $totalQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($request->userId, $professionId);
+                    if(isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && ($totalQuestion[0]->NoOfTotalQuestions == $totalQuestion[0]->NoOfAttemptedQuestions) ) {
+                        dispatch( new CalculateProfessionCompletePercentage($request->userId, $professionId) );
+                    }
+
                     $response['status'] = 1;
                     $response['professionId'] = $professionId;
                     $response['message'] = trans('appmessages.default_success_msg');
@@ -662,8 +670,9 @@ class Level4ActivityController extends Controller {
                 $intermediateCompleted = 0;
                 if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
                     $intermediateCompleted = 1;
+                    dispatch( new CalculateProfessionCompletePercentage($userId, $professionId) );
                 }
-
+                
                 if (isset($intermediateActivities[0]) && !empty($intermediateActivities[0])) {
                     $intermediateActivitiesData = $intermediateActivities[0];
                     $intermediateActivitiesData->gt_temlpate_answer_type = Helpers::getAnsTypeFromGamificationTemplateId($intermediateActivitiesData->l4ia_question_template);
@@ -972,6 +981,13 @@ class Level4ActivityController extends Controller {
                     if (!empty($getTeenagerBoosterPoints2)) {
                         $message = Helpers::sendMilestoneNotification($getTeenagerBoosterPoints2['total']);
                     }
+
+                    $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($body['userId'], $professionId, $getAllQuestionRelatedDataFromQuestionId->l4ia_question_template);
+                    if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
+                        $intermediateCompleted = 1;
+                        dispatch( new CalculateProfessionCompletePercentage($body['userId'], $professionId) );
+                    }
+
                     $response['displayMsg'] = $message;
                     $level4Booster = Helpers::level4Booster($professionId, $body['userId']);
                     $level4Booster['total'] = $getTeenagerBoosterPoints2['total'];

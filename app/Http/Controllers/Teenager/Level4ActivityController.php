@@ -20,6 +20,7 @@ use App\TeenagerBoosterPoint;
 use App\Services\Professions\Contracts\ProfessionsRepository;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\PromisePlus;
+use App\Jobs\CalculateProfessionCompletePercentage;
 
 class Level4ActivityController extends Controller {
 
@@ -51,6 +52,7 @@ class Level4ActivityController extends Controller {
             $basicCompleted = 0; 
             if(isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && ($totalQuestion[0]->NoOfTotalQuestions == $totalQuestion[0]->NoOfAttemptedQuestions) ) {
                 $basicCompleted = 1;
+                dispatch( new CalculateProfessionCompletePercentage($userId, $professionId) );
             }
             
             $activities = $this->level4ActivitiesRepository->getNotAttemptedActivities($userId, $professionId);
@@ -191,6 +193,7 @@ class Level4ActivityController extends Controller {
             $intermediateCompleted = 0;
             if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
                 $intermediateCompleted = 1;
+                dispatch( new CalculateProfessionCompletePercentage($userId, $professionId) );
             }
             
             //$activities = $this->level4ActivitiesRepository->getNotAttemptedActivities($userId, $professionId);
