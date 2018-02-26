@@ -710,7 +710,7 @@ a:hover {
 }
 
 .mck-box-top [class*="blk-"] {
-	height: 48px;
+	height: 54px;
 	line-height: 48px;
 }
 
@@ -2442,9 +2442,10 @@ ol, ul {
 }
 
 .mck-tab-status {
-	line-height: 15px;
+	line-height: 1;
 	font-size: 12px;
 	opacity: 0.6;
+    text-align: right;
 }
 
 .mck-nav>li {
@@ -2511,7 +2512,7 @@ ol, ul {
 }
 
 .mck-group-inner .mck-msg-left .mck-msg-box {
-	padding: 4px 8px;
+	padding:6px 15px 6px 25px;
 	color: #333;
 	/*background: #fff;*/
 }
@@ -2807,7 +2808,7 @@ ol, ul {
 }
 
 .mck-group-name-sec .blk-lg-9 {
-	width: 249px;
+	width:238px;
 	padding: 3px 5px;
 	background-color: #fff;
 	height: 35px;

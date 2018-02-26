@@ -34,7 +34,6 @@ class Level4ActivityController extends Controller {
         $this->optionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->optionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH');
         $this->answerResponseImageOriginal = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH');
-        
     }
 
     /*
@@ -101,8 +100,8 @@ class Level4ActivityController extends Controller {
                     $array['points'] = 0;
                     $array['timer'] = 0;
                     $array['answerID'] = 0;
-                    $answerID == 0;
-                    $timer == 0;
+                    $answerID = 0;
+                    $timer = 0;
                 }
 
                 if ($answerID == 0 && $timer == 0) {
@@ -129,6 +128,23 @@ class Level4ActivityController extends Controller {
 
                 //Save user response data for basic question
                 $questionsArray = $this->level4ActivitiesRepository->saveTeenagerActivityResponse($userId, $data['answers']);
+
+                $templateId = "L4B";
+                $objProfessionLearningStyle = new ProfessionLearningStyle();
+                $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId, $templateId);
+                if ($learningId != '') {
+                    $objUserLearningStyle = new UserLearningStyle();
+                    $learningData = $objUserLearningStyle->getUserLearningStyle($learningId);
+                    if (!empty($learningData)) {
+                        $array['points'] += $learningData->uls_earned_points;
+                    }
+                    $userData = [];
+                    $userData['uls_learning_style_id'] = $learningId;
+                    $userData['uls_profession_id'] = $professionId;
+                    $userData['uls_teenager_id'] = $userId;
+                    $userData['uls_earned_points'] = $array['points'];
+                    $result = $objUserLearningStyle->saveUserLearningStyle($userData);
+                }
 
                 $getQuestionOPtionFromQuestionId = $this->level4ActivitiesRepository->getQuestionOPtionFromQuestionId($questionID);
                 $answerArrayId = explode(',', $getQuestionOPtionFromQuestionId->options_id);
@@ -179,9 +195,10 @@ class Level4ActivityController extends Controller {
                 $intermediateActivitiesData = $intermediateActivities[0];
                 
                 $intermediateActivitiesData->gt_temlpate_answer_type = Helpers::getAnsTypeFromGamificationTemplateId($intermediateActivitiesData->l4ia_question_template);
-                $intermediateActivitiesData->l4ia_extra_question_time = 120;
+                $intermediateActivitiesData->l4ia_extra_question_time = $this->extraQuestionDescriptionTime;
                 $timer = $intermediateActivitiesData->l4ia_question_time;
                 $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
+                //Question Popup Image
                 $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "" && Storage::size($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) : '';
                 $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
                 
@@ -210,6 +227,7 @@ class Level4ActivityController extends Controller {
                 } else {
                     $intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
                 }
+
             } else {
                 $intermediateActivitiesData = [];
                 $timer = 0;
@@ -235,6 +253,9 @@ class Level4ActivityController extends Controller {
                 return view('teenager.basic.careerIntermediateDropDownSelectQuestion', compact('response'));
             } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "option_reorder") {
                 return view('teenager.basic.careerIntermediateOptionReorderQuestion', compact('response'));
+            } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "image_reorder") {
+                //return view('teenager.basic.careerIntermediateImageReorderQuestion', compact('response'));
+                return view('teenager.basic.careerIntermediateQuizQuestion', compact('response'));
             } else {
                 
             }

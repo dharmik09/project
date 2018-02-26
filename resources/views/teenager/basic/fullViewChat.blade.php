@@ -16,13 +16,13 @@
                     </div>
                     <ul id="mck-start-new-menu-box"
                         class="mck-dropdown-menu mck-tab-menu-box menu-right" role="menu">
-                        <li><a href="#" id="mck-msg-new" class="mck-contact-search menu-item"
+                        <li><a href="javascript:void(0);" id="mck-msg-new" class="mck-contact-search menu-item"
                                title="New Chat">New Chat</a></li>
-                        <li><a href="#" class="mck-contact-search menu-item"
+                        <li><a href="javascript:void(0);" class="mck-contact-search menu-item"
                                title="Contacts">Contacts</a></li>
-                        <li><a href="#" class="mck-group-search menu-item"
+                        <li><a href="javascript:void(0);" class="mck-group-search menu-item"
                                title="Groups">Groups</a></li>
-                        <li><a href="#" id="mck-new-group" class="menu-item"
+                        <li><a href="javascript:void(0);" id="mck-new-group" class="menu-item"
                                title="Create Group">Create Group</a></li>
                     </ul>
                 </div>
@@ -212,14 +212,14 @@
                                     </div>
                                     <ul id="mck-upload-menu-list"
                                         class="mck-dropup-menu mck-upload-menu-list" role="menu">
-                                        <li><a id="mck-file-up" href="#"
+                                        <li><a id="mck-file-up" href="javascript:void(0);"
                                                class="mck-file-upload menu-item" title="File &amp; Photos">
 
                                                 <img src="{{asset('chat/images/mck-icon-photo.png')}}"
                                                      class="menu-icon" alt="File &amp; Photos"> <span>Files
                                                     &amp; Photos</span>
                                             </a></li>
-                                        <li><a id="mck-btn-loc" href="#" class="menu-item"
+                                        <li><a id="mck-btn-loc" href="javascript:void(0);" class="menu-item"
                                                title="Location"> <img
                                                     src="{{asset('chat/images/mck-icon-marker.png')}}" class="menu-icon"
                                                     alt="Location"> <span>Location</span>
@@ -230,19 +230,19 @@
                                 <a href="#" id="mck-file-up2" type="button"
                                    class="write-link attach n-vis mck-file-upload mck-btn-text-panel"
                                    title="Attach File"> </a>
-                                <a href="#" id="mck-mike-btn" type="button"
+                                <a href="javascript:void(0);" id="mck-mike-btn" type="button"
                                    class="mck-mic-btn mck-mike-btn vis"
                                    title="Mike"></a>
-                                <a href="#" id="stop-recording" class="mck-stop-btn n-vis "></a>
+                                <a href="javascript:void(0);" id="stop-recording" class="mck-stop-btn n-vis "></a>
                                 <div id="audiodiv" class="mck-mic-timer n-vis">
                                     <label id="mck-minutes">00</label>:<label id="mck-seconds">00</label>
                                 </div>
                                 <span id="mck-text-box"
                                       contenteditable="true" class="mck-text-box mck-text required"></span>
-                                <a href="#" type="submit"
+                                <a href="javascript:void(0);" type="submit"
                                    id="mck-msg-sbmt" class="write-link send mck-btn-text-panel"
                                    title="Send Message"></a>
-                                <a href="#" type="button" id="mck-btn-smiley"
+                                <a href="javascript:void(0);" type="button" id="mck-btn-smiley"
                                    class="write-link smiley mck-btn-smiley mck-btn-text-panel"
                                    title="Smiley"></a>
                             </form>
@@ -494,9 +494,9 @@
                     <ul class="mck-nav mck-nav-panel">
                         <li class="mck-nav-item mck-nav-divider"><a
                                 id="mck-contact-search-tab"
-                                class="mck-nav-link mck-contact-search active" href="#"><strong>Contacts</strong></a></li>
+                                class="mck-nav-link mck-contact-search active" href="javascript:void(0);"><strong>Contacts</strong></a></li>
                         <li class="mck-nav-item"><a id="mck-group-search-tab"
-                                                    class="mck-nav-link mck-group-search" href="#"><strong>Groups</strong></a>
+                                                    class="mck-nav-link mck-group-search" href="javascript:void(0);"><strong>Groups</strong></a>
                         </li>
                     </ul>
                 </div>

@@ -1041,7 +1041,7 @@
     $(document).on('click', '#basicLevelData .quiz_view .close', function(e) {
         $('.quiz-basic .sec-show').removeClass('hide');
         $('.quiz-basic .basic-quiz-area').removeClass('active');
-                
+        basicCount = -2;
         $('#basicLevelData').html('');
         $(".btn-basic").show();
         $(".btn-play-basic").hide();
@@ -1051,7 +1051,7 @@
         $('.quiz-intermediate .sec-show').removeClass('hide');
         $('.quiz-intermediate .intermediate-quiz-area').removeClass('active');
         $('.quiz-intermediate .intermediate-question').removeClass('active');
-                  
+        intermediateCount = -2;
         $('#intermediateLevelData').html('');
         $(".btn-intermediate").show();
         $(".btn-play-intermediate").hide();

@@ -39,6 +39,7 @@ use App\ProfessionTag;
 use App\MultipleIntelligentScale;
 use App\ApptitudeTypeScale;
 use App\PersonalityScale;
+use App\Jobs\CalculateProfessionCompletePercentage;
 
 class ProfessionController extends Controller {
 
@@ -285,6 +286,7 @@ class ProfessionController extends Controller {
 
     public function careerDetails($slug)
     {
+        //dispatch( new CalculateProfessionCompletePercentage(1) );
         $user = Auth::guard('teenager')->user();
         $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
         //1=India, 2=US
@@ -922,7 +924,7 @@ class ProfessionController extends Controller {
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
         
         $fileName = $professionsData->pf_slug."-".time().'.pdf';
-        $checkPDF = PDF::loadView('teenager.careerDetailPdf',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml'))->save($this->careerDetailsPdfUploadedPath.$fileName);
+        $checkPDF = PDF::loadView('teenager.careerDetailPdfInline',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml'))->save($this->careerDetailsPdfUploadedPath.$fileName);
         
         if(isset($checkPDF))
         {
