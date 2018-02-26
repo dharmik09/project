@@ -482,3 +482,5 @@ CREATE TABLE `pro_l4aapa_level4_profession_progress` (
 ALTER TABLE `pro_l4aapa_level4_profession_progress` ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `pro_l4aapa_level4_profession_progress` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0' AFTER `t_progress_calculations`;

@@ -79,20 +79,13 @@ class DashboardController extends Controller
         $data = [];
         $user = Auth::guard('teenager')->user();
         $profileComplete =  Helpers::calculateProfileComplete($user->id);
-        if($profileComplete == 5 && $user->t_progress_calculations == 0){
+        if($user->t_logout_progress == 0 && $user->t_progress_calculations == 0){
             $profileMessage = 'Welcome! Now complete your profile';
         }
-        elseif($user->t_progress_calculations > 0){
+        else{
             $profileMessage = "You advanced " . $user->t_progress_calculations . "% on your last visit";
         }
         
-        //$profileMessage = "Welcome to ProTeen";
-        //Profile completion calculation
-        // if ($user->t_progress_calculations > 0) {
-        //     $profileMessage = "You advanced " . $user->t_progress_calculations . "% on your last visit";
-        // } else {
-        //     $profileMessage = "Welcome to the ProTeen";
-        // }
         $data['user_profile'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenOriginalImageUploadPath.Auth::guard('teenager')->user()->t_photo) : Storage::url($this->teenOriginalImageUploadPath.'proteen-logo.png');
         $data['user_profile_thumb'] = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url($this->teenThumbImageUploadPath.Auth::guard('teenager')->user()->t_photo) : Storage::url($this->teenThumbImageUploadPath.'proteen-logo.png');
         

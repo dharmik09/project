@@ -2000,8 +2000,8 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     }
 
     //Update progress calculations of teenager profile completion
-    public function updateTeenagerProgressCalculationsById($teenId, $progreeCalc) {
-        $return = $this->model->where('id', $teenId)->update(['t_progress_calculations' => $progreeCalc]);
+    public function updateTeenagerProgressCalculationsById($teenId, $progreeCalc,$logoutCount) {
+        $return = $this->model->where('id', $teenId)->update(['t_progress_calculations' => $progreeCalc,'t_logout_progress' => $logoutCount]);
         return $return;
     }
 
