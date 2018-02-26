@@ -47,7 +47,7 @@
                 <div class="upd-detail clearfix img-type">
                     <div class="img-cont">
                         <div class="img-inner">
-                            <img src="{{$media}}" alt="Proteen" class="myImg" title="Click to enlarge">
+                            <img src="{{$media}}" alt="Proteen" class="myImg l4advance{{$task->id}}" title="Click to enlarge">
                             <span class="{{$statusArr['class']}}">{{$statusArr['text']}}</span>
                         </div>
                     </div>
@@ -72,10 +72,10 @@
                                 <p></p>
                             @endif
                             <p>{{(isset($task->l4aaua_note) && !empty($task->l4aaua_note)) ? $task->l4aaua_note : ''}}</p>
-                            <span class="view-img"><a target="_blank" href="{{$mediaPath}}">View Image</a></span>
+                            <span class="view-img"><a target="_blank" onclick="viewImage({{$task->id}});" href="javascript:void(0)">View Image</a></span>
                         </div>
                         <!-- The Modal -->
-                        <div id="myModal" class="modal">
+                        <div id="l4advanceImage" class="modal">
                             <span class="close-modal">&times;</span>
                             <img class="modal-content" id="img01">
                             <div id="caption"></div>

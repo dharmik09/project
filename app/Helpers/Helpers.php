@@ -2997,14 +2997,12 @@ Class Helpers {
        $objLevel2Activity = new Level2Activity(); 
        $user = Teenagers::find($teenagerId);
        $profileComplete = 0;
-       
        //Calculate for basic profile
        if(isset($user) && !empty($user))
        {
            if($user->t_name != '' && $user->t_lastname != '' && $user->t_email != '' && $user->t_pincode != '' && $user->t_country != '' && $user->t_photo != '')
            $profileComplete = $profileComplete + Config::get('constant.TEEN_BASIC_PROFILE_COMPLETE');
        }
-       
        //Calculate L1 question complete
        $level1Activities = $objLevel1Activity->getNoOfTotalQuestionsAttemptedQuestion($user->id);
        if(isset($level1Activities) && !empty($level1Activities)){
@@ -3048,5 +3046,22 @@ Class Helpers {
         return $filterData;
     }
 
+    /* @getTeenagerBasicBooster
+     *  @params : teenager Id
+     *  @response : All level booster points with total points 
+     */
+    public static function getTeenagerBasicBooster($teenagerId) {
+        $boosterPoints = DB::select( DB::raw("select SUM(tlb_points) as points, tlb_level from " . config::get('databaseconstants.TBL_TEENAGER_LEVEL_BOOSTERS') . " where tlb_teenager=" . $teenagerId . " GROUP BY tlb_level"), array());
+        $boosterArray = [];
+        $totalPoints = 0;
+        if($boosterPoints) {
+            foreach ($boosterPoints as $points) {
+                $boosterArray["Level" . $points->tlb_level] = $points->points;
+                $totalPoints = $totalPoints + $points->points;
+            }
+            $boosterArray["total"] = max((int)$totalPoints, 0);
+        }
+        return $boosterArray;
+    }
     
 }

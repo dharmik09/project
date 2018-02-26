@@ -24,7 +24,11 @@
         </div>
         <div class="flex-item">
             <div class="team-point">
-                {{ $guru->t_coins }} points
+                <?php $teenPoints = 0;
+                    $basicBoosterPoint = Helpers::getTeenagerBasicBooster($guru->id);
+                    $teenPoints = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
+                ?>
+                {{ $teenPoints }} points
                 <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
             </div>
         </div>

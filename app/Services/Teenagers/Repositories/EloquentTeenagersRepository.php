@@ -1998,4 +1998,10 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                     ->first();
         return $result;
     }
+
+    //Update progress calculations of teenager profile completion
+    public function updateTeenagerProgressCalculationsById($teenId, $progreeCalc) {
+        $return = $this->model->where('id', $teenId)->update(['t_progress_calculations' => $progreeCalc]);
+        return $return;
+    }
 }
