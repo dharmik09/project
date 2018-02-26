@@ -771,14 +771,14 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                //var a = document.querySelector("#img-preview");
-                var a = document.querySelector(".profile-img");
+                var a = document.querySelector("#img-preview");
+                //var a = document.querySelector(".profile-img");
                 if (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/jpg' || input.files[0].type == 'image/png' || input.files[0].type == 'image/bmp') {
                     if (input.files[0].size > 3000000) {
                         $(".photo-error").text("File size is too large. Maximum 3MB allowed");
                         $(this).val('');
                     } else {
-                        a.style.backgroundImage = ""; return false;
+                        a.style.backgroundImage = ""; 
                         a.style.backgroundImage = "url('" + e.target.result + "')";
                         // document.getElementById("#").className = "activated";
                         a.className = "upload-img activated";
