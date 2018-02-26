@@ -282,9 +282,9 @@ body {
 	/*border-right: 1px solid #e6e6e6;*/
 }
 
-.mck-container.mck-panel-3 .right {
+/*.mck-container.mck-panel-3 .right {
 	width: calc(100% - 600px);
-}
+}*/
 
 .mck-container .right .top span {
 	font-size: 15px;
@@ -567,10 +567,12 @@ body {
 
 .mck-panel {
 	height: 100%;
-	float: left;
+	float: right;
 	display: flex;
-	position: relative;
+	position: absolute;
 	border-right: 1px solid #e5e5e5;
+        right: 0;
+    z-index: 99;
 }
 
 .mck-panel-top {
@@ -589,7 +591,7 @@ body {
 }
 
 .mck-group-info-tab .mck-box-top .blk-lg-10, .mck-group-create-tab .mck-box-top .blk-lg-10 {
-	width: 250px;
+	width: 240px;
 }
 
 .mck-close-panel {
