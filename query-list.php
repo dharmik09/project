@@ -465,3 +465,20 @@ CREATE TABLE IF NOT EXISTS `pro_tsp_teenager_scholarship_program` (
   `deleted` tinyint(1) DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+//Add Teenager Profession progress score
+CREATE TABLE `pro_l4aapa_level4_profession_progress` (
+  `id` int(11) NOT NULL,
+  `teenager_id` int(11) DEFAULT NULL,
+  `profession_id` int(11) DEFAULT NULL,
+  `level4_basic` int(11) DEFAULT '0',
+  `level4_intermediate` int(11) DEFAULT '0',
+  `level4_advance` int(11) DEFAULT '0',
+  `level4_total` int(11) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `pro_l4aapa_level4_profession_progress` ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `pro_l4aapa_level4_profession_progress` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

@@ -39,7 +39,6 @@ use App\ProfessionTag;
 use App\MultipleIntelligentScale;
 use App\ApptitudeTypeScale;
 use App\PersonalityScale;
-use App\Jobs\CalculateProfessionCompletePercentage;
 
 class ProfessionController extends Controller {
 
@@ -286,7 +285,6 @@ class ProfessionController extends Controller {
 
     public function careerDetails($slug)
     {
-        //dispatch( new CalculateProfessionCompletePercentage(1) );
         $user = Auth::guard('teenager')->user();
         $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
         //1=India, 2=US
