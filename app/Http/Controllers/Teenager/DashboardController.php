@@ -78,7 +78,15 @@ class DashboardController extends Controller
     {
         $data = [];
         $user = Auth::guard('teenager')->user();
-        $profileMessage = "Welcome to ProTeen";
+        $profileComplete =  Helpers::calculateProfileComplete($user->id);
+        if($profileComplete == 5 && $user->t_progress_calculations == 0){
+            $profileMessage = 'Welcome! Now complete your profile';
+        }
+        elseif($user->t_progress_calculations > 0){
+            $profileMessage = "You advanced " . $user->t_progress_calculations . "% on your last visit";
+        }
+        
+        //$profileMessage = "Welcome to ProTeen";
         //Profile completion calculation
         // if ($user->t_progress_calculations > 0) {
         //     $profileMessage = "You advanced " . $user->t_progress_calculations . "% on your last visit";

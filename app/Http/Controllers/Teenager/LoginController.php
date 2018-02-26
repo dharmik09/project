@@ -92,10 +92,13 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        //$user = Auth::guard('teenager')->user();
-        // $currentProgress = Helpers::calculateProfileComplete($user->id);
-        // $increasedProgress = $currentProgress - $user->t_progress_calculations;
-        // $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($user->id, $increasedProgress);
+        $user = Auth::guard('teenager')->user();
+        $currentProgress = Helpers::calculateProfileComplete($user->id);
+        $increasedProgress = $currentProgress - $user->t_progress_calculations;
+        echo $currentProgress."<br/>";
+        echo $user->t_progress_calculations."<br/>";
+        echo $increasedProgress."<br/>"; exit;
+        $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($user->id, $increasedProgress);
         Auth::guard('teenager')->logout();
         return redirect()->to(route('login'));
     }
