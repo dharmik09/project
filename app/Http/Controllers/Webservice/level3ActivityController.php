@@ -311,8 +311,8 @@ class level3ActivityController extends Controller {
                         }
 
                         $data[$key]->strong_match = count($match);
-                        $data[$key]->potential_match = count($nomatch);
-                        $data[$key]->unlikely_match = count($moderate);
+                        $data[$key]->potential_match = count($moderate);
+                        $data[$key]->unlikely_match = count($nomatch);
                     }
 
                     $response['data']['baskets'] = $data;
