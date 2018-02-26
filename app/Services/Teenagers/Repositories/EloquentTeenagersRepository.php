@@ -2004,4 +2004,21 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         $return = $this->model->where('id', $teenId)->update(['t_progress_calculations' => $progreeCalc]);
         return $return;
     }
+
+    //Get teenagers list with booster points by professions
+    public function getTeenagerListingWithBoosterPointsByProfession($professionId, $slot = 0) {
+        if ($slot > 0) {
+            $slot = $slot * Config::get('constant.RECORD_PER_PAGE');
+        }
+        $teenDetails = $this->model->join(Config::get('databaseconstants.TBL_TEENAGER_LEVEL_BOOSTERS') . " AS booster", 'pro_t_teenagers.id', '=', 'booster.tlb_teenager')
+                    ->selectRaw('booster.tlb_level, booster.tlb_points, booster.tlb_teenager, pro_t_teenagers.*')
+                    ->where('booster.tlb_level', 4)
+                    ->where('booster.tlb_profession', $professionId)
+                    ->where('pro_t_teenagers.deleted', 1)
+                    ->orderBy('booster.tlb_points', 'DESC')
+                    ->skip($slot)
+                    ->take(Config::get('constant.RECORD_PER_PAGE'))
+                    ->get();
+        return $teenDetails;
+    }
 }

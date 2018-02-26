@@ -301,47 +301,7 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div id="menu3" class="tab-pane fade in active">
-                                        <div class="team-list">
-                                            <div class="flex-item">
-                                                <div class="team-detail">
-                                                    <div class="team-img">
-                                                        <img src="{{ Storage::url('img/ellen.jpg') }}" alt="team">
-                                                    </div>
-                                                    <a href="#" title="Ellen Ripley"> Ellen Ripley</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-item">
-                                                <div class="team-point">
-                                                    520,000 points
-                                                    <a href="#" title="Chat">
-                                                        <i class="icon-chat">
-                                                            <!-- -->
-                                                        </i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="team-list">
-                                            <div class="flex-item">
-                                                <div class="team-detail">
-                                                    <div class="team-img">
-                                                        <img src="{{ Storage::url('img/alex.jpg') }}" alt="team">
-                                                    </div>
-                                                    <a href="#" title="Alex Murphy">Alex Murphy</a>
-                                                </div>
-                                            </div>
-                                            <div class="flex-item">
-                                                <div class="team-point">
-                                                    515,000 points
-                                                    <a href="#" title="Chat">
-                                                        <i class="icon-chat">
-                                                            <!-- -->
-                                                        </i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="text-center"><a href="#" title="load more" class="load-more">load more</a></p>
+                                        @include('teenager/basic/careerDetailsLeaderBoard')
                                     </div>
                                     <div id="menu4" class="tab-pane fade in">
                                         <div id="fav-teenager-list"></div>
