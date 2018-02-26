@@ -80,7 +80,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getTeenagerCareers', 'Webservice\DashboardController@getTeenagerCareers');
 	Route::post('/getTeenagerCareersConsider', 'Webservice\DashboardController@getTeenagerCareersConsider');
 	Route::post('/getMemberConnections', 'Webservice\TeenagerController@getMemberConnections');
-	
+
 	//Community
 	Route::post('/communityNewConnections', 'Webservice\CommunityController@communityNewConnections');
 	Route::post('/communityMyConnections', 'Webservice\CommunityController@communityMyConnections');
@@ -142,6 +142,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/addStarToCareer', 'Webservice\level3ActivityController@addStarToCareer');
 	Route::post('/getCareerFans', 'Webservice\level3ActivityController@getCareerFansPageWise');
 	Route::post('/getMyCareerPageFilterDetails', 'Webservice\level3ActivityController@getMyCareerPageFilterDetails');
+	Route::post('/getCareerLeaderboardDetails', 'Webservice\level3ActivityController@getCareerLeaderboardDetails');
 
 	//Notification
 	Route::post('/getNotification', 'Webservice\NotificaionController@getNotificationPageWise');

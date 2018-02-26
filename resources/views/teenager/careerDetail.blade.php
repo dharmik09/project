@@ -2007,17 +2007,34 @@
         //});
     }
 
-    // When the user clicks on <span> (x), close the modal
-    // $(".close-modal").onclick(function() {
-    //     alert();    
-        
-    // });
-
     $(document).on("click", '.close-modal', function(event) { 
         var modal = document.getElementById('l4advanceImage');
         modal.style.display = "none";
     });
 
+    var slotCount = 1;
+    $(document).on('click','#load-more-leaderboard', function(){
+        $("#menu3 .loader_con").show();
+        var slot = slotCount++;
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = 'slot=' + slot + '&professionId=' + '{{$professionsData->id}}';
+        $.ajax({
+            url : '{{ url("teenager/load-more-leaderboard-teenagers") }}',
+            method : "POST",
+            data: form_data,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            dataType : "text",
+            success : function (data) {
+                $("#menu3 .loader_con").hide();
+                if(data != '') {
+                    $('#menu3 .remove-row').remove();
+                    $('#menu3').append(data);
+                } 
+            }
+        });
+    });
 </script>
 
 @stop

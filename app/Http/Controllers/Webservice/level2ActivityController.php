@@ -168,5 +168,4 @@ class level2ActivityController extends Controller {
         
         return response()->json($response, 200);
     }
-
 }

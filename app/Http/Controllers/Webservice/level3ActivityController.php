@@ -65,6 +65,8 @@ class level3ActivityController extends Controller {
         $this->teenagerBoosterPoint = new TeenagerBoosterPoint();
         $this->objPaidComponent = new PaidComponent;
         $this->objDeductedCoins = new DeductedCoins;
+        $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
     }
 
     public function getAllBasktes(Request $request) {
@@ -1326,5 +1328,55 @@ class level3ActivityController extends Controller {
             $response['message'] = trans('appmessages.missing_data_msg');
         }
         return response()->json($response, 200);  
-    }    
+    }   
+
+    /* Request Params : getCareerLeaderboardDetails
+     *  loginToken, userId, careerId, slot
+     */
+    public function getCareerLeaderboardDetails(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            if(isset($request->careerId) && $request->careerId != "") {
+                $data = [];
+                $leaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($request->careerId, $request->slot);
+                $nextleaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($request->careerId, $request->slot + 1);
+                if (isset($nextleaderboardTeenagers) && count($nextleaderboardTeenagers) > 0) {
+                    $response['loadMoreFlag'] = $request->slot;
+                } else {
+                    $response['loadMoreFlag'] = -1;
+                }
+                foreach ($leaderboardTeenagers as $teenager) {
+                    $teenArr = [];
+                    $teenArr['id'] = $teenager->id;
+                    $teenArr['t_name'] = $teenager->t_name;
+                    //Teenager thumb Image
+                    $teenagerThumbImage = '';
+                    if ($teenager->t_photo != '' && Storage::size($this->teenThumbImageUploadPath . $teenager->t_photo) > 0) {
+                        $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
+                    } else {
+                        $teenagerThumbImage = Storage::url($this->teenThumbImageUploadPath . 'proteen-logo.png');
+                    }
+                    $teenArr['t_photo'] = $teenagerThumbImage;
+                    $teenArr['t_uniqueid'] = $teenager->t_uniqueid;
+                    $teenArr['t_coins'] = $teenager->tlb_points;
+                    $data[] = $teenArr;
+                }
+                //Store log in System
+                $this->log->info('Retrieve career page leaderboard details for profession', array('userId' => $request->userId, 'professionId' => $request->professionId));
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['data'] = $data;
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+    }
+ 
 }

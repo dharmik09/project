@@ -2006,7 +2006,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     }
 
     //Get teenagers list with booster points by professions
-    public function getTeenagerListingWithBoosterPointsByProfession($professionId, $slot = 0) {
+    public function getTeenagerListingWithBoosterPointsByProfession($professionId, $slot) {
         if ($slot > 0) {
             $slot = $slot * Config::get('constant.RECORD_PER_PAGE');
         }

@@ -484,7 +484,7 @@ class ProfessionController extends Controller {
         }
         $teenagerParents = $this->teenagersRepository->getTeenParents($user->id);
         $challengedAcceptedParents = $this->objTeenParentChallenge->getChallengedParentAndMentorList($professionsData->id, $user->id);
-        $leaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionsData->id);
+        $leaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionsData->id, 0);
         $nextleaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionsData->id, 1);
         return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers'));
     }
@@ -1098,6 +1098,14 @@ class ProfessionController extends Controller {
         }
         $professionImagePath = Config('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
         return view('teenager.basic.searchdMyCareers', compact('basketsData', 'professionImagePath'));
+    }
+
+    public function loadMoreLeaderboardTeenagers() {
+        $slot = Input::get('slot');
+        $professionId = Input::get('professionId');
+        $leaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionId, $slot);
+        $nextleaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionId, $slot + 1);
+        return view('teenager.basic.careerDetailsLeaderBoard', compact('leaderboardTeenagers', 'nextleaderboardTeenagers'));
     }
 
 }
