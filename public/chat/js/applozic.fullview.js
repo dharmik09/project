@@ -2964,7 +2964,7 @@ _this.getReplyMessageByKey = function(msgkey) {
                                         });
                                     }
                                     if (currTabId) {
-                                        if (MCK_USER_DETAIL_MAP[currTabId].deletedAtTime || isUserDeleted === true) {
+                                        if(MCK_USER_DETAIL_MAP[currTabId] &&(MCK_USER_DETAIL_MAP[currTabId].deletedAtTime || isUserDeleted ===true)){ 
                                             $mck_msg_error.html(MCK_LABELS['user.delete']).removeClass('n-vis').addClass('vis');
                                             $applozic("#mck-tab-status").removeClass('vis').addClass('n-vis');
                                             $mck_msg_form.removeClass('vis').addClass('n-vis');
