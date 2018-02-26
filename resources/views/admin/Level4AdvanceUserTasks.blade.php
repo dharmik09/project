@@ -42,8 +42,8 @@
                                 @foreach($userAllImageTasks as $task)
                                     @if($task->l4aaua_media_name != '' && Storage::disk('s3')->exists($level4AdvanceThumbImageUploadPath.$task->l4aaua_media_name))
                                         <?php
-                                            $Originalimage =  Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name;
-                                            $image =  Config::get('constant.DEFAULT_AWS').$level4AdvanceThumbImageUploadPath.$task->l4aaua_media_name;
+                                            $Originalimage =  Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
+                                            $image =  Storage::url($level4AdvanceThumbImageUploadPath.$task->l4aaua_media_name);
                                         ?>
                                     @else
                                         <?php
@@ -119,12 +119,12 @@
                             @forelse($userAllDocumentTasks as $task)
                               @if($task->l4aaua_media_name != '' && Storage::disk('s3')->exists($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name))
                                   <?php
-                                      $image =  Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.'document.png';
-                                      $documentPath = Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name;
+                                      $image =  Storage::url($level4AdvanceOriginalImageUploadPath.'document.png');
+                                      $documentPath = Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
                                   ?>
                               @else
                                   <?php 
-                                      $image =  asset($level4AdvanceOriginalImageUploadPath.'no_document.png');
+                                      $image =  Storage::url($level4AdvanceOriginalImageUploadPath.'no_document.png');
                                       $documentPath = 'javascript:void(0)';
                                   ?>
                               @endif
@@ -200,12 +200,12 @@
                             @forelse($userAllVideoTasks as $task)
                               @if($task->l4aaua_media_name != '' && Storage::disk('s3')->exists($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name))
                                   <?php 
-                                      $image =  Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.'video.png';
-                                      $videoPath = Config::get('constant.DEFAULT_AWS').$level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name;
+                                      $image =  Storage::url($level4AdvanceOriginalImageUploadPath.'video.png');
+                                      $videoPath = Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
                                   ?>
                               @else
                                   <?php
-                                      $image =  asset($level4AdvanceOriginalImageUploadPath.'no-video.png');
+                                      $image = Storage::url($level4AdvanceOriginalImageUploadPath.'no-video.png');
                                       $videoPath = 'javascript:void(0)';
                                   ?>
                               @endif
