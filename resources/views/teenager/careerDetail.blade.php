@@ -2058,6 +2058,24 @@
         modal.style.display = "none";
     });
 
+    //get promise plus data 
+    function getPromisePlusData(professionId)
+    {
+        $.ajax({
+            url: "{{ url('teenager/get-teen-profession-promiseplus') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                'professionId':professionId
+            },
+            success: function(response) {
+               
+                $('#showPromisePlusData').html(response);
+                  $('.promise-plus-overlay').show();
+              
+            }
+        });
+    }
 </script>
 
 @stop
