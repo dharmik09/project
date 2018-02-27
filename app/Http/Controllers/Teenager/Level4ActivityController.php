@@ -723,4 +723,19 @@ class Level4ActivityController extends Controller {
         return response()->json($response, 200);
         exit;
     }
+    
+    public function getProfessionCompetitor() {
+        $professionId = Input::get('professionId');
+        $userId = Auth::guard('teenager')->user()->id;
+        
+        if($userId > 0 && $professionId != '') {
+            $level4Booster = Helpers::level4Booster($professionId, $userId);             
+            return view('teenager.basic.careerBoosterScaleSection', compact('level4Booster'));
+        }
+        $response['status'] = 0;
+        $response['message'] = "Something went wrong!";
+
+        return response()->json($response, 200);
+        exit;
+    }
 }

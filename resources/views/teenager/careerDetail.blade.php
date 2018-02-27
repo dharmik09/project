@@ -178,7 +178,22 @@
                                 <div id="menu2" class="tab-pane fade in active">
                                     <!-- Section for booster scale --> 
                                     <div class="explore-table table-responsive">
-                                        @include('teenager/basic/careerBoosterScaleSection')
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Competitors</th>
+                                                        <th>Score</th>
+                                                        <th>Rank</th>
+                                                        <th>Points</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="load-user-profession-competitor">
+                                                        <td colspan="4">Calculating Score...</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                                                                
                                     </div>
                                     <!-- Section for promise plus --> 
                                     <div class="promise-plus-outer">
@@ -538,11 +553,6 @@
 @section('script')
 <script src="{{ asset('backend/js/highchart.js')}}"></script>
 <script>
-    $(window).on("load", function(e) {
-        e.preventDefault();
-        getChallengedParentAndMentorList("{{Auth::guard('teenager')->user()->id}}");
-    });
-    
     $(document).ready(function() {
         $(function() {
             $(".sortable").sortable();
@@ -2086,6 +2096,28 @@
         $('.promise-plus-overlay').hide();              
         $('#hidepromiseplus').show();  
     }
+    
+    //get profession competitors data
+    function getUserProfessionCompetitor(professionId)
+    {
+        $.ajax({
+            url: "{{ url('teenager/get-teen-profession-competitor') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                'professionId':professionId
+            },
+            success: function(response) {               
+                $('#load-user-profession-competitor').html(response);
+            }
+        });
+    }
+    
+    $(window).on("load", function(e) {
+        e.preventDefault();
+        getChallengedParentAndMentorList("{{Auth::guard('teenager')->user()->id}}");
+        getUserProfessionCompetitor({{$professionsData->id}});
+    });
 
 </script>
 

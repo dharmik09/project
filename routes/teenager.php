@@ -159,6 +159,7 @@ Route::post('/submit-level4-advance-activity', 'Teenager\Level4AdvanceActivityCo
 Route::post('/submit-level4-advance-activity-for-review', 'Teenager\Level4AdvanceActivityController@submitLevel4AdvanceActivityForReview');
 Route::post('/delete-user-advance-task', 'Teenager\Level4AdvanceActivityController@deleteUserAdvanceTask');
 Route::post('/get-teen-profession-promiseplus', 'Teenager\Level4ActivityController@getPromisePlusData');
+Route::post('/get-teen-profession-competitor', 'Teenager\Level4ActivityController@getProfessionCompetitor');
 
 //Forum Module
 Route::get('/forum-questions', 'Teenager\ForumController@index');
