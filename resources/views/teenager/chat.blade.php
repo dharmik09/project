@@ -58,13 +58,9 @@
             </div>
             <!-- sec chat -->
             <div class="chat-heading">
-                <h2 class="font-blue">Chat</h2>
+                <h2 class="font-blue">Notifications, Forum and Chat to Engage on ProTeen</h2>
             </div>
-            <div class="sec-chat clearfix">
-               @include('teenager/basic/fullViewChat')
-            </div>
-            <!-- sec chat end-->
-            <!-- sec notification-->
+             <!-- sec notification-->
             <div class="sec-notification">
                 <h2 class="font-blue">Notifications</h2>
                 @if(count($notificationData)>0)
@@ -183,6 +179,15 @@
                 @endif
             </div>
             <!--sec forum end-->
+            <div class="chat-heading">
+                <h2 class="font-blue">Chat</h2>
+            </div>
+            <div class="sec-chat clearfix">
+               @include('teenager/basic/fullViewChat')
+            </div>
+            <!-- sec chat end-->
+           
+            
         </div>
     </div>    
 <!--mid content end-->

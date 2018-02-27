@@ -10,7 +10,7 @@
         <div class="procoin-heading gift-heading history-heading">
             <div class="container">
                 <h1 class="font-blue">history</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed risus consequat, volutpat dui id, vestibulum turpis. </p>
+                <p>Track your ProCoins Transactions and Consumption</p>
             </div>
         </div>
         <!--procoins sec-->

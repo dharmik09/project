@@ -23,7 +23,7 @@
         <nav>
             <div class="container">
                 <div class="logo pull-left">
-                	<a href="@if(Auth::guard('teenager')->check()) {{ url('teenager/home') }} @else {{ url('/') }} @endif">
+                    <a href="@if(Auth::guard('teenager')->check()) {{ url('teenager/home') }} @else {{ url('/') }} @endif" title="Dashboard">
                 		<img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}">
                 	</a>
                 </div>
@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="n-window"><a href="{{ url('/teenager/list-career') }}"><i class="icon-window"></i></a></li>
+                        <li class="n-window"><a href="{{ url('/teenager/list-career') }}" title="Careers"><i class="icon-window"></i></a></li>
                         <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
                     </ul>
                 </div>

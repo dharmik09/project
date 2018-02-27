@@ -9,7 +9,7 @@
         <!-- mid section starts-->
         <div class="learning-heading faq">
             <div class="container">
-            <h1 class="font-blue">How to</h1>
+            <h1 class="font-blue">WHY? HOW? WHAT?</h1>
             <p>Frequently asked questions</p>
                 <div class="procoin-form gift-form">
                     <form id="help_search_form" role="form" method="POST" action="{{ url('/teenager/search-help') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">

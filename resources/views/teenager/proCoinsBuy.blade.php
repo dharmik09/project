@@ -68,7 +68,7 @@
                <div class="icon_arrow"><i class="icon-arrow-spring"></i></div>
                 <div class="sec-procoins">
                     <h2>Buy ProCoins</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur. </p>
+                    <p>Purchase ProCoins Packs Online</p>
                     <div class="list-procoins">
                         <div class="row flex-container">
                             @if(isset($coinsDetail) && !empty($coinsDetail))
