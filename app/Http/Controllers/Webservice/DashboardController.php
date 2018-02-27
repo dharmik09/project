@@ -776,8 +776,9 @@ class DashboardController extends Controller
                 }
                 $teenArr['t_photo'] = $teenagerThumbImage;
                 $teenArr['t_uniqueid'] = $guru->t_uniqueid;
+                $teenArr['t_coins'] = $guru->t_coins;
                 $basicBoosterPoint = Helpers::getTeenagerBasicBooster($guru->id);
-                $teenArr['t_coins'] = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
+                $teenArr['points'] = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
                 $data[] = $teenArr;
             }
             $response['login'] = 1;
