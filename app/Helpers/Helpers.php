@@ -3063,5 +3063,14 @@ Class Helpers {
         }
         return $boosterArray;
     }
+
+    /* @getProfessionCompletePercentage
+     *  @params : teenager Id
+     *  @response : All level booster points with total points 
+     */
+    public static function getProfessionCompletePercentage($teenagerId, $professionId) {
+        $data = DB::table('pro_l4aapa_level4_profession_progress')->where(['teenager_id' => $teenagerId, 'profession_id' => $professionId])->first();
+        return (isset($data->level4_total) && $data->level4_total != "" && $data->level4_total > 0) ? ($data->level4_total > 100) ? 100 : $data->level4_total : 0;
+    }
     
 }

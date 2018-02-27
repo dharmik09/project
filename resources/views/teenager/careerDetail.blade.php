@@ -158,8 +158,18 @@
                         </div>
                         <div class="career-detail-tab bg-white">
                             <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                                <li class="custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Career Details</span></span></a></li>
-                                <li class="active custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">Explore <span class="tab-complete">21% Complete</span></span></span></a></li>
+                                <li class="custom-tab col-xs-6 tab-color-1">
+                                    <a data-toggle="tab" href="#menu1">
+                                        <span class="dt"><span class="dtc">Career Details</span></span>
+                                    </a>
+                                </li>
+                                <li class="active custom-tab col-xs-6 tab-color-2">
+                                    <a data-toggle="tab" href="#menu2">
+                                        <span class="dt">
+                                            <span class="dtc">Explore <span class="tab-complete">{{ (isset($professionCompletePercentage)) ? $professionCompletePercentage : 0 }}% Complete</span></span>
+                                        </span>
+                                    </a>
+                                </li>
                             </ul>
                             <div class="tab-content">
                                 <div id="menu1" class="tab-pane fade in">
