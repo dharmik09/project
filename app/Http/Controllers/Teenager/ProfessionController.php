@@ -476,17 +476,32 @@ class ProfessionController extends Controller {
             }
         }
         $exceptScholarshipIds = array_unique(array_merge($scholarshipProgramIds, $expiredActivityIds));
+
+        //Advance Activity Coins consumption details
         $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.ADVANCE_ACTIVITY'));
         $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($user->id, $componentsData->id, 1, $professionsData->id) : [];
         $remainingDaysForActivity = 0;
         if (!empty($deductedCoinsDetail[0])) {
             $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
         }
+
+        //Challenge parents details
         $teenagerParents = $this->teenagersRepository->getTeenParents($user->id);
         $challengedAcceptedParents = $this->objTeenParentChallenge->getChallengedParentAndMentorList($professionsData->id, $user->id);
+
+        //Leaderboard details
         $leaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionsData->id, 0);
         $nextleaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionsData->id, 1);
-        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers'));
+
+        //Promise plus coins consumption details
+        $promisePlusComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
+        $promisePluseDeductedCoinsDetail = (isset($promisePlusComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($user->id, $promisePlusComponent->id, 1, $professionsData->id) : [];
+        $promisePlusRemainingDays = 0;
+        if (count($promisePluseDeductedCoinsDetail) > 0) {
+            $promisePlusRemainingDays = Helpers::calculateRemainingDays($promisePluseDeductedCoinsDetail[0]->dc_end_date);
+        }
+
+        return view('teenager.careerDetail', compact('getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers', 'promisePlusComponent', 'promisePlusRemainingDays'));
     }
 
     public function getTeenagerWhoStarRatedCareer()

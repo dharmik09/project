@@ -425,7 +425,7 @@
                             </div>
                             <div class="text-left">
                                 <div class="unbox-btn">
-                                    <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getAdvanceActivtyDetails();" @endif class="btn-primary">
+                                    <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getCoinsConsumptionDetails('{{$componentsData->pc_required_coins}}', '{{$componentsData->pc_element_name}}');" @endif class="btn-primary">
                                         <span class="unbox-me">Unbox Me</span>
                                         <span class="coins-outer activity_coins">
                                             <span class="coins"></span> {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
@@ -502,12 +502,14 @@
                 <h4 id="activity_title" class="modal-title"></h4>
             </div>
             <div class="modal-body">
+                <input id="activity_coins" type="hidden" value="">
+                <input id="activity_name" type="hidden" value="">
                 <p id="activity_message"></p>
                 <p id="activity_sub_message"></p>
             </div>
             <div class="modal-footer">
                 <a id="activity_buy" href="{{ url('teenager/buy-procoins') }}" type="submit" class="btn btn-primary btn-next" style="display: none;">buy</a>
-                <button id="activity_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins({{$componentsData->pc_required_coins}});" style="display: none;" >ok </button>
+                <button id="activity_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins();" style="display: none;" >ok </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -1624,9 +1626,9 @@
         });
     }
 
-    function getAdvanceActivtyDetails() {
+    function getCoinsConsumptionDetails(consumedCoins, componentName) {
         var teenagerCoins = parseInt("{{Auth::guard('teenager')->user()->t_coins}}");
-        var consumeCoins = parseInt("{{$componentsData->pc_required_coins}}");
+        var consumeCoins = parseInt(consumedCoins);
         <?php 
         if ($remainingDaysForActivity > 0) { ?>
             $("#activity_coins").html('<span class="coins"></span>' + "{{$remainingDaysForActivity}}" + " days left");
@@ -1641,6 +1643,8 @@
                 $("#activity_title").text("Congratulations!");
                 $("#activity_message").text("You have " + format(teenagerCoins) + " ProCoins available.");
                 $("#activity_sub_message").text("Click OK to consume your " + format(consumeCoins) + " ProCoins and play on");
+                $("#activity_coins").val(consumedCoins);
+                $("#activity_name").val(componentName);
             }
             $('#coinsConsumption').modal('show');
         <?php } ?>
@@ -1650,9 +1654,11 @@
         return isNaN(x)?"":x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    function saveConsumedCoins(consumedCoins) {
+    function saveConsumedCoins() {
+        var consumedCoins = $("#activity_coins").val();
+        var componentName = $("#activity_name").val();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.ADVANCE_ACTIVITY')}}" + "&professionId=" + '{{$professionsData->id}}';
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + componentName + "&professionId=" + '{{$professionsData->id}}';
         $.ajax({
             type: 'POST',
             data: form_data,
@@ -1662,13 +1668,22 @@
             },
             cache: false,
             success: function(response) {
-                $(".activity_coins").html("");
                 if (response > 0) {
-                    $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
-                    $(".panel-heading a").attr("data-toggle", "collapse");
-                    $("#activity_unbox").prop('onclick',null).off('click');
+                    if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
+                        $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
+                        $(".panel-heading a").attr("data-toggle", "collapse");
+                        $("#activity_unbox").prop('onclick',null).off('click');
+                    } else {
+                        //$("#promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
+                        //$("#promise_plus_coin").prop('onclick',null).off('click');
+                        $(".promise-plus-outer").html(response);
+                    }
                 } else {
-                    $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
+                    if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
+                        $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
+                    } else {
+                        $(".promise-plus-outer").html(response);
+                    }
                 }
             }
         });
@@ -2054,6 +2069,7 @@
             }
         });
     }
+
 </script>
 
 @stop
