@@ -818,6 +818,22 @@ class level3ActivityController extends Controller {
 
                     $professionsData->advanceActivityDetails = $advanceActivityDetails;
 
+                    //Promise Plus Coins consumption activity details
+                    $promisePlusComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
+                    $promisePluseDeductedCoinsDetail = (isset($promisePlusComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($request->userId, $promisePlusComponent->id, 1, $professionsData->id) : [];
+                    $promisePlusRemainingDays = 0;
+                    if (count($promisePluseDeductedCoinsDetail) > 0) {
+                        $promisePlusRemainingDays = Helpers::calculateRemainingDays($promisePluseDeductedCoinsDetail[0]->dc_end_date);
+                    }
+
+                    $promisePlusCoinsDetails = [];
+                    $promisePlusCoinsDetails['componentId'] = $promisePlusComponent->id;
+                    $promisePlusCoinsDetails['componentName'] = Config::get('constant.PROMISE_PLUS');
+                    $promisePlusCoinsDetails['componentCoins'] = $promisePlusComponent->pc_required_coins;
+                    $promisePlusCoinsDetails['remainingDays'] = $promisePlusRemainingDays;
+
+                    $professionsData->promisePlusCoinsDetails = $promisePlusCoinsDetails;
+
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);
                     unset($professionsData->professionCertificates);
