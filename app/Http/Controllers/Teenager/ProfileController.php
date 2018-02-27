@@ -32,6 +32,7 @@ use Image;
 use DB;
 use App\PaidComponent;
 use App\DeductedCoins;
+use App\Level4ProfessionProgress;
 
 class ProfileController extends Controller
 {
@@ -61,6 +62,7 @@ class ProfileController extends Controller
         $this->professionsRepository = $professionsRepository;
         $this->objPaidComponent = new PaidComponent;
         $this->objDeductedCoins = new DeductedCoins;
+        $this->objLevel4ProfessionProgress = new Level4ProfessionProgress;
     }
 
     public function setSoundOnOff($data) {
@@ -174,7 +176,13 @@ class ProfileController extends Controller
             $remainingDaysForLg = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
         }
 
-        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount', 'remainingDaysForLg', 'componentsData'));   
+        //Achievements Section achieved points details
+        $basicBoosterPoint = Helpers::getTeenagerBasicBooster($user->id);
+        $teenagerAchievedPoints = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? $basicBoosterPoint['total'] : 0;
+
+        //Achievements Section achieved points details
+        $careerCompletedCount = $this->objLevel4ProfessionProgress->getCompletedProfessionCountByTeenId($user->id);
+        return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount', 'remainingDaysForLg', 'componentsData', 'teenagerAchievedPoints', 'careerCompletedCount'));   
     }
 
     //Store my profile data
