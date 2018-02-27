@@ -1054,9 +1054,15 @@ class Level4ActivityController extends Controller {
                 $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($request->userId);
                 $response['availableCoins'] = $userDetail['t_coins'];
                 $level4Booster = Helpers::level4Booster($request->professionId, $request->userId);
+                $l4BoosterDetails = [];
+                $l4BoosterDetails['competing'] = $level4Booster['competing'];
+                $l4BoosterDetails['yourScore'] = $level4Booster['yourScore'];
+                $l4BoosterDetails['highestScore'] = $level4Booster['highestScore'];
+                $l4BoosterDetails['yourRank'] = $level4Booster['yourRank'];
+                $l4BoosterDetails['totalPobScore'] = $level4Booster['totalPobScore'];
                 $level4Booster['total'] = $getTeenagerBoosterPoints['total'];
-                $response['level4Booster'] = $level4Booster;
-                $response['boosterScale'] = 50;
+                $response['level4Booster'] = $l4BoosterDetails;
+                //$response['boosterScale'] = 50;
             } else {
                 $response['status'] = 0;
                 $response['message'] = trans('appmessages.missing_data_msg'); 
