@@ -833,7 +833,7 @@ class level3ActivityController extends Controller {
                     $promisePlusCoinsDetails['remainingDays'] = $promisePlusRemainingDays;
 
                     $professionsData->promisePlusCoinsDetails = $promisePlusCoinsDetails;
-
+                    $professionsData->teenCoins = $teenager->t_coins;
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);
                     unset($professionsData->professionCertificates);
@@ -1120,6 +1120,8 @@ class level3ActivityController extends Controller {
                             $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                         }
                         $data[$key]->t_photo = Storage::url($teenPhoto);
+                        $basicBoosterPoint = Helpers::getTeenagerBasicBooster($value->id);
+                        $data[$key]->points = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
                     }
                     $response['data'] = $data;
                 } else {
@@ -1375,7 +1377,8 @@ class level3ActivityController extends Controller {
                     }
                     $teenArr['t_photo'] = $teenagerThumbImage;
                     $teenArr['t_uniqueid'] = $teenager->t_uniqueid;
-                    $teenArr['t_coins'] = $teenager->tlb_points;
+                    $teenArr['t_coins'] = $teenager->t_coins;
+                    $teenArr['points'] = $teenager->tlb_points;
                     $data[] = $teenArr;
                 }
                 //Store log in System
