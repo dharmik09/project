@@ -1686,6 +1686,7 @@
                     } else {
                         $(".promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
                         $("#promise_plus").prop('onclick',null).off('click');
+                        getPromisePlusData({{$professionsData->id}});
                     }
                 } else {
                     if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
@@ -2062,7 +2063,8 @@
 
     //get promise plus data 
     function getPromisePlusData(professionId)
-    {
+    { 
+        $('#promisespan').addClass('sending');
         $.ajax({
             url: "{{ url('teenager/get-teen-profession-promiseplus') }}",
             type: 'post',
@@ -2070,13 +2072,19 @@
                 "_token": '{{ csrf_token() }}',
                 'professionId':professionId
             },
-            success: function(response) {
-               
+            success: function(response) {               
                 $('#showPromisePlusData').html(response);
-                  $('.promise-plus-overlay').show();
-              
+                $('.promise-plus-overlay').show();              
+                $('#hidepromiseplus').hide(); 
+                $('#promisespan').removeClass('sending');
             }
         });
+    }
+    
+    function hidePromisePlusModal()
+    {
+        $('.promise-plus-overlay').hide();              
+        $('#hidepromiseplus').show();  
     }
 
 </script>

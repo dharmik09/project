@@ -714,6 +714,7 @@ class Level4ActivityController extends Controller {
             $finalPromisePlusData['level4Data'] = $L4promisePlus;
             $finalPromisePlusData['message'] = trans('appmessages.default_success_msg');
             $finalPromisePlusData['status'] = 1;
+           
             return view('teenager.basic.getPromisePlus', compact('finalPromisePlusData'));
         }
         $response['status'] = 0;
@@ -721,6 +722,5 @@ class Level4ActivityController extends Controller {
 
         return response()->json($response, 200);
         exit;
-        echo $level2Promise; exit;
     }
 }
