@@ -176,6 +176,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//L4 Intermediated Question Answer
 	Route::post('/getLevel4IntermediateQuestions', 'Webservice\Level4ActivityController@getLevel4IntermediateQuestions');
 	Route::post('/saveLevel4IntermediateQuestions', 'Webservice\Level4ActivityController@saveLevel4IntermediateQuestions');
+	Route::post('/getLevel4IntermediateTemplate', 'Webservice\Level4ActivityController@getLevel4IntermediateTemplate');
 	
 	//Advertisements
 	Route::post('/getDashboardAdvertisements', 'Webservice\DashboardController@getDashboardAdvertisements');

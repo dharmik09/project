@@ -1011,4 +1011,62 @@ class Level4ActivityController extends Controller {
         exit;     
     }
 
+    /* Request Params : getLevel4IntermediateTemplate
+     *  loginToken, userId, professionId
+     */
+    public function getLevel4IntermediateTemplate(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->professionId) && $request->professionId != "") {
+                $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($request->professionId);
+                $objTemplateDeductedCoins = new TemplateDeductedCoins();
+                if(!empty($getQuestionTemplateForProfession) && isset($getQuestionTemplateForProfession[0])) {
+                    foreach ($getQuestionTemplateForProfession As $key => $value) {
+                        $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($request->userId, $request->professionId, $value->gt_template_id, 1);
+                        
+                        $days = 0;
+                        if (!empty($deductedCoinsDetail) && isset($deductedCoinsDetail[0])) {
+                            $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+                        }
+
+                        $getQuestionTemplateForProfession[$key]->remaningDays = $days;
+                        $intermediateActivities = [];
+                        $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($request->userId, $request->professionId, $value->gt_template_id);
+                        $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($request->userId, $request->professionId, $value->gt_template_id);
+                        if (empty($intermediateActivities) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions == $totalIntermediateQuestion[0]->NoOfAttemptedQuestions) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions < $totalIntermediateQuestion[0]->NoOfAttemptedQuestions)) {
+                           $getQuestionTemplateForProfession[$key]->attempted = 'yes';
+                        } else {
+                            $getQuestionTemplateForProfession[$key]->attempted = 'no';
+                        }
+                    }
+                }
+
+                if(!empty($getQuestionTemplateForProfession) && isset($getQuestionTemplateForProfession[0])) {
+                    $response['questionTemplate'] = $getQuestionTemplateForProfession;
+                } else {
+                    $response['questionTemplate'] = [];
+                }
+                $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($request->userId);
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['status'] = 1;
+                $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($request->userId);
+                $response['availableCoins'] = $userDetail['t_coins'];
+                $level4Booster = Helpers::level4Booster($request->professionId, $request->userId);
+                $level4Booster['total'] = $getTeenagerBoosterPoints['total'];
+                $response['level4Booster'] = $level4Booster;
+                $response['boosterScale'] = 50;
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;     
+    }
+
 }

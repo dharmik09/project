@@ -266,27 +266,14 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
                 ->where('activity.deleted', 1)
                 ->get();
 
-        if(isset($result) && !empty($result)){
-            foreach($result as $key => $value){
-                if(isset($value->gt_template_image) && $value->gt_template_image != ''){
-                    $value->gt_template_image = Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->gt_template_image;
-                }else{
-                    $value->gt_template_image = Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH') .  "proteen-logo.png";
-                }
-                if($value->gt_template_descritpion_popup_imge != ''){
-                    if(file_exists(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->gt_template_descritpion_popup_imge)){
-                        $value->gt_template_descritpion_popup_imge = asset(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->gt_template_descritpion_popup_imge);
-                    }else{
-                        $value->gt_template_descritpion_popup_imge = '';
-                    }
-                }else{
-                    $value->gt_template_descritpion_popup_imge = '';
-                }
+        if(isset($result) && !empty($result)) {
+            foreach($result as $key => $value) {
+                $value->gt_template_image = (isset($value->gt_template_image) && $value->gt_template_image != '') ? Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH').$value->gt_template_image) : Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                $value->gt_template_descritpion_popup_imge = (isset($value->gt_template_descritpion_popup_imge) && $value->gt_template_descritpion_popup_imge != '') ? Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->gt_template_descritpion_popup_imge) : "";
             }
-        }else{
+        } else {
             $result = [];
         }
-
         return $result;
     }
 

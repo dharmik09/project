@@ -67,6 +67,10 @@ class CalculateProfessionCompletePercentageCommand extends Command
                                         $query3->select("level4_inetermediate_activity_user_answer.l4iaua_teenager")
                                             ->from('level4_inetermediate_activity_user_answer'); 
                                     });
+                                    $query->orWhereIn('id', function($query4) { 
+                                        $query4->select("pro_l4aaua_level4_advance_activity_user_data.l4aaua_teenager")
+                                            ->from('pro_l4aaua_level4_advance_activity_user_data'); 
+                                    });
                                 })->get();
             $getAllActiveProfession = DB::table('pro_pf_profession')->select('pro_pf_profession.id')->where('pro_pf_profession.deleted', 1)->get();
             
