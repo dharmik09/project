@@ -281,18 +281,7 @@ class HomeController extends Controller
             }
             $this->log->info('User coins consumed for' . $coinsConsumedFor, array('userId' => $teenId));
         } 
-        if ($componentName == Config::get('constant.PROMISE_PLUS')) {
-            //Promise plus coins consumption details
-            $promisePlusComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
-            $promisePluseDeductedCoinsDetail = (isset($promisePlusComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($teenId, $promisePlusComponent->id, 1, $professionId) : [];
-            $promisePlusRemainingDays = 0;
-            if (count($promisePluseDeductedCoinsDetail) > 0) {
-                $promisePlusRemainingDays = Helpers::calculateRemainingDays($promisePluseDeductedCoinsDetail[0]->dc_end_date);
-            }
-            return view('teenager.basic.careerPromisePlusSection', compact('promisePlusRemainingDays', 'promisePlusComponent'));
-        } else {
-            return $remainingDays;
-        }
+        return $remainingDays;
     }
     
     public function getUserScoreProgress()

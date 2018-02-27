@@ -557,10 +557,10 @@
             }
         });
         
-        $('.btn-next').click(function() {
-            $('.front_page').hide();
-            $('.promise-plus-overlay').show(500);
-        });
+        // $('.btn-next').click(function() {
+        //     $('.front_page').hide();
+        //     $('.promise-plus-overlay').show(500);
+        // });
         
         $('.promise-plus-overlay .close').click(function() {
             $('.promise-plus-overlay').hide();
@@ -1674,15 +1674,14 @@
                         $(".panel-heading a").attr("data-toggle", "collapse");
                         $("#activity_unbox").prop('onclick',null).off('click');
                     } else {
-                        //$("#promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
-                        //$("#promise_plus_coin").prop('onclick',null).off('click');
-                        $(".promise-plus-outer").html(response);
+                        $(".promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
+                        $("#promise_plus").prop('onclick',null).off('click');
                     }
                 } else {
                     if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
                         $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
                     } else {
-                        $(".promise-plus-outer").html(response);
+                        $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
                     }
                 }
             }
