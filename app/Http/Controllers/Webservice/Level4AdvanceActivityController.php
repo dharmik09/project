@@ -141,6 +141,7 @@ class Level4AdvanceActivityController extends Controller {
                             $mediaData = [];
                             $mediaData['id'] = $task->id;
                             if (Storage::size($this->level4AdvanceOriginalImageUploadPath . $task->l4aaua_media_name) > 0 && $task->l4aaua_media_name != '') { 
+                                $mediaName = $task->l4aaua_media_name;
                                 if ($typeId == 3) {
                                     $media = $task->l4aaua_media_name; 
                                 } else if ($typeId == 2) {
@@ -151,7 +152,7 @@ class Level4AdvanceActivityController extends Controller {
                                     $media = 'proteen-logo.png';
                                 }
                                 $mediaData['displayImage'] =  Storage::url($this->level4AdvanceOriginalImageUploadPath . $media);
-                                $mediaData['mediaPath'] = Storage::url($this->level4AdvanceOriginalImageUploadPath . $media);
+                                $mediaData['mediaPath'] = Storage::url($this->level4AdvanceOriginalImageUploadPath . $mediaName);
                             } else {
                                 if ($typeId == 2) {
                                     $media = 'no_document.png';
@@ -161,7 +162,7 @@ class Level4AdvanceActivityController extends Controller {
                                     $media = 'proteen-logo.png';
                                 }
                                 $mediaData['displayImage'] =  Storage::url($this->level4AdvanceOriginalImageUploadPath . $media);
-                                $mediaData['mediaPath'] = Storage::url($this->level4AdvanceOriginalImageUploadPath . $media);
+                                $mediaData['mediaPath'] = '';
                             }
 
                             $mediaData['mediaName'] = $task->l4aaua_media_name;
