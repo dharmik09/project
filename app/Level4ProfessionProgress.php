@@ -25,4 +25,11 @@ class Level4ProfessionProgress extends Model
         }
         return $findData;
     }
+
+    //Returns completed profession count by Teenager id
+    public function getCompletedProfessionCountByTeenId($teenId) 
+    {
+        $careerCount = $this->where('teenager_id', $teenId)->where('level4_total', 100)->distinct('profession_id')->count('profession_id');
+        return $careerCount;
+    }
 }

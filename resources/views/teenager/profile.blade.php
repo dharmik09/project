@@ -450,112 +450,112 @@
                 <div class="tab-content">
                     <div id="menu1" class="tab-pane fade in active">
                         <ul class="badge-list clearfix">
-                            <li class="point-cl">
+                            <li class="<?php if (isset($teenagerAchievedPoints) && $teenagerAchievedPoints > Config::get('constant.ACHIEVEMENT_BADGE1')) { ?> point-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.DISPLAY_ACHIEVEMENT_BADGE1') }}</span>
                                 </div>
                                 <p>Points <br>achieved</p>
                             </li>
-                            <li class="point-cl">
+                            <li class="<?php if (isset($teenagerAchievedPoints) && $teenagerAchievedPoints > Config::get('constant.ACHIEVEMENT_BADGE2')) { ?> point-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.DISPLAY_ACHIEVEMENT_BADGE2') }}</span>
                                 </div>
                                 <p>Points <br>achieved</p>
                             </li>
-                            <li class="point-cl">
+                            <li class="<?php if (isset($teenagerAchievedPoints) && $teenagerAchievedPoints > Config::get('constant.ACHIEVEMENT_BADGE3')) { ?> point-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.DISPLAY_ACHIEVEMENT_BADGE3') }}</span>
                                 </div>
                                 <p>Points <br>achieved</p>
                             </li>
-                            <li class="point-cl">
+                            <li class="<?php if (isset($teenagerAchievedPoints) && $teenagerAchievedPoints > Config::get('constant.ACHIEVEMENT_BADGE4')) { ?> point-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.DISPLAY_ACHIEVEMENT_BADGE4') }}</span>
                                 </div>
                                 <p>Points <br>achieved</p>
                             </li>
-                            <li>
+                            <li class="<?php if (isset($teenagerAchievedPoints) && $teenagerAchievedPoints > Config::get('constant.ACHIEVEMENT_BADGE5')) { ?> point-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.DISPLAY_ACHIEVEMENT_BADGE5') }}+</span>
                                 </div>
                                 <p>Points <br>achieved</p>
                             </li>
                         </ul>
                         <ul class="badge-list clearfix">
-                            <li class="career-cl">
+                            <li class="<?php if (isset($careerCompletedCount) && $careerCompletedCount > Config::get('constant.CAREER_COMLETED_BADGE1')) { ?> career-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CAREER_COMLETED_BADGE1') }}</span>
                                 </div>
                                 <p>careers<br> completed</p>
                             </li>
-                            <li class="career-cl">
+                            <li class="<?php if (isset($careerCompletedCount) && $careerCompletedCount > Config::get('constant.CAREER_COMLETED_BADGE2')) { ?> career-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CAREER_COMLETED_BADGE2') }}</span>
                                 </div>
                                 <p>careers<br> completed</p>
                             </li>
-                            <li class="career-cl">
+                            <li class="<?php if (isset($careerCompletedCount) && $careerCompletedCount > Config::get('constant.CAREER_COMLETED_BADGE3')) { ?> career-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CAREER_COMLETED_BADGE3') }}</span>
                                 </div>
                                 <p>careers<br> completed</p>
                             </li>
-                            <li>
+                            <li class="<?php if (isset($careerCompletedCount) && $careerCompletedCount > Config::get('constant.CAREER_COMLETED_BADGE4')) { ?> career-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CAREER_COMLETED_BADGE4') }}</span>
                                 </div>
                                 <p>careers<br> completed</p>
                             </li>
-                            <li>
+                            <li class="<?php if (isset($careerCompletedCount) && $careerCompletedCount > Config::get('constant.CAREER_COMLETED_BADGE5')) { ?> career-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CAREER_COMLETED_BADGE5') }}+</span>
                                 </div>
                                 <p>careers<br> completed</p>
                             </li>
                         </ul>
                         <ul class="badge-list clearfix">
-                            <li class="connection-cl">
+                            <li class="<?php if (isset($myConnectionsCount) && $myConnectionsCount > Config::get('constant.CONNECTION_BADGE1')) { ?> connection-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CONNECTION_BADGE1') }}</span>
                                 </div>
                                 <p>connections<br> made</p>
                             </li>
-                            <li class="connection-cl">
+                            <li class="<?php if (isset($myConnectionsCount) && $myConnectionsCount > Config::get('constant.CONNECTION_BADGE2')) { ?> connection-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CONNECTION_BADGE2') }}</span>
                                 </div>
                                 <p>connections<br> made</p>
                             </li>
-                            <li class="connection-cl">
+                            <li class="<?php if (isset($myConnectionsCount) && $myConnectionsCount > Config::get('constant.CONNECTION_BADGE3')) { ?> connection-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CONNECTION_BADGE3') }}</span>
                                 </div>
                                 <p>connections<br> made</p>
                             </li>
-                            <li>
+                            <li class="<?php if (isset($myConnectionsCount) && $myConnectionsCount > Config::get('constant.CONNECTION_BADGE4')) { ?> connection-cl <?php } ?>" >
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CONNECTION_BADGE4') }}</span>
                                 </div>
                                 <p>connections<br> made</p>
                             </li>
-                            <li>
+                            <li class="<?php if (isset($myConnectionsCount) && $myConnectionsCount > Config::get('constant.CONNECTION_BADGE5')) { ?> connection-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">100</span>
+                                    <span class="point">{{ Config::get('constant.CONNECTION_BADGE5') }}+</span>
                                 </div>
                                 <p>connections<br> made</p>
                             </li>
