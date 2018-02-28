@@ -166,7 +166,9 @@
                                 <li class="active custom-tab col-xs-6 tab-color-2">
                                     <a data-toggle="tab" href="#menu2">
                                         <span class="dt">
-                                            <span class="dtc">Explore <span class="tab-complete">{{ (isset($professionCompletePercentage)) ? $professionCompletePercentage : 0 }}% Complete</span></span>
+                                            <span class="dtc">Explore <span class="tab-complete">
+                                            <?php $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionsData->id); ?>
+                                            {{ (isset($professionComplete) && $professionComplete > 0) ? $professionComplete : 0}}% Complete</span></span>
                                         </span>
                                     </a>
                                 </li>
