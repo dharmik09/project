@@ -260,8 +260,8 @@ class Level4ActivityController extends Controller {
             } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "option_reorder") {
                 return view('teenager.basic.careerIntermediateOptionReorderQuestion', compact('response'));
             } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "image_reorder") {
-                //return view('teenager.basic.careerIntermediateImageReorderQuestion', compact('response'));
-                return view('teenager.basic.careerIntermediateQuizQuestion', compact('response'));
+                return view('teenager.basic.careerIntermediateImageReorderQuestion', compact('response'));
+                //return view('teenager.basic.careerIntermediateQuizQuestion', compact('response'));
             } else {
                 
             }

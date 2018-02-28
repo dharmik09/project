@@ -896,7 +896,7 @@
     }
 
     //Basic level data query
-    var basicCount;
+    var basicCount, col_count;
     jQuery(document).ready(function($) {
         var counter = setInterval(basicTimer, 1000);
         function basicSecondPassed() {
@@ -1016,6 +1016,23 @@
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
                 $(".sortable").sortable();
                 $(".sortable").disableSelection();
+                adjusting_box_size();
+                // //var col_count = $('.drg_section').data('col');
+                // console.log(col_count);
+                // console.log("ssss");
+                $(".drag_drp li span").draggable({
+                    opacity: "0.5",
+                    helper: "clone",
+                    containment: "document"
+                });
+                $(".drag_drp li").droppable({
+                    hoverClass: "ui-state-active",
+                    drop: function(event, ui) {
+                        if ($(this).find('img').length == 0) {
+                            ui.draggable.detach().appendTo($(this));
+                        }
+                    }
+                });
             }
         }); 
     }
@@ -1451,6 +1468,90 @@
                 scrollTop: $('#intermediateErrorGoneMsg').offset().top 
             }, 300);
             $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please select order and answer!</span></div></div></div>');
+        }
+    }
+
+    function saveDropDragIntermediateAnswer() {
+        $("#intermediateErrorGoneMsg").html('');
+        $('.stopOnSubmit iframe').attr("src", jQuery(".stopOnSubmit iframe").attr("src"));
+        var isAudio = $("#checkAudio").val();
+        if(typeof isAudio !== "undefined"){
+            var audioStop = document.getElementById('onOffAudio');
+            audioStop.pause();
+            $("#onOffAudio").prop('muted',true);
+        }
+        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
+            var audio = document.getElementById('audio_1');
+            audio.play();
+        <?php } ?>
+        var countBox = 1;
+        var optionLength = $('#d_d_count').attr('value');
+        var arra_ans = [];
+        var validCheckAll = 0;
+        
+        $('.drp_section li').each(function() {
+            if ($(this).find('img').length == 0) {
+                //alert("Please fill box no:" + countBox);
+                return false;
+            } else {
+                var ans_array = $(this).find('img').data('imageid');
+                arra_ans.push(ans_array);
+            }
+            countBox++;
+        });
+        if (arra_ans.length < optionLength) {
+            validCheckAll = 0;
+        } else {
+            validCheckAll = 1;
+            $(".intermediate-time-tag").css('visibility', 'hidden');
+        }
+
+        if (validCheckAll === 1) {
+            var form_data = $("#level4_intermediate_activity_ans").serializeArray();
+            form_data.push({name: 'answer[0]', value: arra_ans});
+            $('.intermediate-question-loader').parent().toggleClass('loading-screen-parent');
+            $('.intermediate-question-loader').show();
+            $("#setResponseIntermediate").val("1");
+            $('.saveIntMe').css('visibility', 'hidden');
+            $.ajax({
+                type : 'POST',
+                data : form_data,
+                //async: false,
+                dataType: 'html',
+                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                cache: false,
+                success: function(data) {
+                    $('.intermediate-question-loader').hide();
+                    $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+                    var obj = $.parseJSON(data);
+                    if (obj.status == 1) {
+                        if (obj.answerType == "image_reorder") {
+                            $("#answerRightWrongMsg").text(obj.answerRightWrongMsg);
+                            if (obj.systemCorrectAnswer == 1) {
+                                $(".response_message_outer").addClass("correct");
+                            } else {
+                                $(".response_message_outer").addClass("incorrect");
+                            }
+                        } else {
+                            $("#answerRightWrongMsg").text("Invalid answer type");
+                        }
+                        $('.saveIntMe').css('visibility', 'hidden');
+                        $('.next-intermediate').show();
+                    } else {
+                        $("#showResponseMessage").text(obj.message);
+                        var urlSet = obj.redirect;
+                    }
+                }
+            });
+        } else {
+            $("#intermediateErrorGoneMsg").html('');
+            $('.intermediate-question-loader').hide();
+            $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
+            $("html, body").animate({
+                scrollTop: $('#intermediateErrorGoneMsg').offset().top 
+            }, 300);
+            $("#intermediateErrorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Please fill boxes!</span></div></div></div>');
         }
     }
 
@@ -2118,6 +2219,13 @@
         getChallengedParentAndMentorList("{{Auth::guard('teenager')->user()->id}}");
         getUserProfessionCompetitor({{$professionsData->id}});
     });
+
+    function adjusting_box_size() {
+        var col_width = $('.drg_section').width();
+        var finale_width = col_width / col_count;
+        $('.drag_drp li').height(finale_width).width(finale_width - 4);
+    }
+    
 
 </script>
 
