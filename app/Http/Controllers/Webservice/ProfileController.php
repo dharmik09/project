@@ -25,6 +25,7 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use App\PaidComponent;
 use App\DeductedCoins;
+use App\Level4ProfessionProgress;
 
 class ProfileController extends Controller
 {
@@ -51,6 +52,7 @@ class ProfileController extends Controller
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
         $this->objPaidComponent = new PaidComponent;
         $this->objDeductedCoins = new DeductedCoins;
+        $this->objLevel4ProfessionProgress = new Level4ProfessionProgress;
     }
 
     /* Request Params : getTeenagerProfileData
@@ -548,50 +550,100 @@ class ProfileController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
-            $array =[
-                        [
-                            'type' => "points_achieved",
-                            'name' => "Points Achieved",
-                            'color' => "#ff5f44",
-                            'achievementsCount' => "10",
-                            'child_data' => [
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 10000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-orange.png'), 'badge_color' => "#ff5f44" ],
-                                                ['badge_name' => "POINTS ACHIEVED", 'badge_point' => 1500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ]
-                                            ]
-                        ],
-                        [
-                            'type' => "careers_completed",
-                            'name' => "Careers Completed",
-                            'color' => "#27a6b5",
-                            'child_data' => [
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#27a6b5" ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#27a6b5" ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-blue.png'), 'badge_color' => "#27a6b5" ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ],
-                                                ['badge_name' => "CAREERS COMPLETED", 'badge_point' => 500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ]
-                                            ]
-                        ],
-                        [
-                            'type' => "connections_made",
-                            'name' => "Connections Made",
-                            'color' => "#73376d",
-                            'child_data' => [
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 100, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#73376d" ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1000, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#73376d" ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 1500, 'badge_active' => 1, 'badge_image' => Storage::url('img/badge-purple.png'), 'badge_color' => "#73376d" ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 2500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ],
-                                                ['badge_name' => "CONNECTIONS MADE", 'badge_point' => 3500, 'badge_active' => 0, 'badge_image' => Storage::url('img/badge-grey.png'), 'badge_color' => "#c8cbce" ]
-                                            ]
-                        ]
+            //Achievements Section achieved points details
+            $basicBoosterPoint = Helpers::getTeenagerBasicBooster($request->userId);
+            $teenagerAchievedPoints = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? $basicBoosterPoint['total'] : 0;
+            $achievementBadgeCount = 0;
+            if (isset($teenagerAchievedPoints) && $teenagerAchievedPoints > 0) {
+                $achievementBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.ACHIEVEMENT_BADGE_ARRAY'), $teenagerAchievedPoints);
+            }
+            //Achievements Section career completed details
+            $careerCompletedCount = $this->objLevel4ProfessionProgress->getCompletedProfessionCountByTeenId($request->userId);
+            $careerBadgeCount = 0;
+            if (isset($careerCompletedCount) && $careerCompletedCount > 0) {
+                $careerBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY'), $careerCompletedCount);
+            }
+            //Achievements Section connection details
+            $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($request->userId);
+            $connectionBadgeCount = 0;
+            if (isset($myConnectionsCount) && $myConnectionsCount > 0) {
+                $connectionBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.CONNECTION_BADGE_ARRAY'), $myConnectionsCount);
+            }
 
-                    ];
+            //Achievement array
+            $acheivementArr = [];
+            $acheivementArr['type'] = "points_achieved";
+            $acheivementArr['name'] = "Points Achieved";
+            $acheivementArr['color'] = "#ff5f44";
+            $acheivementArr['achievementsCount'] = $achievementBadgeCount + $careerBadgeCount + $connectionBadgeCount;
+            $acheivementArr['child_data'] = [];
+            for ($achievementBadges = 1; $achievementBadges <= 5; $achievementBadges++) { 
+                $achievementChildData = [];
+                $achievementChildData['badge_name'] = 'POINTS ACHIEVED';
+                $achievementChildData['badge_point'] = Config::get('constant.ACHIEVEMENT_DISPLAY_BADGE_ARRAY')[$achievementBadges];
+                if ($achievementBadgeCount > 0 && $achievementBadges <= $achievementBadgeCount) { 
+                    $achievementChildData['badge_active'] = 1;
+                    $achievementChildData['badge_image'] = Storage::url('img/badge-orange.png');
+                    $achievementChildData['badge_color'] = "#ff5f44";
+                } else {
+                    $achievementChildData['badge_active'] = 0;
+                    $achievementChildData['badge_image'] = Storage::url('img/badge-grey.png');
+                    $achievementChildData['badge_color'] = "#c8cbce";
+                }
+                $acheivementArr['child_data'][] = $achievementChildData;
+            }
+
+            //Career completed array
+            $careerArr = [];
+            $careerArr['type'] = "careers_completed";
+            $careerArr['name'] = "Careers Completed";
+            $careerArr['color'] = "#27a6b5";
+            $careerArr['child_data'] = [];
+            for ($careerBadges = 1; $careerBadges <= 5; $careerBadges++) { 
+                $careerChildData = [];
+                $careerChildData['badge_name'] = 'Careers Completed';
+                $careerChildData['badge_point'] = Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY')[$careerBadges];
+                if ($careerBadgeCount > 0 && $careerBadges <= $careerBadgeCount) { 
+                    $careerChildData['badge_active'] = 1;
+                    $careerChildData['badge_image'] = Storage::url('img/badge-blue.png');
+                    $careerChildData['badge_color'] = "#27a6b5";
+                } else {
+                    $careerChildData['badge_active'] = 0;
+                    $careerChildData['badge_image'] = Storage::url('img/badge-grey.png');
+                    $careerChildData['badge_color'] = "#c8cbce";
+                }
+                $careerArr['child_data'][] = $careerChildData;
+            }
+
+            //Connection badges array
+            $connectionArr = [];
+            $connectionArr['type'] = "connections_made";
+            $connectionArr['name'] = "Connections Made";
+            $connectionArr['color'] = "#73376d";
+            $connectionArr['child_data'] = [];
+            for ($connectionBadges = 1; $connectionBadges <= 5; $connectionBadges++) { 
+                $connChildData = [];
+                $connChildData['badge_name'] = 'CONNECTIONS MADE';
+                $connChildData['badge_point'] = Config::get('constant.CONNECTION_BADGE_ARRAY')[$connectionBadges];
+                if ($connectionBadgeCount > 0 && $connectionBadges <= $connectionBadgeCount) { 
+                    $connChildData['badge_active'] = 1;
+                    $connChildData['badge_image'] = Storage::url('img/badge-purple.png');
+                    $connChildData['badge_color'] = "#27a6b5";
+                } else {
+                    $connChildData['badge_active'] = 0;
+                    $connChildData['badge_image'] = Storage::url('img/badge-grey.png');
+                    $connChildData['badge_color'] = "#c8cbce";
+                }
+                $connectionArr['child_data'][] = $connChildData;
+            }
+            $data = [];
+            $data[] = $acheivementArr;
+            $data[] = $careerArr;
+            $data[] = $connectionArr;
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
-            $response['data'] = $array;
+            $response['data'] = $data;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }

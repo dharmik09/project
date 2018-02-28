@@ -465,7 +465,7 @@
                             <li class="<?php if (isset($careerBadgeCount) && $careerBadges <= $careerBadgeCount) { ?> career-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">{{ Config::get('constant.CAREER_COMLETED_BADGE_ARRAY')[$careerBadges] }}<?php if($careerBadges == 5) { ?>+<?php } ?></span>
+                                    <span class="point">{{ Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY')[$careerBadges] }}<?php if($careerBadges == 5) { ?>+<?php } ?></span>
                                 </div>
                                 <p>careers<br> completed</p>
                             </li>
