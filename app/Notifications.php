@@ -80,7 +80,7 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
                             ->where('n_receiver_type',$type)
                             ->where('deleted',config::get('constant.ACTIVE_FLAG'))
                             ->skip($record)
-                            ->take(10)
+                            ->take(20)
                             ->get();
     }
 
@@ -139,4 +139,27 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
             return false;
         }
      }
+
+    /**
+     * get Unread Notification count By User Id
+     */
+    public function getUnreadNotificationCountForUser($userId)
+    {
+        return Notifications::where('n_receiver_id', '=', $userId)
+                            ->where('n_read_status',Config::get('constant.NOTIFICATION_STATUS_UNREAD'))
+                            ->where('deleted',config::get('constant.ACTIVE_FLAG'))
+                            ->count();
+    }
+
+    /**
+     * get Unread Notification count By User Id
+     */
+    public function getNotificationDetailsByRecordId($recordId, $userId)
+    {
+        return Notifications::where('n_receiver_id', $userId)
+                            ->where('n_record_id', $recordId)
+                            ->where('n_read_status',Config::get('constant.NOTIFICATION_STATUS_UNREAD'))
+                            ->where('deleted',config::get('constant.ACTIVE_FLAG'))
+                            ->first();
+    }
 }

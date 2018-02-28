@@ -29,14 +29,12 @@ class NotificaionController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getNotification'));
         if($request->userId != "" && $teenager) {
-            
+            $data = [];
             $pageNo = 0;
             if($request->pageNo != '' && $request->pageNo > 1){
-                $pageNo = ($request->pageNo-1) * 10;
+                $pageNo = ($request->pageNo-1) * 20;
             }
-
             $data = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo);
-
             foreach($data as $key => $value){
                 if(isset($value->senderTeenager) && $value->senderTeenager != '') {
                     $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
@@ -54,13 +52,8 @@ class NotificaionController extends Controller {
                 unset($data[$key]->community);
             }
             
-            if($data){
-                $response['data'] = $data;
-            }
-            else{
-                $response['data'] = trans('appmessages.data_empty_msg');
-            }
-
+            $response['data'] = $data;
+            $response['notificationUnreadCount'] = $this->objNotifications->getUnreadNotificationCountForUser($request->userId);
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -155,7 +148,7 @@ class NotificaionController extends Controller {
 
             $response['status'] = 1;
             $response['login'] = 1;
-
+            $response['notificationUnreadCount'] = $this->objNotifications->getUnreadNotificationCountForUser($request->userId);
             $this->log->info('Response for change Notifications status to read' , array('api-name'=> 'readNotification'));
 
         } else {
