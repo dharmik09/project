@@ -3072,5 +3072,35 @@ Class Helpers {
         $data = DB::table('pro_l4aapa_level4_profession_progress')->where(['teenager_id' => $teenagerId, 'profession_id' => $professionId])->first();
         return (isset($data->level4_total) && $data->level4_total != "" && $data->level4_total > 0) ? ($data->level4_total > 100) ? 100 : $data->level4_total : 0;
     }
+
+    public static function calculateBadgeCount($badgeArr, $availableBadges) {
+        $badgeCount = 0;
+        switch ($availableBadges) {
+            case $availableBadges >= $badgeArr[5]:
+                $badgeCount = 5;
+                break;
+
+            case $availableBadges >= $badgeArr[4]:
+                $badgeCount = 4;
+                break;
+
+            case $availableBadges >= $badgeArr[3]:
+                $badgeCount = 3;
+                break;
+
+            case $availableBadges >= $badgeArr[2]:
+                $badgeCount = 2;
+                break;
+
+            case $availableBadges >= $badgeArr[1]:
+                $badgeCount = 1;
+                break;
+
+            default:
+                $badgeCount = 0;
+                break;
+        }
+        return $badgeCount;
+    } 
     
 }

@@ -372,4 +372,8 @@ return [
     'CONNECTION_BADGE3' => 25,
     'CONNECTION_BADGE4' => 50,
     'CONNECTION_BADGE5' => 100,
+    'ACHIEVEMENT_BADGE_ARRAY' => array('1' => '3000', '2' => '6000', '3' => '10000', '4' => '15000', '5' => '20000'),
+    'ACHIEVEMENT_DISPLAY_BADGE_ARRAY' => array('1' => '3k', '2' => '6k', '3' => '10k', '4' => '15k', '5' => '20k'),
+    'CAREER_COMLETED_BADGE_ARRAY' => array('1' => '1', '2' => '3', '3' => '5', '4' => '10', '5' => '15'),
+    'CONNECTION_BADGE_ARRAY' => array('1' => '5', '2' => '15', '3' => '25', '4' => '50', '5' => '100'),
 ];
