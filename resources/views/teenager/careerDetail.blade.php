@@ -239,8 +239,7 @@
                                                                 <div class="col-sm-6 flex-items">
                                                                     <div class="quiz-box">
                                                                         <div class="img">
-                                                                            <?php $templateImage = ($templateProfession->gt_template_image != "" && Storage::size($templateProfession->gt_template_image) > 0) ? Storage::url($templateProfession->gt_template_image) : Storage::url('img/img-dummy.png'); ?>
-                                                                            <img src="{{ $templateImage }}" alt="{{ $templateProfession->gt_template_title }}">
+                                                                            <img src="{{ $templateProfession->gt_template_image }}" alt="{{ $templateProfession->gt_template_title }}">
                                                                         </div>
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
                                                                         <p> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...')) !!}</p>
@@ -372,9 +371,12 @@
                             ?>
                             
                             <?php if($matchScalePoint == 33)
-                                {$matchName = 'No Match'; $class = 'bar-no-match'; $h3class = 'no-match';}
-                                elseif($matchScalePoint == 66){$matchName = 'Moderate'; $class = 'bar-moderate';$h3class = 'moderate-match';}
-                                else{$matchName = 'Match'; $class = 'bar'; $h3class = 'strong-match';} 
+                                {$matchName = 'No Match'; $class = 'bar-no-match'; $h3class = 'no-match'; $percentage = '100';}
+                                elseif($matchScalePoint == 66){$matchName = 'Moderate'; $class = 'bar-moderate';$h3class = 'moderate-match';$percentage = '100';}
+                                elseif($matchScalePoint == 100){$matchName = 'Match'; $class = 'bar'; $h3class = 'strong-match';$percentage = '100';} 
+                                else{
+                                    $matchName = 'No Attempt'; $class = ''; $h3class = '';$percentage = '0';
+                                }
                             ?>
                             
                             <div class="progress-match">
@@ -392,7 +394,7 @@
                                 <div class="barOverflow">
                                     <div class="bar {{$class}}"></div>
                                 </div>
-                                <span>100%</span>
+                                <span>{{$percentage}}%</span>
                             </div>
                             <h3 class="{{$h3class}}">{{$matchName}}</h3>
                         </div>

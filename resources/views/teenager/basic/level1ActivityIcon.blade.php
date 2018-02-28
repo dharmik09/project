@@ -8,7 +8,7 @@
                     <img src="{{ $iconSet->image }}" alt="{{ $iconSet->name }}">
                     <span class="check"><i class="icon-check-mark" aria-hidden="true"></i></span>
                 </span>
-                <span class="title">{{ $iconSet->name }}</span>
+                <span class="title" title="{{$iconSet->name}}">{{ str_limit($iconSet->name, $limit = 12, $end = '..') }}</span>
             </label>
         </div>
     @endforeach

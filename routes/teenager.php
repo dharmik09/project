@@ -110,7 +110,7 @@ Route::post('get-teenagers-by-filter', 'Teenager\CommunityManagementController@i
 //Route::get('/reject-connection-request', 'Teenager\CommunityManagementController@rejectRequest')->name('reject-connection-request');
 
 //Learning Guidance
-Route::get('/learning-guidance', 'Teenager\HomeController@learningGuidance');
+Route::get('/learning-guidance', 'Teenager\Level4ActivityController@learningGuidance');
 Route::post('/save-consumed-coins-details', 'Teenager\HomeController@saveConsumedCoinsDetails');
 	
 //Network
