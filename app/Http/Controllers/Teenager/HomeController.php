@@ -96,17 +96,6 @@ class HomeController extends Controller
         return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
     }
 
-    /**
-     * Returns learning Guidance page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function learningGuidance()
-    {
-        $learningGuidance = Helpers::learningGuidance();
-        return view('teenager.learningGuidance', compact('learningGuidance'));
-    }
-
     /* Request Params : getInterestDetail
     *  Param : teenagerId
     */
