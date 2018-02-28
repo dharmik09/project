@@ -31,8 +31,9 @@
                 @if (isset($learningGuidance) && !empty($learningGuidance))
                 <div class="learning-guidance">
                     <div class="panel-group" id="accordion">
-                        @forelse ($learningGuidance['panelData'] as $learningGuidanceData) 
+                        @forelse ($learningGuidance as $learningGuidanceData) 
                             <?php 
+                            
                             switch($learningGuidanceData['slug']) {
                                 case Config::get('constant.FACTUAL_SLUG'):
                                     $panelClass = 'factual';
@@ -77,15 +78,15 @@
                                             @forelse ($learningGuidanceData['subPanelData'] as $subPanelData)
                                             <?php 
                                                 switch($subPanelData['titleType']) {
-                                                    case Config::get('constant.EASY_FLAG'):
+                                                    case 'High':
                                                         $subPanelClass = "understanding";
                                                         break;
 
-                                                    case Config::get('constant.MEDIUM_FLAG'):
+                                                    case 'Medium':
                                                         $subPanelClass = "remember";
                                                         break;
 
-                                                    case Config::get('constant.CHALLENGING_FLAG'):
+                                                    case 'High':
                                                         $subPanelClass = "analyzing";
                                                         break;
 
@@ -94,7 +95,7 @@
                                                         break;
                                                 }; ?>
                                             <li class="{{ $subPanelClass }}">
-                                                <h5>{{ $subPanelData['title'] }}</h5>
+                                                <h5>{{ str_replace('_', ' ', $subPanelData['title']) }}</h5>
                                                 <p>{!! $subPanelData['subPanelDescription'] !!}</p>
                                             </li>
                                             @empty
