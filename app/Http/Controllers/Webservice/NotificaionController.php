@@ -76,17 +76,15 @@ class NotificaionController extends Controller {
                 $data = $this->objNotifications->deleteNotificationById($request->notificationId);
                 
                 if($data){
-                    $response['data'] = [];
                     $response['message'] = trans('appmessages.default_success_msg');
                 }
                 else{
-                    $response['data'] = [];
                     $response['message'] = trans('appmessages.default_error_msg');
                 }
-
+                $response['data'] = [];
                 $response['status'] = 1;
                 $response['login'] = 1;
-
+                $response['notificationUnreadCount'] = $this->objNotifications->getUnreadNotificationCountForUser($request->userId);
                 $this->log->info('Response for fetch Notifications page wise' , array('api-name'=> 'getNotification'));
             } else {
                 $this->log->error('Parameter missing error' , array('api-name'=> 'getNotification'));
@@ -138,14 +136,12 @@ class NotificaionController extends Controller {
             $data =  $this->objNotifications->ChangeNotificationsReadStatus($id,Config::get('constant.NOTIFICATION_STATUS_READ'));
             
             if(isset($data)){
-                $response['data'] = [];
                 $response['message'] = trans('appmessages.default_success_msg');
             }
             else{
-                $response['data'] = [];
                 $response['message'] = trans('appmessages.default_error_msg');
             }
-
+            $response['data'] = [];
             $response['status'] = 1;
             $response['login'] = 1;
             $response['notificationUnreadCount'] = $this->objNotifications->getUnreadNotificationCountForUser($request->userId);
