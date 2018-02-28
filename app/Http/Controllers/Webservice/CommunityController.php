@@ -274,16 +274,23 @@ class CommunityController extends Controller
                 elseif($checkConnectionResponse == 0)
                 {
                     $updateResponse = $this->communityRepository->changeTeenConnectionStatusById($recordId,$request->status);
-                    if($updateResponse){
-                        $response['status'] = 1;
-                        $response['message'] = trans('appmessages.default_success_msg');
+                    if($updateResponse) {
+                        $notificationDetails = $this->objNotifications->getNotificationDetailsByRecordId($recordId, $request->userId);
+                        $updateNoficationStatus = $this->objNotifications->ChangeNotificationsReadStatus($notificationDetails->id, Config::get('constant.NOTIFICATION_STATUS_READ'));
+                        if ($updateNoficationStatus) {
+                            $response['status'] = 1;
+                            $response['message'] = trans('appmessages.default_success_msg');
+                        } else {
+                            $response['status'] = 0;
+                            $response['message'] = trans('appmessages.default_error_msg');
+                        }
                     }
                     else{
                         $response['status'] = 0;
                         $response['message'] = trans('appmessages.default_error_msg');
                     }
                 }
-                
+                $response['notificationUnreadCount'] = $this->objNotifications->getUnreadNotificationCountForUser($request->userId);
                 $response['login'] = 1;
             }
             else {
