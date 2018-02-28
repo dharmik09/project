@@ -166,7 +166,10 @@ class ProfileController extends Controller
         
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
         $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
-        $connectionBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.CONNECTION_BADGE_ARRAY'), $myConnectionsCount);
+        $connectionBadgeCount = 0;
+        if (isset($myConnectionsCount) && $myConnectionsCount > 0) {
+            $connectionBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.CONNECTION_BADGE_ARRAY'), $myConnectionsCount);
+        }
         $myConnections = $this->communityRepository->getMyConnections($user->id);
         $myCareers = $this->professionsRepository->getMyCareersSlotWise($user->id);
         $myCareersCount = $this->professionsRepository->getMyCareersCount($user->id);
@@ -180,10 +183,16 @@ class ProfileController extends Controller
         //Achievements Section achieved points details
         $basicBoosterPoint = Helpers::getTeenagerBasicBooster($user->id);
         $teenagerAchievedPoints = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? $basicBoosterPoint['total'] : 0;
-        $achievementBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.ACHIEVEMENT_BADGE_ARRAY'), $teenagerAchievedPoints);
+        $achievementBadgeCount = 0;
+        if (isset($teenagerAchievedPoints) && $teenagerAchievedPoints > 0) {
+            $achievementBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.ACHIEVEMENT_BADGE_ARRAY'), $teenagerAchievedPoints);
+        }
         //Achievements Section career completed details
         $careerCompletedCount = $this->objLevel4ProfessionProgress->getCompletedProfessionCountByTeenId($user->id);
-        $careerBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.CAREER_COMLETED_BADGE_ARRAY'), $careerCompletedCount);
+        $careerBadgeCount = 0;
+        if (isset($careerCompletedCount) && $careerCompletedCount > 0) {
+            $careerBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY'), $careerCompletedCount);
+        }
         return view('teenager.profile', compact('level1Activities', 'data', 'user', 'countries', 'sponsorDetail', 'teenSponsorIds', 'teenagerParents', 'teenagerMeta', 'teenagerMyIcons', 'learningGuidance', 'myConnectionsCount', 'myConnections', 'myCareers', 'myCareersCount', 'remainingDaysForLg', 'componentsData', 'careerBadgeCount', 'achievementBadgeCount', 'connectionBadgeCount', 'displayAchievementBadgeArr'));   
     }
 
