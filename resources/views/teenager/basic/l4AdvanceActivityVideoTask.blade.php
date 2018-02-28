@@ -9,7 +9,7 @@
         <input type="file" name="media" accept="video/*" onchange="readURL(this);">
     </div>
     <div id="mediaErr" class="photo-error-register"></div>
-    <button id="taskSave" class="btn-primary btn-default" title="Submit" type="submit">Submit</button>
+    <button id="taskSave" class="btn-primary btn-default" title="Submit" type="submit">Upload</button>
 </form>
 @if(isset($userLevel4AdvanceVideoTask) && count($userLevel4AdvanceVideoTask) > 0)
 <div class="upload-content">
