@@ -136,9 +136,13 @@
         <div class="img-list">
             <ul>
                 @forelse($professionsData->professionCertificates as $professionCertificate)
-               
                 @if(count($professionCertificate->certificate) > 0)
-                <li><img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo"></li>
+                <li>
+                    <div class="logo-img">
+                        <img src="{{ Storage::url($professionCertificationImagePath.$professionCertificate->certificate['pc_image']) }}" alt="compatia logo">
+                    </div>
+                    <span>{{ (isset($professionCertificate->certificate['pc_name']) && !empty($professionCertificate->certificate['pc_name'])) ? $professionCertificate->certificate['pc_name'] : '' }}</span>
+                </li>
                 @endif
                 
                 @empty
