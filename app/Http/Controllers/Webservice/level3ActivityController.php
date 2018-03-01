@@ -1031,6 +1031,7 @@ class level3ActivityController extends Controller {
                         }
 
                         $match = $nomatch = $moderate = [];
+                        $professionAttemptedCount = 0;
                         foreach ($value->profession as $k => $v) {
                             if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
@@ -1038,7 +1039,14 @@ class level3ActivityController extends Controller {
                             else{
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                             }
-                            $data[$key]->profession[$k]->completed = rand(0,1);
+
+                            $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $v->id);
+                            if(isset($professionAttempted) && $professionAttempted == 100) { 
+                                $data[$key]->profession[$k]->completed = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                                $professionAttemptedCount++;
+                            } else {
+                                $data[$key]->profession[$k]->completed = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');
+                            }
 
                             $data[$key]->profession[$k]->matched = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
                             if($data[$key]->profession[$k]->matched == "match") {
@@ -1054,7 +1062,7 @@ class level3ActivityController extends Controller {
                         }
                         
                         $data[$key]->total_basket_profession = count($value->profession);
-                        $data[$key]->basket_completed_profession = '12';
+                        $data[$key]->basket_completed_profession = $professionAttemptedCount;
                         $data[$key]->strong_match = count($match);
                         $data[$key]->potential_match = count($moderate);
                         $data[$key]->unlikely_match = count($nomatch);
