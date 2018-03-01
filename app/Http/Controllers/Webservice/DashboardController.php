@@ -657,7 +657,7 @@ class DashboardController extends Controller
                     if (isset($professionComplete) && $professionComplete == 100) {
                         $careersArr['attempted'] = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
                     } else {
-                        $careersArr['attempted'] = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');;
+                        $careersArr['attempted'] = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');
                     }
                     $careerData[] = $careersArr;
                     //Counting Data

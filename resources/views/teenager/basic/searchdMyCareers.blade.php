@@ -5,7 +5,6 @@
         $matchScaleCount = [];
     ?>
     @foreach($basketsData as $key => $value)
-    <?php $matchScaleCount = []; ?>
         <section class="sec-category">
             <h2>{{$value->b_name}}</h2>
             <div class="row">
@@ -13,7 +12,9 @@
                     <?php
                         $professionAttemptedCount = 0;
                         foreach($value->profession as $k => $v){
-                            if(count($v->professionAttempted)>0){
+                            //Check if profession attempted or not
+                            $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $v->id);
+                            if(isset($professionComplete) && $professionComplete == 100){
                                 $professionAttemptedCount++;
                             }
                             $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
@@ -55,10 +56,11 @@
                                         <figcaption>
                                             <a href="{{url('teenager/career-detail/')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{ str_limit($v->pf_name, $limit = 35, $end = '...') }}</a>
                                         </figcaption>
-                                        <?php $v->professionAttempted = rand(0,1); ?>
-                                        @if($v->professionAttempted == 1)
+                                        <?php
+                                            $professionAttempted = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $v->id);
+                                            if(isset($professionAttempted) && $professionAttempted == 100) { ?>
                                             <span class="complete">Complete</span>
-                                        @endif
+                                            <?php } ?>
                                     </figure>
                                 </div>
                             </div>
