@@ -28,9 +28,9 @@
                                                 <?php
                                                     $professionAttemptedCount = 0;
                                                     foreach($value->profession as $k => $v){
-                                                        if(count($v->professionAttempted)>0){
-                                                            $professionAttemptedCount++;
-                                                        }
+                                                        // if(count($v->professionAttempted)>0){
+                                                        //     $professionAttemptedCount++;
+                                                        // }
                                                         $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
                                                         if($matchScale == "match") {
                                                             $basketsData[$key]['profession'][$k]['match_scale'] = "match-strong";
@@ -44,6 +44,10 @@
                                                         } else {
                                                             $basketsData[$key]['profession'][$k]['match_scale'] = "career-data-nomatch";
                                                         }
+                                                        $professionAttempted = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $v->id);
+                                                        if(isset($professionAttempted) && $professionAttempted == 100){
+                                                            $professionAttemptedCount++;
+                                                        } 
                                                     }
                                                 ?>
                                                 <p>
@@ -105,8 +109,9 @@
                                                 <?php $matchScale = ( isset($v->match_scale) && $v->match_scale != '') ? $v->match_scale : "career-data-nomatch"; ?>
                                                 <div class="category {{$matchScale}}">
                                                     <a href="{{url('teenager/career-detail/')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{$v->pf_name}}</a>
-
-                                                    @if(count($v->professionAttempted)>0)
+                                                    <?php 
+                                                        $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $v->id); ?>
+                                                    @if(isset($professionComplete) && $professionComplete == 100)
                                                     <span class="complete"><a href="#" title="Completed"><i class="icon-thumb"></i></a></span>
                                                     @endif
 

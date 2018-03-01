@@ -41,7 +41,7 @@
                                                 <?php $matchScale = ( isset($v->match_scale) && $v->match_scale != '') ? $v->match_scale : "career-data-nomatch"; ?>
                                                 <div class="category {{$matchScale}}">
                                                     <a href="{{url('teenager/career-detail')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{$v->pf_name}}</a>
-                                                    @if(isset($v->attempted))
+                                                    @if(isset($v->attempted) && $v->attempted == 1)
                                                         <span class="complete">
                                                             <a href="#" title="Completed"><i class="icon-thumb"></i></a>
                                                         </span>

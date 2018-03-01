@@ -39,10 +39,7 @@ class Baskets extends Model
         $this->countryId = $countryId;
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query->with(['professionAttempted' => function ($query) {
-                        $query->where('tpa_teenager', $this->userId);
-                    }])
-                    ->with(['professionHeaders' => function ($query) {
+                    $query->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
                     }])
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
@@ -63,10 +60,7 @@ class Baskets extends Model
         $this->countryId = $countryId;
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query->with(['professionAttempted' => function ($query) {
-                        $query->where('tpa_teenager', $this->userId);
-                    }])
-                    ->with(['professionHeaders' => function ($query) {
+                    $query->with(['professionHeaders' => function ($query) {
                         $query->where('country_id',$this->countryId);
                     }])
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
