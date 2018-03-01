@@ -12,6 +12,7 @@ use App\MultipleIntelligent;
 use App\Apptitude;
 use App\Personality;
 use App\Teenagers;
+use App\TemplateDeductedCoins;
 use Auth;
 use Config;
 use Storage;
@@ -295,10 +296,17 @@ class ProfessionController extends Controller {
         if(!$professionsData) {
             return Redirect::to("teenager/list-career")->withErrors("Invalid professions data");
         }
-
+        $objTemplateDeductedCoins = new TemplateDeductedCoins();
         $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionsData->id);
         if( isset($getQuestionTemplateForProfession[0]) ) {
             foreach($getQuestionTemplateForProfession as $key => $professionTemplate) {
+                $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($user->id, $professionsData->id, $professionTemplate->gt_template_id, 1);
+                $days = 0;
+                if ($deductedCoinsDetail && isset($deductedCoinsDetail[0])) {
+                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+                }
+                $getQuestionTemplateForProfession[$key]->remaningDays = $days;
+                $intermediateActivities = [];
                 $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($user->id, $professionsData->id, $professionTemplate->gt_template_id);
                 $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($user->id, $professionsData->id, $professionTemplate->gt_template_id);
                 $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
@@ -502,6 +510,9 @@ class ProfessionController extends Controller {
         }
 
         $professionCompletePercentage = Helpers::getProfessionCompletePercentage($user->id, $professionsData->id);
+
+        //echo "<pre/>"; print_r($getQuestionTemplateForProfession); die();
+
         return view('teenager.careerDetail', compact('professionCompletePercentage', 'getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers', 'promisePlusComponent', 'promisePlusRemainingDays'));
     }
 

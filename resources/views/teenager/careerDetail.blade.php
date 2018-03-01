@@ -244,34 +244,64 @@
                                                                             <img src="{{ $templateProfession->gt_template_image }}" alt="{{ $templateProfession->gt_template_title }}">
                                                                         </div>
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
-                                                                        <p> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...')) !!}</p>
-                                                                        <div class="unbox-btn">
-                                                                            <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}" >
-                                                                                <span class="unbox-me">Unbox Me</span>
-                                                                                <span class="coins-outer">
-                                                                                    <span class="coins"></span> 
-                                                                                    25,000 
-                                                                                </span>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
-                                                                            <div class="modal-dialog">
-                                                                                <div class="modal-content custom-modal">
-                                                                                    <div class="modal-header">
-                                                                                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                                        <h4 class="modal-title">Congratulations!</h4>
-                                                                                    </div>
-                                                                                    <div class="modal-body">
-                                                                                        <p>You have 42,000 ProCoins available.</p>
-                                                                                        <p>Click OK to consume your {{$templateProfession->gt_coins}} ProCoins and play on</p>
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
-                                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                        <p title="{{strip_tags($templateProfession->gt_template_descritpion)}}"> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...more')) !!}</p>
+                                                                        @if ($templateProfession->remaningDays > 0)
+                                                                            <div class="unbox-btn">
+                                                                                <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})" >
+                                                                                    <span class="unbox-me">Play now!</span>
+                                                                                    <span class="coins-outer">
+                                                                                        <span class="coins"></span>
+                                                                                        @if($templateProfession->gt_coins > 0) {{$templateProfession->remaningDays}} Days Left @else this is free enjoy @endif
+                                                                                    </span>
+                                                                                </a>
+                                                                            </div>
+                                                                        @elseif($templateProfession->gt_coins == 0)
+                                                                            <div class="unbox-btn">
+                                                                                <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                    <span class="unbox-me">Play now!</span>
+                                                                                    <span class="coins-outer">
+                                                                                        <span class="coins"></span> 
+                                                                                        This is free enjoy
+                                                                                    </span>
+                                                                                </a>
+                                                                            </div>
+                                                                        @else
+                                                                            @if($templateProfession->attempted == 'yes')
+                                                                                <div class="unbox-btn">
+                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                        <span class="unbox-me">Played!</span>
+                                                                                    </a>
+                                                                                </div>   
+                                                                            @else
+                                                                                <div class="unbox-btn">
+                                                                                    <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}" >
+                                                                                        <span class="unbox-me">Unbox Me</span>
+                                                                                        <span class="coins-outer">
+                                                                                            <span class="coins"></span> 
+                                                                                            {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} 
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content custom-modal">
+                                                                                            <div class="modal-header">
+                                                                                                <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                                                                                                <h4 class="modal-title">Congratulations!</h4>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <p>You have {{ (Auth::guard('teenager')->user()->t_coins > 0) ? number_format(Auth::guard('teenager')->user()->t_coins) : 0 }} ProCoins available.</p>
+                                                                                                <p>Click OK to consume your {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} ProCoins and play on</p>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
+                                                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </div>
+                                                                            @endif
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                             @endforeach
