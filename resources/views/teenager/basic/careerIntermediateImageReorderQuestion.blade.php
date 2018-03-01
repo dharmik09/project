@@ -76,8 +76,8 @@
                             } else {
                                 $noOfColumn = 4;
                             }
-                            $input .= "<ul class='drag_drp drg_section clearfix getColumnDataCount' data-col=" . $noOfColumn . "><span class='title_drg_drp'>Drag from here</span>";
-                            $input2 = "<ul class='drag_drp drp_section clearfix'><span class='title_drg_drp'>Drop here</span>";
+                            $input .= "<ul class='drag_drp drg_section getColumnDataCount' data-col=" . $noOfColumn . "><span class='title_drg_drp'>Drag from here</span>";
+                            $input2 = "<ul class='drag_drp drp_section'><span class='title_drg_drp'>Drop here</span>";
                             $optionLength = 0;
                             shuffle($response['data']->options);
                             foreach ($response['data']->options as $keyOption => $option) {
@@ -94,7 +94,7 @@
                                     $option['optionText'] = $option['optionText'];
                                 }
                                 $input .= "<li><span>";
-                                $input .= $option['optionText'] . "</label>";
+                                $input .= $option['optionText'];
                                 $input .= "</span></li>";
                             }
                             $input2 .= "</ul>";
