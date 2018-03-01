@@ -125,7 +125,7 @@ class ProfileController extends Controller
             $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
 
             $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
-            $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
+            $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? $learningGuidance->cms_body : "";
             $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
             $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($request->userId, $componentsData->id, 1) : [];
             $remainingDaysForActivity = 0;
