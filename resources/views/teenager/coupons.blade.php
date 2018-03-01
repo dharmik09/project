@@ -48,7 +48,7 @@
                         </div>
                         @endforeach
                         @else
-                            No coupons found..
+                        <div class="sec-forum">No coupons found..</div>
                         @endif
                     </div>
                 </div>
