@@ -117,14 +117,14 @@
                         <li><a href="https://plus.google.com/109414106711493074923" target="_blank"><i class="icon-google"></i></a></li>
                         <li><a href="https://www.linkedin.com/company/proteen-life" target="_blank"><i class="icon-linkdin"></i></a></li>
                     </ul>
-                    <div class="store">
+<!--                    <div class="store">
                         <a href="https://itunes.apple.com/us/app/proteen/id1247894187?mt=8" target="_blank" class="appstore">
                         <img class="i-app-store" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAAA1AQMAAACOZRAoAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABJJREFUeNpjYBgFo2AUjAIqAwAEWQABDrhkeAAAAABJRU5ErkJggg==">
                         </a>
                         <a href="https://play.google.com/store/apps/details?id=com.proteenlife" target="_blank" class="playstore">
                         <img class="i-play-store" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAAA1AQMAAABsuQtRAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABJJREFUeNpjYBgFo2AUjAIqAwAEWQABDrhkeAAAAABJRU5ErkJggg==">
                         </a>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </footer>
