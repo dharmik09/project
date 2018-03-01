@@ -8,11 +8,11 @@
 
     <div class="banner-landing">
         <div class="container">
-            <div class="play-icon">
+<!--            <div class="play-icon">
                 <a href="javascript:void(0);" class="play-btn" id="iframe-video-click">
                     <img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon">
                 </a>
-            </div>
+            </div>-->
         </div>
         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/WoelVRjFO4A?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
