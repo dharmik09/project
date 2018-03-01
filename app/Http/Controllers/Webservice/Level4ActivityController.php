@@ -776,7 +776,7 @@ class Level4ActivityController extends Controller {
                 $body = $request->all();
                 $body['timer'] = (isset($request->timer) && $request->timer != 0) ? $request->timer : 0;
                 
-                if( isset($getAllQuestionRelatedDataFromQuestionId[0]) && !empty($getAllQuestionRelatedDataFromQuestionId) ) {
+                if( isset($getAllQuestionRelatedDataFromQuestionId->id) && !empty($getAllQuestionRelatedDataFromQuestionId) ) {
                     $professionId = $getAllQuestionRelatedDataFromQuestionId->l4ia_profession_id;
                     $body['answer'] = explode(',', $request->answer);
 
