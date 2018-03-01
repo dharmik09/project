@@ -74,7 +74,7 @@ class TeenagerManagementController extends Controller {
 
     public function index() {
         //$teenagers = $this->teenagersRepository->getAllTeenagersData
-          return view('admin.ListTeenager');
+          return view('admin.listTeenager');
     }
 
     public function getIndex(){
