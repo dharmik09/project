@@ -1,6 +1,7 @@
 body{font-family: 'h';font-size: 14px;color:#000;}
 .dt{display:table;height: 100%;width:100%;}
 .dtc{display:table-cell;height: 100%;width:100%;vertical-align: middle;}
+.mar15{margin: 15px 0;}
 @include maxsm {
 	.table-responsive{border:none}
 }

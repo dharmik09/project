@@ -76,8 +76,8 @@
                             } else {
                                 $noOfColumn = 4;
                             }
-                            $input .= "<ul class='drag_drp drg_section clearfix getColumnDataCount' data-col=" . $noOfColumn . ">";
-                            $input2 = "<ul class='drag_drp drp_section clearfix'>";
+                            $input .= "<ul class='drag_drp drg_section clearfix getColumnDataCount' data-col=" . $noOfColumn . "><span class='title_drg_drp'>Drag from here</span>";
+                            $input2 = "<ul class='drag_drp drp_section clearfix'><span class='title_drg_drp'>Drop here</span>";
                             $optionLength = 0;
                             shuffle($response['data']->options);
                             foreach ($response['data']->options as $keyOption => $option) {
@@ -99,16 +99,20 @@
                             }
                             $input2 .= "</ul>";
                             $input .= "</ul>";
-                            //$input = $input . $input2;
+                            $input = $input . $input2;
                         ?>
-                        <div class="drag-sec drag_drp drg_section">
+                        <div class="clearfix">
+                            {!! $input !!}
+                        </div>
+                        
+                        <!-- <div class="drag-sec drag_drp drg_section">
                             <span class='title_drg_drp'>Drag from here</span>
                             {!! $input !!}
                         </div>
                         <div class="drop-sec drag-sec drag_drp drp_section">
                             <span class='title_drg_drp'>Drop here</span>
                             {!! $input2 !!}
-                        </div>
+                        </div> -->
                     @else
                         <div class='outer_con'>Opps ! No, any options.</div>
                     @endif
