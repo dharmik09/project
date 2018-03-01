@@ -837,6 +837,9 @@ class level3ActivityController extends Controller {
 
                     $professionsData->promisePlusCoinsDetails = $promisePlusCoinsDetails;
                     $professionsData->teenCoins = $teenager->t_coins;
+                    //Get profession Completion percentage
+                    $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $professionsData->id); 
+                    $professionsData->completedProfession = (isset($professionComplete) && $professionComplete > 0) ? $professionComplete : 0;
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);
                     unset($professionsData->professionCertificates);
