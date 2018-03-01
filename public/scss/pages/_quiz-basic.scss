@@ -238,6 +238,12 @@
                     height: 100%;
                 }
             }
+            /* span{
+                display: block;width: 100%;height: 100%;
+                img{
+                    width: 100%;height: 100%;
+                }
+            }*/
         }
     }
 }
@@ -293,7 +299,7 @@
 .sort-list {
     width: 40%;
     float: left;
-    @include maxsm{
+    @include maxsm {
         float: none;
         width: 100%;
     }
@@ -307,7 +313,7 @@
             padding: 10px;
             margin-bottom: 15px;
             font-size: 18px;
-            @include maxsm{
+            @include maxsm {
                 font-size: 14px;
             }
             img {
@@ -321,7 +327,7 @@
 .sort-list-ans {
     width: 55%;
     float: right;
-    @include maxsm{
+    @include maxsm {
         float: none;
         width: 100%;
     }
@@ -340,7 +346,7 @@
             transition: .3s all ease-out;
             overflow-y: auto;
             font-size: 18px;
-            @include maxsm{
+            @include maxsm {
                 font-size: 14px;
             }
             &:hover {
@@ -519,7 +525,7 @@
                     &.approved {
                         background: $m-cl;
                     }
-                    &.rejected{
+                    &.rejected {
                         background: $p-cl;
                     }
                 }
@@ -1022,13 +1028,51 @@
 .quiz-text {
     max-width: 50%;
     margin: 0 auto;
-    @include maxsm{
+    @include maxsm {
         max-width: 80%;
     }
-    @include maxms{
+    @include maxms {
         max-width: 100%;
     }
 }
-.form-imgSubmit{
+
+.form-imgSubmit {
     margin-bottom: 20px;
 }
+
+.drag_drp {
+    float: left;
+    width: 45%;
+    margin: 15px 2.5%;
+    padding: 0;
+    list-style-type: none;
+    @include maxsm{
+        width: 100%;margin: 15px 0;
+    }
+    li {
+        float: left;
+        width: 50%;
+        border: 1px solid $lightgrey;
+       // background: rgba(15, 8, 26, 0.65);
+        display: block;
+        span {
+            padding: 3px;
+            display: block;
+            height: 100%;
+            width: 100%;
+            img {
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+        }
+    }
+}
+
+.title_drg_drp {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+.ui-draggable-dragging{width: 100px !important;height:100px !important;z-index: 99;}

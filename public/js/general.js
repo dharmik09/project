@@ -32,14 +32,14 @@ $(document).ready(function () {
         });
     });
 
-    $('.main-menu li a').mouseleave(function (event) {
+  /*  $('.main-menu li a').mouseleave(function (event) {
         var activeLinkPostion = activatedLink.offset();
         rocketImage.css({
             top: activeLinkPostion.top,
             left: activeLinkPostion.left - rocketImage.width() * 1.2
         });
     });
-
+*/
     $('.menu-toggler').click(function (event) {
         $('.main-menu').addClass('active');
         setTimeout(function () {
