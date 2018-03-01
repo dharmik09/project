@@ -106,10 +106,18 @@ class ProfessionController extends Controller {
         $professionAttemptedCount = 0;
         $matchScaleCount = [];
         foreach ($basketsData->profession as $k => $v) {
-            $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id, null);
-            if(count($professionAttempted) > 0){
+            // $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id, null);
+            // if(count($professionAttempted) > 0){
+            //     $basketsData['profession'][$k]['attempted'] = 'yes';
+            //     $professionAttemptedCount++;
+            // }
+
+            $professionAttempted = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $v->id);
+            if(isset($professionAttempted) && $professionAttempted == 100){
                 $basketsData['profession'][$k]['attempted'] = 'yes';
                 $professionAttemptedCount++;
+            } else {
+                $basketsData['profession'][$k]['attempted'] = '';
             }
             $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
             if($matchScale == "match") {
