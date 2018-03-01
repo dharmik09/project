@@ -34,6 +34,7 @@ use App\Personality;
 use App\Professions;
 use App\TemplateDeductedCoins;
 use App\Jobs\CalculateProfessionCompletePercentage;
+use App\PromisePlus;
 
 class Level4ActivityController extends Controller {
 
@@ -64,6 +65,7 @@ class Level4ActivityController extends Controller {
         $this->optionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->optionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH');
         $this->answerResponseImageOriginal = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->objPromisePlus = new PromisePlus();
     }
 
     /* Request Params : getScholarshipProgramsDetails
@@ -1073,6 +1075,167 @@ class Level4ActivityController extends Controller {
         }
         return response()->json($response, 200);
         exit;     
+    }
+
+    /* Request Params : getLevel4PromisePlusDetails
+     *  loginToken, userId, careerId
+     */
+    public function getLevel4PromisePlusDetails(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->careerId) && !empty($request->careerId)) {
+                $data = [];
+                $professionId = $request->careerId;
+                $userId = $request->userId;
+                $level4Booster = Helpers::level4Booster($professionId, $userId);
+                $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
+                $totalPoints = 0;
+                if (!empty($getTeenagerAllTypeBadges)) {
+                    if ($getTeenagerAllTypeBadges['level4Basic']['noOfAttemptedQuestion'] != 0) {
+                        $totalPoints += $getTeenagerAllTypeBadges['level4Basic']['basicAttemptedTotalPoints'];
+                    }
+                    if ($getTeenagerAllTypeBadges['level4Intermediate']['noOfAttemptedQuestion'] != 0) {
+                        foreach ($getTeenagerAllTypeBadges['level4Intermediate']['templateWiseEarnedPoint'] AS $k => $val) {
+                            $totalPoints += $getTeenagerAllTypeBadges['level4Intermediate']['templateWiseTotalAttemptedPoint'][$k];
+                        }
+                    }
+                    if ($getTeenagerAllTypeBadges['level4Advance']['earnedPoints'] != 0) {
+                        $totalPoints += $getTeenagerAllTypeBadges['level4Advance']['advanceTotalPoints'];
+                    }
+                }
+                $level2Data = '';
+                $level4PromisePlus = '';
+                $flag = false;
+                if ($totalPoints != 0) {
+                    $level4PromisePlus = Helpers::calculateLevel4PromisePlus($level4Booster['yourScore'], $totalPoints);
+                    $flag = true;
+                }
+
+                $promisePlus = 0;
+                if ($flag) {
+                    if ($level4PromisePlus >= Config::get('constant.NOMATCH_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.NOMATCH_MAX_RANGE') ) {
+                        $promisePlus = "nomatch";
+                    } else if ($level4PromisePlus >= Config::get('constant.MODERATE_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.MODERATE_MAX_RANGE') ) {
+                    $promisePlus = "moderate";
+                    } else if ($level4PromisePlus >= Config::get('constant.MATCH_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.MATCH_MAX_RANGE') ) {
+                    $promisePlus = "match";
+                    } else {
+                        $promisePlus = "";
+                    }
+                } else {
+                    $promisePlus = "";
+                }
+
+                //get L2 HML 
+                $level2Promise = '';
+                $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
+                $level2Promise = isset($getTeenagerHML[$professionId])?$getTeenagerHML[$professionId]:'nomatch';
+
+                if ($level2Promise == 'nomatch') {
+                    $level2Data = 'TOUGH & CHALLENGING';
+                } else if ($level2Promise == 'moderate') {
+                    $level2Data = 'MODERATELY SUITED';
+                } else if ($level2Promise == 'match') {
+                    $level2Data = 'LIKELY FIT FOR YOU';
+                } else {
+                    $level2Promise = "";
+                    $level2Data = '';
+                }
+
+                $promisePlusData = $this->objPromisePlus->getAllPromisePlus();
+
+                $l4PromisePlus = [];
+                $colorCode = '';
+                $l4PP = '';
+                $professionFeedback = '';
+                if ($level2Promise == 'nomatch' && $promisePlus == 'nomatch' ) {
+                    $professionFeedback = 0;
+                    $colorCode = 1;
+                    $l4PP = 1;
+                } else if ($level2Promise == 'nomatch' && $promisePlus == 'moderate' ) {
+                    $professionFeedback = 3;
+                } else if ($level2Promise == 'nomatch' && $promisePlus == 'match' ) {
+                    $professionFeedback = 6;
+                } else if ($level2Promise == 'moderate' && $promisePlus == 'nomatch' ) {
+                    $professionFeedback = 1;
+                } else if ($level2Promise == 'moderate' && $promisePlus == 'moderate' ) {
+                    $professionFeedback = 4;
+                    $colorCode = 2;
+                    $l4PP = 1;
+                } else if ($level2Promise == 'moderate' && $promisePlus == 'match' ) {
+                    $professionFeedback = 7;
+                } else if ($level2Promise == 'match' && $promisePlus == 'nomatch' ) {
+                    $professionFeedback = 2;
+                } else if ($level2Promise == 'match' && $promisePlus == 'moderate' ) {
+                    $professionFeedback = 5;
+                } else if ($level2Promise == 'match' && $promisePlus == 'match' ) {
+                    $professionFeedback = 8;
+                    $colorCode = 3;
+                    $l4PP = 1;
+                }
+                if (!empty($promisePlusData)) {
+                    if ($promisePlus != '') {
+                        $l4PromisePlus[] = $promisePlusData[$professionFeedback];
+                    }
+                } else {
+                    $l4PromisePlus[] = '';
+                }
+                if(isset($l4PromisePlus) && count($l4PromisePlus) > 0) {
+                    if ($level2Promise == 'match') {
+                        if ($promisePlus == 'match') {
+                            $data['image'] = Storage::url('img/Original-image/s-icon-1.png');
+                        } else if ($promisePlus == 'moderate') {
+                            $data['image'] = Storage::url('img/Original-image/m-icon-2.png');
+                        } else if ($promisePlus == 'nomatch') {
+                            $data['image'] = Storage::url('img/Original-image/icon-3.png');
+                        }                   
+                    }
+
+
+                    if ($level2Promise == 'moderate') {
+                        if ($promisePlus == 'match') {
+                            $data['image'] = Storage::url('img/Original-image/s-icon-4.png');  
+                        } else if ($promisePlus == 'moderate') {
+                            $data['image'] = Storage::url('img/Original-image/m-icon-5.png');
+                        } else if ($promisePlus == 'nomatch') {
+                            $data['image'] = Storage::url('img/Original-image/icon-6.png');
+                        }                   
+                    }
+
+
+                    if ($level2Promise == 'nomatch') {
+                        if ($promisePlus == 'match') {
+                            $data['image'] = Storage::url('img/Original-image/s-icon-7.png'); 
+                        } else if ($promisePlus == 'moderate') {
+                            $data['image'] = Storage::url('img/Original-image/m-icon-8.png'); 
+                        } else if ($promisePlus == 'nomatch') {
+                            $data['image'] = Storage::url('img/Original-image/icon-9.png');
+                        }                   
+                    } 
+
+                    $data['details'] = $l4PromisePlus[0]->ps_description;
+                    $response['status'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['data'] = $data;
+                    //Store log in System
+                    $this->log->info('Teenager retrieve promise plus details for profession', array('userId' => $request->userId, 'professionId' => $request->careerId));
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = trans('appmessages.default_error_msg');
+                    $response['data'] = [];
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
     }
 
 }
