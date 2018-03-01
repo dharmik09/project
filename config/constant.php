@@ -375,4 +375,6 @@ return [
     'ACHIEVEMENT_DISPLAY_BADGE_ARRAY' => array('1' => '3k', '2' => '6k', '3' => '10k', '4' => '15k', '5' => '20k'),
     'CAREER_COMPLETED_BADGE_ARRAY' => array('1' => '1', '2' => '3', '3' => '5', '4' => '10', '5' => '15'),
     'CONNECTION_BADGE_ARRAY' => array('1' => '5', '2' => '15', '3' => '25', '4' => '50', '5' => '100'),
+    'PROFESSION_ATTEMPTED_FLAG' => 1,
+    'PROFESSION_NOT_ATTEMPTED_FLAG' => 0,
 ];

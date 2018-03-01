@@ -21,7 +21,7 @@ class FAQController extends Controller {
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->objFAQ = new FAQ;
-        $this->faqThumbImageUploadPath = Config::get('constant.FAQ_THUMB_IMAGE_UPLOAD_PATH');        
+        $this->faqThumbImageUploadPath = Config::get('constant.FAQ_ORIGINAL_IMAGE_UPLOAD_PATH');        
     }
     
     /**

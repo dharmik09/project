@@ -653,7 +653,12 @@ class DashboardController extends Controller
                     $careersArr['pf_name'] = $career->pf_name;
                     $careersArr['pf_slug'] = $career->pf_slug;
                     $careersArr['matched'] = isset($getTeenagerHML[$career->id]) ? $getTeenagerHML[$career->id] : '';
-                    $careersArr['attempted'] = rand(0,1);
+                    $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $career->id);
+                    if (isset($professionComplete) && $professionComplete == 100) {
+                        $careersArr['attempted'] = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                    } else {
+                        $careersArr['attempted'] = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');;
+                    }
                     $careerData[] = $careersArr;
                     //Counting Data
                     if($careersArr['matched'] == "match") {
@@ -720,7 +725,12 @@ class DashboardController extends Controller
                 $careersArr['pf_name'] = $career->pf_name;
                 $careersArr['pf_slug'] = $career->pf_slug;
                 $careersArr['matched'] = isset($getTeenagerHML[$career->id]) ? $getTeenagerHML[$career->id] : '';
-                $careersArr['attempted'] = rand(0,1);
+                $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $career->id);
+                if (isset($professionComplete) && $professionComplete == 100) {
+                    $careersArr['attempted'] = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                } else {
+                    $careersArr['attempted'] = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');;
+                }
                 $careerData[] = $careersArr;
                 //Counting Data
                 if($careersArr['matched'] == "match") {
