@@ -1223,7 +1223,7 @@ class Level4ActivityController extends Controller {
                     $this->log->info('Teenager retrieve promise plus details for profession', array('userId' => $request->userId, 'professionId' => $request->careerId));
                 } else {
                     $response['status'] = 0;
-                    $response['message'] = trans('appmessages.default_error_msg');
+                    $response['message'] = "Please attempt profession first to see Promise Plus";
                     $response['data'] = [];
                 }
             } else {
