@@ -32,7 +32,7 @@
                                     <?php $matchScale = ( isset($v->match_scale) && $v->match_scale != '') ? $v->match_scale : "career-data-nomatch"; ?>
                                     <li class="{{$matchScale}} complete-feild">
                                         <a href="{{url('teenager/career-detail')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{$v->pf_name}}</a>
-                                        @if(isset($v->attempted))
+                                        @if(isset($v->attempted) && $v->attempted != '')
                                             <a class="complete"><span>Complete <i class="icon-thumb"></i></span></a>
                                         @endif
                                     </li>
