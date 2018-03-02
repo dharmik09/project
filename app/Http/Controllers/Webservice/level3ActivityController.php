@@ -266,29 +266,59 @@ class level3ActivityController extends Controller {
             if($request->searchText != "") {
                 $searchValue = $request->searchText;
                 $data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
-                if($data) {
+                if ($data) {
                     
                     $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
 
                     foreach ($data as $key => $value) {
                         //print_r($value); die();
-                        if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
+                        if ($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
                         } else {
                             $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                         }
 
                         $youtubeId = Helpers::youtube_id_from_url($value->b_video);
-                        if($youtubeId != ''){
+                        if ($youtubeId != '') {
                             $data[$key]->b_video = $youtubeId;
                             $data[$key]->type_video = '1'; //Youtube
                         } else {
                             $data[$key]->type_video = '2'; //Dropbox
                         }
 
-                        $data[$key]->total_basket_profession = count($value->profession);
-                        $data[$key]->basket_completed_profession = '12';
+                        //basket total profession
+                        $basketDetails = $this->baskets->find($value->id);
+                        $professions = $basketDetails->profession()->get(); 
+                        $data[$key]->total_basket_profession = count($professions);
+                        $professionAttemptedCount = 0;
+                        foreach ($professions as $profession) {
+                            $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $profession->id);
+                            if ($professionAttempted && $professionAttempted == 100) {
+                                $professionAttemptedCount++;
+                            }
+                        }
+
+                        $data[$key]->basket_completed_profession = $professionAttemptedCount;
                         
+                        // //basket total profession
+                        // $basketDetails = $this->baskets->find($data->id);
+                        // $professions = $basketDetails->profession()->get(); 
+                        // $data->total_basket_profession = count($professions); 
+                        // $professionAttemptedCount = 0;
+                        // $requestProfessionCompleted = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');
+                        // foreach ($professions as $profession) {
+                        //     $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $profession->id);
+                        //     if ($professionAttempted && $professionAttempted == 100) {
+                        //         $professionAttemptedCount++;
+                        //         if ($profession->id == $request->careerId) {
+                        //             $requestProfessionCompleted = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                        //         }
+                        //     }
+                        // }
+                        // $data->basket_completed_profession = $professionAttemptedCount;
+
+
+
                         $match = $nomatch = $moderate = [];
                     
                         foreach ($value->profession as $k => $v) {
@@ -297,7 +327,13 @@ class level3ActivityController extends Controller {
                             } else {
                                 $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                             }
-                            $data[$key]->profession[$k]->completed = rand(0,1);
+
+                            $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $v->id);
+                            if (isset($professionComplete) && $professionComplete == 100) {
+                                $data[$key]->profession[$k]->completed = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                            } else {
+                                $data[$key]->profession[$k]->completed = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');
+                            }
 
                             $data[$key]->profession[$k]->matched = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
                             
@@ -913,20 +949,35 @@ class level3ActivityController extends Controller {
                             $data->type_video = '2'; //Dropbox
                         }
         
-                        $data->total_basket_profession = count($data->profession);
-                        $data->basket_completed_profession = '12';
-                        
+                        // $data->total_basket_profession = count($data->profession);
+                        // $data->basket_completed_profession = '12';
+
+                        //basket total profession
+                        $basketDetails = $this->baskets->find($data->id);
+                        $professions = $basketDetails->profession()->get(); 
+                        $data->total_basket_profession = count($professions); 
+                        $professionAttemptedCount = 0;
+                        $requestProfessionCompleted = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');
+                        foreach ($professions as $profession) {
+                            $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $profession->id);
+                            if ($professionAttempted && $professionAttempted == 100) {
+                                $professionAttemptedCount++;
+                                if ($profession->id == $request->careerId) {
+                                    $requestProfessionCompleted = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                                }
+                            }
+                        }
+                        $data->basket_completed_profession = $professionAttemptedCount;
                         $match = $nomatch = $moderate = [];
                         $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
 
                         foreach ($data->profession as $k => $v) {
-                            if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
+                            if ($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0) {
                                 $data->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
-                            }
-                            else{
+                            } else {
                                 $data->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                             }
-                            $data->profession[$k]->completed = rand(0,1);
+                            $data->profession[$k]->completed = $requestProfessionCompleted;
 
                             $data->profession[$k]->matched = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
                             if($data->profession[$k]->matched == "match") {
