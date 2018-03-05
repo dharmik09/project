@@ -172,6 +172,7 @@
                             $('#send_'+teenager_id).text('Coins gifted successfully');
                             setTimeout(function(){$('#send_'+teenager_id).text(' ');},5000);
                             $('.coin_count_ttl').html(response);
+                            $('#user_procoins').html(response);
                             $("#"+teenager_id).val('');
                             $('#gift_'+teenager_id).removeClass('sending').blur();
                         }
