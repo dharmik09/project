@@ -297,6 +297,7 @@ h6 {
                     top: 33%;
                     right: 25px;
                     font-size: 25px;
+                    transform: rotate(-90deg) !important;
                     @include maxmd{
                         right: 10px;
                         font-size: 20px;
@@ -702,3 +703,10 @@ h6 {
         display: block !important;
     }    
 }
+.dashbord_view_right .my_career_tab #accordionx .panel-heading a.collapsed:before{
+        transform: rotate(90deg) !important;
+}
+.dashbord_view_right .my_career_tab #accordionx .panel-heading a:before{
+    transform: rotate(-90deg) !important;
+}
+.dashbord_view_left .my_career_tab .panel-heading a:before{transform: rotate(0deg) !important;}  
