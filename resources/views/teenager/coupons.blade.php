@@ -26,7 +26,6 @@
             <div class="container">
                 <div class="list-procoins">
                     <div class="row flex-container userData">
-                        <?php $couponsArr = []; ?>
                         @if(isset($couponsArr) && !empty($couponsArr))
                         @foreach($couponsArr as $key=>$val)
                         <?php $activeClass = ($val['type'] == 'active' && $val['is_consume'] == 0)?'':'deactive'; ?>
