@@ -25,7 +25,8 @@
         <section class="sec-coupons sec-procoins">
             <div class="container">
                 <div class="list-procoins">
-                    <div class="row flex-container">
+                    <div class="row flex-container userData">
+                        <?php $couponsArr = []; ?>
                         @if(isset($couponsArr) && !empty($couponsArr))
                         @foreach($couponsArr as $key=>$val)
                         <?php $activeClass = ($val['type'] == 'active' && $val['is_consume'] == 0)?'':'deactive'; ?>
@@ -48,7 +49,14 @@
                         </div>
                         @endforeach
                         @else
-                        <div class="sec-forum">No coupons found..</div>
+                        <div class="no-data">
+                            <div class="data-content">
+                                <div>
+                                    <i class="icon-empty-folder"></i>
+                                </div>
+                                <p>No data found</p>
+                            </div>
+                        </div>
                         @endif
                     </div>
                 </div>
