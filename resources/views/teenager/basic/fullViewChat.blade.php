@@ -88,18 +88,18 @@
                             <ul id="mck-tab-menu-list"
                                 class="mck-dropdown-menu mck-tab-menu-box menu-right"
                                 role="menu">
-                                <li class="mck-tab-message-option vis"><a href="#"
+                                <li class="mck-tab-message-option vis"><a href="javascript:void(0);"
                                                                           id="mck-delete-button" class="mck-delete-button menu-item vis"
                                                                           title="Clear Messages"> Clear Messages </a></li>
-                                <li id="li-mck-block-user" class="vis"><a href="#"
+                                <li id="li-mck-block-user" class="vis"><a href="javascript:void(0);"
                                                                           id="mck-block-button" class="menu-item" title="Block User">Block
                                         User</a></li>
                                 <li id="li-mck-group-info" class="mck-group-menu-options n-vis"><a
-                                        href="#" id="mck-group-info-btn"
+                                        href="javascript:void(0);" id="mck-group-info-btn"
                                         class="menu-item mck-group-info-btn" title="Group Info">
                                         Group Info </a></li>
                                 <li id="li-mck-leave-group"
-                                    class="mck-group-menu-options n-vis"><a href="#"
+                                    class="mck-group-menu-options n-vis"><a href="javascript:void(0);"
                                                                         id="mck-leave-group-btn" class="menu-item" title="Exit Group">
                                         Exit Group </a></li>
                             </ul>
@@ -227,7 +227,7 @@
 
                                     </ul>
                                 </div>
-                                <a href="#" id="mck-file-up2" type="button"
+                                <a href="javascript:void(0);" id="mck-file-up2" type="button"
                                    class="write-link attach n-vis mck-file-upload mck-btn-text-panel"
                                    title="Attach File"> </a>
                                 <a href="javascript:void(0);" id="mck-mike-btn" type="button"
