@@ -172,8 +172,9 @@
                                             } else {
                                                 $teenPhoto = Storage::url($teenThumbImageUploadPath . 'proteen-logo.png');
                                             } ?>
+                                        <a href="{{ url('/teenager/network-member') }}/{{$network->t_uniqueid}}">
                                         <img src="{{ $teenPhoto }}" alt="my_net_view">
-                                        <h4><a href="{{ url('/teenager/network-member') }}/{{$network->t_uniqueid}}">{{ $network->t_name }} {{ $network->t_lastname }}</a></h4>
+                                        <h4>{{ $network->t_name }} {{ $network->t_lastname }}</h4></a>
                                     </div>
                                     <!-- my_net_view End -->
                                 </div>
