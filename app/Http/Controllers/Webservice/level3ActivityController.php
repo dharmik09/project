@@ -163,12 +163,9 @@ class level3ActivityController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getCareersByBasketId'));
         if($request->userId != "" && $teenager) {
-            
             $this->countryId = ($teenager->t_view_information == 1) ? 2 : 1;
             $basketId = $request->basketId;
-
             $careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId, $this->countryId);
-
             if($careersData) {
                 if($careersData->b_logo != '' && Storage::size($this->basketThumbUrl.$careersData->b_logo) > 0) {
                     $careersData->b_logo = Storage::url($this->basketThumbUrl.$careersData->b_logo);
@@ -184,11 +181,11 @@ class level3ActivityController extends Controller {
                 }
 
                 $careersData->total_basket_profession = count($careersData->profession);
-                $careersData->basket_completed_profession = '12';
-        
+                
                 $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
                 $match = $nomatch = $moderate = [];
 
+                $professionAttemptedCount = 0;
                 foreach ($careersData->profession as $key => $value) {
                     if($value->pf_logo != '' && Storage::size($this->professionThumbUrl . $value->pf_logo) > 0) {
                         $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $value->pf_logo);
@@ -228,11 +225,19 @@ class level3ActivityController extends Controller {
                     
                     $careersData->profession[$key]['average_per_year_salary'] = $average_per_year_salary;
                     $careersData->profession[$key]['profession_outlook'] = $profession_outlook;
-                    $careersData->profession[$key]['completed'] = rand(0,1);
-                    
+
+                    //Check whether profession is attempted or not
+                    $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $value->id);
+                    if ($professionAttempted && $professionAttempted == 100) {
+                        $professionAttemptedCount++;
+                        $careersData->profession[$key]['completed'] = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                    } else {
+                        $careersData->profession[$key]['completed'] = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');
+                    }
+
                     unset($careersData->profession[$key]->professionHeaders);
                 }
-
+                $careersData->basket_completed_profession = $professionAttemptedCount;
                 $careersData->strong_match = count($match);
                 $careersData->potential_match = count($moderate);
                 $careersData->unlikely_match = count($nomatch);
@@ -242,7 +247,7 @@ class level3ActivityController extends Controller {
                 $response['data']['completed_profession'] = '123';
             }
             else{
-                $response['data'] = trans('appmessages.data_empty_msg');
+                $response['data'] = [];
             }
 
             $response['status'] = 1;
