@@ -98,15 +98,15 @@
             <div id="loading-content"></div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+        <script src="{{ Storage::url('js/jquery-3.2.1.min.js') }}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset('js/masonry.pkgd.js') }}"></script>
-        <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('js/aos.js') }}"></script>
-        <script src="{{ asset('js/general.js') }}"></script>
+        <script src="{{ Storage::url('js/bootstrap.min.js') }}"></script>
+        <script src="{{ Storage::url('js/owl.carousel.min.js') }}"></script>
+        <script src="{{ Storage::url('js/masonry.pkgd.js') }}"></script>
+        <script src="{{ Storage::url('js/jquery.magnific-popup.min.js') }}"></script>
+        <script src="{{ Storage::url('js/jquery.validate.min.js') }}"></script>
+        <script src="{{ Storage::url('js/aos.js') }}"></script>
+        <script src="{{ Storage::url('js/general.js') }}"></script>
         
         @stack('script-footer')
         @yield('script')
