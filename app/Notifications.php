@@ -29,7 +29,11 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
      */
     public function insertUpdate($data)
     {
-        return Notifications::create($data);
+        if (isset($data['id']) && $data['id'] != '') {  
+            return Notifications::where('id', $data['id'])->update($data);  
+        } else {
+            return Notifications::create($data);
+        }
     }
 
 
@@ -159,6 +163,19 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
         return Notifications::where('n_receiver_id', $userId)
                             ->where('n_record_id', $recordId)
                             ->where('n_read_status',Config::get('constant.NOTIFICATION_STATUS_UNREAD'))
+                            ->where('deleted',config::get('constant.ACTIVE_FLAG'))
+                            ->first();
+    }
+
+    /**
+     * Check if record already exist
+     */
+    public function checkIfNotificationAlreadyExist($notificationData) {
+        return Notifications::where('n_sender_id', $notificationData['n_sender_id'])
+                            ->where('n_sender_type', $notificationData['n_sender_type'])
+                            ->where('n_receiver_id', $notificationData['n_receiver_id'])
+                            ->where('n_receiver_type', $notificationData['n_receiver_type'])
+                            ->where('n_notification_type', $notificationData['n_notification_type'])
                             ->where('deleted',config::get('constant.ACTIVE_FLAG'))
                             ->first();
     }

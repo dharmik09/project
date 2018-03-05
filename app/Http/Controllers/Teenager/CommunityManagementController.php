@@ -147,7 +147,16 @@ class CommunityManagementController extends Controller {
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW');
             $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has viewed your profile';
-            $this->objNotifications->insertUpdate($notificationData);
+            $recordExist = $this->objNotifications->checkIfNotificationAlreadyExist($notificationData);
+            if ($recordExist && count($recordExist) > 0) {
+                $notificationData = [];
+                $notificationData['created_at'] = Carbon::now();
+                $notificationData['id'] = $recordExist->id;
+                $this->objNotifications->insertUpdate($notificationData);
+            } else {
+                $this->objNotifications->insertUpdate($notificationData);
+            }
+            
             return view('teenager.networkMember', compact('teenagerTrait', 'teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectionStatus', 'myConnectionsCount'));
         } else {
             return Redirect::back()->with('error', 'Member not found');
