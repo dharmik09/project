@@ -730,9 +730,8 @@ class Level4ActivityController extends Controller {
                         }
                         //$intermediateActivitiesData->questionAnswerText = ($intermediateActivitiesData->l4ia_question_answer_description != '') ? $intermediateActivitiesData->l4ia_question_answer_description : '';
                     }
-
                 } else {
-                    $intermediateActivitiesData = [];
+                    $intermediateActivitiesData = new \stdClass();
                 }
 
                 $getTemplateNo = Helpers::getTemplateNo($userId, $professionId);
