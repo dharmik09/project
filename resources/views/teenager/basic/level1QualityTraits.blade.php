@@ -28,5 +28,5 @@
         </div>
     </div>
 @else 
-    <div class="sec-forum"><span>All traits completed</span></div>
+    <div class="sec-forum"><span>No traits completed</span></div>
 @endif
