@@ -50,8 +50,8 @@
                 @endif
             </div>
             <div class="sec-popup">
-                <a href="javascript:void(0);" onmouseover="getHelpText('member-details')" data-trigger="hover" data-popover-content="#member-details" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="member-details">
+                <a id="member-details" href="javascript:void(0);" onmouseover="getHelpText('member-details')" data-trigger="hover" data-popover-content="#member-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="member-sec">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a> 
                         <span class="member-details"></span>
@@ -207,8 +207,8 @@
                 <div class="tab-content">
                     <div id="menu1" class="tab-pane fade in active">
                         <div class="sec-popup">
-                            <a href="javascript:void(0);" onmouseover="getHelpText('member-interest')" data-trigger="hover" data-popover-content="#member-interest" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                            <div class="hide" id="member-interest">
+                            <a id="member-interest" href="javascript:void(0);" onmouseover="getHelpText('member-interest')" data-trigger="hover" data-popover-content="#member-interest-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                            <div class="hide" id="member-interest-sec">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a> 
                                     <span class="member-interest"></span>
@@ -236,8 +236,8 @@
                     </div>
                     <div id="menu2" class="tab-pane fade">
                         <div class="sec-popup">
-                            <a href="javascript:void(0);" onmouseover="getHelpText('member-strength')" data-trigger="hover" data-popover-content="#member-strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                            <div class="hide" id="member-strength">
+                            <a id="member-strength" href="javascript:void(0);" onmouseover="getHelpText('member-strength')" data-trigger="hover" data-popover-content="#member-strength-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                            <div class="hide" id="member-strength-sec">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a> 
                                     <span class="member-strength"></span>
@@ -265,8 +265,8 @@
                     </div>
                     <div id="menu3" class="tab-pane fade my-connection">
                         <div class="sec-popup">
-                            <a href="javascript:void(0);" onmouseover="getHelpText('member-connections')" data-trigger="hover" data-popover-content="#member-connections" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                            <div class="hide" id="member-connections">
+                            <a id="member-connections" href="javascript:void(0);" onmouseover="getHelpText('member-connections')" data-trigger="hover" data-popover-content="#member-connections-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                            <div class="hide" id="member-connections-sec">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a> 
                                     <span class="member-connections"></span>
