@@ -5,7 +5,7 @@ return [
     'ACTIVE_FLAG' => '1',
     'INACTIVE_FLAG' => '2',
     'DELETED_FLAG' => '3',
-    'DEFAULT_AWS' => "https://s3.ap-south-1.amazonaws.com/s3proteen/",
+    'DEFAULT_AWS' => "https://s3.ap-south-1.amazonaws.com/proteenlive-old/",
     'TEEN_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/teenager/original/',
     'TEEN_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/teenager/thumb/',
     'TEEN_PROFILE_IMAGE_UPLOAD_PATH' => 'uploads/teenager/profile/',
