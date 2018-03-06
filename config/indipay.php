@@ -12,12 +12,12 @@ return [
 
     'gateway' => 'CCAvenue',                // Replace with the name of default gateway you want to use
 
-    'testMode'  => true,                   // True for Testing the Gateway [For production false]
+    'testMode'  => false,                   // True for Testing the Gateway [For production false]
 
     'ccavenue' => [                         // CCAvenue Parameters
         'merchantId'  => '130338',
-        'accessCode'  => 'AVNQ01FA49CC78QNCC',
-        'workingKey' => '1B5BABD2757CEB237A396C43EEB12A47',
+        'accessCode'  => 'AVDJ70ED21AY50JDYA',
+        'workingKey' => '3B83F2DA86F1C30D1FCAD48A01D00F45',
 
         // Should be route address for url() function
         'redirectUrl' => env('INDIPAY_REDIRECT_URL', 'ccavenue/response'),
