@@ -246,7 +246,7 @@
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
                                                                         <p title="{{strip_tags($templateProfession->gt_template_descritpion)}}"> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...more')) !!}</p>
                                                                         @if ($templateProfession->remaningDays > 0)
-                                                                            <div class="unbox-btn">
+                                                                            <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
                                                                                 <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})" >
                                                                                     <span class="unbox-me">Play now!</span>
                                                                                     <span class="coins-outer">
@@ -256,7 +256,7 @@
                                                                                 </a>
                                                                             </div>
                                                                         @elseif($templateProfession->gt_coins == 0)
-                                                                            <div class="unbox-btn">
+                                                                            <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
                                                                                 <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
                                                                                     <span class="unbox-me">Play now!</span>
                                                                                     <span class="coins-outer">
@@ -267,14 +267,14 @@
                                                                             </div>
                                                                         @else
                                                                             @if($templateProfession->attempted == 'yes')
-                                                                                <div class="unbox-btn">
+                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
                                                                                     <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
                                                                                         <span class="unbox-me">Played!</span>
                                                                                     </a>
                                                                                 </div>   
                                                                             @else
-                                                                                <div class="unbox-btn">
-                                                                                    <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" data-toggle="modal" data-target="#myModal{{$templateProfession->gt_template_id}}" >
+                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
+                                                                                    <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" onclick="getTemplateConceptData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}})">
                                                                                         <span class="unbox-me">Unbox Me</span>
                                                                                         <span class="coins-outer">
                                                                                             <span class="coins"></span> 
@@ -289,13 +289,15 @@
                                                                                                 <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
                                                                                                 <h4 class="modal-title">Congratulations!</h4>
                                                                                             </div>
-                                                                                            <div class="modal-body">
-                                                                                                <p>You have {{ (Auth::guard('teenager')->user()->t_coins > 0) ? number_format(Auth::guard('teenager')->user()->t_coins) : 0 }} ProCoins available.</p>
-                                                                                                <p>Click OK to consume your {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} ProCoins and play on</p>
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                                <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onClick="getConceptData({{$templateProfession->gt_template_id}})">ok</button>
-                                                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                                            <div class="no-coins-availibility">
+                                                                                                <div class="modal-body">
+                                                                                                    <p class="my-coins-info">You have {{ (Auth::guard('teenager')->user()->t_coins > 0) ? number_format(Auth::guard('teenager')->user()->t_coins) : 0 }} ProCoins available.</p>
+                                                                                                    <p>Click OK to consume your {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} ProCoins and play on</p>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onclick="saveCoinsForTemplateData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}}, 'no')" >ok</button>
+                                                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -611,37 +613,16 @@
             }
         });
         
-        // $('.btn-next').click(function() {
-        //     $('.front_page').hide();
-        //     $('.promise-plus-overlay').show(500);
-        // });
-        
         $('.promise-plus-overlay .close').click(function() {
             $('.promise-plus-overlay').hide();
             $('.front_page').show(500);
         });
-        
-        // $('.quiz-area .close').click(function() {
-        //     $('.sec-show').removeClass('hide');
-        //     $('.sec-hide').removeClass('active');
-        // });
-
-        // $('#intermediateLevelData .close').click(function() {
-        //     $('.intermediate-question .sec-show').removeClass('hide');
-        //     $('.sec-hide').removeClass('active');
-        // });
         
         $('.btn-advanced').click(function(){
             $('.quiz-advanced .sec-show').addClass('hide');
             $('.quiz-advanced .sec-hide').addClass('active');
         });
         
-        // $('.upload-screen .close').click(function() {
-        //     alert();
-        //     $('.sec-show').removeClass('hide');
-        //     $('.sec-hide').removeClass('active');
-        // });
-
         $(".progress-match").each(function(){
             var $bar = $(this).find(".bar");
             var $val = $(this).find("span");
@@ -2260,6 +2241,56 @@
         $('.drag_drp li').height(finale_width).width(finale_width - 4);
     }
     
+    function getTemplateConceptData(professionId, templateId) {
+        $.ajax({
+            url: "{{ url('/teenager/get-coins-for-template') }}",
+            type: 'POST',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "professionId": professionId,
+                "templateId": templateId
+            },
+            success: function(response) {
+                if (response.status == 1 ) {
+                    $("#myModal"+templateId).modal('show');
+                    if(response.return == 1) {
+                        $("#myModal"+templateId+" .my-coins-info").text("You have "+response.coins+" ProCoins available.");
+                    } else {
+                        $("#myModal"+templateId+" .modal-title").text("Notification!");
+                        $("#myModal"+templateId+" .no-coins-availibility").html("<div class='modal-body'><p>You don\'t have enough ProCoins. Please Buy more.</p></div><div class='modal-footer'><button type='button' class='btn btn-primary'>Buy Coins</button><button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button></div>");
+                    }
+                } else {
+                    $("#myModal"+templateId).modal('show');
+                    $("#myModal"+templateId+" .modal-title").text("Authentication Failed!");
+                    $("#myModal"+templateId+" .no-coins-availibility").html("<div class='modal-body'><p>"+response.message+"</p></div>");
+                    location.href = response.redirect;
+                }
+            }
+        });
+    }
+
+    function saveCoinsForTemplateData(professionId, templateId, attempted) {
+        $.ajax({
+            url: "{{ url('/teenager/save-coins-for-template-data') }}",
+            type: 'POST',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "professionId": professionId,
+                "templateId": templateId,
+                "attempted":attempted
+            },
+            success: function(response) {
+                if(response.status == 1) {
+                    getConceptData(templateId);
+                    if(typeof response.remainingDays !== "undefined" && response.remainingDays > 0) {
+                        $(".set-template-"+templateId).html("<a href='javascript:void(0);' title='Play now!' class='btn-primary' onclick='getConceptData("+templateId+")' ><span class='unbox-me'>Play now!</span><span class='coins-outer'><span class='coins'></span>"+response.remainingDays+" Days Left</span></a>");
+                    }
+                } else {
+                    location.href = "{{url('/')}}";
+                }
+            }
+        });
+    }
 
 </script>
 

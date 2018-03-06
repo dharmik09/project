@@ -14,12 +14,14 @@ use Input;
 use App\Transactions;
 use App\DeductedCoins;
 use App\TemplateDeductedCoins;
+use App\PaidComponent;
 use App\Services\Coin\Contracts\CoinRepository;
 use App\PurchasedCoins;
 use Softon\Indipay\Facades\Indipay;
 use App\Services\Parents\Contracts\ParentsRepository;
 use App\TeenParentRequest;
 use App\Services\Template\Contracts\TemplatesRepository;
+use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use Mail;
 use Redirect;
 use App\Teenagers;
@@ -33,9 +35,10 @@ class CoinManagementController extends Controller
      *
      * @return void
      */
-    public function __construct(TeenagersRepository $teenagersRepository, CoinRepository $coinRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository)
+    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, CoinRepository $coinRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->objTransactions = new Transactions;
         $this->objDeductedCoins = new DeductedCoins;
         $this->objTemplateDeductedCoins = new TemplateDeductedCoins;
@@ -307,4 +310,87 @@ class CoinManagementController extends Controller
             return view('teenager.learningGuidanceData', compact('deductedCoinsDetailLS'));
         }
     }
+
+    public function getCoinsForTemplate() {
+        $professionId = Input::get('professionId');
+        $templateId = Input::get('templateId');
+        $userId = Auth::guard('teenager')->user()->id;
+        if($userId > 0 && $professionId != '' && $templateId != '') {
+            $userData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($templateId);
+            $coins = isset($userData['gt_coins']) ? $userData['gt_coins'] : 0;
+            $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($userId);
+            if ($coins > 0 && $userDetail['t_coins'] < $coins) {
+                $response['return'] = 0;
+                $response['coins'] = number_format($userDetail['t_coins']);
+                $response['status'] = 1;
+            } else {
+                $response['return'] = 1;
+                $response['coins'] = number_format($userDetail['t_coins']);
+                $response['status'] = 1;
+            }
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Invalid User";
+            $response['return'] = 0;
+            $response['redirect'] = '/';
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    public function saveConceptCoinsDetail() {
+        $professionId = Input::get('professionId');
+        $templateId = Input::get('templateId');
+        $userId = Auth::guard('teenager')->user()->id;
+        $attempted = Input::get('attempted');
+
+        if($userId > 0 && $professionId != '' && $templateId != '') {
+            $objPaidComponent = new PaidComponent();
+            $objTemplateDeductedCoins = new TemplateDeductedCoins();
+
+            $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($userId, $professionId, $templateId, 1);
+            
+            $days = 0;
+            if (!empty($deductedCoinsDetail) && isset($deductedCoinsDetail[0]->tdc_end_date)) {
+                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+            }
+            
+            $userData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($templateId);
+            $coins = isset($userData['gt_coins']) ? $userData['gt_coins'] : 0;
+            if ($days == 0 && $coins > 0 && $attempted == 'no') {
+                $deductedCoins = $coins;
+                $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($userId);
+                
+                $coins = $userDetail['t_coins'] - $coins;
+                $responsep = $this->teenagersRepository->updateTeenagerCoinsDetail($userId, $coins);
+                
+                $saveData = [];
+                $saveData['id'] = 0;
+                $saveData['tdc_user_id'] = $userId;
+                $saveData['tdc_user_type'] = 1;
+                $saveData['tdc_profession_id'] = $professionId;
+                $saveData['tdc_template_id'] = $templateId;
+                $saveData['tdc_total_coins'] = $deductedCoins;
+                $saveData['tdc_start_date'] = date('y-m-d');
+                $saveData['tdc_end_date'] = date('Y-m-d', strtotime("+". $userData['gt_valid_upto'] ." days"));
+
+                $responsep = $objTemplateDeductedCoins->saveDeductedCoinsDetail($saveData);
+
+                $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($userId, $professionId, $templateId, 1);
+                $remDays = 0;
+                if ($deductedCoinsDetail && isset($deductedCoinsDetail[0])) {
+                    $remDays = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+                }
+                $response['remainingDays'] = $remDays;  
+            }
+            $response['status'] = 1;
+            $response['message'] = "Success!";
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Invalid User";
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
 }
