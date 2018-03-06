@@ -28,6 +28,7 @@
                 <div class="learning-guidance faq-accordian">
                     <div class="panel-group" id="accordion">
                         @forelse($helps as $help)
+                        <?php $landingPageText = []; ?>
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -47,13 +48,27 @@
                                     ?>
                                     <div class="row">
                                         <div class="col-md-6">
-                                        <p>{!! $help->f_que_answer !!}</p>
+                                            <p>
+                                                @if (isset($help->f_que_answer) && !empty($help->f_que_answer))
+                                                    <?php $landingPageText = explode("###", $help->f_que_answer); ?>
+                                                    @if(isset($landingPageText[0]) && !empty($landingPageText[0]))
+                                                        {!! $landingPageText[0] !!}
+                                                    @else
+                                                        {!! $help->f_que_answer !!}
+                                                    @endif
+                                                @endif
+                                            </p>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mar15">
                                                 <img src="{{ $faqImage }}" alt="Img" class="img-responsive">
                                             </div>
                                         </div>
+                                        @if(isset($landingPageText[1]) && !empty($landingPageText[1]))
+                                        <div class="col-md-12">
+                                            {!! $landingPageText[1] !!}
+                                        </div>
+                                        @endif
                                     </div>                                                                                                                                               
                                 </div>
                             </div>
