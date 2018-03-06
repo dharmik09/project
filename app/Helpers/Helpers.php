@@ -2970,7 +2970,7 @@ Class Helpers {
                         'apt_spatial_ability' => 'tcm_spatial_ability', 
                         'apt_creativity' => 'tcm_creativity', 
                         'apt_clerical_ability' => 'tcm_clerical_ability', 
-                        'mit_interpersonal' => ' tcm_interpersonal', 
+                        'mit_interpersonal' => 'tcm_interpersonal', 
                         'mit_logical' => 'tcm_logical', 
                         'mit_linguistic' => 'tcm_linguistic', 
                         'mit_intrapersonal' => 'tcm_intrapersonal', 

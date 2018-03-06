@@ -50,8 +50,8 @@
                 @endif
             </div>
             <div class="sec-popup">
-                <a href="javascript:void(0);" onmouseover="getHelpText('profile-update')" data-trigger="hover" data-popover-content="#profile-update" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="profile-update">
+                <a id="profile-update" href="javascript:void(0);" onmouseover="getHelpText('profile-update')" data-trigger="hover" data-popover-content="#update-userdetails" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="update-userdetails">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
                         <span class="profile-update"></span>
@@ -315,8 +315,8 @@
     <section class="sec-parents" id="sec-parents">
         <div class="container">
             <div class="sec-popup">
-                <a href="javascript:void(0);" onmouseover="getHelpText('profile-parent-mentor')" data-trigger="hover" data-popover-content="#profile-parent-mentor" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="profile-parent-mentor">
+                <a id="profile-parent-mentor" href="javascript:void(0);" onmouseover="getHelpText('profile-parent-mentor')" data-trigger="hover" data-popover-content="#parent-mentor-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="parent-mentor-sec">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
                         <span class="profile-parent-mentor"></span>
@@ -381,8 +381,8 @@
             </div>
             
             <div class="sec-popup">
-                <a href="javascript:void(0);" onmouseover="getHelpText('profile-my-vote')" data-trigger="hover" data-popover-content="#profile-my-vote" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                <div class="hide" id="profile-my-vote">
+                <a id="profile-my-vote" href="javascript:void(0);" onmouseover="getHelpText('profile-my-vote')" data-trigger="hover" data-popover-content="#my-vote-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                <div class="hide" id="my-vote-sec">
                     <div class="popover-data">
                         <a class="close popover-closer"><i class="icon-close"></i></a>
                         <span class="profile-my-vote"></span>
@@ -1683,22 +1683,6 @@
         }
     }
 
-    function getHelpText(helpSlug)
-    {
-        var CSRF_TOKEN = "{{ csrf_token() }}";
-        $.ajax({
-            type: 'POST',
-            url: "{{url('teenager/get-help-text')}}",
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            },
-            data: {'helpSlug':helpSlug},
-            success: function(response) {
-                $("."+helpSlug).text(response);                
-            }
-        });
-    }
-    
     function getDefaultAreaLocation() {
         // $.ajax({
         //     url: "http://maps.googleapis.com/maps/api/geocode/json?address={{$user->t_pincode}}&sensor=true",

@@ -37,7 +37,7 @@
                 <div class="heading-sec clearfix">
                     <h1>{{ $interest->name }}</h1>
                     <div class="sec-popup">
-                        <a href="javascript:void(0);" onmouseover="getHelpText('interest-details')" data-trigger="hover" data-popover-content="#interest-details" class="help-icon custompop" rel="popover" data-placement="bottom">
+                        <a id="interest-details" href="javascript:void(0);" onmouseover="getHelpText('interest-details')" data-trigger="hover" data-popover-content="#interest-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                             <i class="icon-question">
                                 <!-- -->
                             </i>
@@ -56,7 +56,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="hide" id="interest-details">
+                        <div class="hide" id="interest-sec">
                             <div class="popover-data">
                                 <a class="close popover-closer"><i class="icon-close"></i></a>
                                 <span class="interest-details"></span>

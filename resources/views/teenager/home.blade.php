@@ -38,10 +38,10 @@
                                 </div>
                             </div>
                             <h2>My Interests <span></span>
-                                <span class="sec-popup"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-interest')" data-trigger="hover" data-popover-content="#dashboard-interest" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                <span class="sec-popup"><a id="dashboard-interest" href="javascript:void(0);" onmouseover="getHelpText('dashboard-interest')" data-trigger="hover" data-popover-content="#interest" class="help-icon custompop" rel="popover" data-placement="bottom">
                                 <i class="icon-question"></i></a></span>
                             </h2>
-                            <div class="hide" id="dashboard-interest">
+                            <div class="hide" id="interest">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
                                     <span class="dashboard-interest"></span>
@@ -70,8 +70,8 @@
                                     <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
                                 </div>
                             </div>
-                            <h2>My Strengths <span></span><span class="sec-popup"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-strength')" data-trigger="hover" data-popover-content="#dashboard-strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
-                            <div class="hide" id="dashboard-strength">
+                            <h2>My Strengths <span></span><span class="sec-popup"><a id="dashboard-strength" href="javascript:void(0);" onmouseover="getHelpText('dashboard-strength')" data-trigger="hover" data-popover-content="#strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <div class="hide" id="strength">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
                                     <span class="dashboard-strength"></span>
@@ -93,8 +93,8 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
-                            <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-my-career')" data-trigger="hover" data-popover-content="#dashboard-my-career" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
-                            <div class="hide" id="dashboard-my-career">
+                            <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a id="dashboard-my-career" href="javascript:void(0);" onmouseover="getHelpText('dashboard-my-career')" data-trigger="hover" data-popover-content="#dash-my-career" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <div class="hide" id="dash-my-career">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
                                     <span class="dashboard-my-career"></span>
@@ -198,10 +198,10 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 activity_section">
                     <div class="dashbord_view_left dashbord_view_right">
                         <h2 class="das_title profile-title">Build My Profile</h2>
-                        <span class="sec-popup help_noti"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-profile-builder')" data-trigger="hover" data-popover-content="#dashboard-profile-builder" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                        <span class="sec-popup help_noti"><a id="dashboard-profile-builder" href="javascript:void(0);" onmouseover="getHelpText('dashboard-profile-builder')" data-trigger="hover" data-popover-content="#home-profile-builder" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
                         
                         
-                        <div class="hide" id="dashboard-profile-builder">
+                        <div class="hide" id="home-profile-builder">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
                                     <span class="dashboard-profile-builder"></span>
@@ -259,8 +259,8 @@
                                 <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
                              </div>
                             </div>
-                            <h2>My likely fit<span></span><span class="sec-popup"><a href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#dashboard-career-consider" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
-                            <div class="hide" id="dashboard-career-consider">
+                            <h2>My likely fit<span></span><span class="sec-popup"><a id="dashboard-career-consider" href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#home-career-consider" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <div class="hide" id="home-career-consider">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
                                     <span class="dashboard-career-consider"></span>
