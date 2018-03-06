@@ -151,6 +151,9 @@ Route::post('/save-basic-level-activity', 'Teenager\Level4ActivityController@sav
 Route::post('/play-intermediate-level-activity', 'Teenager\Level4ActivityController@professionIntermediateQuestion');
 Route::post('/save-intermediate-level-activity', 'Teenager\Level4ActivityController@saveIntermediateLevelActivity');
 
+Route::post('/get-coins-for-template', 'Teenager\CoinManagementController@getCoinsForTemplate');
+Route::post('/save-coins-for-template-data', 'Teenager\CoinManagementController@saveConceptCoinsDetail');
+
 //Level 4 Advance Activity
 Route::post('/get-question-data-advance-level', 'Teenager\Level4AdvanceActivityController@getQuestionDataAdvanceLevel');
 Route::post('/get-media-upload-section', 'Teenager\Level4AdvanceActivityController@getMediaUploadSection');
