@@ -220,7 +220,7 @@
                                 <li>
                                     <figure>
                                         <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
-                                            <div class="progress-radial progress-{{$interestValue['score']}} progress-orange"></div>
+                                            <div class="progress-radial progress-{{$interestValue['score']}} progress-strong"></div>
                                         </a>
                                         <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
                                             <figcaption>{{ $interestValue['name']}}</figcaption>
@@ -247,10 +247,23 @@
                         <div class="strength-list">
                             <ul class="badge-list interest-list clearfix">
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
+                                <?php 
+                                if($strengthValue['scale'] == 'H'){
+                                    $progressClass = 'progress-strong';
+                                }
+                                elseif($strengthValue['scale'] == 'M'){
+                                    $progressClass = 'progress-potential';
+                                }
+                                elseif($strengthValue['scale'] == 'L'){
+                                    $progressClass = 'progress-unlikely';
+                                }else{
+                                    $progressClass = '';
+                                }
+                                ?>
                                 <li>
                                     <figure>
                                         <a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}" title="{{ $strengthValue['name'] }}">
-                                            <div class="progress-radial progress-{{$strengthValue['score']}}"></div>
+                                            <div class="progress-radial progress-{{$strengthValue['score']}} {{$progressClass}}""></div>
                                         </a>
                                         <figcaption><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}" title="{{ $strengthValue['name'] }}"> {{ $strengthValue['name'] }} </a></figcaption>
                                     </figure>

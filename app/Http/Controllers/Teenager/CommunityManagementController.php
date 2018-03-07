@@ -20,6 +20,12 @@ use Carbon\Carbon;
 use App\Events\SendMail;
 use App\Notifications;
 use Event;
+use App\TeenagerPromiseScore;
+use App\PromiseParametersMaxScore;
+use App\MultipleIntelligentScale;
+use App\ApptitudeTypeScale;
+use App\PersonalityScale;
+
 
 class CommunityManagementController extends Controller {
 
@@ -31,6 +37,11 @@ class CommunityManagementController extends Controller {
         $this->schoolsRepository = $schoolsRepository;
         $this->level1ActivitiesRepository = $level1ActivitiesRepository;
         $this->objNotifications = new Notifications();
+        $this->objTeenagerPromiseScore = new TeenagerPromiseScore();
+        $this->objPromiseParametersMaxScore = new PromiseParametersMaxScore();
+        $this->objMIScale = new MultipleIntelligentScale();
+        $this->objApptitudeScale = new ApptitudeTypeScale();
+        $this->objPersonalityScale = new PersonalityScale();
     }
 
     public function index()
@@ -105,40 +116,73 @@ class CommunityManagementController extends Controller {
             $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($teenDetails->id);
             $connectionStatus = $this->communityRepository->checkTeenConnectionStatusForNetworkMemberPage($teenDetails->id, Auth::guard('teenager')->user()->id);
             $myConnections = $this->communityRepository->getMyConnections($teenDetails->id);
-            // echo "<pre>"; print_r($connectionStatus); exit;
-            $teenagerAPIData = Helpers::getTeenInterestAndStregnthDetails($teenDetails->id);
-            $teenagerAPIMaxScore = Helpers::getTeenInterestAndStregnthMaxScore();
-            $teenagerInterestArr = isset($teenagerAPIData['APIscore']['interest']) ? $teenagerAPIData['APIscore']['interest'] : [];
-            $teenagerInterest = [];
-            foreach($teenagerInterestArr as $interestKey => $interestVal){
-                if ($interestVal < 1) { continue; } else {
-                    $itName = Helpers::getInterestBySlug($interestKey);
-                    $teenItScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['interest'][$interestKey], $interestVal);
-                    $teenagerInterest[$interestKey] = (array('score' => $teenItScore, 'name' => $itName));
+            
+            $teenagerInterest = $arraypromiseParametersMaxScoreBySlug = $teenagerStrength = $sortedMIHData = $sortedMIMData = $sortedMILData = [];                        
+            
+            //Get Max score for MI parameters
+            $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
+            $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
+            foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
+                $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
+            }            
+            //Get teenager promise score 
+            $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($teenDetails->id);            
+            
+            if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
+            {
+                $teenPromiseScore = $teenPromiseScore->toArray();                                
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+                {                 
+                    $arr = explode("_", $paramkey);
+                    $first = $arr[0];
+                    if ($first == 'it')
+                    {
+                        if($paramvalue < 1)
+                        {
+                            continue;
+                        }
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerInterest[$paramkey] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name']));
+                      //  $teenagerInterest[$paramkey] = (array('type' => 'interest', 'score' => $teenAptScore, 'slug' => $paramkey, 'link' => url('teenager/interest/').'/'.$paramkey, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name']));
+                    }
+                }
+                
+                foreach($teenPromiseScore as $paramkey=>$paramvalue)
+                {                    
+                    if (strpos($paramkey, 'apt_') !== false) { 
+                        $scaleapt = $this->objApptitudeScale->calculateApptitudeHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('scale'=>$scaleapt,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey));
+                    }elseif(strpos($paramkey, 'pt_') !== false){
+                        $scalept = $this->objPersonalityScale->calculatePersonalityHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('scale'=>$scalept,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey));
+                    }elseif(strpos($paramkey, 'mit_') !== false){
+                        $scalemi = $this->objMIScale->calculateMIHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
+                        $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
+                        $teenagerStrength[] = (array('scale'=>$scalemi,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey));
+                    }
+                }
+                
+                $finalSortedData = [];
+                if (isset($teenagerStrength) && !empty($teenagerStrength)) {
+                    foreach ($teenagerStrength as $key => $data) {
+                        if ($data['scale'] == 'H') {
+                            $sortedMIHData[] = $data;
+                        }
+                        if ($data['scale'] == 'M') {
+                            $sortedMIMData[] = $data;
+                        }
+                        if ($data['scale'] == 'L') {
+                            $sortedMILData[] = $data;
+                        }
+                    }
+                    $teenagerStrength = array_merge($sortedMIHData, $sortedMIMData, $sortedMILData);
                 }
             }
-
-            $teenagerMI = isset($teenagerAPIData['APIscore']['MI']) ? $teenagerAPIData['APIscore']['MI'] : [];
-
-            foreach($teenagerMI as $miKey => $miVal) {
-                $mitName = Helpers::getMIBySlug($miKey);
-                $teenMIScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['MI'][$miKey], $miVal);
-                    $teenagerMI[$miKey] = (array('score' => $teenMIScore, 'name' => $mitName, 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE')));
-            }
-
-            $teenagerAptitude = isset($teenagerAPIData['APIscore']['aptitude']) ? $teenagerAPIData['APIscore']['aptitude'] : [];
-            foreach($teenagerAptitude as $apptitudeKey => $apptitudeVal) {
-                $aptName = Helpers::getApptitudeBySlug($apptitudeKey);
-                $teenAptScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['aptitude'][$apptitudeKey], $apptitudeVal);
-                $teenagerAptitude[$apptitudeKey] = (array('score' => $teenAptScore, 'name' => $aptName, 'type' => Config::get('constant.APPTITUDE_TYPE')));
-            }
-            $teenagerPersonality = isset($teenagerAPIData['APIscore']['personality']) ? $teenagerAPIData['APIscore']['personality'] : [];
-            foreach($teenagerPersonality as $personalityKey => $personalityVal) {
-                $ptName = Helpers::getPersonalityBySlug($personalityKey);
-                $teenPtScore = $this->getTeenScoreInPercentage($teenagerAPIMaxScore['personality'][$personalityKey], $personalityVal);
-                $teenagerPersonality[$personalityKey] = (array('score' => $teenPtScore, 'name' => $ptName, 'type' => Config::get('constant.PERSONALITY_TYPE')));
-            }
-            $teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
+            
+           
+            //$teenagerStrength = array_merge($teenagerAptitude, $teenagerPersonality, $teenagerMI);
             $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($teenDetails->id);
             $userData = Auth::guard('teenager')->user();
             $notificationData['n_sender_id'] = $userData->id;

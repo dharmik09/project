@@ -124,7 +124,7 @@
     <!-- masonary section-->
     <section class="sec-masonary">
         <div class="container-large">
-            <h2 class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">Real World Testimonials</h2>
+            <h2 class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">Listen to our Community</h2>
             <div class="row">
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>
@@ -286,7 +286,7 @@
             nav: true,
             dots: false,
             smartSpeed: 2000,
-            autoplay:10000
+            autoplay:30000
         });
         $('.play-icon').click(function () {
             $(this).hide();
