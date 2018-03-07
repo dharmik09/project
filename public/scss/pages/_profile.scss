@@ -1707,6 +1707,16 @@ input:checked + .slider:before {
                     margin-left: 20px;
                 }
             }
+            span.points{
+                display: inline-block;
+                min-width: 170px;
+                @include maxsm{
+                    min-width: 140px;
+                }
+                @include maxms{
+                    min-width: 110px;
+                }
+            }
         }
         a {
             color: $r-cl;

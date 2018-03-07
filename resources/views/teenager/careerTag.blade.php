@@ -20,10 +20,10 @@
                 <div class="heading-sec clearfix">
                     <h1>{{$professionsTagData->pt_name}}</h1>
                     <div class="sec-popup">
-                        <a href="javascript:void(0);" onmouseover="getHelpText('tags-details')" data-trigger="hover" data-popover-content="#tags-details" class="help-icon custompop" rel="popover" data-placement="bottom">
+                        <a id="tags-details" href="javascript:void(0);" onmouseover="getHelpText('tags-details')" data-trigger="hover" data-popover-content="#tags-detail-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                             <i class="icon-question"></i>
                         </a>
-                        <div class="hide" id="tags-details">
+                        <div class="hide" id="tags-detail-sec">
                             <div class="popover-data">
                                 <a class="close popover-closer"><i class="icon-close"></i></a>
                                 <span class="tags-details"></span>
