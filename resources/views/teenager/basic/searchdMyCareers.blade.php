@@ -2,9 +2,10 @@
     <?php 
         $getTeenagerHML = Helpers::getTeenagerMatchScale(Auth::guard('teenager')->user()->id);
         $professionAttemptedCount = 0;
-        $matchScaleCount = [];
+        
     ?>
     @foreach($basketsData as $key => $value)
+        <?php $matchScaleCount = []; ?>
         <section class="sec-category">
             <h2>{{$value->b_name}}</h2>
             <div class="row">
@@ -22,18 +23,20 @@
                             //     }
                             //     $basketTotalProfession++;
                             // }
-                            $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
-                            if($matchScale == "match") {
-                                $basketsData[$key]['profession'][$k]['match_scale'] = "match-strong";
-                                $matchScaleCount['match'][] = $v->id;
-                            } else if($matchScale == "nomatch") {
-                                $basketsData[$key]['profession'][$k]['match_scale'] = "match-unlikely";
-                                $matchScaleCount['nomatch'][] = $v->id;
-                            } else if($matchScale == "moderate") {
-                                $basketsData[$key]['profession'][$k]['match_scale'] = "match-potential";
-                                $matchScaleCount['moderate'][] = $v->id;
-                            } else {
-                                $basketsData[$key]['profession'][$k]['match_scale'] = "career-data-nomatch";
+                            if (count($v->starRatedProfession) > 0) {
+                                $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                                if($matchScale == "match") {
+                                    $basketsData[$key]['profession'][$k]['match_scale'] = "match-strong";
+                                    $matchScaleCount['match'][] = $v->id;
+                                } else if($matchScale == "nomatch") {
+                                    $basketsData[$key]['profession'][$k]['match_scale'] = "match-unlikely";
+                                    $matchScaleCount['nomatch'][] = $v->id;
+                                } else if($matchScale == "moderate") {
+                                    $basketsData[$key]['profession'][$k]['match_scale'] = "match-potential";
+                                    $matchScaleCount['moderate'][] = $v->id;
+                                } else {
+                                    $basketsData[$key]['profession'][$k]['match_scale'] = "career-data-nomatch";
+                                }
                             }
                         }
                     ?>
@@ -43,6 +46,7 @@
                     ?>
                     <p>You have completed <strong>{{(isset($professionAttemptedCount)) ? $professionAttemptedCount : 0 }} of {{(isset($basketTotalProfession)) ? $basketTotalProfession : 0 }}</strong> careers</p>
                 </div>
+                @if(!Request::ajax())
                 <div class="col-md-6">
                     <div class="pull-right">
                         <ul class="match-list">
@@ -52,6 +56,7 @@
                         </ul>
                     </div>
                 </div>
+                @endif
             </div>
             <div class="category-list">
                 <div class="row">
