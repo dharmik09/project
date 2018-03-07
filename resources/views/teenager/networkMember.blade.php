@@ -263,9 +263,9 @@
                                 <li>
                                     <figure>
                                         <a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}" title="{{ $strengthValue['name'] }}">
-                                            <div class="progress-radial progress-{{$strengthValue['score']}} {{$progressClass}}""></div>
+                                            <div class="progress-radial progress-{{$strengthValue['score']}} {{$progressClass}}"></div>
                                         </a>
-                                        <figcaption><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}" title="{{ $strengthValue['name'] }}"> {{ $strengthValue['name'] }} </a></figcaption>
+                                        <figcaption><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthValue['slug']}}" title="{{ $strengthValue['name'] }}"> {{ $strengthValue['name'] }} </a></figcaption>
                                     </figure>
                                 </li>
                                 @empty

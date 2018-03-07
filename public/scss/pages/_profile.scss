@@ -991,6 +991,7 @@ input:checked + .slider:before {
         text-transform: capitalize;
         color: $cl-complete;
         text-align: center;
+        display: inline-block;
         @include maxlg {
             font-size: 44px;
         }
@@ -1283,6 +1284,7 @@ input:checked + .slider:before {
 .sec-progress {
     background: $bg-offwhite;
     padding-bottom: 60px;
+    text-align: center;
     @include maxlg {
         padding-bottom: 30px;
     }
@@ -1296,6 +1298,7 @@ input:checked + .slider:before {
         text-transform: capitalize;
         color: $cl-complete;
         text-align: center;
+        display: inline-block;
         @include maxlg {
             font-size: 44px;
         }
