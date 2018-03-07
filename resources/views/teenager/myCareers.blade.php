@@ -11,7 +11,9 @@
             <div class="careers-container">
                 <div class="top-heading text-center">
                     <h1>my careers</h1>
-                    <p>You have completed <strong>{{$teenagerTotalProfessionAttemptedCount}} of {{$teenagerTotalProfessionStarRatedCount}}</strong> careers from your shortlist</p>
+                    <p>You have completed <strong>
+                        <?php $attemptedProfessionCount = Helpers::getProfessionCompleteCount(Auth::guard('teenager')->user()->id, 1); 
+                        echo (isset($attemptedProfessionCount)) ? $attemptedProfessionCount : 0; ?> of {{$teenagerTotalProfessionStarRatedCount}}</strong> careers from your shortlist</p>
                 </div>
                 <div class="sec-filter">    
                     <div class="row">

@@ -97,8 +97,10 @@ class level3ActivityController extends Controller {
             
             if($data){
                 $response['data']['baskets'] = $data;
-                $response['data']['total_profession'] = '200';
-                $response['data']['completed_profession'] = '123';
+                $totalCompletedProfession = Helpers::getProfessionCompleteCount($request->userId);
+                $totalProfession = $this->professionsRepository->getAllProfessionsCount($request->userId);
+                $response['data']['total_profession'] = (isset($totalProfession) && $totalProfession > 0) ? $totalProfession : 0;
+                $response['data']['completed_profession'] = (isset($totalCompletedProfession) && $totalCompletedProfession > 0) ? $totalCompletedProfession : 0;
             }
             else{
                 $response['data'] = trans('appmessages.data_empty_msg');
@@ -243,8 +245,12 @@ class level3ActivityController extends Controller {
                 $careersData->unlikely_match = count($nomatch);
 
                 $response['data']['baskets'] = $careersData;
-                $response['data']['total_profession'] = '200';
-                $response['data']['completed_profession'] = '123';
+
+                $totalCompletedProfession = Helpers::getProfessionCompleteCount($request->userId);
+
+                $totalProfession = $this->professionsRepository->getAllProfessionsCount($request->userId);
+                $response['data']['total_profession'] = (isset($totalProfession) && $totalProfession > 0) ? $totalProfession : 0;
+                $response['data']['completed_profession'] = (isset($totalCompletedProfession) && $totalCompletedProfession > 0) ? $totalCompletedProfession : 0;
             }
             else{
                 $response['data'] = [];
@@ -479,8 +485,10 @@ class level3ActivityController extends Controller {
                     $data[$key]->unlikely_match = count($nomatch);
                 }
                 $response['data']['baskets'] = $data;
-                $response['data']['total_profession'] = '200';
-                $response['data']['completed_profession'] = '123';
+                $totalProfession = $this->professions->getteenagerTotalProfessionStarRatedCount($request->userId);
+                $response['data']['total_profession'] = (isset($totalProfession) && $totalProfession > 0) ? $totalProfession : 0;
+                $totalCompletedProfession = Helpers::getProfessionCompleteCount($request->userId, 1);
+                $response['data']['completed_profession'] = (isset($totalCompletedProfession) && $totalCompletedProfession > 0) ? $totalCompletedProfession : 0;
             }
             else{
                 $response['data'] = trans('appmessages.data_empty_msg');
@@ -1117,8 +1125,11 @@ class level3ActivityController extends Controller {
 
                         }
                         
-                        $data[$key]->total_basket_profession = count($value->profession);
-                        $data[$key]->basket_completed_profession = $professionAttemptedCount;
+                        $basketAttemptedCount = Helpers::getProfessionCompleteCount($request->userId, 1, $data[$key]->id);
+                        $basketTotalProfession = Helpers::getTotalBasketProfession($data[$key]->id);
+
+                        $data[$key]->total_basket_profession = (isset($basketTotalProfession)) ? $basketTotalProfession : 0;
+                        $data[$key]->basket_completed_profession = (isset($basketAttemptedCount)) ? $basketAttemptedCount : 0;
                         $data[$key]->strong_match = count($match);
                         $data[$key]->potential_match = count($moderate);
                         $data[$key]->unlikely_match = count($nomatch);
