@@ -24,6 +24,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                 ->whereNotIn('id', $connectionRequests)
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', $activeFlag)
+                                ->where('t_isverified',1)
                                 ->where('is_search_on', Config('constant.TEENAGER_PUBLIC_PROFILE_ON'))
                                 ->where(function($query) use ($searchedConnections)  {
                                     if(isset($searchedConnections) && !empty($searchedConnections)) {
@@ -143,6 +144,7 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
                                 ->whereNotIn('id', $connectionRequests)
                                 ->where('id', '<>', $loggedInTeen)
                                 ->where('deleted', $activeFlag)
+                                ->where('t_isverified',1)
                                 ->where(function($query) use ($searchedConnections)  {
                                     if(isset($searchedConnections) && !empty($searchedConnections)) {
                                         $query->where('t_name', 'like', '%'.$searchedConnections.'%');
