@@ -16,6 +16,7 @@
                                     <div class="col-md-6">
                                     </div>
                                     <div class="col-md-6">
+                                        @if (!Request::ajax())
                                         <div class="pull-right">
                                             <ul class="match-list">
                                                 <li><span class="number match-strong">{{ (isset($matchScaleCount[$key]['match']) && count($matchScaleCount[$key]['match']) > 0 ) ? count($matchScaleCount[$key]['match']) : 0 }}</span> Strong match</li>
@@ -23,6 +24,7 @@
                                                 <li><span class="number match-unlikely">{{ (isset($matchScaleCount[$key]['nomatch']) && count($matchScaleCount[$key]['nomatch']) > 0 ) ? count($matchScaleCount[$key]['nomatch']) : 0 }}</span> Unlikely match</li>
                                             </ul>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
