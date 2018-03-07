@@ -253,80 +253,88 @@ class Level4AdvanceActivityController extends Controller {
                     if (isset($media_type) && $media_type != '' && in_array($media_type, $validTypeArr)) {
                         $file = Input::file('mediaFile');
                         if (!empty($file)) {
-                            $ext = $file->getClientOriginalExtension();
-                            $save = false;
-                            //check for image extension
-                            if ($media_type == 3) {
-                                $validImageExtArr = array('jpg', 'jpeg', 'png', 'bmp', 'PNG');
-                                if (in_array($ext, $validImageExtArr)) {
-                                    $save = true;
-                                    $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
-                                    $pathOriginal = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
-                                    $pathThumb = public_path($this->level4AdvanceThumbImageUploadPath . $fileName);
-                                    Image::make($file->getRealPath())->save($pathOriginal);
-                                    Image::make($file->getRealPath())->resize($this->level4AdvanceThumbImageWidth, $this->level4AdvanceThumbImageHeight)->save($pathThumb);
-                                    //Uploading on AWS
-                                    $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $pathOriginal, "s3");
-                                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceThumbImageUploadPath, $pathThumb, "s3");
-                                    
-                                    \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
-                                    \File::delete($this->level4AdvanceThumbImageUploadPath . $fileName);
-                                    $level4AdvanceData['l4aaua_media_type'] = $media_type;
-                                } else {
-                                    $response['status'] = 0;
-                                    $response['message'] = 'Invalid image file';
-                                }
-                            } elseif ($media_type == 2) {
-                                $validImageExtArr = array('pdf', 'docx', 'doc', 'ppt', 'xls', 'xlsx');
-                                if (in_array($ext, $validImageExtArr)) {
-                                    $save = true;
-                                    $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
-                                    Input::file('mediaFile')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
-
-                                    $docOriginalPath = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
-                                    //Uploading on AWS
-                                    $originalDoc = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $docOriginalPath, "s3");
-                                    \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
-                                    $level4AdvanceData['l4aaua_media_type'] = $media_type;
-                                } else {
-                                    $response['status'] = 0;
-                                    $response['message'] = 'Invalid document file';
-                                }
-                            } elseif ($media_type == 1) {
-                                $validImageExtArr = array('mov', 'avi', 'mp4', 'mkv', 'wmv');
-                                if (in_array($ext, $validImageExtArr)) {
-                                    $save = true;
-                                    $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
-                                    Input::file('mediaFile')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
-
-                                     $videoOriginalPath = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
-                                    //Uploading on AWS
-                                    $originalDoc = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $videoOriginalPath, "s3");
-                                    \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
-                                    $level4AdvanceData['l4aaua_media_type'] = $media_type;
-                                } else {
-                                    $response['status'] = 0;
-                                    $response['message'] = 'Invalid video file';
-                                }
-                            } else {
+                            //$fileSize =
+                            $fileSize = filesize($file); 
+                            if ($fileSize > 6000000) { 
                                 $response['status'] = 0;
-                                $response['message'] = 'Invalid activity type';
+                                $response['message'] = 'Maximum File Upload size is 6MB';
+                            } else {
+                                $ext = strtolower($file->getClientOriginalExtension());
+                                $save = false;
+                                //check for image extension
+                                if ($media_type == 3) {
+                                    $validImageExtArr = array('jpg', 'jpeg', 'png', 'bmp', 'PNG');
+                                    if (in_array($ext, $validImageExtArr)) {
+                                        $save = true;
+                                        $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                                        $pathOriginal = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                        $pathThumb = public_path($this->level4AdvanceThumbImageUploadPath . $fileName);
+                                        Image::make($file->getRealPath())->save($pathOriginal);
+                                        Image::make($file->getRealPath())->resize($this->level4AdvanceThumbImageWidth, $this->level4AdvanceThumbImageHeight)->save($pathThumb);
+                                        //Uploading on AWS
+                                        $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $pathOriginal, "s3");
+                                        $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceThumbImageUploadPath, $pathThumb, "s3");
+                                        
+                                        \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                        \File::delete($this->level4AdvanceThumbImageUploadPath . $fileName);
+                                        $level4AdvanceData['l4aaua_media_type'] = $media_type;
+                                    } else {
+                                        $response['status'] = 0;
+                                        $response['message'] = 'Invalid image file';
+                                    }
+                                } elseif ($media_type == 2) {
+                                    $validImageExtArr = array('pdf', 'docx', 'doc', 'ppt', 'xls', 'xlsx');
+                                    if (in_array($ext, $validImageExtArr)) {
+                                        $save = true;
+                                        $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                                        Input::file('mediaFile')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+
+                                        $docOriginalPath = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                        //Uploading on AWS
+                                        $originalDoc = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $docOriginalPath, "s3");
+                                        \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                        $level4AdvanceData['l4aaua_media_type'] = $media_type;
+                                    } else {
+                                        $response['status'] = 0;
+                                        $response['message'] = 'Invalid document file';
+                                    }
+                                } elseif ($media_type == 1) {
+                                    $validImageExtArr = array('mov', 'avi', 'mp4', 'mkv', 'wmv');
+                                    if (in_array($ext, $validImageExtArr)) {
+                                        $save = true;
+                                        $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
+                                        Input::file('mediaFile')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
+
+                                         $videoOriginalPath = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                        //Uploading on AWS
+                                        $originalDoc = $this->fileStorageRepository->addFileToStorage($fileName, $this->level4AdvanceOriginalImageUploadPath, $videoOriginalPath, "s3");
+                                        \File::delete($this->level4AdvanceOriginalImageUploadPath . $fileName);
+                                        $level4AdvanceData['l4aaua_media_type'] = $media_type;
+                                    } else {
+                                        $response['status'] = 0;
+                                        $response['message'] = 'Invalid video file';
+                                    }
+                                } else {
+                                    $response['status'] = 0;
+                                    $response['message'] = 'Invalid activity type';
+                                }
+                                if ($save) {
+                                    //Prepare Data for save
+                                    $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userId);
+                                    $level4Booster = Helpers::level4Booster($profession_id, $userId);
+                                    $level4Booster['total'] = $getTeenagerBoosterPoints['total'];
+                                    $data['level4Booster'] = $level4Booster;
+                                    //$response['booster_points'] = '';
+                                    $level4AdvanceData['id'] = 0;
+                                    $level4AdvanceData['l4aaua_teenager'] = $userId;
+                                    $level4AdvanceData['l4aaua_profession_id'] = $profession_id;
+                                    $level4AdvanceData['l4aaua_media_name'] = $fileName;
+                                    $this->level4ActivitiesRepository->saveLevel4AdvanceActivityUser($level4AdvanceData);
+                                    $response['status'] = 1;
+                                    $response['message'] = "Media file uploaded successfully";
+                                }
                             }
-                            if ($save) {
-                                //Prepare Data for save
-                                $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userId);
-                                $level4Booster = Helpers::level4Booster($profession_id, $userId);
-                                $level4Booster['total'] = $getTeenagerBoosterPoints['total'];
-                                $data['level4Booster'] = $level4Booster;
-                                //$response['booster_points'] = '';
-                                $level4AdvanceData['id'] = 0;
-                                $level4AdvanceData['l4aaua_teenager'] = $userId;
-                                $level4AdvanceData['l4aaua_profession_id'] = $profession_id;
-                                $level4AdvanceData['l4aaua_media_name'] = $fileName;
-                                $this->level4ActivitiesRepository->saveLevel4AdvanceActivityUser($level4AdvanceData);
-                                $response['status'] = 1;
-                                $response['message'] = "Media file uploaded successfully";
-                            }
+                                
                         } else {
                             $response['status'] = 0;
                             $response['message'] = 'Please upload appropriate media file';
