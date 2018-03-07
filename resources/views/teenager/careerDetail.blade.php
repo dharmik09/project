@@ -2283,7 +2283,7 @@
                 if(response.status == 1) {
                     getConceptData(templateId);
                     if(typeof response.remainingDays !== "undefined" && response.remainingDays > 0) {
-                        $(".set-template-"+templateId).html("<a href='javascript:void(0);' title='Play now!' class='btn-primary' onclick='getConceptData("+templateId+")' ><span class='unbox-me'>Play now!</span><span class='coins-outer'><span class='coins'></span>"+response.remainingDays+" Days Left</span></a>");
+                        $(".set-template-"+templateId).html("<a href='javascript:void(0);' title='Play now!' class='btn-primary' onclick='getConceptData("+templateId+")' ><span class='unbox-me'>Play now!</span><span class='coins-outer'><span class='coins'></span> "+ response.remainingDays+" Days Left</span></a>");
                     }
                 } else {
                     location.href = "{{url('/')}}";
