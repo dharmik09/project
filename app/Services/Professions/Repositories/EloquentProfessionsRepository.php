@@ -34,7 +34,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
 
     public function getAllProfessionsCount() {
         $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
-                ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                ->where('profession.deleted', Config::get('constant.ACTIVE_FLAG'))
                 ->count();
         return $professions;
     }

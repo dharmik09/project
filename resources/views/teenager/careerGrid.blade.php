@@ -12,7 +12,8 @@
             <div class="careers-list">
                 <div class="top-heading text-center listing-heading">
                     <h1>careers</h1>
-                    <p>You have completed <strong class="font-blue">{{$teenagerTotalProfessionAttemptedCount->professionAttemptCount}} of {{$totalProfessionCount}}</strong> careers</p>
+                    <p>You have completed <strong class="font-blue"><?php $attemptedProfessionCount = Helpers::getProfessionCompleteCount(Auth::guard('teenager')->user()->id); 
+                        echo (isset($attemptedProfessionCount)) ? $attemptedProfessionCount : 0; ?> of {{$totalProfessionCount}}</strong> careers</p>
                 </div>
                 <div class="sec-filter listing-filter">
                     <div class="row">

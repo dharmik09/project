@@ -3102,5 +3102,35 @@ Class Helpers {
         }
         return $badgeCount;
     } 
-    
+
+    /* @getProfessionCompleteCount
+     *  @params : teenager Id
+     *  @response : Total attempted profession count 
+     */
+    public static function getProfessionCompleteCount($teenagerId, $starRatedProfessionCount = '', $basketId = '') 
+    {
+        $qry = DB::table('pro_pf_profession As profession')
+                    ->join('pro_l4aapa_level4_profession_progress As pofessionProgress', 'pofessionProgress.profession_id', '=', 'profession.id');
+
+        if ($starRatedProfessionCount && $starRatedProfessionCount == 1) {
+            $qry->join('pro_srp_star_rated_professions As starRatedProfession', 'starRatedProfession.srp_profession_id', '=', 'profession.id');
+        }
+
+        if ($basketId && !empty($basketId)) {
+            $qry->where('profession.pf_basket', $basketId);
+        }
+
+        $data = $qry->where('pofessionProgress.teenager_id', $teenagerId)->where('pofessionProgress.level4_total', '>=', 100)->where('profession.deleted', Config::get('constant.ACTIVE_FLAG'))->count();
+        return $data;
+    }
+
+    public static function getTotalBasketProfession($basketId) 
+    {
+        $data = DB::table('pro_pf_profession As profession')
+                ->join('pro_srp_star_rated_professions As starRatedProfession', 'starRatedProfession.srp_profession_id', '=', 'profession.id')
+                ->where('profession.pf_basket', $basketId)->where('profession.deleted', Config::get('constant.ACTIVE_FLAG'))->count();
+
+        return $data;
+    }
+
 }

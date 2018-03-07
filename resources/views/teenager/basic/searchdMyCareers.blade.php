@@ -10,13 +10,18 @@
             <div class="row">
                 <div class="col-md-6">
                     <?php
-                        $professionAttemptedCount = 0;
+                        // $basketTotalProfession = 0;
+                        // $professionAttemptedCount = 0;
                         foreach($value->profession as $k => $v){
+                            
                             //Check if profession attempted or not
-                            $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $v->id);
-                            if(isset($professionComplete) && $professionComplete == 100){
-                                $professionAttemptedCount++;
-                            }
+                            // $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $v->id);
+                            // if (count($v->starRatedProfession) > 0) {
+                            //     if(isset($professionComplete) && $professionComplete == 100){
+                            //         $professionAttemptedCount++;
+                            //     }
+                            //     $basketTotalProfession++;
+                            // }
                             $matchScale = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
                             if($matchScale == "match") {
                                 $basketsData[$key]['profession'][$k]['match_scale'] = "match-strong";
@@ -32,7 +37,11 @@
                             }
                         }
                     ?>
-                    <p>You have completed <strong>{{$professionAttemptedCount}} of {{count($value->profession)}}</strong> careers</p>
+                    <?php
+                        $professionAttemptedCount = Helpers::getProfessionCompleteCount(Auth::guard('teenager')->user()->id, 1, $value->id);
+                        $basketTotalProfession = Helpers::getTotalBasketProfession($value->id);
+                    ?>
+                    <p>You have completed <strong>{{(isset($professionAttemptedCount)) ? $professionAttemptedCount : 0 }} of {{(isset($basketTotalProfession)) ? $basketTotalProfession : 0 }}</strong> careers</p>
                 </div>
                 <div class="col-md-6">
                     <div class="pull-right">
