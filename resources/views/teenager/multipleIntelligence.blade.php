@@ -38,8 +38,8 @@
                 <div class="heading-sec clearfix">
                     <h1>{{ $multipleIntelligence->title }}</h1>
                     <div class="sec-popup">
-                        <a href="javascript:void(0);" onmouseover="getHelpText('strength-details')" data-trigger="hover" data-popover-content="#strength-details" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                        <div class="hide" id="strength-details">
+                        <a id="strength-details" href="javascript:void(0);" onmouseover="getHelpText('strength-details')" data-trigger="hover" data-popover-content="#strength-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                        <div class="hide" id="strength-sec">
                             <div class="popover-data">
                                 <a class="close popover-closer"><i class="icon-close"></i></a>
                                 <span class="strength-details"></span>

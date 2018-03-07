@@ -415,10 +415,10 @@
                             
                             <div class="progress-match">
                                 <div class="sec-popup">
-                                    <a href="javascript:void(0);" onmouseover="getHelpText('career-detail-arc-view')" data-trigger="hover" data-popover-content="#career-detail-arc-view" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                    <a id="career-detail-arc-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-arc-view')" data-trigger="hover" data-popover-content="#arc-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                                             <i class="icon-question"></i>
                                         </a>
-                                    <div class="hide" id="career-detail-arc-view">
+                                    <div class="hide" id="arc-view-sec">
                                         <div class="popover-data">
                                             <a class="close popover-closer"><i class="icon-close"></i></a>
                                             <span class="career-detail-arc-view"></span>
@@ -445,10 +445,10 @@
                                                 } ?>
                                             <a data-parent="#accordion"  data-toggle="{{$collapseClass}}" href="#accordion1" class="collapsed">Advanced View</a>
                                             <div class="sec-popup">
-                                                    <a href="javascript:void(0);" onmouseover="getHelpText('career-detail-advanced-view')" data-trigger="hover" data-toggle="clickover" data-popover-content="#career-detail-advanced-view" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                                    <a id="career-detail-advanced-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-advanced-view')" data-trigger="hover" data-toggle="clickover" data-popover-content="#advanced-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                                                         <i class="icon-question"></i>
                                                     </a>
-                                                    <div class="hide" id="career-detail-advanced-view">
+                                                    <div class="hide" id="advanced-view-sec">
                                                         <div class="popover-data">
                                                             <a class="close popover-closer"><i class="icon-close"></i></a>
                                                             <span class="career-detail-advanced-view"></span>
@@ -498,10 +498,10 @@
                         <div class="sec-tags">
                             <h4>Tags</h4>
                             <div class="sec-popup">
-                                <a href="javascript:void(0);" onmouseover="getHelpText('career-tags')" data-trigger="hover" data-popover-content="#career-tags" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                <a id="career-tags" href="javascript:void(0);" onmouseover="getHelpText('career-tags')" data-trigger="hover" data-popover-content="#tags-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                                     <i class="icon-question"></i>
                                 </a>
-                                <div class="hide" id="career-tags">
+                                <div class="hide" id="tags-sec">
                                     <div class="popover-data">
                                         <a class="close popover-closer"><i class="icon-close"></i></a>
                                         <span class="career-tags"></span>

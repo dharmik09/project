@@ -192,10 +192,21 @@
                     },
                     data: {'helpSlug':helpSlug},
                     success: function(response) {
-                        $("."+helpSlug).text(response);                
+                        $("."+helpSlug).text(response);    
+                        showPopover(helpSlug);
                     }
                 });
             }
+
+            function showPopover(helpSlug) {
+                $('#'+helpSlug).popover({
+                    html:true,
+                    content:function(){return $($(this).data("popover-content")).html();
+                }
+                });
+                //$('#'+helpSlug).popover('show');
+            }
+            
                 
         </script>
         @stack('script-footer')

@@ -57,12 +57,12 @@
                     </div>
                     <div id="menu4" class="tab-pane fade my-connection">
                        <div class="sec-popup">
-                            <a href="javascript:void(0);" onmouseover="getHelpText('community-my-connection')" data-trigger="hover" data-popover-content="#community-my-connection" class="help-icon custompop" rel="popover" data-placement="bottom">
+                            <a id="community-my-connection" href="javascript:void(0);" onmouseover="getHelpText('community-my-connection')" data-trigger="hover" data-popover-content="#com-my-connection" class="help-icon custompop" rel="popover" data-placement="bottom">
                                 <i class="icon-question">
                                     <!-- -->
                                 </i>
                             </a>
-                            <div class="hide" id="community-my-connection">
+                            <div class="hide" id="com-my-connection">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
                                     <span class="community-my-connection"></span>
