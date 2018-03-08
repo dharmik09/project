@@ -1694,20 +1694,32 @@ input:checked + .slider:before {
                 margin-top: -25px;
                 font-size: 14px;
             }
+            a{
+                margin-left: 60px;
+                display: inline-block;
+                 @include maxsm {
+                   
+                    margin-left: 30px;
+                }
+                @include maxms {
+                    
+                    margin-left: 20px;
+                }
+            }
             i {
                 font-size: 60px;
                 color: $w-cl;
                 font-weight: 700;
-                margin-left: 60px;
+                
                 display: inline-block;
                 vertical-align: middle;
                 @include maxsm {
                     font-size: 30px;
-                    margin-left: 30px;
+                    
                 }
                 @include maxms {
                     font-size: 20px;
-                    margin-left: 20px;
+                  
                 }
             }
             span.points{
@@ -2907,4 +2919,17 @@ a:focus {
             padding: 9px 8px;
         }
     }
+}
+.tooltip-inner {
+    border: 1px solid #fff;
+    background: #fff;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    z-index: 99;
+    -webkit-box-shadow: 0 1px 17px -4px #989494;
+    box-shadow: 0 1px 17px -4px #989494;
+    color: rgba(22,28,34,.7);
+}
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #fff;
 }

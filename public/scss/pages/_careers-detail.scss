@@ -1910,13 +1910,10 @@ text.highcharts-xaxis-title {
 .btn-seo .btn {
     width: 100%;
     padding: 17px 15px;
-    font-size: 17px;
+    font-size: 14px;
     line-height: 1.25;
     white-space: inherit;
     margin-bottom: 35px;
-    @include maxmd {
-        font-size: 15px;
-    }
     @include maxsm {
         margin-bottom: 20px;
     }

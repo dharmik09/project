@@ -109,5 +109,25 @@
             }
         });
     }
+
+    function equalhight() {
+        var $height = 0;
+        $(".category-block figcaption").each(function() {
+            $(this).css("height", "auto");
+            if (($(this).outerHeight()) > $height) {
+                $height = $(this).outerHeight();
+            }
+        });
+        $(".category-block figcaption").each(function() {
+            $(this).css("height", $height);
+        });
+    }
+    $(window).on("load", function(e) {
+        e.preventDefault();
+        equalhight();
+    });
+    $(window).resize(function() {
+        equalhight();
+    })
 </script>
 @stop

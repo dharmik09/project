@@ -322,6 +322,9 @@
             @include maxmd{
                 padding: 50px;
             }
+            @include maxms{
+                padding: 50px 45px;
+            }
         }
         label {
             color: $lightgrey;
