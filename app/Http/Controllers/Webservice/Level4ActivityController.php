@@ -1033,14 +1033,14 @@ class Level4ActivityController extends Controller {
                             $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
                         }
 
-                        $getQuestionTemplateForProfession[$key]->remaningDays = $days;
+                        $getQuestionTemplateForProfession[$key]->remainingDays = $days;
                         $intermediateActivities = [];
                         $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($request->userId, $request->professionId, $value->gt_template_id);
                         $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($request->userId, $request->professionId, $value->gt_template_id);
                         if (empty($intermediateActivities) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions == $totalIntermediateQuestion[0]->NoOfAttemptedQuestions) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions < $totalIntermediateQuestion[0]->NoOfAttemptedQuestions)) {
-                           $getQuestionTemplateForProfession[$key]->attempted = 'yes';
+                           $getQuestionTemplateForProfession[$key]->played = 1;
                         } else {
-                            $getQuestionTemplateForProfession[$key]->attempted = 'no';
+                            $getQuestionTemplateForProfession[$key]->played = 0;
                         }
                     }
                 }
@@ -1239,19 +1239,19 @@ class Level4ActivityController extends Controller {
     }
 
     /* Request Params : getLevel4PromisePlusDetails
-     *  loginToken, userId, careerId, templateId, templateAttempted
+     *  loginToken, userId, careerId, templateId, templatePlayed
      */
     public function saveTemplateConsumedCoinsDetail(Request $request) 
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if ($teenager) {
-            if (isset($request->careerId) && $request->careerId != '' && isset($request->templateId) && $request->templateId != '' && isset($request->templateAttempted) && $request->templateAttempted != '') {
+            if (isset($request->careerId) && $request->careerId != '' && isset($request->templateId) && $request->templateId != '' && isset($request->templatePlayed) && $request->templatePlayed != '') {
                     $data = [];
                     $professionId = $request->careerId;
                     $templateId = $request->templateId;
                     $userId = $request->userId;
-                    $attempted = $request->templateAttempted;
+                    $attempted = $request->templatePlayed;
 
                     $objPaidComponent = new PaidComponent();
                     $objTemplateDeductedCoins = new TemplateDeductedCoins();
