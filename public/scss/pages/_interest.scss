@@ -84,7 +84,10 @@
     }
     p {
         color: $r-cl;
-        font-size: 18px;
+        font-size: 20px;
+        @include maxlg{
+            font-size: 18px;
+        }
         @include maxmd{
             font-size: 16px;
         }

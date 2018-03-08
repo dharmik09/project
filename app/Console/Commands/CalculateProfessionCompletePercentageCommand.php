@@ -58,6 +58,7 @@ class CalculateProfessionCompletePercentageCommand extends Command
             //Only get profession played teenager. Otherwise all teenager inserted which is not required.
             $getAllActiveTeenager = DB::table('pro_t_teenagers')->select('pro_t_teenagers.id')
                                 ->where('pro_t_teenagers.deleted', 1)
+                                ->where('pro_t_teenagers.t_isverified', 1)
                                 ->where( function($query) {
                                     $query->whereIn('id', function($query2) {
                                         $query2->select("level4_basic_activity_answer.teenager_id")
@@ -80,11 +81,14 @@ class CalculateProfessionCompletePercentageCommand extends Command
             if(strtolower($teenagerFor) == "all" && strtolower($professionFor) == "all") {
                 if(isset($getAllActiveProfession[0]->id) && isset($getAllActiveTeenager[0]->id)) {
                     foreach($getAllActiveTeenager as $teenId) {
-                        foreach($getAllActiveProfession as $profId) { 
-                            Log::info("Profession Percentage Calculating for teenagerId = ".$teenId->id ." And professionId = ".$profId->id);
-                            $this->info("Profession Percentage Calculating for teenagerId = ".$teenId->id ." And professionId = ".$profId->id);
-                            dispatch( new CalculateProfessionCompletePercentage($teenId->id, $profId->id) );
-                            $this->info("Profession Percentage Calculated for teenagerId = ".$teenId->id ." And professionId = ".$profId->id);
+                        $getTeenagerAttemptedProfession = DB::table('pro_tpa_teenager_profession_attempted')->where('tpa_teenager', $teenId->id)->get();
+                        if(isset($getTeenagerAttemptedProfession) && count($getTeenagerAttemptedProfession) > 0){
+                            foreach($getTeenagerAttemptedProfession as $profId) { 
+                                Log::info("Profession Percentage Calculating for teenagerId = ".$teenId->id ." And professionId = ".$profId->tpa_peofession_id);
+                                $this->info("Profession Percentage Calculating for teenagerId = ".$teenId->id ." And professionId = ".$profId->tpa_peofession_id);
+                                dispatch( new CalculateProfessionCompletePercentage($teenId->id, $profId->tpa_peofession_id) );
+                                $this->info("Profession Percentage Calculated for teenagerId = ".$teenId->id ." And professionId = ".$profId->tpa_peofession_id);
+                            }
                         }
                     }
                 } else {

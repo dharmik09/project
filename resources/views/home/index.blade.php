@@ -19,7 +19,7 @@
                                 </span>
                                 <span class="tag-close">am I?</span>
                             </h1>
-                            <p>Unlocking the true potential of young adults...</p>
+                            <p>Unlocking the true potential of young adults</p>
                         </div>
                         <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
                     </div>
@@ -32,7 +32,7 @@
                                 <span class="tag-image"><img class="i-dream-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAACsAQMAAACn/kB+AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAODHABbYAAFfvr7GAAAAAElFTkSuQmCC"></span>
                                 <span class="tag-close">can i be?</span>
                             </h1>
-                            <p>Unlocking the true potential of young adults...</p>
+                            <p>Unlocking the true potential of young adults</p>
                         </div>
                         <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
                     </div>
@@ -45,7 +45,7 @@
                                 <span class="tag-image"><img class="i-brain-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAAC8AQMAAAAgi/LiAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABxJREFUeNrtwTEBAAAAwqD1T20LL6AAAAAAAD4GFJAAAXP7Mr4AAAAASUVORK5CYII="></span>
                                 <span class="tag-close">true potential</span>
                             </h1>
-                            <p>Unlocking the true potential of young adults...</p>
+                            <p>Unlocking the true potential of young adults</p>
                         </div>
                         <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
                     </div>
@@ -58,7 +58,7 @@
                                 <span class="tag-image"><img class="i-rocket-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAADVAQMAAAD9zPnVAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABtJREFUeNrtwQEBAAAAgiD/r25IQAEAAADAtQETIwABIA/h6QAAAABJRU5ErkJggg=="></span>
                                 <span class="tag-close">brighter future</span>
                             </h1>
-                            <p>Unlocking the true potential of young adults...</p>
+                            <p>Unlocking the true potential of young adults</p>
                         </div>
                         <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
                     </div>

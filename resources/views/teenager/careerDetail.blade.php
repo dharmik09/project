@@ -2012,6 +2012,7 @@
             var reader = new FileReader();
             reader.onload = function(e) {
                 var fileType = input_file.files[0];
+                alert(fileType.type);
                 if (taskType == 3) {
                     if (fileType.type == 'image/jpeg' || fileType.type == 'image/jpg' || fileType.type == 'image/png' || fileType.type == 'image/bmp') {
                         if (input_file.files[0].size > 6000000) {
@@ -2041,7 +2042,7 @@
                         formData.find("#file-input").val('');
                     }
                 } else if (taskType == 1) {
-                    if (fileType.type == 'video/mp4' || fileType.type == 'audio/x-m4a' || fileType.type == 'video/3gpp' || fileType.type == 'video/mkv' || fileType.type == 'video/avi' || fileType.type == 'video/flv'){
+                    if (fileType.type == 'video/mp4' || fileType.type == 'video/x-m4a' || fileType.type == 'video/3gpp' || fileType.type == 'video/mkv' || fileType.type == 'video/avi' || fileType.type == 'video/flv' || fileType.type == 'video/quicktime'){
                         if (input_file.files[0].size > 6000000) {
                             formData.find("[id='mediaErr']").text("Maximum File Upload size is 6MB");
                             formData.find("[id='taskSave']").attr('disabled', 'disabled');

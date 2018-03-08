@@ -1744,6 +1744,7 @@
                 if (response > 0) {
                     $(".lg_coins").html('<span class="coins"></span> ' + response + " days left");  
                     $("#lg_unbox").prop('onclick',null).off('click');
+                    window.location.href = "{{url('/teenager/learning-guidance')}}";
                 } else {
                     $(".lg_coins").html('<span class="coins"></span> ' + consumedCoins);
                 }

@@ -17,11 +17,13 @@
     </div>
     <div class="flex-item">
         <div class="team-point">
+            <span class="points">
             <?php $teenPoints = 0;
                 $basicBoosterPoint = Helpers::getTeenagerBasicBooster($myConnection->id);
                 $teenPoints = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
             ?>
             {{ $teenPoints }} points
+            </span>
             <a href="{{url('teenager/chat')}}/{{$myConnection->t_uniqueid}}" title="Chat"><i class="icon-chat"><!-- --></i></a>
         </div>
     </div>

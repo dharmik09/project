@@ -43,9 +43,9 @@
                             </i>
                         </a>
                         <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
-                            <i class="icon-share">
-                                <!-- -->
-                            </i>
+<!--                            <i class="icon-share">
+                               
+                            </i>-->
                         </a>
                         <div class="hide" id="pop2">
                             <div class="socialmedia-icon">
@@ -76,9 +76,9 @@
                         <h4>Related careers:</h4>
                         <div class="sec-popup">
                             <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop3" data-placement="bottom">
-                                <i class="icon-share">
-                                    <!-- -->
-                                </i>
+<!--                                <i class="icon-share">
+                                    
+                                </i>-->
                             </a>
                             <div class="hide" id="pop3">
                                 <div class="socialmedia-icon">

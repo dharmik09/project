@@ -24,7 +24,7 @@ use App\Jobs\CalculateProfessionCompletePercentage;
 use App\Level4Answers;
 use App\LearningStyle;
 use App\Professions;
-
+use App\Level4ProfessionProgress;
 
 class Level4ActivityController extends Controller {
 
@@ -42,7 +42,7 @@ class Level4ActivityController extends Controller {
         $this->answerResponseImageOriginal = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->objPromisePlus = new PromisePlus();
         $this->learningStyleThumbImageUploadPath = Config::get('constant.LEARNING_STYLE_THUMB_IMAGE_UPLOAD_PATH');
-        
+        $this->objLevel4ProfessionProgress = new Level4ProfessionProgress();
     }
 
     /*
@@ -754,7 +754,7 @@ class Level4ActivityController extends Controller {
         //$learningGuidance = Helpers::learningGuidance();
         $userId = Auth::guard('teenager')->user()->id;
         //Insert all user learning style data
-        $professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($userId);
+        $professionArray = $this->objLevel4ProfessionProgress->getTeenAttemptProfessionWithTotal($userId);
         
         $objLevel4Answers = new Level4Answers();
         $objProfessionLearningStyle = new ProfessionLearningStyle();

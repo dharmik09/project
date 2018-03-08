@@ -45,7 +45,9 @@
                                 <span class="strength-details"></span>
                             </div>
                         </div>
-                        <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom"><i class="icon-share"></i></a>
+                        <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
+<!--                            <i class="icon-share"></i>-->
+                        </a>
                         <div class="hide" id="pop2">
                             <div class="socialmedia-icon">
                                 <p>Share  on:</p>
@@ -69,7 +71,9 @@
                         <h4>Related careers:</h4>
                         <div class="pull-right">
                             <div class="sec-popup">
-                                 <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop3" data-placement="bottom"><i class="icon-share"></i></a>
+                                 <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop3" data-placement="bottom">
+<!--                                     <i class="icon-share"></i>-->
+                                 </a>
                                 <div class="hide" id="pop3">
                                     <div class="socialmedia-icon">
                                         <p>Share  on:</p>

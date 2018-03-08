@@ -14,18 +14,19 @@
             color: $cl-complete;
             transform: rotate(24deg);
             @include maxmd {
-                bottom: -45px;
-                right: -90px;
+                bottom: -25px;
+                right: -50px;
                 font-size: 46px;
             }
             @include maxsm {
-                bottom: -35px;
-                right: -100px;
+                //bottom: -35px;
+                right: -40px;
             }
             @include maxms {
                 bottom: -25px;
                 right: -60px;
                 font-size: 30px;
+                display: none;
             }
         }
     }
