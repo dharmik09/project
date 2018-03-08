@@ -184,7 +184,6 @@
                 <div class="progress-bar">
                     <div class="progress-bar-fil" style="width: 1%;"></div>
                 </div>
-                
                 <!-- <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button> -->
                 <span class="close">
                     <i class="icon-close"></i>

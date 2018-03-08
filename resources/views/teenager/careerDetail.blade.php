@@ -590,6 +590,7 @@
 <script src="{{ asset('backend/js/highchart.js')}}"></script>
 <script>
     $(document).ready(function() {
+        var counterIntermediate = 0;
         $(function() {
             $(".sortable").sortable();
             $(".sortable").disableSelection();
@@ -984,6 +985,7 @@
         $('.time-tag').show();
     }
     function intermediateTimer() {
+        console.log(intermediateCount+"interTimer");
         if (intermediateCount < 0) { }
         else {
             intermediateSecondPassed();
@@ -1027,25 +1029,22 @@
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
                 
+                if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                 //Manage timer for question #####START#####
                 var time_out_question = setPopupTime * 1000;
                 if ( $("#quiz_material_popup").length == 0 ) {
-                    var counter = setInterval(intermediateTimer, 1000);
+                    counterIntermediate = setInterval(intermediateTimer, 1000);
                 } else {
                     $('#quiz_material_popup').on('hidden.bs.modal', function() {
-                        var counter = setInterval(intermediateTimer, 1000);
+                        counterIntermediate = setInterval(intermediateTimer, 1000);
                     });
                 }
                 if (time_out_question > 0) {
-                    time_out_question = 5;
                     $('#quiz_material_popup').modal('show');
                     setTimeout(function() {
                         $('#quiz_material_popup').modal('hide');
                     }, time_out_question);
-                    
-                    $('.progress-bar-fil').delay(10).queue(function() {
-                        $(this).css('width', '100%')
-                    });
+                    //Progressbar logic should be here
                 }
                 //Timer for question #####END#####
 
@@ -1086,6 +1085,8 @@
         $('.quiz-intermediate .intermediate-quiz-area').removeClass('active');
         $('.quiz-intermediate .intermediate-question').removeClass('active');
         intermediateCount = -2;
+
+        if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
         $('#intermediateLevelData').html('');
         $(".btn-intermediate").show();
         $(".btn-play-intermediate").hide();
@@ -1263,6 +1264,7 @@
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
+                    if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
@@ -1372,6 +1374,7 @@
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
+                    if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
@@ -1456,6 +1459,7 @@
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
+                    if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
@@ -1557,6 +1561,7 @@
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
+                    if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
@@ -1613,6 +1618,7 @@
                     headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                     cache: false,
                     success: function(data) {
+                        if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                         $('.intermediate-question-loader').hide();
                         $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                         
@@ -2278,7 +2284,7 @@
                         $("#myModal"+templateId+" .my-coins-info").text("You have "+response.coins+" ProCoins available.");
                     } else {
                         $("#myModal"+templateId+" .modal-title").text("Notification!");
-                        $("#myModal"+templateId+" .no-coins-availibility").html("<div class='modal-body'><p>You don\'t have enough ProCoins. Please Buy more.</p></div><div class='modal-footer'><button type='button' class='btn btn-primary'>Buy Coins</button><button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button></div>");
+                        $("#myModal"+templateId+" .no-coins-availibility").html("<div class='modal-body'><p>You don\'t have enough ProCoins. Please Buy more.</p></div><div class='modal-footer'><button type='button' class='btn btn-primary' onclick=\" location.href = '{{url('/teenager/buy-procoins')}}' \" title='Buy Coins'>Buy Coins</button><button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button></div>");
                     }
                 } else {
                     $("#myModal"+templateId).modal('show');

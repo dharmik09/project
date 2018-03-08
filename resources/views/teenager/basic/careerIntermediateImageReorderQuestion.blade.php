@@ -123,12 +123,18 @@
         </form>
     </div>
     @if( isset($response['data']->gt_temlpate_answer_type) && ( $response['data']->l4ia_question_popup_image != '' || $response['data']->l4ia_question_popup_description != '') )
-        @php($setPopupTime = $response['data']->l4ia_extra_question_time)
-        <div id="quiz_material_popup" class="modal fade quiz_pre_material" role="dialog" data-backdrop="static" data-keyboard="false">
+        <?php $setPopupTime = $response['data']->l4ia_extra_question_time; ?>
+        <div id="quiz_material_popup" class="modal fade quiz_pre_material " role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="time_out_cst"></div>
-                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                <div class="modal-content quiz-video">
+                    <div class="progress-bar">
+                        <div class="progress-bar-fil" style="width: 1%;"></div>
+                    </div>
+                    <!-- <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button> -->
+                    <span class="close">
+                        <i class="icon-close"></i>
+                    </span>
+                    
                     <div class="modal-body popup_image_and_desc">   
                         @if(isset($response['data']->l4ia_question_popup_description) && $response['data']->l4ia_question_popup_description != '')                
                         <div class="pre_material_img">
@@ -143,7 +149,7 @@
             </div>
         </div>
     @else
-        @php($setPopupTime = 0)
+        <?php $setPopupTime = 0; ?>
     @endif
     <script type="text/javascript">
         var intermediateCount = {{ (isset($response['timer']) && $response['timer'] != "") ? $response['timer'] : 0 }};
