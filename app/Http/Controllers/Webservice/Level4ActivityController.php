@@ -35,6 +35,7 @@ use App\Professions;
 use App\TemplateDeductedCoins;
 use App\Jobs\CalculateProfessionCompletePercentage;
 use App\PromisePlus;
+use App\PaidComponent;
 
 class Level4ActivityController extends Controller {
 
@@ -1225,6 +1226,73 @@ class Level4ActivityController extends Controller {
                     $response['message'] = "Please attempt profession first to see Promise Plus";
                     $response['data'] = [];
                 }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : getLevel4PromisePlusDetails
+     *  loginToken, userId, careerId, templateId, templateAttempted
+     */
+    public function saveTemplateConsumedCoinsDetail(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->careerId) && $request->careerId != '' && isset($request->templateId) && $request->templateId != '' && isset($request->templateAttempted) && $request->templateAttempted != '') {
+                    $data = [];
+                    $professionId = $request->careerId;
+                    $templateId = $request->templateId;
+                    $userId = $request->userId;
+                    $attempted = $request->templateAttempted;
+
+                    $objPaidComponent = new PaidComponent();
+                    $objTemplateDeductedCoins = new TemplateDeductedCoins();
+
+                    $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($userId, $professionId, $templateId, 1);
+                        
+                    $days = 0;
+                    if (!empty($deductedCoinsDetail) && isset($deductedCoinsDetail[0]->tdc_end_date)) {
+                        $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+                    }
+                        
+                    $userData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($templateId);
+                    $coins = isset($userData['gt_coins']) ? $userData['gt_coins'] : 0;
+                    if ($days == 0 && $coins > 0 && $attempted == 'no') {
+                        $deductedCoins = $coins;
+                        $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($userId);
+                        $coins = $userDetail['t_coins'] - $coins;
+                        $responsep = $this->teenagersRepository->updateTeenagerCoinsDetail($userId, $coins);
+                        $saveData = [];
+                        $saveData['id'] = 0;
+                        $saveData['tdc_user_id'] = $userId;
+                        $saveData['tdc_user_type'] = 1;
+                        $saveData['tdc_profession_id'] = $professionId;
+                        $saveData['tdc_template_id'] = $templateId;
+                        $saveData['tdc_total_coins'] = $deductedCoins;
+                        $saveData['tdc_start_date'] = date('y-m-d');
+                        $saveData['tdc_end_date'] = date('Y-m-d', strtotime("+". $userData['gt_valid_upto'] ." days"));
+
+                        $responsep = $objTemplateDeductedCoins->saveDeductedCoinsDetail($saveData);
+
+                        $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($userId, $professionId, $templateId, 1);
+                        $remDays = 0;
+                        if ($deductedCoinsDetail && isset($deductedCoinsDetail[0])) {
+                            $remDays = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+                        }
+                        $response['remainingDays'] = $remDays;  
+                    }
+                    $response['status'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                    //Store log in System
+                    $this->log->info('Teenager consumed coins for level 4 intermediate activity', array('userId' => $request->userId, 'professionId' => $request->careerId, 'templateId' => $request->templateId));
             } else {
                 $response['status'] = 0;
                 $response['message'] = trans('appmessages.missing_data_msg'); 
