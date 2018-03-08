@@ -100,7 +100,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//Route::post('/getNetworkMemberDetails', 'Webservice\NetworkController@getNetworkMemberDetails');
 
 	//Learning Guidance
-	Route::post('/learningGuidance', 'Webservice\HomeController@learningGuidance');
+	Route::post('/learningGuidance', 'Webservice\Level4ActivityController@learningGuidance');
 	Route::post('/saveConsumedCoinsDetails', 'Webservice\HomeController@saveConsumedCoinsDetails');
 
 	//Level 2 Activity
