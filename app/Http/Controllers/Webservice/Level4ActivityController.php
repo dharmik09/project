@@ -1265,7 +1265,7 @@ class Level4ActivityController extends Controller {
                         
                     $userData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($templateId);
                     $coins = isset($userData['gt_coins']) ? $userData['gt_coins'] : 0;
-                    if ($days == 0 && $coins > 0 && $attempted == 'no') {
+                    if ($days == 0 && $coins > 0 && $attempted == 0) {
                         $deductedCoins = $coins;
                         $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($userId);
                         $coins = $userDetail['t_coins'] - $coins;
