@@ -1236,7 +1236,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     public function getTeenParents($teenagerid) {
         $detail = DB::select(DB::raw("SELECT
                                             parent.id,parent.p_first_name,parent.p_last_name,parent.p_email,parent.p_gender,parent.p_photo,parent.p_user_type,pair.ptp_is_verified as pair_status
-                                            FROM pro_ptp_parent_teen_pair as pair join pro_p_parent as parent on pair.ptp_parent_id=parent.id where pair.ptp_is_verified = 1 AND pair.deleted = 1 AND pair.ptp_teenager = " . $teenagerid));
+                                            FROM pro_ptp_parent_teen_pair as pair join pro_p_parent as parent on pair.ptp_parent_id=parent.id where parent.deleted = 1 AND pair.ptp_is_verified = 1 AND pair.deleted = 1 AND pair.ptp_teenager = " . $teenagerid));
         return $detail;
     }
     
