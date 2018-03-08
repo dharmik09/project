@@ -256,7 +256,7 @@ class Level4ActivityController extends Controller {
             $response['teenagerName'] = Auth::guard('teenager')->user()->t_name . ' '.Auth::guard('teenager')->user()->t_lastname;
             $response['status'] = 1;
             //print_r($intermediateActivitiesData); die();
-            if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && in_array($intermediateActivitiesData->gt_temlpate_answer_type, ["option_choice", "option_choice_with_response", "true_false"]) ) {
+            if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && in_array($intermediateActivitiesData->gt_temlpate_answer_type, ["option_choice", "option_choice_with_response", "true_false", "filling_blank"]) ) { 
                 return view('teenager.basic.careerIntermediateOptionChoiceQuestion', compact('response'));
             } else if(isset($intermediateActivitiesData->gt_temlpate_answer_type) && $intermediateActivitiesData->gt_temlpate_answer_type == "single_line_answer") {
                 return view('teenager.basic.careerIntermediateSingleLineQuestion', compact('response'));

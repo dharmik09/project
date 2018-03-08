@@ -26,7 +26,7 @@
             <input type ="hidden" id="ajax_answer_type" name="ajax_answer_type" value="{{$response['data']->gt_temlpate_answer_type}}" />
         
             <div class="quiz-que">
-                <p class="que"><i class="icon-arrow-simple"></i>{{ $response['data']->l4ia_question_text }}</p>
+                <p class="que"><i class="icon-arrow-simple"></i>{!! $response['data']->l4ia_question_text !!}</p>
                 <div class="quiz-ans">
                     @if(isset($response['data']->l4ia_question_audio) && $response['data']->l4ia_question_audio != '')
                         <div class="quiz-audio">

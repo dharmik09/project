@@ -639,7 +639,6 @@
                 }
             });
         });
-
     });
 
     $(document).on('click','#add-to-star', function(){
@@ -973,30 +972,28 @@
     }
     
     //Intermediate level data query
-    var intermediateCount;
-    jQuery(document).ready(function($) {
-        var counter = setInterval(intermediateTimer, 1000);
-        function intermediateSecondPassed() {
-            var minutes = Math.round((intermediateCount - 30) / 60);
-            var remainingcount = intermediateCount % 60;
-            if (remainingcount < 10) {
-                remainingcount = "0" + remainingcount;
-            }
-            $('.intermediate-time-tag, .intermediate-time-tag').text(minutes + ":" + remainingcount);
-            $('.time-tag').show();
+    //var intermediateCount;
+    
+    function intermediateSecondPassed() {
+        var minutes = Math.round((intermediateCount - 30) / 60);
+        var remainingcount = intermediateCount % 60;
+        if (remainingcount < 10) {
+            remainingcount = "0" + remainingcount;
         }
-        function intermediateTimer() {
-            if (intermediateCount < 0) { }
-            else {
-                intermediateSecondPassed();
-            }
-            intermediateCount = intermediateCount - 1;
-            $("#blackholeIntermediate").val(intermediateCount);           
-            if (intermediateCount == -1) {
-                autoSubmitIntermediateAnswer();
-            }
+        $('.intermediate-time-tag, .intermediate-time-tag').text(minutes + ":" + remainingcount);
+        $('.time-tag').show();
+    }
+    function intermediateTimer() {
+        if (intermediateCount < 0) { }
+        else {
+            intermediateSecondPassed();
         }
-    });
+        intermediateCount = intermediateCount - 1;
+        $("#blackholeIntermediate").val(intermediateCount);           
+        if (intermediateCount == -1) {
+            autoSubmitIntermediateAnswer();
+        }
+    }
 
     function getConceptData(templateId) {
         //Hide Basic level quiz data
@@ -1029,6 +1026,29 @@
                 
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
+                
+                //Manage timer for question #####START#####
+                var time_out_question = setPopupTime * 1000;
+                if ( $("#quiz_material_popup").length == 0 ) {
+                    var counter = setInterval(intermediateTimer, 1000);
+                } else {
+                    $('#quiz_material_popup').on('hidden.bs.modal', function() {
+                        var counter = setInterval(intermediateTimer, 1000);
+                    });
+                }
+                if (time_out_question > 0) {
+                    time_out_question = 5;
+                    $('#quiz_material_popup').modal('show');
+                    setTimeout(function() {
+                        $('#quiz_material_popup').modal('hide');
+                    }, time_out_question);
+                    
+                    $('.progress-bar-fil').delay(10).queue(function() {
+                        $(this).css('width', '100%')
+                    });
+                }
+                //Timer for question #####END#####
+
                 $(".sortable").sortable();
                 $(".sortable").disableSelection();
                 adjusting_box_size();
