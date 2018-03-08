@@ -89,7 +89,7 @@
                                 <li>{{ $myConnectionsCount }} {{ ($myConnectionsCount == 1) ? "Connection" : "Connections" }} </li>
                             </ul>
                             <ul class="social-media">
-                                <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                                <li><a href="javascript:void(0);" title="facebook" target="_blank" onclick="shareFacebook('{{url('/')}}','My Profile!','{{$user->t_about_info}}','{{ $data['user_profile'] }}')"><i class="icon-facebook"></i></a></li>
                                 <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
                             </ul>
                             <div class="chat-icon">
@@ -1770,6 +1770,34 @@
         });
     }
 
+    var FACEBOOK_CLIENT_ID = '<?php echo Config::get('constant.FACEBOOK_CLIENT_ID') ?>';
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : FACEBOOK_CLIENT_ID,
+            xfbml      : true,
+            version    : 'v2.3'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function shareFacebook(url, title, desc, image)
+    {
+        var obj = {method: 'share_open_graph', action_type: 'og.shares', action_properties: JSON.stringify({ object: { 'og:url': url, 'og:title': title, 'og:description': desc, 'og:image': image } }) };
+        function callback(response){
+            if(response){
+                console.log(response);
+            }
+        }
+        FB.ui(obj, callback);
+    }
       
 </script>
 @stop
