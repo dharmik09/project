@@ -107,30 +107,6 @@ class HomeController extends Controller
         exit;
     }
 
-    /* Request Params : learningGuidance
-     *  loginToken, userId
-     *  Service after loggedIn user
-     */
-    public function learningGuidance(Request $request)
-    {
-        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
-        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        if($request->userId != "" && $teenager) {
-            $data = [];
-            $data = Helpers::learningGuidance();
-            $response['login'] = 1;
-            $response['status'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
-            $response['data'] = $data;
-        } else {
-            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
-        }
-        
-        return response()->json($response, 200);
-        exit;
-
-    }
-
     /* Request Params : saveConsumedCoinsDetails
      *  loginToken, userId, componentName, careerId
      *  Service after loggedIn user

@@ -100,7 +100,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//Route::post('/getNetworkMemberDetails', 'Webservice\NetworkController@getNetworkMemberDetails');
 
 	//Learning Guidance
-	Route::post('/learningGuidance', 'Webservice\HomeController@learningGuidance');
+	Route::post('/learningGuidance', 'Webservice\Level4ActivityController@learningGuidance');
 	Route::post('/saveConsumedCoinsDetails', 'Webservice\HomeController@saveConsumedCoinsDetails');
 
 	//Level 2 Activity
@@ -180,6 +180,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getLevel4IntermediateQuestions', 'Webservice\Level4ActivityController@getLevel4IntermediateQuestions');
 	Route::post('/saveLevel4IntermediateQuestions', 'Webservice\Level4ActivityController@saveLevel4IntermediateQuestions');
 	Route::post('/getLevel4IntermediateTemplate', 'Webservice\Level4ActivityController@getLevel4IntermediateTemplate');
+	Route::post('/saveTemplateConsumedCoinsDetail', 'Webservice\Level4ActivityController@saveTemplateConsumedCoinsDetail');
 	
 	//Advertisements
 	Route::post('/getDashboardAdvertisements', 'Webservice\DashboardController@getDashboardAdvertisements');
