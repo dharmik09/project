@@ -210,6 +210,7 @@
                             $('#loading-wrapper-sub').hide();
                             $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                         }
+                        $('[data-toggle="tooltip"]').tooltip();
                     }
                 });
             } else {
@@ -251,6 +252,7 @@
                     } else {
                         //$('#btn-more').html("No Data");
                     }
+                    $('[data-toggle="tooltip"]').tooltip();
                 }
             });
             });
@@ -287,6 +289,7 @@
                         }
                     }
                 });
+                $('[data-toggle="tooltip"]').tooltip();
             });
             
             $(document).on('change','#filter_by',function(){
@@ -315,6 +318,7 @@
                                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                                 $('.remove-sub-filter').remove();
                             }
+                            $('[data-toggle="tooltip"]').tooltip();
                         }
                     });
                 } else {
@@ -395,6 +399,7 @@
                                 $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                                 //$('.existing-connection').show();
                             }
+                            $('[data-toggle="tooltip"]').tooltip();
                         }
                     });
                 } else { 
@@ -402,5 +407,6 @@
                     $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
                 }
             });
+            $('[data-toggle="tooltip"]').tooltip();
     </script>
 @stop
