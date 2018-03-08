@@ -590,6 +590,7 @@
 <script src="{{ asset('backend/js/highchart.js')}}"></script>
 <script>
     $(document).ready(function() {
+        var counterIntermediate = 0;
         $(function() {
             $(".sortable").sortable();
             $(".sortable").disableSelection();
@@ -639,7 +640,6 @@
                 }
             });
         });
-
     });
 
     $(document).on('click','#add-to-star', function(){
@@ -973,30 +973,29 @@
     }
     
     //Intermediate level data query
-    var intermediateCount;
-    jQuery(document).ready(function($) {
-        var counter = setInterval(intermediateTimer, 1000);
-        function intermediateSecondPassed() {
-            var minutes = Math.round((intermediateCount - 30) / 60);
-            var remainingcount = intermediateCount % 60;
-            if (remainingcount < 10) {
-                remainingcount = "0" + remainingcount;
-            }
-            $('.intermediate-time-tag, .intermediate-time-tag').text(minutes + ":" + remainingcount);
-            $('.time-tag').show();
+    //var intermediateCount;
+    
+    function intermediateSecondPassed() {
+        var minutes = Math.round((intermediateCount - 30) / 60);
+        var remainingcount = intermediateCount % 60;
+        if (remainingcount < 10) {
+            remainingcount = "0" + remainingcount;
         }
-        function intermediateTimer() {
-            if (intermediateCount < 0) { }
-            else {
-                intermediateSecondPassed();
-            }
-            intermediateCount = intermediateCount - 1;
-            $("#blackholeIntermediate").val(intermediateCount);           
-            if (intermediateCount == -1) {
-                autoSubmitIntermediateAnswer();
-            }
+        $('.intermediate-time-tag, .intermediate-time-tag').text(minutes + ":" + remainingcount);
+        $('.time-tag').show();
+    }
+    function intermediateTimer() {
+        console.log(intermediateCount+"interTimer");
+        if (intermediateCount < 0) { }
+        else {
+            intermediateSecondPassed();
         }
-    });
+        intermediateCount = intermediateCount - 1;
+        $("#blackholeIntermediate").val(intermediateCount);           
+        if (intermediateCount == -1) {
+            autoSubmitIntermediateAnswer();
+        }
+    }
 
     function getConceptData(templateId) {
         //Hide Basic level quiz data
@@ -1029,6 +1028,26 @@
                 
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
+                
+                if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
+                //Manage timer for question #####START#####
+                var time_out_question = setPopupTime * 1000;
+                if ( $("#quiz_material_popup").length == 0 ) {
+                    counterIntermediate = setInterval(intermediateTimer, 1000);
+                } else {
+                    $('#quiz_material_popup').on('hidden.bs.modal', function() {
+                        counterIntermediate = setInterval(intermediateTimer, 1000);
+                    });
+                }
+                if (time_out_question > 0) {
+                    $('#quiz_material_popup').modal('show');
+                    setTimeout(function() {
+                        $('#quiz_material_popup').modal('hide');
+                    }, time_out_question);
+                    //Progressbar logic should be here
+                }
+                //Timer for question #####END#####
+
                 $(".sortable").sortable();
                 $(".sortable").disableSelection();
                 adjusting_box_size();
@@ -1066,6 +1085,8 @@
         $('.quiz-intermediate .intermediate-quiz-area').removeClass('active');
         $('.quiz-intermediate .intermediate-question').removeClass('active');
         intermediateCount = -2;
+
+        if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
         $('#intermediateLevelData').html('');
         $(".btn-intermediate").show();
         $(".btn-play-intermediate").hide();
@@ -1243,6 +1264,7 @@
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
+                    if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
@@ -1352,6 +1374,7 @@
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
+                    if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
@@ -1436,6 +1459,7 @@
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
+                    if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
@@ -1537,6 +1561,7 @@
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
+                    if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                     $('.intermediate-question-loader').hide();
                     $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                     var obj = $.parseJSON(data);
@@ -1593,6 +1618,7 @@
                     headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                     cache: false,
                     success: function(data) {
+                        if( typeof counterIntermediate !== "undefined") { clearInterval(counterIntermediate); }
                         $('.intermediate-question-loader').hide();
                         $('.intermediate-question-loader').parent().removeClass('loading-screen-parent');
                         
@@ -2258,7 +2284,7 @@
                         $("#myModal"+templateId+" .my-coins-info").text("You have "+response.coins+" ProCoins available.");
                     } else {
                         $("#myModal"+templateId+" .modal-title").text("Notification!");
-                        $("#myModal"+templateId+" .no-coins-availibility").html("<div class='modal-body'><p>You don\'t have enough ProCoins. Please Buy more.</p></div><div class='modal-footer'><button type='button' class='btn btn-primary'>Buy Coins</button><button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button></div>");
+                        $("#myModal"+templateId+" .no-coins-availibility").html("<div class='modal-body'><p>You don\'t have enough ProCoins. Please Buy more.</p></div><div class='modal-footer'><button type='button' class='btn btn-primary' onclick=\" location.href = '{{url('/teenager/buy-procoins')}}' \" title='Buy Coins'>Buy Coins</button><button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button></div>");
                     }
                 } else {
                     $("#myModal"+templateId).modal('show');
@@ -2284,7 +2310,7 @@
                 if(response.status == 1) {
                     getConceptData(templateId);
                     if(typeof response.remainingDays !== "undefined" && response.remainingDays > 0) {
-                        $(".set-template-"+templateId).html("<a href='javascript:void(0);' title='Play now!' class='btn-primary' onclick='getConceptData("+templateId+")' ><span class='unbox-me'>Play now!</span><span class='coins-outer'><span class='coins'></span>"+response.remainingDays+" Days Left</span></a>");
+                        $(".set-template-"+templateId).html("<a href='javascript:void(0);' title='Play now!' class='btn-primary' onclick='getConceptData("+templateId+")' ><span class='unbox-me'>Play now!</span><span class='coins-outer'><span class='coins'></span> "+ response.remainingDays+" Days Left</span></a>");
                     }
                 } else {
                     location.href = "{{url('/')}}";
