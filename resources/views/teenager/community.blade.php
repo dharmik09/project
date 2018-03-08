@@ -84,7 +84,9 @@
                                     ?>
                                     {{ $teenPoints }} points
                                     </span>
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
+                                    <a href="javascript:void(0);" data-placement="bottom" title="Please make a connection to chat" data-toggle="tooltip" >
+                                        <i class="icon-chat"><!-- --></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
