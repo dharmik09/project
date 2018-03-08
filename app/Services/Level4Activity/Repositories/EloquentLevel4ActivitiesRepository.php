@@ -1353,7 +1353,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
         // return $id;
         $getDatas = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_MEDIA'))->where('l4iam_question_id',$conceptId)->get();
         if($getDatas)
-        {
+        {       
+            $newData = '';
             foreach($getDatas as $getData){
                 $array = [];
                 $array['l4iam_question_id'] = $questionId;
@@ -1362,7 +1363,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
                 $array['l4iam_media_desc'] = $getData->l4iam_media_desc;
                 $array['deleted'] = $getData->deleted;
 
-                $newData = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_MEDIA'))->insertGetId($array);    
+                $newData = DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_MEDIA'))->insertGetId($array);                 
             }
             return $newData;
         }

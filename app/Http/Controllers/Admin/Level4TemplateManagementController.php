@@ -20,6 +20,7 @@ use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use Cache;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use Storage;
 
 class Level4TemplateManagementController extends Controller {
 
@@ -295,11 +296,11 @@ class Level4TemplateManagementController extends Controller {
                     $conceptDetail = $this->level4ActivitiesRepository->getGamificationTemplateById($conceptId);
                         
                     $newconceptImage = '';
-                    $file = public_path($conceptOriginalImageUploadPath.$conceptDetail->gt_template_image);
-                    if (File::exists(public_path($conceptOriginalImageUploadPath.$conceptDetail->gt_template_image)) && $conceptDetail->gt_template_image != '') {
-                        $newconceptImage = $conceptId.'_'.$conceptDetail->gt_template_image;
-                        $newfile = public_path($conceptOriginalImageUploadPath.$newconceptImage);
-                        if (!copy($file, $newfile)) {
+                    $file = $conceptOriginalImageUploadPath.$conceptDetail->gt_template_image;
+                    if (Storage::size($conceptOriginalImageUploadPath.$conceptDetail->gt_template_image) > 0 && $conceptDetail->gt_template_image != '') {
+                        $newconceptImage = $conceptId.'_'.time().'_'.$conceptDetail->gt_template_image;
+                        $newfile = $conceptOriginalImageUploadPath.$newconceptImage;
+                        if (!Storage::copy($file, $newfile)) {
                             return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                             exit;
                         }
@@ -335,11 +336,11 @@ class Level4TemplateManagementController extends Controller {
                             $newImage = $newAudio = $newAudioFileName= '';
                             //Set Question audio
                             if (isset($level4Detail[0]->l4ia_question_audio) && $level4Detail[0]->l4ia_question_audio != '') {
-                                if (file_exists($this->questionDescriptionORIGINALImage . $level4Detail[0]->l4ia_question_audio)) {
-                                    $audioFile = public_path($this->questionDescriptionORIGINALImage.$level4Detail[0]->l4ia_question_audio);
-                                    $newAudioFileName = $oldId[$k].'_'.$level4Detail[0]->l4ia_question_audio;
-                                    $newAudioFile = public_path($this->questionDescriptionORIGINALImage.$newAudioFileName);
-                                    if (!copy($audioFile, $newAudioFile)) 
+                                if (Storage::size($this->questionDescriptionORIGINALImage . $level4Detail[0]->l4ia_question_audio) > 0) {
+                                    $audioFile = $this->questionDescriptionORIGINALImage.$level4Detail[0]->l4ia_question_audio;
+                                    $newAudioFileName = $oldId[$k].'_'.time().'_'.$level4Detail[0]->l4ia_question_audio;
+                                    $newAudioFile = $this->questionDescriptionORIGINALImage.$newAudioFileName;
+                                    if (!Storage::copy($audioFile, $newAudioFile)) 
                                     {
                                         return Redirect::to("admin/copyConcept")->withErrors('Audio file not copied perfectly')->withInput();
                                         exit;
@@ -347,20 +348,20 @@ class Level4TemplateManagementController extends Controller {
                                 } 
                             }
                             //$audioFile = public_path($this->questionOriginalImageUploadPath.$level4Detail[0]->l4ia_question_popup_image); 
-                            $file = public_path($this->questionOriginalImageUploadPath.$level4Detail[0]->l4ia_question_popup_image);
-                            $thumbfile = public_path($this->questionThumbImageUploadPath.$level4Detail[0]->l4ia_question_popup_image);
-                            if (File::exists(public_path($this->questionOriginalImageUploadPath.$level4Detail[0]->l4ia_question_popup_image)) && $level4Detail[0]->l4ia_question_popup_image != '') {
-                                $newImage = $oldId[$k].'_'.$level4Detail[0]->l4ia_question_popup_image;
-                                $newfile = public_path($this->questionOriginalImageUploadPath.$newImage);
-                                $newthumbfile = public_path($this->questionThumbImageUploadPath.$newImage);
-                                if (!copy($file, $newfile)) {
+                            $file = $this->questionOriginalImageUploadPath.$level4Detail[0]->l4ia_question_popup_image;
+                            $thumbfile = $this->questionThumbImageUploadPath.$level4Detail[0]->l4ia_question_popup_image;
+                            if (Storage::size($this->questionOriginalImageUploadPath.$level4Detail[0]->l4ia_question_popup_image) > 0 && $level4Detail[0]->l4ia_question_popup_image != '') {
+                                $newImage = $oldId[$k].'_'.time().'_'.$level4Detail[0]->l4ia_question_popup_image;
+                                $newfile = $this->questionOriginalImageUploadPath.$newImage;
+                                $newthumbfile = $this->questionThumbImageUploadPath.$newImage;
+                                if (!Storage::copy($file, $newfile)) {
                                     return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                     exit;
                                 }
                                 $imageInfo = pathinfo($thumbfile); 
                                 if($imageInfo['extension'] != 'gif')
                                 {
-                                    if (!copy($thumbfile, $newthumbfile)) {
+                                    if (!Storage::copy($thumbfile, $newthumbfile)) {
                                         return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                         exit;
                                     }
@@ -386,37 +387,37 @@ class Level4TemplateManagementController extends Controller {
                             foreach($optionDetail as $keyOption => $optionValue)
                             {
                                 $newanswerImage = '';
-                                $file = public_path($this->answerOriginalImageUploadPath.$optionValue->l4iao_answer_image);
-                                $thumbfile = public_path($this->answerThumbImageUploadPath.$optionValue->l4iao_answer_image);
-                                if (File::exists(public_path($this->answerOriginalImageUploadPath.$optionValue->l4iao_answer_image)) && $optionValue->l4iao_answer_image != '') {
-                                    $newanswerImage = $oldId[$j].'_'.$optionValue->l4iao_answer_image;
-                                    $newfile = public_path($this->answerOriginalImageUploadPath.$newanswerImage);
-                                    $newthumbfile = public_path($this->answerThumbImageUploadPath.$newanswerImage);
-                                    if (!copy($file, $newfile)) {
+                                $file = $this->answerOriginalImageUploadPath.$optionValue->l4iao_answer_image;
+                                $thumbfile = $this->answerThumbImageUploadPath.$optionValue->l4iao_answer_image;
+                                if (Storage::size($this->answerOriginalImageUploadPath.$optionValue->l4iao_answer_image) > 0 && $optionValue->l4iao_answer_image != '') {
+                                    $newanswerImage = $oldId[$j].'_'.time().'_'.$optionValue->l4iao_answer_image;
+                                    $newfile = $this->answerOriginalImageUploadPath.$newanswerImage;
+                                    $newthumbfile = $this->answerThumbImageUploadPath.$newanswerImage;
+                                    if (!Storage::copy($file, $newfile)) {
                                         return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                         exit;
                                     }
-                                    if (!copy($thumbfile,$newthumbfile)) {
+                                    if (!Storage::copy($thumbfile,$newthumbfile)) {
                                         return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                         exit;
                                     }
                                 }
 
                                 $newresponseImage = '';
-                                $file1 = public_path($this->responseOriginalImageUploadPath.$optionValue->l4iao_answer_response_image);
-                                $thumbfile1 = public_path($this->responseThumbImageUploadPath.$optionValue->l4iao_answer_response_image);
-                                if (File::exists(public_path($this->responseOriginalImageUploadPath.$optionValue->l4iao_answer_response_image)) && $optionValue->l4iao_answer_response_image != '') {
-                                    $newresponseImage = $oldId[$j].'_'.$optionValue->l4iao_answer_response_image;
-                                    $newfile1 = public_path($this->responseOriginalImageUploadPath.$newresponseImage);
-                                    $newThumbfile1 = public_path($this->responseThumbImageUploadPath.$newresponseImage);
-                                    if (!copy($file1, $newfile1)) {
+                                $file1 = $this->responseOriginalImageUploadPath.$optionValue->l4iao_answer_response_image;
+                                $thumbfile1 = $this->responseThumbImageUploadPath.$optionValue->l4iao_answer_response_image;
+                                if (Storage::size($this->responseOriginalImageUploadPath.$optionValue->l4iao_answer_response_image) > 0 && $optionValue->l4iao_answer_response_image != '') {
+                                    $newresponseImage = $oldId[$j].'_'.time().'_'.$optionValue->l4iao_answer_response_image;
+                                    $newfile1 = $this->responseOriginalImageUploadPath.$newresponseImage;
+                                    $newThumbfile1 = $this->responseThumbImageUploadPath.$newresponseImage;
+                                    if (!Storage::copy($file1, $newfile1)) {
                                         return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                         exit;
                                     }
                                     $imageInfo = pathinfo($thumbfile1); 
                                     if($imageInfo['extension'] != 'gif')
                                     {    
-                                        if (!copy($thumbfile1,$newThumbfile1)) {
+                                        if (!Storage::copy($thumbfile1,$newThumbfile1)) {
                                             return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                             exit;
                                         }
@@ -440,20 +441,20 @@ class Level4TemplateManagementController extends Controller {
                             {
                                 if ($valueQuestion->l4iam_media_type == "I") 
                                 {
-                                    $file2 = public_path($this->questionOriginalImageUploadPath.$valueQuestion->l4iam_media_name);
-                                    $thumbfile2 = public_path($this->questionThumbImageUploadPath.$valueQuestion->l4iam_media_name);
-                                    if (File::exists(public_path($this->questionOriginalImageUploadPath.$valueQuestion->l4iam_media_name)) && $valueQuestion->l4iam_media_name != '') {
-                                        $newquestionImage = $oldId[$i].'_'.$valueQuestion->l4iam_media_name;
-                                        $newfile2 = public_path($this->questionOriginalImageUploadPath.$newquestionImage);
-                                        $newthumbfile2 = public_path($this->questionThumbImageUploadPath.$newquestionImage);
-                                        if (!copy($file2, $newfile2)) {
+                                    $file2 = $this->questionOriginalImageUploadPath.$valueQuestion->l4iam_media_name;
+                                    $thumbfile2 = $this->questionThumbImageUploadPath.$valueQuestion->l4iam_media_name;
+                                    if (Storage::size($this->questionOriginalImageUploadPath.$valueQuestion->l4iam_media_name) > 0 && $valueQuestion->l4iam_media_name != '') {
+                                        $newquestionImage = $oldId[$i].'_'.time().'_'.$valueQuestion->l4iam_media_name;
+                                        $newfile2 = $this->questionOriginalImageUploadPath.$newquestionImage;
+                                        $newthumbfile2 = $this->questionThumbImageUploadPath.$newquestionImage;
+                                        if (!Storage::copy($file2, $newfile2)) {
                                             return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                             exit;
                                         }
                                         $imageInfo = pathinfo($thumbfile2); 
                                         if($imageInfo['extension'] != 'gif')
                                         {
-                                            if (!copy($thumbfile2, $newthumbfile2)) {
+                                            if (!Storage::copy($thumbfile2, $newthumbfile2)) {
                                                 return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                                 exit;
                                             }
