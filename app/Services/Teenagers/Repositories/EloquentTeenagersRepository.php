@@ -210,12 +210,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
      */
     public function getTeenagerByMobile($mobile) {
         $teenager = $this->model->where('t_phone', $mobile)->where('deleted', '1')->first();
-        if ($teenager) {
-            $teenager = $teenager->toArray();
-            return $teenager;
-        } else {
-            return false;
-        }
+        return $teenager;
     }
 
     public function getTeenagerByEmail($email) {

@@ -79,7 +79,7 @@
                 ?>
                 <div class="col-md-offset-1 col-md-5 col-sm-6 input_icon address">
                     <div class="mandatory">*</div>
-                    <input type="text" name="address1" class="cst_input_primary addressvalid" placeholder="Address 1" minlength="3" maxlength="200"  value="{{ $address1 or ''}}">
+                    <input type="text" name="address1" class="cst_input_primary addressvalid" placeholder="Address 1" minlength="3" maxlength="100"  value="{{ $address1 or ''}}">
                 </div>
                 <div class="col-md-5 col-sm-6 u_image">
                     <div class="user_detail">
@@ -131,7 +131,7 @@
                 ?>
                 <div class="col-md-offset-1 col-md-5 col-sm-6 input_icon address">
                     <div class="mandatory">*</div>
-                    <input type="text" name="address2" class="cst_input_primary addressvalid" minlength="3" maxlength="200" placeholder="Address 2" value="{{ $address2  or ''}}">
+                    <input type="text" name="address2" class="cst_input_primary addressvalid" minlength="3" maxlength="100" placeholder="Address 2" value="{{ $address2  or ''}}">
                 </div>
                 <?php
                 if (old('p_teenager_reference_id'))
@@ -319,12 +319,12 @@
                                                 address1: {
                                                     required: true,
                                                     minlength: 3,
-                                                    maxlength: 200
+                                                    maxlength: 100
                                                 },
                                                 address2: {
                                                     required: true,
                                                     minlength: 3,
-                                                    maxlength: 200
+                                                    maxlength: 100
                                                 },
                                                 pincode: {
                                                     required: true,
