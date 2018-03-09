@@ -16,7 +16,7 @@ class SetAcademicAchievementRecord extends Command
     /**
      * The name and signature of the console command.
      * --for= "all OR specific teenagerId" && --infoFor= "all OR academic OR achievement"
-     * @var command :: php artisan calculateAcademicAchievementInfo {--for=} {--infoFor=}
+     * @var command :: php artisan calculateAcademicAchievementInfo --for= --infoFor=
      */
     protected $signature = 'calculateAcademicAchievementInfo {--for=} {--infoFor=}';
 
@@ -67,7 +67,7 @@ class SetAcademicAchievementRecord extends Command
                                 if($teenagerAcademicCalculation && count($teenagerAcademicCalculation) > 1) {
                                     $academicString = "";
                                     foreach($teenagerAcademicCalculation as $dataLoop) {
-                                        $academicString .= $dataLoop['tmd_meta_value']. " ";
+                                        $academicString .= $dataLoop['tmd_meta_value']. "<br/>";
                                     }
                                     //Delete all current academic data
                                     $metaDataDelete = DB::table('pro_tmd_teenager_meta_data')->where(['tmd_teenager' => $teenagerId->id, 'tmd_meta_id' => 2])->delete();
@@ -81,7 +81,7 @@ class SetAcademicAchievementRecord extends Command
                                 if($teenagerAchievementCalculation && count($teenagerAchievementCalculation) > 1) {
                                     $achievementString = "";
                                     foreach($teenagerAchievementCalculation as $dataLoop) {
-                                        $achievementString .= $dataLoop['tmd_meta_value']. " ";
+                                        $achievementString .= $dataLoop['tmd_meta_value']. "<br/>";
                                     }
                                     //Delete all current academic data
                                     $metaDataDelete = DB::table('pro_tmd_teenager_meta_data')->where(['tmd_teenager' => $teenagerId->id, 'tmd_meta_id' => 1])->delete();
@@ -102,7 +102,7 @@ class SetAcademicAchievementRecord extends Command
                                 if($teenagerAcademicCalculation && count($teenagerAcademicCalculation) > 1) {
                                     $academicString = "";
                                     foreach($teenagerAcademicCalculation as $dataLoop) {
-                                        $academicString .= $dataLoop['tmd_meta_value']. " ";
+                                        $academicString .= $dataLoop['tmd_meta_value']. "<br/>";
                                     }
                                     //Delete all current academic data
                                     $metaDataDelete = DB::table('pro_tmd_teenager_meta_data')->where(['tmd_teenager' => $teenagerId->id, 'tmd_meta_id' => 2])->delete();
@@ -161,7 +161,7 @@ class SetAcademicAchievementRecord extends Command
                             if($teenagerAcademicCalculation && count($teenagerAcademicCalculation) > 1) {
                                 $academicString = "";
                                 foreach($teenagerAcademicCalculation as $dataLoop) {
-                                    $academicString .= $dataLoop['tmd_meta_value']. " ";
+                                    $academicString .= $dataLoop['tmd_meta_value']. "<br/>";
                                 }
                                 //Delete all current academic data
                                 $metaDataDelete = DB::table('pro_tmd_teenager_meta_data')->where(['tmd_teenager' => $getTeenagerDetail[0]->id, 'tmd_meta_id' => 2])->delete();
@@ -175,7 +175,7 @@ class SetAcademicAchievementRecord extends Command
                             if($teenagerAchievementCalculation && count($teenagerAchievementCalculation) > 1) {
                                 $achievementString = "";
                                 foreach($teenagerAchievementCalculation as $dataLoop) {
-                                    $achievementString .= $dataLoop['tmd_meta_value']. " ";
+                                    $achievementString .= $dataLoop['tmd_meta_value']. "<br/>";
                                 }
                                 //Delete all current academic data
                                 $metaDataDelete = DB::table('pro_tmd_teenager_meta_data')->where(['tmd_teenager' => $getTeenagerDetail[0]->id, 'tmd_meta_id' => 1])->delete();
@@ -196,7 +196,7 @@ class SetAcademicAchievementRecord extends Command
                             if($teenagerAcademicCalculation && count($teenagerAcademicCalculation) > 1) {
                                 $academicString = "";
                                 foreach($teenagerAcademicCalculation as $dataLoop) {
-                                    $academicString .= $dataLoop['tmd_meta_value']. " ";
+                                    $academicString .= $dataLoop['tmd_meta_value']. "<br/>";
                                 }
                                 //Delete all current academic data
                                 $metaDataDelete = DB::table('pro_tmd_teenager_meta_data')->where(['tmd_teenager' => $getTeenagerDetail[0]->id, 'tmd_meta_id' => 2])->delete();
@@ -218,7 +218,7 @@ class SetAcademicAchievementRecord extends Command
                             if($teenagerAchievementCalculation && count($teenagerAchievementCalculation) > 1) {
                                 $achievementString = "";
                                 foreach($teenagerAchievementCalculation as $dataLoop) {
-                                    $achievementString .= $dataLoop['tmd_meta_value']. " ";
+                                    $achievementString .= $dataLoop['tmd_meta_value']. "<br/>";
                                 }
                                 //Delete all current academic data
                                 $metaDataDelete = DB::table('pro_tmd_teenager_meta_data')->where(['tmd_teenager' => $getTeenagerDetail[0]->id, 'tmd_meta_id' => 1])->delete();
