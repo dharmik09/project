@@ -18,6 +18,13 @@
                             </div>
                             <!-- your_profile_img End -->
                             <div class="your_profile_view">
+                                <span class="sec-popup help_noti"><a id="dashboard-profile" href="javascript:void(0);" onmouseover="getHelpText('dashboard-profile')" data-trigger="hover" data-popover-content="#profile-sec" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                                <div class="hide" id="profile-sec">
+                                    <div class="popover-data">
+                                        <a class="close popover-closer"><i class="icon-close"></i></a> 
+                                        <span class="dashboard-profile"></span>
+                                    </div>
+                                </div>
                                 <h4><a href="{{ url('/teenager/edit-profile') }}" title="Edit Profile">edit</a></h4>
                                 <div class="your_progress">
                                     <h6>Your Progress</h6>
@@ -38,7 +45,7 @@
                                 </div>
                             </div>
                             <h2>My Interests <span></span>
-                                <span class="sec-popup"><a id="dashboard-interest" href="javascript:void(0);" onmouseover="getHelpText('dashboard-interest')" data-trigger="hover" data-popover-content="#interest" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                <span class="sec-popup"><a id="dashboard-interest" href="javascript:void(0);" onmouseover="getHelpText('dashboard-interest')" data-trigger="hover" data-popover-content="#interest" class="help-icon" rel="popover" data-placement="bottom">
                                 <i class="icon-question"></i></a></span>
                             </h2>
                             <div class="hide" id="interest">
@@ -70,7 +77,7 @@
                                     <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
                                 </div>
                             </div>
-                            <h2>My Strengths <span></span><span class="sec-popup"><a id="dashboard-strength" href="javascript:void(0);" onmouseover="getHelpText('dashboard-strength')" data-trigger="hover" data-popover-content="#strength" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2>My Strengths <span></span><span class="sec-popup"><a id="dashboard-strength" href="javascript:void(0);" onmouseover="getHelpText('dashboard-strength')" data-trigger="hover" data-popover-content="#strength" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="hide" id="strength">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -198,7 +205,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 activity_section">
                     <div class="dashbord_view_left dashbord_view_right">
                         <h2 class="das_title profile-title">Build My Profile</h2>
-                        <span class="sec-popup help_noti"><a id="dashboard-profile-builder" href="javascript:void(0);" onmouseover="getHelpText('dashboard-profile-builder')" data-trigger="hover" data-popover-content="#home-profile-builder" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                        <span class="sec-popup help_noti"><a id="dashboard-profile-builder" href="javascript:void(0);" onmouseover="getHelpText('dashboard-profile-builder')" data-trigger="hover" data-popover-content="#home-profile-builder" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
                         
                         
                         <div class="hide" id="home-profile-builder">
@@ -259,7 +266,7 @@
                                 <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
                              </div>
                             </div>
-                            <h2>My likely fit<span></span><span class="sec-popup"><a id="dashboard-career-consider" href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#home-career-consider" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2>My likely fit<span></span><span class="sec-popup"><a id="dashboard-career-consider" href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#home-career-consider" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="hide" id="home-career-consider">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>

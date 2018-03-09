@@ -175,7 +175,7 @@
                     <div class="sponsor-sec">
                         <div class="sponsor-content">
                             
-                            <p>Select at least one sponsor. *</p>
+                            <p>Select at least one sponsor.</p>
                             <p>Benefits include coupon code voucher and event participation.</p>
                             <p class="sponsor-error"></p>
                             <div class="form-register sponsor-list owl-carousel">
