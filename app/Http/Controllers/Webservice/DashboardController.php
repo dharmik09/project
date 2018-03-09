@@ -759,7 +759,7 @@ class DashboardController extends Controller
     }
 
     /* Request Params : getMiAndInterestPageGurusDetails
-     *  loginToken, userId, slug, slotNo
+     *  loginToken, userId, slug, slot
      */
     public function getMiAndInterestPageGurusDetails(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
