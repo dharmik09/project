@@ -274,4 +274,8 @@ class Teenagers extends Authenticatable {
                 ->get();
         return $return;
     }
+
+    public function getTeenagerMetaDataInfo(){
+        return $this->hasMany(TeenagersMetaDataInfo::class, 'tmd_teenager');
+    }
 }

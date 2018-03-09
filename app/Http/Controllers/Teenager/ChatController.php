@@ -55,7 +55,7 @@ class ChatController extends Controller {
     {
         $loggedInTeen = Auth::guard('teenager')->user()->id;
         $pageNo = Input::get('page_no');
-        $record = $pageNo * 10;
+        $record = $pageNo * 20;
         $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$loggedInTeen,$record);
         $view = view('teenager.basic.notifications',compact('notificationData'));
         $response['notificationCount'] = count($notificationData);

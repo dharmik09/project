@@ -73,7 +73,7 @@ class Level1ActivityController extends Controller
         if($request->userId != "" && $teenager) {
             $activities = $this->level1ActivitiesRepository->getNotAttemptedActivities($request->userId);
             if($activities) {
-                $imageArray = ['icon-4.png', 'icon-3.png', 'icon-5.png'];
+                $imageArray = ['icon-7.png', 'icon-2.png', 'icon-6.png'];
                 foreach ($activities as $key => $activity) {
                     $activities[$key]->l1ac_image = ($activities[$key]->l1ac_image != "") ? Storage::url($this->level1ActivityOriginalImageUploadPath . $activity->l1ac_image) : $this->level1ActivityOriginalImageUploadPath . "proteen-logo.png";
                     if(isset($activity->options) && $activity->options) {
