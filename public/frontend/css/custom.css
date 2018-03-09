@@ -214,7 +214,121 @@ h1.search_title_inner {
     font-weight: bold;
 }
 .rightCheckColor{color: #e66a45;     font-size: 22px;}
-
+.navbar-cst.navbar{border-bottom: none;background: #161c22;}
+.title_border{padding-bottom: 0;}
+.coin_summary .left span{
+        font-family: ab;
+    font-size: 30px;
+    line-height: 1.2;
+    color: #fd604b;
+    margin-bottom: 30px;
+}
+.challenge_container h1{font-family: ab;
+    font-size: 30px;
+    line-height: 1.2;
+    color: #fd604b;
+}
+.vs_box .challenging_profession h1 span{color: #27a6b5;font-size: 18px;}
+.vs_box .research a{border-radius: 0;}
+.vs_box .research a.research {
+    background: #27a6b5;
+    border-radius: 0;
+}
+.vs_box .research a.research:hover{background:#49c7d6;}
+.vs_box .research a.accept {
+    background: #fd604b;
+}
+.vs_box{border: 2px solid #f15f4c;}
+.btn.invite_teen_btn{
+    display: inline-block;
+        color: #fff;
+    background: #fd604b;
+    /* width: 100%; */
+    font-family: hn-b;
+    font-size: 20px;
+    line-height: 1.35;
+    padding: 14px 15px;
+    border-color: #fd604b;
+    margin-bottom: 0;
+    border-radius: 0;
+    height: auto;
+}
+.btn.invite_teen_btn:hover{
+    background: #27a6b5 !important;border-color: #27a6b5 !important;
+}
+.coin_summary .left span{margin-top: 10px;}
+.coin_summary .left .coin_count_ttl{
+        font-size: 35px;
+    /* font-style: italic; */
+    font-weight: 600;
+    color: #27a6b5;
+    font-family: 'ab';
+}
+.sponsor_table tr th {
+    color: #f15f4c;
+    font-family: hn-b;
+    font-size: 15px;
+}
+.rlink{color: #f15f4c;}
+.rlink:hover, .rlink:active, .rlink:focus{color:#27a6b5; }
+.title_border:before{display: none;}
+.login_form h1 {
+    font-size: 39px;
+    text-transform: capitalize;
+    color: #27a6b5;
+    margin-bottom: 24px;
+    font-family: ab;
+    font-weight: 500;
+}
+.sponsor_table {
+    border-right: 1px solid #ff5f44;
+    font-family: 'h';
+    font-size: 14px;
+    color: #000;
+    font-weight: 400;
+}
+.my_teens_inner .login_form,.sponsor_table tr th, .sponsor_table tr td{border-color: #ff5f44;}
+.sponsor_table a{font-family: 'h';}
+.coupon_control .gift {
+    background: #f15f4c;
+    float: right;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 0;
+    font-size: 15px;
+    font-family: hn-b;
+}
+footer {
+    bottom: 0;
+    height:auto;
+    width: 100%;
+    position: absolute;
+    background-color: rgba(0,0,0,0.65);
+    background-color: #161c22;
+    padding: 50px 0;
+    color: #dfe0e1;
+    font-size: 16px;
+    font-family: hb;
+}
+.primary_footer{border-top: none;}
+.mCSB_scrollTools.mCSB_scrollTools_horizontal{
+        height: 4px;
+}
+.mCSB_scrollTools.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar{height: 4px;margin: 0 auto;}
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{    background-color: rgba(253,96,75,0.6);}
+.mCSB_scrollTools.mCSB_scrollTools_horizontal .mCSB_draggerRail{height: 1px;margin-left: 2px 0 0;}
+.cst_input_primary{
+        height: 42px;
+    border-color: #161c22;
+    font-size: 17px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 6px 38px 6px 12px;
+    color: rgba(22,28,34,.7);
+}
+.select-style select,.select-style{border-color: #161c22;
+    font-size: 16px;color: rgba(22,28,34,.7);}
 @media (max-width: 991px) {
 .padTop10 {
     padding-top: 10px;
@@ -235,6 +349,8 @@ h1.search_title_inner {
         margin-top:15px;
     	margin-bottom: 15px;
     }
+    .coin_summary .left span{font-size: 20px;margin-bottom: 10px;}
+    .coin_summary .left .coin_count_ttl{font-size: 25px;}
 }
 
 .non_youtube_video{
@@ -452,6 +568,10 @@ position: relative;
 
 body{
     background-image : none !important; 
+    background-color: #eeeeef;
+    font-family: 'h';
+    font-size: 14px;
+    color: #333;
 }
 
 .footer_cst_bg{
