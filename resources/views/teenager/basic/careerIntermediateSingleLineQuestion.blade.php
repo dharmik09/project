@@ -112,14 +112,9 @@
         <?php $setPopupTime = $response['data']->l4ia_extra_question_time; ?>
         <div id="quiz_material_popup" class="modal fade quiz_pre_material " role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
-                <div class="modal-content quiz-video">
-                    <div class="progress-bar">
-                        <div class="progress-bar-fil" style="width: 1%;"></div>
-                    </div>
-                    <!-- <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button> -->
-                    <span class="close">
-                        <i class="icon-close"></i>
-                    </span>
+                <div class="modal-content modal_content_fill">
+                    <div class="time_out_cst"></div>
+                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
                     
                     <div class="modal-body popup_image_and_desc">   
                         @if(isset($response['data']->l4ia_question_popup_description) && $response['data']->l4ia_question_popup_description != '')                
@@ -128,7 +123,9 @@
                         </div>
                         @endif  
                         @if(isset($response['data']->l4ia_question_popup_image) && $response['data']->l4ia_question_popup_image != '')                
-                        <div class="img_cont_pop l4i_popup_image"><img src="{{$response['data']->l4ia_question_popup_image}}" id="l4I_popup_image"/></div>                                      
+                            <div class="img_cont_pop l4i_popup_image video-img">
+                                <img src="{{$response['data']->l4ia_question_popup_image}}" id="l4I_popup_image"/>
+                            </div>
                         @endif                      
                     </div>                                           
                 </div>

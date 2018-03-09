@@ -1,1 +1,2969 @@
-!function(t){var e=Array.prototype.slice;function i(){}function n(t){if(t){var n="undefined"==typeof console?i:function(t){console.error(t)};return t.bridget=function(i,o){var r,s,a;(r=o).prototype.option||(r.prototype.option=function(e){t.isPlainObject(e)&&(this.options=t.extend(!0,this.options,e))}),s=i,a=o,t.fn[s]=function(i){if("string"==typeof i){for(var o=e.call(arguments,1),r=0,h=this.length;r<h;r++){var p=this[r],u=t.data(p,s);if(u)if(t.isFunction(u[i])&&"_"!==i.charAt(0)){var f=u[i].apply(u,o);if(void 0!==f)return f}else n("no such method '"+i+"' for "+s+" instance");else n("cannot call methods on "+s+" prior to initialization; attempted to call '"+i+"'")}return this}return this.each(function(){var e=t.data(this,s);e?(e.option(i),e._init()):(e=new a(this,i),t.data(this,s,e))})}},t.bridget}}"function"==typeof define&&define.amd?define("jquery-bridget/jquery.bridget",["jquery"],n):"object"==typeof exports?n(require("jquery")):n(t.jQuery)}(window),function(t){var e=document.documentElement,i=function(){};function n(e){var i=t.event;return i.target=i.target||i.srcElement||e,i}e.addEventListener?i=function(t,e,i){t.addEventListener(e,i,!1)}:e.attachEvent&&(i=function(t,e,i){t[e+i]=i.handleEvent?function(){var e=n(t);i.handleEvent.call(i,e)}:function(){var e=n(t);i.call(t,e)},t.attachEvent("on"+e,t[e+i])});var o=function(){};e.removeEventListener?o=function(t,e,i){t.removeEventListener(e,i,!1)}:e.detachEvent&&(o=function(t,e,i){t.detachEvent("on"+e,t[e+i]);try{delete t[e+i]}catch(n){t[e+i]=void 0}});var r={bind:i,unbind:o};"function"==typeof define&&define.amd?define("eventie/eventie",r):"object"==typeof exports?module.exports=r:t.eventie=r}(window),function(t){var e=t.document,i=[];function n(t){"function"==typeof t&&(n.isReady?t():i.push(t))}function o(t){var i="readystatechange"===t.type&&"complete"!==e.readyState;n.isReady||i||r()}function r(){n.isReady=!0;for(var t=0,e=i.length;t<e;t++){(0,i[t])()}}function s(i){return"complete"===e.readyState?r():(i.bind(e,"DOMContentLoaded",o),i.bind(e,"readystatechange",o),i.bind(t,"load",o)),n}n.isReady=!1,"function"==typeof define&&define.amd?define("doc-ready/doc-ready",["eventie/eventie"],s):"object"==typeof exports?module.exports=s(require("eventie")):t.docReady=s(t.eventie)}(window),function(){function t(){}var e=t.prototype,i=this,n=i.EventEmitter;function o(t,e){for(var i=t.length;i--;)if(t[i].listener===e)return i;return-1}function r(t){return function(){return this[t].apply(this,arguments)}}e.getListeners=function(t){var e,i,n=this._getEvents();if(t instanceof RegExp){e={};for(i in n)n.hasOwnProperty(i)&&t.test(i)&&(e[i]=n[i])}else e=n[t]||(n[t]=[]);return e},e.flattenListeners=function(t){var e,i=[];for(e=0;e<t.length;e+=1)i.push(t[e].listener);return i},e.getListenersAsObject=function(t){var e,i=this.getListeners(t);return i instanceof Array&&((e={})[t]=i),e||i},e.addListener=function(t,e){var i,n=this.getListenersAsObject(t),r="object"==typeof e;for(i in n)n.hasOwnProperty(i)&&-1===o(n[i],e)&&n[i].push(r?e:{listener:e,once:!1});return this},e.on=r("addListener"),e.addOnceListener=function(t,e){return this.addListener(t,{listener:e,once:!0})},e.once=r("addOnceListener"),e.defineEvent=function(t){return this.getListeners(t),this},e.defineEvents=function(t){for(var e=0;e<t.length;e+=1)this.defineEvent(t[e]);return this},e.removeListener=function(t,e){var i,n,r=this.getListenersAsObject(t);for(n in r)r.hasOwnProperty(n)&&-1!==(i=o(r[n],e))&&r[n].splice(i,1);return this},e.off=r("removeListener"),e.addListeners=function(t,e){return this.manipulateListeners(!1,t,e)},e.removeListeners=function(t,e){return this.manipulateListeners(!0,t,e)},e.manipulateListeners=function(t,e,i){var n,o,r=t?this.removeListener:this.addListener,s=t?this.removeListeners:this.addListeners;if("object"!=typeof e||e instanceof RegExp)for(n=i.length;n--;)r.call(this,e,i[n]);else for(n in e)e.hasOwnProperty(n)&&(o=e[n])&&("function"==typeof o?r.call(this,n,o):s.call(this,n,o));return this},e.removeEvent=function(t){var e,i=typeof t,n=this._getEvents();if("string"===i)delete n[t];else if(t instanceof RegExp)for(e in n)n.hasOwnProperty(e)&&t.test(e)&&delete n[e];else delete this._events;return this},e.removeAllListeners=r("removeEvent"),e.emitEvent=function(t,e){var i,n,o,r=this.getListenersAsObject(t);for(o in r)if(r.hasOwnProperty(o))for(n=r[o].length;n--;)!0===(i=r[o][n]).once&&this.removeListener(t,i.listener),i.listener.apply(this,e||[])===this._getOnceReturnValue()&&this.removeListener(t,i.listener);return this},e.trigger=r("emitEvent"),e.emit=function(t){var e=Array.prototype.slice.call(arguments,1);return this.emitEvent(t,e)},e.setOnceReturnValue=function(t){return this._onceReturnValue=t,this},e._getOnceReturnValue=function(){return!this.hasOwnProperty("_onceReturnValue")||this._onceReturnValue},e._getEvents=function(){return this._events||(this._events={})},t.noConflict=function(){return i.EventEmitter=n,t},"function"==typeof define&&define.amd?define("eventEmitter/EventEmitter",[],function(){return t}):"object"==typeof module&&module.exports?module.exports=t:i.EventEmitter=t}.call(this),function(t){var e="Webkit Moz ms Ms O".split(" "),i=document.documentElement.style;function n(t){if(t){if("string"==typeof i[t])return t;var n;t=t.charAt(0).toUpperCase()+t.slice(1);for(var o=0,r=e.length;o<r;o++)if(n=e[o]+t,"string"==typeof i[n])return n}}"function"==typeof define&&define.amd?define("get-style-property/get-style-property",[],function(){return n}):"object"==typeof exports?module.exports=n:t.getStyleProperty=n}(window),function(t,e){function i(t){var e=parseFloat(t);return-1===t.indexOf("%")&&!isNaN(e)&&e}var n="undefined"==typeof console?function(){}:function(t){console.error(t)},o=["paddingLeft","paddingRight","paddingTop","paddingBottom","marginLeft","marginRight","marginTop","marginBottom","borderLeftWidth","borderRightWidth","borderTopWidth","borderBottomWidth"];function r(e){var r,s,a,h=!1;function p(e,i){if(t.getComputedStyle||-1===i.indexOf("%"))return i;var n=e.style,o=n.left,r=e.runtimeStyle,s=r&&r.left;return s&&(r.left=e.currentStyle.left),n.left=i,i=n.pixelLeft,n.left=o,s&&(r.left=s),i}return function(u){if(function(){if(!h){h=!0;var o,p=t.getComputedStyle;if(o=p?function(t){return p(t,null)}:function(t){return t.currentStyle},r=function(t){var e=o(t);return e||n("Style returned "+e+". Are you running this code in a hidden iframe on Firefox? See http://bit.ly/getsizebug1"),e},s=e("boxSizing")){var u=document.createElement("div");u.style.width="200px",u.style.padding="1px 2px 3px 4px",u.style.borderStyle="solid",u.style.borderWidth="1px 2px 3px 4px",u.style[s]="border-box";var f=document.body||document.documentElement;f.appendChild(u);var d=r(u);a=200===i(d.width),f.removeChild(u)}}}(),"string"==typeof u&&(u=document.querySelector(u)),u&&"object"==typeof u&&u.nodeType){var f=r(u);if("none"===f.display)return function(){for(var t={width:0,height:0,innerWidth:0,innerHeight:0,outerWidth:0,outerHeight:0},e=0,i=o.length;e<i;e++)t[o[e]]=0;return t}();var d={};d.width=u.offsetWidth,d.height=u.offsetHeight;for(var l=d.isBorderBox=!(!s||!f[s]||"border-box"!==f[s]),c=0,y=o.length;c<y;c++){var m=o[c],g=f[m];g=p(u,g);var v=parseFloat(g);d[m]=isNaN(v)?0:v}var b=d.paddingLeft+d.paddingRight,E=d.paddingTop+d.paddingBottom,_=d.marginLeft+d.marginRight,L=d.marginTop+d.marginBottom,x=d.borderLeftWidth+d.borderRightWidth,z=d.borderTopWidth+d.borderBottomWidth,S=l&&a,T=i(f.width);!1!==T&&(d.width=T+(S?0:b+x));var I=i(f.height);return!1!==I&&(d.height=I+(S?0:E+z)),d.innerWidth=d.width-(b+x),d.innerHeight=d.height-(E+z),d.outerWidth=d.width+_,d.outerHeight=d.height+L,d}}}"function"==typeof define&&define.amd?define("get-size/get-size",["get-style-property/get-style-property"],r):"object"==typeof exports?module.exports=r(require("desandro-get-style-property")):t.getSize=r(t.getStyleProperty)}(window),function(t){var e,i=function(){if(t.matches)return"matches";if(t.matchesSelector)return"matchesSelector";for(var e=["webkit","moz","ms","o"],i=0,n=e.length;i<n;i++){var o=e[i]+"MatchesSelector";if(t[o])return o}}();function n(t,e){return t[i](e)}function o(t){t.parentNode||document.createDocumentFragment().appendChild(t)}if(i){var r=n(document.createElement("div"),"div");e=r?n:function(t,e){return o(t),n(t,e)}}else e=function(t,e){o(t);for(var i=t.parentNode.querySelectorAll(e),n=0,r=i.length;n<r;n++)if(i[n]===t)return!0;return!1};"function"==typeof define&&define.amd?define("matches-selector/matches-selector",[],function(){return e}):"object"==typeof exports?module.exports=e:window.matchesSelector=e}(Element.prototype),function(t){var e=t.getComputedStyle,i=e?function(t){return e(t,null)}:function(t){return t.currentStyle};function n(t,e,n){var o=n("transition"),r=n("transform"),s=o&&r,a=!!n("perspective"),h={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"otransitionend",transition:"transitionend"}[o],p=["transform","transition","transitionDuration","transitionProperty"],u=function(){for(var t={},e=0,i=p.length;e<i;e++){var o=p[e],r=n(o);r&&r!==o&&(t[o]=r)}return t}();function f(t,e){t&&(this.element=t,this.layout=e,this.position={x:0,y:0},this._create())}!function(t,e){for(var i in e)t[i]=e[i]}(f.prototype,t.prototype),f.prototype._create=function(){this._transn={ingProperties:{},clean:{},onEnd:{}},this.css({position:"absolute"})},f.prototype.handleEvent=function(t){var e="on"+t.type;this[e]&&this[e](t)},f.prototype.getSize=function(){this.size=e(this.element)},f.prototype.css=function(t){var e=this.element.style;for(var i in t){e[u[i]||i]=t[i]}},f.prototype.getPosition=function(){var t=i(this.element),e=this.layout.options,n=e.isOriginLeft,o=e.isOriginTop,r=parseInt(t[n?"left":"right"],10),s=parseInt(t[o?"top":"bottom"],10);r=isNaN(r)?0:r,s=isNaN(s)?0:s;var a=this.layout.size;r-=n?a.paddingLeft:a.paddingRight,s-=o?a.paddingTop:a.paddingBottom,this.position.x=r,this.position.y=s},f.prototype.layoutPosition=function(){var t=this.layout.size,e=this.layout.options,i={};e.isOriginLeft?(i.left=this.position.x+t.paddingLeft+"px",i.right=""):(i.right=this.position.x+t.paddingRight+"px",i.left=""),e.isOriginTop?(i.top=this.position.y+t.paddingTop+"px",i.bottom=""):(i.bottom=this.position.y+t.paddingBottom+"px",i.top=""),this.css(i),this.emitEvent("layout",[this])};var d=a?function(t,e){return"translate3d("+t+"px, "+e+"px, 0)"}:function(t,e){return"translate("+t+"px, "+e+"px)"};f.prototype._transitionTo=function(t,e){this.getPosition();var i=this.position.x,n=this.position.y,o=parseInt(t,10),r=parseInt(e,10),s=o===this.position.x&&r===this.position.y;if(this.setPosition(t,e),!s||this.isTransitioning){var a=t-i,h=e-n,p={},u=this.layout.options;a=u.isOriginLeft?a:-a,h=u.isOriginTop?h:-h,p.transform=d(a,h),this.transition({to:p,onTransitionEnd:{transform:this.layoutPosition},isCleaning:!0})}else this.layoutPosition()},f.prototype.goTo=function(t,e){this.setPosition(t,e),this.layoutPosition()},f.prototype.moveTo=s?f.prototype._transitionTo:f.prototype.goTo,f.prototype.setPosition=function(t,e){this.position.x=parseInt(t,10),this.position.y=parseInt(e,10)},f.prototype._nonTransition=function(t){this.css(t.to),t.isCleaning&&this._removeStyles(t.to);for(var e in t.onTransitionEnd)t.onTransitionEnd[e].call(this)},f.prototype._transition=function(t){if(parseFloat(this.layout.options.transitionDuration)){var e=this._transn;for(var i in t.onTransitionEnd)e.onEnd[i]=t.onTransitionEnd[i];for(i in t.to)e.ingProperties[i]=!0,t.isCleaning&&(e.clean[i]=!0);if(t.from){this.css(t.from);this.element.offsetHeight;null}this.enableTransition(t.to),this.css(t.to),this.isTransitioning=!0}else this._nonTransition(t)};var l=r&&r.replace(/([A-Z])/g,function(t){return"-"+t.toLowerCase()})+",opacity";f.prototype.enableTransition=function(){this.isTransitioning||(this.css({transitionProperty:l,transitionDuration:this.layout.options.transitionDuration}),this.element.addEventListener(h,this,!1))},f.prototype.transition=f.prototype[o?"_transition":"_nonTransition"],f.prototype.onwebkitTransitionEnd=function(t){this.ontransitionend(t)},f.prototype.onotransitionend=function(t){this.ontransitionend(t)};var c={"-webkit-transform":"transform","-moz-transform":"transform","-o-transform":"transform"};f.prototype.ontransitionend=function(t){if(t.target===this.element){var e=this._transn,i=c[t.propertyName]||t.propertyName;if(delete e.ingProperties[i],function(t){for(var e in t)return!1;return!0}(e.ingProperties)&&this.disableTransition(),i in e.clean&&(this.element.style[t.propertyName]="",delete e.clean[i]),i in e.onEnd)e.onEnd[i].call(this),delete e.onEnd[i];this.emitEvent("transitionEnd",[this])}},f.prototype.disableTransition=function(){this.removeTransitionStyles(),this.element.removeEventListener(h,this,!1),this.isTransitioning=!1},f.prototype._removeStyles=function(t){var e={};for(var i in t)e[i]="";this.css(e)};var y={transitionProperty:"",transitionDuration:""};return f.prototype.removeTransitionStyles=function(){this.css(y)},f.prototype.removeElem=function(){this.element.parentNode.removeChild(this.element),this.emitEvent("remove",[this])},f.prototype.remove=function(){if(o&&parseFloat(this.layout.options.transitionDuration)){var t=this;this.on("transitionEnd",function(){return t.removeElem(),!0}),this.hide()}else this.removeElem()},f.prototype.reveal=function(){delete this.isHidden,this.css({display:""});var t=this.layout.options;this.transition({from:t.hiddenStyle,to:t.visibleStyle,isCleaning:!0})},f.prototype.hide=function(){this.isHidden=!0,this.css({display:""});var t=this.layout.options;this.transition({from:t.visibleStyle,to:t.hiddenStyle,isCleaning:!0,onTransitionEnd:{opacity:function(){this.isHidden&&this.css({display:"none"})}}})},f.prototype.destroy=function(){this.css({position:"",left:"",right:"",top:"",bottom:"",transition:"",transform:""})},f}"function"==typeof define&&define.amd?define("outlayer/item",["eventEmitter/EventEmitter","get-size/get-size","get-style-property/get-style-property"],n):"object"==typeof exports?module.exports=n(require("wolfy87-eventemitter"),require("get-size"),require("desandro-get-style-property")):(t.Outlayer={},t.Outlayer.Item=n(t.EventEmitter,t.getSize,t.getStyleProperty))}(window),function(t){var e=t.document,i=t.console,n=t.jQuery,o=function(){};function r(t,e){for(var i in e)t[i]=e[i];return t}var s=Object.prototype.toString;function a(t){var e,i=[];if(e=t,"[object Array]"===s.call(e))i=t;else if(t&&"number"==typeof t.length)for(var n=0,o=t.length;n<o;n++)i.push(t[n]);else i.push(t);return i}var h="function"==typeof HTMLElement||"object"==typeof HTMLElement?function(t){return t instanceof HTMLElement}:function(t){return t&&"object"==typeof t&&1===t.nodeType&&"string"==typeof t.nodeName},p=Array.prototype.indexOf?function(t,e){return t.indexOf(e)}:function(t,e){for(var i=0,n=t.length;i<n;i++)if(t[i]===e)return i;return-1};function u(t,e){var i=p(e,t);-1!==i&&e.splice(i,1)}function f(s,p,f,d,l,c){var y=0,m={};function g(t,n){if("string"==typeof t&&(t=e.querySelector(t)),t&&h(t)){this.element=t,this.options=r({},this.constructor.defaults),this.option(n);var o=++y;this.element.outlayerGUID=o,m[o]=this,this._create(),this.options.isInitLayout&&this.layout()}else i&&i.error("Bad "+this.constructor.namespace+" element: "+t)}return g.namespace="outlayer",g.Item=c,g.defaults={containerStyle:{position:"relative"},isInitLayout:!0,isOriginLeft:!0,isOriginTop:!0,isResizeBound:!0,isResizingContainer:!0,transitionDuration:"0.4s",hiddenStyle:{opacity:0,transform:"scale(0.001)"},visibleStyle:{opacity:1,transform:"scale(1)"}},r(g.prototype,f.prototype),g.prototype.option=function(t){r(this.options,t)},g.prototype._create=function(){this.reloadItems(),this.stamps=[],this.stamp(this.options.stamp),r(this.element.style,this.options.containerStyle),this.options.isResizeBound&&this.bindResize()},g.prototype.reloadItems=function(){this.items=this._itemize(this.element.children)},g.prototype._itemize=function(t){for(var e=this._filterFindItemElements(t),i=this.constructor.Item,n=[],o=0,r=e.length;o<r;o++){var s=new i(e[o],this);n.push(s)}return n},g.prototype._filterFindItemElements=function(t){t=a(t);for(var e=this.options.itemSelector,i=[],n=0,o=t.length;n<o;n++){var r=t[n];if(h(r))if(e){l(r,e)&&i.push(r);for(var s=r.querySelectorAll(e),p=0,u=s.length;p<u;p++)i.push(s[p])}else i.push(r)}return i},g.prototype.getItemElements=function(){for(var t=[],e=0,i=this.items.length;e<i;e++)t.push(this.items[e].element);return t},g.prototype.layout=function(){this._resetLayout(),this._manageStamps();var t=void 0!==this.options.isLayoutInstant?this.options.isLayoutInstant:!this._isLayoutInited;this.layoutItems(this.items,t),this._isLayoutInited=!0},g.prototype._init=g.prototype.layout,g.prototype._resetLayout=function(){this.getSize()},g.prototype.getSize=function(){this.size=d(this.element)},g.prototype._getMeasurement=function(t,e){var i,n=this.options[t];n?("string"==typeof n?i=this.element.querySelector(n):h(n)&&(i=n),this[t]=i?d(i)[e]:n):this[t]=0},g.prototype.layoutItems=function(t,e){t=this._getItemsForLayout(t),this._layoutItems(t,e),this._postLayout()},g.prototype._getItemsForLayout=function(t){for(var e=[],i=0,n=t.length;i<n;i++){var o=t[i];o.isIgnored||e.push(o)}return e},g.prototype._layoutItems=function(t,e){var i=this;function n(){i.emitEvent("layoutComplete",[i,t])}if(t&&t.length){this._itemsOn(t,"layout",n);for(var o=[],r=0,s=t.length;r<s;r++){var a=t[r],h=this._getItemLayoutPosition(a);h.item=a,h.isInstant=e||a.isLayoutInstant,o.push(h)}this._processLayoutQueue(o)}else n()},g.prototype._getItemLayoutPosition=function(){return{x:0,y:0}},g.prototype._processLayoutQueue=function(t){for(var e=0,i=t.length;e<i;e++){var n=t[e];this._positionItem(n.item,n.x,n.y,n.isInstant)}},g.prototype._positionItem=function(t,e,i,n){n?t.goTo(e,i):t.moveTo(e,i)},g.prototype._postLayout=function(){this.resizeContainer()},g.prototype.resizeContainer=function(){if(this.options.isResizingContainer){var t=this._getContainerSize();t&&(this._setContainerMeasure(t.width,!0),this._setContainerMeasure(t.height,!1))}},g.prototype._getContainerSize=o,g.prototype._setContainerMeasure=function(t,e){if(void 0!==t){var i=this.size;i.isBorderBox&&(t+=e?i.paddingLeft+i.paddingRight+i.borderLeftWidth+i.borderRightWidth:i.paddingBottom+i.paddingTop+i.borderTopWidth+i.borderBottomWidth),t=Math.max(t,0),this.element.style[e?"width":"height"]=t+"px"}},g.prototype._itemsOn=function(t,e,i){var n=0,o=t.length,r=this;function s(){return++n===o&&i.call(r),!0}for(var a=0,h=t.length;a<h;a++){t[a].on(e,s)}},g.prototype.ignore=function(t){var e=this.getItem(t);e&&(e.isIgnored=!0)},g.prototype.unignore=function(t){var e=this.getItem(t);e&&delete e.isIgnored},g.prototype.stamp=function(t){if(t=this._find(t)){this.stamps=this.stamps.concat(t);for(var e=0,i=t.length;e<i;e++){var n=t[e];this.ignore(n)}}},g.prototype.unstamp=function(t){if(t=this._find(t))for(var e=0,i=t.length;e<i;e++){var n=t[e];u(n,this.stamps),this.unignore(n)}},g.prototype._find=function(t){if(t)return"string"==typeof t&&(t=this.element.querySelectorAll(t)),t=a(t)},g.prototype._manageStamps=function(){if(this.stamps&&this.stamps.length){this._getBoundingRect();for(var t=0,e=this.stamps.length;t<e;t++){var i=this.stamps[t];this._manageStamp(i)}}},g.prototype._getBoundingRect=function(){var t=this.element.getBoundingClientRect(),e=this.size;this._boundingRect={left:t.left+e.paddingLeft+e.borderLeftWidth,top:t.top+e.paddingTop+e.borderTopWidth,right:t.right-(e.paddingRight+e.borderRightWidth),bottom:t.bottom-(e.paddingBottom+e.borderBottomWidth)}},g.prototype._manageStamp=o,g.prototype._getElementOffset=function(t){var e=t.getBoundingClientRect(),i=this._boundingRect,n=d(t);return{left:e.left-i.left-n.marginLeft,top:e.top-i.top-n.marginTop,right:i.right-e.right-n.marginRight,bottom:i.bottom-e.bottom-n.marginBottom}},g.prototype.handleEvent=function(t){var e="on"+t.type;this[e]&&this[e](t)},g.prototype.bindResize=function(){this.isResizeBound||(s.bind(t,"resize",this),this.isResizeBound=!0)},g.prototype.unbindResize=function(){this.isResizeBound&&s.unbind(t,"resize",this),this.isResizeBound=!1},g.prototype.onresize=function(){this.resizeTimeout&&clearTimeout(this.resizeTimeout);var t=this;this.resizeTimeout=setTimeout(function(){t.resize(),delete t.resizeTimeout},100)},g.prototype.resize=function(){this.isResizeBound&&this.needsResizeLayout()&&this.layout()},g.prototype.needsResizeLayout=function(){var t=d(this.element);return this.size&&t&&t.innerWidth!==this.size.innerWidth},g.prototype.addItems=function(t){var e=this._itemize(t);return e.length&&(this.items=this.items.concat(e)),e},g.prototype.appended=function(t){var e=this.addItems(t);e.length&&(this.layoutItems(e,!0),this.reveal(e))},g.prototype.prepended=function(t){var e=this._itemize(t);if(e.length){var i=this.items.slice(0);this.items=e.concat(i),this._resetLayout(),this._manageStamps(),this.layoutItems(e,!0),this.reveal(e),this.layoutItems(i)}},g.prototype.reveal=function(t){var e=t&&t.length;if(e)for(var i=0;i<e;i++){t[i].reveal()}},g.prototype.hide=function(t){var e=t&&t.length;if(e)for(var i=0;i<e;i++){t[i].hide()}},g.prototype.getItem=function(t){for(var e=0,i=this.items.length;e<i;e++){var n=this.items[e];if(n.element===t)return n}},g.prototype.getItems=function(t){if(t&&t.length){for(var e=[],i=0,n=t.length;i<n;i++){var o=t[i],r=this.getItem(o);r&&e.push(r)}return e}},g.prototype.remove=function(t){t=a(t);var e=this.getItems(t);if(e&&e.length){this._itemsOn(e,"remove",function(){this.emitEvent("removeComplete",[this,e])});for(var i=0,n=e.length;i<n;i++){var o=e[i];o.remove(),u(o,this.items)}}},g.prototype.destroy=function(){var t=this.element.style;t.height="",t.position="",t.width="";for(var e=0,i=this.items.length;e<i;e++){this.items[e].destroy()}this.unbindResize();var o=this.element.outlayerGUID;delete m[o],delete this.element.outlayerGUID,n&&n.removeData(this.element,this.constructor.namespace)},g.data=function(t){var e=t&&t.outlayerGUID;return e&&m[e]},g.create=function(t,o){function s(){g.apply(this,arguments)}return Object.create?s.prototype=Object.create(g.prototype):r(s.prototype,g.prototype),s.prototype.constructor=s,s.defaults=r({},g.defaults),r(s.defaults,o),s.prototype.settings={},s.namespace=t,s.data=g.data,s.Item=function(){c.apply(this,arguments)},s.Item.prototype=new c,p(function(){for(var o=t.replace(/(.)([A-Z])/g,function(t,e,i){return e+"-"+i}).toLowerCase(),r=e.querySelectorAll(".js-"+o),a="data-"+o+"-options",h=0,p=r.length;h<p;h++){var u,f=r[h],d=f.getAttribute(a);try{u=d&&JSON.parse(d)}catch(t){i&&i.error("Error parsing "+a+" on "+f.nodeName.toLowerCase()+(f.id?"#"+f.id:"")+": "+t);continue}var l=new s(f,u);n&&n.data(f,t,l)}}),n&&n.bridget&&n.bridget(t,s),s},g.Item=c,g}"function"==typeof define&&define.amd?define("outlayer/outlayer",["eventie/eventie","doc-ready/doc-ready","eventEmitter/EventEmitter","get-size/get-size","matches-selector/matches-selector","./item"],f):"object"==typeof exports?module.exports=f(require("eventie"),require("doc-ready"),require("wolfy87-eventemitter"),require("get-size"),require("desandro-matches-selector"),require("./item")):t.Outlayer=f(t.eventie,t.docReady,t.EventEmitter,t.getSize,t.matchesSelector,t.Outlayer.Item)}(window),function(t,e){"function"==typeof define&&define.amd?define(["outlayer/outlayer","get-size/get-size"],e):"object"==typeof exports?module.exports=e(require("outlayer"),require("get-size")):t.Masonry=e(t.Outlayer,t.getSize)}(window,function(t,e){var i=Array.prototype.indexOf?function(t,e){return t.indexOf(e)}:function(t,e){for(var i=0,n=t.length;i<n;i++){if(t[i]===e)return i}return-1},n=t.create("masonry");return n.prototype._resetLayout=function(){this.getSize(),this._getMeasurement("columnWidth","outerWidth"),this._getMeasurement("gutter","outerWidth"),this.measureColumns();var t=this.cols;for(this.colYs=[];t--;)this.colYs.push(0);this.maxY=0},n.prototype.measureColumns=function(){if(this.getContainerWidth(),!this.columnWidth){var t=this.items[0],i=t&&t.element;this.columnWidth=i&&e(i).outerWidth||this.containerWidth}var n=this.columnWidth+=this.gutter,o=this.containerWidth+this.gutter,r=o/n,s=n-o%n;r=Math[s&&s<1?"round":"floor"](r),this.cols=Math.max(r,1)},n.prototype.getContainerWidth=function(){var t=this.options.isFitWidth?this.element.parentNode:this.element,i=e(t);this.containerWidth=i&&i.innerWidth},n.prototype._getItemLayoutPosition=function(t){t.getSize();var e=t.size.outerWidth%this.columnWidth,n=Math[e&&e<1?"round":"ceil"](t.size.outerWidth/this.columnWidth);n=Math.min(n,this.cols);for(var o=this._getColGroup(n),r=Math.min.apply(Math,o),s=i(o,r),a={x:this.columnWidth*s,y:r},h=r+t.size.outerHeight,p=this.cols+1-o.length,u=0;u<p;u++)this.colYs[s+u]=h;return a},n.prototype._getColGroup=function(t){if(t<2)return this.colYs;for(var e=[],i=this.cols+1-t,n=0;n<i;n++){var o=this.colYs.slice(n,n+t);e[n]=Math.max.apply(Math,o)}return e},n.prototype._manageStamp=function(t){var i=e(t),n=this._getElementOffset(t),o=this.options.isOriginLeft?n.left:n.right,r=o+i.outerWidth,s=Math.floor(o/this.columnWidth);s=Math.max(0,s);var a=Math.floor(r/this.columnWidth);a-=r%this.columnWidth?0:1,a=Math.min(this.cols-1,a);for(var h=(this.options.isOriginTop?n.top:n.bottom)+i.outerHeight,p=s;p<=a;p++)this.colYs[p]=Math.max(h,this.colYs[p])},n.prototype._getContainerSize=function(){this.maxY=Math.max.apply(Math,this.colYs);var t={height:this.maxY};return this.options.isFitWidth&&(t.width=this._getContainerFitWidth()),t},n.prototype._getContainerFitWidth=function(){for(var t=0,e=this.cols;--e&&0===this.colYs[e];)t++;return(this.cols-t)*this.columnWidth-this.gutter},n.prototype.needsResizeLayout=function(){var t=this.containerWidth;return this.getContainerWidth(),t!==this.containerWidth},n});
+/*!
+ * Masonry PACKAGED v3.2.3
+ * Cascading grid layout library
+ * http://masonry.desandro.com
+ * MIT License
+ * by David DeSandro
+ */
+
+/**
+ * Bridget makes jQuery widgets
+ * v1.1.0
+ * MIT license
+ */
+
+( function( window ) {
+
+
+
+// -------------------------- utils -------------------------- //
+
+var slice = Array.prototype.slice;
+
+function noop() {}
+
+// -------------------------- definition -------------------------- //
+
+function defineBridget( $ ) {
+
+// bail if no jQuery
+if ( !$ ) {
+  return;
+}
+
+// -------------------------- addOptionMethod -------------------------- //
+
+/**
+ * adds option method -> $().plugin('option', {...})
+ * @param {Function} PluginClass - constructor class
+ */
+function addOptionMethod( PluginClass ) {
+  // don't overwrite original option method
+  if ( PluginClass.prototype.option ) {
+    return;
+  }
+
+  // option setter
+  PluginClass.prototype.option = function( opts ) {
+    // bail out if not an object
+    if ( !$.isPlainObject( opts ) ){
+      return;
+    }
+    this.options = $.extend( true, this.options, opts );
+  };
+}
+
+// -------------------------- plugin bridge -------------------------- //
+
+// helper function for logging errors
+// $.error breaks jQuery chaining
+var logError = typeof console === 'undefined' ? noop :
+  function( message ) {
+    console.error( message );
+  };
+
+/**
+ * jQuery plugin bridge, access methods like $elem.plugin('method')
+ * @param {String} namespace - plugin name
+ * @param {Function} PluginClass - constructor class
+ */
+function bridge( namespace, PluginClass ) {
+  // add to jQuery fn namespace
+  $.fn[ namespace ] = function( options ) {
+    if ( typeof options === 'string' ) {
+      // call plugin method when first argument is a string
+      // get arguments for method
+      var args = slice.call( arguments, 1 );
+
+      for ( var i=0, len = this.length; i < len; i++ ) {
+        var elem = this[i];
+        var instance = $.data( elem, namespace );
+        if ( !instance ) {
+          logError( "cannot call methods on " + namespace + " prior to initialization; " +
+            "attempted to call '" + options + "'" );
+          continue;
+        }
+        if ( !$.isFunction( instance[options] ) || options.charAt(0) === '_' ) {
+          logError( "no such method '" + options + "' for " + namespace + " instance" );
+          continue;
+        }
+
+        // trigger method with arguments
+        var returnValue = instance[ options ].apply( instance, args );
+
+        // break look and return first value if provided
+        if ( returnValue !== undefined ) {
+          return returnValue;
+        }
+      }
+      // return this if no return value
+      return this;
+    } else {
+      return this.each( function() {
+        var instance = $.data( this, namespace );
+        if ( instance ) {
+          // apply options & init
+          instance.option( options );
+          instance._init();
+        } else {
+          // initialize new instance
+          instance = new PluginClass( this, options );
+          $.data( this, namespace, instance );
+        }
+      });
+    }
+  };
+
+}
+
+// -------------------------- bridget -------------------------- //
+
+/**
+ * converts a Prototypical class into a proper jQuery plugin
+ *   the class must have a ._init method
+ * @param {String} namespace - plugin name, used in $().pluginName
+ * @param {Function} PluginClass - constructor class
+ */
+$.bridget = function( namespace, PluginClass ) {
+  addOptionMethod( PluginClass );
+  bridge( namespace, PluginClass );
+};
+
+return $.bridget;
+
+}
+
+// transport
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( 'jquery-bridget/jquery.bridget',[ 'jquery' ], defineBridget );
+} else if ( typeof exports === 'object' ) {
+  defineBridget( require('jquery') );
+} else {
+  // get jquery from browser global
+  defineBridget( window.jQuery );
+}
+
+})( window );
+
+/*!
+ * eventie v1.0.6
+ * event binding helper
+ *   eventie.bind( elem, 'click', myFn )
+ *   eventie.unbind( elem, 'click', myFn )
+ * MIT license
+ */
+
+/*jshint browser: true, undef: true, unused: true */
+/*global define: false, module: false */
+
+( function( window ) {
+
+
+
+var docElem = document.documentElement;
+
+var bind = function() {};
+
+function getIEEvent( obj ) {
+  var event = window.event;
+  // add event.target
+  event.target = event.target || event.srcElement || obj;
+  return event;
+}
+
+if ( docElem.addEventListener ) {
+  bind = function( obj, type, fn ) {
+    obj.addEventListener( type, fn, false );
+  };
+} else if ( docElem.attachEvent ) {
+  bind = function( obj, type, fn ) {
+    obj[ type + fn ] = fn.handleEvent ?
+      function() {
+        var event = getIEEvent( obj );
+        fn.handleEvent.call( fn, event );
+      } :
+      function() {
+        var event = getIEEvent( obj );
+        fn.call( obj, event );
+      };
+    obj.attachEvent( "on" + type, obj[ type + fn ] );
+  };
+}
+
+var unbind = function() {};
+
+if ( docElem.removeEventListener ) {
+  unbind = function( obj, type, fn ) {
+    obj.removeEventListener( type, fn, false );
+  };
+} else if ( docElem.detachEvent ) {
+  unbind = function( obj, type, fn ) {
+    obj.detachEvent( "on" + type, obj[ type + fn ] );
+    try {
+      delete obj[ type + fn ];
+    } catch ( err ) {
+      // can't delete window object properties
+      obj[ type + fn ] = undefined;
+    }
+  };
+}
+
+var eventie = {
+  bind: bind,
+  unbind: unbind
+};
+
+// ----- module definition ----- //
+
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( 'eventie/eventie',eventie );
+} else if ( typeof exports === 'object' ) {
+  // CommonJS
+  module.exports = eventie;
+} else {
+  // browser global
+  window.eventie = eventie;
+}
+
+})( window );
+
+/*!
+ * docReady v1.0.4
+ * Cross browser DOMContentLoaded event emitter
+ * MIT license
+ */
+
+/*jshint browser: true, strict: true, undef: true, unused: true*/
+/*global define: false, require: false, module: false */
+
+( function( window ) {
+
+
+
+var document = window.document;
+// collection of functions to be triggered on ready
+var queue = [];
+
+function docReady( fn ) {
+  // throw out non-functions
+  if ( typeof fn !== 'function' ) {
+    return;
+  }
+
+  if ( docReady.isReady ) {
+    // ready now, hit it
+    fn();
+  } else {
+    // queue function when ready
+    queue.push( fn );
+  }
+}
+
+docReady.isReady = false;
+
+// triggered on various doc ready events
+function onReady( event ) {
+  // bail if already triggered or IE8 document is not ready just yet
+  var isIE8NotReady = event.type === 'readystatechange' && document.readyState !== 'complete';
+  if ( docReady.isReady || isIE8NotReady ) {
+    return;
+  }
+
+  trigger();
+}
+
+function trigger() {
+  docReady.isReady = true;
+  // process queue
+  for ( var i=0, len = queue.length; i < len; i++ ) {
+    var fn = queue[i];
+    fn();
+  }
+}
+
+function defineDocReady( eventie ) {
+  // trigger ready if page is ready
+  if ( document.readyState === 'complete' ) {
+    trigger();
+  } else {
+    // listen for events
+    eventie.bind( document, 'DOMContentLoaded', onReady );
+    eventie.bind( document, 'readystatechange', onReady );
+    eventie.bind( window, 'load', onReady );
+  }
+
+  return docReady;
+}
+
+// transport
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( 'doc-ready/doc-ready',[ 'eventie/eventie' ], defineDocReady );
+} else if ( typeof exports === 'object' ) {
+  module.exports = defineDocReady( require('eventie') );
+} else {
+  // browser global
+  window.docReady = defineDocReady( window.eventie );
+}
+
+})( window );
+
+/*!
+ * EventEmitter v4.2.11 - git.io/ee
+ * Unlicense - http://unlicense.org/
+ * Oliver Caldwell - http://oli.me.uk/
+ * @preserve
+ */
+
+;(function () {
+    
+
+    /**
+     * Class for managing events.
+     * Can be extended to provide event functionality in other classes.
+     *
+     * @class EventEmitter Manages event registering and emitting.
+     */
+    function EventEmitter() {}
+
+    // Shortcuts to improve speed and size
+    var proto = EventEmitter.prototype;
+    var exports = this;
+    var originalGlobalValue = exports.EventEmitter;
+
+    /**
+     * Finds the index of the listener for the event in its storage array.
+     *
+     * @param {Function[]} listeners Array of listeners to search through.
+     * @param {Function} listener Method to look for.
+     * @return {Number} Index of the specified listener, -1 if not found
+     * @api private
+     */
+    function indexOfListener(listeners, listener) {
+        var i = listeners.length;
+        while (i--) {
+            if (listeners[i].listener === listener) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Alias a method while keeping the context correct, to allow for overwriting of target method.
+     *
+     * @param {String} name The name of the target method.
+     * @return {Function} The aliased method
+     * @api private
+     */
+    function alias(name) {
+        return function aliasClosure() {
+            return this[name].apply(this, arguments);
+        };
+    }
+
+    /**
+     * Returns the listener array for the specified event.
+     * Will initialise the event object and listener arrays if required.
+     * Will return an object if you use a regex search. The object contains keys for each matched event. So /ba[rz]/ might return an object containing bar and baz. But only if you have either defined them with defineEvent or added some listeners to them.
+     * Each property in the object response is an array of listener functions.
+     *
+     * @param {String|RegExp} evt Name of the event to return the listeners from.
+     * @return {Function[]|Object} All listener functions for the event.
+     */
+    proto.getListeners = function getListeners(evt) {
+        var events = this._getEvents();
+        var response;
+        var key;
+
+        // Return a concatenated array of all matching events if
+        // the selector is a regular expression.
+        if (evt instanceof RegExp) {
+            response = {};
+            for (key in events) {
+                if (events.hasOwnProperty(key) && evt.test(key)) {
+                    response[key] = events[key];
+                }
+            }
+        }
+        else {
+            response = events[evt] || (events[evt] = []);
+        }
+
+        return response;
+    };
+
+    /**
+     * Takes a list of listener objects and flattens it into a list of listener functions.
+     *
+     * @param {Object[]} listeners Raw listener objects.
+     * @return {Function[]} Just the listener functions.
+     */
+    proto.flattenListeners = function flattenListeners(listeners) {
+        var flatListeners = [];
+        var i;
+
+        for (i = 0; i < listeners.length; i += 1) {
+            flatListeners.push(listeners[i].listener);
+        }
+
+        return flatListeners;
+    };
+
+    /**
+     * Fetches the requested listeners via getListeners but will always return the results inside an object. This is mainly for internal use but others may find it useful.
+     *
+     * @param {String|RegExp} evt Name of the event to return the listeners from.
+     * @return {Object} All listener functions for an event in an object.
+     */
+    proto.getListenersAsObject = function getListenersAsObject(evt) {
+        var listeners = this.getListeners(evt);
+        var response;
+
+        if (listeners instanceof Array) {
+            response = {};
+            response[evt] = listeners;
+        }
+
+        return response || listeners;
+    };
+
+    /**
+     * Adds a listener function to the specified event.
+     * The listener will not be added if it is a duplicate.
+     * If the listener returns true then it will be removed after it is called.
+     * If you pass a regular expression as the event name then the listener will be added to all events that match it.
+     *
+     * @param {String|RegExp} evt Name of the event to attach the listener to.
+     * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.addListener = function addListener(evt, listener) {
+        var listeners = this.getListenersAsObject(evt);
+        var listenerIsWrapped = typeof listener === 'object';
+        var key;
+
+        for (key in listeners) {
+            if (listeners.hasOwnProperty(key) && indexOfListener(listeners[key], listener) === -1) {
+                listeners[key].push(listenerIsWrapped ? listener : {
+                    listener: listener,
+                    once: false
+                });
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * Alias of addListener
+     */
+    proto.on = alias('addListener');
+
+    /**
+     * Semi-alias of addListener. It will add a listener that will be
+     * automatically removed after its first execution.
+     *
+     * @param {String|RegExp} evt Name of the event to attach the listener to.
+     * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.addOnceListener = function addOnceListener(evt, listener) {
+        return this.addListener(evt, {
+            listener: listener,
+            once: true
+        });
+    };
+
+    /**
+     * Alias of addOnceListener.
+     */
+    proto.once = alias('addOnceListener');
+
+    /**
+     * Defines an event name. This is required if you want to use a regex to add a listener to multiple events at once. If you don't do this then how do you expect it to know what event to add to? Should it just add to every possible match for a regex? No. That is scary and bad.
+     * You need to tell it what event names should be matched by a regex.
+     *
+     * @param {String} evt Name of the event to create.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.defineEvent = function defineEvent(evt) {
+        this.getListeners(evt);
+        return this;
+    };
+
+    /**
+     * Uses defineEvent to define multiple events.
+     *
+     * @param {String[]} evts An array of event names to define.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.defineEvents = function defineEvents(evts) {
+        for (var i = 0; i < evts.length; i += 1) {
+            this.defineEvent(evts[i]);
+        }
+        return this;
+    };
+
+    /**
+     * Removes a listener function from the specified event.
+     * When passed a regular expression as the event name, it will remove the listener from all events that match it.
+     *
+     * @param {String|RegExp} evt Name of the event to remove the listener from.
+     * @param {Function} listener Method to remove from the event.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.removeListener = function removeListener(evt, listener) {
+        var listeners = this.getListenersAsObject(evt);
+        var index;
+        var key;
+
+        for (key in listeners) {
+            if (listeners.hasOwnProperty(key)) {
+                index = indexOfListener(listeners[key], listener);
+
+                if (index !== -1) {
+                    listeners[key].splice(index, 1);
+                }
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * Alias of removeListener
+     */
+    proto.off = alias('removeListener');
+
+    /**
+     * Adds listeners in bulk using the manipulateListeners method.
+     * If you pass an object as the second argument you can add to multiple events at once. The object should contain key value pairs of events and listeners or listener arrays. You can also pass it an event name and an array of listeners to be added.
+     * You can also pass it a regular expression to add the array of listeners to all events that match it.
+     * Yeah, this function does quite a bit. That's probably a bad thing.
+     *
+     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add to multiple events at once.
+     * @param {Function[]} [listeners] An optional array of listener functions to add.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.addListeners = function addListeners(evt, listeners) {
+        // Pass through to manipulateListeners
+        return this.manipulateListeners(false, evt, listeners);
+    };
+
+    /**
+     * Removes listeners in bulk using the manipulateListeners method.
+     * If you pass an object as the second argument you can remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
+     * You can also pass it an event name and an array of listeners to be removed.
+     * You can also pass it a regular expression to remove the listeners from all events that match it.
+     *
+     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to remove from multiple events at once.
+     * @param {Function[]} [listeners] An optional array of listener functions to remove.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.removeListeners = function removeListeners(evt, listeners) {
+        // Pass through to manipulateListeners
+        return this.manipulateListeners(true, evt, listeners);
+    };
+
+    /**
+     * Edits listeners in bulk. The addListeners and removeListeners methods both use this to do their job. You should really use those instead, this is a little lower level.
+     * The first argument will determine if the listeners are removed (true) or added (false).
+     * If you pass an object as the second argument you can add/remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
+     * You can also pass it an event name and an array of listeners to be added/removed.
+     * You can also pass it a regular expression to manipulate the listeners of all events that match it.
+     *
+     * @param {Boolean} remove True if you want to remove listeners, false if you want to add.
+     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add/remove from multiple events at once.
+     * @param {Function[]} [listeners] An optional array of listener functions to add/remove.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.manipulateListeners = function manipulateListeners(remove, evt, listeners) {
+        var i;
+        var value;
+        var single = remove ? this.removeListener : this.addListener;
+        var multiple = remove ? this.removeListeners : this.addListeners;
+
+        // If evt is an object then pass each of its properties to this method
+        if (typeof evt === 'object' && !(evt instanceof RegExp)) {
+            for (i in evt) {
+                if (evt.hasOwnProperty(i) && (value = evt[i])) {
+                    // Pass the single listener straight through to the singular method
+                    if (typeof value === 'function') {
+                        single.call(this, i, value);
+                    }
+                    else {
+                        // Otherwise pass back to the multiple function
+                        multiple.call(this, i, value);
+                    }
+                }
+            }
+        }
+        else {
+            // So evt must be a string
+            // And listeners must be an array of listeners
+            // Loop over it and pass each one to the multiple method
+            i = listeners.length;
+            while (i--) {
+                single.call(this, evt, listeners[i]);
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * Removes all listeners from a specified event.
+     * If you do not specify an event then all listeners will be removed.
+     * That means every event will be emptied.
+     * You can also pass a regex to remove all events that match it.
+     *
+     * @param {String|RegExp} [evt] Optional name of the event to remove all listeners for. Will remove from every event if not passed.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.removeEvent = function removeEvent(evt) {
+        var type = typeof evt;
+        var events = this._getEvents();
+        var key;
+
+        // Remove different things depending on the state of evt
+        if (type === 'string') {
+            // Remove all listeners for the specified event
+            delete events[evt];
+        }
+        else if (evt instanceof RegExp) {
+            // Remove all events matching the regex.
+            for (key in events) {
+                if (events.hasOwnProperty(key) && evt.test(key)) {
+                    delete events[key];
+                }
+            }
+        }
+        else {
+            // Remove all listeners in all events
+            delete this._events;
+        }
+
+        return this;
+    };
+
+    /**
+     * Alias of removeEvent.
+     *
+     * Added to mirror the node API.
+     */
+    proto.removeAllListeners = alias('removeEvent');
+
+    /**
+     * Emits an event of your choice.
+     * When emitted, every listener attached to that event will be executed.
+     * If you pass the optional argument array then those arguments will be passed to every listener upon execution.
+     * Because it uses `apply`, your array of arguments will be passed as if you wrote them out separately.
+     * So they will not arrive within the array on the other side, they will be separate.
+     * You can also pass a regular expression to emit to all events that match it.
+     *
+     * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
+     * @param {Array} [args] Optional array of arguments to be passed to each listener.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.emitEvent = function emitEvent(evt, args) {
+        var listeners = this.getListenersAsObject(evt);
+        var listener;
+        var i;
+        var key;
+        var response;
+
+        for (key in listeners) {
+            if (listeners.hasOwnProperty(key)) {
+                i = listeners[key].length;
+
+                while (i--) {
+                    // If the listener returns true then it shall be removed from the event
+                    // The function is executed either with a basic call or an apply if there is an args array
+                    listener = listeners[key][i];
+
+                    if (listener.once === true) {
+                        this.removeListener(evt, listener.listener);
+                    }
+
+                    response = listener.listener.apply(this, args || []);
+
+                    if (response === this._getOnceReturnValue()) {
+                        this.removeListener(evt, listener.listener);
+                    }
+                }
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * Alias of emitEvent
+     */
+    proto.trigger = alias('emitEvent');
+
+    /**
+     * Subtly different from emitEvent in that it will pass its arguments on to the listeners, as opposed to taking a single array of arguments to pass on.
+     * As with emitEvent, you can pass a regex in place of the event name to emit to all events that match it.
+     *
+     * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
+     * @param {...*} Optional additional arguments to be passed to each listener.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.emit = function emit(evt) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return this.emitEvent(evt, args);
+    };
+
+    /**
+     * Sets the current value to check against when executing listeners. If a
+     * listeners return value matches the one set here then it will be removed
+     * after execution. This value defaults to true.
+     *
+     * @param {*} value The new value to check for when executing listeners.
+     * @return {Object} Current instance of EventEmitter for chaining.
+     */
+    proto.setOnceReturnValue = function setOnceReturnValue(value) {
+        this._onceReturnValue = value;
+        return this;
+    };
+
+    /**
+     * Fetches the current value to check against when executing listeners. If
+     * the listeners return value matches this one then it should be removed
+     * automatically. It will return true by default.
+     *
+     * @return {*|Boolean} The current value to check for or the default, true.
+     * @api private
+     */
+    proto._getOnceReturnValue = function _getOnceReturnValue() {
+        if (this.hasOwnProperty('_onceReturnValue')) {
+            return this._onceReturnValue;
+        }
+        else {
+            return true;
+        }
+    };
+
+    /**
+     * Fetches the events object and creates one if required.
+     *
+     * @return {Object} The events storage object.
+     * @api private
+     */
+    proto._getEvents = function _getEvents() {
+        return this._events || (this._events = {});
+    };
+
+    /**
+     * Reverts the global {@link EventEmitter} to its previous value and returns a reference to this version.
+     *
+     * @return {Function} Non conflicting EventEmitter class.
+     */
+    EventEmitter.noConflict = function noConflict() {
+        exports.EventEmitter = originalGlobalValue;
+        return EventEmitter;
+    };
+
+    // Expose the class either via AMD, CommonJS or the global object
+    if (typeof define === 'function' && define.amd) {
+        define('eventEmitter/EventEmitter',[],function () {
+            return EventEmitter;
+        });
+    }
+    else if (typeof module === 'object' && module.exports){
+        module.exports = EventEmitter;
+    }
+    else {
+        exports.EventEmitter = EventEmitter;
+    }
+}.call(this));
+
+/*!
+ * getStyleProperty v1.0.4
+ * original by kangax
+ * http://perfectionkills.com/feature-testing-css-properties/
+ * MIT license
+ */
+
+/*jshint browser: true, strict: true, undef: true */
+/*global define: false, exports: false, module: false */
+
+( function( window ) {
+
+
+
+var prefixes = 'Webkit Moz ms Ms O'.split(' ');
+var docElemStyle = document.documentElement.style;
+
+function getStyleProperty( propName ) {
+  if ( !propName ) {
+    return;
+  }
+
+  // test standard property first
+  if ( typeof docElemStyle[ propName ] === 'string' ) {
+    return propName;
+  }
+
+  // capitalize
+  propName = propName.charAt(0).toUpperCase() + propName.slice(1);
+
+  // test vendor specific properties
+  var prefixed;
+  for ( var i=0, len = prefixes.length; i < len; i++ ) {
+    prefixed = prefixes[i] + propName;
+    if ( typeof docElemStyle[ prefixed ] === 'string' ) {
+      return prefixed;
+    }
+  }
+}
+
+// transport
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( 'get-style-property/get-style-property',[],function() {
+    return getStyleProperty;
+  });
+} else if ( typeof exports === 'object' ) {
+  // CommonJS for Component
+  module.exports = getStyleProperty;
+} else {
+  // browser global
+  window.getStyleProperty = getStyleProperty;
+}
+
+})( window );
+
+/*!
+ * getSize v1.2.2
+ * measure size of elements
+ * MIT license
+ */
+
+/*jshint browser: true, strict: true, undef: true, unused: true */
+/*global define: false, exports: false, require: false, module: false, console: false */
+
+( function( window, undefined ) {
+
+
+
+// -------------------------- helpers -------------------------- //
+
+// get a number from a string, not a percentage
+function getStyleSize( value ) {
+  var num = parseFloat( value );
+  // not a percent like '100%', and a number
+  var isValid = value.indexOf('%') === -1 && !isNaN( num );
+  return isValid && num;
+}
+
+function noop() {}
+
+var logError = typeof console === 'undefined' ? noop :
+  function( message ) {
+    console.error( message );
+  };
+
+// -------------------------- measurements -------------------------- //
+
+var measurements = [
+  'paddingLeft',
+  'paddingRight',
+  'paddingTop',
+  'paddingBottom',
+  'marginLeft',
+  'marginRight',
+  'marginTop',
+  'marginBottom',
+  'borderLeftWidth',
+  'borderRightWidth',
+  'borderTopWidth',
+  'borderBottomWidth'
+];
+
+function getZeroSize() {
+  var size = {
+    width: 0,
+    height: 0,
+    innerWidth: 0,
+    innerHeight: 0,
+    outerWidth: 0,
+    outerHeight: 0
+  };
+  for ( var i=0, len = measurements.length; i < len; i++ ) {
+    var measurement = measurements[i];
+    size[ measurement ] = 0;
+  }
+  return size;
+}
+
+
+
+function defineGetSize( getStyleProperty ) {
+
+// -------------------------- setup -------------------------- //
+
+var isSetup = false;
+
+var getStyle, boxSizingProp, isBoxSizeOuter;
+
+/**
+ * setup vars and functions
+ * do it on initial getSize(), rather than on script load
+ * For Firefox bug https://bugzilla.mozilla.org/show_bug.cgi?id=548397
+ */
+function setup() {
+  // setup once
+  if ( isSetup ) {
+    return;
+  }
+  isSetup = true;
+
+  var getComputedStyle = window.getComputedStyle;
+  getStyle = ( function() {
+    var getStyleFn = getComputedStyle ?
+      function( elem ) {
+        return getComputedStyle( elem, null );
+      } :
+      function( elem ) {
+        return elem.currentStyle;
+      };
+
+      return function getStyle( elem ) {
+        var style = getStyleFn( elem );
+        if ( !style ) {
+          logError( 'Style returned ' + style +
+            '. Are you running this code in a hidden iframe on Firefox? ' +
+            'See http://bit.ly/getsizebug1' );
+        }
+        return style;
+      };
+  })();
+
+  // -------------------------- box sizing -------------------------- //
+
+  boxSizingProp = getStyleProperty('boxSizing');
+
+  /**
+   * WebKit measures the outer-width on style.width on border-box elems
+   * IE & Firefox measures the inner-width
+   */
+  if ( boxSizingProp ) {
+    var div = document.createElement('div');
+    div.style.width = '200px';
+    div.style.padding = '1px 2px 3px 4px';
+    div.style.borderStyle = 'solid';
+    div.style.borderWidth = '1px 2px 3px 4px';
+    div.style[ boxSizingProp ] = 'border-box';
+
+    var body = document.body || document.documentElement;
+    body.appendChild( div );
+    var style = getStyle( div );
+
+    isBoxSizeOuter = getStyleSize( style.width ) === 200;
+    body.removeChild( div );
+  }
+
+}
+
+// -------------------------- getSize -------------------------- //
+
+function getSize( elem ) {
+  setup();
+
+  // use querySeletor if elem is string
+  if ( typeof elem === 'string' ) {
+    elem = document.querySelector( elem );
+  }
+
+  // do not proceed on non-objects
+  if ( !elem || typeof elem !== 'object' || !elem.nodeType ) {
+    return;
+  }
+
+  var style = getStyle( elem );
+
+  // if hidden, everything is 0
+  if ( style.display === 'none' ) {
+    return getZeroSize();
+  }
+
+  var size = {};
+  size.width = elem.offsetWidth;
+  size.height = elem.offsetHeight;
+
+  var isBorderBox = size.isBorderBox = !!( boxSizingProp &&
+    style[ boxSizingProp ] && style[ boxSizingProp ] === 'border-box' );
+
+  // get all measurements
+  for ( var i=0, len = measurements.length; i < len; i++ ) {
+    var measurement = measurements[i];
+    var value = style[ measurement ];
+    value = mungeNonPixel( elem, value );
+    var num = parseFloat( value );
+    // any 'auto', 'medium' value will be 0
+    size[ measurement ] = !isNaN( num ) ? num : 0;
+  }
+
+  var paddingWidth = size.paddingLeft + size.paddingRight;
+  var paddingHeight = size.paddingTop + size.paddingBottom;
+  var marginWidth = size.marginLeft + size.marginRight;
+  var marginHeight = size.marginTop + size.marginBottom;
+  var borderWidth = size.borderLeftWidth + size.borderRightWidth;
+  var borderHeight = size.borderTopWidth + size.borderBottomWidth;
+
+  var isBorderBoxSizeOuter = isBorderBox && isBoxSizeOuter;
+
+  // overwrite width and height if we can get it from style
+  var styleWidth = getStyleSize( style.width );
+  if ( styleWidth !== false ) {
+    size.width = styleWidth +
+      // add padding and border unless it's already including it
+      ( isBorderBoxSizeOuter ? 0 : paddingWidth + borderWidth );
+  }
+
+  var styleHeight = getStyleSize( style.height );
+  if ( styleHeight !== false ) {
+    size.height = styleHeight +
+      // add padding and border unless it's already including it
+      ( isBorderBoxSizeOuter ? 0 : paddingHeight + borderHeight );
+  }
+
+  size.innerWidth = size.width - ( paddingWidth + borderWidth );
+  size.innerHeight = size.height - ( paddingHeight + borderHeight );
+
+  size.outerWidth = size.width + marginWidth;
+  size.outerHeight = size.height + marginHeight;
+
+  return size;
+}
+
+// IE8 returns percent values, not pixels
+// taken from jQuery's curCSS
+function mungeNonPixel( elem, value ) {
+  // IE8 and has percent value
+  if ( window.getComputedStyle || value.indexOf('%') === -1 ) {
+    return value;
+  }
+  var style = elem.style;
+  // Remember the original values
+  var left = style.left;
+  var rs = elem.runtimeStyle;
+  var rsLeft = rs && rs.left;
+
+  // Put in the new values to get a computed value out
+  if ( rsLeft ) {
+    rs.left = elem.currentStyle.left;
+  }
+  style.left = value;
+  value = style.pixelLeft;
+
+  // Revert the changed values
+  style.left = left;
+  if ( rsLeft ) {
+    rs.left = rsLeft;
+  }
+
+  return value;
+}
+
+return getSize;
+
+}
+
+// transport
+if ( typeof define === 'function' && define.amd ) {
+  // AMD for RequireJS
+  define( 'get-size/get-size',[ 'get-style-property/get-style-property' ], defineGetSize );
+} else if ( typeof exports === 'object' ) {
+  // CommonJS for Component
+  module.exports = defineGetSize( require('desandro-get-style-property') );
+} else {
+  // browser global
+  window.getSize = defineGetSize( window.getStyleProperty );
+}
+
+})( window );
+
+/**
+ * matchesSelector v1.0.3
+ * matchesSelector( element, '.selector' )
+ * MIT license
+ */
+
+/*jshint browser: true, strict: true, undef: true, unused: true */
+/*global define: false, module: false */
+
+( function( ElemProto ) {
+
+  
+
+  var matchesMethod = ( function() {
+    // check for the standard method name first
+    if ( ElemProto.matches ) {
+      return 'matches';
+    }
+    // check un-prefixed
+    if ( ElemProto.matchesSelector ) {
+      return 'matchesSelector';
+    }
+    // check vendor prefixes
+    var prefixes = [ 'webkit', 'moz', 'ms', 'o' ];
+
+    for ( var i=0, len = prefixes.length; i < len; i++ ) {
+      var prefix = prefixes[i];
+      var method = prefix + 'MatchesSelector';
+      if ( ElemProto[ method ] ) {
+        return method;
+      }
+    }
+  })();
+
+  // ----- match ----- //
+
+  function match( elem, selector ) {
+    return elem[ matchesMethod ]( selector );
+  }
+
+  // ----- appendToFragment ----- //
+
+  function checkParent( elem ) {
+    // not needed if already has parent
+    if ( elem.parentNode ) {
+      return;
+    }
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild( elem );
+  }
+
+  // ----- query ----- //
+
+  // fall back to using QSA
+  // thx @jonathantneal https://gist.github.com/3062955
+  function query( elem, selector ) {
+    // append to fragment if no parent
+    checkParent( elem );
+
+    // match elem with all selected elems of parent
+    var elems = elem.parentNode.querySelectorAll( selector );
+    for ( var i=0, len = elems.length; i < len; i++ ) {
+      // return true if match
+      if ( elems[i] === elem ) {
+        return true;
+      }
+    }
+    // otherwise return false
+    return false;
+  }
+
+  // ----- matchChild ----- //
+
+  function matchChild( elem, selector ) {
+    checkParent( elem );
+    return match( elem, selector );
+  }
+
+  // ----- matchesSelector ----- //
+
+  var matchesSelector;
+
+  if ( matchesMethod ) {
+    // IE9 supports matchesSelector, but doesn't work on orphaned elems
+    // check for that
+    var div = document.createElement('div');
+    var supportsOrphans = match( div, 'div' );
+    matchesSelector = supportsOrphans ? match : matchChild;
+  } else {
+    matchesSelector = query;
+  }
+
+  // transport
+  if ( typeof define === 'function' && define.amd ) {
+    // AMD
+    define( 'matches-selector/matches-selector',[],function() {
+      return matchesSelector;
+    });
+  } else if ( typeof exports === 'object' ) {
+    module.exports = matchesSelector;
+  }
+  else {
+    // browser global
+    window.matchesSelector = matchesSelector;
+  }
+
+})( Element.prototype );
+
+/**
+ * Outlayer Item
+ */
+
+( function( window ) {
+
+
+
+// ----- get style ----- //
+
+var getComputedStyle = window.getComputedStyle;
+var getStyle = getComputedStyle ?
+  function( elem ) {
+    return getComputedStyle( elem, null );
+  } :
+  function( elem ) {
+    return elem.currentStyle;
+  };
+
+
+// extend objects
+function extend( a, b ) {
+  for ( var prop in b ) {
+    a[ prop ] = b[ prop ];
+  }
+  return a;
+}
+
+function isEmptyObj( obj ) {
+  for ( var prop in obj ) {
+    return false;
+  }
+  prop = null;
+  return true;
+}
+
+// http://jamesroberts.name/blog/2010/02/22/string-functions-for-javascript-trim-to-camel-case-to-dashed-and-to-underscore/
+function toDash( str ) {
+  return str.replace( /([A-Z])/g, function( $1 ){
+    return '-' + $1.toLowerCase();
+  });
+}
+
+// -------------------------- Outlayer definition -------------------------- //
+
+function outlayerItemDefinition( EventEmitter, getSize, getStyleProperty ) {
+
+// -------------------------- CSS3 support -------------------------- //
+
+var transitionProperty = getStyleProperty('transition');
+var transformProperty = getStyleProperty('transform');
+var supportsCSS3 = transitionProperty && transformProperty;
+var is3d = !!getStyleProperty('perspective');
+
+var transitionEndEvent = {
+  WebkitTransition: 'webkitTransitionEnd',
+  MozTransition: 'transitionend',
+  OTransition: 'otransitionend',
+  transition: 'transitionend'
+}[ transitionProperty ];
+
+// properties that could have vendor prefix
+var prefixableProperties = [
+  'transform',
+  'transition',
+  'transitionDuration',
+  'transitionProperty'
+];
+
+// cache all vendor properties
+var vendorProperties = ( function() {
+  var cache = {};
+  for ( var i=0, len = prefixableProperties.length; i < len; i++ ) {
+    var prop = prefixableProperties[i];
+    var supportedProp = getStyleProperty( prop );
+    if ( supportedProp && supportedProp !== prop ) {
+      cache[ prop ] = supportedProp;
+    }
+  }
+  return cache;
+})();
+
+// -------------------------- Item -------------------------- //
+
+function Item( element, layout ) {
+  if ( !element ) {
+    return;
+  }
+
+  this.element = element;
+  // parent layout class, i.e. Masonry, Isotope, or Packery
+  this.layout = layout;
+  this.position = {
+    x: 0,
+    y: 0
+  };
+
+  this._create();
+}
+
+// inherit EventEmitter
+extend( Item.prototype, EventEmitter.prototype );
+
+Item.prototype._create = function() {
+  // transition objects
+  this._transn = {
+    ingProperties: {},
+    clean: {},
+    onEnd: {}
+  };
+
+  this.css({
+    position: 'absolute'
+  });
+};
+
+// trigger specified handler for event type
+Item.prototype.handleEvent = function( event ) {
+  var method = 'on' + event.type;
+  if ( this[ method ] ) {
+    this[ method ]( event );
+  }
+};
+
+Item.prototype.getSize = function() {
+  this.size = getSize( this.element );
+};
+
+/**
+ * apply CSS styles to element
+ * @param {Object} style
+ */
+Item.prototype.css = function( style ) {
+  var elemStyle = this.element.style;
+
+  for ( var prop in style ) {
+    // use vendor property if available
+    var supportedProp = vendorProperties[ prop ] || prop;
+    elemStyle[ supportedProp ] = style[ prop ];
+  }
+};
+
+ // measure position, and sets it
+Item.prototype.getPosition = function() {
+  var style = getStyle( this.element );
+  var layoutOptions = this.layout.options;
+  var isOriginLeft = layoutOptions.isOriginLeft;
+  var isOriginTop = layoutOptions.isOriginTop;
+  var x = parseInt( style[ isOriginLeft ? 'left' : 'right' ], 10 );
+  var y = parseInt( style[ isOriginTop ? 'top' : 'bottom' ], 10 );
+
+  // clean up 'auto' or other non-integer values
+  x = isNaN( x ) ? 0 : x;
+  y = isNaN( y ) ? 0 : y;
+  // remove padding from measurement
+  var layoutSize = this.layout.size;
+  x -= isOriginLeft ? layoutSize.paddingLeft : layoutSize.paddingRight;
+  y -= isOriginTop ? layoutSize.paddingTop : layoutSize.paddingBottom;
+
+  this.position.x = x;
+  this.position.y = y;
+};
+
+// set settled position, apply padding
+Item.prototype.layoutPosition = function() {
+  var layoutSize = this.layout.size;
+  var layoutOptions = this.layout.options;
+  var style = {};
+
+  if ( layoutOptions.isOriginLeft ) {
+    style.left = ( this.position.x + layoutSize.paddingLeft ) + 'px';
+    // reset other property
+    style.right = '';
+  } else {
+    style.right = ( this.position.x + layoutSize.paddingRight ) + 'px';
+    style.left = '';
+  }
+
+  if ( layoutOptions.isOriginTop ) {
+    style.top = ( this.position.y + layoutSize.paddingTop ) + 'px';
+    style.bottom = '';
+  } else {
+    style.bottom = ( this.position.y + layoutSize.paddingBottom ) + 'px';
+    style.top = '';
+  }
+
+  this.css( style );
+  this.emitEvent( 'layout', [ this ] );
+};
+
+
+// transform translate function
+var translate = is3d ?
+  function( x, y ) {
+    return 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+  } :
+  function( x, y ) {
+    return 'translate(' + x + 'px, ' + y + 'px)';
+  };
+
+
+Item.prototype._transitionTo = function( x, y ) {
+  this.getPosition();
+  // get current x & y from top/left
+  var curX = this.position.x;
+  var curY = this.position.y;
+
+  var compareX = parseInt( x, 10 );
+  var compareY = parseInt( y, 10 );
+  var didNotMove = compareX === this.position.x && compareY === this.position.y;
+
+  // save end position
+  this.setPosition( x, y );
+
+  // if did not move and not transitioning, just go to layout
+  if ( didNotMove && !this.isTransitioning ) {
+    this.layoutPosition();
+    return;
+  }
+
+  var transX = x - curX;
+  var transY = y - curY;
+  var transitionStyle = {};
+  // flip cooridinates if origin on right or bottom
+  var layoutOptions = this.layout.options;
+  transX = layoutOptions.isOriginLeft ? transX : -transX;
+  transY = layoutOptions.isOriginTop ? transY : -transY;
+  transitionStyle.transform = translate( transX, transY );
+
+  this.transition({
+    to: transitionStyle,
+    onTransitionEnd: {
+      transform: this.layoutPosition
+    },
+    isCleaning: true
+  });
+};
+
+// non transition + transform support
+Item.prototype.goTo = function( x, y ) {
+  this.setPosition( x, y );
+  this.layoutPosition();
+};
+
+// use transition and transforms if supported
+Item.prototype.moveTo = supportsCSS3 ?
+  Item.prototype._transitionTo : Item.prototype.goTo;
+
+Item.prototype.setPosition = function( x, y ) {
+  this.position.x = parseInt( x, 10 );
+  this.position.y = parseInt( y, 10 );
+};
+
+// ----- transition ----- //
+
+/**
+ * @param {Object} style - CSS
+ * @param {Function} onTransitionEnd
+ */
+
+// non transition, just trigger callback
+Item.prototype._nonTransition = function( args ) {
+  this.css( args.to );
+  if ( args.isCleaning ) {
+    this._removeStyles( args.to );
+  }
+  for ( var prop in args.onTransitionEnd ) {
+    args.onTransitionEnd[ prop ].call( this );
+  }
+};
+
+/**
+ * proper transition
+ * @param {Object} args - arguments
+ *   @param {Object} to - style to transition to
+ *   @param {Object} from - style to start transition from
+ *   @param {Boolean} isCleaning - removes transition styles after transition
+ *   @param {Function} onTransitionEnd - callback
+ */
+Item.prototype._transition = function( args ) {
+  // redirect to nonTransition if no transition duration
+  if ( !parseFloat( this.layout.options.transitionDuration ) ) {
+    this._nonTransition( args );
+    return;
+  }
+
+  var _transition = this._transn;
+  // keep track of onTransitionEnd callback by css property
+  for ( var prop in args.onTransitionEnd ) {
+    _transition.onEnd[ prop ] = args.onTransitionEnd[ prop ];
+  }
+  // keep track of properties that are transitioning
+  for ( prop in args.to ) {
+    _transition.ingProperties[ prop ] = true;
+    // keep track of properties to clean up when transition is done
+    if ( args.isCleaning ) {
+      _transition.clean[ prop ] = true;
+    }
+  }
+
+  // set from styles
+  if ( args.from ) {
+    this.css( args.from );
+    // force redraw. http://blog.alexmaccaw.com/css-transitions
+    var h = this.element.offsetHeight;
+    // hack for JSHint to hush about unused var
+    h = null;
+  }
+  // enable transition
+  this.enableTransition( args.to );
+  // set styles that are transitioning
+  this.css( args.to );
+
+  this.isTransitioning = true;
+
+};
+
+var itemTransitionProperties = transformProperty && ( toDash( transformProperty ) +
+  ',opacity' );
+
+Item.prototype.enableTransition = function(/* style */) {
+  // only enable if not already transitioning
+  // bug in IE10 were re-setting transition style will prevent
+  // transitionend event from triggering
+  if ( this.isTransitioning ) {
+    return;
+  }
+
+  // make transition: foo, bar, baz from style object
+  // TODO uncomment this bit when IE10 bug is resolved
+  // var transitionValue = [];
+  // for ( var prop in style ) {
+  //   // dash-ify camelCased properties like WebkitTransition
+  //   transitionValue.push( toDash( prop ) );
+  // }
+  // enable transition styles
+  // HACK always enable transform,opacity for IE10
+  this.css({
+    transitionProperty: itemTransitionProperties,
+    transitionDuration: this.layout.options.transitionDuration
+  });
+  // listen for transition end event
+  this.element.addEventListener( transitionEndEvent, this, false );
+};
+
+Item.prototype.transition = Item.prototype[ transitionProperty ? '_transition' : '_nonTransition' ];
+
+// ----- events ----- //
+
+Item.prototype.onwebkitTransitionEnd = function( event ) {
+  this.ontransitionend( event );
+};
+
+Item.prototype.onotransitionend = function( event ) {
+  this.ontransitionend( event );
+};
+
+// properties that I munge to make my life easier
+var dashedVendorProperties = {
+  '-webkit-transform': 'transform',
+  '-moz-transform': 'transform',
+  '-o-transform': 'transform'
+};
+
+Item.prototype.ontransitionend = function( event ) {
+  // disregard bubbled events from children
+  if ( event.target !== this.element ) {
+    return;
+  }
+  var _transition = this._transn;
+  // get property name of transitioned property, convert to prefix-free
+  var propertyName = dashedVendorProperties[ event.propertyName ] || event.propertyName;
+
+  // remove property that has completed transitioning
+  delete _transition.ingProperties[ propertyName ];
+  // check if any properties are still transitioning
+  if ( isEmptyObj( _transition.ingProperties ) ) {
+    // all properties have completed transitioning
+    this.disableTransition();
+  }
+  // clean style
+  if ( propertyName in _transition.clean ) {
+    // clean up style
+    this.element.style[ event.propertyName ] = '';
+    delete _transition.clean[ propertyName ];
+  }
+  // trigger onTransitionEnd callback
+  if ( propertyName in _transition.onEnd ) {
+    var onTransitionEnd = _transition.onEnd[ propertyName ];
+    onTransitionEnd.call( this );
+    delete _transition.onEnd[ propertyName ];
+  }
+
+  this.emitEvent( 'transitionEnd', [ this ] );
+};
+
+Item.prototype.disableTransition = function() {
+  this.removeTransitionStyles();
+  this.element.removeEventListener( transitionEndEvent, this, false );
+  this.isTransitioning = false;
+};
+
+/**
+ * removes style property from element
+ * @param {Object} style
+**/
+Item.prototype._removeStyles = function( style ) {
+  // clean up transition styles
+  var cleanStyle = {};
+  for ( var prop in style ) {
+    cleanStyle[ prop ] = '';
+  }
+  this.css( cleanStyle );
+};
+
+var cleanTransitionStyle = {
+  transitionProperty: '',
+  transitionDuration: ''
+};
+
+Item.prototype.removeTransitionStyles = function() {
+  // remove transition
+  this.css( cleanTransitionStyle );
+};
+
+// ----- show/hide/remove ----- //
+
+// remove element from DOM
+Item.prototype.removeElem = function() {
+  this.element.parentNode.removeChild( this.element );
+  this.emitEvent( 'remove', [ this ] );
+};
+
+Item.prototype.remove = function() {
+  // just remove element if no transition support or no transition
+  if ( !transitionProperty || !parseFloat( this.layout.options.transitionDuration ) ) {
+    this.removeElem();
+    return;
+  }
+
+  // start transition
+  var _this = this;
+  this.on( 'transitionEnd', function() {
+    _this.removeElem();
+    return true; // bind once
+  });
+  this.hide();
+};
+
+Item.prototype.reveal = function() {
+  delete this.isHidden;
+  // remove display: none
+  this.css({ display: '' });
+
+  var options = this.layout.options;
+  this.transition({
+    from: options.hiddenStyle,
+    to: options.visibleStyle,
+    isCleaning: true
+  });
+};
+
+Item.prototype.hide = function() {
+  // set flag
+  this.isHidden = true;
+  // remove display: none
+  this.css({ display: '' });
+
+  var options = this.layout.options;
+  this.transition({
+    from: options.visibleStyle,
+    to: options.hiddenStyle,
+    // keep hidden stuff hidden
+    isCleaning: true,
+    onTransitionEnd: {
+      opacity: function() {
+        // check if still hidden
+        // during transition, item may have been un-hidden
+        if ( this.isHidden ) {
+          this.css({ display: 'none' });
+        }
+      }
+    }
+  });
+};
+
+Item.prototype.destroy = function() {
+  this.css({
+    position: '',
+    left: '',
+    right: '',
+    top: '',
+    bottom: '',
+    transition: '',
+    transform: ''
+  });
+};
+
+return Item;
+
+}
+
+// -------------------------- transport -------------------------- //
+
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( 'outlayer/item',[
+      'eventEmitter/EventEmitter',
+      'get-size/get-size',
+      'get-style-property/get-style-property'
+    ],
+    outlayerItemDefinition );
+} else if (typeof exports === 'object') {
+  // CommonJS
+  module.exports = outlayerItemDefinition(
+    require('wolfy87-eventemitter'),
+    require('get-size'),
+    require('desandro-get-style-property')
+  );
+} else {
+  // browser global
+  window.Outlayer = {};
+  window.Outlayer.Item = outlayerItemDefinition(
+    window.EventEmitter,
+    window.getSize,
+    window.getStyleProperty
+  );
+}
+
+})( window );
+
+/*!
+ * Outlayer v1.3.0
+ * the brains and guts of a layout library
+ * MIT license
+ */
+
+( function( window ) {
+
+
+
+// ----- vars ----- //
+
+var document = window.document;
+var console = window.console;
+var jQuery = window.jQuery;
+var noop = function() {};
+
+// -------------------------- helpers -------------------------- //
+
+// extend objects
+function extend( a, b ) {
+  for ( var prop in b ) {
+    a[ prop ] = b[ prop ];
+  }
+  return a;
+}
+
+
+var objToString = Object.prototype.toString;
+function isArray( obj ) {
+  return objToString.call( obj ) === '[object Array]';
+}
+
+// turn element or nodeList into an array
+function makeArray( obj ) {
+  var ary = [];
+  if ( isArray( obj ) ) {
+    // use object if already an array
+    ary = obj;
+  } else if ( obj && typeof obj.length === 'number' ) {
+    // convert nodeList to array
+    for ( var i=0, len = obj.length; i < len; i++ ) {
+      ary.push( obj[i] );
+    }
+  } else {
+    // array of single index
+    ary.push( obj );
+  }
+  return ary;
+}
+
+// http://stackoverflow.com/a/384380/182183
+var isElement = ( typeof HTMLElement === 'function' || typeof HTMLElement === 'object' ) ?
+  function isElementDOM2( obj ) {
+    return obj instanceof HTMLElement;
+  } :
+  function isElementQuirky( obj ) {
+    return obj && typeof obj === 'object' &&
+      obj.nodeType === 1 && typeof obj.nodeName === 'string';
+  };
+
+// index of helper cause IE8
+var indexOf = Array.prototype.indexOf ? function( ary, obj ) {
+    return ary.indexOf( obj );
+  } : function( ary, obj ) {
+    for ( var i=0, len = ary.length; i < len; i++ ) {
+      if ( ary[i] === obj ) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+function removeFrom( obj, ary ) {
+  var index = indexOf( ary, obj );
+  if ( index !== -1 ) {
+    ary.splice( index, 1 );
+  }
+}
+
+// http://jamesroberts.name/blog/2010/02/22/string-functions-for-javascript-trim-to-camel-case-to-dashed-and-to-underscore/
+function toDashed( str ) {
+  return str.replace( /(.)([A-Z])/g, function( match, $1, $2 ) {
+    return $1 + '-' + $2;
+  }).toLowerCase();
+}
+
+
+function outlayerDefinition( eventie, docReady, EventEmitter, getSize, matchesSelector, Item ) {
+
+// -------------------------- Outlayer -------------------------- //
+
+// globally unique identifiers
+var GUID = 0;
+// internal store of all Outlayer intances
+var instances = {};
+
+
+/**
+ * @param {Element, String} element
+ * @param {Object} options
+ * @constructor
+ */
+function Outlayer( element, options ) {
+  // use element as selector string
+  if ( typeof element === 'string' ) {
+    element = document.querySelector( element );
+  }
+
+  // bail out if not proper element
+  if ( !element || !isElement( element ) ) {
+    if ( console ) {
+      console.error( 'Bad ' + this.constructor.namespace + ' element: ' + element );
+    }
+    return;
+  }
+
+  this.element = element;
+
+  // options
+  this.options = extend( {}, this.constructor.defaults );
+  this.option( options );
+
+  // add id for Outlayer.getFromElement
+  var id = ++GUID;
+  this.element.outlayerGUID = id; // expando
+  instances[ id ] = this; // associate via id
+
+  // kick it off
+  this._create();
+
+  if ( this.options.isInitLayout ) {
+    this.layout();
+  }
+}
+
+// settings are for internal use only
+Outlayer.namespace = 'outlayer';
+Outlayer.Item = Item;
+
+// default options
+Outlayer.defaults = {
+  containerStyle: {
+    position: 'relative'
+  },
+  isInitLayout: true,
+  isOriginLeft: true,
+  isOriginTop: true,
+  isResizeBound: true,
+  isResizingContainer: true,
+  // item options
+  transitionDuration: '0.4s',
+  hiddenStyle: {
+    opacity: 0,
+    transform: 'scale(0.001)'
+  },
+  visibleStyle: {
+    opacity: 1,
+    transform: 'scale(1)'
+  }
+};
+
+// inherit EventEmitter
+extend( Outlayer.prototype, EventEmitter.prototype );
+
+/**
+ * set options
+ * @param {Object} opts
+ */
+Outlayer.prototype.option = function( opts ) {
+  extend( this.options, opts );
+};
+
+Outlayer.prototype._create = function() {
+  // get items from children
+  this.reloadItems();
+  // elements that affect layout, but are not laid out
+  this.stamps = [];
+  this.stamp( this.options.stamp );
+  // set container style
+  extend( this.element.style, this.options.containerStyle );
+
+  // bind resize method
+  if ( this.options.isResizeBound ) {
+    this.bindResize();
+  }
+};
+
+// goes through all children again and gets bricks in proper order
+Outlayer.prototype.reloadItems = function() {
+  // collection of item elements
+  this.items = this._itemize( this.element.children );
+};
+
+
+/**
+ * turn elements into Outlayer.Items to be used in layout
+ * @param {Array or NodeList or HTMLElement} elems
+ * @returns {Array} items - collection of new Outlayer Items
+ */
+Outlayer.prototype._itemize = function( elems ) {
+
+  var itemElems = this._filterFindItemElements( elems );
+  var Item = this.constructor.Item;
+
+  // create new Outlayer Items for collection
+  var items = [];
+  for ( var i=0, len = itemElems.length; i < len; i++ ) {
+    var elem = itemElems[i];
+    var item = new Item( elem, this );
+    items.push( item );
+  }
+
+  return items;
+};
+
+/**
+ * get item elements to be used in layout
+ * @param {Array or NodeList or HTMLElement} elems
+ * @returns {Array} items - item elements
+ */
+Outlayer.prototype._filterFindItemElements = function( elems ) {
+  // make array of elems
+  elems = makeArray( elems );
+  var itemSelector = this.options.itemSelector;
+  var itemElems = [];
+
+  for ( var i=0, len = elems.length; i < len; i++ ) {
+    var elem = elems[i];
+    // check that elem is an actual element
+    if ( !isElement( elem ) ) {
+      continue;
+    }
+    // filter & find items if we have an item selector
+    if ( itemSelector ) {
+      // filter siblings
+      if ( matchesSelector( elem, itemSelector ) ) {
+        itemElems.push( elem );
+      }
+      // find children
+      var childElems = elem.querySelectorAll( itemSelector );
+      // concat childElems to filterFound array
+      for ( var j=0, jLen = childElems.length; j < jLen; j++ ) {
+        itemElems.push( childElems[j] );
+      }
+    } else {
+      itemElems.push( elem );
+    }
+  }
+
+  return itemElems;
+};
+
+/**
+ * getter method for getting item elements
+ * @returns {Array} elems - collection of item elements
+ */
+Outlayer.prototype.getItemElements = function() {
+  var elems = [];
+  for ( var i=0, len = this.items.length; i < len; i++ ) {
+    elems.push( this.items[i].element );
+  }
+  return elems;
+};
+
+// ----- init & layout ----- //
+
+/**
+ * lays out all items
+ */
+Outlayer.prototype.layout = function() {
+  this._resetLayout();
+  this._manageStamps();
+
+  // don't animate first layout
+  var isInstant = this.options.isLayoutInstant !== undefined ?
+    this.options.isLayoutInstant : !this._isLayoutInited;
+  this.layoutItems( this.items, isInstant );
+
+  // flag for initalized
+  this._isLayoutInited = true;
+};
+
+// _init is alias for layout
+Outlayer.prototype._init = Outlayer.prototype.layout;
+
+/**
+ * logic before any new layout
+ */
+Outlayer.prototype._resetLayout = function() {
+  this.getSize();
+};
+
+
+Outlayer.prototype.getSize = function() {
+  this.size = getSize( this.element );
+};
+
+/**
+ * get measurement from option, for columnWidth, rowHeight, gutter
+ * if option is String -> get element from selector string, & get size of element
+ * if option is Element -> get size of element
+ * else use option as a number
+ *
+ * @param {String} measurement
+ * @param {String} size - width or height
+ * @private
+ */
+Outlayer.prototype._getMeasurement = function( measurement, size ) {
+  var option = this.options[ measurement ];
+  var elem;
+  if ( !option ) {
+    // default to 0
+    this[ measurement ] = 0;
+  } else {
+    // use option as an element
+    if ( typeof option === 'string' ) {
+      elem = this.element.querySelector( option );
+    } else if ( isElement( option ) ) {
+      elem = option;
+    }
+    // use size of element, if element
+    this[ measurement ] = elem ? getSize( elem )[ size ] : option;
+  }
+};
+
+/**
+ * layout a collection of item elements
+ * @api public
+ */
+Outlayer.prototype.layoutItems = function( items, isInstant ) {
+  items = this._getItemsForLayout( items );
+
+  this._layoutItems( items, isInstant );
+
+  this._postLayout();
+};
+
+/**
+ * get the items to be laid out
+ * you may want to skip over some items
+ * @param {Array} items
+ * @returns {Array} items
+ */
+Outlayer.prototype._getItemsForLayout = function( items ) {
+  var layoutItems = [];
+  for ( var i=0, len = items.length; i < len; i++ ) {
+    var item = items[i];
+    if ( !item.isIgnored ) {
+      layoutItems.push( item );
+    }
+  }
+  return layoutItems;
+};
+
+/**
+ * layout items
+ * @param {Array} items
+ * @param {Boolean} isInstant
+ */
+Outlayer.prototype._layoutItems = function( items, isInstant ) {
+  var _this = this;
+  function onItemsLayout() {
+    _this.emitEvent( 'layoutComplete', [ _this, items ] );
+  }
+
+  if ( !items || !items.length ) {
+    // no items, emit event with empty array
+    onItemsLayout();
+    return;
+  }
+
+  // emit layoutComplete when done
+  this._itemsOn( items, 'layout', onItemsLayout );
+
+  var queue = [];
+
+  for ( var i=0, len = items.length; i < len; i++ ) {
+    var item = items[i];
+    // get x/y object from method
+    var position = this._getItemLayoutPosition( item );
+    // enqueue
+    position.item = item;
+    position.isInstant = isInstant || item.isLayoutInstant;
+    queue.push( position );
+  }
+
+  this._processLayoutQueue( queue );
+};
+
+/**
+ * get item layout position
+ * @param {Outlayer.Item} item
+ * @returns {Object} x and y position
+ */
+Outlayer.prototype._getItemLayoutPosition = function( /* item */ ) {
+  return {
+    x: 0,
+    y: 0
+  };
+};
+
+/**
+ * iterate over array and position each item
+ * Reason being - separating this logic prevents 'layout invalidation'
+ * thx @paul_irish
+ * @param {Array} queue
+ */
+Outlayer.prototype._processLayoutQueue = function( queue ) {
+  for ( var i=0, len = queue.length; i < len; i++ ) {
+    var obj = queue[i];
+    this._positionItem( obj.item, obj.x, obj.y, obj.isInstant );
+  }
+};
+
+/**
+ * Sets position of item in DOM
+ * @param {Outlayer.Item} item
+ * @param {Number} x - horizontal position
+ * @param {Number} y - vertical position
+ * @param {Boolean} isInstant - disables transitions
+ */
+Outlayer.prototype._positionItem = function( item, x, y, isInstant ) {
+  if ( isInstant ) {
+    // if not transition, just set CSS
+    item.goTo( x, y );
+  } else {
+    item.moveTo( x, y );
+  }
+};
+
+/**
+ * Any logic you want to do after each layout,
+ * i.e. size the container
+ */
+Outlayer.prototype._postLayout = function() {
+  this.resizeContainer();
+};
+
+Outlayer.prototype.resizeContainer = function() {
+  if ( !this.options.isResizingContainer ) {
+    return;
+  }
+  var size = this._getContainerSize();
+  if ( size ) {
+    this._setContainerMeasure( size.width, true );
+    this._setContainerMeasure( size.height, false );
+  }
+};
+
+/**
+ * Sets width or height of container if returned
+ * @returns {Object} size
+ *   @param {Number} width
+ *   @param {Number} height
+ */
+Outlayer.prototype._getContainerSize = noop;
+
+/**
+ * @param {Number} measure - size of width or height
+ * @param {Boolean} isWidth
+ */
+Outlayer.prototype._setContainerMeasure = function( measure, isWidth ) {
+  if ( measure === undefined ) {
+    return;
+  }
+
+  var elemSize = this.size;
+  // add padding and border width if border box
+  if ( elemSize.isBorderBox ) {
+    measure += isWidth ? elemSize.paddingLeft + elemSize.paddingRight +
+      elemSize.borderLeftWidth + elemSize.borderRightWidth :
+      elemSize.paddingBottom + elemSize.paddingTop +
+      elemSize.borderTopWidth + elemSize.borderBottomWidth;
+  }
+
+  measure = Math.max( measure, 0 );
+  this.element.style[ isWidth ? 'width' : 'height' ] = measure + 'px';
+};
+
+/**
+ * trigger a callback for a collection of items events
+ * @param {Array} items - Outlayer.Items
+ * @param {String} eventName
+ * @param {Function} callback
+ */
+Outlayer.prototype._itemsOn = function( items, eventName, callback ) {
+  var doneCount = 0;
+  var count = items.length;
+  // event callback
+  var _this = this;
+  function tick() {
+    doneCount++;
+    if ( doneCount === count ) {
+      callback.call( _this );
+    }
+    return true; // bind once
+  }
+  // bind callback
+  for ( var i=0, len = items.length; i < len; i++ ) {
+    var item = items[i];
+    item.on( eventName, tick );
+  }
+};
+
+// -------------------------- ignore & stamps -------------------------- //
+
+
+/**
+ * keep item in collection, but do not lay it out
+ * ignored items do not get skipped in layout
+ * @param {Element} elem
+ */
+Outlayer.prototype.ignore = function( elem ) {
+  var item = this.getItem( elem );
+  if ( item ) {
+    item.isIgnored = true;
+  }
+};
+
+/**
+ * return item to layout collection
+ * @param {Element} elem
+ */
+Outlayer.prototype.unignore = function( elem ) {
+  var item = this.getItem( elem );
+  if ( item ) {
+    delete item.isIgnored;
+  }
+};
+
+/**
+ * adds elements to stamps
+ * @param {NodeList, Array, Element, or String} elems
+ */
+Outlayer.prototype.stamp = function( elems ) {
+  elems = this._find( elems );
+  if ( !elems ) {
+    return;
+  }
+
+  this.stamps = this.stamps.concat( elems );
+  // ignore
+  for ( var i=0, len = elems.length; i < len; i++ ) {
+    var elem = elems[i];
+    this.ignore( elem );
+  }
+};
+
+/**
+ * removes elements to stamps
+ * @param {NodeList, Array, or Element} elems
+ */
+Outlayer.prototype.unstamp = function( elems ) {
+  elems = this._find( elems );
+  if ( !elems ){
+    return;
+  }
+
+  for ( var i=0, len = elems.length; i < len; i++ ) {
+    var elem = elems[i];
+    // filter out removed stamp elements
+    removeFrom( elem, this.stamps );
+    this.unignore( elem );
+  }
+
+};
+
+/**
+ * finds child elements
+ * @param {NodeList, Array, Element, or String} elems
+ * @returns {Array} elems
+ */
+Outlayer.prototype._find = function( elems ) {
+  if ( !elems ) {
+    return;
+  }
+  // if string, use argument as selector string
+  if ( typeof elems === 'string' ) {
+    elems = this.element.querySelectorAll( elems );
+  }
+  elems = makeArray( elems );
+  return elems;
+};
+
+Outlayer.prototype._manageStamps = function() {
+  if ( !this.stamps || !this.stamps.length ) {
+    return;
+  }
+
+  this._getBoundingRect();
+
+  for ( var i=0, len = this.stamps.length; i < len; i++ ) {
+    var stamp = this.stamps[i];
+    this._manageStamp( stamp );
+  }
+};
+
+// update boundingLeft / Top
+Outlayer.prototype._getBoundingRect = function() {
+  // get bounding rect for container element
+  var boundingRect = this.element.getBoundingClientRect();
+  var size = this.size;
+  this._boundingRect = {
+    left: boundingRect.left + size.paddingLeft + size.borderLeftWidth,
+    top: boundingRect.top + size.paddingTop + size.borderTopWidth,
+    right: boundingRect.right - ( size.paddingRight + size.borderRightWidth ),
+    bottom: boundingRect.bottom - ( size.paddingBottom + size.borderBottomWidth )
+  };
+};
+
+/**
+ * @param {Element} stamp
+**/
+Outlayer.prototype._manageStamp = noop;
+
+/**
+ * get x/y position of element relative to container element
+ * @param {Element} elem
+ * @returns {Object} offset - has left, top, right, bottom
+ */
+Outlayer.prototype._getElementOffset = function( elem ) {
+  var boundingRect = elem.getBoundingClientRect();
+  var thisRect = this._boundingRect;
+  var size = getSize( elem );
+  var offset = {
+    left: boundingRect.left - thisRect.left - size.marginLeft,
+    top: boundingRect.top - thisRect.top - size.marginTop,
+    right: thisRect.right - boundingRect.right - size.marginRight,
+    bottom: thisRect.bottom - boundingRect.bottom - size.marginBottom
+  };
+  return offset;
+};
+
+// -------------------------- resize -------------------------- //
+
+// enable event handlers for listeners
+// i.e. resize -> onresize
+Outlayer.prototype.handleEvent = function( event ) {
+  var method = 'on' + event.type;
+  if ( this[ method ] ) {
+    this[ method ]( event );
+  }
+};
+
+/**
+ * Bind layout to window resizing
+ */
+Outlayer.prototype.bindResize = function() {
+  // bind just one listener
+  if ( this.isResizeBound ) {
+    return;
+  }
+  eventie.bind( window, 'resize', this );
+  this.isResizeBound = true;
+};
+
+/**
+ * Unbind layout to window resizing
+ */
+Outlayer.prototype.unbindResize = function() {
+  if ( this.isResizeBound ) {
+    eventie.unbind( window, 'resize', this );
+  }
+  this.isResizeBound = false;
+};
+
+// original debounce by John Hann
+// http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+
+// this fires every resize
+Outlayer.prototype.onresize = function() {
+  if ( this.resizeTimeout ) {
+    clearTimeout( this.resizeTimeout );
+  }
+
+  var _this = this;
+  function delayed() {
+    _this.resize();
+    delete _this.resizeTimeout;
+  }
+
+  this.resizeTimeout = setTimeout( delayed, 100 );
+};
+
+// debounced, layout on resize
+Outlayer.prototype.resize = function() {
+  // don't trigger if size did not change
+  // or if resize was unbound. See #9
+  if ( !this.isResizeBound || !this.needsResizeLayout() ) {
+    return;
+  }
+
+  this.layout();
+};
+
+/**
+ * check if layout is needed post layout
+ * @returns Boolean
+ */
+Outlayer.prototype.needsResizeLayout = function() {
+  var size = getSize( this.element );
+  // check that this.size and size are there
+  // IE8 triggers resize on body size change, so they might not be
+  var hasSizes = this.size && size;
+  return hasSizes && size.innerWidth !== this.size.innerWidth;
+};
+
+// -------------------------- methods -------------------------- //
+
+/**
+ * add items to Outlayer instance
+ * @param {Array or NodeList or Element} elems
+ * @returns {Array} items - Outlayer.Items
+**/
+Outlayer.prototype.addItems = function( elems ) {
+  var items = this._itemize( elems );
+  // add items to collection
+  if ( items.length ) {
+    this.items = this.items.concat( items );
+  }
+  return items;
+};
+
+/**
+ * Layout newly-appended item elements
+ * @param {Array or NodeList or Element} elems
+ */
+Outlayer.prototype.appended = function( elems ) {
+  var items = this.addItems( elems );
+  if ( !items.length ) {
+    return;
+  }
+  // layout and reveal just the new items
+  this.layoutItems( items, true );
+  this.reveal( items );
+};
+
+/**
+ * Layout prepended elements
+ * @param {Array or NodeList or Element} elems
+ */
+Outlayer.prototype.prepended = function( elems ) {
+  var items = this._itemize( elems );
+  if ( !items.length ) {
+    return;
+  }
+  // add items to beginning of collection
+  var previousItems = this.items.slice(0);
+  this.items = items.concat( previousItems );
+  // start new layout
+  this._resetLayout();
+  this._manageStamps();
+  // layout new stuff without transition
+  this.layoutItems( items, true );
+  this.reveal( items );
+  // layout previous items
+  this.layoutItems( previousItems );
+};
+
+/**
+ * reveal a collection of items
+ * @param {Array of Outlayer.Items} items
+ */
+Outlayer.prototype.reveal = function( items ) {
+  var len = items && items.length;
+  if ( !len ) {
+    return;
+  }
+  for ( var i=0; i < len; i++ ) {
+    var item = items[i];
+    item.reveal();
+  }
+};
+
+/**
+ * hide a collection of items
+ * @param {Array of Outlayer.Items} items
+ */
+Outlayer.prototype.hide = function( items ) {
+  var len = items && items.length;
+  if ( !len ) {
+    return;
+  }
+  for ( var i=0; i < len; i++ ) {
+    var item = items[i];
+    item.hide();
+  }
+};
+
+/**
+ * get Outlayer.Item, given an Element
+ * @param {Element} elem
+ * @param {Function} callback
+ * @returns {Outlayer.Item} item
+ */
+Outlayer.prototype.getItem = function( elem ) {
+  // loop through items to get the one that matches
+  for ( var i=0, len = this.items.length; i < len; i++ ) {
+    var item = this.items[i];
+    if ( item.element === elem ) {
+      // return item
+      return item;
+    }
+  }
+};
+
+/**
+ * get collection of Outlayer.Items, given Elements
+ * @param {Array} elems
+ * @returns {Array} items - Outlayer.Items
+ */
+Outlayer.prototype.getItems = function( elems ) {
+  if ( !elems || !elems.length ) {
+    return;
+  }
+  var items = [];
+  for ( var i=0, len = elems.length; i < len; i++ ) {
+    var elem = elems[i];
+    var item = this.getItem( elem );
+    if ( item ) {
+      items.push( item );
+    }
+  }
+
+  return items;
+};
+
+/**
+ * remove element(s) from instance and DOM
+ * @param {Array or NodeList or Element} elems
+ */
+Outlayer.prototype.remove = function( elems ) {
+  elems = makeArray( elems );
+
+  var removeItems = this.getItems( elems );
+  // bail if no items to remove
+  if ( !removeItems || !removeItems.length ) {
+    return;
+  }
+
+  this._itemsOn( removeItems, 'remove', function() {
+    this.emitEvent( 'removeComplete', [ this, removeItems ] );
+  });
+
+  for ( var i=0, len = removeItems.length; i < len; i++ ) {
+    var item = removeItems[i];
+    item.remove();
+    // remove item from collection
+    removeFrom( item, this.items );
+  }
+};
+
+// ----- destroy ----- //
+
+// remove and disable Outlayer instance
+Outlayer.prototype.destroy = function() {
+  // clean up dynamic styles
+  var style = this.element.style;
+  style.height = '';
+  style.position = '';
+  style.width = '';
+  // destroy items
+  for ( var i=0, len = this.items.length; i < len; i++ ) {
+    var item = this.items[i];
+    item.destroy();
+  }
+
+  this.unbindResize();
+
+  var id = this.element.outlayerGUID;
+  delete instances[ id ]; // remove reference to instance by id
+  delete this.element.outlayerGUID;
+  // remove data for jQuery
+  if ( jQuery ) {
+    jQuery.removeData( this.element, this.constructor.namespace );
+  }
+
+};
+
+// -------------------------- data -------------------------- //
+
+/**
+ * get Outlayer instance from element
+ * @param {Element} elem
+ * @returns {Outlayer}
+ */
+Outlayer.data = function( elem ) {
+  var id = elem && elem.outlayerGUID;
+  return id && instances[ id ];
+};
+
+
+// -------------------------- create Outlayer class -------------------------- //
+
+/**
+ * create a layout class
+ * @param {String} namespace
+ */
+Outlayer.create = function( namespace, options ) {
+  // sub-class Outlayer
+  function Layout() {
+    Outlayer.apply( this, arguments );
+  }
+  // inherit Outlayer prototype, use Object.create if there
+  if ( Object.create ) {
+    Layout.prototype = Object.create( Outlayer.prototype );
+  } else {
+    extend( Layout.prototype, Outlayer.prototype );
+  }
+  // set contructor, used for namespace and Item
+  Layout.prototype.constructor = Layout;
+
+  Layout.defaults = extend( {}, Outlayer.defaults );
+  // apply new options
+  extend( Layout.defaults, options );
+  // keep prototype.settings for backwards compatibility (Packery v1.2.0)
+  Layout.prototype.settings = {};
+
+  Layout.namespace = namespace;
+
+  Layout.data = Outlayer.data;
+
+  // sub-class Item
+  Layout.Item = function LayoutItem() {
+    Item.apply( this, arguments );
+  };
+
+  Layout.Item.prototype = new Item();
+
+  // -------------------------- declarative -------------------------- //
+
+  /**
+   * allow user to initialize Outlayer via .js-namespace class
+   * options are parsed from data-namespace-option attribute
+   */
+  docReady( function() {
+    var dashedNamespace = toDashed( namespace );
+    var elems = document.querySelectorAll( '.js-' + dashedNamespace );
+    var dataAttr = 'data-' + dashedNamespace + '-options';
+
+    for ( var i=0, len = elems.length; i < len; i++ ) {
+      var elem = elems[i];
+      var attr = elem.getAttribute( dataAttr );
+      var options;
+      try {
+        options = attr && JSON.parse( attr );
+      } catch ( error ) {
+        // log error, do not initialize
+        if ( console ) {
+          console.error( 'Error parsing ' + dataAttr + ' on ' +
+            elem.nodeName.toLowerCase() + ( elem.id ? '#' + elem.id : '' ) + ': ' +
+            error );
+        }
+        continue;
+      }
+      // initialize
+      var instance = new Layout( elem, options );
+      // make available via $().data('layoutname')
+      if ( jQuery ) {
+        jQuery.data( elem, namespace, instance );
+      }
+    }
+  });
+
+  // -------------------------- jQuery bridge -------------------------- //
+
+  // make into jQuery plugin
+  if ( jQuery && jQuery.bridget ) {
+    jQuery.bridget( namespace, Layout );
+  }
+
+  return Layout;
+};
+
+// ----- fin ----- //
+
+// back in global
+Outlayer.Item = Item;
+
+return Outlayer;
+
+}
+
+// -------------------------- transport -------------------------- //
+
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( 'outlayer/outlayer',[
+      'eventie/eventie',
+      'doc-ready/doc-ready',
+      'eventEmitter/EventEmitter',
+      'get-size/get-size',
+      'matches-selector/matches-selector',
+      './item'
+    ],
+    outlayerDefinition );
+} else if ( typeof exports === 'object' ) {
+  // CommonJS
+  module.exports = outlayerDefinition(
+    require('eventie'),
+    require('doc-ready'),
+    require('wolfy87-eventemitter'),
+    require('get-size'),
+    require('desandro-matches-selector'),
+    require('./item')
+  );
+} else {
+  // browser global
+  window.Outlayer = outlayerDefinition(
+    window.eventie,
+    window.docReady,
+    window.EventEmitter,
+    window.getSize,
+    window.matchesSelector,
+    window.Outlayer.Item
+  );
+}
+
+})( window );
+
+/*!
+ * Masonry v3.2.3
+ * Cascading grid layout library
+ * http://masonry.desandro.com
+ * MIT License
+ * by David DeSandro
+ */
+
+( function( window, factory ) {
+  
+  // universal module definition
+  if ( typeof define === 'function' && define.amd ) {
+    // AMD
+    define( [
+        'outlayer/outlayer',
+        'get-size/get-size'
+      ],
+      factory );
+  } else if ( typeof exports === 'object' ) {
+    // CommonJS
+    module.exports = factory(
+      require('outlayer'),
+      require('get-size')
+    );
+  } else {
+    // browser global
+    window.Masonry = factory(
+      window.Outlayer,
+      window.getSize
+    );
+  }
+
+}( window, function factory( Outlayer, getSize ) {
+
+
+
+// -------------------------- helpers -------------------------- //
+
+var indexOf = Array.prototype.indexOf ?
+  function( items, value ) {
+    return items.indexOf( value );
+  } :
+  function ( items, value ) {
+    for ( var i=0, len = items.length; i < len; i++ ) {
+      var item = items[i];
+      if ( item === value ) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+// -------------------------- masonryDefinition -------------------------- //
+
+  // create an Outlayer layout class
+  var Masonry = Outlayer.create('masonry');
+
+  Masonry.prototype._resetLayout = function() {
+    this.getSize();
+    this._getMeasurement( 'columnWidth', 'outerWidth' );
+    this._getMeasurement( 'gutter', 'outerWidth' );
+    this.measureColumns();
+
+    // reset column Y
+    var i = this.cols;
+    this.colYs = [];
+    while (i--) {
+      this.colYs.push( 0 );
+    }
+
+    this.maxY = 0;
+  };
+
+  Masonry.prototype.measureColumns = function() {
+    this.getContainerWidth();
+    // if columnWidth is 0, default to outerWidth of first item
+    if ( !this.columnWidth ) {
+      var firstItem = this.items[0];
+      var firstItemElem = firstItem && firstItem.element;
+      // columnWidth fall back to item of first element
+      this.columnWidth = firstItemElem && getSize( firstItemElem ).outerWidth ||
+        // if first elem has no width, default to size of container
+        this.containerWidth;
+    }
+
+    var columnWidth = this.columnWidth += this.gutter;
+
+    // calculate columns
+    var containerWidth = this.containerWidth + this.gutter;
+    var cols = containerWidth / columnWidth;
+    // fix rounding errors, typically with gutters
+    var excess = columnWidth - containerWidth % columnWidth;
+    // if overshoot is less than a pixel, round up, otherwise floor it
+    var mathMethod = excess && excess < 1 ? 'round' : 'floor';
+    cols = Math[ mathMethod ]( cols );
+    this.cols = Math.max( cols, 1 );
+  };
+
+  Masonry.prototype.getContainerWidth = function() {
+    // container is parent if fit width
+    var container = this.options.isFitWidth ? this.element.parentNode : this.element;
+    // check that this.size and size are there
+    // IE8 triggers resize on body size change, so they might not be
+    var size = getSize( container );
+    this.containerWidth = size && size.innerWidth;
+  };
+
+  Masonry.prototype._getItemLayoutPosition = function( item ) {
+    item.getSize();
+    // how many columns does this brick span
+    var remainder = item.size.outerWidth % this.columnWidth;
+    var mathMethod = remainder && remainder < 1 ? 'round' : 'ceil';
+    // round if off by 1 pixel, otherwise use ceil
+    var colSpan = Math[ mathMethod ]( item.size.outerWidth / this.columnWidth );
+    colSpan = Math.min( colSpan, this.cols );
+
+    var colGroup = this._getColGroup( colSpan );
+    // get the minimum Y value from the columns
+    var minimumY = Math.min.apply( Math, colGroup );
+    var shortColIndex = indexOf( colGroup, minimumY );
+
+    // position the brick
+    var position = {
+      x: this.columnWidth * shortColIndex,
+      y: minimumY
+    };
+
+    // apply setHeight to necessary columns
+    var setHeight = minimumY + item.size.outerHeight;
+    var setSpan = this.cols + 1 - colGroup.length;
+    for ( var i = 0; i < setSpan; i++ ) {
+      this.colYs[ shortColIndex + i ] = setHeight;
+    }
+
+    return position;
+  };
+
+  /**
+   * @param {Number} colSpan - number of columns the element spans
+   * @returns {Array} colGroup
+   */
+  Masonry.prototype._getColGroup = function( colSpan ) {
+    if ( colSpan < 2 ) {
+      // if brick spans only one column, use all the column Ys
+      return this.colYs;
+    }
+
+    var colGroup = [];
+    // how many different places could this brick fit horizontally
+    var groupCount = this.cols + 1 - colSpan;
+    // for each group potential horizontal position
+    for ( var i = 0; i < groupCount; i++ ) {
+      // make an array of colY values for that one group
+      var groupColYs = this.colYs.slice( i, i + colSpan );
+      // and get the max value of the array
+      colGroup[i] = Math.max.apply( Math, groupColYs );
+    }
+    return colGroup;
+  };
+
+  Masonry.prototype._manageStamp = function( stamp ) {
+    var stampSize = getSize( stamp );
+    var offset = this._getElementOffset( stamp );
+    // get the columns that this stamp affects
+    var firstX = this.options.isOriginLeft ? offset.left : offset.right;
+    var lastX = firstX + stampSize.outerWidth;
+    var firstCol = Math.floor( firstX / this.columnWidth );
+    firstCol = Math.max( 0, firstCol );
+    var lastCol = Math.floor( lastX / this.columnWidth );
+    // lastCol should not go over if multiple of columnWidth #425
+    lastCol -= lastX % this.columnWidth ? 0 : 1;
+    lastCol = Math.min( this.cols - 1, lastCol );
+    // set colYs to bottom of the stamp
+    var stampMaxY = ( this.options.isOriginTop ? offset.top : offset.bottom ) +
+      stampSize.outerHeight;
+    for ( var i = firstCol; i <= lastCol; i++ ) {
+      this.colYs[i] = Math.max( stampMaxY, this.colYs[i] );
+    }
+  };
+
+  Masonry.prototype._getContainerSize = function() {
+    this.maxY = Math.max.apply( Math, this.colYs );
+    var size = {
+      height: this.maxY
+    };
+
+    if ( this.options.isFitWidth ) {
+      size.width = this._getContainerFitWidth();
+    }
+
+    return size;
+  };
+
+  Masonry.prototype._getContainerFitWidth = function() {
+    var unusedCols = 0;
+    // count unused columns
+    var i = this.cols;
+    while ( --i ) {
+      if ( this.colYs[i] !== 0 ) {
+        break;
+      }
+      unusedCols++;
+    }
+    // fit container to columns that have been used
+    return ( this.cols - unusedCols ) * this.columnWidth - this.gutter;
+  };
+
+  Masonry.prototype.needsResizeLayout = function() {
+    var previousWidth = this.containerWidth;
+    this.getContainerWidth();
+    return previousWidth !== this.containerWidth;
+  };
+
+  return Masonry;
+
+}));
+

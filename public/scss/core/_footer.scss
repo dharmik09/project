@@ -1,69 +1,109 @@
-footer{
+footer {
     background-color: $dark;
     padding: 50px 0;
-    color:$light;
-    font-size:16px;
-    font-family:'hb';
+    color: $light;
+    font-size: 16px;
+    font-family: 'hb';
     @include maxsm {
         padding: 20px 0;
         text-align: center
     }
-    a{
-        text-decoration:none;
-        color:$light;
+    a {
+        text-decoration: none;
+        color: $light;
     }
-    ul{padding:0;margin:0;list-style-type:none;}
-    li{
-        display:inline-block;
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
     }
-    .links{
-        li{
+    li {
+        display: inline-block;
+    }
+    .links {
+        li {
             border-right: 1px solid #616161;
-            padding:0 8px 0 5px;
-            &:last-child{border-right:none;}
-            &:first-child{padding-left: 0;}
-        }
-    }
-    .left{
-        span{
-            display:block;
-            padding-top:15px;
-        }
-    }
-    .social{
-        @include maxsm{margin-top: 20px;}
-        text-align:right;
-        @include maxsm{
-            text-align:center;
-         }
-        li{margin:0 10px;
-            &:last-child{
-                margin-right:0;
+            padding: 0 8px 0 5px;
+            &:last-child {
+                border-right: none;
+            }
+            &:first-child {
+                padding-left: 0;
             }
         }
-        a{
-            font-size:16px;
-            display:block;
-            text-decoration:none;
+    }
+    .left {
+        span {
+            display: block;
+            padding-top: 15px;
         }
     }
-    @include sm{
-        .left{float: left;}
-        .right{float: right;}
-    }
-
-
-    .store{
-        display:block;
+    .social {
+        @include maxsm {
+            margin-top: 20px;
+        }
         text-align:right;
-        padding-top:15px;
-         @include maxsm{
-            text-align:center;
-         }
-        a{
-            text-decoration:none;
-            margin-bottom: 15px;
-            display:inline-block;
+        @include maxsm {
+            text-align: center;
+        }
+        li {
+            margin: 0 10px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+        .icon-search {
+            width: 16px;
+            display: inline-block;
+            margin-right: -12px;
+            position: relative;
+            top: -13px;
+        }
+        .icon-img,
+        .icon-hover {
+
+            position: absolute;
+            left: -16px;
+        }
+        .icon-hover {
+            display: none;
+        }
+        a {
+            font-size: 16px;
+            display: block;
+            text-decoration: none;
+            position: relative;
         }
     }
+    @include sm {
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
+        }
+    }
+
+
+    .store {
+        display: block;
+        text-align: right;
+        padding-top: 15px;
+        @include maxsm {
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+    }
+}
+
+footer .social a:hover .icon-search .icon-img {
+    display: none;
+}
+
+footer .social a:hover .icon-search .icon-hover {
+    display: block;
 }

@@ -1045,6 +1045,27 @@
                         $('#quiz_material_popup').modal('hide');
                     }, time_out_question);
                     //Progressbar logic should be here
+                    function color_gen() {
+                        var hue = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+                        return hue;
+                    }
+                    $(".time_out_cst").css("background-color", color_gen());
+                    var current_width = 90;
+                    for (i = 0; i < 10; i++) {
+                        $(".time_out_cst").animate({
+                            width: current_width + "%",
+                            backgroundColor: color_gen()
+                        }, time_out_question / 10, "linear");
+
+                        current_width = current_width - 10;
+
+                        if (current_width < 10) {
+                            $(".time_out_cst").animate({
+                                width: current_width + "%",
+                                backgroundColor: "red"
+                            }, time_out_question / 10, "linear");
+                        }
+                    }
                 }
                 //Timer for question #####END#####
 
