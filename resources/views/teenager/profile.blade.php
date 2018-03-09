@@ -454,7 +454,7 @@
                                 <li class="<?php if ($achievementBadgeCount > 0 && $achievementBadges <= $achievementBadgeCount) { ?> point-cl <?php } ?>">
                                     <div class="point-tab">
                                         <i class="icon-badge"></i>
-                                        <span class="point">{{ Config::get('constant.ACHIEVEMENT_DISPLAY_BADGE_ARRAY')[$achievementBadges] }}<?php if($achievementBadges == 5) { ?>+<?php } ?></span>
+                                        <span class="point">{{ Config::get('constant.ACHIEVEMENT_DISPLAY_BADGE_ARRAY')[$achievementBadges] }}<?php if($achievementBadges == 5) { ?><em>+</em><?php } ?></span>
                                     </div>
                                     <p>Points <br>achieved</p>
                                 </li>
@@ -465,7 +465,7 @@
                             <li class="<?php if (isset($careerBadgeCount) && $careerBadges <= $careerBadgeCount) { ?> career-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">{{ Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY')[$careerBadges] }}<?php if($careerBadges == 5) { ?>+<?php } ?></span>
+                                    <span class="point">{{ Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY')[$careerBadges] }}<?php if($careerBadges == 5) { ?><em>+</em><?php } ?></span>
                                 </div>
                                 <p>careers<br> completed</p>
                             </li>
@@ -476,7 +476,7 @@
                             <li class="<?php if (isset($connectionBadgeCount) && $connectionBadges <= $connectionBadgeCount) { ?> connection-cl <?php } ?>">
                                 <div class="point-tab">
                                     <i class="icon-badge"></i>
-                                    <span class="point">{{ Config::get('constant.CONNECTION_BADGE_ARRAY')[$connectionBadges] }}<?php if($connectionBadges == 5) { ?>+<?php } ?></span>
+                                    <span class="point">{{ Config::get('constant.CONNECTION_BADGE_ARRAY')[$connectionBadges] }}<?php if($connectionBadges == 5) { ?><em>+</em><?php } ?></span>
                                 </div>
                                 <p>connections<br> made</p>
                             </li>

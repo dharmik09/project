@@ -582,7 +582,9 @@ class ProfileController extends Controller
             for ($achievementBadges = 1; $achievementBadges <= 5; $achievementBadges++) { 
                 $achievementChildData = [];
                 $achievementChildData['badge_name'] = 'POINTS ACHIEVED';
-                $achievementChildData['badge_point'] = Config::get('constant.ACHIEVEMENT_DISPLAY_BADGE_ARRAY')[$achievementBadges];
+                $sign = '';
+                if($achievementBadges == 5) { $sign = '+'; };
+                $achievementChildData['badge_point'] = Config::get('constant.ACHIEVEMENT_DISPLAY_BADGE_ARRAY')[$achievementBadges].$sign;
                 if ($achievementBadgeCount > 0 && $achievementBadges <= $achievementBadgeCount) { 
                     $achievementChildData['badge_active'] = 1;
                     $achievementChildData['badge_image'] = Storage::url('img/badge-orange.png');
@@ -604,7 +606,9 @@ class ProfileController extends Controller
             for ($careerBadges = 1; $careerBadges <= 5; $careerBadges++) { 
                 $careerChildData = [];
                 $careerChildData['badge_name'] = 'Careers Completed';
-                $careerChildData['badge_point'] = Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY')[$careerBadges];
+                $careerSign = '';
+                if($careerBadges == 5) { $careerSign = '+'; };
+                $careerChildData['badge_point'] = Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY')[$careerBadges].$careerSign;
                 if ($careerBadgeCount > 0 && $careerBadges <= $careerBadgeCount) { 
                     $careerChildData['badge_active'] = 1;
                     $careerChildData['badge_image'] = Storage::url('img/badge-blue.png');
@@ -626,7 +630,9 @@ class ProfileController extends Controller
             for ($connectionBadges = 1; $connectionBadges <= 5; $connectionBadges++) { 
                 $connChildData = [];
                 $connChildData['badge_name'] = 'CONNECTIONS MADE';
-                $connChildData['badge_point'] = Config::get('constant.CONNECTION_BADGE_ARRAY')[$connectionBadges];
+                $connSign = '';
+                if($connectionBadges == 5) { $connSign = '+'; };
+                $connChildData['badge_point'] = Config::get('constant.CONNECTION_BADGE_ARRAY')[$connectionBadges].$connSign;
                 if ($connectionBadgeCount > 0 && $connectionBadges <= $connectionBadgeCount) { 
                     $connChildData['badge_active'] = 1;
                     $connChildData['badge_image'] = Storage::url('img/badge-purple.png');
