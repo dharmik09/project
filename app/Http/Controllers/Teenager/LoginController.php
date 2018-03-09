@@ -56,15 +56,15 @@ class LoginController extends Controller
         if ($emailPhone != '' && $password != '') {
             if (!filter_var($emailPhone, FILTER_VALIDATE_EMAIL)) {
                 $teenager = $this->teenagersRepository->getTeenagerByMobile($emailPhone);
-                if(is_numeric($emailPhone) && $emailPhone > 0 && $emailPhone == round($emailPhone, 0) && isset($teenager['id'])) {
-                    if ($teenager['t_isverified'] == '1') {
-                        if (Auth::guard('teenager')->attempt(['t_email' => $teenager['t_email'], 'password' => $password, 'deleted' => 1], $rememberMe)) {
+                if(is_numeric($emailPhone) && $emailPhone > 0 && $emailPhone == round($emailPhone, 0) && isset($teenager->id)) {
+                    if ($teenager->t_isverified == '1') {
+                        if (Auth::guard('teenager')->attempt(['t_email' => $teenager->t_email, 'password' => $password, 'deleted' => 1], $rememberMe)) {
                             return redirect()->to(route('teenager.home'));
                         } else {
-                            return Redirect::to('/teenager/login')->with('error', trans('appmessages.invalid_user_pwd_msg'))->with('id', $teenager['id']);
+                            return Redirect::to('/teenager/login')->with('error', trans('appmessages.invalid_user_pwd_msg'))->with('id', $teenager->id);
                         }
                     } else {
-                        return Redirect::to('/teenager/login')->with('error', trans('appmessages.notvarified_user_msg'))->with('t_uniqueid', $teenager['t_uniqueid']);
+                        return Redirect::to('/teenager/login')->with('error', trans('appmessages.notvarified_user_msg'))->with('t_uniqueid', $teenager->t_uniqueid);
                     }
                 } else {
                     return Redirect::to('/teenager/login')->with('error', "Phone number is invalid!");
