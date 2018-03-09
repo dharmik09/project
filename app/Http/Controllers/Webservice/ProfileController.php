@@ -572,12 +572,12 @@ class ProfileController extends Controller
                 $connectionBadgeCount = Helpers::calculateBadgeCount(Config::get('constant.CONNECTION_BADGE_ARRAY'), $myConnectionsCount);
             }
 
+            $response['achievementsCount'] = $achievementBadgeCount + $careerBadgeCount + $connectionBadgeCount;
             //Achievement array
             $acheivementArr = [];
             $acheivementArr['type'] = "points_achieved";
             $acheivementArr['name'] = "Points Achieved";
             $acheivementArr['color'] = "#ff5f44";
-            $acheivementArr['achievementsCount'] = $achievementBadgeCount + $careerBadgeCount + $connectionBadgeCount;
             $acheivementArr['child_data'] = [];
             for ($achievementBadges = 1; $achievementBadges <= 5; $achievementBadges++) { 
                 $achievementChildData = [];
