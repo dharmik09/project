@@ -96,10 +96,12 @@ class ProfileController extends Controller
             }
 
             //Teenager Image
-            $teenager->t_photo_thumb = "";
-            if ($teenager->t_photo != '') {
+            if ($teenager->t_photo != '' && Storage::size($this->teenThumbImageUploadPath . $teenager->t_photo) > 0) {
                 $teenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . $teenager->t_photo);
                 $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . $teenager->t_photo);
+            } else {
+                $teenager->t_photo_thumb = Storage::url($this->teenThumbImageUploadPath . 'proteen-logo.png');
+                $teenager->t_photo = Storage::url($this->teenOriginalImageUploadPath . 'proteen-logo.png');
             }
             //Country info
             $teenager->c_code = ( isset(Country::getCountryDetail($teenager->t_country)->c_code) ) ? Country::getCountryDetail($teenager->t_country)->c_code : "";
