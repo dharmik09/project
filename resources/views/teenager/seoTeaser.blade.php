@@ -20,7 +20,7 @@
                    
                     <div class="col-sm-6">
                         <div class="btn-seo">
-                            <a class="btn btn-primary" href="{{ url('/teenager') }}">Did not find ? Sign-in to let us know &amp; win ProCoins!</a>
+                            <a class="btn btn-primary" href="{{ url('/teenager') }}">Did not find what you are looking for ? Sign-in to let us know and win ProCoins!</a>
                         </div>
                     </div>
                 </form>
