@@ -19,6 +19,7 @@
         <link href="{{ asset('/frontend/css/jquery.mCustomScrollbar.min.css')}}" rel="stylesheet">
         <link href="{{ asset('/frontend/css/font.css')}}" rel="stylesheet">
         <link href="{{ asset('/frontend/css/style.css')}}" rel="stylesheet">
+        <!-- <link href="{{ asset('/frontend/css/style-1.css')}}" rel="stylesheet"> -->
         <link href="{{ asset('/frontend/css/custom.css')}}" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-32x32.png')}}" sizes="32x32" />
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-16x16.png')}}" sizes="16x16" />
@@ -131,7 +132,6 @@
                 </div>
             </div>
         </div>
-
         @endif
         @yield('content')
         @if(Auth::guard('parent')->check())
