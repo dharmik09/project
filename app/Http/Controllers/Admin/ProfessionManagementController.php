@@ -28,6 +28,7 @@ use App\ProfessionWiseSubject;
 use App\ProfessionTag;
 use App\ProfessionWiseTag;
 use App\Country;
+use App\ProfessionSchoolCourse;
 
 class ProfessionManagementController extends Controller {
 
@@ -58,6 +59,7 @@ class ProfessionManagementController extends Controller {
         $this->objCountry = new Country;
         $this->loggedInUser = Auth::guard('admin');
         $this->objNotifications = new Notifications();
+        $this->objProfessionSchoolCourse = new ProfessionSchoolCourse();
     }
 
     public function index() {
@@ -555,6 +557,98 @@ class ProfessionManagementController extends Controller {
             return Redirect::to("admin/professions")->with('success', trans('labels.professionwisetagbulkuploadsuccess'));
         } else {
             return Redirect::to("admin/professions")->with('error', trans('labels.commonerrormessage'));
+        }
+    }
+
+    public function professionSchoolCourse() {
+        $professionSchoolData = $this->objProfessionSchoolCourse->getAllProfessionSchool();
+        return view('admin.ListProfessionSchool', compact('professionSchoolData'));
+    }
+
+    public function professionSchoolCourseListAdd() {
+        return view('admin.AddProfessionSchoolList');
+    }
+    
+    public function professionSchoolCourseListSave() {
+        $response = '';        
+        $path = Input::file('ps_bulk')->getRealPath();
+        $results = Excel::load($path, function($reader) {})->get();
+        
+        $uploadType = Input::get('ps_upload_type');
+        if($uploadType == 1) // Upload Basic information
+        {
+            if(!isset($results[0]->id) || !isset($results[0]->state) || !isset($results[0]->college_institution) || !isset($results[0]->address_line1) || !isset($results[0]->address_line2) || !isset($results[0]->city) || !isset($results[0]->district) || !isset($results[0]->pin_code) || !isset($results[0]->website) || !isset($results[0]->year_of_establishment) || !isset($results[0]->affiliat_university) || !isset($results[0]->year_of_affiliation) || !isset($results[0]->location) || !isset($results[0]->latitude) || !isset($results[0]->longitude) || !isset($results[0]->type) || !isset($results[0]->management) || !isset($results[0]->speciality) || !isset($results[0]->girl_exclusive) || !isset($results[0]->hostel_count)){
+                return Redirect::to("admin/professionSchool")->with('error', trans('labels.professionschoollistcolumnnotfoundbasicinformation'));
+            }
+            foreach ($results as $key => $value) {
+                $schoolData = $this->objProfessionSchoolCourse->getProfessionSchoolBySchoolId($value->id);
+                
+                if($schoolData){
+                    $data['id'] = $schoolData->id;
+                }
+
+                $data['school_id'] = $value->id;
+                $data['state'] = $value->state;
+                $data['college_institution'] = $value->college_institution;
+                $data['address_line1'] = $value->address_line1;
+                $data['address_line2'] = $value->address_line2;
+                $data['city'] = $value->city;
+                $data['district'] = $value->district;
+                $data['pin_code'] = $value->pin_code;
+                $data['website'] = $value->website;
+                $data['year_of_establishment'] = $value->year_of_establishment;
+                $data['affiliat_university'] = $value->affiliat_university;
+                $data['year_of_affiliation'] = $value->year_of_affiliation;
+                $data['location'] = $value->location;
+                $data['latitude'] = $value->latitude;
+                $data['longitude'] = $value->longitude;
+                $data['type'] = $value->type;
+                $data['management'] = $value->management;
+                $data['speciality'] = $value->speciality;
+                $data['girl_exclusive'] = $value->girl_exclusive;
+                $data['hostel_count'] = $value->hostel_count;
+                $response = $this->objProfessionSchoolCourse->insertUpdate($data);
+            }
+            
+            if($response) {
+                return Redirect::to("admin/professionSchool")->with('success', trans('labels.professionschoollistuploadsuccess'));
+            } else {
+                return Redirect::to("admin/professionSchool")->with('error', trans('labels.commonerrormessage'));
+            }
+        }
+        elseif($uploadType == 2) // Upload Accreditation
+        {
+            if(!isset($results[0]->id) || !isset($results[0]->name) || !isset($results[0]->survey_year) || !isset($results[0]->is_accredited) || !isset($results[0]->has_score) || !isset($results[0]->accreditation_body) || !isset($results[0]->max_score) || !isset($results[0]->score)){
+                return Redirect::to("admin/professionSchool")->with('error', trans('labels.professionschoollistcolumnnotfoundaccreditation'));
+            }
+            $notFoundSchool = [];
+            foreach ($results as $key => $value) {
+                $schoolData = $this->objProfessionSchoolCourse->getProfessionSchoolBySchoolId($value->id);
+                if($schoolData){
+                    
+                    $data['id'] = $schoolData->id;
+                    $data['is_accredited'] = $value->is_accredited;
+                    $data['accreditation_body'] = $value->accreditation_body;
+
+                    $response = $this->objProfessionSchoolCourse->insertUpdate($data);
+                }
+                else{
+                    $notFoundSchool[] = $value->name;
+                }
+
+            }
+
+            if($response) {
+                if(count($notFoundSchool)>0){
+                    $notFoundSchoolImplode = implode(', ', $notFoundSchool);
+                    return Redirect::to("admin/professionSchool")->with('success', $notFoundSchoolImplode.' '.trans('labels.professionschoollistuploadsuccesswithnotfound'));
+                }
+                else{
+                    return Redirect::to("admin/professionSchool")->with('success', trans('labels.professionschoollistuploadsuccess'));
+                }
+            } else {
+                return Redirect::to("admin/professionSchool")->with('error', trans('labels.commonerrormessage'));
+            }
         }
     }
 }

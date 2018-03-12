@@ -428,6 +428,13 @@
                                         </a>
                                     </li>
                                 </ul>
+                            </li>   
+
+                            <li class="{{ (Request::is('admin/addProfessionSchoolCourseList') || Request::is('admin/saveProfessionSchoolCourseList')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/professionSchool') }}">
+                                    <i class="fa fa-dashboard"></i> 
+                                    <span>{{trans('labels.lblschool')}}</span>
+                                </a>
                             </li>                           
                                               
                     </ul>

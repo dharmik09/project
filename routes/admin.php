@@ -478,3 +478,8 @@ Route::post('/saveForumQuestion', 'Admin\ForumQuestionManagementController@save'
 Route::get('/editForumQuestion/{id}', 'Admin\ForumQuestionManagementController@edit');
 Route::get('/deleteForumQuestion/{id}', 'Admin\ForumQuestionManagementController@delete');
 Route::get('/changeanswerstatus/{ansId}/{status}', 'Admin\ForumQuestionManagementController@changeAnswerStatus');
+
+//School import
+Route::get('/professionSchool', 'Admin\ProfessionManagementController@professionSchoolCourse');
+Route::get('/addProfessionSchoolCourseList', 'Admin\ProfessionManagementController@professionSchoolCourseListAdd');
+Route::post('/saveProfessionSchoolCourseList', 'Admin\ProfessionManagementController@professionSchoolCourseListSave');
