@@ -10,7 +10,7 @@
         <!-- mid section-->
         <div class="container">
             <section class="career-detail">
-                <form>
+                <form class="clearfix">
                     <div class="col-sm-6">
                         <div class="form-group search-bar clearfix">
                             <input type="text" placeholder="search career..." value="" tabindex="1" id="autocomplete" class="form-control search-feild">
@@ -23,8 +23,10 @@
                             <a class="btn btn-primary" href="{{ url('/teenager') }}">Did not find what you are looking for ? Sign-in to let us know and win ProCoins!</a>
                         </div>
                     </div>
+                    
                 </form>
-               
+               <div class="sec-blank">
+               </div>
             </section>
         </div>
         <!-- mid section end-->

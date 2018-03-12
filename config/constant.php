@@ -263,7 +263,7 @@ return [
     'SEND_REFERENCEID_TO_PARENT' => 'teenager-reference-id',
     'VARIFY_USER_REQUEST' => 'admin-notification-mail',
     
-    'APP_LOGIC_CHAT_API_KEY' => '11d788d9a03a822217519de31f0280ca3',
+    'APP_LOGIC_CHAT_API_KEY' => '3eafc44b06cfa453fecab5014b5cd886a',
 
     'ENTERPRISE_SIGNUP_REQUEST' => 'enterprise-signup-request',
 

@@ -80,8 +80,9 @@ nav {
         text-align: center;
         position: relative;
         h2{
-            display: inline-block;
-            margin-right: 30%;
+            display: block;
+           /*  margin-right: 30%; */
+           color: $p-cl;
         }
     }
     ul {
@@ -116,7 +117,7 @@ nav {
             &:before {
                 position: absolute;
                 content: '';
-                background-image: url(../img/menu-rocket.png);
+                background-image: url(https://proteenlive-old.s3.ap-south-1.amazonaws.com/img/menu-rocket.png);
                 background-repeat: no-repeat;
                 background-size: contain;
                 width: 201px;
