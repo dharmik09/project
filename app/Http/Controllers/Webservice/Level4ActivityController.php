@@ -703,7 +703,8 @@ class Level4ActivityController extends Controller {
                             $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
                         }
                     } else {
-                        $intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
+                    	$intermediateActivitiesData->question_images = [];
+                        //$intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
                     }
 
                     //Set question youtube video
