@@ -19,6 +19,7 @@
         <link href="{{ asset('/frontend/css/owl.carousel.css')}}" rel="stylesheet" >
         <link href="{{ asset('/frontend/css/font.css')}}" rel="stylesheet">
         <link href="{{ asset('/frontend/css/style.css')}}" rel="stylesheet">
+        <link href="{{asset('css/style.css')}}" rel="stylesheet">
         <link href="{{ asset('/frontend/css/custom.css')}}" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-32x32.png')}}" sizes="32x32" />
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-16x16.png')}}" sizes="16x16" />
@@ -26,78 +27,74 @@
     </head>
     <body>
         @if(Auth::guard('school')->check())
-        <div class="navbar navbar-cst">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                </button>
-                <a class="navbar-brand" href="{{url('school/home')}}"><img src="{{ Storage::url('frontend/images/proteen_logo.png')}}" alt=""></a>
-            </div>
-            <div class="navbar-collapse collapse navbar-responsive-collapse ">
-                <ul class="nav nav_basic navbar-nav navbar-right home_page_navigation non_teen">
-                    <li class="{{(Route::getFacadeRoot()->current()->uri() == 'school/update-profile')? 'active':''}}"><a href="{{url('/school/update-profile')}}">My Profile</a></li>
-                    <li class="{{(Route::getFacadeRoot()->current()->uri() == 'school/home')? 'active':''}}"><a href="{{url('/school/home')}}">My Student</a></li>
-                    <li class="{{(Route::getFacadeRoot()->current()->uri() == 'school/progress')? 'active':''}}"><a href="{{url('/school/progress')}}">Progress</a></li>
-                    <li class="{{(Route::getFacadeRoot()->current()->uri() == 'school/get-gift-coins' || Route::getFacadeRoot()->current()->uri() == 'school/history')? 'active':''}}"><a href="{{ url('school/get-gift-coins') }}">My ProCoins </a></li>
-                    <li class="user_avatar">
-                        <a href="#" class="drop_down_menu">
-                           <span class="user_detail_name">{{Auth::guard('school')->user()->sc_first_name}}</span>
-                            <?php
-                             $photo = Auth::guard('school')->user()->sc_photo;
-                             
-                             if ($photo != '' && isset($photo)) {
-                                $profilePicUrl = Storage::url(Config::get('constant.CONTACT_PERSON_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo);
-                               } else {
-                                $profilePicUrl = Storage::url(Config::get('constant.CONTACT_PERSON_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
-                               }                                                            
-                              ?>
-                            <img class="user_detail_image" src="{{ $profilePicUrl }}" alt="">
-
-                        </a>
-                        <ul class="navigation_prime menu_dropdown" style="display: none;">
-                            <form id="logout-form" action="{{ url('/school/logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                            <li>
-                                <a href="{{url('/school/logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-        @else
-        <div class="navbar navbar-cst home_header_navigation">
+        <nav>
             <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                    </button>
-                    <a class="navbar-brand" href="/"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></a>
-                    <span class="brand_tag sticky_tag">Explore<i class="fa fa-circle" aria-hidden="true"></i>Experience<i class="fa fa-circle" aria-hidden="true"></i>Enjoy</span>
+                <div class="logo pull-left"><a href="#"><img src="../img/logo.png" alt=""></a></div>
+                <div class="menu-toggle pull-right">
+                    <ul class="nav-bar clearfix">
+                        <li class="n-user submenu-container">
+                            <a href="javascript:void(0);"><i class="i-user"><img src="../img/alex.jpg" alt=""></i></a>
+                            <div class="submenu">
+                                <div class="user-snapshot">
+                                    <div class="user-avatar"><img src="../img/alex.jpg" alt=""></div>
+                                    <div class="user-name">
+                                        <h2>Alex Murphy</h2>
+                                        <p>Alexmurphy@gmail.com</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><a href="#" class="btn btn-primary btn-small text-uppercase">Sign out</a></div>
+                            </div>
+                        </li>
+                        <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
+                    </ul>
                 </div>
-                <div class="navbar-collapse collapse navbar-responsive-collapse">
-                    <ul class="nav nav_basic navbar-nav navbar-right home_page_navigation">
-                        <li><a href="{{url('about')}}">About</a></li>
-                        <li><a href="{{url('watchVideo')}}" class="intro_video">Watch</a></li>
-                        <li>
-                            <a href="#" class="drop_down_menu">
-                                <span class="user_detail_name play_menu">Play <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+            </div>
+            <div class="main-menu">
+                <div class="menu-container">
+                    <ul>
+                        <li><a href="#" title="My Profile">My Profile</a></li>
+                        <li><a href="#" class="active" title="My Student">My Student</a></li>
+                        <li><a href="#" title="progress">progress</a></li>
+                        <li><a href="#" title="My procoins">My procoins</a></li>
+                    </ul>
+                    <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII="><a href="#" class="menu-close"><i class="icon-close"></i></a>
+                </div>
+            </div>
+        </nav>
+        @else
+        <nav class="fixed-navigation">
+            <div class="container">
+                <div class="logo pull-left">
+                    <a href="{{ url('/') }}">
+                        <img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}">
+                    </a>
+                </div>
+                <div class="menu-toggle pull-right">
+                    <ul class="nav-bar clearfix">
+                        <li class="n-menu">
+                            <a href="javascript:void(0);" class="menu-toggler">
+                                <i class="icon-menu"></i>
                             </a>
-                            <ul class="navigation_prime menu_dropdown product_drop" style="display: none;">
-                                <li><a href="{{url('teenager')}}">Teen</a></li>
-                                <li><a href="{{url('parent')}}">Parent</a></li>
-                                <li><a href="{{url('counselor')}}">Mentor</a></li>
-                                <li><a href="{{url('school')}}">School</a></li>
-                                <li><a href="{{url('sponsor')}}">Enterprise</a></li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
             </div>
-        </div>
+            <div class="main-menu bg-light">
+                <div class="menu-container">
+                    <ul>
+                        <li><a href="{{ url('/teenager') }}" title="Teen" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager', 'teenager/login', 'teenager/signup']) ? 'active' : ''}}">Student</a></li>
+                        <li><a href="{{ url('/parent') }}" title="Parent" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['parent', 'parent/login', 'parent/signup']) ? 'active' : ''}}">Parent</a></li>
+                        <li><a href="{{ url('/counselor') }}"  title="Mentor" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['counselor', 'counselor/login', 'counselor/signup']) ? 'active' : ''}}">Mentor</a></li>
+                        <li><a href="{{ url('/school') }}" title="School" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['school', 'school/login', 'school/signup']) ? 'active' : ''}}">School</a></li>
+                        <li><a href="{{ url('/sponsor') }}" title="Enterprise" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['sponsor', 'sponsor/login', 'sponsor/signup']) ? 'active' : ''}}">Enterprise</a></li>
+                            <!--<li><a href="{{ url('/team') }}" title="Team" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['team']) ? 'active' : ''}}">Team</a></li>
+                        <li><a href="{{ url('/contact-us') }}" title="Contact" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['contact-us']) ? 'active' : ''}}">Contact</a></li>-->
+                    </ul>
+                    <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">
+                    <a href="#" class="menu-close"><i class="icon-close"></i></a>
+                </div>
+            </div>
+        </nav>
         @endif
         @yield('content')
         @if(Auth::guard('school')->check())
@@ -129,6 +126,7 @@
         <script src="{{ asset('frontend/js/bootstrap.min.js')}}"></script>
         <script src="{{ asset('frontend/js/chosen.js')}}"></script>
         <script src="{{ asset('frontend/js/comman.js')}}"></script>
+        <script src="{{ asset('js/general.js') }}"></script>
         <script src="{{ asset('frontend/js/owl.carousel.min.js')}}"></script>
         <script src="{{ asset('frontend/js/jquery.mCustomScrollbar.min.js') }}"></script>
         <script src="{{ asset('frontend/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
