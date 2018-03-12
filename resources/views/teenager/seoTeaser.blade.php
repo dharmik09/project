@@ -10,7 +10,7 @@
         <!-- mid section-->
         <div class="container">
             <section class="career-detail">
-                <form>
+                <form class="clearfix">
                     <div class="col-sm-6">
                         <div class="form-group search-bar clearfix">
                             <input type="text" placeholder="search career..." value="{{$slug or ''}}" tabindex="1" id="autocomplete" class="form-control search-feild">

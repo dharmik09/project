@@ -2,6 +2,12 @@ body{font-family: 'h';font-size: 14px;color:#000;}
 .dt{display:table;height: 100%;width:100%;}
 .dtc{display:table-cell;height: 100%;width:100%;vertical-align: middle;}
 .mar15{margin: 15px 0;}
+.sec-blank{
+	height: 500px;position: relative;background: $bg-offwhite;
+	@include maxsm{
+		height: 300px;
+	}
+}
 @include maxsm {
 	.table-responsive{border:none}
 }
@@ -9,6 +15,7 @@ body{font-family: 'h';font-size: 14px;color:#000;}
 @include lg{
 	.container{width: 1170px;}
 }
+
 @media (min-width: 1270px) {
 	.container{width: 1230px;}
 }

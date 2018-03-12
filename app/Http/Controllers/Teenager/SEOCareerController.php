@@ -56,7 +56,12 @@ class SEOCareerController extends Controller {
 
     public function careers(){
         $professionRandom = $this->professions->getRandomProfession();
-        return redirect('career-detail/'.$professionRandom->pf_slug);       
+        
+        //get all profession data for search
+        $allProfessions = $this->professions->getActiveProfessions();  
+        
+        return view('teenager.seoTeaserSearch',compact('allProfessions'));
+        //return redirect('career-detail/'.$professionRandom->pf_slug);       
     }
 
     public function careerDetails($slug)

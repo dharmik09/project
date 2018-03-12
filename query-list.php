@@ -487,3 +487,37 @@ ALTER TABLE `pro_l4aapa_level4_profession_progress` MODIFY `id` int(11) NOT NULL
 // Add new fields for profile completion calculations ## 26-02-2018
 ALTER TABLE `pro_t_teenagers` ADD `t_progress_calculations` INT(3) NOT NULL DEFAULT '0' AFTER `t_about_info`;
 ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0' AFTER `t_progress_calculations`;
+
+
+// Add new table for profile school course ## 12-03-2018 Jaimin
+  CREATE TABLE `pro_psc_profession_school_course` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `school_id` varchar(255) NOT NULL,
+ `state` varchar(20) DEFAULT NULL,
+ `college_institution` varchar(255) DEFAULT NULL,
+ `address_line1` varchar(255) DEFAULT NULL,
+ `address_line2` varchar(255) DEFAULT NULL,
+ `city` varchar(100) DEFAULT NULL,
+ `district` varchar(50) DEFAULT NULL,
+ `pin_code` varchar(6) DEFAULT NULL,
+ `website` varchar(255) DEFAULT NULL,
+ `year_of_establishment` varchar(4) DEFAULT NULL,
+ `affiliat_university` varchar(255) DEFAULT NULL,
+ `year_of_affiliation` varchar(4) DEFAULT NULL,
+ `location` varchar(4) DEFAULT NULL,
+ `latitude` varchar(10) DEFAULT NULL,
+ `longitude` varchar(10) DEFAULT NULL,
+ `type` varchar(100) DEFAULT NULL,
+ `management` varchar(100) DEFAULT NULL,
+ `speciality` varchar(255) DEFAULT NULL,
+ `girl_exclusive` varchar(10) DEFAULT NULL,
+ `hostel_count` varchar(10) DEFAULT NULL,
+ `minimum_fee` varchar(255) DEFAULT NULL,
+ `maximum_fee` varchar(255) DEFAULT NULL,
+ `is_accredited` tinyint(4) DEFAULT NULL COMMENT '1 - True, 2 - False',
+ `accreditation_body` varchar(255) DEFAULT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL,
+ `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted ',
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=latin1
