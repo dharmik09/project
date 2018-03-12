@@ -100,6 +100,13 @@
                         </div>
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests">
+                            <div class="data-explainations clearfix data-interest">
+                                <div class="content">
+                                    <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
+                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
+                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
+                                </div>
+                            </div>
                             <h2><a href="{{ url('/teenager/my-careers') }}" title="My Careers" class="heading-tag">My Careers </a><span></span><span class="sec-popup"><a id="dashboard-my-career" href="javascript:void(0);" onmouseover="getHelpText('dashboard-my-career')" data-trigger="hover" data-popover-content="#dash-my-career" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="hide" id="dash-my-career">
                                 <div class="popover-data">
