@@ -51,7 +51,7 @@
             <h1><span class="title_border">{{trans('labels.consumedcoins')}}</span></h1>
 
         </div>
-        <div class="my_teens_content clearfix">
+        <!-- <div class="my_teens_content clearfix">
             <div class="button_container">
                 <div class="submit_register">
                     <ul class="tab">
@@ -194,8 +194,123 @@
               </div>
                         <div class="mySearch_area"></div>
             </div>
-        </div>
+        </div> -->
+          <!--sec-consumption-->
+        <section class="sec-progress sec-consumption">
+            <div class="container">
+                <div class="bg-white my-progress procoins-gift">
+                    <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
+                        <li class="active custom-tab col-xs-4 tab-color-1"><a data-toggle="tab" href="#menu1"><span class="dt"><span class="dtc">Promise Plus</span></span></a></li>
+                        <li class="custom-tab col-xs-4 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">Learning Guidance</span></span></a></li>
+                        <li class="custom-tab col-xs-4 tab-color-3"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">L4 Concept Template</span></span></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="menu1" class="tab-pane fade in active">
+                           <div class="gift-search">
+                                    <div class="procoin-form gift-form">
+                                        <form>
+                                            <div class="form-group search-bar clearfix">
+                                                <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
+                                                <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            <div class="gift-table table-responsive consumption-table">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Transaction ID</th>
+                                            <th>Paid Amount</th>
+                                            <th>Currency</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <div class="no-data">
+                                    <div class="data-content">
+                                        <div>
+                                            <i class="icon-empty-folder"></i>
+                                        </div>
+                                        <p>No data found</p>
+                                    </div>
+                                    <div class="sec-bttm"></div>
+                                </div>
+                            </div>
 
+                        </div>
+                        <div id="menu2" class="tab-pane fade">
+                            <div class="gift-table table-responsive consumption-table">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Transaction ID</th>
+                                            <th>Paid Amount</th>
+                                            <th>Currency</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                    </tbody>
+                                </table>
+                                <div class="no-data">
+                                    <div class="data-content">
+                                        <div>
+                                            <i class="icon-empty-folder"></i>
+                                        </div>
+                                        <p>No data found</p>
+                                    </div>
+                                    <div class="sec-bttm"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="menu3" class="tab-pane fade">
+                           <div class="gift-search">
+                                    <div class="procoin-form gift-form">
+                                        <form>
+                                            <div class="form-group search-bar clearfix">
+                                                <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
+                                                <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            <div class="gift-table table-responsive consumption-table">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Transaction ID</th>
+                                            <th>Paid Amount</th>
+                                            <th>Currency</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                    </tbody>
+                                </table>
+                                <div class="no-data">
+                                    <div class="data-content">
+                                        <div>
+                                            <i class="icon-empty-folder"></i>
+                                        </div>
+                                        <p>No data found</p>
+                                    </div>
+                                    <div class="sec-bttm"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--sec-consumption end-->
     </div>
 </div>
 @stop

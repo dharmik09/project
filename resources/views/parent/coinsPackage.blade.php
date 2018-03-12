@@ -61,11 +61,11 @@
                         </div>
                     </div>
                 </div>
-            <div class="col-md-10 col-sm-12 col-md-offset-1">
+            <div class="col-md-12 col-sm-12">
                 <div class="pricing_title">
                     <h1><span class="title_border">{{trans('labels.pcoinsp')}}</span></h1>
                 </div>
-                <div class="pricing_box">
+                <!-- <div class="pricing_box">
                     <div class="row">
                         @if(isset($coinsDetail) && !empty($coinsDetail))
                         <?php $column_count = 1; ?>
@@ -139,6 +139,42 @@
                             </span>
                         </div>
                        @endif
+                    </div>
+                </div> -->
+                <div class="sec-procoins">
+                    <div class="list-procoins">
+                        <div class="row flex-container">
+                            <div class="col-sm-6 flex-items">
+                                <div class="block-procoins">
+                                    <div class="coin-info">
+                                        <div class="icon">
+                                            <img src="../img/img-diamond.png" alt="img diamond">
+                                        </div>
+                                        <h4>Platinum</h4>
+                                        <h2 class="price"><span class="rupee-symbol"><!--<img src="img/rupee-symbol.png" alt="rupee symbol">--><i class="fa fa-inr"></i></span>720</h2>
+                                        <div class="procoins-value">350,000 <span>ProCoins</span>
+                                        </div>
+                                        <p>60 days validity (2x Gold Pack!) • Includes 185,000 ProCoins for free features • Includes 165,000 ProCoins for Paid features (2,5x Gold Pack!)</p>
+                                    </div>
+                                    <a href="#" title="Buy" class="btn btn-primary">Buy</a>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 flex-items">
+                                <div class="block-procoins">
+                                    <div class="coin-info">
+                                        <div class="icon">
+                                            <img src="../img/img-gold.png" alt="img gold">
+                                        </div>
+                                        <h4>Gold</h4>
+                                        <h2 class="price"><span class="dollar-symbol"><!--<img src="img/dollar-symbol.png" alt="dollar symbol">-->$</span>360</h2>
+                                        <div class="procoins-value">250,000 <span>ProCoins</span>
+                                        </div>
+                                        <p>30 days validity • Includes 185,000 ProCoins for free features • Includes 65,000 ProCoins for Paid features</p>
+                                    </div>
+                                    <a href="#" title="Buy" class="btn btn-primary">Buy</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
