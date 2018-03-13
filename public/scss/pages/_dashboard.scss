@@ -171,7 +171,7 @@ h6 {
             line-height: 30px;
             font-family: 'hn-b';
             color: $p-cl;
-            margin-bottom: 45px;
+            margin-bottom: 35px;
             @include maxsm {
                 font-size: 22px;
                 margin-bottom: 35px;
@@ -249,6 +249,10 @@ h6 {
         }
         .loader-btn{
             text-align: center !important; margin-top: 5px !important;
+        }
+        .unbox-btn{
+            margin-bottom: 25px;
+            span.coins-outer.career_coins{margin-left: -5px;}
         }
     }
     .my_career_tab {
@@ -714,3 +718,4 @@ h6 {
     float: right;
     margin-top: 8px;
     margin-right: 11px;}
+.dashbord_view_right .my_interests .custom-modal .modal-body p{text-align: left;margin-top: 0;}

@@ -699,11 +699,12 @@ class Level4ActivityController extends Controller {
                     $getQuestionImage = $this->level4ActivitiesRepository->getQuestionMultipleImages($intermediateActivitiesData->activityID);
                     if (isset($getQuestionImage) && !empty($getQuestionImage)) {
                         foreach ($getQuestionImage as $key => $image) {
-                            $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = ( $image['image'] != "" && Storage::size($this->questionDescriptionORIGINALImage . $image['image']) > 0 ) ? Storage::url($this->questionDescriptionORIGINALImage . $image['image']) : Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png');
+                            $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = ( $image['image'] != "" && Storage::size($this->questionDescriptionTHUMBImage . $image['image']) > 0 ) ? Storage::url($this->questionDescriptionTHUMBImage . $image['image']) : Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
                             $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
                         }
                     } else {
-                        $intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
+                    	$intermediateActivitiesData->question_images = [];
+                        //$intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
                     }
 
                     //Set question youtube video
@@ -716,7 +717,7 @@ class Level4ActivityController extends Controller {
                     }
 
                     //Popup image
-                    $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "") ? (Storage::size($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) :  Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png') : "";
+                    $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "") ? (Storage::size($this->questionDescriptionTHUMBImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionTHUMBImage . $intermediateActivitiesData->l4ia_question_popup_image) :  Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png') : "";
                     //Popup description
                     $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
                     

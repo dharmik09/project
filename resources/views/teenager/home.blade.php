@@ -163,7 +163,19 @@
                         <!-- das_your_profile End -->
                         <div class="das_your_profile my_interests my_network_cont">
                             <h2>
-                            <a href="{{ url('/teenager/my-network') }}" title="My Network" class="heading-tag">My Network</a>
+                            <a href="{{ url('/teenager/my-network') }}" title="My Network" class="heading-tag">My Network
+                            </a>
+                            <span class="sec-popup">
+                                <a id="dashboard-network" href="javascript:void(0);" onmouseover="getHelpText('dashboard-network')" data-trigger="hover" data-popover-content="#network" class="help-icon" rel="popover" data-placement="bottom">
+                                    <i class="icon-question"></i>
+                                </a>
+                            </span>
+                            <div class="hide" id="network">
+                                <div class="popover-data">
+                                    <a class="close popover-closer"><i class="icon-close"></i></a> 
+                                    <span class="dashboard-network"></span>
+                                </div>
+                            </div>
                             </h2>
                             <div class="row flex-container">
                                 <?php $countNetwork = 0; ?>
@@ -274,6 +286,14 @@
                              </div>
                             </div>
                             <h2>My likely fit<span></span><span class="sec-popup"><a id="dashboard-career-consider" href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#home-career-consider" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <div class="unbox-btn">
+                                <a id="career_unbox" href="javascript:void(0)" title="Unbox Me" @if($remainingDaysForCareerConsider <= 0) onclick="getCareersConsiderDetails('{{Auth::guard('teenager')->user()->t_coins}}', '{{ $componentsCareerConsider->pc_required_coins }}');" @endif class="btn-primary" data-toggle="modal" >
+                                    <span class="unbox-me">Unbox Me</span>
+                                    <span class="coins-outer career_coins">
+                                        <span class="coins"></span> {{ ($remainingDaysForCareerConsider > 0) ? $remainingDaysForCareerConsider . ' days left' : $componentsCareerConsider->pc_required_coins }}
+                                    </span>
+                                </a>
+                            </div>
                             <div class="hide" id="home-career-consider">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -306,6 +326,25 @@
                     </div>
                 </div>
                 @endforelse
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="coinsConsumption" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    <h4 id="career_title" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id="career_message"></p>
+                    <p id="career_sub_message"></p>
+                </div>
+                <div class="modal-footer">
+                    <a id="career_buy" href="{{ url('teenager/buy-procoins') }}" type="submit" class="btn btn-primary btn-next" style="display: none;">buy</a>
+                    <button id="career_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins({{$componentsCareerConsider->pc_required_coins}});" style="display: none;" >ok </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -471,7 +510,9 @@
         e.preventDefault();
         getTeenagerInterestData("{{Auth::guard('teenager')->user()->id}}");
         getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
-        getCareerConsideration("{{Auth::guard('teenager')->user()->id}}");
+        <?php if ($remainingDaysForCareerConsider > 0) { ?>
+            getCareerConsideration("{{Auth::guard('teenager')->user()->id}}");
+        <?php } ?>
    });
 
     function getTeenagerInterestData(teenagerId) {
@@ -585,6 +626,57 @@
                     $('#user_progress').html(response.progress);
                     $('#user_total_point').html(response.totalpoint);
                     $('#user_procoins').html(response.procoins);
+                }
+            }
+        });
+    }
+
+    function getCareersConsiderDetails(teenCoins, consumeCoins) {
+        var teenagerCoins = parseInt(teenCoins);
+        var consumeCoins = parseInt(consumeCoins);
+        <?php 
+        if ($remainingDaysForCareerConsider > 0) { ?>
+            $("#career_coins").html("");
+            $("#career_coins").html('<span class="coins"></span>' + "{{$remainingDaysForCareerConsider}}" + " days left");
+        <?php 
+        } else { ?>
+            if (consumeCoins > teenagerCoins) {
+                $("#career_buy").show();
+                $("#career_title").text("Notification!");
+                $("#career_message").text("You don't have enough ProCoins. Please Buy more.");
+            } else {
+                $("#career_consume_coin").show();
+                $("#career_title").text("Congratulations!");
+                $("#career_message").text("You have " + format(teenagerCoins) + " ProCoins available.");
+                $("#career_sub_message").text("Click OK to consume your " + format(consumeCoins) + " ProCoins and play on");
+            }
+            $('#coinsConsumption').modal('show');
+        <?php } ?>
+    }
+
+    function format(x) {
+        return isNaN(x)?"":x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function saveConsumedCoins(consumedCoins) {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + "{{Config::get('constant.CAREER_TO_CONSIDER')}}" + "&professionId=" + 0;
+        $.ajax({
+            type: 'POST',
+            data: form_data,
+            url: "{{ url('/teenager/save-consumed-coins-details') }}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            cache: false,
+            success: function(response) {
+                $(".career_coins").html("");
+                if (response > 0) {
+                    $(".career_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $("#career_unbox").prop('onclick', null).off('click');
+                    getCareerConsideration('{{Auth::guard('teenager')->user()->t_coins}}');
+                } else {
+                    $(".career_coins").html('<span class="coins"></span> ' + consumedCoins);
                 }
             }
         });

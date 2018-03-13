@@ -263,10 +263,12 @@ class ProfessionController extends Controller {
         $basketsData = $this->baskets
                         ->with(['profession' => function ($query) use($searchValue) {
                             $query->where('pf_name', 'like', '%'.$searchValue.'%')
+                             ->orWhere('pf_profession_alias', 'LIKE', '%'.$searchValue.'%')         
                             ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         }])
                         ->whereHas('profession', function ($query) use($searchValue) {
                             $query->where('pf_name', 'like', '%'.$searchValue.'%')
+                            ->orWhere('pf_profession_alias', 'LIKE', '%'.$searchValue.'%') 
                             ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         })
                         ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
@@ -281,6 +283,7 @@ class ProfessionController extends Controller {
         if(count($basketsData) > 0)
         {
             foreach ($basketsData as $key => $value) {
+                
                 $professionAttemptedCount = 0;
                 foreach($value->profession as $k => $v){
                     // $professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id,null);

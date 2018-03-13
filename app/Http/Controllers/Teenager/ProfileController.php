@@ -122,48 +122,6 @@ class ProfileController extends Controller
         }
         $level1Activities = $this->level1ActivitiesRepository->getNotAttemptedActivities(Auth::guard('teenager')->user()->id);
         $teenagerMeta = Helpers::getTeenagerMetaData(Auth::guard('teenager')->user()->id);
-        $teenagerMyIcons = array();
-        //Get teenager choosen Icon
-        $teenagerIcons = $this->teenagersRepository->getTeenagerSelectedIcon(Auth::guard('teenager')->user()->id);
-        $relationIcon = array();
-        $fictionIcon = array();
-        $nonFiction = array();
-        if (isset($teenagerIcons) && !empty($teenagerIcons)) {
-            foreach ($teenagerIcons as $key => $icon) {
-                if ($icon->ti_icon_type == 1) {
-                    $fictionIconArr = [];
-                    if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
-                        $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
-                    } else {
-                        $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
-                    }
-                    $fictionIconArr['iconDescription'] = $icon->ci_description;
-                    $fictionIcon[] = $fictionIconArr;
-                } else if ($icon->ti_icon_type == 2) {
-                    $nonFictionArr = [];
-                    if ($icon->nonfiction_image != '' && Storage::size($this->humanThumbImageUploadPath . $icon->nonfiction_image) > 0) {
-                        $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
-                    } else {
-                        $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
-                    }
-                    $nonFictionArr['iconDescription'] = $icon->hi_description;
-                    $nonFiction[] = $nonFictionArr;
-                } else {
-                    $relationIconArr = [];
-                    if ($icon->ti_icon_image != '' && Storage::size($this->relationIconThumbImageUploadPath . $icon->ti_icon_image) > 0) {
-                        $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
-                    } else {
-                        $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . 'proteen-logo.png');
-                    }
-                    $relationIconArr['iconDescription'] = "";
-                    $relationIcon[] = $relationIconArr;
-                }
-            }
-            $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
-        } else {
-            $teenagerMyIcons = array();
-        }
-        
         $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
         $myConnectionsCount = $this->communityRepository->getMyConnectionsCount($user->id);
         $connectionBadgeCount = 0;
@@ -339,5 +297,51 @@ class ProfileController extends Controller
             $unreadcount = 0;
         }
         echo $unreadcount; exit;                    
+    }
+
+    public function getUserIcons()
+    {
+        $teenagerMyIcons = array();
+        //Get teenager choosen Icon
+        $teenagerIcons = $this->teenagersRepository->getTeenagerSelectedIcon(Auth::guard('teenager')->user()->id);
+        $relationIcon = array();
+        $fictionIcon = array();
+        $nonFiction = array();
+        if (isset($teenagerIcons) && !empty($teenagerIcons)) {
+            foreach ($teenagerIcons as $key => $icon) {
+                if ($icon->ti_icon_type == 1) {
+                    $fictionIconArr = [];
+                    if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
+                        $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
+                    } else {
+                        $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
+                    }
+                    $fictionIconArr['iconDescription'] = $icon->ci_description;
+                    $fictionIcon[] = $fictionIconArr;
+                } else if ($icon->ti_icon_type == 2) {
+                    $nonFictionArr = [];
+                    if ($icon->nonfiction_image != '' && Storage::size($this->humanThumbImageUploadPath . $icon->nonfiction_image) > 0) {
+                        $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
+                    } else {
+                        $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
+                    }
+                    $nonFictionArr['iconDescription'] = $icon->hi_description;
+                    $nonFiction[] = $nonFictionArr;
+                } else {
+                    $relationIconArr = [];
+                    if ($icon->ti_icon_image != '' && Storage::size($this->relationIconThumbImageUploadPath . $icon->ti_icon_image) > 0) {
+                        $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
+                    } else {
+                        $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . 'proteen-logo.png');
+                    }
+                    $relationIconArr['iconDescription'] = "";
+                    $relationIcon[] = $relationIconArr;
+                }
+            }
+            $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
+        } else {
+            $teenagerMyIcons = array();
+        }
+        return view('teenager.basic.profileRoleModelSection', compact('teenagerMyIcons'));
     }
 }

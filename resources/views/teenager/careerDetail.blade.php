@@ -246,25 +246,41 @@
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
                                                                         <p title="{{strip_tags($templateProfession->gt_template_descritpion)}}"> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...more')) !!}</p>
                                                                         @if ($templateProfession->remaningDays > 0)
-                                                                            <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
-                                                                                <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})" >
-                                                                                    <span class="unbox-me">Play now!</span>
-                                                                                    <span class="coins-outer">
-                                                                                        <span class="coins"></span>
-                                                                                        @if($templateProfession->gt_coins > 0) {{$templateProfession->remaningDays}} Days Left @else this is free enjoy @endif
-                                                                                    </span>
-                                                                                </a>
-                                                                            </div>
+                                                                            @if($templateProfession->attempted == 'yes')
+                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
+                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                        <span class="unbox-me">Played!</span>
+                                                                                    </a>
+                                                                                </div>   
+                                                                            @else
+                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
+                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})" >
+                                                                                        <span class="unbox-me">Play now!</span>
+                                                                                        <span class="coins-outer">
+                                                                                            <span class="coins"></span>
+                                                                                            @if($templateProfession->gt_coins > 0) {{$templateProfession->remaningDays}} Days Left @else this is free enjoy @endif
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </div>    
+                                                                            @endif
                                                                         @elseif($templateProfession->gt_coins == 0)
-                                                                            <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
-                                                                                <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
-                                                                                    <span class="unbox-me">Play now!</span>
-                                                                                    <span class="coins-outer">
-                                                                                        <span class="coins"></span> 
-                                                                                        This is free enjoy
-                                                                                    </span>
-                                                                                </a>
-                                                                            </div>
+                                                                            @if($templateProfession->attempted == 'yes')
+                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
+                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                        <span class="unbox-me">Played!</span>
+                                                                                    </a>
+                                                                                </div>   
+                                                                            @else
+                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
+                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                        <span class="unbox-me">Play now!</span>
+                                                                                        <span class="coins-outer">
+                                                                                            <span class="coins"></span> 
+                                                                                            This is free enjoy
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </div>
+                                                                            @endif
                                                                         @else
                                                                             @if($templateProfession->attempted == 'yes')
                                                                                 <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
@@ -985,7 +1001,6 @@
         $('.time-tag').show();
     }
     function intermediateTimer() {
-        console.log(intermediateCount+"interTimer");
         if (intermediateCount < 0) { }
         else {
             intermediateSecondPassed();
@@ -1072,9 +1087,7 @@
                 $(".sortable").sortable();
                 $(".sortable").disableSelection();
                 adjusting_box_size();
-                // //var col_count = $('.drg_section').data('col');
-                // console.log(col_count);
-                // console.log("ssss");
+                //var col_count = $('.drg_section').data('col');
                 $(".drag_drp li span").draggable({
                     opacity: "0.5",
                     helper: "clone",

@@ -35,6 +35,8 @@ use App\PromiseParametersMaxScore;
 use App\MultipleIntelligentScale;
 use App\ApptitudeTypeScale;
 use App\PersonalityScale;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class DashboardController extends Controller
 {
@@ -76,6 +78,8 @@ class DashboardController extends Controller
         $this->objMIScale = new MultipleIntelligentScale();
         $this->objApptitudeScale = new ApptitudeTypeScale();
         $this->objPersonalityScale = new PersonalityScale();
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
     }
 
     /* Request Params : getDashboardDetail
@@ -444,6 +448,20 @@ class DashboardController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
+            //Career consider section coins consumption details
+            $componentsCareerConsider = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.CAREER_TO_CONSIDER'));
+            $deductedCoinsCareerConsider = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($request->userId, $componentsCareerConsider->id, 1);
+            $remainingDaysForCareerConsider = 0;
+            if (!empty($deductedCoinsCareerConsider[0])) {
+                $remainingDaysForCareerConsider = Helpers::calculateRemainingDays($deductedCoinsCareerConsider[0]->dc_end_date);
+            }
+            $careerConsiderCoinsDetails = [];
+            $careerConsiderCoinsDetails['componentId'] = $componentsCareerConsider->id;
+            $careerConsiderCoinsDetails['componentName'] = Config::get('constant.CAREER_TO_CONSIDER');
+            $careerConsiderCoinsDetails['componentCoins'] = $componentsCareerConsider->pc_required_coins;
+            $careerConsiderCoinsDetails['remainingDays'] = $remainingDaysForCareerConsider;
+            $response['careerConsiderCoinsDetails'] = $careerConsiderCoinsDetails;
+
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             if(!$getTeenagerHML) {
                 $response['login'] = 1;
