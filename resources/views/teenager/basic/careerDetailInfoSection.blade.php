@@ -133,7 +133,7 @@
 <div class="block">
     <h4>Certifications</h4>
     @if(isset($professionsData->professionCertificates) && !empty($professionsData->professionCertificates))
-        <div class="img-list">
+        <div class="img-list certificate-list">
             <ul>
                 @forelse($professionsData->professionCertificates as $professionCertificate)
                 @if(count($professionCertificate->certificate) > 0)

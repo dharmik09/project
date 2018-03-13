@@ -390,7 +390,39 @@
                         }*/
                     }
                 }
+                &.certificate-list{
+                ul{
+                    li{
+                        width: 33.33%;
+                        @include maxsm{
+                            width: 50%;
+                        }
+                        @include maxms{
+                            width: 100%;
+                        }
+                        .logo-img {
+                            max-height: 90px;
+                            @include maxms {
+                                max-height: 90px;
+                            }
+                            img {
+                                //height: 100%;
+                                height: 90px;
+                                width: 100%;
+                                @include maxsm {
+                                    height: 90px;
+                                }
+                                @include maxms {
+                                    height: 90px;
+                                }
+                            }
+
+                        }
+                    }
+                }
             }
+            }
+            
         }
     }
 }
@@ -558,6 +590,7 @@
         &:hover,
         &:focus {
             background: transparent;
+            outline: none;
             .unbox-me {
                 background: $cl-procedural;
                 border-color: $cl-procedural;
