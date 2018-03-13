@@ -1,6 +1,4 @@
-@extends('layouts.school-master')
-
-@section('content')
+@extends('layouts.school-master') @section('content')
 
 <div>
     @if ($message = Session::get('error'))
@@ -15,8 +13,7 @@
             </div>
         </div>
     </div>
-    @endif
-    @if ($message = Session::get('success'))
+    @endif @if ($message = Session::get('success'))
     <div class="row">
         <div class="col-md-8 col-md-offset-2 invalid_pass_error">
             <div class="box-body">
@@ -28,8 +25,7 @@
             </div>
         </div>
     </div>
-    @endif
-    @if (count($errors) > 0)
+    @endif @if (count($errors) > 0)
     <div class="alert alert-danger">
         <strong>{{trans('validation.whoops')}}</strong> {{trans('validation.someproblems')}}<br><br>
         <ul>
@@ -45,14 +41,14 @@
         <div class="pricing_title">
             <div class="my_teens_content ">
                 <div class="btn_cont gift_modal_page">
-                    <a href="{{ url('school/get-gift-coins') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-gift-coins') ? 'active' : '' }}" >{{trans('labels.giftcoins')}}</a>
-                    <a href="{{ url('school/get-consumption') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-consumption') ? 'active' : '' }}" >{{trans('labels.consumption')}}</a>
+                    <a href="{{ url('school/get-gift-coins') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-gift-coins') ? 'active' : '' }}">{{trans('labels.giftcoins')}}</a>
+                    <a href="{{ url('school/get-consumption') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-consumption') ? 'active' : '' }}">{{trans('labels.consumption')}}</a>
                 </div>
             </div>
             <h1><span class="title_border">{{trans('labels.consumedcoins')}}</span></h1>
         </div>
         <div class="my_teens_content clearfix">
-            <div class="my_teens_inner">
+            <!--<div class="my_teens_inner">
                 <div class="table_container">
                     <table class="sponsor_table">
                         <tr>
@@ -90,15 +86,71 @@
                         </tr>
                     </table>
                 </div>
+            </div>-->
+            <div class="procoin-heading gift-heading">
+                <div class="procoin-form gift-form">
+                    <form>
+                        <div class="form-group search-bar clearfix">
+                            <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
+                            <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="bg-white procoins-gift">
+                <div class="gift-table table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ProPay Component</th>
+                                <th>ProCoins</th>
+                                <th>Consumed on</th>
+                                <th>Valid upto</th>
+                            </tr>
+                        </thead>
+                        <!--<tbody>
+                            <tr>
+                                <td>John</td>
+                                <td>Doe</td>
+                                <td>john@example.com</td>
+                                <td><input type="text" placeholder="Enter Procoins" class="procoins-amt form-control"><a href="javascript:void(0)" title="gift" class="btn btn-default gft-btn">Gift</a></td>
+                            </tr>
+                            <tr>
+                                <td>Mary</td>
+                                <td>Moe</td>
+                                <td>mary@example.com</td>
+                                <td><input type="text" placeholder="Enter Procoins" class="procoins-amt form-control"><a href="javascript:void(0)" title="gift" class="btn btn-default gft-btn">Gift</a></td>
+                            </tr>
+                            <tr>
+                                <td>July</td>
+                                <td>Dooley</td>
+                                <td>july@example.com</td>
+                                <td><input type="text" placeholder="Enter Procoins" class="procoins-amt form-control"><a href="javascript:void(0)" title="gift" class="btn btn-default gft-btn">Gift</a></td>
+                            </tr>
+                        </tbody>-->
+
+                    </table>
+                    <div class="no-data">
+                        <div class="data-content">
+                            <div>
+                                <i class="icon-empty-folder"></i>
+                            </div>
+                            <p>No data found</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="sec-bttm"><!-- --></div>
             </div>
         </div>
 
     </div>
 </div>
-@stop
-@section('script')
+@stop @section('script')
 <script>
-    $(".table_container").mCustomScrollbar({axis:"x"});
+    $(".table_container").mCustomScrollbar({
+        axis: "x"
+    });
+
 </script>
 
 @stop
