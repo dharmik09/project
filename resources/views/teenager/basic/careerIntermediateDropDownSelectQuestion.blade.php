@@ -71,7 +71,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             @if(isset($response['data']->question_images) && !empty($response['data']->question_images))
-                                @foreach($response['data']->question_images as $key=>$image)
+                                @foreach($response['data']->question_images as $key => $image)
                                     <div class="question-img image-left quiz-inter width-50">
                                         <img src="{{$image['l4ia_question_image']}}" title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" class="pop-me pop_up_me">
                                     </div>
@@ -136,8 +136,9 @@
             <div class="modal-dialog">
                 <div class="modal-content modal_content_fill">
                     <div class="time_out_cst"></div>
-                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                    
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    </div>
                     <div class="modal-body popup_image_and_desc">   
                         @if(isset($response['data']->l4ia_question_popup_description) && $response['data']->l4ia_question_popup_description != '')                
                         <div class="pre_material_img">

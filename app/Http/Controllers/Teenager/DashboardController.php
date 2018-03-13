@@ -34,6 +34,8 @@ use App\Services\Community\Contracts\CommunityRepository;
 use App\Services\Professions\Contracts\ProfessionsRepository;
 use App\Jobs\SetProfessionMatchScale;
 use DB;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class DashboardController extends Controller
 {
@@ -71,6 +73,8 @@ class DashboardController extends Controller
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
         $this->communityRepository = $communityRepository;
         $this->professionsRepository = $professionsRepository;
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
     }
 
     //Dashboard data
@@ -183,7 +187,15 @@ class DashboardController extends Controller
             } 
         }
 
-        return view('teenager.home', compact('basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers', 'advertisements', 'profileMessage'));
+        //Check career consider section coins consumption details
+        $componentsCareerConsider = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.CAREER_TO_CONSIDER'));
+        $deductedCoinsCareerConsider = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($user->id, $componentsCareerConsider->id, 1);
+        $remainingDaysForCareerConsider = 0;
+        if (!empty($deductedCoinsCareerConsider[0])) {
+            $remainingDaysForCareerConsider = Helpers::calculateRemainingDays($deductedCoinsCareerConsider[0]->dc_end_date);
+        }
+
+        return view('teenager.home', compact('basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers', 'advertisements', 'profileMessage', 'remainingDaysForCareerConsider', 'remainingDaysForCareerConsider', 'componentsCareerConsider'));
     }
 
     //Update meta information for teenager

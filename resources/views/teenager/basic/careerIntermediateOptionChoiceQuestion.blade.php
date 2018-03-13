@@ -83,31 +83,25 @@
                             @php( $setFlag = 2 )
                             @foreach($response['data']->options as $keyOption => $option)
                                 <?php
-                                    $option['optionImage'] = "";
-                                    if ($option['optionText'] == '') {
-                                        if ($option['optionAsImage'] != '') {
-                                            $optionAsImage = $option['optionAsImage'];
-                                        } else {
-                                            $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                    $option['optionImage'] = $extraSpan = "";
+                                    if ($option['optionAsImage'] != '') {
+                                        $optionAsImage = $option['optionAsImage'];
+                                        if ($option['optionImageText'] != '') {
+                                            $extraSpan = $option['optionImageText'];
                                         }
-                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='click image to enlarge' class='pop_up_me' />";
+                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='".$extraSpan."' class='pop_up_me' />";
                                     }
-                                    
-                                    $extraSpan = '';
-                                    if ($option['optionImageText'] != '') {
-                                        $extraSpan = $option['optionImageText'];
-                                    }
+
                                 ?>
                                 @if ($setFlag % 2 == 0)
                                     <div class="width-50 clearfix">
                                 @endif
-                                    
                                     <label class="{{$optionType}} class{{$option['optionId']}}">
                                         <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
                                         <span class="checker"></span>
                                         <em>
                                             {!! $option['optionImage'] !!}
-                                            {!! $extraSpan !!}
+                                            <!-- {!! $extraSpan !!} -->
                                             {!! $option['optionText'] !!}
                                         </em>
                                     </label>
@@ -182,7 +176,9 @@
             <div class="modal-dialog">
                 <div class="modal-content modal_content_fill">
                     <div class="time_out_cst"></div>
-                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    </div>
                     
                     <div class="modal-body popup_image_and_desc">   
                         @if(isset($response['data']->l4ia_question_popup_description) && $response['data']->l4ia_question_popup_description != '')                
