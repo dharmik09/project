@@ -277,7 +277,7 @@
                         <!-- active_tab_view End -->
                         
                         <h2 class="das_title custom-section">Careers to consider</h2>
-                        <div class="das_your_profile my_interests">
+                        <div class="das_your_profile my_interests career-consider">
                             <div class="data-explainations clearfix data-interest">
                              <div class="content">
                                 <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
