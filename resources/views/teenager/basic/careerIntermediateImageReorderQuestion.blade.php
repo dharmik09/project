@@ -83,16 +83,22 @@
                             foreach ($response['data']->options as $keyOption => $option) {
                                 $optionLength++;
                                 $input2 .= "<li></li>";
-                                if ($option['optionText'] == '') {
-                                    if ($option['optionAsImage'] != '') {
-                                        $optionAsImage = $option['optionAsImage'];
-                                    } else {
-                                        $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
-                                    }
-                                    $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />";
-                                } else {
-                                    $option['optionText'] = $option['optionText'];
+                                // if ($option['optionText'] == '') {
+                                //     if ($option['optionAsImage'] != '') {
+                                //         $optionAsImage = $option['optionAsImage'];
+                                //     } else {
+                                //         $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                //     }
+                                //     $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />";
+                                // } else {
+                                //     $option['optionText'] = $option['optionText'];
+                                // }
+
+                                if ($option['optionAsImage'] != '') {
+                                    $optionAsImage = $option['optionAsImage'];
+                                    $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
                                 }
+
                                 $input .= "<li><span>";
                                 $input .= $option['optionText'];
                                 $input .= "</span></li>";
@@ -124,12 +130,13 @@
     </div>
     @if( isset($response['data']->gt_temlpate_answer_type) && ( $response['data']->l4ia_question_popup_image != '' || $response['data']->l4ia_question_popup_description != '') )
         <?php $setPopupTime = $response['data']->l4ia_extra_question_time; ?>
-        <div id="quiz_material_popup" class="modal fade quiz_pre_material " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div id="quiz_material_popup" class="modal fade quiz_pre_material " role="dialog"  data-toggle="modal">
             <div class="modal-dialog">
                 <div class="modal-content modal_content_fill">
                     <div class="time_out_cst"></div>
-                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                    
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    </div>
                     <div class="modal-body popup_image_and_desc">   
                         @if(isset($response['data']->l4ia_question_popup_description) && $response['data']->l4ia_question_popup_description != '')                
                         <div class="pre_material_img">
