@@ -300,6 +300,7 @@
                 </div><!-- parent_progress_question End -->
                 <!-- Slider -->
 
+<!--
                 <div class="profession_attempted col-md-12">
                     <h2>ICONS voted in <span class="l-1"><span class="level_label margintb0">L-1</span></span></h2>
                     @if(isset($response['teenagerMyIcons']) && !empty($response['teenagerMyIcons']))
@@ -315,7 +316,30 @@
                     @else
                     <div class="no_data" style="margin: 40px 0px;">No Selected Icon</div>
                     @endif
-                </div><!-- dashboard_inner_box End -->
+                </div> 
+-->
+                <!-- dashboard_inner_box End -->
+                <div class="icon-voted profession_attempted">
+                
+            <h2>Icon Voted in L1</h2>
+            
+            <div class="voted-list">
+                @if(isset($response['teenagerMyIcons']) && !empty($response['teenagerMyIcons']))
+                <ul class="row owl-carousel">
+                   @foreach($response['teenagerMyIcons'] as $key=>$image)
+                    <li class="col-sm-3 col-xs-6">
+                        <figure>
+                            <div class="icon-img"><a href="javascript:void(0);" data-placement="bottom" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id,!" data-toggle="tooltip"><img src="{{$image}}"></a></div>
+                        </figure>
+                    </li>
+                    @endforeach
+                </ul>
+                @else
+                No records found
+                @endif
+            </div>
+        </div>
+
 
                 <div class="dash_progress my_intrest col-md-12">
                     <div class="parent_h2_header">
@@ -650,7 +674,29 @@
                 }
             });
         });
-
+        if ($('.voted-list ul').children().length > 4) {
+                $('.voted-list ul').owlCarousel({
+                    loop: true,
+                    margin: 0,
+                    items: 4,
+                    autoplay: false,
+                    autoplayTimeout: 3000,
+                    smartSpeed: 1000,
+                    nav: true,
+                    dots: false,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        480: {
+                            items: 2
+                        },
+                        768: {
+                            items: 4
+                        },
+                    }
+                });
+            }
         $('#teenName').on('change', function() {
             $("a[id=report]").each(
                 function(){

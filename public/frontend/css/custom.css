@@ -387,16 +387,20 @@ h1{font-family: ab;font-size: 30px;line-height: 1.2;color: #fd604b;}
 .sec-procoins .list-procoins .block-procoins .btn-primary{height: auto;border-radius: 0;}
 .search_container{color: #565b5f;background: transparent;}
 .search_container .search_input::-webkit-input-placeholder ,
-.input_icon .cst_input_primary::-webkit-input-placeholder{ /* Chrome/Opera/Safari */
+.input_icon .cst_input_primary::-webkit-input-placeholder,
+.sponsor_account_form .cst_input_primary::-webkit-input-placeholder{ /* Chrome/Opera/Safari */
   color: #565b5f !important;
 }
-.search_container .search_input::-moz-placeholder ,.input_icon .cst_input_primary::-moz-placeholder { /* Firefox 19+ */
+.search_container .search_input::-moz-placeholder ,.input_icon .cst_input_primary::-moz-placeholder,
+.sponsor_account_form .cst_input_primary::-moz-placeholder{ /* Firefox 19+ */
   color: #565b5f !important;
 }
-.search_container .search_input:-ms-input-placeholder ,..input_icon .cst_input_primary:-ms-input-placeholder { /* IE 10+ */
+.search_container .search_input:-ms-input-placeholder ,.input_icon .cst_input_primary:-ms-input-placeholder,
+.sponsor_account_form .cst_input_primary:-ms-input-placeholder{ /* IE 10+ */
   color: #565b5f !important;
 }
-.search_container .search_input:-moz-placeholder ,.input_icon .cst_input_primary:-moz-placeholder { /* Firefox 18- */
+.search_container .search_input:-moz-placeholder ,.input_icon .cst_input_primary:-moz-placeholder,
+.sponsor_account_form .cst_input_primary:-moz-placeholder{ /* Firefox 18- */
   color: #565b5f !important;
 }
 ul.nav.nav-tabs{border-bottom: none;background: #eeeeef;}
@@ -449,6 +453,29 @@ ul.nav.nav-tabs li:hover, ul.nav.nav-tabs li.active{background: none;}
 }
 .coinouter{background: #f15f4c;}
 .coinsnum{color: #fff;}
+.l-1 span.level_label, .l-2 span.level_label, .l-3 span.level_label, .l-4 span.level_label, .dashboard_inner_box h2,.profession_attempted h2{color: #333333;}
+.l-1 span.level_label,.l-2 span.level_label, .l-3 span.level_label{background: transparent;}
+.profession_attempted{clear: both;}
+.timeline table td.timeline_icon .box{background: #eeeeef;}
+.timeline table tr.alpha td.timeline_icon .box:before {border-color: #fd604b;}
+.timeline table tr.alpha td.timeline_icon .box:after {background-color: #fd604b;}
+.timeline table tr.alpha{color: #fd604b;}
+.timeline table tr.beta {color: #66c6e6;}
+.timeline table tr.beta td.timeline_icon .box:before {border-color: #66c6e6;}
+.timeline table tr.beta td.timeline_icon .box:after {background-color: #66c6e6;}
+.timeline table tr.gamma td.timeline_icon .box:after {background-color: #73376d;}
+.timeline table tr.gamma td.timeline_icon .box:before {border-color: #73376d;}
+.timeline table tr.gamma {color: #73376d;}
+.timeline table tr.delta {color: #f2c337;}
+.timeline table tr.delta td.timeline_icon .box:before {border-color: #f2c337;}
+.timeline table tr.delta td.timeline_icon .box:after {background-color: #f2c337;}
+.interest{border-color: #fd604b;background: transparent;}
+.procoins-amt {padding: 6px 6px;font-family: 'h';border: 1px solid #161c22;}
+.my_teens_content{padding: 0 20px;}
+.procoins-gift .gift-table .table tr td .gft-btn{border-radius: 0;color: #fff;height: auto;line-height: 1.6;}
+a.btn.primary_btn.invite_teen_btn {padding: 10px;}
+textarea.cst_input_primary{resize: vertical;}
+
 
 
 @media (max-width: 991px) {

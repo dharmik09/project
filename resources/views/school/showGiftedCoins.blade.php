@@ -53,7 +53,7 @@
             <h1><span class="title_border">{{trans('labels.giftedcoins')}}</span></h1>
         </div>
         <div class="my_teens_content clearfix">
-            <div class="my_teens_inner">
+            <!--<div class="my_teens_inner">
                 <div class="login_form avl_coin_form consumed_coin search_coin_cst clearfix">
                     <div class="col-md-push-3 col-sm-push-3 col-md-6 col-sm-6">
                         <div class="search_container desktop_search gift_coin_search">
@@ -96,6 +96,39 @@
                     </table>
                 </div>
                 <div class="mySearch_area"></div>
+            </div>-->
+            <div class="procoin-heading gift-heading">
+                <div class="procoin-form gift-form">
+                    <form>
+                        <div class="form-group search-bar clearfix">
+                            <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
+                            <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="bg-white procoins-gift">
+                <div class="gift-table table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Gifted To</th>
+                                <th>Gifted ProCoins</th>
+                                <th>Gifted Date</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                    <div class="no-data">
+                        <div class="data-content">
+                            <div>
+                                <i class="icon-empty-folder"></i>
+                            </div>
+                            <p>No data found</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="sec-bttm"><!-- --></div>
             </div>
         </div>
 
