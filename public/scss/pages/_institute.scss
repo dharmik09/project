@@ -24,7 +24,12 @@
             position: relative;
             font-family: 'am';
             font-weight: 500;
-
+            @include xlg{
+                font-size: 30px;
+            }
+            @include maxmd{
+                font-size: 28px;
+            }
             &:before {
                 position: absolute;
                 content: '';
@@ -66,14 +71,17 @@
             font-size: 28px;
             color: $r-cl;
             margin-bottom: 10px;
+            @include xlg{
+                font-size: 24px;
+            }
             @include maxms{
                 font-size: 20px;
             }
         }
         p {
             font-size: 20px;
-            @include maxmd {
-                font-size: 17px;
+            @include xlg{
+                 font-size: 17px;
             }
             @include maxsm {
                 font-size: 15px;
@@ -84,8 +92,9 @@
         }
         figure {
             width: 200px;
-            height: 200px; // margin: 0 auto;
-            @include maxlg{
+            height: 200px;
+            margin: 0 auto;
+            @include xlg{
                 width: 145px;height: 145px;
             }
             @include maxmd {
@@ -117,7 +126,7 @@
         padding: 0;
         font-size: 20px;
         color: $lightgrey;
-        @include maxmd {
+        @include xlg {
             font-size: 17px;
         }
         @include maxsm {
