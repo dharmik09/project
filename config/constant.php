@@ -377,4 +377,5 @@ return [
     'CONNECTION_BADGE_ARRAY' => array('1' => '5', '2' => '15', '3' => '25', '4' => '50', '5' => '100'),
     'PROFESSION_ATTEMPTED_FLAG' => 1,
     'PROFESSION_NOT_ATTEMPTED_FLAG' => 0,
+    'CAREER_TO_CONSIDER' => 'Careers to Consider ProCoins',
 ];
