@@ -1,0 +1,201 @@
+.institute-sec {
+    padding-bottom: 50px;
+    .clearfix {
+        clear: both;
+    }
+    .bg-white {
+        padding: 15px 40px;
+        @include maxmd{
+            padding: 15px 30px;
+        }
+        @include maxsm{
+            padding: 15px;
+        }
+    
+    }
+    .institute-block {
+        border-bottom: 1px solid #ccc;
+        padding: 30px 0;
+        h4 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            text-align: center;
+            position: relative;
+            font-family: 'am';
+            font-weight: 500;
+            @include xlg{
+                font-size: 30px;
+            }
+            @include maxmd{
+                font-size: 28px;
+            }
+            &:before {
+                position: absolute;
+                content: '';
+                bottom: 2px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90px;
+                background: $p-cl;
+                height: 2px;
+            }
+            @include maxsm {
+                margin-bottom: 25px;
+            }
+            @include maxms {
+                font-size: 20px;
+            } // text-decoration: underline;
+        }
+        .iframe-sec {
+            margin-bottom: 30px;
+            @include maxsm{
+                margin: 30px 0;
+            }
+            iframe{
+                @include maxms{
+                    height: 200px !important;
+                }
+            
+            }
+        }
+    }
+
+    .institute-address {
+        /* [class*=col-]{
+                @include maxms{
+                    width: 100%;
+                }
+            }*/
+        h5 {
+            font-size: 28px;
+            color: $r-cl;
+            margin-bottom: 10px;
+            @include xlg{
+                font-size: 24px;
+            }
+            @include maxms{
+                font-size: 20px;
+            }
+        }
+        p {
+            font-size: 20px;
+            @include xlg{
+                 font-size: 17px;
+            }
+            @include maxsm {
+                font-size: 15px;
+            }
+            @include maxms {
+                font-size: 14px;
+            }
+        }
+        figure {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            @include xlg{
+                width: 145px;height: 145px;
+            }
+            @include maxmd {
+                width: 100px;
+                height: 100px;
+            }
+            @include maxms {
+                width: 70px;
+                height: 70px;
+            }
+            @include maxsm {
+                margin: 0;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                display: block;
+                width: 100%;
+                height: 100%;
+                border: 1px solid $p-cl;
+            }
+
+        }
+    }
+
+    .institute-detail {
+        list-style-type: none;
+        padding: 0;
+        font-size: 20px;
+        color: $lightgrey;
+        @include xlg {
+            font-size: 17px;
+        }
+        @include maxsm {
+            font-size: 15px;
+            clear: both;
+        }
+        @include maxms {
+            font-size: 14px;
+        }
+        strong {
+            text-transform: capitalize;
+            color: $r-cl;
+            font-family: 'h';
+        }
+        li {
+            margin-bottom: 8px;
+            font-family: 'h'
+        }
+    }
+
+    .load-btn {
+        margin-top: -1px;
+        border-top: 1px solid $white;
+    }
+}
+
+.institute-heading {
+    margin: 50px 0;
+    h1 {
+        font-size: 75px;
+        font-family: al;
+        margin-bottom: 40px;
+        @include maxlg {
+            font-size: 60px;
+        }
+        @include maxmd {
+            font-size: 50px;
+        }
+        @include maxsm {
+            font-size: 40px;
+        }
+        @include maxms {
+            font-size: 34px;
+        }
+    }
+}
+
+.institute-filter {
+    .row{
+        @include maxmd{
+            margin: 0 -10px;
+        }
+    }
+    .sec-filter {
+        @include maxmd{
+            [class*=col-]{
+                padding: 0 10px;
+            }
+        }
+        margin-bottom: 30px;
+        .search-bar {
+            margin-bottom: 0;
+            .btn-search {
+                padding: 7px 0;
+                .icon-search {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+    }
+}
