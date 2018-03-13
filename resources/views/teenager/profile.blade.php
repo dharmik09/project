@@ -555,8 +555,9 @@
                             </div>
                             <div class="flex-item">
                                 <div class="team-point">
-                                    {{ $myConnection->t_coins }} points
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
+                                    <span class="points">
+                                    {{ $myConnection->t_coins }} points </span>
+                                    <a href="{{url('teenager/chat')}}/{{$myConnection->t_uniqueid}}" title="Chat"><i class="icon-chat"><!-- --></i></a>
                                 </div>
                             </div>
                         </div>
