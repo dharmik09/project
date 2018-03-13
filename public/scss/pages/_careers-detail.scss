@@ -558,6 +558,7 @@
         &:hover,
         &:focus {
             background: transparent;
+            outline: none;
             .unbox-me {
                 background: $cl-procedural;
                 border-color: $cl-procedural;

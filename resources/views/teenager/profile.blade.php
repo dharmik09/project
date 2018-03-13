@@ -423,6 +423,13 @@
     <div class="icon-voted bg-offwhite" id="icon-voted">
         <div class="container">
             <h2>My Role Models</h2>
+            <span class="sec-popup help_noti">
+                <a id="profile-role-model" href="javascript:void(0);" onmouseover="getHelpText('profile-role-model')" data-trigger="hover" data-popover-content="#rolemodel-sec" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i>
+                </a>
+            </span>
+            <div id="rolemodel-sec" class="hide popoverContent">
+                <span class="profile-role-model"></span>
+            </div>
             <p>Role Models are those who you love, deeply admire & are influenced by in life.</p>
             <div class="voted-list">
                 @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
