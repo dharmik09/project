@@ -53,14 +53,11 @@ class ProfessionTag extends Model
         $result = $this->select('*')
                     ->with(['professionTags' => function ($query) {
                         $query->with(['profession' => function ($query) {
-                            $query->with(['professionAttempted' => function ($query) {
-                                $query->where('tpa_teenager', $this->userid);
-                            }]);
-                            $query->where('deleted', '<>', Config::get('constant.DELETED_FLAG'));
+                            $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                         }]);
                     }])
                     ->where('pt_slug', $slug)
-                    ->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
                     ->first();
 
         return $result;
