@@ -375,6 +375,17 @@
     <div class="sec-survey" id="sec-survey">
         <div class="container">
             <h2>My Preferences</h2>
+            <span class="sec-popup help_noti">
+                <a id="profile-preferences" href="javascript:void(0);" onmouseover="getHelpText('profile-preferences')" data-trigger="hover" data-popover-content="#preferences" class="help-icon" rel="popover" data-placement="bottom">
+                    <i class="icon-question"></i>
+                </a>
+            </span>
+            <div class="hide" id="preferences">
+                <div class="popover-data">
+                    <a class="close popover-closer"><i class="icon-close"></i></a> 
+                    <span class="profile-preferences"></span>
+                </div>
+            </div>
             <div id="traitErrorGoneMsg"></div>
             <div class="traitsLoader">
                 <div id="traitsData"></div>
