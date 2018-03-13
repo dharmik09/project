@@ -375,6 +375,17 @@
     <div class="sec-survey" id="sec-survey">
         <div class="container">
             <h2>My Preferences</h2>
+            <span class="sec-popup help_noti">
+                <a id="profile-preferences" href="javascript:void(0);" onmouseover="getHelpText('profile-preferences')" data-trigger="hover" data-popover-content="#preferences" class="help-icon" rel="popover" data-placement="bottom">
+                    <i class="icon-question"></i>
+                </a>
+            </span>
+            <div class="hide" id="preferences">
+                <div class="popover-data">
+                    <a class="close popover-closer"><i class="icon-close"></i></a> 
+                    <span class="profile-preferences"></span>
+                </div>
+            </div>
             <div id="traitErrorGoneMsg"></div>
             <div class="traitsLoader">
                 <div id="traitsData"></div>
@@ -412,6 +423,13 @@
     <div class="icon-voted bg-offwhite" id="icon-voted">
         <div class="container">
             <h2>My Role Models</h2>
+            <span class="sec-popup help_noti">
+                <a id="profile-role-model" href="javascript:void(0);" onmouseover="getHelpText('profile-role-model')" data-trigger="hover" data-popover-content="#rolemodel-sec" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i>
+                </a>
+            </span>
+            <div id="rolemodel-sec" class="hide popoverContent">
+                <span class="profile-role-model"></span>
+            </div>
             <p>Role Models are those who you love, deeply admire & are influenced by in life.</p>
             <div class="voted-list">
                 @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
@@ -537,8 +555,9 @@
                             </div>
                             <div class="flex-item">
                                 <div class="team-point">
-                                    {{ $myConnection->t_coins }} points
-                                    <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
+                                    <span class="points">
+                                    {{ $myConnection->t_coins }} points </span>
+                                    <a href="{{url('teenager/chat')}}/{{$myConnection->t_uniqueid}}" title="Chat"><i class="icon-chat"><!-- --></i></a>
                                 </div>
                             </div>
                         </div>
