@@ -33,6 +33,7 @@ Route::get('/seo-teaser', function() {
 Route::post('/get-interest-detail', 'Teenager\HomeController@getInterestDetail');
 Route::post('/get-strength-detail', 'Teenager\HomeController@getStrengthDetail');
 Route::post('/get-career-consideration', 'Teenager\ProfessionController@getCareerConsideration');
+Route::post('/get-user-icons', 'Teenager\ProfileController@getUserIcons');
 
 
 //Help

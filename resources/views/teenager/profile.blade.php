@@ -432,25 +432,6 @@
             </div>
             <p>Role Models are those who you love, deeply admire & are influenced by in life.</p>
             <div class="voted-list">
-                @if (isset($teenagerMyIcons) && !empty($teenagerMyIcons))
-                <ul class="row owl-carousel">
-                    @forelse($teenagerMyIcons as $teenagerMyIcon)
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="icon-img">
-                                <a href="javascript:void(0);" data-placement="bottom" title="{{ str_limit($teenagerMyIcon['iconDescription'], $limit = 100, $end = '...') }}" data-toggle="tooltip">
-                                    <img src="{{ $teenagerMyIcon['iconImage'] }}">
-                                </a>
-                            </div>
-                        </figure>
-                    </li>
-                    @empty
-                    You can vote your role models in the 'My Votes' section above
-                    @endforelse
-                </ul>
-                @else
-                    <h3>You can vote your role models in the 'My Votes' section above</h3>
-                @endif
             </div>
         </div>
     </div>
@@ -803,29 +784,6 @@
                 },
             }
         });
-        $('.voted-list ul').owlCarousel({
-            <?php if (count($teenagerMyIcons) >= 4) { ?>
-                loop: true,
-            <?php } ?>
-                margin: 0,
-                items: 4,
-                autoplay: false,
-                autoplayTimeout: 3000,
-                smartSpeed: 1000,
-                nav: true,
-                dots: false,
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    480:{
-                      items:2  
-                    },
-                    768: {
-                        items: 4
-                    },
-                }
-        });
         
         jQuery.validator.addMethod("lettersonly", function(value, element) {
             return this.optional(element) || /^[a-z_'\s]+$/i.test(value);
@@ -994,9 +952,8 @@
         }
         $('#email').attr('readonly', true);
         $("#t_about_info").hide();
-        $('[data-toggle="tooltip"]').tooltip(); 
         
-         function equalhight() {
+        function equalhight() {
                 var $height = 0;
                 $(".careers-block .careers-content").each(function() {
                     $(this).css("height", "auto");
@@ -1020,6 +977,7 @@
         fetchLevel1TraitQuestion();
         getDefaultAreaLocation();
         getUserUnreadMessageCountChat();
+        getUserProfileIcons();
     });
 
     function getFirstLevelData() {
@@ -1817,6 +1775,46 @@
         }
         FB.ui(obj, callback);
     }
+
+    function getUserProfileIcons() {
+        $(".voted-list").html('<div style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".voted-list").addClass('loading-screen-parent');
+        $.ajax({
+            url: "{{ url('teenager/get-user-icons') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $(".voted-list").html(response);
+                $(".voted-list").removeClass('loading-screen-parent');
+                $('.voted-list').html(response);
+                $('.voted-list ul').owlCarousel({
+                    loop: false,
+                    margin: 0,
+                    items: 4,
+                    autoplay: false,
+                    autoplayTimeout: 3000,
+                    smartSpeed: 1000,
+                    nav: true,
+                    dots: false,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        480:{
+                          items:2  
+                        },
+                        768: {
+                            items: 4
+                        },
+                    }
+                });
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        });
+    }
+    
       
 </script>
 @stop
