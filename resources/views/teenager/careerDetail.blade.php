@@ -985,7 +985,6 @@
         $('.time-tag').show();
     }
     function intermediateTimer() {
-        console.log(intermediateCount+"interTimer");
         if (intermediateCount < 0) { }
         else {
             intermediateSecondPassed();
@@ -1072,9 +1071,7 @@
                 $(".sortable").sortable();
                 $(".sortable").disableSelection();
                 adjusting_box_size();
-                // //var col_count = $('.drg_section').data('col');
-                // console.log(col_count);
-                // console.log("ssss");
+                //var col_count = $('.drg_section').data('col');
                 $(".drag_drp li span").draggable({
                     opacity: "0.5",
                     helper: "clone",

@@ -83,31 +83,25 @@
                             @php( $setFlag = 2 )
                             @foreach($response['data']->options as $keyOption => $option)
                                 <?php
-                                    $option['optionImage'] = "";
-                                    if ($option['optionText'] == '') {
-                                        if ($option['optionAsImage'] != '') {
-                                            $optionAsImage = $option['optionAsImage'];
-                                        } else {
-                                            $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                    $option['optionImage'] = $extraSpan = "";
+                                    if ($option['optionAsImage'] != '') {
+                                        $optionAsImage = $option['optionAsImage'];
+                                        if ($option['optionImageText'] != '') {
+                                            $extraSpan = $option['optionImageText'];
                                         }
-                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='click image to enlarge' class='pop_up_me' />";
+                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='".$extraSpan."' class='pop_up_me' />";
                                     }
-                                    
-                                    $extraSpan = '';
-                                    if ($option['optionImageText'] != '') {
-                                        $extraSpan = $option['optionImageText'];
-                                    }
+
                                 ?>
                                 @if ($setFlag % 2 == 0)
                                     <div class="width-50 clearfix">
                                 @endif
-                                    
                                     <label class="{{$optionType}} class{{$option['optionId']}}">
                                         <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
                                         <span class="checker"></span>
                                         <em>
                                             {!! $option['optionImage'] !!}
-                                            {!! $extraSpan !!}
+                                            <!-- {!! $extraSpan !!} -->
                                             {!! $option['optionText'] !!}
                                         </em>
                                     </label>

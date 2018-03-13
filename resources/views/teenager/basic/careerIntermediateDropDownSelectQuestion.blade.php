@@ -71,7 +71,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             @if(isset($response['data']->question_images) && !empty($response['data']->question_images))
-                                @foreach($response['data']->question_images as $key=>$image)
+                                @foreach($response['data']->question_images as $key => $image)
                                     <div class="question-img image-left quiz-inter width-50">
                                         <img src="{{$image['l4ia_question_image']}}" title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" class="pop-me pop_up_me">
                                     </div>

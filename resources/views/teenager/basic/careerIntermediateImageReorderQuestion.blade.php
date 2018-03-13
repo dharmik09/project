@@ -83,16 +83,22 @@
                             foreach ($response['data']->options as $keyOption => $option) {
                                 $optionLength++;
                                 $input2 .= "<li></li>";
-                                if ($option['optionText'] == '') {
-                                    if ($option['optionAsImage'] != '') {
-                                        $optionAsImage = $option['optionAsImage'];
-                                    } else {
-                                        $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
-                                    }
-                                    $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />";
-                                } else {
-                                    $option['optionText'] = $option['optionText'];
+                                // if ($option['optionText'] == '') {
+                                //     if ($option['optionAsImage'] != '') {
+                                //         $optionAsImage = $option['optionAsImage'];
+                                //     } else {
+                                //         $optionAsImage = Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                //     }
+                                //     $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />";
+                                // } else {
+                                //     $option['optionText'] = $option['optionText'];
+                                // }
+
+                                if ($option['optionAsImage'] != '') {
+                                    $optionAsImage = $option['optionAsImage'];
+                                    $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
                                 }
+
                                 $input .= "<li><span>";
                                 $input .= $option['optionText'];
                                 $input .= "</span></li>";
