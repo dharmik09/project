@@ -401,20 +401,17 @@
                             width: 100%;
                         }
                         .logo-img {
-                            max-height: 90px;
-                            @include maxms {
+                            max-height: 130px;
+                           /* @include maxms {
                                 max-height: 90px;
-                            }
+                            }*/
                             img {
                                 //height: 100%;
-                                height: 90px;
+                                height: 130px;
                                 width: 100%;
-                                @include maxsm {
+                               /* @include maxms {
                                     height: 90px;
-                                }
-                                @include maxms {
-                                    height: 90px;
-                                }
+                                }*/
                             }
 
                         }
