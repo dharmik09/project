@@ -171,7 +171,7 @@ h6 {
             line-height: 30px;
             font-family: 'hn-b';
             color: $p-cl;
-            margin-bottom: 45px;
+            margin-bottom: 35px;
             @include maxsm {
                 font-size: 22px;
                 margin-bottom: 35px;
@@ -252,6 +252,7 @@ h6 {
         }
         .unbox-btn{
             margin-bottom: 25px;
+            span.coins-outer.career_coins{margin-left: -5px;}
         }
     }
     .my_career_tab {
