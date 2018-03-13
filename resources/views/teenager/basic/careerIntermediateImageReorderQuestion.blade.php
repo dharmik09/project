@@ -130,12 +130,13 @@
     </div>
     @if( isset($response['data']->gt_temlpate_answer_type) && ( $response['data']->l4ia_question_popup_image != '' || $response['data']->l4ia_question_popup_description != '') )
         <?php $setPopupTime = $response['data']->l4ia_extra_question_time; ?>
-        <div id="quiz_material_popup" class="modal fade quiz_pre_material " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div id="quiz_material_popup" class="modal fade quiz_pre_material " role="dialog"  data-toggle="modal">
             <div class="modal-dialog">
                 <div class="modal-content modal_content_fill">
                     <div class="time_out_cst"></div>
-                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                    
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    </div>
                     <div class="modal-body popup_image_and_desc">   
                         @if(isset($response['data']->l4ia_question_popup_description) && $response['data']->l4ia_question_popup_description != '')                
                         <div class="pre_material_img">

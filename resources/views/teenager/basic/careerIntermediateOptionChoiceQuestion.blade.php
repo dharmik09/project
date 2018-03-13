@@ -176,7 +176,9 @@
             <div class="modal-dialog">
                 <div class="modal-content modal_content_fill">
                     <div class="time_out_cst"></div>
-                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                    </div>
                     
                     <div class="modal-body popup_image_and_desc">   
                         @if(isset($response['data']->l4ia_question_popup_description) && $response['data']->l4ia_question_popup_description != '')                
