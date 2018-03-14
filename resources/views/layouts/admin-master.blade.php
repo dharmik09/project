@@ -430,10 +430,10 @@
                                 </ul>
                             </li>   
 
-                            <li class="{{ (Request::is('admin/addProfessionSchoolCourseList') || Request::is('admin/saveProfessionSchoolCourseList')) ? 'active' : '' }} treeview">
-                                <a href="{{ url('admin/professionSchool') }}">
+                            <li class="{{ (Request::is('admin/addProfessionInstituteCourseList') || Request::is('admin/professionInstitute') || Request::is('admin/saveProfessionInstituteCourseList')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/professionInstitute') }}">
                                     <i class="fa fa-dashboard"></i> 
-                                    <span>{{trans('labels.lblschool')}}</span>
+                                    <span>{{trans('labels.lblinstitutes')}}</span>
                                 </a>
                             </li>                           
                                               

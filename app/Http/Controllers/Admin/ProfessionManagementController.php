@@ -28,9 +28,8 @@ use App\ProfessionWiseSubject;
 use App\ProfessionTag;
 use App\ProfessionWiseTag;
 use App\Country;
-use App\ProfessionSchoolCourse;
+use App\ProfessionInstitutes;
 use Storage;
-
 class ProfessionManagementController extends Controller {
 
     public function __construct(FileStorageRepository $fileStorageRepository, ProfessionHeadersRepository $professionsHeadersRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository,TeenagersRepository $teenagersRepository) {
@@ -60,7 +59,7 @@ class ProfessionManagementController extends Controller {
         $this->objCountry = new Country;
         $this->loggedInUser = Auth::guard('admin');
         $this->objNotifications = new Notifications();
-        $this->objProfessionSchoolCourse = new ProfessionSchoolCourse();
+        $this->objProfessionInstitutes = new ProfessionInstitutes();
     }
 
     public function index() {
@@ -561,16 +560,16 @@ class ProfessionManagementController extends Controller {
         }
     }
 
-    public function professionSchoolCourse() {
-        $professionSchoolData = $this->objProfessionSchoolCourse->getAllProfessionSchool();
-        return view('admin.ListProfessionSchool', compact('professionSchoolData'));
+    public function professionInstitutes() {
+        $professionSchoolData = $this->objProfessionInstitutes->getAllProfessionInstitutes();
+        return view('admin.ListProfessionInstitutes', compact('professionSchoolData'));
     }
 
-    public function professionSchoolCourseListAdd() {
-        return view('admin.AddProfessionSchoolList');
+    public function professionInstitutesListAdd() {
+        return view('admin.AddProfessionInstitutes');
     }
     
-    public function professionSchoolCourseListSave() {
+    public function professionInstitutesListSave() {
         $response = '';        
         $path = Input::file('ps_bulk')->getRealPath();
         $results = Excel::load($path, function($reader) {})->get();
@@ -579,17 +578,17 @@ class ProfessionManagementController extends Controller {
         if($uploadType == 1) // Upload Basic information
         {
             if(!isset($results[0]->id) || !isset($results[0]->state) || !isset($results[0]->college_institution) || !isset($results[0]->address_line1) || !isset($results[0]->address_line2) || !isset($results[0]->city) || !isset($results[0]->district) || !isset($results[0]->pin_code) || !isset($results[0]->website) || !isset($results[0]->year_of_establishment) || !isset($results[0]->affiliat_university) || !isset($results[0]->year_of_affiliation) || !isset($results[0]->location) || !isset($results[0]->latitude) || !isset($results[0]->longitude) || !isset($results[0]->type) || !isset($results[0]->management) || !isset($results[0]->speciality) || !isset($results[0]->girl_exclusive) || !isset($results[0]->hostel_count)){
-                return Redirect::to("admin/professionSchool")->with('error', trans('labels.professionschoollistcolumnnotfoundbasicinformation'));
+                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.professioninstitueslistcolumnnotfoundbasicinformation'));
             }
             foreach ($results as $key => $value) {
-                $schoolData = $this->objProfessionSchoolCourse->getProfessionSchoolBySchoolId($value->id);
+                $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
                 
                 if($schoolData){
                     $data['id'] = $schoolData->id;
                 }
 
                 $data['school_id'] = $value->id;
-                $data['state'] = $value->state;
+                $data['institute_state'] = $value->state;
                 $data['college_institution'] = $value->college_institution;
                 $data['address_line1'] = $value->address_line1;
                 $data['address_line2'] = $value->address_line2;
@@ -603,35 +602,36 @@ class ProfessionManagementController extends Controller {
                 $data['location'] = $value->location;
                 $data['latitude'] = $value->latitude;
                 $data['longitude'] = $value->longitude;
-                $data['type'] = $value->type;
+                $data['institute_type'] = $value->type;
                 $data['management'] = $value->management;
                 $data['speciality'] = $value->speciality;
                 $data['girl_exclusive'] = $value->girl_exclusive;
                 $data['hostel_count'] = $value->hostel_count;
-                $response = $this->objProfessionSchoolCourse->insertUpdate($data);
+                $data['is_institute_signup'] = $value->is_institute_signup;
+                $response = $this->objProfessionInstitutes->insertUpdate($data);
             }
             
             if($response) {
-                return Redirect::to("admin/professionSchool")->with('success', trans('labels.professionschoollistuploadsuccess'));
+                return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstitueslistuploadsuccess'));
             } else {
-                return Redirect::to("admin/professionSchool")->with('error', trans('labels.commonerrormessage'));
+                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
             }
         }
         elseif($uploadType == 2) // Upload Accreditation
         {
             if(!isset($results[0]->id) || !isset($results[0]->name) || !isset($results[0]->survey_year) || !isset($results[0]->is_accredited) || !isset($results[0]->has_score) || !isset($results[0]->accreditation_body) || !isset($results[0]->max_score) || !isset($results[0]->score)){
-                return Redirect::to("admin/professionSchool")->with('error', trans('labels.professionschoollistcolumnnotfoundaccreditation'));
+                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.professioninstitueslistcolumnnotfoundaccreditation'));
             }
             $notFoundSchool = [];
             foreach ($results as $key => $value) {
-                $schoolData = $this->objProfessionSchoolCourse->getProfessionSchoolBySchoolId($value->id);
+                $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
                 if($schoolData){
                     
                     $data['id'] = $schoolData->id;
                     $data['is_accredited'] = $value->is_accredited;
                     $data['accreditation_body'] = $value->accreditation_body;
 
-                    $response = $this->objProfessionSchoolCourse->insertUpdate($data);
+                    $response = $this->objProfessionInstitutes->insertUpdate($data);
                 }
                 else{
                     $notFoundSchool[] = $value->name;
@@ -642,13 +642,13 @@ class ProfessionManagementController extends Controller {
             if($response) {
                 if(count($notFoundSchool)>0){
                     $notFoundSchoolImplode = implode(', ', $notFoundSchool);
-                    return Redirect::to("admin/professionSchool")->with('success', $notFoundSchoolImplode.' '.trans('labels.professionschoollistuploadsuccesswithnotfound'));
+                    return Redirect::to("admin/professionInstitute")->with('success', $notFoundSchoolImplode.' '.trans('labels.professioninstitueslistuploadsuccesswithnotfound'));
                 }
                 else{
-                    return Redirect::to("admin/professionSchool")->with('success', trans('labels.professionschoollistuploadsuccess'));
+                    return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstitueslistuploadsuccess'));
                 }
             } else {
-                return Redirect::to("admin/professionSchool")->with('error', trans('labels.commonerrormessage'));
+                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
             }
         }
     }
