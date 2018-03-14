@@ -490,10 +490,10 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
 
 
 // Add new table for profile school course ## 12-03-2018 Jaimin
-  CREATE TABLE `pro_psc_profession_school_course` (
+CREATE TABLE `pro_pi_profession_institutes` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `school_id` varchar(255) NOT NULL,
- `state` varchar(20) DEFAULT NULL,
+ `institute_state` varchar(20) DEFAULT NULL,
  `college_institution` varchar(255) DEFAULT NULL,
  `address_line1` varchar(255) DEFAULT NULL,
  `address_line2` varchar(255) DEFAULT NULL,
@@ -507,14 +507,15 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
  `location` varchar(4) DEFAULT NULL,
  `latitude` varchar(10) DEFAULT NULL,
  `longitude` varchar(10) DEFAULT NULL,
- `type` varchar(100) DEFAULT NULL,
+ `institute_type` varchar(100) DEFAULT NULL,
  `management` varchar(100) DEFAULT NULL,
  `speciality` varchar(255) DEFAULT NULL,
  `girl_exclusive` varchar(10) DEFAULT NULL,
  `hostel_count` varchar(10) DEFAULT NULL,
  `minimum_fee` varchar(255) DEFAULT NULL,
  `maximum_fee` varchar(255) DEFAULT NULL,
- `is_accredited` tinyint(4) DEFAULT NULL COMMENT '1 - True, 2 - False',
+ `is_institute_signup` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
+ `is_accredited` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
  `accreditation_body` varchar(255) DEFAULT NULL,
  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
  `updated_at` timestamp NOT NULL,
