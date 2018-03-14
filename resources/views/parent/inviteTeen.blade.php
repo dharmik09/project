@@ -1,6 +1,4 @@
-@extends('layouts.parent-master')
-
-@section('content')
+@extends('layouts.parent-master') @section('content')
 
 <div>
     @if (count($errors) > 0)
@@ -12,9 +10,7 @@
             @endforeach
         </ul>
     </div>
-    @endif
-
-    @if($message = Session::get('error'))
+    @endif @if($message = Session::get('error'))
     <div class="clearfix">
         <div class="col-md-12">
             <div class="box-body">
@@ -26,15 +22,12 @@
             </div>
         </div>
     </div>
-    @endif
-
-    @if($message = Session::get('success'))
+    @endif @if($message = Session::get('success'))
     <div class="clearfix">
         <div class="col-md-12">
             <div class="box-body">
                 <div class="alert alert-error alert-succ-msg alert-dismissable success">
-                    <button aria-hidden="true" data-dismiss="success" class="close" type="button">X</button>
-                    {{ $message }}
+                    <button aria-hidden="true" data-dismiss="success" class="close" type="button">X</button> {{ $message }}
                 </div>
             </div>
         </div>
@@ -52,9 +45,13 @@
 
                 <div class="clearfix">
                     <div class="col-md-offset-3 col-sm-offset-2 col-md-6 col-sm-8 pair_with_teen input_icon">
-                        <div class="mandatory">*</div>                     
+                        <div class="mandatory">*</div>
                         <input type="text" name="p_teenager_reference_id" maxlength="100" class="cst_input_primary" placeholder="Teen Pair">
-                        <span class="info_popup_open" style="right: 22px;top: 10px; cursor:pointer;" title="Enter unique Teen ID. Teen will receive an email once you submit the form. Once Teen verifies your invitation, you can see their progress through the ProTeen levels. If you are not aware of unique Teen ID, please contact the Teen or you can find it in their Profile section."><i aria-hidden="true" class="fa fa-question-circle"></i></span>
+                        <!--<span class="info_popup_open" style="right: 22px;top: 10px; cursor:pointer;" title="Enter unique Teen ID. Teen will receive an email once you submit the form. Once Teen verifies your invitation, you can see their progress through the ProTeen levels. If you are not aware of unique Teen ID, please contact the Teen or you can find it in their Profile section."><i aria-hidden="true" class="fa fa-question-circle"></i></span>-->
+                        <span class="sec-popup help_noti"><a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                        <div class="hide popoverContent">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                        </div>
                     </div>
 
                     <div class="button_container col-md-12">
@@ -75,8 +72,7 @@
     </div>
 </div>
 
-@stop
-@section('script')
+@stop @section('script')
 <script type="text/javascript">
     jQuery(document).ready(function() {
         var validationRules = {
@@ -105,5 +101,6 @@
             $("#submitInvitation").removeAttr("disabled", 'disabled');
         }
     });
+
 </script>
 @stop

@@ -1,7 +1,10 @@
-@extends('layouts.parent-master')
+@extends('layouts.home-master')
+
+@push('script-header')
+    <title>{{ trans('labels.appname') }} : Parent Login</title>
+@endpush
 
 @section('content')
-
 <div class="col-xs-12">
     @if ($message = Session::get('error'))
     <div class="row">
@@ -28,7 +31,7 @@
     @endif
 </div>
 @include('flash::message')
-<div class="centerlize">
+<!-- <div class="centerlize">
     <div class="container">
         <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -79,30 +82,37 @@
             </div>
         </div>
     </div>
-</div>
-<div class="loader ajax-loader" style="display:none;">
-    <div class="cont_loader">
-        <div class="img1"></div>
-        <div class="img2"></div>
-    </div>
-</div>
-<div id="login_info_popup" class="modal fade login_info_popup_cst" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                <h4 class="modal-title">{{($type == 'Parent')?'PARENT':'Counsellor'}}</h4>
-            </div>
-            <div class="modal-body">
-                <div class="para_holder">
-                      {!!$text!!}                                   
+</div> -->
+<!-- mid section starts-->
+    <section class="sec-login">
+        <div class="container-small">
+            <div class="login-form">
+                <h1>Parent login</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+                <span class="icon"><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
+
+                <div class="form-sec">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" placeholder="username" tabindex="1">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control pass-visi" id="password" placeholder="password" tabindex="2">
+                            <span class="visibility-pwd"><img src="{{ Storage::url('img/view.png') }}" alt="view" class="view img">
+                                <img src="{{ Storage::url('img/hide.png') }}" alt="view" class="img-hide hide img"></span>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox"><span class="checker"></span> Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-default" title="Login" tabindex="4">Login</button>
+                    </form>
+                    <p><a href="#" title="Forgot username/password?">Forgot username/password?</a></p>
+                    <p>Not enrolled? <a href="#" title="Sign up now.">Sign up now.</a></p>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-
+    </section>
+    <!-- mid section end-->
 @stop
 @section('script')
 <script type="text/javascript">
@@ -133,7 +143,7 @@
         $('.fa-play').click(function(event) {
             $('#login_info_popup').modal('show');
         });
-        $('#login_info_popup .modal-body .para_holder').mCustomScrollbar();
+        //$('#login_info_popup .modal-body .para_holder').mCustomScrollbar();
     });
     $("#loginSubmit").click(function() {
         var form = $("#login_form");

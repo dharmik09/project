@@ -703,7 +703,7 @@ class ProfessionManagementController extends Controller {
         $sid = 0;
         if (!empty($records["data"])) {
             foreach ($records["data"] as $key => $_records) {
-                $records["data"][$key]->pf_logo = ($_records->pf_logo != '' && Storage::size($this->professionThumbImageUploadPath . $_records->pf_logo) > 0) ? "<img src='". Storage::url($this->professionThumbImageUploadPath . $_records->pf_logo) ."'>" : "<img src='". Storage::url($this->professionThumbImageUploadPath . 'proteen-logo.png') ."'>";
+                $records["data"][$key]->pf_logo = ($_records->pf_logo != '' && Storage::size($this->professionThumbImageUploadPath . $_records->pf_logo) > 0) ? "<img src='". Storage::url($this->professionThumbImageUploadPath . $_records->pf_logo) ."' height = 50 width = 50 >" : "<img src='". Storage::url($this->professionThumbImageUploadPath . 'proteen-logo.png') ."'   height = 50 width= 50>";
                 $records["data"][$key]->action = '<a href="'.url('/admin/editProfession').'/'.$_records->id.'"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
                                                     <a onClick="return confirm(\'Are you sure want to delete?\')" href="'.url('/admin/deleteProfession').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i> &nbsp;&nbsp;</a>';
                 $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";

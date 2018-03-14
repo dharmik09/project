@@ -353,7 +353,7 @@ h1{font-family: ab;font-size: 30px;line-height: 1.2;color: #fd604b;}
 .btn.primary_btn{background: #fd604b;border-radius: 0;}
 .input_icon_parent.select-style:after{border-left: 1px solid #161c22;}
 .input_icon:before,.input_icon_parent:before{font-family: 'fontawesome';font-size: 26px;color:rgba(22,28,34,.7);background-image: none;top: 4px;}
-.name:before{content: '\f007';}
+.name:before,.pair_with_teen:before{content: '\f007';}
 .company_name:before{content: '\f1ad';}
 .address:before,.state_icon:before,.city_icon:before{content: '\f124';}
 .pincode:before{content: '\f041';}
@@ -449,7 +449,7 @@ ul.nav.nav-tabs li:hover, ul.nav.nav-tabs li.active{background: none;}
     color: #f15f4c;
 }
 .btn_golden_border {
-    border: 2px solid #f15f4c !important;
+    border: 2px solid #f15f4c !important;line-height: 1.5;border-radius: 0;
 }
 .coinouter{background: #f15f4c;}
 .coinsnum{color: #fff;}
@@ -475,13 +475,25 @@ ul.nav.nav-tabs li:hover, ul.nav.nav-tabs li.active{background: none;}
 .procoins-gift .gift-table .table tr td .gft-btn{border-radius: 0;color: #fff;height: auto;line-height: 1.6;}
 a.btn.primary_btn.invite_teen_btn {padding: 10px;}
 textarea.cst_input_primary{resize: vertical;}
-
-
+.detail_container{border: none;}
+.pair_with_teen .sec-popup{position: absolute;top: 4px;right: 20px;}
+.pair_with_teen .sec-popup a{font-size: 25px;}
+.front_page, .back_page, .slider_card .full_path{background: #fff;}
+.slider_card{color:#565b5f;border-color: #fff;padding: 15px; }
+.parent_h2_header{margin-bottom: 20px;}
+.intrest_content .my_chart h4{font-size: 26px;color: #565b5f;line-height: 30px;font-family: ht;margin: 15px 0;}
+.slider_card .full_path .inner_path{color: #565b5f;}
+.data-dashboard .data{display: inline-block;float: none;}
+.multiple-heading{font-family: 'h';font-size: 18px;}
+.parent_h2_header h2.parent_h2_text{font-size: 22px;}
+.parent_h2_header h2.parent_h2_text {font-size: 28px;font-family: 'am';color: #27a6b5;border-bottom: none;}
+.intrest_content .my_chart{width: 100%;}
 
 @media (max-width: 991px) {
 .padTop10 {
     padding-top: 10px;
 }
+    .intrest_content .my_chart h4{font-size: 22px;}
 }
 .report_download{
     text-align: right;
@@ -502,6 +514,11 @@ textarea.cst_input_primary{resize: vertical;}
     .coin_summary .left .coin_count_ttl{font-size: 25px;}
     ul.nav.nav-tabs li a >span{padding: 15px 10px;}
     ul.nav.nav-tabs li{padding:0;}
+    .l-1 span.level_label, .l-2 span.level_label, .l-3 span.level_label, .l-4 span.level_label{font-size: 20px;}
+    .intrest_content{height: 200px !important;}
+}
+@media (max-width:480px){
+    .intrest_content .col-xs-6{width: 100%;}
 }
 
 .non_youtube_video{
@@ -849,6 +866,7 @@ h2 .tooltip-inner {
 @media(min-width:768px){
     .coin_summary.cst_cst_dsh.cst_dsh .right{padding:0;text-align:left;}
     .coin_summary.cst_cst_dsh.cst_dsh .dashboard_page{padding:0;text-align:right;}    
+    .slider_card{height: 400px;}
 }
 @media(max-width:767px){
 .coin_summary.cst_cst_dsh.cst_dsh .left{margin:0;}
