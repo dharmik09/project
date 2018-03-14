@@ -108,7 +108,7 @@
                         @endif
                     </div>
                 @else
-                    <div class="sec-forum"><span>No result Found</span></div>
+                    <div class="sec-forum bg-offwhite"><span>No result Found</span></div>
                 @endif
             </div>
             <!-- sec notification end-->
@@ -175,7 +175,7 @@
                         <p class="text-center"><a href="{{url('teenager/forum-questions')}}" title="View All" class="btn btn-primary load-more">View All</a></p>
                     </div>
                 @else
-                    <div class="sec-forum"><span>No question found</span></div>
+                <div class="sec-forum bg-offwhite"><span>No question found</span></div>
                 @endif
             </div>
             <!--sec forum end-->
