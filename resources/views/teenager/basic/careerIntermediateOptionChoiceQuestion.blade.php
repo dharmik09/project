@@ -101,7 +101,7 @@
                                         <span class="checker"></span>
                                         <em>
                                             {!! $option['optionImage'] !!}
-                                            <!-- {!! $extraSpan !!} -->
+                                            {!! $extraSpan !!}
                                             {!! $option['optionText'] !!}
                                         </em>
                                     </label>
