@@ -1294,6 +1294,8 @@ class Level4ActivityController extends Controller {
                             $remDays = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
                         }
                         $response['remainingDays'] = $remDays;  
+                        $updatedAvailableCoins = $this->teenagersRepository->getUserDataForCoinsDetail($userId);
+                        $response['availableCoins'] = (isset($updatedAvailableCoins) && !empty($updatedAvailableCoins)) ? $updatedAvailableCoins['t_coins'] : 0;
                     }
                     $response['status'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');

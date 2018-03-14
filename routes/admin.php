@@ -331,6 +331,7 @@ Route::get('/addProfessionWiseSubjectBulk', 'Admin\ProfessionManagementControlle
 Route::post('/saveProfessionWiseSubjectBulk', 'Admin\ProfessionManagementController@professionWiseSubjectSaveBulk');
 Route::get('/addProfessionWiseTagBulk', 'Admin\ProfessionManagementController@professionWiseTagAddBulk');
 Route::post('/saveProfessionWiseTagBulk', 'Admin\ProfessionManagementController@professionWiseTagSaveBulk');
+Route::post('/getProfessions', 'Admin\ProfessionManagementController@listWithAjax');
 
 //Profession Headers
 Route::get('/headers', 'Admin\ProfessionHeadersManagementController@index')->name('headers');
