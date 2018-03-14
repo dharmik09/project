@@ -480,6 +480,6 @@ Route::get('/deleteForumQuestion/{id}', 'Admin\ForumQuestionManagementController
 Route::get('/changeanswerstatus/{ansId}/{status}', 'Admin\ForumQuestionManagementController@changeAnswerStatus');
 
 //School import
-Route::get('/professionSchool', 'Admin\ProfessionManagementController@professionSchoolCourse');
-Route::get('/addProfessionSchoolCourseList', 'Admin\ProfessionManagementController@professionSchoolCourseListAdd');
-Route::post('/saveProfessionSchoolCourseList', 'Admin\ProfessionManagementController@professionSchoolCourseListSave');
+Route::get('/professionInstitute', 'Admin\ProfessionManagementController@professionInstitutes');
+Route::get('/addProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListAdd');
+Route::post('/saveProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListSave');
