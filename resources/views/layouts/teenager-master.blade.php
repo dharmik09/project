@@ -108,7 +108,10 @@
                         <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
                         <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
                     </ul>
-                    <span>&copy; 2018 ProTeen</span>
+                    <ul class="links">
+                        <li><span>&copy; 2018 ProTeen</span></li>
+                        <li><span>A <strong>UNIDEL</strong> Company</span></li>
+                    </ul>                      
                 </div>
                 <div class="right">
                     <ul class="social">
