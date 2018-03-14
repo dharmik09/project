@@ -52,7 +52,7 @@
 
     <body class="noScroll">
         @if(Auth::guard('parent')->check())
-                <div class="loader init-loader">
+        <div class="loader init-loader">
             <div class="cont_loader">
                 <div class="img1"></div>
                 <div class="img2"></div>
@@ -91,11 +91,10 @@
                         <li><a href="#" title="Chat">Chat</a></li>
                         <li><a href="#" title="Help">Help</a></li>
                     </ul>
-                    <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII="><a href="#" class="menu-close"><i class="icon-close"></i></a>
+                    <a href="#" class="menu-close"><i class="icon-close"></i></a>
                 </div>
             </div>
         </nav>
-    </div>
         @else
         <nav class="fixed-navigation">
             <div class="container">
