@@ -57,50 +57,6 @@
                                 <th>Competitors</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $serialno = 0; ?>
-                            @forelse($professions as $profession)
-                            <?php $serialno++; ?>
-                            <tr>
-                                <td>
-                                    <?php echo $serialno; ?>
-                                </td>
-                                <td>
-                                    {{$profession->pf_name}}
-                                </td>
-                                <td>
-                                    <?php $basketsNames = Helpers::getMultipleBasketNamesForProfession($profession->id); ?>
-                                    {{(isset($basketsNames) && $basketsNames != '')?$profession->b_name.', '.$basketsNames:$profession->b_name}}
-                                </td>
-                                <td>
-                                    <?php
-                                        $image = ($profession->pf_logo != "" && isset($profession->pf_logo)) ? Storage::url($uploadProfessionThumbPath.$profession->pf_logo) : asset('/backend/images/proteen_logo.png');
-                                    ?>
-                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
-                                   </td>
-                                <td>
-                                    @if ($profession->deleted == 1)
-                                        <i class="s_active fa fa-square"></i>
-                                    @else
-                                        <i class="s_inactive fa fa-square"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
-                                    <a href="{{ url('/admin/editProfession') }}/{{$profession->id}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
-                                    <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteProfession') }}/{{$profession->id}}"><i class="i_delete fa fa-trash"></i></a>
-                                </td>
-                                <td>
-                                    <a href="" onClick="fetch_competitors_details({{$profession->id}});" data-toggle="modal" id="#userCompetotorsData" data-target="#userCompetotorsData"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;</a>
-                                    <a href="{{ url('admin/exportCompetitors')}}/{{$profession->id}}"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="6"><center>{{trans('labels.norecordfound')}}</center></td>
-                            </tr>
-                            @endforelse
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -124,6 +80,7 @@
 
     function fetch_competitors_details($id)
     {
+        alert("hi");
        $.ajax({
          type: 'post',
          url: '{{ url("admin/getUserCompetitorsData") }}',
@@ -139,7 +96,41 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#listProfession').DataTable();
+        var ajaxParams = {};
+        getProfessionList(ajaxParams);
     });
+
+    var getProfessionList = function(ajaxParams){
+        $('#listProfession').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "destroy": true,
+            "ajax":{
+                "url": "{{ url('admin/getProfessions') }}",
+                "dataType": "json",
+                "type": "POST",
+                headers: { 
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                "data" : function(data) {
+                    if (ajaxParams) {
+                        $.each(ajaxParams, function(key, value) {
+                            data[key] = value;
+                        });
+                    }
+                }
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "pf_name" },
+                { "data": "b_name" },
+                { "data": "pf_logo", "orderable": false},
+                { "data": "deleted" , "orderable": false},
+                { "data": "action", "orderable": false },
+                { "data": "competitors", "orderable": false }
+            ]
+        });
+    };
+
 </script>
 @stop

@@ -206,12 +206,24 @@ class ProfessionController extends Controller {
         $basketsData = $this->baskets->with(['profession' => function ($query) use($searchValue, $countryId) {
                             $query->with(['professionHeaders' => function ($query) use($searchValue, $countryId) {
                                 $query->where('country_id',$countryId);
-                            }])->where('pf_name', 'like', '%'.$searchValue.'%')
-                            ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                            }])->where(function($query) use($searchValue) {
+                                    $query->where('pf_name', 'like', '%'.$searchValue.'%')
+                                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));   
+                                })
+                             ->orWhere(function($query) use($searchValue) {
+                                    $query->orWhere('pf_profession_alias', 'LIKE', '%'.$searchValue.'%')         
+                                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                                });
                         }])
                         ->whereHas('profession', function ($query) use($searchValue, $countryId) {
-                            $query->where('pf_name', 'like', '%'.$searchValue.'%')
-                            ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                            $query->where(function($query) use($searchValue) {
+                                    $query->where('pf_name', 'like', '%'.$searchValue.'%')
+                                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));   
+                                })
+                             ->orWhere(function($query) use($searchValue) {
+                                    $query->orWhere('pf_profession_alias', 'LIKE', '%'.$searchValue.'%')         
+                                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                                });
                         })
                         ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                         ->get();
@@ -262,14 +274,24 @@ class ProfessionController extends Controller {
         $searchValue = Input::get('search_text');
         $basketsData = $this->baskets
                         ->with(['profession' => function ($query) use($searchValue) {
-                            $query->where('pf_name', 'like', '%'.$searchValue.'%')
-                             ->orWhere('pf_profession_alias', 'LIKE', '%'.$searchValue.'%')         
-                            ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                            $query->where(function($query) use($searchValue) {
+                                    $query->where('pf_name', 'like', '%'.$searchValue.'%')
+                                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));   
+                                })
+                             ->orWhere(function($query) use($searchValue) {
+                                    $query->orWhere('pf_profession_alias', 'LIKE', '%'.$searchValue.'%')         
+                                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                                });
                         }])
                         ->whereHas('profession', function ($query) use($searchValue) {
-                            $query->where('pf_name', 'like', '%'.$searchValue.'%')
-                            ->orWhere('pf_profession_alias', 'LIKE', '%'.$searchValue.'%') 
-                            ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                            $query->where(function($query) use($searchValue) {
+                                    $query->where('pf_name', 'like', '%'.$searchValue.'%')
+                                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));   
+                                })
+                             ->orWhere(function($query) use($searchValue) {
+                                    $query->orWhere('pf_profession_alias', 'LIKE', '%'.$searchValue.'%')         
+                                        ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                                });
                         })
                         ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                         ->get();
