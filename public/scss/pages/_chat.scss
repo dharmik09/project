@@ -25,6 +25,9 @@ a:hover {
         display: inline-block;
         transform: translate(-50%, -50%);
     }
+    &.bg-offwhite{
+        background: $bg-offwhite !important;
+    }
 }
 
 .chat-heading {

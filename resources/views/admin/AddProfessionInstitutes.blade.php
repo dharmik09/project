@@ -7,7 +7,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        {{trans('labels.professionschoollist')}}
+        {{trans('labels.professioninstitueslist')}}
     </h1>
 </section>
 
@@ -19,7 +19,7 @@
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{trans('labels.add')}} {{trans('labels.professionschoollist')}}</h3>
+                    <h3 class="box-title">{{trans('labels.add')}} {{trans('labels.professioninstitueslist')}}</h3>
                 </div><!-- /.box-header -->
                 @if (count($errors) > 0)
                 <div class="alert alert-danger">
@@ -32,7 +32,7 @@
                 </div>
                 @endif
 
-                <form id="addProfessionBulk" class="form-horizontal" method="post" files="true" action="{{ url('/admin/saveProfessionSchoolCourseList') }}" enctype="multipart/form-data">
+                <form id="addProfessionBulk" class="form-horizontal" method="post" files="true" action="{{ url('/admin/saveProfessionInstituteCourseList') }}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="box-body">
 
@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="ps_bulk" class="col-sm-3 control-label">{{trans('labels.professionschoollistupload')}}</label>
+                        <label for="ps_bulk" class="col-sm-3 control-label">{{trans('labels.professioninstitueslistupload')}}</label>
                         <div class="col-sm-6">
                             <input type="file" id="ps_bulk" name="ps_bulk" class="form-control"/>
                         </div>

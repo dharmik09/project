@@ -7,10 +7,10 @@
 <section class="content-header">
     <h1>
         <div class="col-md-11">
-            {{trans('labels.professionschoollist')}}
+            {{trans('labels.professioninstitueslist')}}
         </div>
         <div class="col-md-1">
-            <a href="{{ url('admin/addProfessionSchoolCourseList') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
+            <a href="{{ url('admin/addProfessionInstituteCourseList') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
         </div>
     </h1>
 </section>
@@ -28,7 +28,7 @@
                     <table id="listProfessionschoollist" class="table table-striped display" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>{{trans('labels.lblschoolid')}}</th>
+                                <th>{{trans('labels.lblinstitutesid')}}</th>
                                 <th>{{trans('labels.lblname')}}</th>
                                 <th>{{trans('labels.lblstate')}}</th>
                                 <th>{{trans('labels.lblpincode')}}</th>
@@ -48,7 +48,7 @@
                                     {{$data->college_institution}}
                                 </td>
                                 <td>
-                                    {{$data->state}}
+                                    {{$data->institute_state}}
                                 </td>
                                 <td>
                                     {{$data->pin_code}}
