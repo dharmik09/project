@@ -29,6 +29,7 @@ use App\ProfessionTag;
 use App\ProfessionWiseTag;
 use App\Country;
 use App\ProfessionSchoolCourse;
+use Storage;
 
 class ProfessionManagementController extends Controller {
 
@@ -63,10 +64,10 @@ class ProfessionManagementController extends Controller {
     }
 
     public function index() {
-        $professions = $this->professionsRepository->getAllProfessions();
-        $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
-        Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
-        return view('admin.ListProfession', compact('professions', 'uploadProfessionThumbPath'));
+        // $professions = $this->professionsRepository->getAllProfessions();
+        // $uploadProfessionThumbPath = $this->professionThumbImageUploadPath;
+        // Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_READ'), $this->controller . "@index", $_SERVER['REQUEST_URI'], Config::get('constant.AUDIT_ORIGIN_WEB'), '', '', $_SERVER['REMOTE_ADDR']);
+        return view('admin.ListProfession');
     }
 
     public function add() {
@@ -650,5 +651,71 @@ class ProfessionManagementController extends Controller {
                 return Redirect::to("admin/professionSchool")->with('error', trans('labels.commonerrormessage'));
             }
         }
+    }
+
+    public function listWithAjax() {
+        $professions = $this->professionsRepository->getAllProfessionsData()->get()->count();
+        
+        $records = array();
+        $columns = array(
+            0 => 'id',
+            1 => 'pf_name',
+            2 => 'b_name',
+            3 => 'pf_logo',
+            4 => 'deleted',
+        );
+        
+        $order = Input::get('order');
+        $search = Input::get('search');
+        $records["data"] = array();
+        $iTotalRecords = $professions;
+        $iTotalFiltered = $iTotalRecords;
+        $iDisplayLength = intval(Input::get('length')) <= 0 ? $iTotalRecords : intval(Input::get('length'));
+        $iDisplayStart = intval(Input::get('start'));
+        $sEcho = intval(Input::get('draw'));
+
+        $records["data"] = $this->professionsRepository->getAllProfessionsData();
+        
+        if (!empty($search['value'])) {
+            $val = $search['value'];
+            $records["data"]->where(function($query) use ($val) {
+                $query->where('profession.pf_name', "Like", "%$val%");
+                $query->orWhere('profession.created_at', "Like", "%$val%");
+                $query->orWhere('basket.b_name', "Like", "%$val%");
+            });
+
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
+                    $query->where('profession.pf_name', "Like", "%$val%");
+                    $query->orWhere('profession.created_at', "Like", "%$val%");
+                    $query->orWhere('basket.b_name', "Like", "%$val%");
+                })->count();
+        }
+        
+        //order by
+        foreach ($order as $o) {
+            $records["data"] = $records["data"]->orderBy($columns[$o['column']], $o['dir']);
+        }
+
+        //limit
+        $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
+        // this $sid use for school edit teenager and admin edit teenager
+        $sid = 0;
+        if (!empty($records["data"])) {
+            foreach ($records["data"] as $key => $_records) {
+                $records["data"][$key]->pf_logo = ($_records->pf_logo != '' && Storage::size($this->professionThumbImageUploadPath . $_records->pf_logo) > 0) ? "<img src='". Storage::url($this->professionThumbImageUploadPath . $_records->pf_logo) ."'>" : "<img src='". Storage::url($this->professionThumbImageUploadPath . 'proteen-logo.png') ."'>";
+                $records["data"][$key]->action = '<a href="'.url('/admin/editProfession').'/'.$_records->id.'"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
+                                                    <a onClick="return confirm(\'Are you sure want to delete?\')" href="'.url('/admin/deleteProfession').'/'.$_records->id.'"><i class="i_delete fa fa-trash"></i> &nbsp;&nbsp;</a>';
+                $records["data"][$key]->deleted = ($_records->deleted == 1) ? "<i class='s_active fa fa-square'></i>" : "<i class='s_inactive fa fa-square'></i>";
+                $records["data"][$key]->competitors = '<a href="javascript:void(0);" onClick="fetch_competitors_details('.$_records->id.');" data-toggle="modal" id="#userCompetotorsData" data-target="#userCompetotorsData"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;</a><a href="'.url('/admin/exportCompetitors').'/'.$_records->id.'"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>';
+            }
+        }
+
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalFiltered;
+
+        return \Response::json($records);
+        exit;
     }
 }
