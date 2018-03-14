@@ -285,7 +285,7 @@ var enableOtherUserChat = '{{$otherChat}}';
    if(enableOtherUserChat > 0){
        otherUserId = '{{(isset($otherTeenDetails->t_uniqueid) && $otherTeenDetails->t_uniqueid != '')?$otherTeenDetails->t_uniqueid:''}}';
        otherUserName = '{{(isset($otherTeenDetails->t_name) && $otherTeenDetails->t_name != '')?$otherTeenDetails->t_name:''}}';
-       openchat(otherUserId,otherUserName);
+       normalChat();
    }else{
        normalChat();
    }

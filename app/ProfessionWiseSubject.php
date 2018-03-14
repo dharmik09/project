@@ -75,8 +75,8 @@ class ProfessionWiseSubject extends Model
                     ->join("pro_ps_profession_subjects AS profession_subject", 'pro_pws_professions_wise_subjects.subject_id', '=', 'profession_subject.id')
                     ->selectRaw('profession.*, profession_subject.ps_name, profession_subject.ps_slug, profession_subject.ps_image')
                     ->where('profession_subject.ps_slug', $slug)
-                    ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
-                    ->where('profession_subject.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->where('profession.deleted', Config::get('constant.ACTIVE_FLAG'))
+                    ->where('profession_subject.deleted', Config::get('constant.ACTIVE_FLAG'))
                     ->whereIn('pro_pws_professions_wise_subjects.parameter_grade', ['M','H'])
                     ->where(function($query) use ($lastCareerId)  {
                         if(isset($lastCareerId) && !empty($lastCareerId)) {
@@ -98,8 +98,8 @@ class ProfessionWiseSubject extends Model
                     ->join("pro_ps_profession_subjects AS profession_subject", 'pro_pws_professions_wise_subjects.subject_id', '=', 'profession_subject.id')
                     ->selectRaw('profession.*, profession_subject.ps_name, profession_subject.ps_slug, profession_subject.ps_image')
                     ->where('profession_subject.ps_slug', $slug)
-                    ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'))
-                    ->where('profession_subject.deleted', '<>', Config::get('constant.DELETED_FLAG'))
+                    ->where('profession.deleted', Config::get('constant.ACTIVE_FLAG'))
+                    ->where('profession_subject.deleted', Config::get('constant.ACTIVE_FLAG'))
                     ->whereIn('pro_pws_professions_wise_subjects.parameter_grade', ['M','H'])
                     ->where(function($query) use ($lastCareerId)  {
                         if(isset($lastCareerId) && !empty($lastCareerId)) {

@@ -75,7 +75,8 @@ class TagController extends Controller {
 		                    } else {
 		                        $notSetArray[] = $value->id;
 		                    }
-		                    $professionData['completed'] = rand(0,1);
+		                    $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $value->profession->id); 
+		                    $professionData['completed'] = (isset($professionComplete) && $professionComplete >= 100) ? 1 : 0;
 			                $profession[] = $professionData;	                
 		            	}
 		            }

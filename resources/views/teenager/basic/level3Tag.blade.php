@@ -31,6 +31,9 @@
             $matchScaleCount = [];
         ?>
         @foreach($professionsTagData->professionTags as $professionTags)
+        <?php
+            $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionTags->profession_id);
+        ?>
         <?php 
             $matchScale = isset($getTeenagerHML[$professionTags->profession_id]) ? $getTeenagerHML[$professionTags->profession_id] : '';
             if($matchScale == "match") {
@@ -44,9 +47,9 @@
             }
         ?>
             @if(isset($professionTags->profession['pf_slug']))
-                <li class="{{$matchScale}} complete-feild">
+                <li class="{{$matchScale}} <?php if (isset($professionComplete) && $professionComplete >= 100) { ?> complete-feild <?php } ?> ">
                     <a href="{{url('teenager/career-detail/'.$professionTags->profession['pf_slug'])}}" title="{{$professionTags->profession['pf_name']}}">{{$professionTags->profession['pf_name']}}</a>
-                    @if(count($professionTags->profession['professionAttempted']) > 0)
+                    @if (isset($professionComplete) && $professionComplete >= 100)
                         <a href="#" class="complete"><span>Complete</span></a>
                     @endif
                 </li>

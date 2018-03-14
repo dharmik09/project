@@ -578,4 +578,13 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                     ->get();
         return $careers;
     }
+
+    public function getAllProfessionsData()
+    {
+        $professions = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
+                ->join(config::get('databaseconstants.TBL_BASKETS') . " AS basket", 'profession.pf_basket', '=', 'basket.id')
+                ->selectRaw('profession.* , basket.b_name')
+                ->where('profession.deleted', '<>', Config::get('constant.DELETED_FLAG'));
+        return $professions;
+    }
 }
