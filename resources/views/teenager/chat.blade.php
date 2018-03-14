@@ -58,7 +58,7 @@
             </div>
             <!-- sec chat -->
             <div class="chat-heading">
-                <h2 class="font-blue">Notifications, Forum and Chat to Engage on ProTeen</h2>
+                <h2 style="text-align:center;" class="font-blue">Notifications, Forum and Chat</h2>
             </div>
              <!-- sec notification-->
             <div class="sec-notification">

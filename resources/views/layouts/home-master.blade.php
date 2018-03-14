@@ -65,7 +65,7 @@
                     </ul>
                     <ul class="links">
                         <li><span>&copy; 2018 ProTeen</span></li>
-                        <li><span>A <strong>UNIDEL</strong> Company</span></li>
+                        <li><span>A <strong>UNIDEL</strong> COMPANY</span></li>
                     </ul>           
                 </div>
                 <div class="right">

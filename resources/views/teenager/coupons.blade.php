@@ -53,7 +53,7 @@
                                 <div>
                                     <i class="icon-empty-folder"></i>
                                 </div>
-                                <p>No data found</p>
+                                <p>No Active Coupons Available</p>
                             </div>
                         </div>
                         @endif
