@@ -36,7 +36,7 @@
         <div class="login-form">
             <h1>{{$type}} login</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
-            <span class="icon"><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
+            <span class="icon"><img src="../img/hand-icon.png" alt="hand icon"></span>
             <div class="form-sec">
                 <form id="login_form" role="form" method="POST" class="login_form" action="{{ url('/parent/login-check') }}" autocomplete="on" autosuggesion="off">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
