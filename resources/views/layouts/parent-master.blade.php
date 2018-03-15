@@ -51,8 +51,7 @@
     </head>
 
     <body class="noScroll">
-        @if(Auth::guard('parent')->check())
-                <div class="loader init-loader">
+        <div class="loader init-loader">
             <div class="cont_loader">
                 <div class="img1"></div>
                 <div class="img2"></div>
@@ -60,107 +59,82 @@
         </div>
         <nav>
             <div class="container">
-                <div class="logo pull-left"><a href="#"><img src="../img/logo.png" alt=""></a></div>
-                <div class="menu-toggle pull-right">
-                    <ul class="nav-bar clearfix">
-                        <li class="n-user submenu-container">
-                            <a href="javascript:void(0);"><i class="i-user"><img src="../img/alex.jpg" alt=""></i></a>
-                            <div class="submenu">
-                                <div class="user-snapshot">
-                                    <div class="user-avatar"><img src="../img/alex.jpg" alt=""></div>
-                                    <div class="user-name">
-                                        <h2>Alex Murphy</h2>
-                                        <p>Alexmurphy@gmail.com</p>
+                <div class="logo pull-left">
+                    <a href="@if(Auth::guard('parent')->check()) {{ url('parent/home') }} @else {{ url('/') }} @endif" title="Dashboard">
+                        <img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}">
+                    </a></div>
+                    <div class="menu-toggle pull-right">
+                        <ul class="nav-bar clearfix">
+                            <li class="n-user submenu-container">
+                                <?php
+                                    $photo = Auth::guard('parent')->user()->p_photo;
+                                    if ($photo != '' && Storage::size(Config::get('constant.PARENT_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo) > 0) {
+                                        $profilePicUrl = Storage::url(Config::get('constant.PARENT_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo);
+                                    } else {
+                                        $profilePicUrl = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                    }                                                                                       
+                                ?>
+                                <a href="javascript:void(0);"><i class="i-user"><img src="{{ $profilePicUrl }}" alt=""></i></a>
+                                <div class="submenu">
+                                    <div class="user-snapshot">
+                                        <div class="user-avatar"><img src="{{ $profilePicUrl }}" alt=""></div>
+                                        <div class="user-name">
+                                            <h2>{{ Auth::guard('parent')->user()->p_first_name }} {{ Auth::guard('parent')->user()->p_last_name }}</h2>
+                                            <p>{{ Auth::guard('parent')->user()->p_email }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="btns">
+                                        <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-small text-uppercase">Sign out</a>
+                                        <form id="logout-form" action="{{ url('/parent/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="btns"><a href="#" class="btn btn-primary btn-small text-uppercase">Sign out</a></div>
-                            </div>
-                        </li>
-                        <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
-                    </ul>
+                            </li>
+                            <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
+                        </ul>
                 </div>
             </div>
             <div class="main-menu">
                 <div class="menu-container">
                     <ul>
-                        <li><a href="#" title="Dashboard">dashboard</a></li>
-                        <li><a href="#" class="active" title="Careers">Careers</a></li>
-                        <li><a href="#" title="Community">Community</a></li>
-                        <li><a href="#" title="Profile">Profile</a></li>
-                        <li><a href="#" title="Coupons">Coupons</a></li>
-                        <li><a href="#" title="Chat">Chat</a></li>
-                        <li><a href="#" title="Help">Help</a></li>
+                        <?php $inArrayRoute = ['parent/my-challengers', 'parent/my-challengers-research/{professionId}', 'parent/my-challengers-accept/{professionId}/{teenId}', 'parent/level4-activity/{professionId}/{teenId}', 'parent/level4-play-more/{professionId}/{teenId}','parent/level4-intermediate-activity/{professionId}/{templateId}/{teenId}', 'parent/level4-advance/{professionId}/{teenId}', 'parent/level4-advance-step2/{professionId}/{typeid}/{teenId}']; ?>
+                        <li><a href="{{ url('parent/my-challengers') }}" title="My Challengers" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), $inArrayRoute) ? 'active' : ''}}" >My Challengers</a></li>
+                        <li><a href="{{ url('/parent/update-profile') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/update-profile') ? 'active' : '' }}" title="Profile">My Profile</a></li>
+                        <li><a href="{{ url('/parent/home') }}" title="My Teens" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/home') ? 'active' : '' }}" >My Teen</a></li>
+                        <li><a href="{{ url('/parent/progress') }}" title="Progress" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/progress') ? 'active' : '' }}" >Progress</a></li>
+                        <li><a href="{{ url('/parent/my-coins') }}" title="My Coins" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/my-coins') ? 'active' : '' }}" >My ProCoins</a></li>
                     </ul>
-                    <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII="><a href="#" class="menu-close"><i class="icon-close"></i></a>
-                </div>
-            </div>
-        </nav>
-    </div>
-        @else
-        <nav class="fixed-navigation">
-            <div class="container">
-                <div class="logo pull-left">
-                    <a href="{{ url('/') }}">
-                        <img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}">
-                    </a>
-                </div>
-                <div class="menu-toggle pull-right">
-                    <ul class="nav-bar clearfix">
-                        <li class="n-menu">
-                            <a href="javascript:void(0);" class="menu-toggler">
-                                <i class="icon-menu"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="main-menu bg-light">
-                <div class="menu-container">
-                    <ul>
-                        <li><a href="{{ url('/teenager') }}" title="Teen" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager', 'teenager/login', 'teenager/signup']) ? 'active' : ''}}">Student</a></li>
-                        <li><a href="{{ url('/parent') }}" title="Parent" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['parent', 'parent/login', 'parent/signup']) ? 'active' : ''}}">Parent</a></li>
-                        <li><a href="{{ url('/counselor') }}"  title="Mentor" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['counselor', 'counselor/login', 'counselor/signup']) ? 'active' : ''}}">Mentor</a></li>
-                        <li><a href="{{ url('/school') }}" title="School" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['school', 'school/login', 'school/signup']) ? 'active' : ''}}">School</a></li>
-                        <li><a href="{{ url('/sponsor') }}" title="Enterprise" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['sponsor', 'sponsor/login', 'sponsor/signup']) ? 'active' : ''}}">Enterprise</a></li>
-                            <!--<li><a href="{{ url('/team') }}" title="Team" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['team']) ? 'active' : ''}}">Team</a></li>
-                        <li><a href="{{ url('/contact-us') }}" title="Contact" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['contact-us']) ? 'active' : ''}}">Contact</a></li>-->
-                    </ul>
-                    <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">
                     <a href="#" class="menu-close"><i class="icon-close"></i></a>
                 </div>
             </div>
         </nav>
-        @endif
-        @yield('content')
-        @if(Auth::guard('parent')->check())
-        <footer class="primary_footer tnc">
+    </div>
+    @yield('content')
+        <footer>
             <div class="container">
-                <div class="copyright tandc">
-
+                <div class="left">
+                    <ul class="links">
+                        <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
+                        <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
+                        <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
+                    </ul>
+                    <ul class="links">
+                        <li><span>&copy; 2018 ProTeen</span></li>
+                        <li><span>A <strong>UNIDEL</strong> COMPANY</span></li>
+                    </ul>                      
                 </div>
-                <div class="social_footer">
-
+                <div class="right">
+                    <ul class="social">
+                        <li><a href="{{ url('/parent/list-career') }}"><i class="icon-search"><img src="{{ Storage::url('img/search-icon.png') }}" alt="search" class="icon-img"><img src="{{ Storage::url('img/search-icon-hover.png') }}" alt="search" class="icon-hover"></i></a></li>
+                        <li><a href="https://www.facebook.com/proteenlife/" target="_blank"><i class="icon-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/ProTeenLife" target="_blank"><i class="icon-twitter"></i></a></li>
+                        <li><a href="https://plus.google.com/109414106711493074923" target="_blank"><i class="icon-google"></i></a></li>
+                        <li><a href="https://www.linkedin.com/company/proteen-life" target="_blank"><i class="icon-linkdin"></i></a></li>
+                    </ul>
                 </div>
             </div>
         </footer>
-        @else
-        <footer class="primary_footer tnc">
-            <div class="container">
-                <div class="copyright tandc">
-                    <span><a href="{{url('contact')}}"  class="terms">Contact</a></span>
-                    <span><a href="{{url('term')}}" class="terms">Terms &amp; Conditions</a></span>
-                    <span><a href="{{url('privacy')}}" class="terms">Privacy Policy</a></span>
-                    <span>(c) 2017 All Rights Reserved</span>
-                </div>
-                <div class="social_footer">
-                    <a href="https://www.linkedin.com/company/proteen-life" target="_blank" class="linkedin_footer"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
-                    <a href="https://www.facebook.com/proteenlife/" target="_blank" class="facebook_footer"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-                    <a href="https://plus.google.com/109414106711493074923" target="_blank" class="google_plus_footer"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a>
-                    <a href="https://twitter.com/ProTeenLife" target="_blank" class="twitter_footer"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
-                </div>
-            </div>
-        </footer>
-        @endif
         @yield('footer')
         <script src="{{ asset('backend/plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
         <script src="{{ asset('frontend/js/jquery-ui.min.js')}}"></script>
@@ -189,27 +163,6 @@
                 this.value = this.value.replace(/[^0-9]/gi, '');
             });
 
-            $('#search_box').on('keyup', function() {
-                var search_keyword = $('#search_box').val();
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var form_data = 'search_keyword=' + search_keyword;
-
-                if (search_keyword.length > 2) {
-                    $.ajax({
-                        type: 'POST',
-                        data: form_data,
-                        dataType: 'html',
-                        url: "{{ url('/teenager/globalSearch')}}",
-                        headers: {
-                            'X-CSRF-TOKEN': CSRF_TOKEN
-                        },
-                        cache: false,
-                        success: function(data) {
-                            $("#searchData").html(data);
-                        }
-                    });
-                }
-            });
             var FACEBOOK_CLIENT_ID = '<?php echo Config::get('constant.FACEBOOK_CLIENT_ID') ?>';
         </script>
         <script>
@@ -226,8 +179,6 @@
 
         });
         </script>
-
-
         @yield('script')
     </body>
 
