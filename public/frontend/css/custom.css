@@ -496,6 +496,7 @@ textarea.cst_input_primary{resize: vertical;}
 .center_detial{color: #fff;}
 .rightCheckColor{color: #fd604b;}
 #mail_submit_form .table_container{border-left: 0;}
+.popover, .tooltip-inner{background: #fff;padding: 10px;line-height: 1.5;}
 
 @media (max-width: 991px) {
 .padTop10 {
