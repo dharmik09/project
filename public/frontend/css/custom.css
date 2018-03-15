@@ -520,6 +520,7 @@ a, a:focus, a:hover{color: #d81c02;}
 .card span.count, .profession_attempted_carousel{color: #f15f4c;}
 .card{border-color: #fff;background: #fff;border-radius: 0;}
 .profession_attempted_carousel .owl-nav{color: #161c22;}
+.main-menu .menu-container h2{font-family: 'ab';font-size: 44px;}
 
 @media (max-width: 991px) {
 .padTop10 {
@@ -550,10 +551,12 @@ a, a:focus, a:hover{color: #d81c02;}
     .intrest_content{height: 200px !important;}
     body{padding-bottom: 212px;}
     .procoins-gift .gift-table .no-data{height: 81.4%;}
+    .main-menu .menu-container h2{font-size: 36px;}
 }
 @media (max-width:480px){
     .intrest_content .col-xs-6{width: 100%;}
     body{padding-bottom: 277px;}
+    .main-menu .menu-container h2{font-size: 30px;}
 }
 
 .non_youtube_video{
