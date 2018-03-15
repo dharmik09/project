@@ -496,7 +496,7 @@ textarea.cst_input_primary{resize: vertical;}
 .level-5{background-color: #07c9a7;}
 .center_detial{color: #fff;}
 .rightCheckColor{color: #fd604b;}
-#mail_submit_form .table_container{border-left: 0;}
+/*#mail_submit_form .table_container{border-left: 0;}*/
 .popover, .tooltip-inner{background: #fff;padding: 10px;line-height: 1.5;border: 1px solid rgba(0,0,0,.2);}
 nav.fixed-navigation{z-index: 9999;}
 .sec-login .login-form .form-sec form .form-control{border: 1px solid #161c22;padding: 6px 12px;font-family: 'h';}
@@ -514,6 +514,8 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .sec-login .login-form .icon{-webkit-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);font-size: 100px;}
 .popover.bottom>.arrow{display: block;}
 h2 .tooltip-inner {color: #0f081a;background: #fff!important;}
+body{background-image : none !important; background-color: #eeeeef;font-family: 'h';font-size: 14px;color: #333;padding-bottom: 180px;}
+a, a:focus, a:hover{color: #d81c02;}
 
 @media (max-width: 991px) {
 .padTop10 {
@@ -542,9 +544,11 @@ h2 .tooltip-inner {color: #0f081a;background: #fff!important;}
     ul.nav.nav-tabs li{padding:0;}
     .l-1 span.level_label, .l-2 span.level_label, .l-3 span.level_label, .l-4 span.level_label{font-size: 20px;}
     .intrest_content{height: 200px !important;}
+    body{padding-bottom: 212px;}
 }
 @media (max-width:480px){
     .intrest_content .col-xs-6{width: 100%;}
+    body{padding-bottom: 277px;}
 }
 
 .non_youtube_video{
@@ -760,14 +764,7 @@ position: relative;
     text-align: center;
 }
 
-body{
-    background-image : none !important; 
-    background-color: #eeeeef;
-    font-family: 'h';
-    font-size: 14px;
-    color: #333;
-    padding-bottom: 180px;
-}
+
 
 .footer_cst_bg{
     border-top:1px solid #e66a45;
