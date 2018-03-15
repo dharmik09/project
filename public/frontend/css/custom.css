@@ -454,7 +454,7 @@ ul.nav.nav-tabs li:hover, ul.nav.nav-tabs li.active{background: none;}
 .coinouter{background: #f15f4c;}
 .coinsnum{color: #fff;}
 .l-1 span.level_label, .l-2 span.level_label, .l-3 span.level_label, .l-4 span.level_label, .dashboard_inner_box h2,.profession_attempted h2{color: #333333;}
-.l-1 span.level_label,.l-2 span.level_label, .l-3 span.level_label{background: transparent;}
+.l-1 span.level_label,.l-2 span.level_label, .l-3 span.level_label,.l-4 span.level_label{background: transparent;}
 .profession_attempted{clear: both;}
 .timeline table td.timeline_icon .box{background: #eeeeef;}
 .timeline table tr.alpha td.timeline_icon .box:before {border-color: #fd604b;}
@@ -488,6 +488,14 @@ textarea.cst_input_primary{resize: vertical;}
 .parent_h2_header h2.parent_h2_text{font-size: 22px;}
 .parent_h2_header h2.parent_h2_text {font-size: 28px;font-family: 'am';color: #27a6b5;border-bottom: none;}
 .intrest_content .my_chart{width: 100%;}
+.level-1{background-color: #fd604b;}
+.level-2{background-color: #66c6e6;}
+.level-3{background-color: #27a6b6;}
+.level-4{background-color: #73376d;}
+.level-5{background-color: #07c9a7;}
+.center_detial{color: #fff;}
+.rightCheckColor{color: #fd604b;}
+#mail_submit_form .table_container{border-left: 0;}
 
 @media (max-width: 991px) {
 .padTop10 {
