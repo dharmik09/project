@@ -54,7 +54,7 @@ class DashboardController extends Controller {
             $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetail($school_id);
 
             $emailDetails = $this->teenagersRepository->getEmailDataOfStudent($school_id);
-            if(!empty($emailDetails)){
+            if(!empty($emailDetails) && $emailDetails->count() > 0){
                 foreach ($emailDetails as $data) {
                     $userid = $data->id;
                     $email = $data->t_email;
@@ -65,7 +65,7 @@ class DashboardController extends Controller {
                 }
             }
 
-            if(!empty($teenDetailSchoolWise)){
+            if(!empty($teenDetailSchoolWise) && $teenDetailSchoolWise->count() > 0){
                 foreach ($teenDetailSchoolWise as $info) {
                     $info->email_sent = (in_array($info->t_email, $finalEmailArr))? "no":"yes";
                 }
@@ -169,7 +169,7 @@ class DashboardController extends Controller {
           foreach ($emaildata as $key => $value) {
               $teenagerDetailbyEmail = $this->teenagersRepository->getTeenagerDetailByEmailId($value);
               
-              if (!empty($teenagerDetailbyEmail)) {
+              if (!empty($teenagerDetailbyEmail) && $teenagerDetailbyEmail->count() > 0) {
                   // --------------------start sending mail -----------------------------//
                   $password = str_random(10);
                   $replaceArray = array();
@@ -390,16 +390,16 @@ class DashboardController extends Controller {
             $coins = $componentsData->pc_required_coins;
             $objDeductedCoins = new DeductedCoins();
 
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolId,$componentsData->id,3);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolId, $componentsData->id, 3);
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if ($deductedCoinsDetail->count() > 0) {
                 $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             if ($days == 0) {
                 $deductedCoins = $coins;
                 $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
-                if (!empty($schoolData)) {
-                    $coins = $schoolData['sc_coins']-$coins;
+                if (!empty($schoolData) && isset($schoolData['sc_coins'])) {
+                    $coins = $schoolData['sc_coins'] - $coins;
                 }
                 $result = $this->schoolsRepository->updateSchoolCoinsDetail($schoolId, $coins);
                 $return = Helpers::saveDeductedCoinsData($schoolId,3,$deductedCoins,'School Report', 0);
@@ -454,7 +454,7 @@ class DashboardController extends Controller {
             $objGiftUser = new TeenagerCoinsGift();
             $r_coins = 0;
             $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
-            if (!empty($schoolData)) {
+            if (!empty($schoolData) && isset($schoolData['sc_coins'])) {
                 $r_coins = $schoolData['sc_coins'];
             }
             if ($giftcoins > $r_coins) {
@@ -471,14 +471,14 @@ class DashboardController extends Controller {
                 //add coins to teenager
                 $coins = 0;
                 $userData = $this->teenagersRepository->getUserDataForCoinsDetail($id);
-                if (!empty($userData)) {
-                    $coins = $userData['t_coins']+$giftcoins;
+                if (!empty($userData) && isset($userData['t_coins']) ) {
+                    $coins = $userData['t_coins'] + $giftcoins;
                 }
                 $result = $this->teenagersRepository->updateTeenagerCoinsDetail($id, $coins);
 
                 //deduct coins from school account
                 $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
-                if (!empty($schoolData)) {
+                if (!empty($schoolData) && isset($schoolData['sc_coins']) ) {
                     $giftcoins = $schoolData['sc_coins']-$giftcoins;
                 }
                 $result = $this->schoolsRepository->updateSchoolCoinsDetail($schoolId, $giftcoins);
@@ -564,7 +564,7 @@ class DashboardController extends Controller {
             $r_coins = 0;
             $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
             $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetail($schoolId);
-            if (!empty($schoolData)) {
+            if (!empty($schoolData) && isset($schoolData['sc_coins'])) {
                 $r_coins = $schoolData['sc_coins'];
             }
             $totalTeen = count($teenDetailSchoolWise);
@@ -588,7 +588,7 @@ class DashboardController extends Controller {
                     //add coins to teenager
                     $coins = 0;
                     $userData = $this->teenagersRepository->getUserDataForCoinsDetail($id);
-                    if (!empty($userData)) {
+                    if (!empty($userData) && isset($userData['t_coins']) ) {
                         $coins = $userData['t_coins']+$giftcoins;
                     }
                     $result = $this->teenagersRepository->updateTeenagerCoinsDetail($id, $coins);
@@ -596,7 +596,7 @@ class DashboardController extends Controller {
                     //deduct coins from school account
                     $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
                     $added_coins = 0;
-                    if (!empty($schoolData)) {
+                    if (!empty($schoolData) && isset($schoolData['sc_coins'])) {
                         $added_coins = $schoolData['sc_coins']-$giftcoins;
                     }
                     $result = $this->schoolsRepository->updateSchoolCoinsDetail($schoolId, $added_coins);
@@ -622,7 +622,7 @@ class DashboardController extends Controller {
             $coins = $componentsData->pc_required_coins;
 
             $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolId);
-            if (!empty($schoolData)) {
+            if (!empty($schoolData) && isset($schoolData['sc_coins'])) {
                 if ($schoolData['sc_coins'] < $coins) {
                     return "1";
                     exit;
@@ -643,7 +643,7 @@ class DashboardController extends Controller {
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
             $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolId,$componentsData->id,3);
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if (!empty($deductedCoinsDetail) && $deductedCoinsDetail->count() > 0) {
                 $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
             return view('school.getRemainingDays',compact('days'));
@@ -690,7 +690,7 @@ class DashboardController extends Controller {
             $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetailForSearch($school_id,$searchKeyword);
             $emailDetails = $this->teenagersRepository->getEmailDataOfStudentForSearch($school_id,$searchKeyword);
 
-            if(!empty($emailDetails)){
+            if(!empty($emailDetails) && $emailDetails->count() > 0){
                 foreach ($emailDetails as $data) {
                     $userid = $data->id;
                     $email = $data->t_email;
@@ -710,7 +710,7 @@ class DashboardController extends Controller {
             $finalEmailArr = array();
             $teenDetailSchoolWise = $this->teenagersRepository->getActiveSchoolStudentsDetail($school_id);
             $emailDetails = $this->teenagersRepository->getEmailDataOfStudent($school_id);
-            if(!empty($emailDetails)){
+            if(!empty($emailDetails) && $emailDetails->count() > 0){
                 foreach ($emailDetails as $data) {
                     $userid = $data->id;
                     $email = $data->t_email;
@@ -721,7 +721,7 @@ class DashboardController extends Controller {
                 }
             }
 
-            if(!empty($teenDetailSchoolWise)){
+            if(!empty($teenDetailSchoolWise) && $teenDetailSchoolWise->count() > 0){
                 foreach ($teenDetailSchoolWise as $info) {
                     $info->email_sent = (in_array($info->t_email, $finalEmailArr))? "no":"yes";
                 }
