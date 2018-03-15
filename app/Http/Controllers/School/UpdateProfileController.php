@@ -82,7 +82,7 @@ class UpdateProfileController extends Controller {
             }
             $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolid,$componentsData->id,3);
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if (!empty($deductedCoinsDetail) && count($deductedCoinsDetail) > 0) {
                 $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
         }
