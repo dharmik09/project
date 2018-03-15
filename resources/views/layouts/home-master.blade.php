@@ -14,8 +14,6 @@
         <link href="{{asset('css/magnific-popup.css')}}" rel="stylesheet">
         <link href="{{asset('css/aos.css')}}" rel="stylesheet">
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
-        <link href="{{ asset('/frontend/css/style.css')}}" rel="stylesheet">
-        <link href="{{ asset('/frontend/css/custom.css')}}" rel="stylesheet">
         @stack('script-header')        
         @yield('header')
     </head>
@@ -103,7 +101,6 @@
         <script src="{{ Storage::url('js/jquery.validate.min.js') }}"></script>
         <script src="{{ Storage::url('js/aos.js') }}"></script>
         <script src="{{ Storage::url('js/general.js') }}"></script>
-        <script src="{{ asset('frontend/js/comman.js')}}"></script>
         <script type="text/javascript">
             
         </script>
