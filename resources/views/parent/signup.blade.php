@@ -1,4 +1,4 @@
-@extends('layouts.home-master')
+@extends('layouts.common-master')
 
 @push('script-header')
     <title>{{ trans('labels.appname') }} : Signup</title>
