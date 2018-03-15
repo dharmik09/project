@@ -59,7 +59,7 @@
 
                                                         @if(isset($profession_outlook))
                                                             <span class="assessment">Outlook : 
-                                                                {{ (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? strip_tags($profession_outlook->pfic_content) : '' }}
+                                                                {{ (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? strip_tags(str_limit($profession_outlook->pfic_content,$limit=8,$end='')) : '' }}
                                                             </span>
                                                         @else
                                                             <span class="assessment">Outlook : N/A</span>

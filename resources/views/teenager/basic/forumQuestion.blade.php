@@ -1,6 +1,6 @@
 @if(count($forumQuestionData)>0)
     @foreach($forumQuestionData as $key => $value)
-    <div class="single-article">
+    <div class="single-article" style="background:#eeeeef;">
         <div class="forum-que-block t-table">
             <div class="author-img t-cell">
                 <a href="javascript:void(0);"><i class="icon-hand-simple"></i></a>
@@ -42,9 +42,9 @@
                         <p>{{$answerText}}</p>
                     </div>
                 </div>
-                <span><a href="#" title="Expand Answer" class="read-more">Expand</a></span>
+                <span><a href="#" title="Read More" class="read-more">Read More</a></span>
             @else
-                <div class="sec-forum"><span>No answer yet, Be the first to answer this question</span></div>
+                <div class="sec-forum bg-offwhite"><span>No answer yet, Be the first to answer this question</span></div>
             @endif
         </div>
     </div>
