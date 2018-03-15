@@ -1,8 +1,10 @@
-@extends('layouts.parent-master')
+@extends('layouts.common-master')
+
+@push('script-header')
+    <title>{{ trans('labels.appname') }} : Signup</title>
+@endpush
 
 @section('content')
-
-
 
 <div class="col-xs-12">
     @if (count($errors) > 0)
