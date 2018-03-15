@@ -35,6 +35,9 @@ a:hover {
     @include maxms {
         padding-top: 30px;
     }
+    .sec-popup{
+        float: none;
+    }
     h2 {
         margin-bottom: 40px;
         @include maxms {
@@ -533,6 +536,9 @@ a:hover {
     h2 {
         margin-bottom: 40px;
     }
+    .sec-popup{
+        float: none;
+    }
 }
 
 .notification-list {
@@ -640,6 +646,9 @@ a:hover {
     padding: 30px 0;
     @include maxms {
         padding: 20px 0;
+    }
+    .sec-popup{
+        float: none;
     }
     .forum-container {
         // max-width: 80%;
