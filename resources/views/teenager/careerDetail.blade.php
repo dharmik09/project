@@ -2054,7 +2054,6 @@
             var reader = new FileReader();
             reader.onload = function(e) {
                 var fileType = input_file.files[0];
-                alert(fileType.type);
                 if (taskType == 3) {
                     if (fileType.type == 'image/jpeg' || fileType.type == 'image/jpg' || fileType.type == 'image/png' || fileType.type == 'image/bmp') {
                         if (input_file.files[0].size > 6000000) {

@@ -9,7 +9,7 @@
             $descText = $activityData[0]->l4aa_description;
         } ?>
     <h3>{{$descText}}</h3>
-    <h4>Interview Q's</h4>
+    <h4>@if($type == 3) Scenarios @elseif($type == 2) Topics @else Interview Q's @endif </h4>
     <?php $k = 1; ?>
     <ol>
         @foreach($activityData as $key=>$data)
