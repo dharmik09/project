@@ -519,6 +519,7 @@ a, a:focus, a:hover{color: #d81c02;}
 .card span.title{font-family: ab;line-height: 1.2;color: #27a6b5;}
 .card span.count, .profession_attempted_carousel{color: #f15f4c;}
 .card{border-color: #fff;background: #fff;border-radius: 0;}
+.profession_attempted_carousel .owl-nav{color: #161c22;}
 
 @media (max-width: 991px) {
 .padTop10 {
