@@ -97,14 +97,14 @@ class CoinManagementController extends Controller {
 
         $objTeenagerCoinsGift = new TeenagerCoinsGift();
         if ($searchKeyword != '') {
-            $teenCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetailNameForParent($parentId,2,$searchArray);
+            $parentCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetailNameForParent($parentId,2,$searchArray);
 
-            return view('parent.searchGiftedCoins', compact('teenCoinsDetail'));
+            return view('parent.searchGiftedCoins', compact('parentCoinsDetail'));
             exit;
         } else {
-            $teenCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetailForParent($parentId,2);
+            $parentCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetailForParent($parentId,2);
 
-            return view('parent.searchGiftedCoins', compact('teenCoinsDetail'));
+            return view('parent.searchGiftedCoins', compact('parentCoinsDetail'));
             exit;
         }
     }
