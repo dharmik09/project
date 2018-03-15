@@ -81,9 +81,9 @@
                                 @if($value->n_record_id != 0)
                                 <ul class="btn-list text-right">
                                     @if($value->community->tc_status == 1)
-                                        <li><a href="#" title="accept" class="accept">Accepted</a></li>
+                                        <li><a href="javascript:void(0);" title="accept" class="accept">Accepted</a></li>
                                     @elseif($value->community->tc_statsus == 2)
-                                        <li><a href="#" title="decline" class="decline">Declined</a></li>
+                                        <li><a href="javascript:void(0);" title="decline" class="decline">Declined</a></li>
                                     @elseif($value->community->tc_status == 0)
                                         <li><a href="{{url('teenager/accept-request').'/'.$value->n_record_id}}" title="accept" class="accept">Accept</a></li>
                                         <li><a href="{{url('teenager/decline-request').'/'.$value->n_record_id}}" title="decline" class="decline">Decline</a></li>

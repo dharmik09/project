@@ -245,6 +245,11 @@
                             </div>
                         </div>
                         <div class="strength-list">
+                            <div class="data-explainations clearfix">
+                                <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
+                                <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
+                                <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
+                            </div>
                             <ul class="badge-list interest-list clearfix">
                                 @forelse($teenagerStrength as $strengthKey => $strengthValue)
                                 <?php 

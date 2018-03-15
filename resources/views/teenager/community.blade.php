@@ -37,6 +37,19 @@
                 </div>
             </div>
         </div>
+        <div class="sec-popup">
+            <a id="community-my-connection" href="javascript:void(0);" onmouseover="getHelpText('community-my-connection')" data-trigger="hover" data-popover-content="#com-my-connection" class="help-icon custompop" rel="popover" data-placement="bottom">
+                <i class="icon-question">
+                    <!-- -->
+                </i>
+            </a>
+            <div class="hide" id="com-my-connection">
+                <div class="popover-data">
+                    <a class="close popover-closer"><i class="icon-close"></i></a>
+                    <span class="community-my-connection"></span>
+                </div>
+            </div>
+        </div>
     </div>
     <!--sec progress-->
     <section class="sec-progress sec-connection">
@@ -105,19 +118,7 @@
                         @endif
                     </div>
                     <div id="menu2" class="tab-pane fade my-connection">
-                       <div class="sec-popup">
-                            <a id="community-my-connection" href="javascript:void(0);" onmouseover="getHelpText('community-my-connection')" data-trigger="hover" data-popover-content="#com-my-connection" class="help-icon custompop" rel="popover" data-placement="bottom">
-                                <i class="icon-question">
-                                    <!-- -->
-                                </i>
-                            </a>
-                            <div class="hide" id="com-my-connection">
-                                <div class="popover-data">
-                                    <a class="close popover-closer"><i class="icon-close"></i></a>
-                                    <span class="community-my-connection"></span>
-                                </div>
-                            </div>
-                        </div>
+                       
                         @forelse($myConnections as $myConnection)
                         <div class="team-list">
                             <div class="flex-item">
