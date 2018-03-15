@@ -136,7 +136,7 @@ class Level4AdvanceActivityController extends Controller {
                 //check for image extension
                 if ($media_type == 3) {
                     $validImageExtArr = array('jpg', 'jpeg', 'png', 'bmp', 'PNG');
-                    if (in_array($ext, $validImageExtArr)) {
+                    if (in_array(strtolower($ext), $validImageExtArr)) {
                         $save = true;
                         $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
                         $pathOriginal = public_path($this->level4AdvanceOriginalImageUploadPath . $fileName);
@@ -159,7 +159,7 @@ class Level4AdvanceActivityController extends Controller {
                     }
                 } elseif ($media_type == 2) {
                     $validImageExtArr = array('pdf', 'docx', 'doc', 'ppt', 'pptx', 'xls', 'xlsx');
-                    if (in_array($ext, $validImageExtArr)) {
+                    if (in_array(strtolower($ext), $validImageExtArr)) {
                         $save = true;
                         $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
                         Input::file('media')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path
@@ -176,7 +176,7 @@ class Level4AdvanceActivityController extends Controller {
                     }
                 } elseif ($media_type == 1) {
                     $validImageExtArr = array('mov', 'avi', 'mp4', 'mkv', 'wmv','flv');
-                    if (in_array($ext, $validImageExtArr)) {
+                    if (in_array(strtolower($ext), $validImageExtArr)) {
                         $save = true;
                         $fileName = 'advance_' . time() . '.' . $file->getClientOriginalExtension();
                         Input::file('media')->move($this->level4AdvanceOriginalImageUploadPath, $fileName); // uploading file to given path

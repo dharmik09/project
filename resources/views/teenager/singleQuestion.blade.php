@@ -52,7 +52,7 @@
         <div class="full-article">
             <div class="article-que">
                 <h2>{{$forumQuestionData->fq_que}}</h2>
-                <span><button title="Answer" class="btn btn-ans btn-default">Answer</button></span>
+                <span><button title="Answer" class="btn btn-ans btn-default">Post Answer</button></span>
                 <ul class="social">
                    <li>Share :</li>
                     <li><a href="#" target="_blank" title="Facebook"><i class="icon-facebook"></i></a></li>
@@ -158,7 +158,7 @@
             success: function (response) {
                 if(response.answersCount == 0){
                    $('#loadMoreButton').addClass('userData'); 
-                   $('#loadMoreButton').html('<div class="no-data"><div class="data-content"><div><i class="icon-empty-folder"></i></div><p>The first five contributors will win ProCoins! Answer now!!</p></div></div>');
+                   $('#loadMoreButton').html('<div class="no-data bg-offwhite"><div class="data-content"><div><i class="icon-empty-folder"></i></div><p>The first five contributors will win ProCoins! Answer now!!</p></div></div>');
                
                 }    
                 else if(response.answersCount != 5){

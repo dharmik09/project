@@ -121,7 +121,7 @@
                 @if(isset($forumQuestionData) && count($forumQuestionData)>0)
                     <div class="forum-container">
                         @foreach($forumQuestionData as $key => $value)
-                        <div class="single-article">
+                        <div class="single-article" style="background:#eeeeef;">
                             <div class="forum-que-block t-table">
                                 <div class="author-img t-cell">
                                     <a href="javascript:void(0);"><i class="icon-hand-simple"></i></a>
@@ -165,14 +165,14 @@
                                             <p>{{$answerText}}</p>
                                         </div>
                                     </div>
-                                    <span><a href="#" title="Expand Answer" class="read-more">Expand</a></span>
+                                    <span><a href="#" title="Read More" class="read-more">Read More</a></span>
                                 @else
-                                    <div class="sec-forum"><span>The first five contributors will win ProCoins! Answer now!!</span></div>
+                                    <div class="sec-forum bg-offwhite"><span>The first five contributors will win ProCoins! Answer now!!</span></div>
                                 @endif
                             </div>
                         </div>
                         @endforeach
-                        <p class="text-center"><a href="{{url('teenager/forum-questions')}}" title="View All" class="btn btn-primary load-more">View All</a></p>
+                        <p class="text-center"><a href="{{url('teenager/forum-questions')}}" title="View All" class="btn btn-primary load-more">View All Question</a></p>
                     </div>
                 @else
                 <div class="sec-forum bg-offwhite"><span>No question found</span></div>
