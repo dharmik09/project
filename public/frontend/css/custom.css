@@ -361,6 +361,7 @@ h1{font-family: ab;font-size: 30px;line-height: 1.2;color: #fd604b;}
 .country:before, .country_icon:before{content: '\f0ac';}
 .title_icon:before{content: '\f15b';}
 .mobile:before{content: '\f10b';}
+.password:before{content: '\f13e';}
 .select-style select option {color: rgba(22,28,34,.7);padding: 0;background: #eeeeef;}
 .modal.fade.in {background: #eeeeef !important;}
 .modal-content {background: #eeeeef;}
@@ -496,7 +497,23 @@ textarea.cst_input_primary{resize: vertical;}
 .center_detial{color: #fff;}
 .rightCheckColor{color: #fd604b;}
 #mail_submit_form .table_container{border-left: 0;}
-.popover, .tooltip-inner{background: #fff;padding: 10px;line-height: 1.5;}
+.popover, .tooltip-inner{background: #fff;padding: 10px;line-height: 1.5;border: 1px solid rgba(0,0,0,.2);}
+nav.fixed-navigation{z-index: 9999;}
+.sec-login .login-form .form-sec form .form-control{border: 1px solid #161c22;padding: 6px 12px;font-family: 'h';}
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus input:-webkit-autofill, textarea:-webkit-autofill, textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus, select:-webkit-autofill, select:-webkit-autofill:hover, select:-webkit-autofill:focus {
+    border: 1px solid #161c22;
+    -webkit-text-fill-color: #161c22;
+    -webkit-box-shadow: none;
+    -webkit-transition: background-color 5000s ease-in-out 0s;
+    -o-transition: background-color 5000s ease-in-out 0s;
+    -moz-transition: background-color 5000s ease-in-out 0s;
+    transition: background-color 5000s ease-in-out 0s;
+    background: transparent !important;
+}
+.sec-login .login-form .form-sec .btn{height: auto;border-radius: 0;}
+.sec-login .login-form .icon{-webkit-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);font-size: 100px;}
+.popover.bottom>.arrow{display: block;}
+h2 .tooltip-inner {color: #0f081a;background: #fff!important;}
 
 @media (max-width: 991px) {
 .padTop10 {
@@ -749,6 +766,7 @@ body{
     font-family: 'h';
     font-size: 14px;
     color: #333;
+    padding-bottom: 180px;
 }
 
 .footer_cst_bg{

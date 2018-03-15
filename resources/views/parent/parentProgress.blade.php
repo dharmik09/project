@@ -197,7 +197,7 @@
 <div class="modal fade default_popup HML_popup" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <button type="button" class="close close_next" data-dismiss="modal">Close</button>
+            <button type="button" class="close close_next" data-dismiss="modal"><i class="icon-close"></i></button>
             <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName"></h2></div>
             <div class="modal-body body_sticky_not">
@@ -540,7 +540,7 @@
                                                             <span>{{$value['profession_name']}}</span>
                                                         </span>
                                                     </span>
-                                                    <a href="javascript:void(0);" class="close_next" id="close_{{$value['professionId']}}"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                    <a href="javascript:void(0);" class="close_next" id="close_{{$value['professionId']}}"><i class="icon-close" aria-hidden="true"></i></a>
                                                     <div class="userData" id="{{$value['professionId']}}">
 
                                                     </div>
@@ -792,7 +792,7 @@
 
             $('.content_prime').animate({height: 'auto'}, 1);
             var newHeight = $('.content_prime').height();
-            $('.content_prime').animate({height: '260px'}, 1);
+            $('.content_prime').animate({height: '220px'}, 1);
             $('.intrest_load').click(function(event) {
                 if ($(this).find('span').text() == "Show More")
                     $(this).find('span').text("Show less")
