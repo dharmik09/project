@@ -1083,6 +1083,8 @@
                     }
                 }
                 //Timer for question #####END#####
+                
+                $('#single_line_answer_box').focus();
 
                 $(".sortable").sortable();
                 $(".sortable").disableSelection();
