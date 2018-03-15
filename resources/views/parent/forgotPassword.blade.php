@@ -1,4 +1,8 @@
-@extends('layouts.parent-master')
+@extends('layouts.home-master')
+
+@push('script-header')
+    <title>{{ trans('labels.appname') }} : Forgot Password</title>
+@endpush
 
 @section('content')
 <div class="col-xs-12">

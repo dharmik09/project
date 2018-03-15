@@ -158,12 +158,12 @@
                         </div>
                         <div class="career-detail-tab bg-white">
                             <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                                <li class="custom-tab col-xs-6 tab-color-1">
+                                <li class="active custom-tab col-xs-6 tab-color-1">
                                     <a data-toggle="tab" href="#menu1">
                                         <span class="dt"><span class="dtc">Career Details</span></span>
                                     </a>
                                 </li>
-                                <li class="active custom-tab col-xs-6 tab-color-2">
+                                <li class="custom-tab col-xs-6 tab-color-2">
                                     <a data-toggle="tab" href="#menu2">
                                         <span class="dt">
                                             <span class="dtc">Explore <span class="tab-complete">
@@ -174,10 +174,10 @@
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div id="menu1" class="tab-pane fade in">
+                                <div id="menu1" class="tab-pane fade in active">
                                     @include('teenager/basic/careerDetailInfoSection')
                                 </div>
-                                <div id="menu2" class="tab-pane fade in active">
+                                <div id="menu2" class="tab-pane fade in">
                                     <!-- Section for booster scale --> 
                                     <div class="explore-table table-responsive">
                                             <table class="table table-striped">

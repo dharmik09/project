@@ -67,8 +67,8 @@
                         <ul class="nav-bar clearfix">
                             <li class="n-user submenu-container">
                                 <?php
-                                    $photo = Auth::guard('parent')->user()->p_photo;
-                                    if ($photo != '' && Storage::size(Config::get('constant.PARENT_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo) > 0) {
+                                    $photo = (isset(Auth::guard('parent')->user()->p_photo)) ? Auth::guard('parent')->user()->p_photo : '';
+                                    if (isset($photo) && $photo != '' && Storage::size(Config::get('constant.PARENT_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo) > 0) {
                                         $profilePicUrl = Storage::url(Config::get('constant.PARENT_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo);
                                     } else {
                                         $profilePicUrl = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
