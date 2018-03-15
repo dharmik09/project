@@ -368,25 +368,44 @@ class CoinManagementController extends Controller {
     }
 
     public function userSearchForCoins() {
-         $searchKeyword = Input::get('search_keyword');
-        $parentId = Input::get('parentId');
-        $objDeductedCoins = new DeductedCoins();
+        // $searchKeyword = Input::get('search_keyword');
+        // $parentId = Input::get('parentId');
 
+        $parentId = Auth::guard('parent')->user()->id;
+        $searchKeyword = Input::get('searchText');
+        $page = Input::get('page');
+        $tab = Input::get('tab');
         $objDeductedCoins = new DeductedCoins();
         $objTemplateDeductedCoins = new TemplateDeductedCoins();
-        $deductedCoinsDetailLS = $objDeductedCoins->getDeductedCoinsDetailForLS($parentId,2);
+        //$deductedCoinsDetailLS = $objDeductedCoins->getDeductedCoinsDetailForLS($parentId,2);
         if ($searchKeyword != '') {
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByProfession($parentId,2,$searchKeyword);
-            $deductedTemplateCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailByProfession($parentId,$searchKeyword,2);
-            return view('parent.searchConsumedCoins', compact('deductedCoinsDetail', 'deductedTemplateCoinsDetail', 'searchKeyword','deductedCoinsDetailLS'));
-            exit;
+            if ($tab == 'promise_plus') {
+                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailForPS($parentId,2,$searchKeyword);
+                return view('parent.searchedPromisePlus', compact('deductedCoinsDetail')); 
+            } else if ($tab == 'l4_concept_template') {
+                $deductedTemplateCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetail($parentId, 2, $searchKeyword);
+                return view('parent.searchedL4ConceptTemplate', compact('deductedTemplateCoinsDetail'));
+            } else {
+                $deductedCoinsDetailLS = $objDeductedCoins->getDeductedCoinsDetailForLS($parentId, 2);
+                return view('parent.learningGuidanceData', compact('deductedCoinsDetailLS'));
+            }
+            //return view('parent.searchConsumedCoins', compact('deductedCoinsDetail', 'deductedTemplateCoinsDetail', 'searchKeyword','deductedCoinsDetailLS'));
+            //exit;
         } else {
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailForPS($parentId,2);
-            $deductedTemplateCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetail($parentId,2);
-
-            return view('parent.searchConsumedCoins', compact('deductedCoinsDetail','deductedTemplateCoinsDetail', 'searchKeyword','deductedCoinsDetailLS'));
-            exit;
+            if ($tab == 'promise_plus') {
+                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailForPS($parentId,2);
+                return view('parent.searchedPromisePlus', compact('deductedCoinsDetail')); 
+            } else if ($tab == 'l4_concept_template') {
+               $deductedTemplateCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetail($parentId, 2);
+                return view('parent.searchedL4ConceptTemplate', compact('deductedTemplateCoinsDetail'));
+            } else {
+                $deductedCoinsDetailLS = $objDeductedCoins->getDeductedCoinsDetailForLS($parentId, 2);
+                return view('parent.learningGuidanceData', compact('deductedCoinsDetailLS'));
+            }
+            // return view('parent.searchConsumedCoins', compact('deductedCoinsDetail','deductedTemplateCoinsDetail', 'searchKeyword','deductedCoinsDetailLS'));
+            //exit;
         }
+        exit;
     }
 
      public function getAvailableCoinsForTemplate() {
