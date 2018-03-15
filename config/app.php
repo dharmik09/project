@@ -180,6 +180,7 @@ return [
         App\Providers\HelperServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
         Softon\Indipay\IndipayServiceProvider::class,
+        'Barryvdh\Debugbar\ServiceProvider',
 
     ],
 
@@ -234,6 +235,7 @@ return [
         'FCM' => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class,
         'Indipay' => Softon\Indipay\Facades\Indipay::class,
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
 
     ],
 
