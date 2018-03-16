@@ -48,96 +48,54 @@
             <h1><span class="title_border">{{trans('labels.consumedcoins')}}</span></h1>
         </div>
         <div class="my_teens_content clearfix">
-            <!--<div class="my_teens_inner">
-                <div class="table_container">
-                    <table class="sponsor_table">
-                        <tr>
-                            <th>{{trans('labels.component')}}</th>
-                            <th>{{trans('labels.consumedcoins')}}</th>
-                            <th>{{trans('labels.consumedcoinsdate')}}</th>
-                            <th>{{trans('labels.enddate')}}</th>
-                        </tr>
-                        @if(!empty($deductedCoinsDetail) && count($deductedCoinsDetail) > 0)
-                        @foreach($deductedCoinsDetail as $key=>$data)
-                        <tr>
-                            <td>
-                                {{$data->pc_element_name}}
-                            </td>
-                            <td>
-                                <?php echo number_format($data->dc_total_coins); ?>
-                            </td>
-                            <td>
-                                <?php echo date('d M Y', strtotime($data->dc_start_date)); ?>
-                            </td>
-                            <td>
-                                <?php echo date('d M Y', strtotime($data->dc_end_date)); ?>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @else
-                        <tr><td colspan="4">No data found</td></tr>
-                        @endif
-                         <tr>
-                            <td colspan="4">
-                                @if (isset($deductedCoinsDetail) && !empty($deductedCoinsDetail))
-                                      <?php echo $deductedCoinsDetail->render(); ?>
-                                @endif
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>-->
-            <div class="procoin-heading gift-heading">
-                <div class="procoin-form gift-form">
-                    <form>
-                        <div class="form-group search-bar clearfix">
-                            <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
-                            <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
             <div class="bg-white procoins-gift">
                 <div class="gift-table table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ProPay Component</th>
-                                <th>ProCoins</th>
-                                <th>Consumed on</th>
-                                <th>Valid upto</th>
+                                <th>{{trans('labels.component')}}</th>
+                                <th>{{trans('labels.consumedcoins')}}</th>
+                                <th>{{trans('labels.consumedcoinsdate')}}</th>
+                                <th>{{trans('labels.enddate')}}</th>
                             </tr>
                         </thead>
-                        <!--<tbody>
+                        @if(!empty($deductedCoinsDetail) && count($deductedCoinsDetail) > 0)
+                        <tbody>
+                            @foreach($deductedCoinsDetail as $key=>$data)
                             <tr>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
-                                <td><input type="text" placeholder="Enter Procoins" class="procoins-amt form-control"><a href="javascript:void(0)" title="gift" class="btn btn-default gft-btn">Gift</a></td>
+                                <td>
+                                    {{$data->pc_element_name}}
+                                </td>
+                                <td>
+                                    <?php echo number_format($data->dc_total_coins); ?>
+                                </td>
+                                <td>
+                                    <?php echo date('d M Y', strtotime($data->dc_start_date)); ?>
+                                </td>
+                                <td>
+                                    <?php echo date('d M Y', strtotime($data->dc_end_date)); ?>
+                                </td>
                             </tr>
+                            @endforeach
                             <tr>
-                                <td>Mary</td>
-                                <td>Moe</td>
-                                <td>mary@example.com</td>
-                                <td><input type="text" placeholder="Enter Procoins" class="procoins-amt form-control"><a href="javascript:void(0)" title="gift" class="btn btn-default gft-btn">Gift</a></td>
+                                <td colspan="4">
+                                    @if (isset($deductedCoinsDetail) && !empty($deductedCoinsDetail))
+                                          <?php echo $deductedCoinsDetail->render(); ?>
+                                    @endif
+                                </td>
                             </tr>
-                            <tr>
-                                <td>July</td>
-                                <td>Dooley</td>
-                                <td>july@example.com</td>
-                                <td><input type="text" placeholder="Enter Procoins" class="procoins-amt form-control"><a href="javascript:void(0)" title="gift" class="btn btn-default gft-btn">Gift</a></td>
-                            </tr>
-                        </tbody>-->
-
-                    </table>
-                    <div class="no-data">
-                        <div class="data-content">
-                            <div>
-                                <i class="icon-empty-folder"></i>
+                        </tbody>
+                        @else
+                        <div class="no-data">
+                            <div class="data-content">
+                                <div>
+                                    <i class="icon-empty-folder"></i>
+                                </div>
+                                <p>No data found</p>
                             </div>
-                            <p>No data found</p>
                         </div>
-                    </div>
+                        @endif
+                    </table>
                 </div>
                 <div class="sec-bttm"><!-- --></div>
             </div>

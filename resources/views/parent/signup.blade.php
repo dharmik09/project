@@ -177,7 +177,11 @@
                 ?>
                 <div class=" col-md-5 col-sm-6 input_icon password">
                     <div class="mandatory">*</div>
-                    <input type="password" name="password" class="cst_input_primary" placeholder="Password"  value="{{ $password  or ''}}" id="password">
+                    <input type="password" name="password" class="cst_input_primary pass-visi" placeholder="Password"  value="{{ $password  or ''}}" id="password">
+                    <span class="visibility-pwd">
+                        <img src="https://proteenlive-old.s3.ap-south-1.amazonaws.com/img/view.png" alt="view" class="view img">
+                        <img src="https://proteenlive-old.s3.ap-south-1.amazonaws.com/img/hide.png" alt="view" class="img-hide hide img">
+                    </span>
                     <em style="color:red" id="pass_validation">  </em>
                 </div>
             </div>
@@ -388,6 +392,21 @@
                                                     }
 
                                                 }
+                                            });
+                                            var $toggle = $(".visibility-pwd");
+                                            var $field = $(".pass-visi");
+                                            var i = $(this).find('.img');
+                                            // Toggle the field type
+                                            $toggle.on("click", function(e) {
+                                                e && e.preventDefault();
+                                                if ($field.attr("type") == "password") {
+                                                    $field.attr("type", "text");
+                                                    i.toggleClass("hide");
+                                                } else {
+                                                    i.toggleClass("hide");
+                                                    $field.attr("type", "password");
+                                                }
+
                                             });
                                         });
                                         var postCountry = '<?php echo $country ?>';
