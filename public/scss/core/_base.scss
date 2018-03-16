@@ -8,6 +8,46 @@ body{font-family: 'h';font-size: 14px;color:#000;}
 		height: 300px;
 	}
 }
+.back-btn{
+    margin-bottom: 30px;
+    @include maxsm{
+        margin-bottom: 20px;
+    }
+    a{
+        display: inline-block;
+        font-size: 22px;
+        font-family: 'hn-b';
+        position: relative;
+        padding-left: 25px;
+        @include maxsm{
+            font-size: 20px;
+            padding-left: 20px;
+        }
+        &:before{
+            position: absolute;
+            content: " ";
+            width: 18px;
+            left: 0;
+            top: 6px;
+            background-image: url(../img/back.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            height: 18px;
+            @include maxsm{
+                top: 8px;
+                width: 15px;
+                height: 15px;
+            }
+        }
+        &:hover{
+            color: $h-cl;
+            &:before{
+                 background-image: url(../img/back-hover.png);
+            }
+        }
+        
+    }
+}
 @include maxsm {
 	.table-responsive{border:none}
 }
