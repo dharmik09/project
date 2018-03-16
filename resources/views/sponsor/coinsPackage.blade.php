@@ -144,36 +144,53 @@
                 <div class="sec-procoins">
                     <div class="list-procoins">
                         <div class="row flex-container">
+                            @if(isset($coinsDetail) && count($coinsDetail) > 0)
+                            <?php $column_count = 1; ?>
+                            @foreach($coinsDetail as $key=>$val)
                             <div class="col-sm-6 flex-items">
                                 <div class="block-procoins">
                                     <div class="coin-info">
                                         <div class="icon">
-                                            <img src="../img/img-diamond.png" alt="img diamond">
+                                        <?php
+                                            if (isset($val->id) && $val->id != '0') {
+                                                $uploadCoinsThumbPath = 'uploads/coins/thumb/';
+                                                if (isset($val->c_image) && $val->c_image != '' && Storage::size($uploadCoinsThumbPath . $val->c_image) > 0) {
+                                                    $coinImage = Storage::url($uploadCoinsThumbPath . $val->c_image);
+                                                    $altImage = $val->c_image;
+                                                } else { 
+                                                    $coinImage = Storage::url('frontend/images/proteen_logo.png');
+                                                    $altImage = 'Default Image';
+                                                }
+                                            }
+                                        ?>
+                                        <img src="{{ $coinImage }}" alt="{{ $altImage }}">
                                         </div>
-                                        <h4>Platinum</h4>
-                                        <h2 class="price"><span class="rupee-symbol"><!--<img src="img/rupee-symbol.png" alt="rupee symbol">--><i class="fa fa-inr"></i></span>720</h2>
-                                        <div class="procoins-value">350,000 <span>ProCoins</span>
+                                        <h4>{{$val->c_package_name}}</h4>
+                                        <h2 class="price">
+                                            @if($val->c_currency == 1)
+                                            <span class="rupee-symbol">
+                                                <i class="fa fa-inr"></i>
+                                            </span>
+                                            @else
+                                            <span class="dollar-symbol">$</span>
+                                            @endif
+                                            <?php echo intval($val->c_price); ?>    
+                                        </h2>
+                                        <div class="procoins-value"><?php echo number_format($val->c_coins);?> <span>ProCoins</span>
                                         </div>
-                                        <p>60 days validity (2x Gold Pack!) • Includes 185,000 ProCoins for free features • Includes 165,000 ProCoins for Paid features (2,5x Gold Pack!)</p>
+                                        <p>{{$val->c_description}}</p>
                                     </div>
-                                    <a href="#" title="Buy" class="btn btn-primary">Buy</a>
+                                    <?php $packageId = base64_encode($val->id);?>
+                                    <a href="javascript:void(0);" title="Buy" class="btn btn-primary" onclick="purchasedCoins('{{$packageId}}', {{$val->c_valid_for}});">Buy</a>
                                 </div>
                             </div>
-                            <div class="col-sm-6 flex-items">
-                                <div class="block-procoins">
-                                    <div class="coin-info">
-                                        <div class="icon">
-                                            <img src="../img/img-gold.png" alt="img gold">
-                                        </div>
-                                        <h4>Gold</h4>
-                                        <h2 class="price"><span class="dollar-symbol"><!--<img src="img/dollar-symbol.png" alt="dollar symbol">-->$</span>360</h2>
-                                        <div class="procoins-value">250,000 <span>ProCoins</span>
-                                        </div>
-                                        <p>30 days validity • Includes 185,000 ProCoins for free features • Includes 65,000 ProCoins for Paid features</p>
-                                    </div>
-                                    <a href="#" title="Buy" class="btn btn-primary">Buy</a>
-                                </div>
-                            </div>
+                            <?php
+                                $column_count++;
+                            ?>
+                            @endforeach
+                            @else
+                                No Packages found.
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -196,32 +213,38 @@
             $.ui.dialog.prototype._focusTabbable = function(){};
             $( "#confirm" ).dialog({
 
-            resizable: false,
-            height: "auto",
-            width: 400,
-            draggable: false,
-            modal: true,
-            buttons: [
-                    {
-                        text: "BUY",
-                        class : 'btn primary_btn',
-                        click: function() {
-                          var path = '<?php echo url('sponsor/save-coin-purchased-data').'/'; ?>'+package_id;
-                          location.href = path;
-                          //$(".confirm_coins").text(' ');
-                        }
-                    },
-                    {
-                        text: "Cancel",
-                        class : 'btn primary_btn',
-                        click: function() {
-                          $( this ).dialog( "close" );
-                          $(".confirm_coins").text(' ');
-                        }
+                resizable: false,
+                height: "auto",
+                width: 400,
+                draggable: false,
+                modal: true,
+                buttons: [
+                {
+                    text: "BUY",
+                    class : 'btn primary_btn',
+                    click: function() {
+                      var path = '<?php echo url('sponsor/save-coin-purchased-data').'/'; ?>'+package_id;
+                      location.href = path;
+                      //$(".confirm_coins").text(' ');
                     }
-                  ]
+                },
+                {
+                    text: "Cancel",
+                    class : 'btn primary_btn',
+                    click: function() {
+                      $( this ).dialog( "close" );
+                      $(".confirm_coins").text(' ');
+                    }
+                }],
+                open: function(event, ui) {
+                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                }
             });
         }
     }
+
+    $(document).on('click','.icon-close', function(){
+        $( "#confirm" ).dialog( "close" );
+    });
 </script>
 @stop

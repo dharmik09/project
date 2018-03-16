@@ -30,7 +30,7 @@
     <body>
         <nav>
             <div class="container">
-                <div class="logo pull-left"><a href="#"><img src="../img/logo.png" alt=""></a></div>
+                <div class="logo pull-left"><a href="@if(Auth::guard('sponsor')->check()) {{ url('sponsor/home') }} @else {{ url('/') }} @endif"><img src="{{ Storage::url('img/logo.png') }}" alt=""></a></div>
                 <div class="menu-toggle pull-right">
                     <ul class="nav-bar clearfix">
                         <li class="n-user submenu-container">
