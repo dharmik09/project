@@ -17,22 +17,31 @@ class ProfessionInstitutesController extends Controller {
     }
 
     public function index(){
-        return view('teenager.professionInstitutes');
+        $speciality = '';
+        if(Input::get('speciality')){
+            $speciality = Input::get('speciality');
+        }
+        return view('teenager.professionInstitutes', compact('speciality'));
     }
 
     public function getIndex(){
         $pageNo = Input::get('page_no');
+        $answerName = Input::get('answerName');
         $questionType = Input::get('questionType');
         $answer = Input::get('answer');
         $record = $pageNo * 5;
 
         $institutesData = $this->objProfessionInstitutes->skip($record)->take(5);
 
+        if(isset($answerName) && $answerName != ""){
+            $institutesData->where('college_institution','like','%'.$answerName.'%');
+        }
+
         if($questionType == "Institute_Affiliation"){
             $institutesData = $institutesData->where('affiliat_university',$answer)->get();
         }
         elseif($questionType == "Speciality"){
-            $institutesData = $institutesData->where('speciality','like', '%'.$answer.'%')->get();
+            $institutesData = $institutesData->where('speciality','like','%'.$answer.'%')->get();
         }
         elseif($questionType == "State"){
             $institutesData = $institutesData->where('institute_state','like', '%'.$answer.'%')->get();
