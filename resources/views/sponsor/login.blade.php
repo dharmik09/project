@@ -1,6 +1,11 @@
-@extends('layouts.sponsor-master')
+@extends('layouts.common-master')
+
+@push('script-header')
+    <title>{{ trans('labels.appname') }} : Sponsor Login</title>
+@endpush
 
 @section('content')
+
 
 <div class="col-xs-12">
     @if ($message = Session::get('error'))
@@ -10,18 +15,6 @@
                 <div class="alert alert-error alert-dismissable danger">
                     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
                     <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
-                    {{ $message }}
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-    @if($message = Session::get('success'))
-    <div class="clearfix">
-        <div class="col-md-12">
-            <div class="box-body">
-                <div class="alert alert-error alert-succ-msg alert-dismissable success">
-                    <button aria-hidden="true" data-dismiss="success" class="close" type="button">X</button>
                     {{ $message }}
                 </div>
             </div>
@@ -39,45 +32,32 @@
     </div>
     @endif
 </div>
-@include('flash::message')
-<div class="centerlize">
-    <div class="container">
-        <div class="clearfix col-md-offset-2 col-sm-offset-1 col-md-8 col-sm-10 detail_container">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <form id="login_form" role="form" method="POST" class="login_form" action="{{ url('/sponsor/login-check') }}">
+<section class="sec-login">
+    <div class="container-small">
+        <div class="login-form">
+            <h1>Sponsor login</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+            <span class="icon"><img src="{{ Storage::url('img/hand-icon.png') }}" alt="hand icon"></span>
+            <div class="form-sec">
+                <form id="login_form" role="form" method="POST" action="{{ url('/sponsor/login-check') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <h1><span class="title_border">Enterprise Login <i class="fa fa-play" aria-hidden="true" style="cursor: pointer;"></i></span></h1>
-                    <div class="col-md-offset-1 col-sm-offset-1 col-md-10 col-sm-10">
-                        <div class="clearfix">
-                            <div class="col-md-12 col-sm-12 col-xs-12 input_icon email">
-                                <input type="text" class="cst_input_primary" id="email" maxlength="50" minlength="5" name="email" placeholder="{{trans('labels.emaillbl')}}" value="{{old('email')}}">
-                            </div>
-                        </div>
-                        <div class="clearfix">
-                            <div class="col-md-12 col-sm-12 col-xs-12 input_icon password">
-                                <input type="password" class="cst_input_primary" id="password" maxlength="20" minlength="6" name="password" placeholder="{{trans('labels.passwordlbl')}}">
-                            </div>
-                        </div>
-                        <div class="clearfix">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <a href="{{url('sponsor/forgot-password')}}" class="link">Forgot Password?</a>
-                            </div>
-                        </div>
-                        <div class="button_container social_btn">
-                            <div class="submit_register">
-                                <input type="submit" value="{{trans('labels.login')}}" id="loginSubmit" class="btn primary_btn">
-                                <span class="or">OR</span>
-                                <a href="{{ url('sponsor/signup') }}" class="btn primary_btn"><em>Sign Up</em></a>
-                            </div>
-
-                        </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="email" name="email" maxlength="50" minlength="5" placeholder="{{trans('labels.emaillbl')}}" tabindex="1">
                     </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control pass-visi" id="password" maxlength="20" minlength="6" name="password" placeholder="{{trans('labels.passwordlbl')}}" tabindex="2">
+                        <span class="visibility-pwd"><img src="{{ Storage::url('img/view.png') }}" alt="view" class="view img">
+                            <img src="{{ Storage::url('img/hide.png') }}" alt="view" class="img-hide hide img"></span>
+                    </div>
+                    <button id="loginSubmit" type="submit" class="btn btn-default" title="Login" tabindex="4">Login</button>
                 </form>
-
+                <p><a href="{{url('sponsor/forgot-password')}}" title="Forgot username/password?">Forgot password?</a></p>
+                <p>Not enrolled? <a href="{{ url('sponsor/signup') }}" title="Sign up now.">Sign up now.</a></p>
             </div>
         </div>
     </div>
-</div>
+</section>
+
 <div class="loader ajax-loader" style="display:none;">
     <div class="cont_loader">
         <div class="img1"></div>
@@ -89,16 +69,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                <h4 class="modal-title">Enterprise</h4>
+                <h4 class="modal-title">Sponsor</h4>
             </div>
             <div class="modal-body">
                 <div class="para_holder">
-                    {!!$text!!}                                   
+                    {!!$text!!}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 @stop
 @section('script')
@@ -126,23 +107,63 @@
                 }
             }
         });
-        $("#loginSubmit").click(function() {
-            var form = $("#login_form");
-            form.validate();
-            if (form.valid()) {
-                form.submit();
-                $('.ajax-loader').show();
-                $("#loginSubmit").attr("disabled", 'disabled');
-            } else {
-                $('.ajax-loader').hide();
-                $("#loginSubmit").removeAttr("disabled", 'disabled');
-            }
-        });
+        
         $('.fa-play').click(function(event) {
             $('#login_info_popup').modal('show');
         });
-        $('#login_info_popup .modal-body .para_holder').mCustomScrollbar();
-    });
+        // Cache the toggle button
+        var $toggle = $(".visibility-pwd");
+        var $field = $(".pass-visi");
+         var i = $(this).find('.img');
+        // Toggle the field type
+        $toggle.on("click", function(e) {
+            e && e.preventDefault();
+            if ($field.attr("type") == "password") {
+                $field.attr("type", "text");
+                i.toggleClass("hide");
+            } else {
+               i.toggleClass("hide");
+                $field.attr("type", "password");
+            }
+
+        });
+        //$('#login_info_popup .modal-body .para_holder').mCustomScrollbar();
+        $("#login_form").submit(function() {
+            $("#loginSubmit").addClass('sending').blur();
+            var form = $("#login_form");
+            form.validate();
+            var validEmailOrMobile = false;
+            $('#email_mobile_invalid').show();
+            var emailOrMobile = $.trim($("#email").val());
+            if (emailOrMobile.length > 0 && emailOrMobile.match(/[a-zA-Z]/i)) {
+                if (validateEmail(emailOrMobile)) {
+                    var validEmailOrMobile = true;
+                }
+            }
+            if ($.isNumeric(emailOrMobile) && emailOrMobile.length > 9) {
+                var validEmailOrMobile = true;
+            }
+            if (validEmailOrMobile) {
+                $('#email_mobile_invalid').hide();
+                if (form.valid()) {
+                    return true;
+                }
+                setTimeout(function () {
+                    $("#loginSubmit").removeClass('sending').blur();
+                }, 2500);
+                return true;
+            } else {
+                $('#email_mobile_invalid').show();
+                $("#loginSubmit").removeClass('sending').blur();
+                return false;
+            }
+        });
+    }); 
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
 </script>
 
 @stop

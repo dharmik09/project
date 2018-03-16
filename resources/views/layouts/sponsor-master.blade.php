@@ -28,23 +28,34 @@
     </head>
 
     <body>
-        @if(Auth::guard('sponsor')->check())
         <nav>
             <div class="container">
                 <div class="logo pull-left"><a href="#"><img src="../img/logo.png" alt=""></a></div>
                 <div class="menu-toggle pull-right">
                     <ul class="nav-bar clearfix">
                         <li class="n-user submenu-container">
-                            <a href="javascript:void(0);"><i class="i-user"><img src="../img/alex.jpg" alt=""></i></a>
+                            <?php
+                                $photo = (isset(Auth::guard('sponsor')->user()->sp_photo)) ? Auth::guard('sponsor')->user()->sp_photo : '';
+                                if (isset($photo) && $photo != '' && Storage::size(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . $photo) > 0) {
+                                    $profilePicUrl = Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . $photo);
+                                } else {
+                                    $profilePicUrl = Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                }                                                                                       
+                            ?>
+                            <a href="javascript:void(0);"><i class="i-user"><img src="{{ $profilePicUrl }}" alt=""></i></a>
                             <div class="submenu">
                                 <div class="user-snapshot">
-                                    <div class="user-avatar"><img src="../img/alex.jpg" alt=""></div>
+                                    <div class="user-avatar"><img src="{{ $profilePicUrl }}" alt=""></div>
                                     <div class="user-name">
-                                        <h2>Alex Murphy</h2>
-                                        <p>Alexmurphy@gmail.com</p>
+                                        <h2>{{ Auth::guard('sponsor')->user()->sp_company_name }}</h2>
+                                        <p>{{ Auth::guard('sponsor')->user()->sp_email }}</p>
                                     </div>
                                 </div>
-                                <div class="btns"><a href="#" class="btn btn-primary btn-small text-uppercase">Sign out</a></div>
+                                <div class="btns"><a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-small text-uppercase">Sign out</a>
+                                    <form id="logout-form" action="{{ url('/sponsor/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </div>
                             </div>
                         </li>
                         <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
@@ -54,75 +65,41 @@
             <div class="main-menu">
                 <div class="menu-container">
                     <ul>
-                        <li><a href="#" title="My Profile">My Profile</a></li>
-                        <li><a href="#" class="active" title="My Student">My Student</a></li>
-                        <li><a href="#" title="progress">progress</a></li>
-                        <li><a href="#" title="My procoins">My procoins</a></li>
+                        <li><a href="{{ url('sponsor/update-profile') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'sponsor/update-profile') ? 'active' : '' }}" title="My Profile">My Profile</a></li>
+                        <li><a href="{{ url('sponsor/home') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'sponsor/home') ? 'active' : '' }}" title="Progress">Progress</a></li>
+                        <li><a href="{{ url('sponsor/my-coins') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'sponsor/my-coins') ? 'active' : '' }}" title="My ProCoins">My ProCoins</a></li>
                     </ul>
-                    <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII="><a href="#" class="menu-close"><i class="icon-close"></i></a>
-                </div>
-            </div>
-        </nav>
-        @else
-        <nav class="fixed-navigation">
-            <div class="container">
-                <div class="logo pull-left">
-                    <a href="{{ url('/') }}">
-                        <img src="{{ Storage::url('img/logo.png') }}" alt="{{ trans('labels.appname') }}">
-                    </a>
-                </div>
-                <div class="menu-toggle pull-right">
-                    <ul class="nav-bar clearfix">
-                        <li class="n-menu">
-                            <a href="javascript:void(0);" class="menu-toggler">
-                                <i class="icon-menu"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="main-menu bg-light">
-                <div class="menu-container">
-                    <ul>
-                        <li><a href="{{ url('/teenager') }}" title="Teen" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager', 'teenager/login', 'teenager/signup']) ? 'active' : ''}}">Student</a></li>
-                        <li><a href="{{ url('/parent') }}" title="Parent" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['parent', 'parent/login', 'parent/signup']) ? 'active' : ''}}">Parent</a></li>
-                        <li><a href="{{ url('/counselor') }}"  title="Mentor" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['counselor', 'counselor/login', 'counselor/signup']) ? 'active' : ''}}">Mentor</a></li>
-                        <li><a href="{{ url('/school') }}" title="School" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['school', 'school/login', 'school/signup']) ? 'active' : ''}}">School</a></li>
-                        <li><a href="{{ url('/sponsor') }}" title="Enterprise" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['sponsor', 'sponsor/login', 'sponsor/signup']) ? 'active' : ''}}">Enterprise</a></li>
-                            <!--<li><a href="{{ url('/team') }}" title="Team" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['team']) ? 'active' : ''}}">Team</a></li>
-                        <li><a href="{{ url('/contact-us') }}" title="Contact" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['contact-us']) ? 'active' : ''}}">Contact</a></li>-->
-                    </ul>
-                    <img class="i-menu-rocket menu-rocket" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAABZAQMAAACubpIFAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABlJREFUeNrtwTEBAAAAwqD1T20JT6AAADgbCWMAAa20KzgAAAAASUVORK5CYII=">
                     <a href="#" class="menu-close"><i class="icon-close"></i></a>
+                    
                 </div>
             </div>
         </nav>
-
-        @endif
         @yield('content')
-        @if(Auth::guard('sponsor')->check())
-        <footer class="primary_footer tnc">
-
-        </footer>
-        @else
-        <footer class="primary_footer tnc">
+        <footer>
             <div class="container">
-                <div class="copyright tandc">
-                    <span><a href="{{url('contact')}}"  class="terms">Contact</a></span>
-                    <span><a href="{{url('term')}}" class="terms">Terms &amp; Conditions</a></span>
-                    <span><a href="{{url('privacy')}}" class="terms">Privacy Policy</a></span>
-                    <span>(c) 2017 All Rights Reserved</span>
+                <div class="left">
+                    <ul class="links">
+                        <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
+                        <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
+                        <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
+                    </ul>
+                    <ul class="links">
+                        <li><span>&copy; 2018 ProTeen</span></li>
+                        <li><span>A <strong>UNIDEL</strong> COMPANY</span></li>
+                    </ul>                      
                 </div>
-                <div class="social_footer">
-                    <a href="https://www.linkedin.com/company/proteen-life" target="_blank" class="linkedin_footer"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
-                    <a href="https://www.facebook.com/proteenlife/" target="_blank" class="facebook_footer"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-                    <a href="https://plus.google.com/109414106711493074923" target="_blank" class="google_plus_footer"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a>
-                    <a href="https://twitter.com/ProTeenLife" target="_blank" class="twitter_footer"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                <div class="right">
+                    <ul class="social">
+                        <li><a href="#"><i class="icon-search"><img src="{{ Storage::url('img/search-icon.png') }}" alt="search" class="icon-img"><img src="{{ Storage::url('img/search-icon-hover.png') }}" alt="search" class="icon-hover"></i></a></li>
+                        <li><a href="https://www.facebook.com/proteenlife/" target="_blank"><i class="icon-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/ProTeenLife" target="_blank"><i class="icon-twitter"></i></a></li>
+                        <li><a href="https://plus.google.com/109414106711493074923" target="_blank"><i class="icon-google"></i></a></li>
+                        <li><a href="https://www.linkedin.com/company/proteen-life" target="_blank"><i class="icon-linkdin"></i></a></li>
+                    </ul>
                 </div>
             </div>
         </footer>
-        @endif
-       @yield('footer')
+        @yield('footer')
         <script src="{{ asset('backend/plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
         <script src="{{ asset('frontend/js/jquery-ui.min.js')}}"></script>
         <script src="{{ asset('frontend/js/bootstrap.min.js')}}"></script>
