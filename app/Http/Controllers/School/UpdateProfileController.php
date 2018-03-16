@@ -65,6 +65,7 @@ class UpdateProfileController extends Controller {
         else {
             $cid = $cid;
         }
+
         if(isset($cid) && !empty($cid))
         {
             $classDetails = $this->schoolsRepository->getClassDetail($schoolid);
@@ -75,14 +76,15 @@ class UpdateProfileController extends Controller {
             $professionAttempted = $this->schoolsRepository->getAttemptedProfession($schoolid, $cid);
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
+            
             $objDeductedCoins = new DeductedCoins();
             $coins = 0;
             if (!empty($componentsData)) {
                 $coins = $componentsData->pc_required_coins;
             }
-            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolid,$componentsData->id,3);
+            $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($schoolid, $componentsData->id, 3);
             $days = 0;
-            if (!empty($deductedCoinsDetail)) {
+            if ($deductedCoinsDetail->count() > 0) {
                 $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
         }

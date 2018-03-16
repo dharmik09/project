@@ -311,27 +311,36 @@ class DashboardManagementController extends Controller {
                 if (isset($teenagerIcons) && !empty($teenagerIcons)) {
                     foreach ($teenagerIcons as $key => $icon) {
                         if ($icon->ti_icon_type == 1) {
-
-                            if (isset($icon->fiction_image) && $icon->fiction_image != '') {
-                                $fictionIcon[] = Storage::url($this->cartoonOriginalImageUploadPath . $icon->fiction_image);
+                            $fictionIconArr = [];
+                            if ($icon->fiction_image != '' && Storage::size($this->cartoonThumbImageUploadPath . $icon->fiction_image) > 0)  {
+                                $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . $icon->fiction_image);
                             } else {
-                                $fictionIcon[] = Storage::url($this->cartoonOriginalImageUploadPath . 'proteen-logo.png');
+                                $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
                             }
-                        } elseif ($icon->ti_icon_type == 2) {
-                            if (isset($icon->nonfiction_image) && $icon->nonfiction_image != '') {
-                                $nonFiction[] = Storage::url($this->humanOriginalImageUploadPath . $icon->nonfiction_image);
+                            $fictionIconArr['iconDescription'] = $icon->ci_description;
+                            $fictionIcon[] = $fictionIconArr;
+                        } else if ($icon->ti_icon_type == 2) {
+                            $nonFictionArr = [];
+                            if ($icon->nonfiction_image != '' && Storage::size($this->humanThumbImageUploadPath . $icon->nonfiction_image) > 0) {
+                                $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . $icon->nonfiction_image);
                             } else {
-                                $nonFiction[] = Storage::url($this->humanOriginalImageUploadPath . 'proteen-logo.png');
+                                $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
                             }
+                            $nonFictionArr['iconDescription'] = $icon->hi_description;
+                            $nonFiction[] = $nonFictionArr;
                         } else {
-                            if (isset($icon->ti_icon_image) && $icon->ti_icon_image != '') {
-                                $relationIcon[] = Storage::url($this->relationIconOriginalImageUploadPath . $icon->ti_icon_image);
+                            $relationIconArr = [];
+                            if ($icon->ti_icon_image != '' && Storage::size($this->relationIconThumbImageUploadPath . $icon->ti_icon_image) > 0) {
+                                $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . $icon->ti_icon_image);
+                            } else {
+                                $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . 'proteen-logo.png');
                             }
+                            $relationIconArr['iconDescription'] = "";
+                            $relationIcon[] = $relationIconArr;
                         }
                     }
                     $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
-                    //$response['data']['fiction'] = $fictionIcon;
-                }
+                } 
 
                 //Get teenager attempted profession
 

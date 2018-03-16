@@ -110,7 +110,7 @@
                     </ul>
                     <ul class="links">
                         <li><span>&copy; 2018 ProTeen</span></li>
-                        <li><span>A <strong>UNIDEL</strong> Company</span></li>
+                        <li><span>A <strong>UNIDEL</strong> COMPANY</span></li>
                     </ul>                      
                 </div>
                 <div class="right">
@@ -163,16 +163,16 @@
                       $.ajax({
                         url: "{{url('teenager/get-notification-count')}}", 
                         success: function(data) {
-                            if(data > 0){
+                            if(data > 0) {
                                 $('#notificationCount').html('<span class="badge">'+data+'</span>');
-                            }else{
+                            } else {
                                 $('#notificationCount').html('');
                             }
                         },
                         complete: function() {
-                          setTimeout(getNotificationCount, 10000);
+                            setTimeout(getNotificationCount, 10000);
                         }
-                      });
+                    });
                 })();
                 
                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -204,13 +204,11 @@
             function showPopover(helpSlug) {
                 $('#'+helpSlug).popover({
                     html:true,
-                    content:function(){return $($(this).data("popover-content")).html();
-                }
+                    content : function() { 
+                                    return $( $(this).data("popover-content") ).html();
+                                }
                 });
-                //$('#'+helpSlug).popover('show');
             }
-            
-                
         </script>
         @stack('script-footer')
         @yield('script')

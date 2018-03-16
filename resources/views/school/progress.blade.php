@@ -232,10 +232,15 @@
                                     		text: "Buy Package",
                                     		class : 'btn primary_btn',
                                     		click: function() {
-                                    		  var path = '<?php echo url('/sponsor'); ?>';                                                  
-                                                  var win = window.open(path, '_blank');
-                                                  win.focus();
-                                    		  $( this ).dialog( "close" );
+                                                var windowName = 'Console'; 
+                                                var popUp = window.open('{{url("/sponsor")}}', windowName, 'width=1000, height=700, left=24, top=24, scrollbars, resizable');
+                                                if (popUp == null || typeof(popUp)=='undefined') {  
+                                                    alert('Please disable your pop-up blocker and click the "Open" link again.'); 
+                                                } 
+                                                else {  
+                                                    popUp.focus();
+                                                }
+                                    		    $( this ).dialog( "close" );
                                     		}
                                     	},
                                     	{
@@ -267,9 +272,14 @@
                       "schoolId": <?php echo Auth::guard('school')->user()->id;?>
                   },
                   success: function(response) {
-                        var path = '<?php echo url('/school/export-pdf/'.$cid); ?>';
-                        var win = window.open(path, '_blank');
-                        win.focus();
+                        var windowName = 'Console'; 
+                        var popUp = window.open('{{url("/school/export-pdf/")}}/{{$cid}}', windowName, 'width=1000, height=700, left=24, top=24, scrollbars, resizable');
+                        if (popUp == null || typeof(popUp)=='undefined') {  
+                            alert('Please disable your pop-up blocker and click the "Open" link again.'); 
+                        } 
+                        else {  
+                            popUp.focus();
+                        }
                         if (days == 0) {
                             getRemaningDaysForReport(<?php echo Auth::guard('school')->user()->id;?>);
                         }

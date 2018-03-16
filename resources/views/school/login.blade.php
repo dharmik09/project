@@ -1,9 +1,13 @@
-@extends('layouts.school-master')
+@extends('layouts.common-master')
+
+@push('script-header')
+    <title>{{ trans('labels.appname') }} : School Login</title>
+@endpush
 
 @section('content')
 
 
-<div class="col-xs-12">
+<!--<div class="col-xs-12">
     @if ($message = Session::get('error'))
     <div class="row">
         <div class="col-md-12">
@@ -65,7 +69,34 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
+
+<section class="sec-login">
+        <div class="container-small">
+            <div class="login-form">
+                <h1>school login</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+                <span class="icon"><img src="../img/hand-icon.png" alt="hand icon"></span>
+
+                <div class="form-sec">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" placeholder="username" tabindex="1">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control pass-visi" id="password" placeholder="password" tabindex="2">
+                            <span class="visibility-pwd"><img src="../img/view.png" alt="view" class="view img">
+                                <img src="../img/hide.png" alt="view" class="img-hide hide img"></span>
+                        </div>
+                        <button type="submit" class="btn btn-default" title="Login" tabindex="4">Login</button>
+                    </form>
+                    <p><a href="#" title="Forgot username/password?">Forgot username/password?</a></p>
+                    <p>Not enrolled? <a href="#" title="Sign up now.">Sign up now.</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
 <div class="loader ajax-loader" style="display:none;">
     <div class="cont_loader">
         <div class="img1"></div>

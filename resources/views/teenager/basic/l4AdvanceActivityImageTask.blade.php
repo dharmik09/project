@@ -20,11 +20,11 @@
             <?php $pendingTask = 0; ?>
             @foreach($userLevel4AdvanceImageTask as $key=>$task)
             <?php 
-                if(Storage::size($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name) > 0 && $task->l4aaua_media_name != '') { 
-                    $media =  Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
-                    $mediaPath = Storage::url($level4AdvanceOriginalImageUploadPath.$task->l4aaua_media_name);
+                if(Storage::size($level4AdvanceThumbImageUploadPath.$task->l4aaua_media_name) > 0 && $task->l4aaua_media_name != '') { 
+                    $media =  Storage::url($level4AdvanceThumbImageUploadPath.$task->l4aaua_media_name);
+                    $mediaPath = Storage::url($level4AdvanceThumbImageUploadPath.$task->l4aaua_media_name);
                 }else{
-                    $media =  Storage::url($level4AdvanceOriginalImageUploadPath.'proteen-logo.png');
+                    $media =  Storage::url($level4AdvanceThumbImageUploadPath.'proteen-logo.png');
                     $mediaPath = 'javascript:void(0)';
                 }
             ?>

@@ -30,7 +30,7 @@
                             <h1>
                                 <span class="tag-intro">Who</span>
                                 <span class="tag-image"><img class="i-dream-white" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAACsAQMAAACn/kB+AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAODHABbYAAFfvr7GAAAAAElFTkSuQmCC"></span>
-                                <span class="tag-close">can i be?</span>
+                                <span class="tag-close">can I be?</span>
                             </h1>
                             <p>Unlocking the true potential of young adults</p>
                         </div>
@@ -97,7 +97,7 @@
                 <div class="container">
                     <ul class="clearfix">
                         <li class="hidden"><a href="#intro">intro</a></li>
-                        <li class="teen teen-active"><a href="#teen">Teen</a></li>
+                        <li class="teen teen-active"><a href="#teen">Student</a></li>
                         <li class="parent"><a href="#parent">Parent</a></li>
                         <li class="mentor"><a href="#mentor">Mentor</a></li>
                         <li class="school"><a href="#school">School</a></li>
@@ -125,7 +125,7 @@
                 <div class="container">
                     <ul class="clearfix">
                         <li class="hidden"><a href="#intro">intro</a></li>
-                        <li class="teen"><a href="#teen">Teen</a></li>
+                        <li class="teen"><a href="#teen">Student</a></li>
                         <li class="parent parent-active"><a href="#parent">Parent</a></li>
                         <li class="mentor"><a href="#mentor">Mentor</a></li>
                         <li class="school"><a href="#school">School</a></li>
@@ -154,7 +154,7 @@
                 <div class="container">
                     <ul class="clearfix">
                         <li class="hidden"><a href="#intro">intro</a></li>
-                        <li class="teen"><a href="#teen">Teen</a></li>
+                        <li class="teen"><a href="#teen">Student</a></li>
                         <li class="parent"><a href="#parent">Parent</a></li>
                         <li class="mentor mentor-active"><a href="#mentor">Mentor</a></li>
                         <li class="school"><a href="#school">School</a></li>
@@ -182,7 +182,7 @@
                 <div class="container">
                     <ul class="clearfix">
                         <li class="hidden"><a href="#intro">intro</a></li>
-                        <li class="teen"><a href="#teen">Teen</a></li>
+                        <li class="teen"><a href="#teen">Student</a></li>
                         <li class="parent"><a href="#parent">Parent</a></li>
                         <li class="mentor"><a href="#mentor">Mentor</a></li>
                         <li class="school school-active"><a href="#school">School</a></li>
@@ -211,7 +211,7 @@
                 <div class="container">
                     <ul class="clearfix">
                         <li class="hidden"><a href="#intro">intro</a></li>
-                        <li class="teen"><a href="#teen">Teen</a></li>
+                        <li class="teen"><a href="#teen">Student</a></li>
                         <li class="parent"><a href="#parent">Parent</a></li>
                         <li class="mentor"><a href="#mentor">Mentor</a></li>
                         <li class="school"><a href="#school">School</a></li>

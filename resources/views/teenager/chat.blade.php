@@ -58,7 +58,7 @@
             </div>
             <!-- sec chat -->
             <div class="chat-heading">
-                <h2 class="font-blue">Notifications, Forum and Chat to Engage on ProTeen</h2>
+                <h2 style="text-align:center;" class="font-blue">Notifications, Forum and Chat</h2>
             </div>
              <!-- sec notification-->
             <div class="sec-notification">
@@ -81,9 +81,9 @@
                                 @if($value->n_record_id != 0)
                                 <ul class="btn-list text-right">
                                     @if($value->community->tc_status == 1)
-                                        <li><a href="#" title="accept" class="accept">Accepted</a></li>
+                                        <li><a href="javascript:void(0);" title="accept" class="accept">Accepted</a></li>
                                     @elseif($value->community->tc_statsus == 2)
-                                        <li><a href="#" title="decline" class="decline">Declined</a></li>
+                                        <li><a href="javascript:void(0);" title="decline" class="decline">Declined</a></li>
                                     @elseif($value->community->tc_status == 0)
                                         <li><a href="{{url('teenager/accept-request').'/'.$value->n_record_id}}" title="accept" class="accept">Accept</a></li>
                                         <li><a href="{{url('teenager/decline-request').'/'.$value->n_record_id}}" title="decline" class="decline">Decline</a></li>
@@ -108,7 +108,7 @@
                         @endif
                     </div>
                 @else
-                    <div class="sec-forum"><span>No result Found</span></div>
+                    <div class="sec-forum bg-offwhite"><span>No result Found</span></div>
                 @endif
             </div>
             <!-- sec notification end-->
@@ -121,7 +121,7 @@
                 @if(isset($forumQuestionData) && count($forumQuestionData)>0)
                     <div class="forum-container">
                         @foreach($forumQuestionData as $key => $value)
-                        <div class="single-article">
+                        <div class="single-article" style="background:#eeeeef;">
                             <div class="forum-que-block t-table">
                                 <div class="author-img t-cell">
                                     <a href="javascript:void(0);"><i class="icon-hand-simple"></i></a>
@@ -165,17 +165,17 @@
                                             <p>{{$answerText}}</p>
                                         </div>
                                     </div>
-                                    <span><a href="#" title="Expand Answer" class="read-more">Expand</a></span>
+                                    <span><a href="#" title="Read More" class="read-more">Read More</a></span>
                                 @else
-                                    <div class="sec-forum"><span>The first five contributors will win ProCoins! Answer now!!</span></div>
+                                    <div class="sec-forum bg-offwhite"><span>The first five contributors will win ProCoins! Answer now!!</span></div>
                                 @endif
                             </div>
                         </div>
                         @endforeach
-                        <p class="text-center"><a href="{{url('teenager/forum-questions')}}" title="View All" class="btn btn-primary load-more">View All</a></p>
+                        <p class="text-center"><a href="{{url('teenager/forum-questions')}}" title="View All" class="btn btn-primary load-more">View All Question</a></p>
                     </div>
                 @else
-                    <div class="sec-forum"><span>No question found</span></div>
+                <div class="sec-forum bg-offwhite"><span>No question found</span></div>
                 @endif
             </div>
             <!--sec forum end-->

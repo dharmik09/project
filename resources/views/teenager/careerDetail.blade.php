@@ -158,12 +158,12 @@
                         </div>
                         <div class="career-detail-tab bg-white">
                             <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                                <li class="custom-tab col-xs-6 tab-color-1">
+                                <li class="active custom-tab col-xs-6 tab-color-1">
                                     <a data-toggle="tab" href="#menu1">
                                         <span class="dt"><span class="dtc">Career Details</span></span>
                                     </a>
                                 </li>
-                                <li class="active custom-tab col-xs-6 tab-color-2">
+                                <li class="custom-tab col-xs-6 tab-color-2">
                                     <a data-toggle="tab" href="#menu2">
                                         <span class="dt">
                                             <span class="dtc">Explore <span class="tab-complete">
@@ -174,10 +174,10 @@
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div id="menu1" class="tab-pane fade in">
+                                <div id="menu1" class="tab-pane fade in active">
                                     @include('teenager/basic/careerDetailInfoSection')
                                 </div>
-                                <div id="menu2" class="tab-pane fade in active">
+                                <div id="menu2" class="tab-pane fade in">
                                     <!-- Section for booster scale --> 
                                     <div class="explore-table table-responsive">
                                             <table class="table table-striped">
@@ -421,9 +421,9 @@
                             ?>
                             
                             <?php if($matchScalePoint == 33)
-                                {$matchName = 'No Match'; $class = 'bar-no-match'; $h3class = 'no-match'; $percentage = '100';}
-                                elseif($matchScalePoint == 66){$matchName = 'Moderate'; $class = 'bar-moderate';$h3class = 'moderate-match';$percentage = '100';}
-                                elseif($matchScalePoint == 100){$matchName = 'Match'; $class = 'bar'; $h3class = 'strong-match';$percentage = '100';} 
+                                {$matchName = 'Unlikely'; $class = 'bar-no-match'; $h3class = 'no-match'; $percentage = '100';}
+                                elseif($matchScalePoint == 66){$matchName = 'Potential'; $class = 'bar-moderate';$h3class = 'moderate-match';$percentage = '100';}
+                                elseif($matchScalePoint == 100){$matchName = 'Strong'; $class = 'bar'; $h3class = 'strong-match';$percentage = '100';} 
                                 else{
                                     $matchName = 'No Attempt'; $class = ''; $h3class = '';$percentage = '0';
                                 }
@@ -431,9 +431,9 @@
                             
                             <div class="progress-match">
                                 <div class="sec-popup">
-                                    <a id="career-detail-arc-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-arc-view')" data-trigger="hover" data-popover-content="#arc-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                    <!--<a id="career-detail-arc-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-arc-view')" data-trigger="hover" data-popover-content="#arc-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                                             <i class="icon-question"></i>
-                                        </a>
+                                        </a>-->
                                     <div class="hide" id="arc-view-sec">
                                         <div class="popover-data">
                                             <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -1083,6 +1083,8 @@
                     }
                 }
                 //Timer for question #####END#####
+                
+                $('#single_line_answer_box').focus();
 
                 $(".sortable").sortable();
                 $(".sortable").disableSelection();
@@ -2052,7 +2054,6 @@
             var reader = new FileReader();
             reader.onload = function(e) {
                 var fileType = input_file.files[0];
-                alert(fileType.type);
                 if (taskType == 3) {
                     if (fileType.type == 'image/jpeg' || fileType.type == 'image/jpg' || fileType.type == 'image/png' || fileType.type == 'image/bmp') {
                         if (input_file.files[0].size > 6000000) {

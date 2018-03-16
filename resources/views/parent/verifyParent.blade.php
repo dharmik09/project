@@ -1,4 +1,9 @@
-@extends('layouts.parent-master')
+@extends('layouts.common-master')
+
+@push('script-header')
+    <title>{{ trans('labels.appname') }} : Signup</title>
+@endpush
+
 @section('content')
     <div class="centerlize">
         <div class="container">

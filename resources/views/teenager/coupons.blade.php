@@ -48,12 +48,12 @@
                         </div>
                         @endforeach
                         @else
-                        <div class="no-data">
+                        <div class="no-data bg-offwhite">
                             <div class="data-content">
                                 <div>
                                     <i class="icon-empty-folder"></i>
                                 </div>
-                                <p>No data found</p>
+                                <p>No Active Coupons Available</p>
                             </div>
                         </div>
                         @endif

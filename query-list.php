@@ -521,4 +521,4 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
  `updated_at` timestamp NOT NULL,
  `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted ',
  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=latin1
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
