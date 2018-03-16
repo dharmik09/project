@@ -53,80 +53,19 @@
             <h1><span class="title_border">{{trans('labels.giftedcoins')}}</span></h1>
         </div>
         <div class="my_teens_content clearfix">
-            <!--<div class="my_teens_inner">
-                <div class="login_form avl_coin_form consumed_coin search_coin_cst clearfix">
-                    <div class="col-md-push-3 col-sm-push-3 col-md-6 col-sm-6">
-                        <div class="search_container desktop_search gift_coin_search">
-                            <input type="text" name="search_box" id="searchForUser" class="search_input" placeholder="Search here..." onkeyup="userSearch(this.value, {{Auth::guard('school')->user()->id}},1)">
-                            <button type="submit" class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="table_container cst_consumed_detail" >
-                    <table class="sponsor_table">
-                        <tr>
-                            <th>{{trans('labels.blheadgiftedto')}}</th>
-                            <th>{{trans('labels.giftedcoins')}}</th>
-                            <th>{{trans('labels.gifteddate')}}</th>
-                        </tr>
-                        @if(!empty($teenCoinsDetail) && count($teenCoinsDetail) > 0)
-                        @foreach($teenCoinsDetail as $key=>$data)
-                        <tr>
-                            <td>
-                                {{$data->t_name}}
-                            </td>
-                            <td>
-                                <?php echo number_format($data->tcg_total_coins); ?>
-                            </td>
-                            <td>
-                                <?php echo date('d M Y', strtotime($data->tcg_gift_date)); ?>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @else
-                        <tr><td colspan="3">No data found</td></tr>
-                        @endif
-                        <tr>
-                            <td colspan="3">
-                                @if (isset($teenCoinsDetail) && !empty($teenCoinsDetail))
-                                      <?php echo $teenCoinsDetail->render(); ?>
-                                @endif
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="mySearch_area"></div>
-            </div>-->
             <div class="procoin-heading gift-heading">
                 <div class="procoin-form gift-form">
                     <form>
                         <div class="form-group search-bar clearfix">
-                            <input type="text" placeholder="search" tabindex="1" class="form-control search-feild">
+                            <input type="text" name="search_box" id="searchForUser" placeholder="search" tabindex="1" class="form-control search-feild" onkeyup="userSearch(this.value, {{Auth::guard('school')->user()->id}}, 1)">
                             <button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="bg-white procoins-gift">
-                <div class="gift-table table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Gifted To</th>
-                                <th>Gifted ProCoins</th>
-                                <th>Gifted Date</th>
-                            </tr>
-                        </thead>
-
-                    </table>
-                    <div class="no-data">
-                        <div class="data-content">
-                            <div>
-                                <i class="icon-empty-folder"></i>
-                            </div>
-                            <p>No data found</p>
-                        </div>
-                    </div>
+                <div class="gift-table table-responsive mySearch_area">
+                    @include('school/searchGiftedCoins')
                 </div>
                 <div class="sec-bttm"><!-- --></div>
             </div>
@@ -160,7 +99,6 @@
             cache: false,
             success: function(data) {
                 $('.mySearch_area').html(data);
-                $('.cst_consumed_detail').hide();
             }
         });
     }
