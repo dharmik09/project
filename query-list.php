@@ -490,7 +490,7 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
 
 
 // Add new table for profile school course ## 12-03-2018 Jaimin
-  CREATE TABLE `pro_pi_profession_institutes` (
+CREATE TABLE `pro_pi_profession_institutes` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `school_id` varchar(255) NOT NULL,
  `institute_state` varchar(20) DEFAULT NULL,
@@ -508,6 +508,7 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
  `latitude` varchar(10) DEFAULT NULL,
  `longitude` varchar(10) DEFAULT NULL,
  `institute_type` varchar(100) DEFAULT NULL,
+ `autonomous` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
  `management` varchar(100) DEFAULT NULL,
  `speciality` varchar(255) DEFAULT NULL,
  `girl_exclusive` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
@@ -515,7 +516,7 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
  `minimum_fee` bigint(255) DEFAULT NULL,
  `maximum_fee` bigint(255) DEFAULT NULL,
  `is_institute_signup` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
- `is_accredited` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
+ `accreditation_score` varchar(10) DEFAULT NULL,
  `accreditation_body` varchar(255) DEFAULT NULL,
  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
  `updated_at` timestamp NOT NULL,

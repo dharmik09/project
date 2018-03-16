@@ -764,7 +764,7 @@ return [
     'lblaffialteduniversity' => 'Affialted University',
     'lblmanagement' => 'Management',
     'lblaccredationbody' => 'Accredation Body',
-    'lblisaccredation' => 'IS Accredation',
+    'lblaccredationscore' => 'Accredation Score',
     'professioninstitueslistcolumnnotfoundbasicinformation' => 'Column not found for Basic Information  please check file.',
     'professioninstitueslistcolumnnotfoundaccreditation' => 'Column not found for Accreditation please check file.',
 ];
