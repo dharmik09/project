@@ -820,6 +820,9 @@ a:hover {
     transform: scaleX(-1);
     display: inline-block;
     line-height: 1;
+    &:hover{
+        text-decoration: none;
+    }
 }
 
 .ans-detail {

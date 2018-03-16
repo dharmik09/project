@@ -263,7 +263,10 @@
     </div>
 </div>
 @endif
-
+<div id="confirm" title="Congratulations!" style="display:none;">
+    <div class="confirm_coins"></div><br/>
+    <div class="confirm_detail"></div>
+</div>
 @stop
 @section('script')
 
@@ -377,7 +380,10 @@
                                                   $(".confirm_coins").text(' ');
                                                 }
                                             }
-                                          ]
+                                          ],
+                                          open: function(event, ui) {
+                                                $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                            }
                                         });
                                     } else {
                                         showReport(days);
@@ -416,7 +422,10 @@
                                                   $(".confirm_coins").text(' ');
                                                 }
                                             }
-                                          ]
+                                          ],
+                                          open: function(event, ui) {
+                                                $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                            }
                                     });
                                 }
                             }
@@ -490,6 +499,8 @@ function giftCoins(coins)
         }
     });
 }
-
+$(document).on('click','.icon-close', function(){
+    $( "#confirm" ).dialog( "close" );
+});
 </script>
 @stop

@@ -111,6 +111,22 @@
         $('.fa-play').click(function(event) {
             $('#login_info_popup').modal('show');
         });
+        // Cache the toggle button
+        var $toggle = $(".visibility-pwd");
+        var $field = $(".pass-visi");
+         var i = $(this).find('.img');
+        // Toggle the field type
+        $toggle.on("click", function(e) {
+            e && e.preventDefault();
+            if ($field.attr("type") == "password") {
+                $field.attr("type", "text");
+                i.toggleClass("hide");
+            } else {
+               i.toggleClass("hide");
+                $field.attr("type", "password");
+            }
+
+        });
         //$('#login_info_popup .modal-body .para_holder').mCustomScrollbar();
         $("#login_form").submit(function() {
             $("#loginSubmit").addClass('sending').blur();

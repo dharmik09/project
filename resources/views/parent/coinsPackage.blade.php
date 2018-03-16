@@ -114,7 +114,7 @@
                             ?>
                             @endforeach
                             @else
-
+                                No Packages found.
                             @endif
                         </div>
                     </div>
