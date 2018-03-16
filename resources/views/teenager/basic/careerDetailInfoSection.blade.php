@@ -145,7 +145,7 @@
     @if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content))
     <ul class="tag-list">
         @forelse($collegeList as $key => $value)
-            <li><a href="#" title="{{$value}}">{{$value}}</a></li>
+            <li><a href="{{ url('teenager/institute') }}?speciality={{$value}}" title="{{$value}}">{{$value}}</a></li>
         @empty
         @endforelse
     </ul>

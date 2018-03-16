@@ -20,7 +20,7 @@
                         <div class="form-group custom-select">
                             <select id="questionDropdown" onchange="fetchSearchDropdown();" tabindex="8" class="form-control">
                                 <option disabled selected>Select Filter</option>
-                                <option value="Speciality">Speciality</option>
+                                <option value="Speciality" <?php echo (isset($speciality) && !empty($speciality)) ? 'selected' : '' ?> >Speciality</option>
                                 <option value="State">State</option>
                                 <option value="City">City</option>
                                 <option value="Pincode">Pincode</option>
@@ -34,10 +34,19 @@
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div id="userAnswer"></div>
+                        <div id="userAnswer">
+                        @if(isset($speciality) && !empty($speciality))
+                            <div class="form-group search-bar clearfix"><input type="text" tabindex="1" class="form-control search-feild" id="answerDropdown" onkeyup="fetchInstituteFilter()" value="{{$speciality}}"><button type="submit" class="btn-search"><i class="icon-search"></i></button></div>
+                        @endif 
+                        </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-group search-bar clearfix"><input type="text" placeholder="search" tabindex="1" class="form-control search-feild"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>
+                        <div class="form-group search-bar clearfix">
+                            <input type="text" placeholder="Search by Name" id="answerName" onkeyup="fetchInstituteFilter()" tabindex="1" class="form-control search-feild">
+                            <button type="submit" class="btn-search">
+                                <i class="icon-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,12 +71,26 @@
 @section('script')
 <script>
     
-    fetchInstitute(0);
+    $(document).ready(function() {
+        <?php if(isset($speciality) && $speciality != ""){ ?>
+            fetchInstituteFilter();
+        <?php }else{ ?>
+            fetchInstitute(0);
+        <?php } ?>
+    });
+
 
     function fetchInstitute(){
         var pageNo = $('#pageNo').val();
 
         var questionType = $('#questionDropdown').val();
+        var answerName = "";
+
+        if($('#answerName').val().length != 0){
+            if($('#answerName').val().length > 3){
+                answerName = $('#answerName').val();
+            }
+        }
         
         if(questionType == "Fees"){
             var answer = new Object();
@@ -83,12 +106,13 @@
         var CSRF_TOKEN = "{{ csrf_token() }}";
         $.ajax({
             type: 'POST',
+            async: 'false',
             url: "{{url('teenager/get-page-wise-institute')}}",
             dataType: 'json',
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
-            data: {'page_no':pageNo, 'questionType':questionType, 'answer':answer},
+            data: {'page_no':pageNo, 'questionType':questionType, 'answer':answer, 'answerName':answerName},
             success: function (response) {
                 if(response.instituteCount != 5){
                     $('#loadMoreButton').removeClass('text-center');
@@ -130,26 +154,66 @@
 
     function fetchInstituteFilter(){
         var questionType = $('#questionDropdown').val();
+
+        var answerName = $('#answerName').val();
+        
+        if(answerName.length != 0){
+            if(answerName.length <= 3){
+                return false;
+            }
+        }
+
         if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode' || questionType == 'Speciality'){
             var answer = $('#answerDropdown').val();
             if(answer.length <= 3){
                 return false;
             }
         }
-        if( questionType == 'Fees'){
-            var answerMinimumFees = $('#answerDropdownMinimumFees').val();
-            var answerMaximumFees = $('#answerDropdownMaximumFees').val();
-            if(answerMaximumFees == "" || answerMaximumFees == ""){
-                return false;
-            }
-        }
+
         $('#loadMoreButton').addClass('text-center');
         $('#loadMoreButton').addClass('load-more');
         $('#loadMoreButton').removeClass('notification-complete');
         $('#loadMoreButton').html('<div id="loader_con"></div><p class="text-center"><input type="hidden" id="pageNo" value="1"><a href="javascript:void(0);" title="see more" class="btnLoad load-more" onclick="fetchInstitute()">see more</a></p>');
         $('#pageNo').val('0');
         $("#pageWiseInstitutes").html('');
-        fetchInstitute();
+
+        var pageNo = $('#pageNo').val();
+        
+        if(questionType == "Fees"){
+            var answer = new Object();
+            answer["minimumFees"] = $('#answerDropdownMinimumFees').val();
+            answer["maximumFees"] = $('#answerDropdownMaximumFees').val();
+        }
+        else{
+            var answer = $('#answerDropdown').val();
+        }
+
+        $("#loader_con").html('<img src="{{Storage::url('img/loading.gif')}}">');
+        
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            async: 'false',
+            url: "{{url('teenager/get-page-wise-institute')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'page_no':pageNo, 'questionType':questionType, 'answer':answer, 'answerName':answerName},
+            success: function (response) {
+                if(response.instituteCount != 5){
+                    $('#loadMoreButton').removeClass('text-center');
+                    $('#loadMoreButton').removeClass('load-more');
+                    $('#loadMoreButton').addClass('notification-complete');
+                    $('#loadMoreButton').html("<p>No more institutes<p>");
+                }
+                else{
+                    $('#pageNo').val(response.pageNo);
+                }
+                $("#pageWiseInstitutes").html(response.institutes);
+                $("#loader_con").html('');
+            }
+        });
     }
 
 </script>

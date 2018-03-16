@@ -70,20 +70,26 @@ class DashboardManagementController extends Controller {
 
     public function index() {
             $parentId = Auth::guard('parent')->user()->id;
+           
             // Get All Verified Teenagers of parent
             $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
             $teenagersIds = $this->parentsRepository->getAllVerifiedTeenagers($parentId);
+           
             $final = array();
             if (isset($teenagersIds) && !empty($teenagersIds)) {
                 foreach ($teenagersIds as $key => $data) {
                     $checkuserexist = $this->teenagersRepository->checkActiveTeenager($data->ptp_teenager);
+                    
                     if (isset($checkuserexist) && $checkuserexist) {
                         $teengersDetail = $this->teenagersRepository->getTeenagerById($data->ptp_teenager);
-                        $teengersBooster = $this->teenagersRepository->getTeenagerBoosterPoints($data->ptp_teenager);
+                       
+                        //$teengersBooster = $this->teenagersRepository->getTeenagerBoosterPoints($data->ptp_teenager);
+                        $teengersBooster = $this->teenagersRepository->getTeenagerBasicBooster($data->ptp_teenager);                        
                         $final[] = array('detail' => $teengersDetail, 'booster' => $teengersBooster,'pairdata'=>$data);
                     }
                 }
             }
+             
             $parentData = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
             $parents = $this->teenagersRepository->getParentTeens($parentId);
             return view('parent.dashboard', compact('teenagersIds', 'final', 'parents', 'teenThumbImageUploadPath','parentData'));

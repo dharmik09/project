@@ -12,12 +12,12 @@
         $instituteFeeRange = "-";
         $instituteHostelCount = "-";
         $instituteGender = "General";
-        $instituteAccreditation = 0;
+        $instituteAccreditationScore = "-";
         $instituteAccreditationBody = "-";
         $instituteSpeciality = [];
 
         if(isset($value->website) && $value->website != ""){
-            $instituteWebsite = $value->website;
+            $instituteWebsite = 'http://'.$value->website;
         }
         
         if(isset($value->college_institution) && $value->college_institution != ""){
@@ -54,8 +54,8 @@
                 $instituteGender = "Girls Only";
             }
         }
-        if(isset($value->is_accredited) && $value->is_accredited != ""){
-            $instituteAccreditation = $value->is_accredited;
+        if(isset($value->accreditation_score) && $value->accreditation_score != ""){
+            $instituteAccreditationScore = $value->accreditation_score;
         }
         if(isset($value->accreditation_body) && $value->accreditation_body != ""){
             $instituteAccreditationBody = $value->accreditation_body;
@@ -79,7 +79,8 @@
                         <div class="institute-content">
                             <h4><a href="{{$instituteWebsite}}" target="_blank">{{ ucwords(strtolower($instituteName)) }} </a></h4>
                             <h5><strong>{{$instituteEstablishmentYear}}</strong></h5>
-                            <p>{{$instituteAddress}}</p>
+                            <h5><strong>Affiliat University : </strong>{{$instituteAffiliateUniversity}} </h5>
+                            <h5><strong>Address : </strong>{{$instituteAddress}}</h5>
                         </div>
                     </div>
                 </div>
@@ -98,13 +99,10 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <ul class="institute-detail">
-                                        <li><strong>Affiliat University : </strong>{{$instituteAffiliateUniversity}} </li>
                                         <li><strong>Management : </strong>{{$instituteManagement}}</li>
-                                        @if($instituteAccreditation = 1)
-                                            <li><strong>Accreditation :  </strong>Yes</li>
+                                        @if($instituteAccreditationScore != "")
+                                            <li><strong>Accreditation Score :  </strong>{{$instituteAccreditationScore}}</li>
                                             <li><strong>Accreditation Body : </strong>{{$instituteAccreditationBody}}</li>
-                                        @else
-                                            <li><strong>Accreditation :  </strong>No</li>
                                         @endif
                                     </ul>
                                 </div>
