@@ -12,7 +12,7 @@
         $instituteFeeRange = "-";
         $instituteHostelCount = "-";
         $instituteGender = "General";
-        $instituteAccreditation = 0;
+        $instituteAccreditationScore = "-";
         $instituteAccreditationBody = "-";
         $instituteSpeciality = [];
 
@@ -54,8 +54,8 @@
                 $instituteGender = "Girls Only";
             }
         }
-        if(isset($value->is_accredited) && $value->is_accredited != ""){
-            $instituteAccreditation = $value->is_accredited;
+        if(isset($value->accreditation_score) && $value->accreditation_score != ""){
+            $instituteAccreditationScore = $value->accreditation_score;
         }
         if(isset($value->accreditation_body) && $value->accreditation_body != ""){
             $instituteAccreditationBody = $value->accreditation_body;
@@ -100,11 +100,9 @@
                                 <div class="col-md-6">
                                     <ul class="institute-detail">
                                         <li><strong>Management : </strong>{{$instituteManagement}}</li>
-                                        @if($instituteAccreditation = 1)
-                                            <li><strong>Accreditation :  </strong>Yes</li>
+                                        @if($instituteAccreditationScore != "")
+                                            <li><strong>Accreditation Score :  </strong>{{$instituteAccreditationScore}}</li>
                                             <li><strong>Accreditation Body : </strong>{{$instituteAccreditationBody}}</li>
-                                        @else
-                                            <li><strong>Accreditation :  </strong>No</li>
                                         @endif
                                     </ul>
                                 </div>
