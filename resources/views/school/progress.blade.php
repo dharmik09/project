@@ -211,7 +211,10 @@
                                         		  $(".confirm_coins").text(' ');
                                         		}
                                         	}
-                                          ]
+                                          ],
+                                          open: function(event, ui) {
+                                                $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                            }
                                         });
                                     } else {
                                         showReport();
@@ -252,7 +255,10 @@
                                     		    $(".confirm_coins").text(' ');
                                     		}
                                     	}
-                                      ]
+                                      ],
+                                      open: function(event, ui) {
+                                            $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                        }
                                     });
                                 }
                             }
@@ -260,6 +266,10 @@
                     }
                 });
             }
+        });
+    
+        $(document).on('click','.icon-close', function(){
+            $( "#confirm" ).dialog( "close" );
         });
 
         function showReport() {

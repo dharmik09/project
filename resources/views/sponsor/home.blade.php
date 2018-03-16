@@ -446,9 +446,17 @@ function showReport(days) {
               "sponsorId": '{{ $loggedInUser->user()->id }}'
           },
           success: function(response) {
-                var path = '<?php echo url('/sponsor/export-pdf/'); ?>';
-                var win = window.open(path, '_blank');
-                win.focus();
+                // var path = '<?php echo url('/sponsor/export-pdf/'); ?>';
+                // var win = window.open(path, '_blank');
+                var windowName = 'Console'; 
+                var popUp = window.open('{{url("/sponsor/export-pdf/")}}', windowName, 'width=1000, height=700, left=24, top=24, scrollbars, resizable');
+                if (popUp == null || typeof(popUp)=='undefined') {  
+                    alert('Please disable your pop-up blocker and click the "Open" link again.'); 
+                } 
+                else {  
+                    popUp.focus();
+                }
+                //win.focus();
                 if (days == 0){
                     getRemaningDaysForReport('{{ $loggedInUser->user()->id }}');
                 }
