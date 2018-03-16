@@ -49,6 +49,7 @@
             @endif
         </div>
         <div class="forum-module">
+            <div class="back-btn"><a href="#" title="Back">Back</a></div>
             <h2 class="font-blue">Forum Questions</h2>
             <div class="forum-container">
                 <div id="questionList"></div>
