@@ -104,6 +104,9 @@
         <script src="{{ Storage::url('js/aos.js') }}"></script>
         <script src="{{ Storage::url('js/general.js') }}"></script>
         <script src="{{ asset('frontend/js/comman.js')}}"></script>
+         <!-- SlimScroll -->
+        <script src="{{ asset('frontend/js/jquery.mCustomScrollbar.min.js') }}"></script>
+        <script src="{{ asset('frontend/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
         <script type="text/javascript">
             
         </script>
