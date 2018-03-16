@@ -865,7 +865,10 @@
                             		  $(".confirm_coins").text(' ');
                             		}
                             	}
-                              ]
+                              ],
+                              open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                }
                             });
                         } else {
                             $("#confirm").attr('title', 'Notification!');
@@ -896,7 +899,10 @@
                             		  $(".confirm_coins").text(' ');
                             		}
                             	}
-                              ]
+                              ],
+                              open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                }
                             });
                         }
                     }
@@ -970,7 +976,10 @@
                             		  $(".confirm_coins").text(' ');
                             		}
                             	}
-                              ]
+                              ],
+                              open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                }
                             });
                         } else {
                             $("#confirm").attr('title', 'Notification!');
@@ -1001,7 +1010,10 @@
                             		  $(".confirm_coins").text(' ');
                             		}
                             	}
-                              ]
+                              ],
+                              open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                }
                             });
                         }
                     }
@@ -1156,7 +1168,10 @@
                                     		  $(".confirm_coins").text(' ');
                                     		}
                                     	}
-                                      ]
+                                      ],
+                                      open: function(event, ui) {
+                                            $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                        }
                                     });
                                 } else {
                                     getReport(days);
@@ -1193,7 +1208,10 @@
                                     		  $(".confirm_coins").text(' ');
                                     		}
                                     	}
-                                      ]
+                                      ],
+                                       open: function(event, ui) {
+                                            $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                        }
                                     });
                                 }
 
@@ -1203,7 +1221,12 @@
                 }
             });
         });
-
+        $(document).on('click','.icon-close', function(){
+            $( "#confirm" ).dialog( "close" );
+        });
+        $(document).on('click','.confirm_box_close', function(){
+            $( "#confirm_box" ).dialog( "close" );
+        });
         function getReport(days) {
             $.ajax({
                   url: "{{ url('/parent/purchased-coins-to-view-report') }}",
@@ -1450,7 +1473,9 @@
                 $.ui.dialog.prototype._focusTabbable = function(){};
                 $( "#confirm_box" ).dialog({
                 closeOnEscape: false,
-                open: function(event, ui) { $(".ui-dialog-titlebar-close").hide();},
+                open: function(event, ui) {
+                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close confirm_box_close"></i>' );
+                },
 
                 resizable: false,
                 height: "auto",
