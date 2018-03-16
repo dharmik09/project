@@ -320,42 +320,17 @@
                     </div>
                 </div>
 
-
-                <div class="dash_progress my_intrest col-md-12">
+                <div class="dash_progress my_intrest col-md-12 teen_interest">
                     <div class="parent_h2_header">
                         <h2>Interests from <span class="l-2"><span class="level_label margintb0">L-2</span></span> <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"> PROMISE</span></h2>
                     </div>
-                    @if(isset($response['teenagerInterest']) && !empty($response['teenagerInterest']))
-                    <div class="intrest_content content_prime close_load">
-                       <div class="row flex-container">
-                        @foreach($response['teenagerInterest'] as $ket=>$val)
-                        <!--<div class="interest"><span class="img_intrest"><img src="{{$val['image']}}" alt=""></span><span class="title rlink">{{ str_limit($val['interest'], $limit = 12, $end = '...') }}</span></div>-->
-                        <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
-                            <div class="my_chart">
-                                <div class="progress-radial progress-80 progress-potential">
-                                    
-                                </div>
-                                <h4>Interest 1</h4>
-                            </div>
-                        </div>
-                        @endforeach
-                        </div>
-                    </div>
-
-                    <a href="javascript:void(0)" class="load_more intrest_load">
-                       <!-- <img src="{{Storage::url('frontend/images/load_more.png')}}" alt="" class="">-->
-                        <span>Show More</span>
-                    </a>
-                    @else
-                    <div class="no_data" style="margin: 40px 0px;text-align: center;">No Interest data found</div>
-                    @endif
                 </div><!-- dashboard_inner_box End -->
 
-                <div class="dash_progress my_intrest col-md-12">
+                <div class="dash_progress my_intrest col-md-12 teenager_skill">
                     <div class="parent_h2_header">
                         <h2>Multiple Intelligences from <span class="l-2"><span class="level_label margintb0">L-2</span></span> <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"> PROMISE</span></h2>
                     </div>
-                    @if(isset($response['teenagerMI']) && !empty($response['teenagerMI']) && isset($response['teenagerApptitude']) && !empty($response['teenagerApptitude']) && isset($response['teenagerPersonality']) && !empty($response['teenagerPersonality']))
+                    
                     <!--<h2 style="text-align:center;"><span class="parent_assessment_header_text">Your "How well do you know your Teen ?" response </span>
                         <span class="high_label" style="font-size:18px;">H - High,</span>
                         <span class="mid_label" style="font-size:18px;"> M - Moderate,</span>
@@ -373,82 +348,8 @@
                         <h2 class="parent_h2_text">Multiple Intelligences</h2>
                     </div>
 
-                    <div class="intrest_content content_secondary close_load">
-                       <div class="row flex-container">
-                        @foreach($response['teenagerMI'] as $key => $mi_val)
-                        <!--<div class="interest">
-                            <span class="img_intrest"><img src="{{$mi_val['image']}}" alt=""></span>
-                            <span class="title rlink" title="{{$mi_val['aptitude']}}">{{ str_limit($mi_val['aptitude'], $limit = 12, $end = '...') }}</span>
-                            <span class="dificulty">{{$mi_val['scale']}}</span>
-                            <span class="assemnt_value <?php if($mi_val['parentScale'] == 'L') { echo 'low';} else if ($mi_val['parentScale'] == 'M') { echo 'mid';} else if ($mi_val['parentScale'] == 'H') { echo 'high';}?>">{{$mi_val['parentScale']}}</span>
-                            <?php $introText = $mi_val['aptitude'] . (isset($mi_val['info']) && ($mi_val['info'] != '') ? ' - ' . $mi_val['info'] : ''); ?>
-                            <span class="video_card"><a href="javascript:void(0)" onclick="openIntroVideo('{{$mi_val['video']}}', '{{$introText}}')"><i class="fa fa-play-circle" aria-hidden="true"></i></a></span>
-                        </div>-->
-                        <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
-                            <div class="my_chart">
-                                <div class="progress-radial progress-80 progress-strong">
-                                    
-                                </div>
-                                <h4>Scientific Reasoning</h4>
-                            </div>
-                        </div>
-                        @endforeach
-                        </div>
-                        <div class="parent_h2_header">
-                            <h2 class="parent_h2_text">Aptitude</h2>
-                        </div>
-                        <div class="row flex-container">
-                        @foreach($response['teenagerApptitude'] as $ket=>$val)
-                        <!--<div class="interest">
-                            <span class="img_intrest"><img src="{{$val['image']}}" alt=""></span>
-                            <span class="title rlink" title="{{$val['aptitude']}}">{{ str_limit($val['aptitude'], $limit = 12, $end = '...') }}</span>
-                            <span class="dificulty">{{$val['scale']}}</span>
-                            <span class="assemnt_value <?php if($val['parentScale'] == 'L') { echo 'low';} else if ($val['parentScale'] == 'M') { echo 'mid';} else if ($val['parentScale'] == 'H') { echo 'high';}?>">{{$val['parentScale']}}</span>
-                            <?php $introText = $val['aptitude'] . (isset($val['info']) && ($val['info'] != '') ? ' - ' . $val['info'] : ''); ?>
-                            <span class="video_card"><a href="javascript:void(0)" onclick="openIntroVideo('{{$val['video']}}', '{{$introText}}')"><i class="fa fa-play-circle" aria-hidden="true"></i></a></span>
-                        </div>-->
-                        <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
-                            <div class="my_chart">
-                                <div class="progress-radial progress-50 progress-potential">
-                                    
-                                </div>
-                                <h4> Scientific Reasoning</h4>
-                            </div>
-                        </div>
-                        @endforeach
-                        </div>
-                        <div class="parent_h2_header">
-                            <h2 class="parent_h2_text">Personality</h2>
-                        </div>
-                        <div class="row flex-container">
-                        @foreach($response['teenagerPersonality'] as $ket=>$val)
-                        <!--<div class="interest">
-                            <span class="img_intrest"><img src="{{$val['image']}}" alt=""></span>
-                            <span class="title rlink" title="{{$val['aptitude']}}">{{ str_limit($val['aptitude'], $limit = 12, $end = '...') }}</span>
-                            <span class="dificulty">{{$val['scale']}}</span>
-                            <span class="assemnt_value <?php if($val['parentScale'] == 'L') { echo 'low';} else if ($val['parentScale'] == 'M') { echo 'mid';} else if ($val['parentScale'] == 'H') { echo 'high';}?>">{{$val['parentScale']}}</span>
-                            <?php $introText = $val['aptitude'] . (isset($val['info']) && ($val['info'] != '') ? ' - ' . $val['info'] : ''); ?>
-                            <span class="video_card"><a href="javascript:void(0)" onclick="openIntroVideo('{{$val['video']}}', '{{$introText}}')"><i class="fa fa-play-circle" aria-hidden="true"></i></a></span>
-                        </div>-->
-                        <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
-                            <div class="my_chart">
-                                <div class="progress-radial progress-50 progress-unlikely">
-                                    
-                                </div>
-                                <h4> Scientific Reasoning</h4>
-                            </div>
-                        </div>
-                        @endforeach
-                        </div>
-                    </div>
-
-                    <a href="javascript:void(0)" class="load_more skill_load">
-                       <!-- <img src="{{Storage::url('frontend/images/load_more.png')}}" alt="" class="">-->
-                        <span>Show More</span>
-                    </a>
-                    @else
-                    <div class="no_data">No data found</div>
-                    @endif
+                    
+                    
                 </div>
                 <br/>
 
@@ -770,46 +671,6 @@
                 }
             });
 
-            $('.content_prime').animate({height: 'auto'}, 1);
-            var newHeight = $('.content_prime').height();
-            $('.content_prime').animate({height: '220px'}, 1);
-            $('.intrest_load').click(function(event) {
-                if ($(this).find('span').text() == "Show More")
-                    $(this).find('span').text("Show less")
-                else
-                    $(this).find('span').text("Show More");
-                $(this).toggleClass('rotation');
-                $(this).siblings('.intrest_content').toggleClass('close_load');
-                if ($(this).siblings('.intrest_content').hasClass('close_load')) {
-                    $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
-                }
-                else {
-                    $(this).siblings('.intrest_content').animate({
-                        height: newHeight,
-                    }, 1000);
-                }
-            });
-
-            /*load less more for skill*/
-            $('.content_secondary').animate({height: 'auto'}, 1);
-            var newHeight_secondary = $('.content_secondary').height();
-            $('.content_secondary').animate({height: '230px'}, 1);
-            $('.skill_load').click(function(event) {
-                if ($(this).find('span').text() == "Show More")
-                    $(this).find('span').text("Show less")
-                else
-                    $(this).find('span').text("Show More");
-                $(this).toggleClass('rotation');
-                $(this).siblings('.intrest_content').toggleClass('close_load');
-                if ($(this).siblings('.intrest_content').hasClass('close_load')) {
-                    $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
-                }
-                else {
-                    $(this).siblings('.intrest_content').animate({
-                        height: newHeight_secondary,
-                    }, 1000);
-                }
-            });
         });
         $('.dashboard_edu_text a').click(function(event) {
             $(this).parents('.flip-container').addClass('flip_now');
@@ -1508,5 +1369,102 @@
           }
       });
    });
+   $(window).on("load", function(e) {
+        e.preventDefault();
+        getTeenagerInterestData("{{$teenDetail->id}}");
+        getTeenagerStrengthData("{{$teenDetail->id}}");
+   });
+
+   function getTeenagerInterestData(teenagerId) {
+        $('.teen_interest .loading-screen-data').parent().addClass('loading-screen-parent');
+        $('.teen_interest .loading-screen-data').show();
+        $.ajax({
+            type: 'POST',
+            url: "{{url('parent/get-interest-detail')}}",
+            dataType: 'html',
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            data: {'teenagerId':teenagerId},
+            success: function (response) {
+                try {
+                    var valueOf = $.parseJSON(response); 
+                } catch (e) {
+                    $('.dashboard-interest-error-message').text(e);
+                }
+                if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                    $('.dashboard-interest-error-message').text(valueOf.message);
+                } else {
+                    $(".teen_interest").append(response).fadeIn('slow');
+                }
+                $('.teen_interest .loading-screen-data').hide();
+                $('.teen_interest').removeClass('loading-screen-parent');
+                /*load less more for skill*/
+                $('.content_prime').animate({height: 'auto'}, 1);
+                var newHeight = $('.content_prime').height();
+                $('.content_prime').animate({height: '230px'}, 1);
+                $('.intrest_load').click(function(event) {
+                    if ($(this).find('span').text() == "Show More")
+                        $(this).find('span').text("Show less")
+                    else
+                        $(this).find('span').text("Show More");
+                    $(this).toggleClass('rotation');
+                    $(this).siblings('.intrest_content').toggleClass('close_load');
+                    if ($(this).siblings('.intrest_content').hasClass('close_load')) {
+                        $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
+                    }
+                    else {
+                        $(this).siblings('.intrest_content').animate({
+                            height: newHeight,
+                        }, 1000);
+                    }
+                });
+            }
+        });
+    }
+
+    function getTeenagerStrengthData(teenagerId) {
+        $('.teenager_skill .loading-screen-data').parent().toggleClass('loading-screen-parent');
+        $('.teenager_skill .loading-screen-data').show();
+        $.ajax({
+            type: 'POST',
+            url: "{{url('parent/get-strength-detail')}}",
+            dataType: 'html',
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            data: {'teenagerId':teenagerId},
+            success: function (response) {
+                try {
+                    var valueOf = $.parseJSON(response);
+                } catch (e) {
+                    // not json
+                }
+                if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
+                    $('.dashboard-strength-error-message').text(valueOf.message);
+                } else {
+                    $(".teenager_skill").append(response).fadeIn('slow');
+                }
+                $('.teenager_skill .loading-screen-data').hide();
+                $('.teenager_skill').removeClass('loading-screen-parent');
+                /*load less more for skill*/
+                $('.content_secondary').animate({height: 'auto'}, 1);
+                var newHeight_secondary = $('.content_secondary').height();
+                $('.content_secondary').animate({height: '230px'}, 1);
+                $('.skill_load').click(function(event) {
+                    if ($(this).find('span').text() == "Show More")
+                        $(this).find('span').text("Show less")
+                    else
+                        $(this).find('span').text("Show More");
+                    $(this).toggleClass('rotation');
+                    $(this).siblings('.intrest_content').toggleClass('close_load');
+                    if ($(this).siblings('.intrest_content').hasClass('close_load')) {
+                        $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
+                    }
+                    else {
+                        $(this).siblings('.intrest_content').animate({
+                            height: newHeight_secondary,
+                        }, 1000);
+                    }
+                });
+            }
+        });
+    }
 </script>
-    @stop
+@stop
