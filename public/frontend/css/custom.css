@@ -536,6 +536,8 @@ a, a:focus, a:hover{color: #d81c02;}
     top: 10px;
     cursor: pointer;
 }
+/*body.fixed-nav{background: #fff;}*/
+
 
 @media (max-width: 991px) {
 .padTop10 {
