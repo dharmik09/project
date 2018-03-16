@@ -131,7 +131,7 @@ class CoinManagementController extends Controller {
             $parentid = $this->loggedInUser->user()->id;
             $objTransactions = new Transactions();
 
-            $transactionDetail = $objTransactions->getTransactionsDetail($parentid,2);
+            $transactionDetail = $objTransactions->getTransactionsDetailPageWise($parentid,2);
 
             return view('parent.showTransaction', compact('transactionDetail'));
         }
