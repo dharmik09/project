@@ -137,8 +137,8 @@
         </footer>
         @yield('footer')
         <script src="{{ asset('backend/plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
-        <script src="{{ asset('frontend/js/jquery-ui.min.js')}}"></script>
         <script src="{{ asset('frontend/js/bootstrap.min.js')}}"></script>
+        <script src="{{ asset('frontend/js/jquery-ui.min.js')}}"></script>
         <script src="{{ asset('frontend/js/owl.carousel.min.js')}}"></script>
 
         <script src="{{ asset('frontend/js/comman.js')}}"></script>
