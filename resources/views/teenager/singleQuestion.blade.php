@@ -50,6 +50,7 @@
         </div>
         <!-- sec forum -->
         <div class="full-article">
+            <div class="back-btn"><a href="{{url('teenager/forum-questions')}}" title="Back">Back</a></div>
             <div class="article-que">
                 <h2>{{$forumQuestionData->fq_que}}</h2>
                 <span><button title="Answer" class="btn btn-ans btn-default">Post Answer</button></span>

@@ -187,7 +187,7 @@
     <!-- sec personal survey-->
     <div class="sec-survey describe-traits">
         <div class="container">
-            <h2>{{ucfirst($teenDetails->t_name)}} {{ucfirst($teenDetails->t_lastname)}} Survey</h2>
+            <h2>Choose Traits and Preferences you feel describe {{ucfirst($teenDetails->t_name)}} {{ucfirst($teenDetails->t_lastname)}}</h2>
             <div id="traitErrorGoneMsg"></div>
             <div class="traitsLoader">
                 <div id="traitsData"></div>

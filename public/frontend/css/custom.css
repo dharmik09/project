@@ -514,7 +514,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .sec-login .login-form .icon{-webkit-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);font-size: 100px;}
 .popover.bottom>.arrow{display: block;}
 h2 .tooltip-inner {color: #161c22;background: #fff!important;}
-body{background-image : none !important; background-color: #eeeeef;font-family: 'h';font-size: 14px;color: #333;padding-bottom: 180px;}
+body{background-image : none !important; background-color: #eeeeef;font-family: 'h';font-size: 14px;color: #333;padding-bottom: 170px;}
 a, a:focus, a:hover{color: #d81c02;}
 .card span.title{font-family: ab;line-height: 1.2;color: #27a6b5;}
 .card span.count, .profession_attempted_carousel{color: #f15f4c;}
@@ -522,6 +522,22 @@ a, a:focus, a:hover{color: #d81c02;}
 .profession_attempted_carousel .owl-nav{color: #161c22;}
 .main-menu .menu-container h2{font-family: 'ab';font-size: 44px;}
 .icon-close{cursor: pointer;}
+.sec-login{background: #fff;}
+.sec-login h1 {
+    font-family: am;
+    font-size: 44px;
+    color: rgba(22,28,34,.9);
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.visibility-pwd img {
+    position: absolute;
+    right: 21px;
+    top: 10px;
+    cursor: pointer;
+}
+/*body.fixed-nav{background: #fff;}*/
+
 
 @media (max-width: 991px) {
 .padTop10 {
@@ -553,6 +569,7 @@ a, a:focus, a:hover{color: #d81c02;}
     body{padding-bottom: 212px;}
     .procoins-gift .gift-table .no-data{height: 81.4%;}
     .main-menu .menu-container h2{font-size: 36px;}
+    .sec-login h1{font-size: 34px;}
 }
 @media (max-width:480px){
     .intrest_content .col-xs-6{width: 100%;}
