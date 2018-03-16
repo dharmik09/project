@@ -44,7 +44,7 @@
         }        
      
         if(isset($value->minimum_fee) && $value->minimum_fee != "" && isset($value->maximum_fee) && $value->maximum_fee != ""){
-            $instituteFeeRange = $value->minimum_fee .' - '. $value->maximum_fee;
+            $instituteFeeRange = number_format((int)$value->minimum_fee, 0, '.', ',') .' - '. number_format((int)$value->maximum_fee, 0, '.', ',');
         }        
         if(isset($value->hostel_count) && $value->hostel_count != ""){
             $instituteHostelCount = $value->hostel_count;
@@ -116,7 +116,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-sm-12">
-                                    <h5>Course Offer :</h5>
+                                    <h5>Education Stream :</h5>
                                     <div class="sec-tags">
                                         @if(count($instituteSpeciality)>0)
                                             <ul class="tag-list">
