@@ -175,3 +175,8 @@ Route::post('/get-user-score-progress', 'Teenager\HomeController@getUserScorePro
 
 //Get User unread message count chat
 Route::post('/get-user-unread-message-chat', 'Teenager\ProfileController@getUserUnreadMessageCountChat');
+
+//Profession institutes route
+Route::get('/institute', 'Teenager\ProfessionInstitutesController@index');
+Route::post('/get-page-wise-institute', 'Teenager\ProfessionInstitutesController@getIndex');
+Route::post('/get-institute-filter', 'Teenager\ProfessionInstitutesController@getInstituteFilter');

@@ -47,4 +47,53 @@ class ProfessionInstitutes extends Model
         $return = ProfessionInstitutes::where('profession_id',$id)->delete();
         return $return;
     }
+
+    /**
+     * get Profession Institutes page wise
+     */
+    public function getProfessionInstitutesByPage($record) {
+        $return = ProfessionInstitutes::skip($record)->take(5)->get();
+        return $return;
+    }
+
+    /**
+     * get Profession Institutes unique AffiliatUniversity
+     */
+    public function getProfessionInstitutesUniqueAffiliatUniversity() {
+        $return = ProfessionInstitutes::groupBy('affiliat_university')->where('affiliat_university','<>',NULL)->get();
+        return $return;
+    }
+        
+    /**
+     * get Profession Institutes unique Managaement
+     */
+    public function getProfessionInstitutesUniqueManagement() {
+        $return = ProfessionInstitutes::groupBy('management')->where('management','<>',NULL)->get();
+        return $return;
+    }
+
+    /**
+     * get Profession Institutes unique AccreditationBody
+     */
+    public function getProfessionInstitutesUniqueAccreditationBody() {
+        $return = ProfessionInstitutes::groupBy('accreditation_body')->where('accreditation_body','<>',NULL)->get();
+        return $return;
+    }
+
+    /**
+     * get Profession Institutes unique MinimumFee
+     */
+    public function getProfessionInstitutesUniqueMinimumFee() {
+        $return = ProfessionInstitutes::groupBy('minimum_fee')->where('minimum_fee','<>',NULL)->get();
+        return $return;
+    }
+
+    /**
+     * get Profession Institutes unique MaximumFee
+     */
+    public function getProfessionInstitutesUniqueMaximumFee() {
+        $return = ProfessionInstitutes::groupBy('maximum_fee')->where('maximum_fee','<>',NULL)->get();
+        return $return;
+    }
+
 }
