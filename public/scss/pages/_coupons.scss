@@ -166,6 +166,9 @@
     margin: 0 auto;
     text-align: center;
     background: #fff;
+    &.bg-offwhite{
+        background: $bg-offwhite !important;
+    }
     i {
         font-size: 70px;
         @include maxsm{

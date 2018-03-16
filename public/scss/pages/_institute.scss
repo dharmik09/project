@@ -2,35 +2,32 @@
     padding-bottom: 50px;
     .clearfix {
         clear: both;
+    background: #eeeeef;
     }
     .bg-white {
-        padding: 15px 40px;
-        @include maxmd{
-            padding: 15px 30px;
-        }
-        @include maxsm{
-            padding: 15px;
-        }
-    
+        padding: 0;
+
     }
     .institute-block {
-        border-bottom: 1px solid #ccc;
-        padding: 30px 0;
-        h4 {
-            font-size: 36px;
+        //border-bottom: 1px solid #ccc;
+        //padding-bottom: 30px;
+        margin-bottom: 50px;
+        background: $white;
+        @include maxsm{
             margin-bottom: 40px;
-            padding-bottom: 15px;
+        }
+        h4 {
+            font-size: 30px;
+            margin-bottom: 10px; // padding-bottom: 15px;
             text-align: center;
             position: relative;
             font-family: 'am';
             font-weight: 500;
-            @include xlg{
-                font-size: 30px;
+            text-align: left;
+            @include maxmd {
+                font-size: 25px;
             }
-            @include maxmd{
-                font-size: 28px;
-            }
-            &:before {
+            /* &:before {
                 position: absolute;
                 content: '';
                 bottom: 2px;
@@ -39,50 +36,52 @@
                 width: 90px;
                 background: $p-cl;
                 height: 2px;
-            }
+            }*/
             @include maxsm {
-                margin-bottom: 25px;
+                font-size: 21px;
+                margin-bottom: 10px;
             }
             @include maxms {
                 font-size: 20px;
+                text-align: center;
             } // text-decoration: underline;
         }
         .iframe-sec {
             margin-bottom: 30px;
             @include maxsm{
-                margin: 30px 0;
+                margin-bottom: 15px;
             }
-            iframe{
-                @include maxms{
+            iframe {
+                @include maxms {
                     height: 200px !important;
                 }
-            
+
             }
         }
     }
 
     .institute-address {
+        background: #f9f9f9;
+        border-bottom: 1px solid #dfdfdf;
+        padding: 15px 20px;
         /* [class*=col-]{
                 @include maxms{
                     width: 100%;
                 }
             }*/
         h5 {
-            font-size: 28px;
+            font-size: 24px;
             color: $r-cl;
             margin-bottom: 10px;
-            @include xlg{
-                font-size: 24px;
+            @include maxmd {
+                font-size: 21px;
             }
-            @include maxms{
-                font-size: 20px;
+            @include maxsm {
+                font-size: 19px;
             }
         }
         p {
-            font-size: 20px;
-            @include xlg{
-                 font-size: 17px;
-            }
+            font-size: 17px;
             @include maxsm {
                 font-size: 15px;
             }
@@ -90,68 +89,120 @@
                 font-size: 14px;
             }
         }
-        figure {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-            @include xlg{
-                width: 145px;height: 145px;
-            }
+        .institute-img {
+            display: inline-block;
+            width: 150px;
+            vertical-align: top;
             @include maxmd {
-                width: 100px;
-                height: 100px;
-            }
-            @include maxms {
-                width: 70px;
-                height: 70px;
+                width: 130px;
             }
             @include maxsm {
-                margin: 0;
+                width: 100px;
             }
-
-            img {
+            @include maxms {
                 width: 100%;
-                height: 100%;
-                display: block;
-                width: 100%;
-                height: 100%;
-                border: 1px solid $p-cl;
             }
-
+        }
+        .institute-content {
+            display: inline-block;
+            vertical-align: top;
+            width: 86%;
+            @include maxlg{
+                width: 83%;
+            }
+            @include maxmd{
+                width: 80%;
+            }
+            @include maxsm {
+                width: 75%;
+            }
+            @include maxms {
+                width: 100%;
+                text-align: center;
+                margin: 12px 0 0;
+            }
         }
     }
-
-    .institute-detail {
-        list-style-type: none;
-        padding: 0;
-        font-size: 20px;
-        color: $lightgrey;
-        @include xlg {
-            font-size: 17px;
+    figure {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        @include maxmd {
+            width: 100px;
+            height: 100px;
         }
         @include maxsm {
-            font-size: 15px;
-            clear: both;
+            width: 80px;
+            height: 80px;
         }
-        @include maxms {
-            font-size: 14px;
-        }
-        strong {
-            text-transform: capitalize;
-            color: $r-cl;
-            font-family: 'h';
-        }
-        li {
-            margin-bottom: 8px;
-            font-family: 'h'
-        }
-    }
 
-    .load-btn {
-        margin-top: -1px;
-        border-top: 1px solid $white;
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 1px solid $p-cl;
+        }
+
     }
 }
+
+.institute-detail {
+    list-style-type: none;
+    padding: 0;
+    font-size: 18px;
+    color: $lightgrey;
+    @include maxsm {
+        font-size: 15px;
+        clear: both;
+    }
+    @include maxms {
+        font-size: 14px;
+    }
+    strong {
+        text-transform: capitalize;
+        color: $r-cl;
+        font-family: 'h';
+    }
+    li {
+        margin-bottom: 8px;
+        font-family: 'h'
+    }
+}
+
+/*.load-btn {
+    margin-top: -1px;
+    border-top: 1px solid $white;
+}*/
+
+.institute-detail-content {
+    padding: 20px;
+    @include maxsm {
+        .pull-right {
+            float: none !important;
+        }
+    }
+    .sec-tags {
+        margin-bottom: 0;
+        padding: 0;
+        .tag-list {
+            li {
+                background: $h-cl;
+                border-color: $h-cl;
+                color: $white;
+                margin-bottom: 6px;
+            }
+        }
+    }
+    h5 {
+        font-size: 24px;
+        color: $h-cl;
+        margin: 10px 0 25px;
+        font-weight: 700;
+    }
+}
+
 
 .institute-heading {
     margin: 50px 0;
@@ -175,14 +226,14 @@
 }
 
 .institute-filter {
-    .row{
-        @include maxmd{
+    .row {
+        @include maxmd {
             margin: 0 -10px;
         }
     }
     .sec-filter {
-        @include maxmd{
-            [class*=col-]{
+        @include maxmd {
+            [class*=col-] {
                 padding: 0 10px;
             }
         }

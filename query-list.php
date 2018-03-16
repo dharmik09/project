@@ -490,7 +490,7 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
 
 
 // Add new table for profile school course ## 12-03-2018 Jaimin
-CREATE TABLE `pro_pi_profession_institutes` (
+  CREATE TABLE `pro_pi_profession_institutes` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `school_id` varchar(255) NOT NULL,
  `institute_state` varchar(20) DEFAULT NULL,
@@ -510,7 +510,7 @@ CREATE TABLE `pro_pi_profession_institutes` (
  `institute_type` varchar(100) DEFAULT NULL,
  `management` varchar(100) DEFAULT NULL,
  `speciality` varchar(255) DEFAULT NULL,
- `girl_exclusive` varchar(10) DEFAULT NULL,
+ `girl_exclusive` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
  `hostel_count` varchar(10) DEFAULT NULL,
  `minimum_fee` varchar(255) DEFAULT NULL,
  `maximum_fee` varchar(255) DEFAULT NULL,

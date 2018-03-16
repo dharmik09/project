@@ -24,7 +24,7 @@ footer {
         li {
             border-right: 1px solid #616161;
             padding: 0 8px 0 5px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             &:last-child {
                 border-right: none;
             }
@@ -35,11 +35,12 @@ footer {
     }
     .left {
         span {
-            display: block;
-            //padding-top: 15px;
+            display: block; //padding-top: 15px;
             font-family: 'h';
-            strong{
+            strong {
                 font-family: 'hn-b';
+                font-weight: 900;
+                font-size: 20px;
             }
         }
     }

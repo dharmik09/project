@@ -387,8 +387,9 @@
                     width: 33%;
                 }
                 @include maxms {
-                    width: 36%;
+                    width: 31%;
                     font-size: 14px;
+                    text-align: left;
                 }
             }
             .date-feild {
@@ -404,25 +405,28 @@
                     width: 65%;
                 }
                 @include maxms {
-                    width: 63%;
+                    width: 68%;
                     padding-left: 0;
                 }
                 .date-block {
-                    max-width: 90px;
+                    max-width: 130px;
                     margin-left: 5px;
                     float: left;
-                    &:last-child {
+                    /*&:last-child {
                         max-width: 106px;
                         @include maxms {
                             width: 30.56%;
                         }
-                    }
+                    }*/
                     @include maxmd {
-                        max-width: 80px;
+                        max-width: 111px;
                         margin-bottom: 5px;
                     }
+                    @include maxsm{
+                        max-width: 86px;
+                    }
                     @include maxms {
-                        width: 29.56%;
+                        width: 30.56%;
                     }
                 }
             }
