@@ -3,7 +3,7 @@
         <div class="col-sm-4 flex-items">
             <div class="quiz-box">
                 <div class="img"><i class="icon-image"></i></div>
-                <p>Images</p>
+                <p>Image</p>
                 <a href="javascript:void(0)" title="Click to upload image" onclick="getQuestionDataAdvanceLevel(3);">
                     <span title="Upload" class="btn-play btn btn-advanced">Upload</span>
                 </a>

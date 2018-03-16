@@ -400,3 +400,15 @@
 
     }
 }
+.strength-list{
+    .data-explainations{
+        margin: 20px 0 40px;
+        @include maxsm{
+            margin: 20px 0 30px;
+        }
+        .data{
+            float: none;
+            display: inline-block;
+        }
+    }
+}

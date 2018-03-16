@@ -63,7 +63,7 @@
                             <th>{{trans('labels.formlblcoins')}}</th>
                             <th>{{trans('labels.transectiondate')}}</th>
                         </tr>
-                        @if(!empty($transactionDetail))
+                        @if(isset($transactionDetail) && count($transactionDetail) > 0)
                         @foreach($transactionDetail as $key=>$data)
                         <tr>
                             <td>
@@ -90,7 +90,14 @@
                         </tr>
                         @endforeach
                         @else
-                        <tr><td colspan="8">No data found</td></tr>
+                        <tr><td colspan="7">No data found</td></tr>
+                        @endif
+                        @if(isset($transactionDetail) && count($transactionDetail) > 0)
+                        <tr>
+                            <td colspan="7">
+                                {{ $transactionDetail->render() }}
+                            </td>
+                        </tr>
                         @endif
                     </table>
                 </div>

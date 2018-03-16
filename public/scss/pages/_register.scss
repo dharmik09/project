@@ -119,8 +119,8 @@
                 }
             }
             p {
-                font-family: ht;
-                font-size: 16px;
+                font-family: 'h';
+                font-size: 17px;
                 color: rgba(22, 28, 34, 0.7);
                 @include maxms {
                     order: 2;
@@ -191,12 +191,16 @@
                         width: 75%;
                     }
                     .date-block {
-                        width: 31.56%;
+                        //width: 31.56%;
                         margin-left: 5px;
                         float: left;
-                        max-width: 90px;
+                        max-width: 97px;
+                        padding: 6px 12px;
+                        @include maxmd{
+                            width: 87px;
+                        }
                         @include maxms {
-                            width: 30.56%;
+                            width: 30.86%;
                             padding: 6px 8px;
                         }
                     }

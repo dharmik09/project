@@ -300,45 +300,25 @@
                 </div><!-- parent_progress_question End -->
                 <!-- Slider -->
 
-<!--
-                <div class="profession_attempted col-md-12">
-                    <h2>ICONS voted in <span class="l-1"><span class="level_label margintb0">L-1</span></span></h2>
-                    @if(isset($response['teenagerMyIcons']) && !empty($response['teenagerMyIcons']))
-                    <div class="profession_attempted_carousel parent_inclination owl-carousel">
-                        @foreach($response['teenagerMyIcons'] as $key=>$image)
-                        <div class="item">
-                            <div class="user_fav_icon">
-                                <img src="{{$image}}" alt="">
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                    @else
-                    <div class="no_data" style="margin: 40px 0px;">No Selected Icon</div>
-                    @endif
-                </div> 
--->
                 <!-- dashboard_inner_box End -->
                 <div class="icon-voted profession_attempted">
-                
-            <h2>Icon Voted in L1</h2>
-            
-            <div class="voted-list">
-                @if(isset($response['teenagerMyIcons']) && !empty($response['teenagerMyIcons']))
-                <ul class="row owl-carousel">
-                   @foreach($response['teenagerMyIcons'] as $key=>$image)
-                    <li class="col-sm-3 col-xs-6">
-                        <figure>
-                            <div class="icon-img"><a href="javascript:void(0);" data-placement="bottom" title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo pariatur id,!" data-toggle="tooltip"><img src="{{$image}}"></a></div>
-                        </figure>
-                    </li>
-                    @endforeach
-                </ul>
-                @else
-                No records found
-                @endif
-            </div>
-        </div>
+                    <h2>Icon Voted in L1</h2>
+                    <div class="voted-list">
+                        @if(isset($response['teenagerMyIcons']) && count($response['teenagerMyIcons']) > 0)
+                        <ul class="row owl-carousel">
+                           @foreach($response['teenagerMyIcons'] as $teenagerMyIcon)
+                            <li class="col-sm-3 col-xs-6">
+                                <figure>
+                                    <div class="icon-img"><a href="javascript:void(0);" data-placement="bottom" title="{{ str_limit($teenagerMyIcon['iconDescription'], $limit = 100, $end = '...') }}" data-toggle="tooltip"><img src="{{$teenagerMyIcon['iconImage']}}"></a></div>
+                                </figure>
+                            </li>
+                            @endforeach
+                        </ul>
+                        @else
+                            No records found
+                        @endif
+                    </div>
+                </div>
 
 
                 <div class="dash_progress my_intrest col-md-12">
@@ -885,7 +865,10 @@
                             		  $(".confirm_coins").text(' ');
                             		}
                             	}
-                              ]
+                              ],
+                              open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                }
                             });
                         } else {
                             $("#confirm").attr('title', 'Notification!');
@@ -916,7 +899,10 @@
                             		  $(".confirm_coins").text(' ');
                             		}
                             	}
-                              ]
+                              ],
+                              open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                }
                             });
                         }
                     }
@@ -990,7 +976,10 @@
                             		  $(".confirm_coins").text(' ');
                             		}
                             	}
-                              ]
+                              ],
+                              open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                }
                             });
                         } else {
                             $("#confirm").attr('title', 'Notification!');
@@ -1021,7 +1010,10 @@
                             		  $(".confirm_coins").text(' ');
                             		}
                             	}
-                              ]
+                              ],
+                              open: function(event, ui) {
+                                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                }
                             });
                         }
                     }
@@ -1176,7 +1168,10 @@
                                     		  $(".confirm_coins").text(' ');
                                     		}
                                     	}
-                                      ]
+                                      ],
+                                      open: function(event, ui) {
+                                            $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                        }
                                     });
                                 } else {
                                     getReport(days);
@@ -1213,7 +1208,10 @@
                                     		  $(".confirm_coins").text(' ');
                                     		}
                                     	}
-                                      ]
+                                      ],
+                                       open: function(event, ui) {
+                                            $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                        }
                                     });
                                 }
 
@@ -1223,7 +1221,12 @@
                 }
             });
         });
-
+        $(document).on('click','.icon-close', function(){
+            $( "#confirm" ).dialog( "close" );
+        });
+        $(document).on('click','.confirm_box_close', function(){
+            $( "#confirm_box" ).dialog( "close" );
+        });
         function getReport(days) {
             $.ajax({
                   url: "{{ url('/parent/purchased-coins-to-view-report') }}",
@@ -1470,7 +1473,9 @@
                 $.ui.dialog.prototype._focusTabbable = function(){};
                 $( "#confirm_box" ).dialog({
                 closeOnEscape: false,
-                open: function(event, ui) { $(".ui-dialog-titlebar-close").hide();},
+                open: function(event, ui) {
+                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close confirm_box_close"></i>' );
+                },
 
                 resizable: false,
                 height: "auto",

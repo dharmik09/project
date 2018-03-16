@@ -608,6 +608,8 @@ class ProfessionManagementController extends Controller {
                 $data['girl_exclusive'] = $value->girl_exclusive;
                 $data['hostel_count'] = $value->hostel_count;
                 $data['is_institute_signup'] = $value->is_institute_signup;
+                $data['minimum_fee'] = $value->minimum_fee;
+                $data['maximum_fee'] = $value->maximum_fee;
                 $response = $this->objProfessionInstitutes->insertUpdate($data);
             }
             

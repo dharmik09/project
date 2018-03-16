@@ -170,7 +170,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <p>* indicates a mandatory field</p>
                     
                     <div class="sponsor-sec">
                         <div class="sponsor-content">
@@ -216,8 +216,7 @@
                             <li><a href="{{ url('teenager/google') }}" title="Google"><i class="icon-google"><!-- --></i>Google</a></li>
                         </ul>
                         <div class="frgtpwd-sec">
-                            <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot password?">Forgot password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Sign in">Sign in now</a>.</p>
-                            <p>* indicates a mandatory field</p>
+                            <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot password?">Forgot password?</a> Already enrolled? <a href="{{ url('teenager/login') }}" title="Sign in">Sign in now</a>.</p>                            
                         </div>
                     </div>
                 </form>
