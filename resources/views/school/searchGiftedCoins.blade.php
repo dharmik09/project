@@ -1,11 +1,13 @@
-<div class="table_container" >
-    <table class="sponsor_table">
+<table class="table table-hover">
+    <thead>
         <tr>
             <th>{{trans('labels.blheadgiftedto')}}</th>
             <th>{{trans('labels.giftedcoins')}}</th>
             <th>{{trans('labels.gifteddate')}}</th>
         </tr>
-        @if(!empty($teenCoinsDetail) && count($teenCoinsDetail) > 0)
+    </thead>
+    @if(!empty($teenCoinsDetail) && count($teenCoinsDetail) > 0)
+    <tbody>
         @foreach($teenCoinsDetail as $key=>$data)
         <tr>
             <td>
@@ -19,9 +21,6 @@
             </td>
         </tr>
         @endforeach
-        @else 
-        <tr><td colspan="3">No data found</td></tr>
-        @endif
         <tr>
             <td colspan="3">
                 @if (isset($teenCoinsDetail) && !empty($teenCoinsDetail))
@@ -29,5 +28,15 @@
                 @endif
             </td>
         </tr>
-    </table>
-</div>
+    </tbody>
+    @else
+    <div class="no-data">
+        <div class="data-content">
+            <div>
+                <i class="icon-empty-folder"></i>
+            </div>
+            <p>No data found</p>
+        </div>
+    </div>
+    @endif
+</table>
