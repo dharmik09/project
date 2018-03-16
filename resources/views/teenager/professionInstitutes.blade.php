@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group search-bar clearfix">
-                            <input type="text" placeholder="search" id="answerName" onkeyup="fetchInstituteFilter()" tabindex="1" class="form-control search-feild">
+                            <input type="text" placeholder="Search by Name" id="answerName" onkeyup="fetchInstituteFilter()" tabindex="1" class="form-control search-feild">
                             <button type="submit" class="btn-search">
                                 <i class="icon-search"></i>
                             </button>

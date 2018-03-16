@@ -17,7 +17,7 @@
         $instituteSpeciality = [];
 
         if(isset($value->website) && $value->website != ""){
-            $instituteWebsite = $value->website;
+            $instituteWebsite = 'http://'.$value->website;
         }
         
         if(isset($value->college_institution) && $value->college_institution != ""){
