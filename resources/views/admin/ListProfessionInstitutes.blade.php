@@ -35,7 +35,7 @@
                                 <th>{{trans('labels.lblaffialteduniversity')}}</th>
                                 <th>{{trans('labels.lblmanagement')}}</th>
                                 <th>{{trans('labels.lblaccredationbody')}}</th>
-                                <th>{{trans('labels.lblisaccredation')}}</th>
+                                <th>{{trans('labels.lblaccredationscore')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,13 +63,7 @@
                                     {{$data->accreditation_body}}
                                 </td>
                                 <td>
-                                    @if($data->is_accredited == 1)
-                                        True
-                                    @elseif($data->is_accredited == 0)
-                                        False
-                                    @else
-                                        -
-                                    @endif
+                                    {{$data->accreditation_score}}
                                 </td>
                             </tr>
                             @empty

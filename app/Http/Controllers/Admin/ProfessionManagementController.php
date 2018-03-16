@@ -603,6 +603,7 @@ class ProfessionManagementController extends Controller {
                 $data['latitude'] = $value->latitude;
                 $data['longitude'] = $value->longitude;
                 $data['institute_type'] = $value->type;
+                $data['autonomous'] = $value->autonomous;
                 $data['management'] = $value->management;
                 $data['speciality'] = $value->speciality;
                 $data['girl_exclusive'] = $value->girl_exclusive;
@@ -630,7 +631,7 @@ class ProfessionManagementController extends Controller {
                 if($schoolData){
                     
                     $data['id'] = $schoolData->id;
-                    $data['is_accredited'] = $value->is_accredited;
+                    $data['accreditation_score'] = $value->score;
                     $data['accreditation_body'] = $value->accreditation_body;
 
                     $response = $this->objProfessionInstitutes->insertUpdate($data);

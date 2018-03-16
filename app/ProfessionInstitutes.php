@@ -10,7 +10,7 @@ class ProfessionInstitutes extends Model
 {
     protected $table = 'pro_pi_profession_institutes';
 
-    protected $fillable = ['school_id','institute_state','college_institution','address_line1','address_line2','city','district','pin_code','website','year_of_establishment','affiliat_university','year_of_affiliation','location','latitude','longitude','institute_type','management','speciality','girl_exclusive','hostel_count','minimum_fee','maximum_fee','is_accredited','accreditation_body','is_institute_signup','deleted'];
+    protected $fillable = ['school_id','institute_state','college_institution','address_line1','address_line2','city','district','pin_code','website','year_of_establishment','affiliat_university','year_of_affiliation','location','latitude','longitude','institute_type','autonomous','management','speciality','girl_exclusive','hostel_count','minimum_fee','maximum_fee','accreditation_score','accreditation_body','is_institute_signup','deleted'];
 
     /**
      * Insert and Update Profession Institutes
