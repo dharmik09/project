@@ -96,4 +96,69 @@ class ProfessionInstitutes extends Model
         return $return;
     }
 
+    /**
+     * get Profession Institutes get page wise and filter
+     */
+    public function getProfessionInstitutesWithFilter($answerName, $questionType, $answer, $record) {
+        $return = ProfessionInstitutes::skip($record)->take(5);
+        
+        if(isset($answerName) && $answerName != ""){
+            $return->where('college_institution','like','%'.$answerName.'%');
+        }
+
+        if($questionType == "Institute_Affiliation" && $answer != ""){
+            $return = $return->where('affiliat_university',$answer)->get();
+        }
+        elseif($questionType == "Speciality"  && $answer != ""){
+            $return = $return->where('speciality','like','%'.$answer.'%')->get();
+        }
+        elseif($questionType == "State"  && $answer != ""){
+            $return = $return->where('institute_state','like', '%'.$answer.'%')->get();
+        }
+        elseif($questionType == "City"  && $answer != ""){
+            $return = $return->where('city','like', '%'.$answer.'%')->get();
+        }
+        elseif($questionType == "Pincode"  && $answer != ""){
+            $return = $return->where('pin_code','like', '%'.$answer.'%')->get();
+        }
+        elseif($questionType == "Management_Category"  && $answer != ""){
+            $return = $return->where('management',$answer)->get();
+        }
+        elseif($questionType == "Accreditation"  && $answer != ""){
+            $return = $return->where('accreditation_body',$answer)->get();
+        }
+        elseif($questionType == "Hostel"  && $answer != ""){
+            if($answer == "0"){
+                $return = $return->where('hostel_count',"0")->get();
+            }
+            else{
+                $return = $return->where('hostel_count',"<>","0")->get();
+            }
+        }
+        elseif($questionType == "Gender" && $answer != ""){
+            if($answer == "0"){
+                $return = $return->where('girl_exclusive',$answer)->get();
+            }
+            else{
+                $return = $return->where('girl_exclusive',$answer)->get();
+            }
+        }
+        elseif($questionType == "Fees" && $answer != ""){
+            if(isset($answer['minimumFees']) && empty($answer['maximumFees'])){
+                $return = $return->where('minimum_fee','>=',$answer['minimumFees'])->get();
+            }
+            elseif(isset($answer['maximumFees']) && empty($answer['minimumFees'])){        
+                $return = $return->where('maximum_fee','<=',$answer['maximumFees'])->get();
+            }
+            else{
+                $return = $return->where('minimum_fee','>=',$answer['minimumFees'])->where('maximum_fee','<=',$answer['maximumFees'])->get();
+            }
+        }
+        else{
+            $return = $return->get();
+        }
+
+        return $return;
+    }
+
 }
