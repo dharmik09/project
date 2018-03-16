@@ -77,7 +77,7 @@
                             </figure>
                         </div>
                         <div class="institute-content">
-                            <h4><a href="{{$instituteWebsite}}" target="_blank"><?php echo ucwords($instituteName); ?> </a></h4>
+                            <h4><a href="{{$instituteWebsite}}" target="_blank">{{ ucwords(strtolower($instituteName)) }} </a></h4>
                             <h5><strong>{{$instituteEstablishmentYear}}</strong></h5>
                             <p>{{$instituteAddress}}</p>
                         </div>

@@ -521,6 +521,7 @@ a, a:focus, a:hover{color: #d81c02;}
 .card{border-color: #fff;background: #fff;border-radius: 0;}
 .profession_attempted_carousel .owl-nav{color: #161c22;}
 .main-menu .menu-container h2{font-family: 'ab';font-size: 44px;}
+.icon-close{cursor: pointer;}
 
 @media (max-width: 991px) {
 .padTop10 {
@@ -891,8 +892,23 @@ video::-webkit-media-controls-panel {
 
 .panel-collapse{border-top:1px solid #e66a45;margin-top:15px;}
 h2 .tooltip-inner {
-    color: #0f081a;
-    background: #d43823 !important;
+    background: #fff !important;
+    border: 1px solid #fff;
+    background: #fff;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    z-index: 99;
+    -webkit-box-shadow: 0 1px 17px -4px #989494;
+    box-shadow: 0 1px 17px -4px #989494;
+    color: rgba(22,28,34,.7);
+}
+.tooltip .tooltip-arrow{display: block;}
+.tooltip.bottom .tooltip-arrow {
+    top: -2px;
+    left: 50%;
+    margin-left: -7px;
+    border-width: 0px 7px 7px;
+    border-bottom-color: #fff;
 }
 
 @media(min-width:768px){
