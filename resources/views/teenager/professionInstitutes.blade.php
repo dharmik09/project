@@ -20,15 +20,16 @@
                         <div class="form-group custom-select">
                             <select id="questionDropdown" onchange="fetchSearchDropdown();" tabindex="8" class="form-control">
                                 <option disabled selected>Select Filter</option>
+                                <option value="Speciality">Speciality</option>
                                 <option value="State">State</option>
                                 <option value="City">City</option>
                                 <option value="Pincode">Pincode</option>
                                 <option value="Institute_Affiliation">Institute Affiliation</option>
-                                <option value="Management_Category">Management Category</option>
+                                <option value="Management_Category">Category</option>
                                 <option value="Accreditation">Accreditation</option>
                                 <option value="Hostel">Hostel</option>
                                 <option value="Gender">Gender</option>
-                                <option value="Fees">Fees</option>
+                                <option value="Fees">Fees Range</option>
                             </select>
                         </div>
                     </div>
@@ -48,7 +49,7 @@
                 <div class="clearfix load-btn text-center load-more" id="loadMoreButton">
                     <div id="loader_con"></div>
                     <p class="text-center">
-                        <input type="hidden" id="pageNo" value="1">
+                        <input type="hidden" id="pageNo" value="0">
                         <a href="javascript:void(0);" title="see more" class="btnLoad load-more" onclick="fetchInstitute()">see more</a>
                     </p>
                 </div>
@@ -107,7 +108,7 @@
     function fetchSearchDropdown(){
         var questionType = $('#questionDropdown').val();
         $("#userAnswer").html('<img src="{{Storage::url('img/loading.gif')}}">');
-        if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode'){
+        if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode' || questionType == 'Speciality'){
             $("#userAnswer").html('<div class="form-group search-bar clearfix"><input type="text" placeholder="Search By '+ questionType +'" tabindex="1" class="form-control search-feild" id="answerDropdown" onkeyup="fetchInstituteFilter()"><button type="submit" class="btn-search"><i class="icon-search"></i></button></div>');
         }
         else{        
@@ -129,9 +130,16 @@
 
     function fetchInstituteFilter(){
         var questionType = $('#questionDropdown').val();
-        if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode'){
+        if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode' || questionType == 'Speciality'){
             var answer = $('#answerDropdown').val();
             if(answer.length <= 3){
+                return false;
+            }
+        }
+        if( questionType == 'Fees'){
+            var answerMinimumFees = $('#answerDropdownMinimumFees').val();
+            var answerMaximumFees = $('#answerDropdownMaximumFees').val();
+            if(answerMaximumFees == "" || answerMaximumFees == ""){
                 return false;
             }
         }
@@ -139,7 +147,7 @@
         $('#loadMoreButton').addClass('load-more');
         $('#loadMoreButton').removeClass('notification-complete');
         $('#loadMoreButton').html('<div id="loader_con"></div><p class="text-center"><input type="hidden" id="pageNo" value="1"><a href="javascript:void(0);" title="see more" class="btnLoad load-more" onclick="fetchInstitute()">see more</a></p>');
-        $('#pageNo').val('1');
+        $('#pageNo').val('0');
         $("#pageWiseInstitutes").html('');
         fetchInstitute();
     }

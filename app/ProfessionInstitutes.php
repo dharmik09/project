@@ -84,7 +84,7 @@ class ProfessionInstitutes extends Model
      * get Profession Institutes unique MinimumFee
      */
     public function getProfessionInstitutesUniqueMinimumFee() {
-        $return = ProfessionInstitutes::groupBy('minimum_fee')->where('minimum_fee','<>',NULL)->get();
+        $return = ProfessionInstitutes::groupBy('minimum_fee')->orderBy('minimum_fee','asc')->where('minimum_fee','<>',NULL)->get();
         return $return;
     }
 
@@ -92,7 +92,7 @@ class ProfessionInstitutes extends Model
      * get Profession Institutes unique MaximumFee
      */
     public function getProfessionInstitutesUniqueMaximumFee() {
-        $return = ProfessionInstitutes::groupBy('maximum_fee')->where('maximum_fee','<>',NULL)->get();
+        $return = ProfessionInstitutes::groupBy('maximum_fee')->orderBy('maximum_fee','asc')->where('maximum_fee','<>',NULL)->get();
         return $return;
     }
 

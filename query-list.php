@@ -512,8 +512,8 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
  `speciality` varchar(255) DEFAULT NULL,
  `girl_exclusive` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
  `hostel_count` varchar(10) DEFAULT NULL,
- `minimum_fee` varchar(255) DEFAULT NULL,
- `maximum_fee` varchar(255) DEFAULT NULL,
+ `minimum_fee` bigint(255) DEFAULT NULL,
+ `maximum_fee` bigint(255) DEFAULT NULL,
  `is_institute_signup` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
  `is_accredited` tinyint(4) DEFAULT NULL COMMENT '1 - True, 0 - False',
  `accreditation_body` varchar(255) DEFAULT NULL,
@@ -521,4 +521,4 @@ ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0
  `updated_at` timestamp NOT NULL,
  `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted ',
  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=latin1

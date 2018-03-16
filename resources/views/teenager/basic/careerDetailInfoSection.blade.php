@@ -148,7 +148,7 @@
         @empty
         @endforelse
     </ul>
-    <a href="{{ url('teenager/institute') }}" title="View All Institutes" class="btn btn-default">View All Institutes</a>
+    <a href="{{ url('teenager/institute') }}" title="Find College" class="btn btn-default">Find College</a>
     @endif
 </div>
 

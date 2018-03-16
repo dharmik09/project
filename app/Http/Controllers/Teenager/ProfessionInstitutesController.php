@@ -31,6 +31,9 @@ class ProfessionInstitutesController extends Controller {
         if($questionType == "Institute_Affiliation"){
             $institutesData = $institutesData->where('affiliat_university',$answer)->get();
         }
+        elseif($questionType == "Speciality"){
+            $institutesData = $institutesData->where('speciality','like', '%'.$answer.'%')->get();
+        }
         elseif($questionType == "State"){
             $institutesData = $institutesData->where('institute_state','like', '%'.$answer.'%')->get();
         }
@@ -63,7 +66,15 @@ class ProfessionInstitutesController extends Controller {
             }
         }
         elseif($questionType == "Fees"){
-            $institutesData = $institutesData->where('minimum_fee',$answer['minimumFees'])->where('maximum_fee',$answer['maximumFees'])->get();
+            if(isset($answer['minimumFees']) && empty($answer['maximumFees'])){
+                $institutesData = $institutesData->where('minimum_fee','>=',$answer['minimumFees'])->get();
+            }
+            elseif(isset($answer['maximumFees']) && empty($answer['minimumFees'])){        
+                $institutesData = $institutesData->where('maximum_fee','<=',$answer['maximumFees'])->get();
+            }
+            else{
+                $institutesData = $institutesData->where('minimum_fee','>=',$answer['minimumFees'])->where('maximum_fee','<=',$answer['maximumFees'])->get();
+            }
         }
         else{
             $institutesData = $institutesData->get();
@@ -130,15 +141,17 @@ class ProfessionInstitutesController extends Controller {
             $minimumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMinimumFee();
             $maximumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMaximumFee();
             $response = '<div class="col-sm-6"><div class="form-group custom-select">
-                            <select id="answerDropdownMinimumFees" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">';
+                            <select id="answerDropdownMinimumFees" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
+                            <option value="##" disabled selected>Min Fee</option>';
             foreach ($minimumFeesData as $key => $value) {
-                $response .= '<option value="'.$value->minimum_fee.'">'.$value->minimum_fee.'</option>';
+                $response .= '<option value="'.$value->minimum_fee.'">'.number_format((int)$value->minimum_fee, 0, '.', ',').'</option>';
             }
             $response .= '</select></div></div>';
             $response .= '<div class="col-sm-6"><div class="form-group custom-select">
-                            <select id="answerDropdownMaximumFees" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">';
+                            <select id="answerDropdownMaximumFees" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
+                            <option value="##" disabled selected>Max Fee</option>';
             foreach ($maximumFeesData as $key => $value) {
-                $response .= '<option value="'.$value->maximum_fee.'">'.$value->maximum_fee.'</option>';
+                $response .= '<option value="'.$value->maximum_fee.'">'.number_format((int)$value->maximum_fee, 0, '.', ',').'</option>';
             }
             $response .= '</select></div></div>';
         }
