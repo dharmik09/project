@@ -31,63 +31,7 @@ class ProfessionInstitutesController extends Controller {
         $answer = Input::get('answer');
         $record = $pageNo * 5;
 
-        $institutesData = $this->objProfessionInstitutes->skip($record)->take(5);
-
-        if(isset($answerName) && $answerName != ""){
-            $institutesData->where('college_institution','like','%'.$answerName.'%');
-        }
-
-        if($questionType == "Institute_Affiliation"){
-            $institutesData = $institutesData->where('affiliat_university',$answer)->get();
-        }
-        elseif($questionType == "Speciality"){
-            $institutesData = $institutesData->where('speciality','like','%'.$answer.'%')->get();
-        }
-        elseif($questionType == "State"){
-            $institutesData = $institutesData->where('institute_state','like', '%'.$answer.'%')->get();
-        }
-        elseif($questionType == "City"){
-            $institutesData = $institutesData->where('city','like', '%'.$answer.'%')->get();
-        }
-        elseif($questionType == "Pincode"){
-            $institutesData = $institutesData->where('pin_code','like', '%'.$answer.'%')->get();
-        }
-        elseif($questionType == "Management_Category"){
-            $institutesData = $institutesData->where('management',$answer)->get();
-        }
-        elseif($questionType == "Accreditation"){
-            $institutesData = $institutesData->where('accreditation_body',$answer)->get();
-        }
-        elseif($questionType == "Hostel"){
-            if($answer == "0"){
-                $institutesData = $institutesData->where('hostel_count',"0")->get();
-            }
-            else{
-                $institutesData = $institutesData->where('hostel_count',"<>","0")->get();
-            }
-        }
-        elseif($questionType == "Gender"){
-            if($answer == "0"){
-                $institutesData = $institutesData->where('girl_exclusive',$answer)->get();
-            }
-            else{
-                $institutesData = $institutesData->where('girl_exclusive',$answer)->get();
-            }
-        }
-        elseif($questionType == "Fees"){
-            if(isset($answer['minimumFees']) && empty($answer['maximumFees'])){
-                $institutesData = $institutesData->where('minimum_fee','>=',$answer['minimumFees'])->get();
-            }
-            elseif(isset($answer['maximumFees']) && empty($answer['minimumFees'])){        
-                $institutesData = $institutesData->where('maximum_fee','<=',$answer['maximumFees'])->get();
-            }
-            else{
-                $institutesData = $institutesData->where('minimum_fee','>=',$answer['minimumFees'])->where('maximum_fee','<=',$answer['maximumFees'])->get();
-            }
-        }
-        else{
-            $institutesData = $institutesData->get();
-        }
+        $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilter($answerName, $questionType, $answer, $record);
 
         $view = view('teenager.basic.professionInstitutesData',compact('institutesData'));
         $response['instituteCount'] = count($institutesData);
