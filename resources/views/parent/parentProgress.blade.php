@@ -671,46 +671,6 @@
                 }
             });
 
-            $('.content_prime').animate({height: 'auto'}, 1);
-            var newHeight = $('.content_prime').height();
-            $('.content_prime').animate({height: '220px'}, 1);
-            $('.intrest_load').click(function(event) {
-                if ($(this).find('span').text() == "Show More")
-                    $(this).find('span').text("Show less")
-                else
-                    $(this).find('span').text("Show More");
-                $(this).toggleClass('rotation');
-                $(this).siblings('.intrest_content').toggleClass('close_load');
-                if ($(this).siblings('.intrest_content').hasClass('close_load')) {
-                    $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
-                }
-                else {
-                    $(this).siblings('.intrest_content').animate({
-                        height: newHeight,
-                    }, 1000);
-                }
-            });
-
-            /*load less more for skill*/
-            $('.content_secondary').animate({height: 'auto'}, 1);
-            var newHeight_secondary = $('.content_secondary').height();
-            $('.content_secondary').animate({height: '230px'}, 1);
-            $('.skill_load').click(function(event) {
-                if ($(this).find('span').text() == "Show More")
-                    $(this).find('span').text("Show less")
-                else
-                    $(this).find('span').text("Show More");
-                $(this).toggleClass('rotation');
-                $(this).siblings('.intrest_content').toggleClass('close_load');
-                if ($(this).siblings('.intrest_content').hasClass('close_load')) {
-                    $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
-                }
-                else {
-                    $(this).siblings('.intrest_content').animate({
-                        height: newHeight_secondary,
-                    }, 1000);
-                }
-            });
         });
         $('.dashboard_edu_text a').click(function(event) {
             $(this).parents('.flip-container').addClass('flip_now');
@@ -1437,6 +1397,26 @@
                 }
                 $('.teen_interest .loading-screen-data').hide();
                 $('.teen_interest').removeClass('loading-screen-parent');
+                /*load less more for skill*/
+                $('.content_prime').animate({height: 'auto'}, 1);
+                var newHeight = $('.content_prime').height();
+                $('.content_prime').animate({height: '230px'}, 1);
+                $('.intrest_load').click(function(event) {
+                    if ($(this).find('span').text() == "Show More")
+                        $(this).find('span').text("Show less")
+                    else
+                        $(this).find('span').text("Show More");
+                    $(this).toggleClass('rotation');
+                    $(this).siblings('.intrest_content').toggleClass('close_load');
+                    if ($(this).siblings('.intrest_content').hasClass('close_load')) {
+                        $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
+                    }
+                    else {
+                        $(this).siblings('.intrest_content').animate({
+                            height: newHeight,
+                        }, 1000);
+                    }
+                });
             }
         });
     }
@@ -1463,6 +1443,26 @@
                 }
                 $('.teenager_skill .loading-screen-data').hide();
                 $('.teenager_skill').removeClass('loading-screen-parent');
+                /*load less more for skill*/
+                $('.content_secondary').animate({height: 'auto'}, 1);
+                var newHeight_secondary = $('.content_secondary').height();
+                $('.content_secondary').animate({height: '230px'}, 1);
+                $('.skill_load').click(function(event) {
+                    if ($(this).find('span').text() == "Show More")
+                        $(this).find('span').text("Show less")
+                    else
+                        $(this).find('span').text("Show More");
+                    $(this).toggleClass('rotation');
+                    $(this).siblings('.intrest_content').toggleClass('close_load');
+                    if ($(this).siblings('.intrest_content').hasClass('close_load')) {
+                        $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
+                    }
+                    else {
+                        $(this).siblings('.intrest_content').animate({
+                            height: newHeight_secondary,
+                        }, 1000);
+                    }
+                });
             }
         });
     }
