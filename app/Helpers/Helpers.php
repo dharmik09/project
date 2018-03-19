@@ -3133,4 +3133,22 @@ Class Helpers {
         return $data;
     }
 
+    public static function getProfessionInstituteFilter() 
+    {
+        $data = [
+                    ['name' => "Education Stream", 'value' => "Speciality", 'type' => "0", "type_description" => "textbox"], 
+                    ['name' => "State", 'value' => "State", 'type' => "0", "type_description" => "textbox"], 
+                    ['name' => "City", 'value' => "City", 'type' => "0", "type_description" => "textbox"], 
+                    ['name' => "Pincode", 'value' => "Pincode", 'type' => "0", "type_description" => "textbox"], 
+                    ['name' => "Institute Affiliation", 'value' => "Institute_Affiliation", 'type' => "1", "type_description" => "dropdown"], 
+                    ['name' => "Category", 'value' => "Management_Category", 'type' => "1", "type_description" => "dropdown"], 
+                    ['name' => "Accreditation", 'value' => "Accreditation", 'type' => "1", "type_description" => "dropdown"], 
+                    ['name' => "Hostel", 'value' => "Hostel", 'type' => "1", "type_description" => "dropdown"], 
+                    ['name' => "Gender", 'value' => "Gender", 'type' => "1", "type_description" => "dropdown"], 
+                    ['name' => "Fees Range", 'value' => "Fees", 'type' => "1", "type_description" => "dropdown"], 
+                ];
+
+        return $data;
+    }
+
 }
