@@ -1,16 +1,27 @@
 <h4>{{(isset($professionDetail) && !empty($professionDetail)) ? $professionDetail[0]->pf_name : ''}}</h4>
 <span class="pull-right close" onclick="getMediaUploadSection();"><i class="icon-close"></i></span>
-<form id="add_advance_task" class="add_advance_task">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <input type="hidden" name="profession_id" value="{{ $professionId }}">
-    <input type="hidden" name="media_type" id="media_type" value="1">
-    <div class="upload-img" id="img-preview">
-        <span>Video upload</span>
-        <input type="file" name="media" accept="video/*" onchange="readURL(this);">
+@if(count($userLevel4AdvanceVideoTask) >= Config::get('constant.DEFAULT_TOTAL_ADVANCE_VIDEO_COUNT') )
+    <div class="upload-content">
+        <div class="no-data">
+            <div class="nodata-middle">
+                You reached maximum video upload limit. Total uploaded video is {{ count($userLevel4AdvanceVideoTask) }}!
+            </div>
+        </div>
     </div>
-    <div id="mediaErr" class="photo-error-register"></div>
-    <button id="taskSave" class="btn-primary btn-default" title="Submit" type="submit">Upload</button>
-</form>
+@else
+    <form id="add_advance_task" class="add_advance_task">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="profession_id" value="{{ $professionId }}">
+        <input type="hidden" name="media_type" id="media_type" value="1">
+        <div class="upload-img" id="img-preview">
+            <span>Video upload</span>
+            <input type="file" name="media" accept="video/*" onchange="readURL(this);">
+        </div>
+        <div id="mediaErr" class="photo-error-register"></div>
+        <button id="taskSave" class="btn-primary btn-default" title="Submit" type="submit">Upload</button>
+    </form>
+@endif
+<span>You can upload maximum {{ Config::get('constant.DEFAULT_TOTAL_ADVANCE_VIDEO_COUNT') }} video.</span>
 @if(isset($userLevel4AdvanceVideoTask) && count($userLevel4AdvanceVideoTask) > 0)
 <div class="upload-content">
     <ul class="upld-img">
