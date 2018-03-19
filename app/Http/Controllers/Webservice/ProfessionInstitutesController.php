@@ -163,6 +163,7 @@ class ProfessionInstitutesController extends Controller {
             
             $pageNo = 1;
             $questionType = "";
+            $answer = "";
             $searchText = "";
 
             if($request->pageNo != "" && isset($request->pageNo)){
@@ -181,6 +182,7 @@ class ProfessionInstitutesController extends Controller {
             $record = ($pageNo-1) * 5;
 
             $professionInstituteData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilter($searchText, $questionType, $answer, $record);
+            $data = [];
             if(count($professionInstituteData)>0){
                 foreach ($professionInstituteData as $key => $value) {
                     $instituteWebsite = "";
@@ -212,7 +214,7 @@ class ProfessionInstitutesController extends Controller {
                     }
                     
                     if(isset($value->address_line1) && $value->address_line1 != ""){
-                        $instituteAddress = $value->address_line1;
+                        $instituteAddress = $value->address_line1.' '.$value->address_line2.', '.$value->city.', '.$value->district;
                     }
                     
                     if(isset($value->latitude) && $value->latitude != "" && $value->latitude != "NA" && isset($value->longitude) && $value->longitude != "" && $value->longitude != "NA"){
@@ -249,9 +251,9 @@ class ProfessionInstitutesController extends Controller {
                     }
 
                     $instituteData['Website'] = $instituteWebsite;
-                    $instituteData['Name'] = $instituteName;
+                    $instituteData['Name'] = ucwords(strtolower($instituteName));
                     $instituteData['EstablishmentYear'] = $instituteEstablishmentYear;
-                    $instituteData['Address'] = $instituteAddress;
+                    $instituteData['Address'] = ucwords(strtolower($instituteAddress));
                     $instituteData['Photo'] = $institutePhoto;
                     $instituteData['MapLatitute'] = $instituteLatitute;
                     $instituteData['MapLongitude'] = $instituteLongitude;
@@ -266,14 +268,15 @@ class ProfessionInstitutesController extends Controller {
                     $data[] = $instituteData;
                 }
                 $response['data'] = $data;
+                $response['message'] = trans('appmessages.default_success_msg');
             }
             else{
-                $response['data'] = trans('appmessages.data_empty_msg');
+                $response['data'] = $data;
+                $response['message'] = trans('appmessages.data_empty_msg');
             }
 
             $response['status'] = 1;
             $response['login'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
 
             $this->log->info('Response for get Profession Institute Data API' , array('api-name'=> 'getProfessionInstitute'));
         } else {

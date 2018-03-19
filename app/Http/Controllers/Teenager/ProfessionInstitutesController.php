@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teenager;
 
 use App\Http\Controllers\Controller;
 use App\ProfessionInstitutes;
+use App\State;
 use Auth;
 use Redirect;
 use Request;
@@ -14,14 +15,30 @@ class ProfessionInstitutesController extends Controller {
     public function __construct() 
     {
         $this->objProfessionInstitutes = new ProfessionInstitutes();
+        $this->objState = new State();
     }
 
     public function index(){
         $speciality = '';
+        
         if(Input::get('speciality')){
             $speciality = Input::get('speciality');
         }
-        return view('teenager.professionInstitutes', compact('speciality'));
+        
+        $user = Auth::guard('teenager')->user();
+        
+        $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($user->t_view_information);
+        
+        $state = [];
+        $city = [];
+        
+        foreach ($stateWiseCityData as $key => $value) {
+            $state[] = array('value' => $value->s_name);
+            foreach ($value->city as $k => $v) {
+                $city[] = array('value' => $v->c_name);
+            }
+        }
+        return view('teenager.professionInstitutes', compact('speciality','city','state'));
     }
 
     public function getIndex(){
