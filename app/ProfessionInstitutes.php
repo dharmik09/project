@@ -144,14 +144,21 @@ class ProfessionInstitutes extends Model
             }
         }
         elseif($questionType == "Fees" && $answer != ""){
-            if(isset($answer['minimumFees']) && empty($answer['maximumFees'])){
-                $return = $return->where('minimum_fee','>=',$answer['minimumFees'])->get();
+            
+            $feesArray = explode("#", $answer);
+
+            $fees['minimumFees'] = (isset($feesArray[0]) && !empty($feesArray[0])) ? $feesArray[0] : '';
+            $fees['maximumFees'] = (isset($feesArray[1]) && !empty($feesArray[1])) ? $feesArray[1] : '';
+
+            
+            if(isset($fees['minimumFees']) && empty($fees['maximumFees']) || $fees['maximumFees'] == 'null'){
+                $return = $return->where('minimum_fee','>=',$fees['minimumFees'])->get();
             }
-            elseif(isset($answer['maximumFees']) && empty($answer['minimumFees'])){        
-                $return = $return->where('maximum_fee','<=',$answer['maximumFees'])->get();
+            elseif(isset($fees['maximumFees']) && empty($fees['minimumFees']) || $fees['minimumFees'] == 'null'){        
+                $return = $return->where('maximum_fee','<=',$fees['maximumFees'])->get();
             }
             else{
-                $return = $return->where('minimum_fee','>=',$answer['minimumFees'])->where('maximum_fee','<=',$answer['maximumFees'])->get();
+                $return = $return->where('minimum_fee','>=',$fees['minimumFees'])->where('maximum_fee','<=',$fees['maximumFees'])->get();
             }
         }
         else{

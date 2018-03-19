@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
-use config;
+use Config;
 
 class Professions extends Model {
 
@@ -727,5 +727,33 @@ class Professions extends Model {
     {
         $professionData = $this->inRandomOrder()->first();
         return $professionData;
+    }
+
+    public function getProfessionsAllDetails($slug, $countryId) {
+        $this->country_id = $countryId;
+        $result = $this->select('*')
+                ->with(['professionHeaders' => function ($query) {
+                            $query->where('country_id', $this->country_id);
+                        }])
+                ->with(['professionCertificates' => function ($query) {
+                            $query->with(['certificate' => function ($query){
+                                $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                            }])->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                        }])
+                ->with(['professionTags' => function ($query) {
+                            $query->with(['tag' => function ($query) {
+                                $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                            }])->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                        }])
+                ->with(['professionSubject' => function ($query) {
+                            $query->with(['subject' => function ($query){
+                                $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                            }])->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                        }])
+                ->with('careerMapping')
+                ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
+                ->where('pf_slug', $slug)
+                ->first();
+        return $result;
     }
 }

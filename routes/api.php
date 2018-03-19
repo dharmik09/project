@@ -194,4 +194,9 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 
     //L3 Research Activity 
     Route::post('/saveL3BoosterPointCareerResearch', 'Webservice\level3ActivityController@saveL3BoosterPointCareerResearch');
+
+    //Profession Institute
+    Route::post('/getProfessionInstituteAllFilter', 'Webservice\ProfessionInstitutesController@getProfessionInstituteFilter');
+    Route::post('/getProfessionInstituteFilterData', 'Webservice\ProfessionInstitutesController@getProfessionInstituteFilterData');
+    Route::post('/getProfessionInstitute', 'Webservice\ProfessionInstitutesController@getProfessionInstitute');
 });

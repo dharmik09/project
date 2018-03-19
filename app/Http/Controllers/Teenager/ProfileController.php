@@ -265,9 +265,9 @@ class ProfileController extends Controller
             }
             $teenUpdate = $this->teenagersRepository->saveTeenagerDetail($teenagerDetail);
             if (isset($teenUpdate) && !empty($teenUpdate)) {
-                return Redirect::to("teenager/my-profile#profile-info")->with('success', 'Profile updated successfully.');
+                return Redirect::to("teenager/my-profile")->with('success', 'Profile updated successfully.');
             } else {
-                return Redirect::to("teenager/my-profile#profile-info")->withErrors(trans('validation.somethingwrong'));
+                return Redirect::to("teenager/my-profile")->withErrors(trans('validation.somethingwrong'));
             }
             exit;
         }
