@@ -62,7 +62,15 @@
             </div>
              <!-- sec notification-->
             <div class="sec-notification">
-                <h2 class="font-blue">Notifications</h2>
+                <h2 class="font-blue">Notifications
+                <span class="sec-popup"><a id="engage-notification" href="javascript:void(0);" onmouseover="getHelpText('engage-notification')" data-trigger="hover" data-popover-content="#engage-noti" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                </h2>
+                <div class="hide" id="engage-noti">
+                    <div class="popover-data">
+                        <a class="close popover-closer"><i class="icon-close"></i></a>
+                        <span class="engage-notification"></span>
+                    </div>
+                </div>
                 @if(count($notificationData)>0)
                     <div class="notification-list">
                         @foreach($notificationData as $key => $value)
@@ -117,7 +125,16 @@
                 <span>Forum module</span>
             </div>-->
             <div class="forum-module">
-                <h2 class="font-blue">Forum</h2>
+                <h2 class="font-blue">Forum
+                <span class="sec-popup">
+                    <a id="engage-forum" href="javascript:void(0);" onmouseover="getHelpText('engage-forum')" data-trigger="hover" data-popover-content="#engage-forums" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                </h2>
+                <div class="hide" id="engage-forums">
+                    <div class="popover-data">
+                        <a class="close popover-closer"><i class="icon-close"></i></a> 
+                        <span class="engage-forum"></span>
+                    </div>
+                </div>
                 @if(isset($forumQuestionData) && count($forumQuestionData)>0)
                     <div class="forum-container">
                         @foreach($forumQuestionData as $key => $value)
@@ -180,7 +197,15 @@
             </div>
             <!--sec forum end-->
             <div class="chat-heading">
-                <h2 class="font-blue">Chat</h2>
+                <h2 class="font-blue">Chat
+                    <span class="sec-popup"><a id="engage-chat" href="javascript:void(0);" onmouseover="getHelpText('engage-chat')" data-trigger="hover" data-popover-content="#engage-chats" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                </h2>
+                <div class="hide" id="engage-chats">
+                    <div class="popover-data">
+                        <a class="close popover-closer"><i class="icon-close"></i></a> 
+                        <span class="engage-chat"></span>
+                    </div>
+                </div>
             </div>
             <div class="sec-chat clearfix">
                @include('teenager/basic/fullViewChat')
