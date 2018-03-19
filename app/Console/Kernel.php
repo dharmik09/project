@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\expiredProCoinsForTeenager',
         'App\Console\Commands\resetAdminGiftedProCoins',
         'App\Console\Commands\CreateSlug',
-        'App\Console\Commands\CalculateHMLScore'
+        'App\Console\Commands\CalculateHMLScore',
+        'App\Console\Commands\ImportInstituteSpeciality'
     ];
 
     /**

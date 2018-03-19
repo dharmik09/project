@@ -3136,7 +3136,7 @@ Class Helpers {
     public static function getProfessionInstituteFilter() 
     {
         $data = [
-                    ['label' => "Education Stream", 'value' => "Speciality", 'type' => "0", "type_description" => "textbox"], 
+                    ['label' => "Education Stream", 'value' => "Speciality", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "State", 'value' => "State", 'type' => "0", "type_description" => "textbox"], 
                     ['label' => "City", 'value' => "City", 'type' => "0", "type_description" => "textbox"], 
                     ['label' => "Pincode", 'value' => "Pincode", 'type' => "0", "type_description" => "textbox"], 

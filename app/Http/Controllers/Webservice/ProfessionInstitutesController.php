@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Webservice;
 
 use App\Http\Controllers\Controller;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
+use Illuminate\Http\Request;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use App\ProfessionInstitutes;
+use App\ProfessionInstitutesSpeciality;
 use Auth;
 use Redirect;
-use Illuminate\Http\Request;
 use Helpers;
 use Input;
 use Config;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 
 class ProfessionInstitutesController extends Controller {
 
@@ -20,6 +21,7 @@ class ProfessionInstitutesController extends Controller {
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->objProfessionInstitutes = new ProfessionInstitutes();
+        $this->objProfessionInstitutesSpeciality = new ProfessionInstitutesSpeciality();
         $this->log = new Logger('api-level3-activity-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log')); 
     }
@@ -59,7 +61,19 @@ class ProfessionInstitutesController extends Controller {
             $allData = [];
 
             $questionType = $request->filterType;
-            if($questionType == "Institute_Affiliation"){
+            if($questionType == "Speciality"){
+                $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();                
+                $dataArray1 = [];
+                foreach ($institutesSpecialityData as $key => $value) {
+                    $data['label'] = (string) $value->pis_name;
+                    $data['value'] = (string) $value->pis_name;
+                    $dataArray1[] = $data;
+                }
+                $allData['dataArray1'] = $dataArray1;
+                
+                $response['arrayCount'] = 1;
+            }
+            elseif($questionType == "Institute_Affiliation"){
                 $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAffiliatUniversity();
                 
                 $dataArray1 = [];
