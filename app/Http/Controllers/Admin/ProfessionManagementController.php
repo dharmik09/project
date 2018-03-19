@@ -570,10 +570,13 @@ class ProfessionManagementController extends Controller {
     }
     
     public function professionInstitutesListSave() {
+        
+        ini_set('memory_limit', '20000M');
+        ini_set('max_execution_time', 0);
+        
         $response = '';        
         $path = Input::file('ps_bulk')->getRealPath();
         $results = Excel::load($path, function($reader) {})->get();
-        
         $uploadType = Input::get('ps_upload_type');
         if($uploadType == 1) // Upload Basic information
         {

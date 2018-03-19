@@ -1,7 +1,7 @@
 @extends('layouts.teenager-master')
 
 @push('script-header')
-    <title>Institute</title>
+    <title>College Finder</title>
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
     <div class="container">
         <div class="col-sm-12 text-center">
             <div class="institute-heading">
-                <h1 class="font-blue">Institute List</h1>
+                <h1 class="font-blue">College Finder</h1>
             </div>
         </div>
         <div class="institute-filter">
@@ -20,7 +20,7 @@
                         <div class="form-group custom-select">
                             <select id="questionDropdown" onchange="fetchSearchDropdown();" tabindex="8" class="form-control">
                                 <option disabled selected>Select Filter</option>
-                                <option value="Speciality" <?php echo (isset($speciality) && !empty($speciality)) ? 'selected' : '' ?> >Speciality</option>
+                                <option value="Speciality" <?php echo (isset($speciality) && !empty($speciality)) ? 'selected' : '' ?> >Education Stream</option>
                                 <option value="State">State</option>
                                 <option value="City">City</option>
                                 <option value="Pincode">Pincode</option>
@@ -93,9 +93,7 @@
         }
         
         if(questionType == "Fees"){
-            var answer = new Object();
-            answer["minimumFees"] = $('#answerDropdownMinimumFees').val();
-            answer["maximumFees"] = $('#answerDropdownMaximumFees').val();
+            var answer = $('#answerDropdownMinimumFees').val()+'#'+$('#answerDropdownMaximumFees').val();
         }
         else{
             var answer = $('#answerDropdown').val();
@@ -180,9 +178,7 @@
         var pageNo = $('#pageNo').val();
         
         if(questionType == "Fees"){
-            var answer = new Object();
-            answer["minimumFees"] = $('#answerDropdownMinimumFees').val();
-            answer["maximumFees"] = $('#answerDropdownMaximumFees').val();
+            var answer = $('#answerDropdownMinimumFees').val()+'#'+$('#answerDropdownMaximumFees').val();
         }
         else{
             var answer = $('#answerDropdown').val();
