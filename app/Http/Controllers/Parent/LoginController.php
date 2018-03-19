@@ -110,8 +110,7 @@ class LoginController extends Controller
             $loginRoute = url('counselor/login');
         }
         Auth::guard('parent')->logout();
-        flash('Logout successfully!')->success();
-        return Redirect::to($loginRoute);
+        return Redirect::to($loginRoute)->with('success', 'Logout successfully!');
     }
     
     public function verifyParent() {

@@ -5,6 +5,20 @@
 <div>
     <div class="clearfix" id="errorGoneMsg"> </div>
     <div class="col-xs-12">
+        @if ($message = Session::get('success'))
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-body">
+                    <div class="alert alert-success alert-dismissable">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                        <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                        {{ $message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
         @if (count($errors) > 0)
         <div class="alert alert-danger">
             <strong>{{trans('validation.whoops')}}</strong> {{trans('validation.someproblems')}}<br><br>
@@ -28,19 +42,6 @@
         </div>
         @endif
     </div>
-
-    @if($message = Session::get('success'))
-    <div class="clearfix">
-        <div class="col-md-12">
-            <div class="box-body">
-                <div class="alert alert-error alert-succ-msg alert-dismissable success">
-                    <button aria-hidden="true" data-dismiss="success" class="close" type="button">X</button>
-                    {{ $message }}
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
 </div>
 
 <div class="centerlize">

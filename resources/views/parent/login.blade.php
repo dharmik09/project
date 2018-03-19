@@ -6,11 +6,25 @@
 
 @section('content')
 <div class="col-xs-12">
+    @if ($message = Session::get('success'))
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-body">
+                <div class="alert alert-success alert-dismissable">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                    <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                    {{ $message }}
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
     @if ($message = Session::get('error'))
     <div class="row">
         <div class="col-md-12">
             <div class="box-body">
-                <div class="alert alert-error alert-dismissable danger">
+                <div class="alert alert-error alert-dismissable">
                     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
                     <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
                     {{ $message }}
@@ -19,6 +33,7 @@
         </div>
     </div>
     @endif
+
     @if (count($errors) > 0)
     <div class="alert alert-danger">
         <strong>{{trans('validation.whoops')}}</strong> {{trans('validation.someproblems')}}<br><br>
@@ -30,7 +45,6 @@
     </div>
     @endif
 </div>
-@include('flash::message')
 <section class="sec-login">
     <div class="container-small">
         <div class="login-form">
