@@ -36,7 +36,11 @@ Route::post('/delete-user-advance-task/', 'Parent\Level4AdvanceActivityManagemen
 Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceActivityManagementController@submitLevel4AdvanceActivityForReview')->name('submit-level4-advance-activity-for-review');
 
 //Careers details page
-Route::get('/career-detail/{slug}', 'Parent\ProfessionController@careerDetails');
+Route::get('/career-detail/{slug}/{teenId}', 'Parent\ProfessionController@careerDetails');
+
+//Level4 Basic Activity
+Route::post('/play-basic-level-activity', 'Parent\Level4ActivityManagementController@getL4BasicQuestions');
+Route::post('/save-basic-level-activity', 'Parent\Level4ActivityManagementController@saveBasicLevelActivity');
 
 
 //My Teen
