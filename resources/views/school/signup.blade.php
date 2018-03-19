@@ -262,7 +262,7 @@
                     <div class="col-md-8 col-md-offset-2 col-sm-12 clearfix">
                         <div class="terms_condition_statement">
                             <label for="terms_condition" id="mychoice_lable"><span></span></label>
-                            <span class="terms_condition_statement">By clicking submit button, you agree to ProTeen's <a href="javascript:void(0);" data-toggle="modal" data-target="#terms_statement">Terms and Conditions </a>and <a href="javascript:void(0);" data-toggle="modal" data-target="#privacy_statement"> Privacy Policy</a></span>
+                            <span class="terms_condition_statement">By clicking submit button, you agree to ProTeen's <a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a> and <a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy Policy</a></span>
                         </div>
                     </div>
                     <div class="button_container">

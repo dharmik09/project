@@ -8,6 +8,19 @@
 
 
 <div class="col-xs-12">
+    @if ($message = Session::get('success'))
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-body">
+                <div class="alert alert-success alert-dismissable">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                    <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                    {{ $message }}
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     @if ($message = Session::get('error'))
     <div class="row">
         <div class="col-md-12">

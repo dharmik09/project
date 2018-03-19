@@ -136,6 +136,10 @@
             </div>
         </footer>
         @yield('footer')
+        <div id="loading-wrapper">
+            <div id="loading-text"><span>Loading...</span></div>
+            <div id="loading-content"></div>
+        </div> 
         <script src="{{ asset('backend/plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
         <script src="{{ asset('frontend/js/bootstrap.min.js')}}"></script>
         <script src="{{ asset('frontend/js/jquery-ui.min.js')}}"></script>

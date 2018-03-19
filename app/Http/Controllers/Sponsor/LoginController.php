@@ -52,8 +52,7 @@ class LoginController extends Controller
     {
         $data = $request->all();
         if (Auth::guard('sponsor')->attempt(['sp_email' => $data['email'], 'password' => $data['password']])) {
-            flash('Welcome to the sponsor panel')->success();
-            return redirect()->to(route('sponsor.home'));
+            return redirect()->to(route('sponsor.home'))->with('success', 'Welcome to the sponsor panel!');
         }
         //flash('Invalid Credential')->error()->important();
         return redirect()->to(route('sponsor.login'))->with('error', trans('appmessages.invalid_user_pwd_msg'))->withInput($request->only('email'));
@@ -62,8 +61,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('sponsor')->logout();
-        flash('Logout successfully!')->success();
-        return redirect()->to(route('sponsor.login'));
+        return redirect()->to(route('sponsor.login'))->with('success', 'Logout successfully!');
     }
     
 }

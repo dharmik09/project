@@ -68,8 +68,8 @@ class LoginController extends Controller {
             if (Auth::guard('school')->attempt(['sc_email' => $email, 'password' => $password, 'deleted' => 1])) {
                 $school = $this->schoolsRepository->getSchoolDetailByEmailId($email);
                 if (!empty($school) && $school['sc_isapproved'] == '1') {
-                    flash('Welcome to the school panel')->success();
-                    return redirect()->to(route('school.home'));
+                    //flash('Welcome to the school panel')->success();
+                    return redirect()->to(route('school.home'))->with('success', 'Welcome to the school panel');
                     exit;
                 } else {
                     Auth::guard('school')->logout();
@@ -90,7 +90,7 @@ class LoginController extends Controller {
 
     public function logout(Request $request) {
         Auth::guard('school')->logout();
-        return Redirect::to('/school/login');
+        return Redirect::to('/school/login')->with('success', 'Logout Successfully!');
         exit;
     }
 

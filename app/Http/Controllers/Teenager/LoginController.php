@@ -97,7 +97,7 @@ class LoginController extends Controller
         $increasedProgress = $currentProgress - $user->t_logout_progress;
         $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($user->id, $increasedProgress,$currentProgress);
         Auth::guard('teenager')->logout();
-        return redirect()->to(route('login'));
+        return redirect()->to(route('login'))->with('success', 'Logout successfully!');;
     }
         
 }
