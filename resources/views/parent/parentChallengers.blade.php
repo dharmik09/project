@@ -60,8 +60,10 @@ if (!empty($parentChallengeData)) {
                         <div class="challenging_profession"><h1><span class="title_border"><span class="outer_intro"><span class="inner_intro">{{$value->pf_name}}</span></span></span></h1></div>
                         <div class="challenger_name">{{$value->t_name}}</div>
                         <div class="research clearfix">
-                            <a href="{{url('/parent/my-challengers-research')}}/{{$value->tpc_profession_id}}/{{$value->tpc_teenager_id}}" class="research btn primary_btn">Research</a>
-                            <a href="{{url('/parent/my-challengers-accept')}}/{{$value->tpc_profession_id}}/{{$value->tpc_teenager_id}}" class="btn primary_btn <?php if($value->L4Attempted == 1) {echo 'accepted'; } else { echo 'accept'; }?>">@if($value->L4Attempted == 1) Playing @else Accept @endif</a>
+                            <!-- <a href="{{url('/parent/my-challengers-research')}}/{{$value->tpc_profession_id}}/{{$value->tpc_teenager_id}}" class="research btn primary_btn">Research</a>
+                            <a href="{{url('/parent/my-challengers-accept')}}/{{$value->tpc_profession_id}}/{{$value->tpc_teenager_id}}" class="btn primary_btn <?php //if($value->L4Attempted == 1) {echo 'accepted'; } else { echo 'accept'; }?>">@if($value->L4Attempted == 1) Playing @else Accept @endif</a> -->
+                            <a href="{{url('/parent/career-detail')}}/{{$value->pf_slug}}" class="research btn primary_btn">Research</a>
+                            <a href="{{url('/parent/career-detail')}}/{{$value->pf_slug}}" class="btn primary_btn">  Accept </a>
                         </div>
                     </div>
                 </li>
