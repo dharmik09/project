@@ -25,7 +25,13 @@ class ProfessionInstitutesController extends Controller {
       
         $user = Auth::guard('teenager')->user();
         
-        $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($user->t_view_information);
+        if($user->t_view_information == 1){
+            $countryId = 2; // United States
+        }else{
+            $countryId = 1; // India
+        }
+        
+        $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($countryId);
         
         $state = [];
         $city = [];
