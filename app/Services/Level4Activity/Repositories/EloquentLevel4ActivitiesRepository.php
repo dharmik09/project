@@ -1142,6 +1142,16 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
         return $result;
     }
 
+    public function getUserUploadedMediaByType($teenager,$profession, $type) {
+        return DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA') . " AS usertask")
+                    ->where('usertask.l4aaua_teenager', '=', $teenager)
+                    ->where('usertask.l4aaua_profession_id', '=', $profession)
+                    ->where('usertask.deleted', '!=', 3)
+                    //->where('l4aaua_is_verified', '!=', 0)
+                    ->where('l4aaua_media_type', $type)
+                    ->get();
+    }
+
     /*Update user task status
      */
     public function updateUserTaskStatusByAdmin($id,$updateData)

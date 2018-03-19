@@ -1,4 +1,4 @@
-@extends('layouts.teenager-master')
+@extends('layouts.parent-master')
 
 @push('script-header')
     <title>Career Detail - {{$professionsData->pf_name}}</title>
@@ -138,13 +138,8 @@
                                 <h4>{{$professionsData->pf_name}}</h4>
                                 <div class="list-icon">
                                     <span>
-                                        <a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a>
-                                        <div id="favourite_message" class="favourite-text">Career has been selected as favourite</div>
-                                    </span>
-                                    
-                                    <span>
                                         <div id="print_loader">
-                                            <a href="{{url('teenager/get-career-pdf/'.$professionsData->pf_slug)}}" target="_blank" title="print"><i class="icon-print"></i></a>
+                                            <a href="{{url('parent/get-career-pdf/'.$professionsData->pf_slug)}}" target="_blank" title="print"><i class="icon-print"></i></a>
                                         </div> 
                                     </span>
                                 </div>
@@ -167,236 +162,23 @@
                                     <a data-toggle="tab" href="#menu2">
                                         <span class="dt">
                                             <span class="dtc">Explore <span class="tab-complete">
-                                            <?php $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionsData->id); ?>
-                                            {{ (isset($professionComplete) && $professionComplete > 0) ? $professionComplete : 0}}% Complete</span></span>
+                                            <?php //$professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionsData->id); ?>
+                                            50% Complete</span></span>
                                         </span>
                                     </a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div id="menu1" class="tab-pane fade in active">
-                                    @include('teenager/basic/careerDetailInfoSection')
+                                    @include('parent/basic/careerDetailInfoSection')
                                 </div>
                                 <div id="menu2" class="tab-pane fade in">
-                                    <!-- Section for booster scale --> 
-                                    <div class="explore-table table-responsive">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Competitors</th>
-                                                        <th>Score</th>
-                                                        <th>Rank</th>
-                                                        <th>Points</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr id="load-user-profession-competitor">
-                                                        <td colspan="4">Calculating Score...</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                                                                
-                                    </div>
-                                    <!-- Section for promise plus --> 
-                                    <div class="promise-plus-outer">
-                                        @include('teenager/basic/careerPromisePlusSection')
-                                    </div>
-                                    <!-- Section start with virtual play role --> 
-                                    <div class="virtual-plus text-center">
-                                        <h4><span>Virtual Role Play</span></h4>
-                                        <p>Instructions: The more you play, the better informed you will be experientially. Some sections will require ProCoins to attempt.</p>
-                                        
-                                    </div>
-                                    <!-- Section for basic, intermediate quiz with seprate blade --> 
-                                    <div class="quiz-sec ">
-                                        <div class="row flex-container">
-                                            <div class="col-sm-12">
-                                                <div class="quiz-box quiz-basic">
-                                                    <div class="sec-show quiz-basic-sec-show">
-                                                        <h3>Quiz</h3>
-                                                        <p>Warm up with this basic profession quiz! Better research career detail section before you attempt this!!</p>
-                                                        <span title="Play" class="btn-play btn btn-basic">Play</span>
-                                                        <span class="btn-play btn-play-basic" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
-                                                    </div>
-                                                    <div class="basic-quiz-area sec-hide" id="basicLevelData">
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="flexSeprator" style="padding:10px;"></div>
-                                        <div class="row flex-container">
-                                            <div class="col-sm-12">
-                                                <div class="quiz-intermediate">
-                                                    <div class="sec-show clearfix flex-container quiz-intermediate-sec-show">
-                                                        <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-                                                            <div class="loading-text">
-                                                                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                                                            </div>
-                                                            <div class="loading-content"></div>
-                                                        </div>
-                                                        @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
-                                                        
-                                                            @foreach($getQuestionTemplateForProfession as $templateProfession)
-                                                                <div class="col-sm-6 flex-items">
-                                                                    <div class="quiz-box">
-                                                                        <div class="img">
-                                                                            <img src="{{ $templateProfession->gt_template_image }}" alt="{{ $templateProfession->gt_template_title }}">
-                                                                        </div>
-                                                                        <h6>{!! $templateProfession->gt_template_title !!}</h6>
-                                                                        <p title="{{strip_tags($templateProfession->gt_template_descritpion)}}"> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...more')) !!}</p>
-                                                                        @if ($templateProfession->remaningDays > 0)
-                                                                            @if($templateProfession->attempted == 'yes')
-                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
-                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
-                                                                                        <span class="unbox-me">Played!</span>
-                                                                                    </a>
-                                                                                </div>   
-                                                                            @else
-                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
-                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})" >
-                                                                                        <span class="unbox-me">Play now!</span>
-                                                                                        <span class="coins-outer">
-                                                                                            <span class="coins"></span>
-                                                                                            @if($templateProfession->gt_coins > 0) {{$templateProfession->remaningDays}} Days Left @else this is free enjoy @endif
-                                                                                        </span>
-                                                                                    </a>
-                                                                                </div>    
-                                                                            @endif
-                                                                        @elseif($templateProfession->gt_coins == 0)
-                                                                            @if($templateProfession->attempted == 'yes')
-                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
-                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
-                                                                                        <span class="unbox-me">Played!</span>
-                                                                                    </a>
-                                                                                </div>   
-                                                                            @else
-                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
-                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
-                                                                                        <span class="unbox-me">Play now!</span>
-                                                                                        <span class="coins-outer">
-                                                                                            <span class="coins"></span> 
-                                                                                            This is free enjoy
-                                                                                        </span>
-                                                                                    </a>
-                                                                                </div>
-                                                                            @endif
-                                                                        @else
-                                                                            @if($templateProfession->attempted == 'yes')
-                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
-                                                                                    <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
-                                                                                        <span class="unbox-me">Played!</span>
-                                                                                    </a>
-                                                                                </div>   
-                                                                            @else
-                                                                                <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
-                                                                                    <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" onclick="getTemplateConceptData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}})">
-                                                                                        <span class="unbox-me">Unbox Me</span>
-                                                                                        <span class="coins-outer">
-                                                                                            <span class="coins"></span> 
-                                                                                            {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} 
-                                                                                        </span>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
-                                                                                    <div class="modal-dialog">
-                                                                                        <div class="modal-content custom-modal">
-                                                                                            <div class="modal-header">
-                                                                                                <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
-                                                                                                <h4 class="modal-title">Congratulations!</h4>
-                                                                                            </div>
-                                                                                            <div class="no-coins-availibility">
-                                                                                                <div class="modal-body">
-                                                                                                    <p class="my-coins-info">You have {{ (Auth::guard('teenager')->user()->t_coins > 0) ? number_format(Auth::guard('teenager')->user()->t_coins) : 0 }} ProCoins available.</p>
-                                                                                                    <p>Click OK to consume your {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} ProCoins and play on</p>
-                                                                                                </div>
-                                                                                                <div class="modal-footer">
-                                                                                                    <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onclick="saveCoinsForTemplateData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}}, 'no')" >ok</button>
-                                                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            @endif
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
-                                                            @endforeach
-                                                        @else
-
-                                                        @endif
-                                                    </div>
-                                                    <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  
-                                    <!-- Section for real world --> 
-                                    <div class="virtual-plus text-center real-world">
-                                        <h4><span>Real-world role Play</span></h4>
-                                        <p>Instructions: Experience real world tasks in professions roleplay. Compete for a position on the professions leaderboards!</p>
-                                    </div>
-                                    <!-- Section for advance level -->
-                                    <div class="alert l4-advance-div l4-advance-div-demo" style="display: none;">
-                                        <span id="l4AdvanceMessage" class="fontWeight"></span>
-                                    </div>
-                                    <div class="quiz-advanced quiz-sec">
-                                        @include('teenager/basic/careerAdvanceQuizSection')
-                                    </div>
-                                    <!-- Section for competitive role play -->
-                                    <div class="virtual-plus text-center competitive-role">
-                                        <h4><span>competitive role Play</span></h4>
-                                        <p>Instructions: Here are tasks by your real world sponsors. Impress them & build your professional reputation early on!</p>
-                                        <div class="competitive-list quiz-sec">
-                                            @include('teenager/basic/careerCompetitiveRoleSection')        
-                                        </div>
-                                    </div>
-                                    <!-- Section for challenge play -->
-                                    <div class="virtual-plus text-center challenge-play">
-                                        <h4><span>challenge Play</span></h4>
-                                        <p>Instructions: Collaborate for guidance from your mentors or simply have fun role playing professions with your parents. Challenge them!!</p>
-                                        <div class="form-challenge">
-                                            @include('teenager/basic/careerChallengePlaySection')            
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
-                        <div class="connect-block sec-progress color-swap">
-                            <h2>Connect</h2>
-                            <div class="bg-white">
-                                <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                                    <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Leaderboard</span></span></a></li>
-                                    <li class="custom-tab col-xs-6 tab-color-3"><a data-toggle="tab" href="#menu4" onclick="getFansTeenForCareerFromTabButton();"><span class="dt"><span class="dtc">Fans of this career</span></span></a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div id="menu3" class="tab-pane fade in active">
-                                        @include('teenager/basic/careerDetailsLeaderBoard')
-                                    </div>
-                                    <div id="menu4" class="tab-pane fade in">
-                                        <div id="fav-teenager-list"></div>
-                                        <div class="text-center load-more" id="loadMoreButton">
-                                            <div id="loader_con"></div>
-                                            <p class="text-center">
-                                                <a href="javascript:void(0)" id="load-more-data" title="load more">load more</a>
-                                                <input type="hidden" id="pageValue" value="0">
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="ad-slider owl-carousel">
-                            @forelse ($bannerAdImages as $bannerAdImage)
-                            <div class="ad-sec-h">
-                                <div class="d-table">
-                                    <img src="{{$bannerAdImage['image']}}">
-                                </div>
-                            </div>
-                            @empty
                             <div class="ad-sec-h">
                                 <div class="t-table">
                                     <div class="table-cell">
@@ -404,112 +186,9 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforelse
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="sec-match">
-                            <div class="data-explainations clearfix">
-                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
-                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
-                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
-                                </div>
-                            <?php 
-                                $matchScoreArray = ['match' => 100, 'nomatch' => 33, 'moderate' => 66];
-                                $matchScalePoint = ( isset($professionsData->id) && isset($getTeenagerHML[$professionsData->id]) && isset($matchScoreArray[$getTeenagerHML[$professionsData->id]]) ) ? $matchScoreArray[$getTeenagerHML[$professionsData->id]] : 0;
-                            ?>
-                            
-                            <?php if($matchScalePoint == 33)
-                                {$matchName = 'Unlikely'; $class = 'bar-no-match'; $h3class = 'no-match'; $percentage = '100';}
-                                elseif($matchScalePoint == 66){$matchName = 'Potential'; $class = 'bar-moderate';$h3class = 'moderate-match';$percentage = '100';}
-                                elseif($matchScalePoint == 100){$matchName = 'Strong'; $class = 'bar'; $h3class = 'strong-match';$percentage = '100';} 
-                                else{
-                                    $matchName = 'No Attempt'; $class = ''; $h3class = '';$percentage = '0';
-                                }
-                            ?>
-                            
-                            <div class="progress-match">
-                                <div class="sec-popup">
-                                    <!--<a id="career-detail-arc-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-arc-view')" data-trigger="hover" data-popover-content="#arc-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
-                                            <i class="icon-question"></i>
-                                        </a>-->
-                                    <div class="hide" id="arc-view-sec">
-                                        <div class="popover-data">
-                                            <a class="close popover-closer"><i class="icon-close"></i></a>
-                                            <span class="career-detail-arc-view"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="barOverflow">
-                                    <div class="bar {{$class}}"></div>
-                                </div>
-                                <span>{{$percentage}}%</span>
-                            </div>
-                            <h3 class="{{$h3class}}">{{$matchName}}</h3>
-                        </div>
-                        <div class="advanced-sec">
-                            <div class="panel-group" id="accordion">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <?php 
-                                                if($remainingDaysForActivity > 0) {
-                                                    $collapseClass = "collapse";
-                                                } else {
-                                                    $collapseClass = "";
-                                                } ?>
-                                            <a data-parent="#accordion"  data-toggle="{{$collapseClass}}" href="#accordion1" class="collapsed">Advanced View</a>
-                                            <div class="sec-popup">
-                                                    <a id="career-detail-advanced-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-advanced-view')" data-trigger="hover" data-toggle="clickover" data-popover-content="#advanced-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
-                                                        <i class="icon-question"></i>
-                                                    </a>
-                                                    <div class="hide" id="advanced-view-sec">
-                                                        <div class="popover-data">
-                                                            <a class="close popover-closer"><i class="icon-close"></i></a>
-                                                            <span class="career-detail-advanced-view"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </h4>
-                                    </div>
-                                    <div class="panel-collapse collapse" id="accordion1">
-                                        <div class="panel-body">
-                                            <div class="data-explainations clearfix data-interest">
-                                                <div class="content">
-                                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Maximum</span></div>
-                                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Ideal</span></div>
-                                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Your Strength</span></div>
-                                                </div>
-                                            </div>
-                                            @forelse($teenagerStrength as $key => $value)
-                                                <div class="progress-block">
-                                                    <div class="skill-name">{{$value['name']}}</div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin = "0" aria-valuemax = "100" style="width: {{$value['score']}}%;">
-                                                        </div>
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$value['lowscoreH']}}%; background-color:#65c6e6;" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            @empty
-                                            <div class="progress-block">
-                                                Please attempt at least one section of Profile Builder to view your strength Advanced View!
-                                            </div>
-                                            @endforelse
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-left">
-                                <div class="unbox-btn">
-                                    <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getCoinsConsumptionDetails('{{$componentsData->pc_required_coins}}', '{{$componentsData->pc_element_name}}');" @endif class="btn-primary">
-                                        <span class="unbox-me">Unbox Me</span>
-                                        <span class="coins-outer activity_coins">
-                                            <span class="coins"></span> {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                         <div class="sec-tags">
                             <h4>Tags</h4>
                             <div class="sec-popup">
@@ -531,13 +210,6 @@
                             </ul>
                         </div>
                         <div class="ad-slider owl-carousel">
-                            @forelse ($mediumAdImages as $mediumAdImage)
-                            <div class="ad-v">
-                                <div class="d-table">
-                                    <img src="{{$mediumAdImage['image']}}">
-                                </div>
-                            </div>
-                            @empty
                             <div class="ad-v">
                                 <div class="t-table">
                                     <div class="table-cell">
@@ -545,16 +217,8 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforelse
                         </div>
                         <div class="ad-slider owl-carousel">
-                            @forelse ($largeAdImages as $largeAdImage)
-                            <div class="ad-v-2">
-                                <div class="d-table">
-                                    <img src="{{$largeAdImage['image']}}">
-                                </div>
-                            </div>
-                            @empty
                             <div class="ad-v-2">
                                 <div class="t-table">
                                     <div class="table-cell">
@@ -562,7 +226,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -657,29 +320,6 @@
         });
     });
 
-    $(document).on('click','#add-to-star', function(){
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = 'careerId=' + '{{$professionsData->id}}';
-        $.ajax({
-            url : '{{ url("teenager/add-star-to-career") }}',
-            method : "POST",
-            data: form_data,
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN,
-            },
-            dataType: "json",
-            success : function (response) {
-                if (response != '') {
-                    $('#add-to-star').addClass('favourite-career');
-                    $("#favourite_message").show();
-                    setTimeout(function () {
-                        $("#favourite_message").hide();
-                    }, 2500);
-                }
-            }
-        });
-    });
-    
     var youtubeVideo = '{{$videoCode}}';
     if(youtubeVideo == '') {
         var isYouTube = 0;
@@ -1774,26 +1414,24 @@
         }    
     });
 
-    if ($('.competitive-sec').children().length > 2 ) {
-            $('.competitive-sec').owlCarousel({
-                loop: true,
-                margin: 10,
-                items: 2,
-                nav: false,
-                dots: true,
-                smartSpeed: 500,
-                autoplay:false,
-                autoHeight: true,
-                responsive : {
-                    0: {
-                        items: 1
-                    },
-                    768: {
-                        items: 2
-                    },
-                }
-            });
-    }
+    $('.competitive-sec').owlCarousel({
+        loop: false,
+        margin: 10,
+        items: 2,
+        nav: false,
+        dots: true,
+        smartSpeed: 500,
+        autoplay:false,
+        autoHeight: true,
+        responsive : {
+            0: {
+                items: 1
+            },
+            768: {
+                items: 2
+            },
+        }
+    });
 
     function applyForScholarshipProgram(activityId)
     {
@@ -1821,30 +1459,6 @@
                 $("#apply_"+activityId).attr("disabled","disabled");
             }
         });
-    }
-
-    function getCoinsConsumptionDetails(consumedCoins, componentName) {
-        var teenagerCoins = parseInt("{{Auth::guard('teenager')->user()->t_coins}}");
-        var consumeCoins = parseInt(consumedCoins);
-        <?php 
-        if ($remainingDaysForActivity > 0) { ?>
-            $("#activity_coins").html('<span class="coins"></span>' + "{{$remainingDaysForActivity}}" + " days left");
-        <?php 
-        } else { ?>
-            if (consumeCoins > teenagerCoins) {
-                $("#activity_buy").show();
-                $("#activity_title").text("Notification!");
-                $("#activity_message").text("You don't have enough ProCoins. Please Buy more.");
-            } else {
-                $("#activity_consume_coin").show();
-                $("#activity_title").text("Congratulations!");
-                $("#activity_message").text("You have " + format(teenagerCoins) + " ProCoins available.");
-                $("#activity_sub_message").text("Click OK to consume your " + format(consumeCoins) + " ProCoins and play on");
-                $("#activity_coins").val(consumedCoins);
-                $("#activity_name").val(componentName);
-            }
-            $('#coinsConsumption').modal('show');
-        <?php } ?>
     }
 
     function format(x) {
@@ -2027,21 +1641,16 @@
             },
             success: function(response) {
                 if (response.status == 0) {
-                    $(".l4-advance-div").show();
-                    if ($(".l4-advance-div").hasClass('l4-advance-div-demo')) {
-                        $("html, body").animate({
-                            scrollTop: $('.l4-advance-div-demo').offset().top 
-                        }, 300);
-                    }
                     $(".l4-advance-div").addClass('alert-error danger');
                     $("#l4AdvanceMessage").text(response.message);
                     getMediaUploadSection();
+                    $(".l4-advance-div").show();
                 } else {
                     $('.quiz-advanced').html(response);
                 }
                 setTimeout(function () {
                     $(".l4-advance-div").hide();
-                }, 5000);
+                }, 2500);
                 $('#advance_quiz_loader').hide();
                 $('#advance_quiz_loader').parent().removeClass('loading-screen-parent');
             }
@@ -2110,7 +1719,7 @@
         }
     }
 
-    $(document).on('submit','.add_advance_task', function(){
+    $(document).on('submit','.add_advance_task', function() {
         var clikedForm = $(this); // Select Form
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         if (clikedForm.find("[name='media']").val() == '') {
@@ -2146,7 +1755,7 @@
         }
     });
 
-    $(document).on('submit','.advance_task_review',function(){
+    $(document).on('submit','.advance_task_review',function() {
         var clikedForm = $(this); // Select Form
         clikedForm.find("[id='mediaSubmit']").toggleClass('sending').blur();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -2167,17 +1776,12 @@
                 } else {
                     $(".l4-advance-div").addClass('alert-error danger');
                 }
-                $(".l4-advance-div").show();
-                if ($(".l4-advance-div").hasClass('l4-advance-div-demo')) {
-                    $("html, body").animate({
-                        scrollTop: $('.l4-advance-div-demo').offset().top 
-                    }, 300);
-                }
                 $("#l4AdvanceMessage").text(response.message);
+                $(".l4-advance-div").show();
                 getLevel4AdvanceStep2Details('{{$professionsData->id}}', response.mediaType);
                 setTimeout(function () {
                     $(".l4-advance-div").hide();
-                }, 5000);
+                }, 2500);
             }
         });
         return false;
@@ -2201,17 +1805,12 @@
                     } else {
                         $(".l4-advance-div").addClass('alert-error danger');
                     }
-                    $(".l4-advance-div").show();
-                    if ($(".l4-advance-div").hasClass('l4-advance-div-demo')) {
-                        $("html, body").animate({
-                            scrollTop: $('.l4-advance-div-demo').offset().top 
-                        }, 300);
-                    }
                     $("#l4AdvanceMessage").text(response.message);
+                    $(".l4-advance-div").show();
                     getLevel4AdvanceStep2Details('{{$professionsData->id}}', mediaType);
                     setTimeout(function () {
                         $(".l4-advance-div").hide();
-                    }, 5000);
+                    }, 2500);
                 }
             });
         } else {
@@ -2240,7 +1839,7 @@
     });
 
     var slotCount = 1;
-    $(document).on('click','#load-more-leaderboard', function(){
+    $(document).on('click','#load-more-leaderboard', function() {
         $("#menu3 .loader_con").show();
         var slot = slotCount++;
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');

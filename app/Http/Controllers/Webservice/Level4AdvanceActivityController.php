@@ -107,16 +107,9 @@ class Level4AdvanceActivityController extends Controller {
                 $professionId = intval($professionId);
                 $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
                 
-                // remove this after development
-                $totalBasicQuestion[0]->NoOfAttemptedQuestions = $totalBasicQuestion[0]->NoOfTotalQuestions + 1;
-                //
-
-                if ($totalBasicQuestion[0]->NoOfTotalQuestions == 0) {
+                if ($totalBasicQuestion[0]->NoOfTotalQuestions > 0 && ( $totalBasicQuestion[0]->NoOfTotalQuestions > $totalBasicQuestion[0]->NoOfAttemptedQuestions ) ) {
                     $response['status'] = 0;
-                    $response['message'] = "Profession Doesn't have any basic questions"; 
-                } else if ($totalBasicQuestion[0]->NoOfTotalQuestions > $totalBasicQuestion[0]->NoOfAttemptedQuestions) {
-                    $response['status'] = 0;
-                    $response['message'] = "Play Basic to get to play Intermediate."; 
+                    $response['message'] = "First, play basic to play advance activtiy."; 
                 } else {
                     $validTypeArr = array(Config::get('constant.ADVANCE_IMAGE_TYPE'), Config::get('constant.ADVANCE_DOCUMENT_TYPE'), Config::get('constant.ADVANCE_VIDEO_TYPE'));
                     $typeId = intval($typeId);
@@ -261,12 +254,21 @@ class Level4AdvanceActivityController extends Controller {
                             $fileSize = filesize($file); 
                             if ($fileSize > 6000000) { 
                                 $response['status'] = 0;
+                                $response['login'] = 1;
                                 $response['message'] = 'Maximum File Upload size is 6MB';
                             } else {
+                                $totalMedia = $this->level4ActivitiesRepository->getUserUploadedMediaByType($userId, $profession_id, $media_type);
                                 $ext = strtolower($file->getClientOriginalExtension());
                                 $save = false;
                                 //check for image extension
                                 if ($media_type == 3) {
+                                    if($totalMedia->count() > 0 && $totalMedia->count() >= Config::get('constant.DEFAULT_TOTAL_ADVANCE_IMAGE_COUNT')) {
+                                        $response['status'] = 0;
+                                        $response['login'] = 1;
+                                        $response['message'] = "You reached maximum image upload limit. Total uploaded images are ". count($totalMedia->count()) ."!";
+                                        return response()->json($response, 200);
+                                        exit;    
+                                    }
                                     $validImageExtArr = array('jpg', 'jpeg', 'png', 'bmp', 'PNG');
                                     if (in_array($ext, $validImageExtArr)) {
                                         $save = true;
@@ -287,6 +289,13 @@ class Level4AdvanceActivityController extends Controller {
                                         $response['message'] = 'Invalid image file';
                                     }
                                 } elseif ($media_type == 2) {
+                                    if($totalMedia->count() > 0 && $totalMedia->count() >= Config::get('constant.DEFAULT_TOTAL_ADVANCE_DOCUMENT_COUNT')) {
+                                        $response['status'] = 0;
+                                        $response['login'] = 1;
+                                        $response['message'] = "You reached maximum document upload limit. Total uploaded document is ". count($totalMedia->count()) ."!";
+                                        return response()->json($response, 200);
+                                        exit;    
+                                    }
                                     $validImageExtArr = array('pdf', 'docx', 'doc', 'ppt', 'xls', 'xlsx');
                                     if (in_array($ext, $validImageExtArr)) {
                                         $save = true;
@@ -303,6 +312,13 @@ class Level4AdvanceActivityController extends Controller {
                                         $response['message'] = 'Invalid document file';
                                     }
                                 } elseif ($media_type == 1) {
+                                    if($totalMedia->count() > 0 && $totalMedia->count() >= Config::get('constant.DEFAULT_TOTAL_ADVANCE_VIDEO_COUNT')) {
+                                        $response['status'] = 0;
+                                        $response['login'] = 1;
+                                        $response['message'] = "You reached maximum video upload limit. Total uploaded video is". count($totalMedia->count()) ."!";
+                                        return response()->json($response, 200);
+                                        exit;    
+                                    }
                                     $validImageExtArr = array('mov', 'avi', 'mp4', 'mkv', 'wmv');
                                     if (in_array($ext, $validImageExtArr)) {
                                         $save = true;

@@ -35,6 +35,10 @@ Route::post('/submit-level4-advance-activity', 'Parent\Level4AdvanceActivityMana
 Route::post('/delete-user-advance-task/', 'Parent\Level4AdvanceActivityManagementController@deleteUserAdvanceTask')->name('delete-user-advance-task');
 Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceActivityManagementController@submitLevel4AdvanceActivityForReview')->name('submit-level4-advance-activity-for-review');
 
+//Careers details page
+Route::get('/career-detail/{slug}', 'Parent\ProfessionController@careerDetails');
+
+
 //My Teen
 Route::get('/pair-with-teen', 'Parent\DashboardManagementController@pairWithTeen')->name('pair-with-teen');
 Route::post('/save-pair', 'Parent\DashboardManagementController@savePair')->name('save-pair');
