@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\City;
 use Config;
 
 class State extends Model {
@@ -34,5 +35,18 @@ class State extends Model {
 
             $states = State::select('*')->where('c_code', $id)->orderBy('s_name', 'ASC')->get();
             return $states;
+    }
+
+    public function getAllStatesWithCityByCountryId($country_id) {
+        if ($country_id > 0) {
+            $states = State::select('*')->with('city')->where('c_code', $country_id)->orderBy('s_name', 'ASC')->get();
+        } else {
+            $states = State::select('*')->with('city')->orderBy('s_name', 'ASC')->get();
+        }
+        return $states;
+    }
+
+    public function city(){
+        return $this->hasMany(City::class, 'c_state');
     }
 }

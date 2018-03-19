@@ -29,7 +29,7 @@
         }
         
         if(isset($value->address_line1) && $value->address_line1 != ""){
-            $instituteAddress = $value->address_line1;
+            $instituteAddress = $value->address_line1.' '.$value->address_line2.', '.$value->city.', '.$value->district;
         }
         
         if(isset($value->latitude) && $value->latitude != "" && $value->latitude != "NA" && isset($value->longitude) && $value->longitude != "" && $value->longitude != "NA"){
@@ -80,7 +80,7 @@
                             <h4><a href="{{$instituteWebsite}}" target="_blank">{{ ucwords(strtolower($instituteName)) }} </a></h4>
                             <h5><strong>{{$instituteEstablishmentYear}}</strong></h5>
                             <h5><strong>Affiliat University : </strong>{{$instituteAffiliateUniversity}} </h5>
-                            <h5><strong>Address : </strong>{{$instituteAddress}}</h5>
+                            <h5><strong>Address : </strong>{{ucwords(strtolower($instituteAddress))}}</h5>
                         </div>
                     </div>
                 </div>
@@ -137,5 +137,5 @@
     </div>
     @endforeach
 @else
-<div class="sec-forum"><span>No result Found</span></div>
+<div class="sec-forum"><span>No result found</span></div>
 @endif
