@@ -36,7 +36,15 @@
                     <div class="col-sm-4">
                         <div id="userAnswer">
                         @if(isset($speciality) && !empty($speciality))
-                            <div class="form-group search-bar clearfix"><input type="text" tabindex="1" class="form-control search-feild" id="answerDropdown" onkeyup="fetchInstituteFilter()" value="{{$speciality}}"><button type="submit" class="btn-search"><i class="icon-search"></i></button></div>
+                            <div class="form-group custom-select">
+                                <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
+                                    <option disabled selected>Select Education Stream</option>
+                                    @forelse($institutesSpecialityData as $key => $value)
+                                        <option value="{{$value->pis_name}}" <?php if(isset($speciality) && ($speciality == $value->pis_name)){ echo "selected"; } ?> >{{$value->pis_name}}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+                            </div>
                         @endif 
                         </div>
                     </div>
@@ -144,7 +152,7 @@
         var questionType = $('#questionDropdown').val();
         var questionTypeText = $('#questionDropdown option:selected').text();
         $("#userAnswer").html('<img src="{{Storage::url('img/loading.gif')}}">');
-        if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode' || questionType == 'Speciality'){
+        if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode'){
             $("#userAnswer").html('<div class="form-group search-bar clearfix"><input type="text" placeholder="Search By '+ questionTypeText +'" tabindex="1" class="form-control search-feild" id="answerDropdown" onkeyup="fetchInstituteFilter()"><button type="submit" class="btn-search"><i class="icon-search"></i></button></div>');
 
             if(questionType == 'State'){
@@ -192,7 +200,7 @@
             }
         }
 
-        if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode' || questionType == 'Speciality'){
+        if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode'){
             var answer = $('#answerDropdown').val();
             if(answer.length <= 3){
                 return false;

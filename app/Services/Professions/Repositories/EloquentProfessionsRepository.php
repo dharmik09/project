@@ -337,10 +337,12 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
     }
 
     public function getLevel3ActivityWithAnswer($id) {
-        $level3activities = DB::table(config::get('databaseconstants.TBL_TEENAGER_PROFESSION_ATTEMPTED') . " AS attempt")
-                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'attempt.tpa_peofession_id', '=', 'profession.id')
-                ->where('tpa_teenager', '=', $id)
-                ->get();
+        $level3activities = DB::table("pro_l4aapa_level4_profession_progress AS attempt")
+                ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'attempt.profession_id', '=', 'profession.id')
+                ->select('pf_name','profession.id','pf_logo')
+                ->where('attempt.teenager_id', '=', $id)
+                ->where('attempt.level4_total', '>', 0)
+                ->get();       
         return $level3activities;
     }
 

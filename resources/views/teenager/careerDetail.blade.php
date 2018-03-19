@@ -340,8 +340,7 @@
                                         <p>Instructions: Experience real world tasks in professions roleplay. Compete for a position on the professions leaderboards!</p>
                                     </div>
                                     <!-- Section for advance level -->
-                                    <div class="alert l4-advance-div" style="display: none;">
-                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                    <div class="alert l4-advance-div l4-advance-div-demo" style="display: none;">
                                         <span id="l4AdvanceMessage" class="fontWeight"></span>
                                     </div>
                                     <div class="quiz-advanced quiz-sec">
@@ -2028,16 +2027,21 @@
             },
             success: function(response) {
                 if (response.status == 0) {
+                    $(".l4-advance-div").show();
+                    if ($(".l4-advance-div").hasClass('l4-advance-div-demo')) {
+                        $("html, body").animate({
+                            scrollTop: $('.l4-advance-div-demo').offset().top 
+                        }, 300);
+                    }
                     $(".l4-advance-div").addClass('alert-error danger');
                     $("#l4AdvanceMessage").text(response.message);
                     getMediaUploadSection();
-                    $(".l4-advance-div").show();
                 } else {
                     $('.quiz-advanced').html(response);
                 }
                 setTimeout(function () {
                     $(".l4-advance-div").hide();
-                }, 2500);
+                }, 5000);
                 $('#advance_quiz_loader').hide();
                 $('#advance_quiz_loader').parent().removeClass('loading-screen-parent');
             }
@@ -2163,12 +2167,17 @@
                 } else {
                     $(".l4-advance-div").addClass('alert-error danger');
                 }
-                $("#l4AdvanceMessage").text(response.message);
                 $(".l4-advance-div").show();
+                if ($(".l4-advance-div").hasClass('l4-advance-div-demo')) {
+                    $("html, body").animate({
+                        scrollTop: $('.l4-advance-div-demo').offset().top 
+                    }, 300);
+                }
+                $("#l4AdvanceMessage").text(response.message);
                 getLevel4AdvanceStep2Details('{{$professionsData->id}}', response.mediaType);
                 setTimeout(function () {
                     $(".l4-advance-div").hide();
-                }, 2500);
+                }, 5000);
             }
         });
         return false;
@@ -2192,12 +2201,17 @@
                     } else {
                         $(".l4-advance-div").addClass('alert-error danger');
                     }
-                    $("#l4AdvanceMessage").text(response.message);
                     $(".l4-advance-div").show();
+                    if ($(".l4-advance-div").hasClass('l4-advance-div-demo')) {
+                        $("html, body").animate({
+                            scrollTop: $('.l4-advance-div-demo').offset().top 
+                        }, 300);
+                    }
+                    $("#l4AdvanceMessage").text(response.message);
                     getLevel4AdvanceStep2Details('{{$professionsData->id}}', mediaType);
                     setTimeout(function () {
                         $(".l4-advance-div").hide();
-                    }, 2500);
+                    }, 5000);
                 }
             });
         } else {
