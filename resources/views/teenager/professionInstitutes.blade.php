@@ -69,8 +69,16 @@
 @stop
 
 @section('script')
+<script src="{{ asset('frontend/js/jquery.autocomplete.min.js') }}"></script>
 <script>
     
+<?php
+    $stateList = json_encode($state);
+    $cityList = json_encode($city);
+?>
+    var stateData = <?php echo $stateList ?>;
+    var cityData = <?php echo $cityList ?>;
+
     $(document).ready(function() {
         <?php if(isset($speciality) && $speciality != ""){ ?>
             fetchInstituteFilter();
@@ -113,10 +121,15 @@
             data: {'page_no':pageNo, 'questionType':questionType, 'answer':answer, 'answerName':answerName},
             success: function (response) {
                 if(response.instituteCount != 5){
-                    $('#loadMoreButton').removeClass('text-center');
-                    $('#loadMoreButton').removeClass('load-more');
-                    $('#loadMoreButton').addClass('notification-complete');
-                    $('#loadMoreButton').html("<p>No more institutes<p>");
+                    if(response.instituteCount > 0){
+                        $('#loadMoreButton').removeClass('text-center');
+                        $('#loadMoreButton').removeClass('load-more');
+                        $('#loadMoreButton').addClass('notification-complete');
+                        $('#loadMoreButton').html("<p>No more institutes<p>");
+                    }
+                    else{
+                        $('#loadMoreButton').html("");
+                    }
                 }
                 else{
                     $('#pageNo').val(response.pageNo);
@@ -129,9 +142,27 @@
 
     function fetchSearchDropdown(){
         var questionType = $('#questionDropdown').val();
+        var questionTypeText = $('#questionDropdown option:selected').text();
         $("#userAnswer").html('<img src="{{Storage::url('img/loading.gif')}}">');
         if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode' || questionType == 'Speciality'){
-            $("#userAnswer").html('<div class="form-group search-bar clearfix"><input type="text" placeholder="Search By '+ questionType +'" tabindex="1" class="form-control search-feild" id="answerDropdown" onkeyup="fetchInstituteFilter()"><button type="submit" class="btn-search"><i class="icon-search"></i></button></div>');
+            $("#userAnswer").html('<div class="form-group search-bar clearfix"><input type="text" placeholder="Search By '+ questionTypeText +'" tabindex="1" class="form-control search-feild" id="answerDropdown" onkeyup="fetchInstituteFilter()"><button type="submit" class="btn-search"><i class="icon-search"></i></button></div>');
+
+            if(questionType == 'State'){
+                $('#answerDropdown').autocomplete({
+                    lookup: stateData,
+                    onSelect: function(suggestion) {
+                        fetchInstituteFilter()
+                    }
+                });
+            }
+            else if(questionType == 'City'){
+                $('#answerDropdown').autocomplete({
+                    lookup: cityData,
+                    onSelect: function(suggestion) {
+                        fetchInstituteFilter()
+                    }
+                });
+            }
         }
         else{        
             var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -198,10 +229,15 @@
             data: {'page_no':pageNo, 'questionType':questionType, 'answer':answer, 'answerName':answerName},
             success: function (response) {
                 if(response.instituteCount != 5){
-                    $('#loadMoreButton').removeClass('text-center');
-                    $('#loadMoreButton').removeClass('load-more');
-                    $('#loadMoreButton').addClass('notification-complete');
-                    $('#loadMoreButton').html("<p>No more institutes<p>");
+                    if(response.instituteCount > 0){
+                        $('#loadMoreButton').removeClass('text-center');
+                        $('#loadMoreButton').removeClass('load-more');
+                        $('#loadMoreButton').addClass('notification-complete');
+                        $('#loadMoreButton').html("<p>No more institutes<p>");
+                    }
+                    else{
+                        $('#loadMoreButton').html("");
+                    }
                 }
                 else{
                     $('#pageNo').val(response.pageNo);
