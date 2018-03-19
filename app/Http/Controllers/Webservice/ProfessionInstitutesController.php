@@ -124,16 +124,16 @@ class ProfessionInstitutesController extends Controller {
 
                 $dataArray1 = [];
                 foreach ($minimumFeesData as $key => $value) {
-                    $data['label'] = (string) $value->minimum_fee;
-                    $data['value'] = (string) number_format((int)$value->minimum_fee, 0, '.', ',');
+                    $data['label'] = (string) number_format((int)$value->minimum_fee, 0, '.', ',');
+                    $data['value'] = (string) $value->minimum_fee;
                     $dataArray1[] = $data;
                 }
                 $allData['dataArray1'] = $dataArray1;
                 
                 $dataArray2 = [];
                 foreach ($maximumFeesData as $key => $value) {
-                    $data['label'] = (string) $value->maximum_fee;
-                    $data['value'] = (string) number_format((int)$value->maximum_fee, 0, '.', ',');
+                    $data['label'] = (string) number_format((int)$value->maximum_fee, 0, '.', ',');
+                    $data['value'] = (string) $value->maximum_fee;
                     $dataArray2[] = $data;
                 }
                 $allData['dataArray2'] = $dataArray2;
