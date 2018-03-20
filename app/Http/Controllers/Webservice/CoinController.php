@@ -73,7 +73,7 @@ class CoinController extends Controller
                 }
                 $value->c_image = $url;
             }
-            $data['coinInfo'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse suscipit eget massa ac consectetur.";
+            $data['coinInfo'] = "Purchase ProCoins Packs Online";
             $data['availableCoins'] = (isset($teenData) && !empty($teenData)) ? $teenData['t_coins'] : 0;
             $data['coinsPackage'] = $coinsDetail;
             $response['login'] = 1;

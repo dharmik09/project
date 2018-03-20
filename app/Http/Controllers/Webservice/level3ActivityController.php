@@ -42,6 +42,7 @@ class level3ActivityController extends Controller {
         $this->objStarRatedProfession = new StarRatedProfession;
         $this->basketThumbUrl = Config::get('constant.BASKET_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionThumbUrl = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
+        $this->professionOriginalUrl = Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->basketDefaultProteenImage = 'proteen-logo.png';
         $this->professionDefaultProteenImage = 'proteen-logo.png';
         $this->objMultipleIntelligent = new MultipleIntelligent;
@@ -540,6 +541,15 @@ class level3ActivityController extends Controller {
                     else{
                         $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                     }
+                    
+                    if($professionsData->pf_logo != '' && Storage::size($this->professionOriginalUrl . $professionsData->pf_logo) > 0){
+                        $professionsData['pf_original_logo'] = Storage::url($this->professionOriginalUrl . $professionsData->pf_logo);
+                    }
+                    else{
+                        $professionsData['pf_original_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                    }
+                    
+                    
                     
                     $professionsData['professionMatchScale'] = $professionHMLScale;
                     
