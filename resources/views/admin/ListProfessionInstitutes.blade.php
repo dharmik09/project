@@ -38,37 +38,6 @@
                                 <th>{{trans('labels.lblaccredationscore')}}</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse($professionSchoolData as $data)
-                            <tr>
-                                <td>
-                                    <span title="">{{$data->school_id}}</span>
-                                </td>
-                                <td>
-                                    {{$data->college_institution}}
-                                </td>
-                                <td>
-                                    {{$data->institute_state}}
-                                </td>
-                                <td>
-                                    {{$data->pin_code}}
-                                </td>
-                                <td>
-                                    {{$data->affiliat_university}}
-                                </td>
-                                <td>
-                                    {{$data->management}}
-                                </td>
-                                <td>
-                                    {{$data->accreditation_body}}
-                                </td>
-                                <td>
-                                    {{$data->accreditation_score}}
-                                </td>
-                            </tr>
-                            @empty
-                            @endforelse
-                        </tbody>
                      </table>
                 </div>
             </div>
@@ -80,7 +49,41 @@
 @section('script')
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#listProfessionschoollist').DataTable();
+        var ajaxParams = {};
+        getProfessionList(ajaxParams);
     });
+
+    var getProfessionList = function(ajaxParams){
+        $('#listProfessionschoollist').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "destroy": true,
+            "ajax":{
+                "url": "{{ url('admin/getProfessionInstitute') }}",
+                "dataType": "json",
+                "type": "POST",
+                headers: { 
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                "data" : function(data) {
+                    if (ajaxParams) {
+                        $.each(ajaxParams, function(key, value) {
+                            data[key] = value;
+                        });
+                    }
+                }
+            },
+            "columns": [
+                { "data" : "school_id" },
+                { "data" : "college_institution" },
+                { "data" : "institute_state" },
+                { "data" : "pin_code" },
+                { "data" : "affiliat_university" },
+                { "data" : "management" },
+                { "data" : "accreditation_body" },
+                { "data" : "accreditation_score" }
+            ]
+        });
+    };
 </script>
 @stop
