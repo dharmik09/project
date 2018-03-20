@@ -149,14 +149,13 @@
             }
         ?>
         <a id="institute_activity" href="{{$instituteUrl}}" title="Find College" @if($instituteRemainingDays == 0) onclick="getCoinsConsumptionDetails('{{$instituteComponent->pc_required_coins}}', '{{$instituteComponent->pc_element_name}}', '{{$instituteRemainingDays}}');" @endif class="btn-primary">
-            <span class="unbox-me">Find College</span>
+            <span class="unbox-me">College Finder</span>
             <span class="coins-outer institute_coins">
                 <span class="coins"></span> {{ ($instituteRemainingDays && $instituteRemainingDays > 0) ? $instituteRemainingDays . ' days left' : (isset($instituteComponent)) ? $instituteComponent->pc_required_coins : 0 }}
             </span>
         </a>
     </div>
 
-    <!-- <a href="{{ url('teenager/institute') }}" title="Find College" class="btn btn-default">Find College</a>  -->
     @if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content))
     <ul class="tag-list institute_list">
         <?php 
