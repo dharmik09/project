@@ -67,7 +67,7 @@
                 </video>
            
                 @else
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1&amp;loop=1&amp;playlist={{Helpers::youtube_id_from_url($professionsData->pf_video)}}" frameborder="0" allowfullscreen id="iframe-video"></iframe>
                 @endif   
             </div>
             <div class="detail-content">

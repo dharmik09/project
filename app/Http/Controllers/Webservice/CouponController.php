@@ -46,8 +46,8 @@ class CouponController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($request->userId != "" && $teenager) {
             $data = [];
-            $data['couponInfo'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pretium pellentesque commodo.";
-            $data['thumbText'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pretium pellentesque commodo.";
+            $data['couponInfo'] = "Avail coupons from your selected sponsors!";
+            $data['thumbText'] = "Search the person to whom you want to gift the coupon!";
             //Get Coupon
             $sponsorArr = array();
             $coupons = $this->couponsRepository->getSponsorsCoupon();
