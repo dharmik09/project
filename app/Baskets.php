@@ -142,18 +142,18 @@ class Baskets extends Model
         //         ->get();
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query
-                    ->whereHas('starRatedProfession')
-                    ->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id',$this->countryId);
-                    }])
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
@@ -174,14 +174,13 @@ class Baskets extends Model
                 ->with(['profession' => function ($query) {
                     $query->with(['professionAttempted' => function ($query) {
                         $query->where('tpa_teenager', $this->userId);
-                    }])
-                    ->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id',$this->countryId);
                     }]);
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
-                    $query->with('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('id', $this->professionId)
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
@@ -189,7 +188,9 @@ class Baskets extends Model
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
-                    $query->whereHas('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('id',$this->professionId)
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 });
@@ -209,9 +210,6 @@ class Baskets extends Model
                     $query->with(['professionAttempted' => function ($query) {
                         $query->where('tpa_teenager', $this->userId);
                     }])
-                    ->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id',$this->countryId);
-                    }])
                     ->whereHas('professionTags', function ($query) {
                         $query->where('tag_id', $this->tagId)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
@@ -219,11 +217,15 @@ class Baskets extends Model
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
-                    $query->with('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->whereHas('professionTags', function ($query) {
                         $query->where('tag_id', $this->tagId)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
@@ -249,9 +251,6 @@ class Baskets extends Model
                     $query->with(['professionAttempted' => function ($query) {
                         $query->where('tpa_teenager', $this->userId);
                     }])
-                    ->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id',$this->countryId);
-                    }])
                     ->whereHas('professionSubject', function ($query) {
                         $query->where('subject_id', $this->subjectId)
                         ->where('deleted', '1');
@@ -259,11 +258,15 @@ class Baskets extends Model
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
-                    $query->with('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->whereHas('professionSubject', function ($query) {
                         $query->where('subject_id', $this->subjectId)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
@@ -292,9 +295,6 @@ class Baskets extends Model
                     $query->with(['professionAttempted' => function ($query) {
                         $query->where('tpa_teenager', $this->userId);
                     }])
-                    ->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id',$this->countryId);
-                    }])
                     ->whereHas('professionSubject', function ($query) {
                         $query->whereHas('subject', function ($query) {
                             $query->where('ps_slug', $this->interestSlug);
@@ -305,11 +305,15 @@ class Baskets extends Model
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
-                    $query->with('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->whereHas('professionSubject', function ($query) {
                         $query->whereHas('subject', function ($query) {
                             $query->where('ps_slug', $this->interestSlug);
@@ -336,20 +340,21 @@ class Baskets extends Model
         $this->searchText = ($searchText != '') ? $searchText : '';
         $qry = $this->select('*')
                 ->with(['profession' => function ($query) {
-                    $query->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id',$this->countryId);
-                    }]) 
-                    ->whereHas('careerMapping', function ($query) {
+                    $query->whereHas('careerMapping', function ($query) {
                             $query->whereIn($this->strengthSlug, ['M', 'H']);
                         });
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
-                    $query->whereHas('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession')
+                    $query->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->whereHas('careerMapping', function ($query) {
                         $query->whereIn($this->strengthSlug, ['M', 'H']);
                     });
@@ -370,17 +375,19 @@ class Baskets extends Model
         $return = $this->select('*')
                 ->with(['profession' => function ($query) {
                     $query
-                    ->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id',$this->countryId);
-                    }]) 
-                    ->whereHas('starRatedProfession')
+                    ->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');
                     }
                 }])
                 ->whereHas('profession', function ($query) {
-                    $query->whereHas('starRatedProfession')
+                    $query
+                    ->whereHas('starRatedProfession', function ($query){
+                        $query->where('srp_teenager_id', $this->userId);
+                    })
                     ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                     if (isset($this->searchText) && !empty($this->searchText)) {
                         $query->where('pf_name', 'like', '%'.$this->searchText.'%');

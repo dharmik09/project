@@ -233,7 +233,8 @@ class EloquentCommunityRepository extends EloquentBaseRepository implements Comm
             $availableRequest = $this->model->where('tc_receiver_id', $connectionRequestData['tc_receiver_id'])->where('tc_sender_id', $connectionRequestData['tc_sender_id'])->first();
             if (isset($availableRequest) && !empty($availableRequest)) {
                 $connectionRequestDetails['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
-                $return = $this->model->where('id', $availableRequest->id)->update($connectionRequestDetails);
+                $updateRequest = $this->model->where('id', $availableRequest->id)->update($connectionRequestDetails);
+                $return = $this->model->where('id', $availableRequest->id)->first();
             } else {
                 $return = $this->model->create($connectionRequestData);
             }

@@ -5,7 +5,7 @@
         $instituteName = "";
         $instituteEstablishmentYear = "-";
         $instituteAddress = "-";
-        $institutePhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+        $institutePhoto = 'img/insti-logo.png';
         $instituteMapUrl = "";
         $instituteAffiliateUniversity = "-";
         $instituteManagement = "-";
@@ -25,7 +25,7 @@
         }
         
         if(isset($value->year_of_establishment) && $value->year_of_establishment != ""){
-            $instituteEstablishmentYear = "Establish in ".$value->year_of_establishment;
+            $instituteEstablishmentYear = "Year of Establishment ".$value->year_of_establishment;
         }
         
         if(isset($value->address_line1) && $value->address_line1 != ""){
@@ -34,6 +34,17 @@
         
         if(isset($value->latitude) && $value->latitude != "" && $value->latitude != "NA" && isset($value->longitude) && $value->longitude != "" && $value->longitude != "NA"){
             $instituteMapUrl = "http://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=15&output=embed";
+        }else{
+            if($instituteAddress != ""){                
+                $prepAddr = str_replace(' ','+',$instituteAddress);
+                $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+                $output= json_decode($geocode);
+                if(count($output->results)>0){
+                    $latitude = $output->results[0]->geometry->location->lat;
+                    $longitude = $output->results[0]->geometry->location->lng;
+                    $instituteMapUrl = "http://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=15&output=embed";
+                }
+            }
         }
 
         if(isset($value->affiliat_university) && $value->affiliat_university != ""){
@@ -73,14 +84,24 @@
                     <div class="row">
                         <div class="institute-img">
                             <figure>
-                                <img src="{{ Storage::url($institutePhoto) }}" alt="logo">
+                                <img src="{{ Storage::url($institutePhoto) }}" alt="Institute Photo">
                             </figure>
                         </div>
                         <div class="institute-content">
+                            @if(isset($value->is_institute_signup) && $value->is_institute_signup != "" && $value->is_institute_signup == 1)
+                                <div class="sec-popup">
+                                    <a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><img src="{{ Storage::url('img/logo.png') }}" alt="" title="This college signed-up on ProTeen."></a>
+<!--                                     <div class="hide" id="pop1">
+                                        <div class="popover-data">
+                                            <a class="close popover-closer"><i class="icon-close"></i></a> 
+                                        </div>
+                                    </div> -->
+                                </div>
+                            @endif
                             <h4><a href="{{$instituteWebsite}}" target="_blank">{{ ucwords(strtolower($instituteName)) }} </a></h4>
                             <h5><strong>{{$instituteEstablishmentYear}}</strong></h5>
-                            <h5><strong>Affiliat University : </strong>{{$instituteAffiliateUniversity}} </h5>
-                            <h5><strong>Address : </strong>{{ucwords(strtolower($instituteAddress))}}</h5>
+                            <h5><strong>Affiliated University </strong>{{$instituteAffiliateUniversity}} </h5>
+                            <h5><strong>Address </strong>{{ucwords(strtolower($instituteAddress))}}</h5>
                         </div>
                     </div>
                 </div>
@@ -99,22 +120,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <ul class="institute-detail">
-                                        <li><strong>Management : </strong>{{$instituteManagement}}</li>
+                                        <li><strong>Management Type </strong>{{$instituteManagement}}</li>
                                         @if($instituteAccreditationScore != "")
-                                            <li><strong>Accreditation Score :  </strong>{{$instituteAccreditationScore}}</li>
-                                            <li><strong>Accreditation Body : </strong>{{$instituteAccreditationBody}}</li>
+                                            <li><strong>Accreditation CGPA </strong>{{$instituteAccreditationScore}}</li>
+                                            <li><strong>Accreditation By </strong>{{$instituteAccreditationBody}}</li>
                                         @endif
+                                        <li><strong>Fee Range in ₹ </strong> {{$instituteFeeRange}}</li>
+                                        <li><strong>Hostel Count </strong>{{$instituteHostelCount}}</li>
+                                        <li><strong>Status </strong>{{$instituteGender}}</li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
-                                    <ul class="institute-detail">
-                                        <li><strong>Fee Range : </strong> {{$instituteFeeRange}}</li>
-                                        <li><strong>Hostel Count : </strong>{{$instituteHostelCount}}</li>
-                                        <li><strong>Gender : </strong>{{$instituteGender}}</li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-12">
-                                    <h5>Education Stream :</h5>
+                                    <h5>Education Stream</h5>
                                     <div class="sec-tags">
                                         @if(count($instituteSpeciality)>0)
                                             <ul class="tag-list">

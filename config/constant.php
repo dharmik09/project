@@ -378,4 +378,5 @@ return [
     'PROFESSION_ATTEMPTED_FLAG' => 1,
     'PROFESSION_NOT_ATTEMPTED_FLAG' => 0,
     'CAREER_TO_CONSIDER' => 'Careers to Consider ProCoins',
+    'INSTITUTE_FINDER' => 'Institute Finder ProCoins',
 ];

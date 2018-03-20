@@ -42,6 +42,7 @@ class level3ActivityController extends Controller {
         $this->objStarRatedProfession = new StarRatedProfession;
         $this->basketThumbUrl = Config::get('constant.BASKET_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionThumbUrl = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
+        $this->professionOriginalUrl = Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->basketDefaultProteenImage = 'proteen-logo.png';
         $this->professionDefaultProteenImage = 'proteen-logo.png';
         $this->objMultipleIntelligent = new MultipleIntelligent;
@@ -541,6 +542,15 @@ class level3ActivityController extends Controller {
                         $professionsData['pf_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                     }
                     
+                    if($professionsData->pf_logo != '' && Storage::size($this->professionOriginalUrl . $professionsData->pf_logo) > 0){
+                        $professionsData['pf_original_logo'] = Storage::url($this->professionOriginalUrl . $professionsData->pf_logo);
+                    }
+                    else{
+                        $professionsData['pf_original_logo'] = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                    }
+                    
+                    
+                    
                     $professionsData['professionMatchScale'] = $professionHMLScale;
                     
                     $youtubeId = Helpers::youtube_id_from_url($professionsData->pf_video);
@@ -894,10 +904,47 @@ class level3ActivityController extends Controller {
                     $promisePlusCoinsDetails['remainingDays'] = $promisePlusRemainingDays;
 
                     $professionsData->promisePlusCoinsDetails = $promisePlusCoinsDetails;
+
+                    //Institute Finder coins consumption activity details
+                    $instituteComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.INSTITUTE_FINDER'));
+                    $instituteDeductedCoinsDetail = (isset($instituteComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($request->userId, $instituteComponent->id, 1, $professionsData->id) : [];
+                    $instituteRemainingDays = 0;
+                    if (count($instituteDeductedCoinsDetail) > 0) {
+                        $instituteRemainingDays = Helpers::calculateRemainingDays($instituteDeductedCoinsDetail[0]->dc_end_date);
+                    }
+
+                    $instituteCoinsDetails = [];
+                    $instituteCoinsDetails['componentId'] = ($instituteComponent && !empty($instituteComponent)) ? $instituteComponent->id : "";
+                    $instituteCoinsDetails['componentName'] = Config::get('constant.INSTITUTE_FINDER');
+                    $instituteCoinsDetails['componentCoins'] = ($instituteComponent && !empty($instituteComponent)) ? $instituteComponent->pc_required_coins : "";
+                    $instituteCoinsDetails['remainingDays'] = $instituteRemainingDays;
+
+                    $professionsData->instituteCoinsDetails = $instituteCoinsDetails;
+
+                    //Education Stream array for college finder
+                    $edu_stream = $professionsData->professionHeaders->filter(function($item) {
+                        return $item->pfic_title == 'edu_stream';
+                    })->first();
+
+                    if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content)){
+                        $collegeList = explode('#', strip_tags($edu_stream->pfic_content));
+                    }
+                    $educationStreams = [];
+                    if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content)) {
+                        foreach ($collegeList as $key => $value) {
+                            $stream = [];
+                            $stream['streamName'] = $value;
+                            $educationStreams[] = $stream;
+                        }   
+                    }
+                    $professionsData->educationStreams = $educationStreams;
+
+                    //Teenager Available Coins
                     $professionsData->teenCoins = $teenager->t_coins;
                     //Get profession Completion percentage
                     $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $professionsData->id); 
                     $professionsData->completedProfession = (isset($professionComplete) && $professionComplete > 0) ? $professionComplete : 0;
+
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);
                     unset($professionsData->professionCertificates);

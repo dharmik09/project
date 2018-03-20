@@ -568,11 +568,19 @@ class ProfessionController extends Controller {
             $promisePlusRemainingDays = Helpers::calculateRemainingDays($promisePluseDeductedCoinsDetail[0]->dc_end_date);
         }
 
+        //Institute Finder coins consumption details
+        $instituteComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.INSTITUTE_FINDER'));
+        $instituteDeductedCoinsDetail = (isset($instituteComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($user->id, $instituteComponent->id, 1, $professionsData->id) : [];
+        $instituteRemainingDays = 0;
+        if (count($instituteDeductedCoinsDetail) > 0) {
+            $instituteRemainingDays = Helpers::calculateRemainingDays($instituteDeductedCoinsDetail[0]->dc_end_date);
+        }
+
         $professionCompletePercentage = Helpers::getProfessionCompletePercentage($user->id, $professionsData->id);
 
         //echo "<pre/>"; print_r($getQuestionTemplateForProfession); die();
 
-        return view('teenager.careerDetail', compact('professionCompletePercentage', 'getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers', 'promisePlusComponent', 'promisePlusRemainingDays'));
+        return view('teenager.careerDetail', compact('professionCompletePercentage', 'getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers', 'promisePlusComponent', 'promisePlusRemainingDays', 'instituteRemainingDays', 'instituteComponent'));
     }
 
     public function getTeenagerWhoStarRatedCareer()

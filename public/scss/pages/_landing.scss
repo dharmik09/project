@@ -223,10 +223,11 @@ a {
         }
         @include maxmd {
             margin-left: 0;
-            padding: 30px;
+            padding: 30px 15px;
         }
         @include maxsm {
             margin-top: 30px;
+            padding: 30px;
         }
         h2 {
             color: $white;
@@ -252,6 +253,13 @@ a {
                 &:before {
                     background: transparent;
                     border-color: #fff;
+                }
+            }
+            .pull-right{
+                @include maxms{
+                    float: none !important;
+                    display: block;
+                    margin-top: 5px;
                 }
             }
         }
@@ -346,9 +354,12 @@ a {
         }*/
         p {
             color: $white;
-            font-size: 14px;
+            font-size: 17px;
             margin-bottom: 6px;
-            font-family: h;
+            font-family: hb;
+            @include maxms{
+                font-size: 14px;
+            }
         }
         a {
             color: $white;
@@ -444,10 +455,10 @@ a {
                     font-style: italic;
                     font-size: 20px;
                     color: $lightgrey;
-                    margin-bottom: 26px;
+                    margin-bottom: 5px;
                     @include maxsm {
                         font-size: 16px;
-                        margin-bottom: 15px;
+                       // margin-bottom: 15px;
                         line-height: 1.2;
                     }
                 }
