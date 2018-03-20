@@ -197,6 +197,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Section for real world --> 
+                                    <div class="virtual-plus text-center real-world">
+                                        <h4><span>Real-world role Play</span></h4>
+                                        <p>Instructions: Experience real world tasks in professions roleplay. Compete for a position on the professions leaderboards!</p>
+                                    </div>
+                                    <!-- Section for advance level -->
+                                    <div class="alert l4-advance-div l4-advance-div-demo" style="display: none;">
+                                        <span id="l4AdvanceMessage" class="fontWeight"></span>
+                                    </div>
+                                    <div class="quiz-advanced quiz-sec">
+                                        @include('parent/basic/careerAdvanceQuizSection')
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -923,10 +935,6 @@
             audioStop.pause();
             $("#onOffAudio").prop('muted',true);
         }
-        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
-            var audio = document.getElementById('audio_1');
-            audio.play();
-        <?php } ?>
         var validCheck = 0;
         var setSMsg = 0;
         if ($("#singleLineCheck").attr('value') === "yes") {
@@ -1039,10 +1047,6 @@
             audioStop.pause();
             $("#onOffAudio").prop('muted',true);
         }
-        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
-            var audio = document.getElementById('audio_1');
-            audio.play();
-        <?php } ?>
         var validCheckAll = 0;
         var answerValue = $("#dropDownSelection").val();
         var answerTypeValue = $("#dropDownTypeSelection").val();
@@ -1117,10 +1121,6 @@
             audioStop.pause();
             $("#onOffAudio").prop('muted',true);
         }
-        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
-            var audio = document.getElementById('audio_1');
-            audio.play();
-        <?php } ?>
         var countBox = 1;
         var arra_ans = [];
         var validCheckAll = 0;
@@ -1213,10 +1213,6 @@
             audioStop.pause();
             $("#onOffAudio").prop('muted',true);
         }
-        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
-            var audio = document.getElementById('audio_1');
-            audio.play();
-        <?php } ?>
         var countBox = 1;
         var optionLength = $('#d_d_count').attr('value');
         var arra_ans = [];
@@ -1613,7 +1609,7 @@
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
-            url: "{{ url('teenager/get-question-data-advance-level') }}",
+            url: "{{ url('parent/get-question-data-advance-level') }}",
             type: 'post',
             data: {
                 "_token": '{{ csrf_token() }}',
@@ -1633,7 +1629,7 @@
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
-            url: "{{ url('teenager/get-media-upload-section') }}",
+            url: "{{ url('parent/get-media-upload-section') }}",
             type: 'post',
             data: {
                 "_token": '{{ csrf_token() }}',
@@ -1651,7 +1647,7 @@
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
-            url: "{{ url('teenager/get-level4-advance-step2-details') }}",
+            url: "{{ url('parent/get-level4-advance-step2-details') }}",
             type: 'post',
             data: {
                 "_token": '{{ csrf_token() }}',
@@ -1747,7 +1743,7 @@
         } else {
             clikedForm.find("[id='taskSave']").toggleClass('sending').blur();
             $.ajax({
-                url: "{{ url('teenager/submit-level4-advance-activity') }}",
+                url: "{{ url('parent/submit-level4-advance-activity') }}",
                 type: "POST",
                 data: new FormData(this),
                 headers: {
@@ -1779,7 +1775,7 @@
         clikedForm.find("[id='mediaSubmit']").toggleClass('sending').blur();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
-            url: "{{ url('teenager/submit-level4-advance-activity-for-review') }}",
+            url: "{{ url('parent/submit-level4-advance-activity-for-review') }}",
             type: "POST",
             data: new FormData(this),
             headers: {
@@ -1810,7 +1806,7 @@
         resdelete = confirm('Are you sure you want to delete this record?');
         if (resdelete) {
             $.ajax({
-                url: "{{ url('teenager/delete-user-advance-task') }}",
+                url: "{{ url('parent/delete-user-advance-task') }}",
                 type: 'post',
                 data: {
                     "_token": '{{ csrf_token() }}',
@@ -1925,7 +1921,7 @@
     
     $(window).on("load", function(e) {
         e.preventDefault();
-        getChallengedParentAndMentorList("{{Auth::guard('teenager')->user()->id}}");
+        getChallengedParentAndMentorList("{{Auth::guard('parent')->user()->id}}");
         getUserProfessionCompetitor({{$professionsData->id}});
     });
 

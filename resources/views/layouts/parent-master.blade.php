@@ -19,9 +19,12 @@
         <link href="{{ asset('/frontend/css/jquery.mCustomScrollbar.min.css')}}" rel="stylesheet">
         <link href="{{ asset('/frontend/css/font.css')}}" rel="stylesheet">
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
-        <link href="{{ asset('/frontend/css/style.css')}}" rel="stylesheet">
         <!-- <link href="{{ asset('/frontend/css/style-1.css')}}" rel="stylesheet"> -->
+        <?php
+        if (!Request::is('parent/career-detail/*')) { ?>
+        <link href="{{ asset('/frontend/css/style.css')}}" rel="stylesheet">
         <link href="{{ asset('/frontend/css/custom.css')}}" rel="stylesheet">
+        <?php } ?>
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-32x32.png')}}" sizes="32x32" />
         <link rel="icon" type="image/png" href="{{ asset('/frontend/images/favicon-16x16.png')}}" sizes="16x16" />
         @yield('header')

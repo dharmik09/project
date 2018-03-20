@@ -57,6 +57,7 @@
                             </div>
                             <div class="checkbox">
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
+                                <span class="pull-right"><a href="{{ url('teenager/forgot-password') }}" title="Forgot password?">Forgot password?</a></span>
                             </div>
                             <button type="submit" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
                             <ul class="btn-list">
@@ -64,7 +65,6 @@
                                 <li><a href="{{ url('teenager/google') }}" title="Google" ><i class="icon-google"><!-- --></i>Google</a></li>
                             </ul>
                         </form>
-                        <p><a href="{{ url('teenager/forgot-password') }}" title="Forgot password?">Forgot password?</a></p>
                         <p>Not enrolled? <a href="{{ url('teenager/signup') }}" title="Sign up now.">Sign up now.</a></p>
                     </div>
                 </div>

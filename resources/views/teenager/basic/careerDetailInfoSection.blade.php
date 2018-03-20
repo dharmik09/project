@@ -140,12 +140,11 @@
     }
 ?>
 <div class="block sec-tags">
-    <h4>College Finder</h4>
     <a href="{{ url('teenager/institute') }}" title="Find College" class="btn btn-default">Find College</a> 
     @if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content))
     <ul class="tag-list">
         @forelse($collegeList as $key => $value)
-            <li><a href="{{ url('teenager/institute') }}?speciality={{$value}}" title="{{$value}}">{{$value}}</a></li>
+            <li class="disabled"><a href="{{ url('teenager/institute') }}?speciality={{$value}}" title="{{$value}}">{{$value}}</a></li>
         @empty
         @endforelse
     </ul>
