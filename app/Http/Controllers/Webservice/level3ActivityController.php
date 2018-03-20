@@ -921,10 +921,30 @@ class level3ActivityController extends Controller {
 
                     $professionsData->instituteCoinsDetails = $instituteCoinsDetails;
 
+                    //Education Stream array for college finder
+                    $edu_stream = $professionsData->professionHeaders->filter(function($item) {
+                        return $item->pfic_title == 'edu_stream';
+                    })->first();
+
+                    if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content)){
+                        $collegeList = explode('#', strip_tags($edu_stream->pfic_content));
+                    }
+                    $educationStreams = [];
+                    if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content)) {
+                        foreach ($collegeList as $key => $value) {
+                            $stream = [];
+                            $stream['streamName'] = $value;
+                            $educationStreams[] = $stream;
+                        }   
+                    }
+                    $professionsData->educationStreams = $educationStreams;
+
+                    //Teenager Available Coins
                     $professionsData->teenCoins = $teenager->t_coins;
                     //Get profession Completion percentage
                     $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $professionsData->id); 
                     $professionsData->completedProfession = (isset($professionComplete) && $professionComplete > 0) ? $professionComplete : 0;
+
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);
                     unset($professionsData->professionCertificates);
