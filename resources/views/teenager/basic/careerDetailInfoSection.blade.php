@@ -148,12 +148,21 @@
                 $instituteUrl = "javascript:void(0);";
             }
         ?>
+        @if ($instituteComponent && !empty($instituteComponent))
         <a id="institute_activity" href="{{$instituteUrl}}" title="Find College" @if($instituteRemainingDays == 0) onclick="getCoinsConsumptionDetails('{{$instituteComponent->pc_required_coins}}', '{{$instituteComponent->pc_element_name}}', '{{$instituteRemainingDays}}');" @endif class="btn-primary">
             <span class="unbox-me">College Finder</span>
             <span class="coins-outer institute_coins">
                 <span class="coins"></span> {{ ($instituteRemainingDays && $instituteRemainingDays > 0) ? $instituteRemainingDays . ' days left' : (isset($instituteComponent)) ? $instituteComponent->pc_required_coins : 0 }}
             </span>
         </a>
+        @else
+            <a id="" href="#" title="Find College" class="btn-primary">
+                <span class="unbox-me">College Finder</span>
+                <span class="coins-outer">
+                    <span class="coins"></span> 0
+                </span>
+            </a>
+        @endif
     </div>
 
     @if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content))
