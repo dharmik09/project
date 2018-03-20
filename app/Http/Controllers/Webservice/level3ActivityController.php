@@ -904,6 +904,23 @@ class level3ActivityController extends Controller {
                     $promisePlusCoinsDetails['remainingDays'] = $promisePlusRemainingDays;
 
                     $professionsData->promisePlusCoinsDetails = $promisePlusCoinsDetails;
+
+                    //Institute Finder coins consumption activity details
+                    $instituteComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.INSTITUTE_FINDER'));
+                    $instituteDeductedCoinsDetail = (isset($instituteComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($request->userId, $instituteComponent->id, 1, $professionsData->id) : [];
+                    $instituteRemainingDays = 0;
+                    if (count($instituteDeductedCoinsDetail) > 0) {
+                        $instituteRemainingDays = Helpers::calculateRemainingDays($instituteDeductedCoinsDetail[0]->dc_end_date);
+                    }
+
+                    $instituteCoinsDetails = [];
+                    $instituteCoinsDetails['componentId'] = ($instituteComponent && !empty($instituteComponent)) ? $instituteComponent->id : "";
+                    $instituteCoinsDetails['componentName'] = Config::get('constant.PROMISE_PLUS');
+                    $instituteCoinsDetails['componentCoins'] = ($instituteComponent && !empty($instituteComponent)) ? $promisePlusComponent->pc_required_coins : "";
+                    $instituteCoinsDetails['remainingDays'] = $instituteRemainingDays;
+
+                    $professionsData->instituteCoinsDetails = $instituteCoinsDetails;
+
                     $professionsData->teenCoins = $teenager->t_coins;
                     //Get profession Completion percentage
                     $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $professionsData->id); 
