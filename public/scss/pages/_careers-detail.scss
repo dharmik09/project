@@ -421,6 +421,11 @@
             }
             &.sec-tags{
                 padding: 0;
+                .unbox-btn{
+                    .coins-outer.institute_coins{
+                        margin-left: -5px;
+                    }
+                }
                 .btn-default{
                    // float: right;
                     @include maxsm{
