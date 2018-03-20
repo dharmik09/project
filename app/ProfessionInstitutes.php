@@ -33,6 +33,14 @@ class ProfessionInstitutes extends Model
     }
 
     /**
+     * get all Profession Institutes for list Ajax
+     */
+    public function getAllProfessionInstitutesForAjax() {  
+        $tags = ProfessionInstitutes::where('deleted', '<>', Config::get('constant.DELETED_FLAG'));
+        return $tags;
+    }
+
+    /**
      * get Profession Institutes details by Institutes Id
      */
     public function getProfessionInstitutesByInstitutesId($schoolId) {

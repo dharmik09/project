@@ -533,3 +533,6 @@ CREATE TABLE `pro_pis_profession_institutes_speciality` (
  `deleted` tinyint(3) unsigned NOT NULL DEFAULT '1',
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=195 DEFAULT CHARSET=latin1
+
+// Alter table profile institute for school_id ## 19-03-2018 Jaimin
+ALTER TABLE `pro_pi_profession_institutes` CHANGE `school_id` `school_id` BIGINT NOT NULL;
