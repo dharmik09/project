@@ -1099,7 +1099,7 @@
     }
     .upload-content {
         min-height: 200px;
-        margin: 30px 0;
+        margin: 0px 0 30px;
         border: 1px dashed #dddedf;
         color: $r-cl;
         .no-data {
@@ -1978,4 +1978,10 @@ text.highcharts-xaxis-title {
 .btn-institute {
     padding: 6px 15px;
     font-size: 16px;
+}
+.upload-suggestion{
+    display: block;text-align: right;font-style: italic;
+    @include maxms{
+        text-align: left;
+    }
 }

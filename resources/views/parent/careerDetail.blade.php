@@ -173,7 +173,30 @@
                                     @include('parent/basic/careerDetailInfoSection')
                                 </div>
                                 <div id="menu2" class="tab-pane fade in">
-                                    
+                                    <!-- Section start with virtual play role --> 
+                                    <div class="virtual-plus text-center">
+                                        <h4><span>Virtual Role Play</span></h4>
+                                        <p>Instructions: The more you play, the better informed you will be experientially. Some sections will require ProCoins to attempt.</p>
+                                        
+                                    </div>
+                                    <!-- Section for basic, intermediate quiz with seprate blade --> 
+                                    <div class="quiz-sec ">
+                                        <div class="row flex-container">
+                                            <div class="col-sm-12">
+                                                <div class="quiz-box quiz-basic">
+                                                    <div class="sec-show quiz-basic-sec-show">
+                                                        <h3>Quiz</h3>
+                                                        <p>Warm up with this basic profession quiz! Better research career detail section before you attempt this!!</p>
+                                                        <span title="Play" class="btn-play btn btn-basic">Play</span>
+                                                        <span class="btn-play btn-play-basic" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
+                                                    </div>
+                                                    <div class="basic-quiz-area sec-hide" id="basicLevelData">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -614,9 +637,9 @@
 
     function getBasicQuestions(professionId) {
         $.ajax({
-            url: "{{url('teenager/play-basic-level-activity')}}",
+            url: "{{url('parent/play-basic-level-activity')}}",
             type : 'POST',
-            data : { 'professionId' : '{{$professionsData->id}}' },
+            data : { 'professionId' : '{{$professionsData->id}}', 'teenId:' : '{{$teenId}}' },
             headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
             success: function(data){
                 $("#setResponse").val("0");
@@ -779,10 +802,6 @@
     
     function saveBasicAnswer() {
         $("#basicErrorGoneMsg").html('');
-        <?php if(Auth::guard('teenager')->user()->is_sound_on == 1){ ?>
-            var audio = document.getElementById('audio_1');
-            audio.play();
-        <?php } ?>
         var validCheck = 0;
 
         if ($('.optionSelection [name="' + optionName + '"]:checked').length > 0) {
@@ -801,7 +820,7 @@
                 type: 'POST',
                 data: form_data,
                 dataType: 'html',
-                url: "{{ url('/teenager/save-basic-level-activity')}}",
+                url: "{{ url('/parent/save-basic-level-activity')}}",
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
@@ -858,7 +877,7 @@
                 type: 'POST',
                 data: form_data,
                 dataType: 'html',
-                url: "{{ url('/teenager/save-basic-level-activity')}}",
+                url: "{{ url('/parent/save-basic-level-activity')}}",
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
