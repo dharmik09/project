@@ -19,7 +19,7 @@
                 </span>
             </span>
         </div>
-        <form id = "level4_intermediate_activity_ans" action="" role = "form" enctype = "multipart/form-data" method = "POST" autocomplete = "off" autocorrect = "off" autocapitalize = "off" spellcheck = "false">
+        <form id = "level4_intermediate_activity_ans" action="{{ url('/teenager/save-intermediate-level-activity') }}" onkeypress="return event.keyCode != 13;" role = "form" enctype = "multipart/form-data" method = "POST" autocomplete = "off" autocorrect = "off" autocapitalize = "off" spellcheck = "false">
             <input type = "hidden" name = "_token" value = "{{ csrf_token() }}">
             <input type = "hidden" id = "questionID" name = "questionID" value = "{{$response['data']->activityID}}" >
             <input type ="hidden" id="blackholeIntermediate" name="timer" />
@@ -78,10 +78,8 @@
                         }
                     ?>
                     <div class="box optionSelectionIntermediate form-group quiz-text">
-                        
                         @php($correctOptionLength = strlen($response['data']->correctOption))
                         <span id='singleLineCheck' value='yes'></span>
-                    
                         @if (isset($correctOptionLength) && $correctOptionLength > 0)
                             @php($x = 0)
                             <div class='block-grp fill_in_blank'>
@@ -92,7 +90,6 @@
                                 <span>Something went wrong with this question!</span>
                             </div>
                         @endif
-
                     </div>
                     <div class="text-center next-intermediate" style="display: none;">
                         <br/>
@@ -117,7 +114,6 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
                     </div>
-                    
                     <div class="modal-body popup_image_and_desc">   
                         @if(isset($response['data']->l4ia_question_popup_description) && $response['data']->l4ia_question_popup_description != '')                
                         <div class="pre_material_img">
