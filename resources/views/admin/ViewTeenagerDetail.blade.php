@@ -22,7 +22,7 @@
                         <li role="presentation"  <?php if ($type == "level1"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/level1" aria-controls="profile">Level1 Details</a></li>
                         <li role="presentation"  <?php if ($type == "level2"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/level2" aria-controls="messages">Level2 Details</a></li>
                         <li role="presentation"  <?php if ($type == "promisescore"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/promisescore" aria-controls="api">PROMISE Score</a></li>
-                        <li role="presentation"  <?php if ($type == "level3"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/level3" aria-controls="settings">Level3 Details</a></li>
+                        <li role="presentation"  <?php if ($type == "level3"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/level3" aria-controls="settings">Teen Career Suggestion</a></li>
                         <li role="presentation"  <?php if ($type == "level4"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/level4" aria-controls="level4">Level4 Details</a></li>
                         <li role="presentation"  <?php if ($type == "points"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/points" aria-controls="points">Booster Points</a></li>
                         <li role="presentation"  <?php if ($type == "learningstyle"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/learningstyle" aria-controls="learningstyle">Learning Guidance</a></li>
@@ -411,44 +411,27 @@
                         @if ($type == "level3")
                         <div role="tabpanel" class="tab-pane <?php if ($type == 'level3'){echo 'active';} ?>" id="settings">
                             <div role="tabpanel" class="tab-pane" id="messages">
-                                <div class="interest pull-right">
-                                    <strong>L3 total points : <?php echo $boosterPoints['Level3']; ?></strong>
-                                        <!-- <div class="detail_container">
-                                            <span class="title">&nbsp;</span>
-                                            <div class="inner_detail_container"></div>
-                                        </div> -->
-                                </div>
-                                @forelse($response['systemMatchedProfession'] as $l3)
+                                
+                                @forelse($careerConsideration as $professionArray)
 
                                     <div class="interest">
                                         <?php
-                                            $professionImage = ($l3['pf_logo'] != '' && Storage::disk('s3')->exists($professionOriginalImageUploadPath . $l3['pf_logo'])) ? Config::get('constant.DEFAULT_AWS').$professionOriginalImageUploadPath . $l3['pf_logo'] : asset('/backend/images/proteen_logo.png');
+                                            $professionImage = Storage::url($professionImagePath.$professionArray['pf_logo']);
                                         ?>
                                         <img src="{{$professionImage}}" class="user-image" alt="Default Image" style="width: 80px; height: 80px;">
                                         <div class="detail_container">
-                                            <span class="title">{{$l3['professionName']}}</span><br/>
+                                            <span class="title">{{$professionArray['pf_name']}}</span><br/>
                                             <span class="title">
                                                 Color Code :
-                                                 @if($l3['matchScale'] == 'Easy')
-                                                <strong style="color:#33cc00;">{{$l3['matchScale']}}</strong>
-                                                @elseif($l3['matchScale'] == 'Medium')
-                                                <strong style="color:#0051ba;">{{$l3['matchScale']}}</strong>
+                                                 @if($professionArray['match_scale'] == 'match')
+                                                <strong style="color:#33cc00;">{{$professionArray['match_scale']}}</strong>
+                                                @elseif($professionArray['match_scale'] == 'moderate')
+                                                <strong style="color:#0051ba;">{{$professionArray['match_scale']}}</strong>
                                                 @else
-                                                <strong style="color:#ff6600;">{{$l3['matchScale']}}</strong>
+                                                <strong style="color:#ff6600;">{{$professionArray['match_scale']}}</strong>
                                                 @endif
                                             </span><br/>
-                                            <span class="title">
-                                                Promise Plus :
-                                                @if($l3['promisePlus'] == 'Easy')
-                                                <strong style="color:#33cc00;">{{$l3['promisePlus']}}</strong>
-                                                @elseif($l3['promisePlus'] == 'Medium')
-                                                <strong style="color:#0051ba;">{{$l3['promisePlus']}}</strong>
-                                                @elseif($l3['promisePlus'] == 'Tough')
-                                                <strong style="color:#ff6600;">{{$l3['promisePlus']}}</strong>
-                                                @else
-                                                <strong>NULL</strong>
-                                                @endif
-                                            </span>
+                                            
                                             <div class="inner_detail_container">
 
                                             </div>
@@ -546,7 +529,7 @@
                                             <?php echo "Total Points:"; ?>
                                         </div>
                                         <div class="teen_base_answer">
-                                            <?php echo $boosterPoints['total']; ?>
+                                            <?php echo $boosterPoints['Total']; ?>
                                         </div>
                                     </li>
                                 </ul>

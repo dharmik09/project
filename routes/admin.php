@@ -482,5 +482,6 @@ Route::get('/changeanswerstatus/{ansId}/{status}', 'Admin\ForumQuestionManagemen
 
 //School import
 Route::get('/professionInstitute', 'Admin\ProfessionManagementController@professionInstitutes');
+Route::post('/getProfessionInstitute', 'Admin\ProfessionManagementController@getProfessionInstitutesListAjax');
 Route::get('/addProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListAdd');
 Route::post('/saveProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListSave');

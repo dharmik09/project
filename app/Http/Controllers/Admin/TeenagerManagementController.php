@@ -716,208 +716,151 @@ class TeenagerManagementController extends Controller {
             return view('admin.ViewTeenagerDetail', compact('finalMIParameters','id','type'));
         }
         elseif($type == "level3"){
-            $professionOriginalImageUploadPath = $this->professionOriginalImageUploadPath;
-            $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($id);
-            $totalQuestion = $this->level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($id);
-    
-            if (isset($totalQuestion[0]->NoOfAttemptedQuestions) && $totalQuestion[0]->NoOfAttemptedQuestions > 0) {
-            $response['NoOfAttemptedQuestionsLevel2'] = $totalQuestion[0]->NoOfAttemptedQuestions;
-            $getTeenagerAttemptedProfession = $this->professionsRepository->getTeenagerAttemptedProfession($id);
             
-            if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
-                $response['teenagerAttemptedProfession'] = $getTeenagerAttemptedProfession;
-            } else {
-                $response['teenagerAttemptedProfession'] = array();
-            }
-            $getLevel2AssessmentResult = Helpers::getTeenAPIScore($id);
-            $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystem();
+            if($id > 0) {
+            $teenagerCareers = $this->professionsRepository->getMyCareers($id);
+            $getAllActiveProfessions = Helpers::getActiveProfessions();
+            $getTeenagerHML = Helpers::getTeenagerMatchScale($id);
+            
+            
+            $teenagerCareersIds = (isset($teenagerCareers[0]) && count($teenagerCareers[0]) > 0) ? Helpers::getTeenagerCareersIds($id)->toArray() : [];
 
-            if (isset($getTeenagerAttemptedProfession) && !empty($getTeenagerAttemptedProfession)) {
-                foreach ($getTeenagerAttemptedProfession as $keyProfession => $professionName) {
-                    $getProfessionIdFromProfessionName = $this->professionsRepository->getProfessionIdByName($professionName->pf_name);
-                    
-                    if (isset($getProfessionIdFromProfessionName) && $getProfessionIdFromProfessionName > 0) {
-                        $compareLogic = array('HL', 'HM', 'HH', 'ML', 'MM', 'MH', 'LL', 'LM', 'LH');
-                        //FOR COMPARE LOGIC RESULT, L ='nomatch', M = 'moderate', H ='match'
-                        $compareLogicResult = array('L', 'M', 'H', 'L', 'H', 'H', 'H', 'H', 'H');
-                        $value = Helpers::getSpecificCareerMappingFromSystem($getProfessionIdFromProfessionName);
-                        if (!empty($value)) {
+            $match = $nomatch = $moderate = $matchHigh = $matchLow = $moderateHigh = $moderateLow = $nomatchHign = $nomatchLow = $matchSecondHigh = $matchSecondLow = $moderateSecondHigh = $moderateSecondLow = [];
 
-                            $value->tcm_scientific_reasoning = (isset($value->tcm_scientific_reasoning) && $value->tcm_scientific_reasoning != '') ? $value->tcm_scientific_reasoning : 'L';
-                            $value->tcm_verbal_reasoning = (isset($value->tcm_verbal_reasoning) && $value->tcm_verbal_reasoning != '') ? $value->tcm_verbal_reasoning : 'L';
-                            $value->tcm_numerical_ability = (isset($value->tcm_numerical_ability) && $value->tcm_numerical_ability != '') ? $value->tcm_numerical_ability : 'L';
-                            $value->tcm_logical_reasoning = (isset($value->tcm_logical_reasoning) && $value->tcm_logical_reasoning != '') ? $value->tcm_logical_reasoning : 'L';
-                            $value->tcm_social_ability = (isset($value->tcm_social_ability) && $value->tcm_social_ability != '') ? $value->tcm_social_ability : 'L';
-                            $value->tcm_artistic_ability = (isset($value->tcm_artistic_ability) && $value->tcm_artistic_ability != '') ? $value->tcm_artistic_ability : 'L';
-                            $value->tcm_spatial_ability = (isset($value->tcm_spatial_ability) && $value->tcm_spatial_ability != '') ? $value->tcm_spatial_ability : 'L';
-                            $value->tcm_creativity = (isset($value->tcm_creativity) && $value->tcm_creativity != '') ? $value->tcm_creativity : 'L';
-                            $value->tcm_clerical_ability = (isset($value->tcm_clerical_ability) && $value->tcm_clerical_ability != '') ? $value->tcm_clerical_ability : 'L';
-                            $value->tcm_doers_realistic = (isset($value->tcm_doers_realistic) && $value->tcm_doers_realistic != '') ? $value->tcm_doers_realistic : 'L';
-                            $value->tcm_thinkers_investigative = (isset($value->tcm_thinkers_investigative) && $value->tcm_thinkers_investigative != '') ? $value->tcm_numerical_ability : 'L';
-                            $value->tcm_creators_artistic = (isset($value->tcm_creators_artistic) && $value->tcm_creators_artistic != '') ? $value->tcm_creators_artistic : 'L';
-                            $value->tcm_helpers_social = (isset($value->tcm_helpers_social) && $value->tcm_helpers_social != '') ? $value->tcm_helpers_social : 'L';
-                            $value->tcm_persuaders_enterprising = (isset($value->tcm_persuaders_enterprising) && $value->tcm_persuaders_enterprising != '') ? $value->tcm_persuaders_enterprising : 'L';
-                            $value->tcm_organizers_conventional = (isset($value->tcm_organizers_conventional) && $value->tcm_organizers_conventional != '') ? $value->tcm_organizers_conventional : 'L';
-                            $value->tcm_linguistic = (isset($value->tcm_linguistic) && $value->tcm_linguistic != '') ? $value->tcm_linguistic : 'L';
-                            $value->tcm_logical = (isset($value->tcm_logical) && $value->tcm_logical != '') ? $value->tcm_logical : 'L';
-                            $value->tcm_musical = (isset($value->tcm_musical) && $value->tcm_musical != '') ? $value->tcm_musical : 'L';
-                            $value->tcm_spatial = (isset($value->tcm_spatial) && $value->tcm_spatial != '') ? $value->tcm_spatial : 'L';
-                            $value->tcm_bodily_kinesthetic = (isset($value->tcm_bodily_kinesthetic) && $value->tcm_bodily_kinesthetic != '') ? $value->tcm_bodily_kinesthetic : 'L';
-                            $value->tcm_naturalist = (isset($value->tcm_naturalist) && $value->tcm_naturalist != '') ? $value->tcm_naturalist : 'L';
-                            $value->tcm_interpersonal = (isset($value->tcm_interpersonal) && $value->tcm_interpersonal != '') ? $value->tcm_interpersonal : 'L';
-                            $value->tcm_intrapersonal = (isset($value->tcm_intrapersonal) && $value->tcm_intrapersonal != '') ? $value->tcm_intrapersonal : 'L';
-                            $value->tcm_existential = (isset($value->tcm_existential) && $value->tcm_existential != '') ? $value->tcm_existential : 'L';
-
-                            $variable0 = array_keys($compareLogic, $value->tcm_scientific_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Scientific Reasoning']);
-                            $variable1 = array_keys($compareLogic, $value->tcm_verbal_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Verbal Reasoning']);
-                            $variable2 = array_keys($compareLogic, $value->tcm_numerical_ability . $getLevel2AssessmentResult['APIscale']['aptitude']['Numerical Ability']);
-                            $variable3 = array_keys($compareLogic, $value->tcm_logical_reasoning . $getLevel2AssessmentResult['APIscale']['aptitude']['Logical Reasoning']);
-                            $variable4 = array_keys($compareLogic, $value->tcm_social_ability . $getLevel2AssessmentResult['APIscale']['aptitude']['Social Ability']);
-                            $variable5 = array_keys($compareLogic, $value->tcm_artistic_ability . $getLevel2AssessmentResult['APIscale']['aptitude']['Artistic Ability']);
-                            $variable6 = array_keys($compareLogic, $value->tcm_spatial_ability . $getLevel2AssessmentResult['APIscale']['aptitude']['Spatial Ability']);
-                            $variable7 = array_keys($compareLogic, $value->tcm_creativity . $getLevel2AssessmentResult['APIscale']['aptitude']['Creativity']);
-                            $variable8 = array_keys($compareLogic, $value->tcm_clerical_ability . $getLevel2AssessmentResult['APIscale']['aptitude']['Clerical Ability']);
-
-                            $variable9 = array_keys($compareLogic, $value->tcm_doers_realistic . $getLevel2AssessmentResult['APIscale']['personality']['Mechanical']);
-                            $variable10 = array_keys($compareLogic, $value->tcm_thinkers_investigative . $getLevel2AssessmentResult['APIscale']['personality']['Investigative']);
-                            $variable11 = array_keys($compareLogic, $value->tcm_creators_artistic . $getLevel2AssessmentResult['APIscale']['personality']['Artistic']);
-                            $variable12 = array_keys($compareLogic, $value->tcm_helpers_social . $getLevel2AssessmentResult['APIscale']['personality']['Social']);
-                            $variable13 = array_keys($compareLogic, $value->tcm_persuaders_enterprising . $getLevel2AssessmentResult['APIscale']['personality']['Enterprising']);
-                            $variable14 = array_keys($compareLogic, $value->tcm_organizers_conventional . $getLevel2AssessmentResult['APIscale']['personality']['Conventional']);
-
-                            $variable15 = array_keys($compareLogic, $value->tcm_linguistic . $getLevel2AssessmentResult['APIscale']['MI']['Linguistic']);
-                            $variable16 = array_keys($compareLogic, $value->tcm_logical . $getLevel2AssessmentResult['APIscale']['MI']['Logical']);
-                            $variable17 = array_keys($compareLogic, $value->tcm_musical . $getLevel2AssessmentResult['APIscale']['MI']['Musical']);
-                            $variable18 = array_keys($compareLogic, $value->tcm_spatial . $getLevel2AssessmentResult['APIscale']['MI']['Spatial']);
-                            $variable19 = array_keys($compareLogic, $value->tcm_bodily_kinesthetic . $getLevel2AssessmentResult['APIscale']['MI']['Bodily-Kinesthetic']);
-                            $variable20 = array_keys($compareLogic, $value->tcm_naturalist . $getLevel2AssessmentResult['APIscale']['MI']['Naturalist']);
-                            $variable21 = array_keys($compareLogic, $value->tcm_interpersonal . $getLevel2AssessmentResult['APIscale']['MI']['Interpersonal']);
-                            $variable22 = array_keys($compareLogic, $value->tcm_intrapersonal . $getLevel2AssessmentResult['APIscale']['MI']['Intrapersonal']);
-                            $variable23 = array_keys($compareLogic, $value->tcm_existential . $getLevel2AssessmentResult['APIscale']['MI']['Existential']);
-
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable0[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable1[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable2[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable3[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable4[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable5[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable6[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable7[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable8[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable9[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable10[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable11[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable12[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable13[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable14[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable15[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable16[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable17[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable18[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable19[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable20[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable21[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable22[0]];
-                            $arrayCombinePoint[$getProfessionIdFromProfessionName][] = $compareLogicResult[$variable23[0]];
-                        }
-                    }
-                }
-            }
-            $arrayResult = $total = [];
-            if (isset($arrayCombinePoint) && !empty($arrayCombinePoint)) {
-                foreach ($arrayCombinePoint as $key => $val) {
-                    $point = array_count_values($val);
-                    $answer['professionId'] = $key;
-                    $pingo = $this->professionsRepository->getProfessionsByProfessionId($key);
-
-                    $answer['professionName'] = $pingo[0]->pf_name;
-                    $answer['pf_logo'] = $pingo[0]->pf_logo;
-                    $L = (isset($point['L'])) ? $point['L'] : 0;
-                    $H = (isset($point['H'])) ? $point['H'] : 0;
-                    $M = (isset($point['M'])) ? $point['M'] : 0;
-                    //c=match, b=moderate, a=nomatch
-                    if ($L > 0) {
-                        $total[$key] = "A";
-                        $answer['matchScale'] = "Tough";
-                    } else if ($M > 0 && $L < 1) {
-                        $total[$key] = "B";
-                        $answer['matchScale'] = "Medium";
-                    } else if ($L == 0 && $M == 0) {
-                        $total[$key] = "C";
-                        $answer['matchScale'] = "Easy";
-                    } else {
-                        $total[$key] = "C";
-                        $answer['matchScale'] = "";
-                    }
-                    $level4Booster = Helpers::level4Booster($key, $id);
-                    $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($id, $key);
-
-                    $totalPoints = 0;
-                    if (!empty($getTeenagerAllTypeBadges)) {
-                        if ($getTeenagerAllTypeBadges['level4Basic']['noOfAttemptedQuestion'] != 0) {
-                            $totalPoints += $getTeenagerAllTypeBadges['level4Basic']['basicAttemptedTotalPoints'];
-                        }
-                        if ($getTeenagerAllTypeBadges['level4Intermediate']['noOfAttemptedQuestion'] != 0) {
-                            foreach ($getTeenagerAllTypeBadges['level4Intermediate']['templateWiseEarnedPoint'] AS $k => $val) {
-                               // if ($getTeenagerAllTypeBadges['level4Intermediate']['templateWiseEarnedPoint'][$k] != 0) {
-                                    $totalPoints += $getTeenagerAllTypeBadges['level4Intermediate']['templateWiseTotalAttemptedPoint'][$k];
-                              //  }
+            if($getAllActiveProfessions) {
+                foreach($getAllActiveProfessions as $profession) {
+                    $array = [];
+                    $array['id'] = $profession->id;
+                    $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+                    $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
+                    $array['is_completed'] = 0;
+                    $array['pf_name'] = $profession->pf_name;
+                    $array['pf_slug'] = $profession->pf_slug;
+                    $array['pf_logo'] = $profession->pf_logo;
+                    $professionImagePath = Config('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH');
+                    if($array['match_scale'] == "match") {
+                        $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystemByProfession($profession->id);
+                        if($getCareerMappingFromSystem) {
+                            $mappingArray = [];
+                            unset($getCareerMappingFromSystem->created_at);
+                            unset($getCareerMappingFromSystem->updated_at);
+                            unset($getCareerMappingFromSystem->deleted);
+                            
+                            $mappingArray = array_count_values((array)$getCareerMappingFromSystem);
+                            $match[$profession->id] = $array;
+                            
+                            if(isset($mappingArray['H']) && isset($mappingArray['M']) && $mappingArray['M'] > 0 && $mappingArray['H'] > 0) { 
+                                if($mappingArray['H'] > 0) {
+                                    $matchHigh[$profession->id] = $mappingArray['H'];
+                                } else {
+                                    $matchLow[$profession->id] = $mappingArray['M'];
+                                }       
+                            } else {
+                                if(isset($mappingArray['H']) && $mappingArray['H'] > 0) {
+                                    $matchSecondHigh[$profession->id] = $mappingArray['H'];
+                                } else {
+                                    $matchSecondLow[$profession->id] = $mappingArray['L'];
+                                }
                             }
                         }
-                        if ($getTeenagerAllTypeBadges['level4Advance']['earnedPoints'] != 0) {
-                            $totalPoints += $getTeenagerAllTypeBadges['level4Advance']['advanceTotalPoints'];
-                        }
-                    }
-
-                    $level2Data = '';
-                    $level4PromisePlus = '';
-                    $flag = false;
-                    if ($totalPoints != 0) {
-                        $level4PromisePlus = Helpers::calculateLevel4PromisePlus($level4Booster['yourScore'], $totalPoints);
-                        $flag = true;
-                    }
-
-                    $PromisePlus = 0;
-                    if ($flag) {
-                        if ($level4PromisePlus >= Config::get('constant.NOMATCH_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.NOMATCH_MAX_RANGE') ) {
-                            $PromisePlus = "Easy";
-                        } else if ($level4PromisePlus >= Config::get('constant.MODERATE_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.MODERATE_MAX_RANGE') ) {
-                        $PromisePlus = "Medium";
-                        } else if ($level4PromisePlus >= Config::get('constant.MATCH_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.MATCH_MAX_RANGE') ) {
-                        $PromisePlus = "Tough";
-                        } else {
-                            $PromisePlus = "";
+                    } else if($array['match_scale'] == "nomatch") {
+                        $nomatch[$profession->id] = $array;
+                        // if($mappingArray['H'] > 0) {
+                        //     $nomatchHigh[$profession->id] = $mappingArray['H'];
+                        // } else {
+                        //     $nomatchLow[$profession->id] = $mappingArray['M'];
+                        // }
+                    } else if($array['match_scale'] == "moderate") {
+                        $getCareerMappingFromSystem = Helpers::getCareerMappingFromSystemByProfession($profession->id);
+                        if($getCareerMappingFromSystem) {
+                            $mappingArray = [];
+                            unset($getCareerMappingFromSystem->created_at);
+                            unset($getCareerMappingFromSystem->updated_at);
+                            unset($getCareerMappingFromSystem->deleted);
+                            
+                            $mappingArray = array_count_values((array)$getCareerMappingFromSystem);
+                            $moderate[$profession->id] = $array;
+                            if(isset($mappingArray['H']) && isset($mappingArray['M']) && $mappingArray['M'] > 0 && $mappingArray['H'] > 0) {
+                                if($mappingArray['H'] > 0) {
+                                    $moderateHigh[$profession->id] = $mappingArray['H'];
+                                } else {
+                                    $moderateLow[$profession->id] = $mappingArray['M'];
+                                }
+                            } else {
+                                if(isset($mappingArray['H']) && $mappingArray['H'] > 0) {
+                                    $moderateSecondHigh[$profession->id] = $mappingArray['H'];
+                                } else {
+                                    $moderateSecondLow[$profession->id] = $mappingArray['L'];
+                                }
+                            }
                         }
                     } else {
-                         $PromisePlus = "";
+                        $notSetArray[$profession->id] = $array;
                     }
-                    $answer['promisePlus'] = $PromisePlus;
-                    $arrayResult[$key] = $answer;
                 }
-            }
 
-            $arrayResult2 = [];
-            if (isset($total) && !empty($total)) {
-                arsort($total);
-                foreach ($total as $keyId => $keyValue) {
-                    if (isset($arrayResult[$keyId])) {
-                        $arrayResult2[] = $arrayResult[$keyId];
+                if(count($match) < 1 && count($moderate) < 1 && count($nomatch) > 0) {                    
+                    $finalArray = [];
+                    $careerConsideration = $finalArray;
+
+                } else if(count($match) > 0 || count($moderate) > 0) {
+                    if( count($matchHigh) > 0 || count($moderateHigh) > 0 || count($moderateLow) > 0 || count($matchLow) > 0 ) {
+                        arsort($matchHigh);
+                        arsort($matchLow);
+                        arsort($moderateHigh);
+                        arsort($moderateLow);
+                         
+                        $careerConsiderationTemp = $match + $moderate;
+                        $finalArray1 = $finalArray2 = [];
+                        $mergeMatchSortArray = $matchHigh + $matchLow;
+                        
+                        foreach($mergeMatchSortArray as $keyH => $sortArray) {
+                            if(isset($careerConsiderationTemp[$keyH])) {
+                                $finalArray1[] =  $careerConsiderationTemp[$keyH]; 
+                            }
+                        }
+                      
+                        $mergeModerateSortArray = $moderateHigh + $moderateLow;
+                        foreach($mergeModerateSortArray as $keyM => $sortArray) {
+                            if(isset($careerConsiderationTemp[$keyM])) {
+                                $finalArray2[] =  $careerConsiderationTemp[$keyM]; 
+                            }
+                        }
+                       
+                        $finalArray = array_merge($finalArray1,$finalArray2);
+                        
+                    } else {
+                        arsort($matchSecondHigh);
+                        arsort($matchSecondLow);
+                        arsort($moderateSecondHigh);
+                        arsort($moderateSecondLow);
+                       
+                        $mergeAllSortArray = $matchSecondHigh + $matchSecondLow + $moderateSecondHigh + $moderateSecondLow;
+                        $careerConsiderationTemp = $match + $moderate;
+                        foreach($mergeAllSortArray as $key => $sortArray) {
+                            if(isset($careerConsiderationTemp[$key])) {
+                                $finalArray[] =  $careerConsiderationTemp[$key]; 
+                            }
+                        }
                     }
+                    $careerConsideration = $finalArray;
+                } else {
+                    $careerConsideration = $notSetArray;
                 }
-            }
-            //$response['systemMatchedProfession'] = $arrayResult;
-            $response['systemMatchedProfession'] = $arrayResult2;
-            } else {
-                $response['systemMatchedProfession'] = [];
-            }
+                
+                //return view('teenager.basic.careerConsideration', compact('careerConsideration', 'getTeenagerHML'));
+            } 
+            } 
+           
             $this->log->info('Admin view teen Level3 detail',array('userid'=>$this->loggedInUser->user()->id,'teenid'=>$id));
             
-            return view('admin.ViewTeenagerDetail', compact('response','professionOriginalImageUploadPath','boosterPoints','id','type'));
+            return view('admin.ViewTeenagerDetail', compact('careerConsideration', 'getTeenagerHML','id','type','professionImagePath'));
         }
         elseif($type == "level4"){
-            $professionOriginalImageUploadPath = $this->professionOriginalImageUploadPath;
-            $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($id);
+            $professionOriginalImageUploadPath = $this->professionThumbImageUploadPath;
+            $boosterPoints = $this->teenagersRepository->getTeenagerBasicBooster($id);
             $l3Activity = $this->professionsRepository->getLevel3ActivityWithAnswer($id);
+           
             $level4Data = array();
 
             //Get Level4 points for attempted professons
@@ -932,7 +875,7 @@ class TeenagerManagementController extends Controller {
             return view('admin.ViewTeenagerDetail', compact('level4Data','professionOriginalImageUploadPath','boosterPoints','id','type'));
         }
         elseif($type == "points"){
-            $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($id);
+            $boosterPoints = $this->teenagersRepository->getTeenagerBasicBooster($id);
             $this->log->info('Admin view teen points detail',array('userid'=>$this->loggedInUser->user()->id,'teenid'=>$id));
             return view('admin.ViewTeenagerDetail', compact('boosterPoints','id','type'));
         }

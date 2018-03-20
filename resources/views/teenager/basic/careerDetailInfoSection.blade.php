@@ -140,12 +140,31 @@
     }
 ?>
 <div class="block sec-tags">
-    <h4>College Finder</h4>
-    <a href="{{ url('teenager/institute') }}" title="Find College" class="btn btn-default">Find College</a> 
+    <div class="unbox-btn">
+        <?php
+            if ($instituteRemainingDays && $instituteRemainingDays > 0) {
+                $instituteUrl = "url('teenager/institute')";
+            } else {
+                $instituteUrl = "javascript:void(0);";
+            }
+        ?>
+        <a id="institute_activity" href="{{$instituteUrl}}" title="Find College" @if($instituteRemainingDays == 0) onclick="getCoinsConsumptionDetails('{{$instituteComponent->pc_required_coins}}', '{{$instituteComponent->pc_element_name}}', '{{$instituteRemainingDays}}');" @endif class="btn-primary">
+            <span class="unbox-me">College Finder</span>
+            <span class="coins-outer institute_coins">
+                <span class="coins"></span> {{ ($instituteRemainingDays && $instituteRemainingDays > 0) ? $instituteRemainingDays . ' days left' : (isset($instituteComponent)) ? $instituteComponent->pc_required_coins : 0 }}
+            </span>
+        </a>
+    </div>
+
     @if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content))
-    <ul class="tag-list">
+    <ul class="tag-list institute_list">
+        <?php 
+        $insClass = '';
+        if ($instituteRemainingDays == 0) {
+            $insClass = "disabled";
+        } ?>
         @forelse($collegeList as $key => $value)
-            <li><a href="{{ url('teenager/institute') }}?speciality={{$value}}" title="{{$value}}">{{$value}}</a></li>
+            <li class="{{ $insClass }}"><a href="{{ url('teenager/institute') }}?speciality={{$value}}" title="{{$value}}">{{$value}}</a></li>
         @empty
         @endforelse
     </ul>

@@ -179,7 +179,23 @@ class TeenagerController extends Controller
                 
                 //Connection Status 0,1,2 :: 0 -> pendding, 1 -> connected, 2->rejected
                 //checkTeenConnectionStatus($receiverId, $senderId) :: Here teenagerId => receiverId and userId => senderId
-                $response['connectionStatus'] = $this->communityRepository->checkTeenConnectionStatus($request->teenagerId, $request->userId);
+                $connectionStatus = $this->communityRepository->checkTeenConnectionStatusForNetworkMemberPage($request->teenagerId, $request->userId);
+                if ($connectionStatus['count'] == 0) {
+                    $response['connectionStatus'] = 0;
+                } elseif($connectionStatus['count'] == 1) {
+                    $response['connectionStatus'] = 1;
+                } elseif($connectionStatus['count'] == 3) {
+                    if($connectionStatus['connectionDetails']->tc_status == 0) {
+                        $response['connectionStatus'] = 0;
+                    } elseif($connectionStatus['connectionDetails']->tc_status == 1) {
+                        $response['connectionStatus'] = 1;
+                    } elseif($connectionStatus['connectionDetails']->tc_status == 2) {
+                        $response['connectionStatus'] = 2;    
+                    }
+                } else {
+                    $response['connectionStatus'] = 2;    
+                }
+                
 
             $notificationData['n_sender_id'] = $teenager->id;
             $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');

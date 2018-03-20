@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teenager;
 
 use App\Http\Controllers\Controller;
 use App\ProfessionInstitutes;
+use App\ProfessionInstitutesSpeciality;
 use App\State;
 use Auth;
 use Redirect;
@@ -15,19 +16,22 @@ class ProfessionInstitutesController extends Controller {
     public function __construct() 
     {
         $this->objProfessionInstitutes = new ProfessionInstitutes();
+        $this->objProfessionInstitutesSpeciality = new ProfessionInstitutesSpeciality();
         $this->objState = new State();
     }
 
     public function index(){
         $speciality = '';
-        
-        if(Input::get('speciality')){
-            $speciality = Input::get('speciality');
-        }
-        
+      
         $user = Auth::guard('teenager')->user();
         
-        $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($user->t_view_information);
+        if($user->t_view_information == 1){
+            $countryId = 2; // United States
+        }else{
+            $countryId = 1; // India
+        }
+        
+        $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($countryId);
         
         $state = [];
         $city = [];
@@ -37,6 +41,12 @@ class ProfessionInstitutesController extends Controller {
             foreach ($value->city as $k => $v) {
                 $city[] = array('value' => $v->c_name);
             }
+        }
+
+        if(Input::get('speciality')){
+            $speciality = Input::get('speciality');
+            $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
+            return view('teenager.professionInstitutes', compact('speciality','city','state','institutesSpecialityData'));
         }
         return view('teenager.professionInstitutes', compact('speciality','city','state'));
     }
@@ -59,7 +69,17 @@ class ProfessionInstitutesController extends Controller {
 
     public function getInstituteFilter(){
     	$questionType = Input::get('question_type');
-        if($questionType == "Institute_Affiliation"){
+        if($questionType == "Speciality"){
+            $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
+            $response = '<div class="form-group custom-select">
+                            <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
+                            <option disabled selected>Select Education Stream</option>';
+            foreach ($institutesSpecialityData as $key => $value) {
+                $response .= '<option value="'.$value->pis_name.'">'.$value->pis_name.'</option>';
+            }
+            $response .= '</select></div>';
+        }
+        elseif($questionType == "Institute_Affiliation"){
             $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAffiliatUniversity();
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">

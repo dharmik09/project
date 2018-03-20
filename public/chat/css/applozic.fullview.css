@@ -328,10 +328,10 @@ a {
 	background-color: transparent;
 }
 
-a:hover {
+/*a:hover {
 	color: #11505d;
 	text-decoration: underline;
-}
+}*/
 
 .mck-sidebox a:focus {
 	outline: none !important;

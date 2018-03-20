@@ -38,7 +38,7 @@
             <div class="main-menu bg-light">
                 <div class="menu-container">
                     <ul>
-                        <li><h2>Sign in as :</h2></li>
+                        <li><h2>Sign in now!</h2></li>
                         <li><a href="{{ url('/teenager') }}" title="Teen" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['teenager', 'teenager/login', 'teenager/signup']) ? 'active' : ''}}">Student</a></li>
 	                    <li><a href="{{ url('/parent') }}" title="Parent" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['parent', 'parent/login', 'parent/signup']) ? 'active' : ''}}">Parent</a></li>
 	                    <li><a href="{{ url('/counselor') }}"  title="Mentor" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), ['counselor', 'counselor/login', 'counselor/signup']) ? 'active' : ''}}">Mentor</a></li>
@@ -65,7 +65,7 @@
                     </ul>
                     <ul class="links">
                         <li><span>&copy; 2018 ProTeen</span></li>
-                        <li><span>A <strong>UNIDEL</strong> COMPANY</span></li>
+                        <li><span>A <strong><a href="https://www.unidel-group.com/" title="Unidel Company">UNIDEL</a></strong> Company</span></li>
                     </ul>           
                 </div>
                 <div class="right">

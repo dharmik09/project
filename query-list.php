@@ -489,7 +489,7 @@ ALTER TABLE `pro_t_teenagers` ADD `t_progress_calculations` INT(3) NOT NULL DEFA
 ALTER TABLE `pro_t_teenagers` ADD `t_logout_progress` INT(3) NOT NULL DEFAULT '0' AFTER `t_progress_calculations`;
 
 
-// Add new table for profile school course ## 12-03-2018 Jaimin
+// Add new table for profile institute ## 12-03-2018 Jaimin
 CREATE TABLE `pro_pi_profession_institutes` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `school_id` varchar(255) NOT NULL,
@@ -522,4 +522,17 @@ CREATE TABLE `pro_pi_profession_institutes` (
  `updated_at` timestamp NOT NULL,
  `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted ',
  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=latin1
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+// Add new table for profile institute speciality course ## 19-03-2018 Jaimin
+CREATE TABLE `pro_pis_profession_institutes_speciality` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `pis_name` varchar(255) NOT NULL,
+ `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NULL DEFAULT NULL,
+ `deleted` tinyint(3) unsigned NOT NULL DEFAULT '1',
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+// Alter table profile institute for school_id ## 19-03-2018 Jaimin
+ALTER TABLE `pro_pi_profession_institutes` CHANGE `school_id` `school_id` BIGINT NOT NULL;

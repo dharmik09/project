@@ -28,11 +28,11 @@ class ProfessionController extends Controller {
     /*
      * Returns career details page
      */
-    public function careerDetails($slug)
+    public function careerDetails($slug, $teenId)
     {
         $user = Auth::guard('parent')->user();
         //1=India, 2=US
-        $countryId = ($user->p_country == 1) ? 2 : 1;
+        $countryId = ($user->p_country == 1) ? 1 : 2;
 
         //Profession Details with subjects, certifications and Tags Array
         $professionsData = $this->professions->getProfessionsAllDetails($slug, $countryId);
@@ -61,7 +61,8 @@ class ProfessionController extends Controller {
         unset($professionsData->careerMapping);
         $professionsData->ability = $careerMappingdata;
 
-        return view('parent.careerDetail', compact('professionsData', 'countryId'));
+
+        return view('parent.careerDetail', compact('professionsData', 'countryId', 'teenId'));
     }
 
 

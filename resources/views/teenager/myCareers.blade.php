@@ -66,7 +66,7 @@
     });
     function fetchSearchDropdown() {
         if($("#questionDropdown").val() != 0){
-            $("#answerDropdown").html('');
+            $("#answerDropdown").html('<img src="{{Storage::url('img/loading.gif')}}">');
             var CSRF_TOKEN = "{{ csrf_token() }}";
             var queId = $("#questionDropdown").val();
             $.ajax({

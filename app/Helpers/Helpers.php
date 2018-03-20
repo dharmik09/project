@@ -2196,7 +2196,7 @@ Class Helpers {
     }
 
     public static function getAllElememtName() {
-        $currency = array('1' => 'PROMISE Plus', '2' => 'Learning Guidance', '3' => 'Parent Report', '4' => 'School Report', '5' => 'Enterprise Report', '6' => 'Counsellors Report','7' => 'Ads ProCoins' , '8' => 'Event ProCoins' ,'9' => 'Contest ProCoins', '10' => 'Coupon ProCoins', '11' => 'Advance Activity ProCoins', '13' => 'Careers to Consider ProCoins');
+        $currency = array('1' => 'PROMISE Plus', '2' => 'Learning Guidance', '3' => 'Parent Report', '4' => 'School Report', '5' => 'Enterprise Report', '6' => 'Counsellors Report','7' => 'Ads ProCoins' , '8' => 'Event ProCoins' ,'9' => 'Contest ProCoins', '10' => 'Coupon ProCoins', '11' => 'Advance Activity ProCoins', '13' => 'Careers to Consider ProCoins', '14' => 'Institute Finder ProCoins');
         return $currency;
     }
 
@@ -3136,7 +3136,7 @@ Class Helpers {
     public static function getProfessionInstituteFilter() 
     {
         $data = [
-                    ['label' => "Education Stream", 'value' => "Speciality", 'type' => "0", "type_description" => "textbox"], 
+                    ['label' => "Education Stream", 'value' => "Speciality", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "State", 'value' => "State", 'type' => "0", "type_description" => "textbox"], 
                     ['label' => "City", 'value' => "City", 'type' => "0", "type_description" => "textbox"], 
                     ['label' => "Pincode", 'value' => "Pincode", 'type' => "0", "type_description" => "textbox"], 

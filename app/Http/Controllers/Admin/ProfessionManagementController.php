@@ -561,8 +561,75 @@ class ProfessionManagementController extends Controller {
     }
 
     public function professionInstitutes() {
-        $professionSchoolData = $this->objProfessionInstitutes->getAllProfessionInstitutes();
-        return view('admin.ListProfessionInstitutes', compact('professionSchoolData'));
+        return view('admin.ListProfessionInstitutes');
+    }
+
+    public function getProfessionInstitutesListAjax() {
+        $professionInstitutes = $this->objProfessionInstitutes->getAllProfessionInstitutesForAjax()->get()->count();
+        
+        $records = array();
+        $columns = array(
+            0 => 'school_id',
+            1 => 'college_institution',
+            2 => 'institute_state',
+            3 => 'pin_code',
+            4 => 'affiliat_university',
+            5 => 'management',
+            6 => 'accreditation_body',
+            7 => 'accreditation_score',
+        );
+        
+        $order = Input::get('order');
+        $search = Input::get('search');
+        $records["data"] = array();
+        $iTotalRecords = $professionInstitutes;
+        $iTotalFiltered = $iTotalRecords;
+        $iDisplayLength = intval(Input::get('length')) <= 0 ? $iTotalRecords : intval(Input::get('length'));
+        $iDisplayStart = intval(Input::get('start'));
+        $sEcho = intval(Input::get('draw'));
+
+        $records["data"] = $this->objProfessionInstitutes->getAllProfessionInstitutesForAjax();
+        
+        if (!empty($search['value'])) {
+            $val = $search['value'];
+            $records["data"]->where(function($query) use ($val) {
+                $query->where('school_id', "Like", "%$val%");
+                $query->orWhere('college_institution', "Like", "%$val%");
+                $query->orWhere('institute_state', "Like", "%$val%");
+                $query->orWhere('pin_code', "Like", "%$val%");
+                $query->orWhere('affiliat_university', "Like", "%$val%");
+                $query->orWhere('management', "Like", "%$val%");
+                $query->orWhere('accreditation_body', "Like", "%$val%");
+                $query->orWhere('accreditation_score', "Like", "%$val%");
+            });
+
+            // No of record after filtering
+            $iTotalFiltered = $records["data"]->where(function($query) use ($val) {
+                    $query->where('school_id', "Like", "%$val%");
+                    $query->orWhere('college_institution', "Like", "%$val%");
+                    $query->orWhere('institute_state', "Like", "%$val%");
+                    $query->orWhere('pin_code', "Like", "%$val%");
+                    $query->orWhere('affiliat_university', "Like", "%$val%");
+                    $query->orWhere('management', "Like", "%$val%");
+                    $query->orWhere('accreditation_body', "Like", "%$val%");
+                    $query->orWhere('accreditation_score', "Like", "%$val%");
+                })->count();
+        }
+        
+        //order by
+        foreach ($order as $o) {
+            $records["data"] = $records["data"]->orderBy($columns[$o['column']], $o['dir']);
+        }
+
+        //limit
+        $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
+        $sid = 0;
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalFiltered;
+
+        return \Response::json($records);
+        exit;
     }
 
     public function professionInstitutesListAdd() {

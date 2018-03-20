@@ -278,7 +278,6 @@ class CommunityManagementController extends Controller {
             $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
 
             $response = $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
-
             $userData = Auth::guard('teenager')->user();
             $notificationData['n_sender_id'] = $userData->id;
             $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
@@ -287,6 +286,11 @@ class CommunityManagementController extends Controller {
             $notificationData['n_record_id'] = $response->id;
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
             $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has sent you a connection request';
+            $notificationExist = $this->objNotifications->checkIfConnectionNotitficationExist($notificationData);
+            if ($notificationExist && !empty($notificationExist)) { 
+                $notificationData['id'] = $notificationExist->id;
+                $notificationData['created_at'] = Carbon::now();
+            }
             $this->objNotifications->insertUpdate($notificationData);
 
             return Redirect::back()->with('success', 'Connection request sent successfully');
