@@ -1872,4 +1872,13 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
         }
         return $response;
     }
+
+    public function getParentUploadedMediaByType($parentId, $professionId, $type) {
+        return DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA') . " AS usertask")
+                    ->where('usertask.l4aapa_parent_id', '=', $parentId)
+                    ->where('usertask.l4aapa_profession_id', '=', $professionId)
+                    ->where('usertask.deleted', Config::get('constant.ACTIVE_FLAG'))
+                    ->where('usertask.l4aapa_media_type', $type)
+                    ->get();
+    }
 }
