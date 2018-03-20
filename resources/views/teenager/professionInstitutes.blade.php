@@ -19,7 +19,7 @@
                     <div class="col-sm-4">
                         <div class="form-group custom-select">
                             <select id="questionDropdown" onchange="fetchSearchDropdown();" tabindex="8" class="form-control">
-                                <option disabled selected>Select Filter</option>
+                                <option value="All_Institue">All Institute</option>
                                 <option value="Speciality" <?php echo (isset($speciality) && !empty($speciality)) ? 'selected' : '' ?> >Education Stream</option>
                                 <option value="State">State</option>
                                 <option value="City">City</option>
@@ -171,6 +171,10 @@
                     }
                 });
             }
+        }
+        else if(questionType == 'All_Institue'){
+            $("#userAnswer").html('');
+            fetchInstituteFilter();
         }
         else{        
             var CSRF_TOKEN = "{{ csrf_token() }}";
