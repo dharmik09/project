@@ -28,8 +28,7 @@ Route::post('/level4-intermediate-activity/{professionId}/{templateId}/{teenId}'
 Route::post('/play-level4-intermediate-activity', 'Parent\Level4ActivityManagementController@saveLevel4IntermediateAns')->name('play-level4-intermediate-activity');
 Route::post('/show-competitor-data/', 'Parent\DashboardManagementController@showCompetitorData')->name('show-competitor-data');
 
-Route::get('/level4-advance/{professionId}/{teenId}', 'Parent\Level4AdvanceActivityManagementController@level4Advance')->name('level4-advance');
-Route::post('/get-question-data-advance-level', 'Parent\Level4AdvanceActivityManagementController@getQuestionDataAdvanceLevel')->name('get-question-data-advance-level');
+//Route::post('/get-question-data-advance-level', 'Parent\Level4AdvanceActivityManagementController@getQuestionDataAdvanceLevel')->name('get-question-data-advance-level');
 Route::get('/level4-advance-step2/{professionId}/{typeid}/{teenId}', 'Parent\Level4AdvanceActivityManagementController@level4AdvanceStep2')->name('level4-advance-step2');
 Route::post('/submit-level4-advance-activity', 'Parent\Level4AdvanceActivityManagementController@submitLevel4AdvanceActivity')->name('submit-level4-advance-activity');
 Route::post('/delete-user-advance-task/', 'Parent\Level4AdvanceActivityManagementController@deleteUserAdvanceTask')->name('delete-user-advance-task');
@@ -41,6 +40,14 @@ Route::get('/career-detail/{slug}/{teenId}', 'Parent\ProfessionController@career
 //Level4 Basic Activity
 Route::post('/play-basic-level-activity', 'Parent\Level4ActivityManagementController@getL4BasicQuestions');
 Route::post('/save-basic-level-activity', 'Parent\Level4ActivityManagementController@saveBasicLevelActivity');
+
+//Level4 Advance Activity
+Route::post('/get-question-data-advance-level', 'Parent\Level4AdvanceActivityManagementController@getQuestionDataAdvanceLevel');
+Route::post('/get-media-upload-section', 'Parent\Level4AdvanceActivityManagementController@getMediaUploadSection');
+Route::post('/get-level4-advance-step2-details', 'Parent\Level4AdvanceActivityManagementController@getLevel4AdvanceStep2Details');
+Route::post('/submit-level4-advance-activity', 'Parent\Level4AdvanceActivityManagementController@submitLevel4AdvanceActivity');
+Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceActivityManagementController@submitLevel4AdvanceActivityForReview');
+Route::post('/delete-user-advance-task', 'Parent\Level4AdvanceActivityManagementController@deleteUserAdvanceTask');
 
 
 //My Teen
