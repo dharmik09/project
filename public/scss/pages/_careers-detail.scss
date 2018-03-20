@@ -422,10 +422,24 @@
             &.sec-tags{
                 padding: 0;
                 .btn-default{
-                    float: right;
+                   // float: right;
                     @include maxsm{
                         float: none;
                         padding: 7px 25px;
+                    }
+                }
+                .tag-list{
+                    li{
+                        &.disabled{
+                            background: #ccc;
+                            border-color: #ccc;
+                           // pointer-events: none;
+                            cursor: not-allowed;
+                            a{
+                                
+                                pointer-events: none;
+                            }
+                        }
                     }
                 }
             }
