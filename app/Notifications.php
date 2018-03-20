@@ -179,4 +179,18 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
                             ->where('deleted',config::get('constant.ACTIVE_FLAG'))
                             ->first();
     }
+
+    /**
+     * Check if record already exist
+     */
+    public function checkIfConnectionNotitficationExist($notificationData) {
+        return Notifications::where('n_sender_id', $notificationData['n_sender_id'])
+                            ->where('n_sender_type', $notificationData['n_sender_type'])
+                            ->where('n_receiver_id', $notificationData['n_receiver_id'])
+                            ->where('n_receiver_type', $notificationData['n_receiver_type'])
+                            ->where('n_record_id', $notificationData['n_record_id'])
+                            ->where('n_notification_type', $notificationData['n_notification_type'])
+                            ->where('deleted',config::get('constant.ACTIVE_FLAG'))
+                            ->first();
+    }
 }
