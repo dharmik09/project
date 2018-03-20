@@ -501,7 +501,7 @@
                             </div>
                             <div class="text-left">
                                 <div class="unbox-btn">
-                                    <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getCoinsConsumptionDetails('{{$componentsData->pc_required_coins}}', '{{$componentsData->pc_element_name}}');" @endif class="btn-primary">
+                                    <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getCoinsConsumptionDetails('{{$componentsData->pc_required_coins}}', '{{$componentsData->pc_element_name}}', '{{$remainingDaysForActivity}}');" @endif class="btn-primary">
                                         <span class="unbox-me">Unbox Me</span>
                                         <span class="coins-outer activity_coins">
                                             <span class="coins"></span> {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
@@ -1823,14 +1823,12 @@
         });
     }
 
-    function getCoinsConsumptionDetails(consumedCoins, componentName) {
+    function getCoinsConsumptionDetails(consumedCoins, componentName, activityRemainingDays) {
         var teenagerCoins = parseInt("{{Auth::guard('teenager')->user()->t_coins}}");
         var consumeCoins = parseInt(consumedCoins);
-        <?php 
-        if ($remainingDaysForActivity > 0) { ?>
+        if (parseInt(activityRemainingDays) > 0) { 
             $("#activity_coins").html('<span class="coins"></span>' + "{{$remainingDaysForActivity}}" + " days left");
-        <?php 
-        } else { ?>
+        } else { 
             if (consumeCoins > teenagerCoins) {
                 $("#activity_buy").show();
                 $("#activity_title").text("Notification!");
@@ -1844,7 +1842,7 @@
                 $("#activity_name").val(componentName);
             }
             $('#coinsConsumption').modal('show');
-        <?php } ?>
+        } 
     }
 
     function format(x) {
@@ -1870,6 +1868,11 @@
                         $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
                         $(".panel-heading a").attr("data-toggle", "collapse");
                         $("#activity_unbox").prop('onclick',null).off('click');
+                    } else if (componentName == "{{Config::get('constant.INSTITUTE_FINDER')}}") {
+                        $(".institute_coins").html('<span class="coins"></span> ' + response + " days left");  
+                        $("#institute_activity").prop('onclick',null).off('click');
+                        $("#institute_activity").attr('href', '{{url("teenager/institute") }}');
+                        $(".institute_list li").removeClass('disabled');
                     } else {
                         $(".promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
                         $("#promise_plus").prop('onclick',null).off('click');
@@ -1878,6 +1881,8 @@
                 } else {
                     if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
                         $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
+                    } else if (componentName == "{{Config::get('constant.INSTITUTE_FINDER')}}") {
+                        $(".institute_coins").html('<span class="coins"></span> ' + consumedCoins);  
                     } else {
                         $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
                     }
