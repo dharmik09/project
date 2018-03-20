@@ -422,10 +422,24 @@
             &.sec-tags{
                 padding: 0;
                 .btn-default{
-                    float: right;
+                   // float: right;
                     @include maxsm{
                         float: none;
                         padding: 7px 25px;
+                    }
+                }
+                .tag-list{
+                    li{
+                        &.disabled{
+                            background: #ccc;
+                            border-color: #ccc;
+                           // pointer-events: none;
+                            cursor: not-allowed;
+                            a{
+                                
+                                pointer-events: none;
+                            }
+                        }
                     }
                 }
             }
@@ -1099,7 +1113,7 @@
     }
     .upload-content {
         min-height: 200px;
-        margin: 30px 0;
+        margin: 0px 0 30px;
         border: 1px dashed #dddedf;
         color: $r-cl;
         .no-data {
@@ -1978,4 +1992,10 @@ text.highcharts-xaxis-title {
 .btn-institute {
     padding: 6px 15px;
     font-size: 16px;
+}
+.upload-suggestion{
+    display: block;text-align: right;font-style: italic;
+    @include maxms{
+        text-align: left;
+    }
 }
