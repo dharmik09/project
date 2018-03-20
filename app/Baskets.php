@@ -483,4 +483,20 @@ class Baskets extends Model
                 ->get();
         return $return;
     }
+
+    public function getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($countryId, $professionArray){
+        $this->countryId = $countryId;
+        $this->professionArray = $professionArray;
+
+        $return = $this->select('*')
+                ->with(['profession' => function ($query) use($professionArray) {
+                    $query->with(['professionHeaders' => function ($query) {
+                        $query->where('country_id', $this->countryId);
+                    }])->whereIn('pro_pf_profession.id', $professionArray)->where('deleted', config::get('constant.ACTIVE_FLAG'));
+                }])
+                //->where('id', $this->basketId)
+                ->where('deleted' ,'1')
+                ->get();
+        return $return;
+    }
 }

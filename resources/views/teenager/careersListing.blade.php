@@ -7,54 +7,55 @@
 @section('content')
 
 <div class="bg-offwhite">
-<!-- mid section starts-->
-<div class="container">
-    <div class="careers-list">
-        <div class="top-heading text-center listing-heading">
-            <h1>careers</h1>
-            <p>You have completed <strong class="font-blue"><?php $attemptedProfessionCount = Helpers::getProfessionCompleteCount(Auth::guard('teenager')->user()->id); 
-                        echo (isset($attemptedProfessionCount)) ? $attemptedProfessionCount : 0; ?> of {{$totalProfessionCount}}</strong> careers</p>
-        </div>
-        <div class="sec-filter listing-filter">
-            <div class="row">
-                <div class="col-md-2 text-right"><span>Filter by:</span></div>
-                <div class="col-md-3 col-xs-6">
-                    <div class="form-group custom-select">
-                        <select tabindex="8" class="form-control" id="questionDropdown" onchange="fetchSearchDropdown();">
-                            <option value="0">All categories</option>
-                            <option value="1">Industry</option>
-                            <option value="2">Careers</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3 col-xs-6" id="answerDropdown">
-                </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                    <div class="form-group search-bar clearfix"><input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="search"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>
-                </div>
+    <div class="container">
+        <div class="careers-list">
+            <div class="top-heading text-center listing-heading">
+                <h1>careers</h1>
+                <p>You have completed <strong class="font-blue">
+                    <?php $attemptedProfessionCount = Helpers::getProfessionCompleteCount(Auth::guard('teenager')->user()->id); 
+                            echo (isset($attemptedProfessionCount)) ? $attemptedProfessionCount : 0; ?> of {{$totalProfessionCount}}</strong> careers</p>
             </div>
-        </div>
-        <!-- mid section-->
-        <section class="career-content listing-content">
-            <div class="bg-white">
-                <div class="panel-group maindiv" id="accordion">
-                    @forelse($basketsData as $key => $value)
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}" onclick="fetchProfessionData(this.id)" class="collapsed">{{$value->b_name}}</a> <a href="{{ url('teenager/career-grid') }}" title="Grid view" class="grid"><i class="icon-grid"></i></a></h4>
-                        </div>
-                        <div class="panel-collapse collapse <?php if($key == 0){echo 'in'; $firstId = $value->id;} ?>" id="accordion{{$value->id}}">
-                            <div id="profession{{$value->id}}"></div>
+            <div class="sec-filter listing-filter">
+                <div class="row">
+                    <div class="col-md-2 text-right"><span>Filter by:</span></div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="form-group custom-select">
+                            <select tabindex="8" class="form-control" id="questionDropdown" onchange="fetchSearchDropdown();">
+                                <option value="0">All categories</option>
+                                <option value="1">Industry</option>
+                                <option value="2">Careers</option>
+                                <option value="7">Match Scale</option>
+                            </select>
                         </div>
                     </div>
-                    @empty
-                    @endforelse
+                    <div class="col-md-3 col-xs-6" id="answerDropdown">
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <div class="form-group search-bar clearfix"><input type="text" placeholder="search" tabindex="1" class="form-control search-feild" id="search"><button type="submit" class="btn-search"><i class="icon-search"><!-- --></i></button></div>
+                    </div>
                 </div>
             </div>
-        </section>
-        <!-- mid section end-->
+            <!-- mid section-->
+            <section class="career-content listing-content">
+                <div class="bg-white">
+                    <div class="panel-group maindiv" id="accordion">
+                        @forelse($basketsData as $key => $value)
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}" onclick="fetchProfessionData(this.id)" class="collapsed">{{$value->b_name}}</a> <a href="{{ url('teenager/career-grid') }}" title="Grid view" class="grid"><i class="icon-grid"></i></a></h4>
+                            </div>
+                            <div class="panel-collapse collapse <?php if($key == 0){echo 'in'; $firstId = $value->id;} ?>" id="accordion{{$value->id}}">
+                                <div id="profession{{$value->id}}"></div>
+                            </div>
+                        </div>
+                        @empty
+                        @endforelse
+                    </div>
+                </div>
+            </section>
+            <!-- mid section end-->
+        </div>
     </div>
-</div>
 </div>
 
 @stop

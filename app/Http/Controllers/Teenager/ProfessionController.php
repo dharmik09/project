@@ -723,6 +723,16 @@ class ProfessionController extends Controller {
             }
             $return .= '</select></div>';
         } 
+        else if ($queId == 7) // Match scale
+        {
+            $data = [1 => 'Strong match', 2 => 'Potential match', 3 => 'Unlikely match'];
+            $return .= '<div class="form-group custom-select bg-blue" id="answerDropdown"><select tabindex="8" class="form-control" id="answerId" onchange="fetchDropdownResult();">
+                <option value="0">Select Scale</option>';
+            foreach ($data as $key => $value) {
+                    $return .= '<option value="'.$key.'">'.$value.'</option>';
+            }
+            $return .= '</select></div>';
+        } 
         return $return;
     }
 
@@ -739,7 +749,7 @@ class ProfessionController extends Controller {
             $countryId = 1; // India
         }
 
-        if($ansId != 0){
+        if($ansId != 0) {
             if($queId == 1) // Industry
             {
                 $basketsData = $this->baskets->getBasketsAndProfessionWithAttemptedProfessionByBasketId($ansId, $userid, $countryId);
@@ -757,6 +767,29 @@ class ProfessionController extends Controller {
                     return view('teenager.basic.level3CareerGridView', compact('basketsData','totalProfessionCount','countryId'));
                 }elseif($view == 'LIST'){
                     return view('teenager.basic.level3CareerListView', compact('basketsData','totalProfessionCount'));
+                }
+            }
+            elseif ($queId == 7) // Match Scale
+            {
+                $getTeenagerHML2 = Helpers::getTeenagerMatchScale($userid);
+                $scale = [];
+                foreach($getTeenagerHML2 as $key => $value) {
+                    if($value == "match") {
+                        $scale[1][] = $key;
+                    } else if($value == "moderate") {
+                        $scale[2][] = $key;
+                    } else if($value == "nomatch") {
+                        $scale[3][] = $key;
+                    }
+                }
+                $professionArray = isset($scale[$ansId]) ? $scale[$ansId] : [];
+                //print_r($scale[$ansId]); 
+                $basketsData = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($countryId, $professionArray);
+                //echo "<pre/>"; print_r($basketsData->toArray()); die();
+                if($view == 'GRID'){
+                    return view('teenager.basic.level3CareerGridView', compact('basketsData','view','countryId'));
+                }elseif($view == 'LIST'){
+                    return view('teenager.basic.level3CareerListView', compact('basketsData','view'));
                 }
             }
         }
