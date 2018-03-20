@@ -24,6 +24,7 @@
             font-family: 'am';
             font-weight: 500;
             text-align: left;
+            margin-right: 95px;
             @include maxmd {
                 font-size: 25px;
             }
@@ -44,12 +45,16 @@
             @include maxms {
                 font-size: 20px;
                 text-align: center;
+                margin-right: 0;
             } // text-decoration: underline;
         }
         .iframe-sec {
             margin-bottom: 0px;
             @include maxsm{
                 margin-bottom: 15px;
+            }
+            p{
+                margin-bottom: 0;
             }
             iframe {
                 @include maxms {
@@ -122,6 +127,17 @@
                 text-align: center;
                 margin: 12px 0 0;
             }
+            .sec-popup{
+                margin-left: 20px;
+                    width: 90px;
+                @include maxms{
+                    width: 70px;
+                    float: none;display: inline-block;
+                }
+                a{
+                    display: block;
+                }
+            }
         }
     }
     figure {
@@ -172,8 +188,11 @@
         font-family: 'h';
     }
     li {
-        margin-bottom: 8px;
-        font-family: 'h'
+        margin-bottom:14px;
+        font-family: 'h';
+        &:last-child{
+            margin-bottom: 0;
+        }
     }
 }
 
@@ -183,7 +202,7 @@
 }*/
 
 .institute-detail-content {
-    padding: 20px;
+    padding: 20px 20px 10px;
     @include maxsm {
         .pull-right {
             float: none !important;
@@ -193,6 +212,7 @@
         margin-bottom: 0;
         padding: 0;
         .tag-list {
+            margin-top: 15px;
             li {
                 background: $h-cl;
                 border-color: $h-cl;
@@ -204,7 +224,7 @@
     h5 {
         font-size: 24px;
         color: $h-cl;
-        margin: 0px 0 25px;
+        //margin: 0px 0 25px;
         font-weight: 700;
     }
 }
