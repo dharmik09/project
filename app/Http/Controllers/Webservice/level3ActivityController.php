@@ -915,8 +915,8 @@ class level3ActivityController extends Controller {
 
                     $instituteCoinsDetails = [];
                     $instituteCoinsDetails['componentId'] = ($instituteComponent && !empty($instituteComponent)) ? $instituteComponent->id : "";
-                    $instituteCoinsDetails['componentName'] = Config::get('constant.PROMISE_PLUS');
-                    $instituteCoinsDetails['componentCoins'] = ($instituteComponent && !empty($instituteComponent)) ? $promisePlusComponent->pc_required_coins : "";
+                    $instituteCoinsDetails['componentName'] = Config::get('constant.INSTITUTE_FINDER');
+                    $instituteCoinsDetails['componentCoins'] = ($instituteComponent && !empty($instituteComponent)) ? $instituteComponent->pc_required_coins : "";
                     $instituteCoinsDetails['remainingDays'] = $instituteRemainingDays;
 
                     $professionsData->instituteCoinsDetails = $instituteCoinsDetails;
