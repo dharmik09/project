@@ -65,7 +65,7 @@ class ProfessionInstitutesController extends Controller {
             }
             return view('teenager.professionInstitutes', compact('speciality','city','state'));
         } else {
-            return Redirect::to('teenager/home')->with('error', 'Sorry, you have to consume coins to show college list');
+            return Redirect::to('teenager/home')->with('error', 'Sorry, you have to consume ProCoins to view institute list');
         }
     }
 
