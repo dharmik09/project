@@ -269,6 +269,9 @@
                         <div class="submit_register">
                             <input type="submit" value="Submit" name="save" class="btn primary_btn">
                         </div>
+                        <div class="text-center frgt-pwd-signup">
+                            <p><a href="{{url('school/forgot-password')}}" title="Forgot password?">Forgot password?</a> Already enrolled? <a href="{{url('school/login')}}" title="Sign in">Sign in now</a>.</p>
+                        </div>
                     </div>
                 </form>
             </div>
