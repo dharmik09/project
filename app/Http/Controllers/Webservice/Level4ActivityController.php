@@ -717,7 +717,7 @@ class Level4ActivityController extends Controller {
                     }
 
                     //Popup image
-                    $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "") ? (Storage::size($this->questionDescriptionTHUMBImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionTHUMBImage . $intermediateActivitiesData->l4ia_question_popup_image) :  Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png') : "";
+                    $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "") ? (Storage::size($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) :  Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png') : "";
                     //Popup description
                     $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
                     
