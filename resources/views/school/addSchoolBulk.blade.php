@@ -122,12 +122,18 @@
         </div>
     </div>
 </div>
-<div class="loader ajax-loader" style="display:none;">
+<!-- <div class="loader ajax-loader" style="display:none;">
     <div class="cont_loader">
         <div class="img1"></div>
         <div class="img2"></div>
     </div>
-</div>
+</div> -->
+<!-- <div id="user_search" style="display: none;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
+    <div class="loading-text">
+        <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
+    </div>
+    <div class="loading-content"></div>
+</div> -->
 
 @stop
 
@@ -174,7 +180,7 @@
     });
     $("#addSchoolBulk").on('submit', (function(e) {
         if($('#addSchoolBulk').validate().form()){
-            $(".ajax-loader").show();
+            //$(".ajax-loader").show();
             $("#submit").attr('type','text');
             return true;
         }else{

@@ -88,26 +88,12 @@
                 <input type="hidden" name="page" value="{{$currentPage}}" id="page" />
                 <input type="hidden" name="totalPage" value="{{$totalPage}}" id="totalPage" />
                 <div class="my_teens_inner gift_teen_inner">
-                    <div class="loader_outer_container" style="top:1px;">
-                      <div class="loader_inner_container">
-                        <div class="cont_loader">
-                        	<div class="img1_1">
-                        		<div class="div_outer">
-                        			<div class="inner_1">
-                        				<img src="{{Storage::url('frontend/images/load_hero.png')}}">
-                        			</div>
-                        		</div>
-                        	</div>
-                        	<div class="img2_2">
-                        		<div class="div_outer">
-                        			<div class="inner_1">
-                        				<img src="{{Storage::url('frontend/images/load_bar.png')}}">
-                        			</div>
-                        		</div>
-                        	</div>
+                    <div id="user_search" style="display: none;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
+                        <div class="loading-text">
+                            <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
                         </div>
+                        <div class="loading-content"></div>
                     </div>
-                  </div>
                 <div>
                     
                 </div>
@@ -225,21 +211,21 @@
                     </table>
 
                 </div>
-                 <div class="mySearch_area"></div></div>
+                <div class="mySearch_area">
+                    
+                </div></div>
             </form>
         </div>
     </div>
 </div>
-<div class="loader ajax-loader" style="display:none;">
-    <div class="cont_loader">
-        <div class="img1"></div>
-        <div class="img2"></div>
-    </div>
-</div>
+
 <div class="modal fade default_popup" id="gift">
     <div class="modal-dialog">
         <div class="modal-content">
-            <button type="button" class="close close_next" data-dismiss="modal">Close</button>
+            <!-- <button type="button" class="close close_next" data-dismiss="modal">Close</button> -->
+            <div class="close close_next">
+                <i class="icon-close"></i>
+            </div>
             <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
             <div id="userDataGiftCoin">
@@ -308,7 +294,7 @@
                 $('#mail_submit_form').submit(function() {
                     return true;
                 });
-                $(".ajax-loader").show();
+                //$(".ajax-loader").show();
                 $("#errorGoneMsg").html('');                
             }
             else
@@ -325,7 +311,7 @@
         if (coin == 0) {
           return false;
         }
-        $('.ajax-loader').show();
+        //$('.ajax-loader').show();
         $.ajax({
             url: "{{ url('school/gift-coins') }}",
             type: 'post',
@@ -334,7 +320,7 @@
                 "teen_id": id
             },
             success: function(response) {
-                $('.ajax-loader').hide();
+                //$('.ajax-loader').hide();
                 $('#userDataGiftCoin').html(response);
                 $('#gift').modal('show');
             }
@@ -347,7 +333,7 @@
         if (coin == 0) {
           return false;
         }
-        $('.ajax-loader').show();
+        //$('.ajax-loader').show();
         $.ajax({
             url: "{{ url('school/gift-coins-to-all-teen') }}",
             type: 'post',
@@ -355,7 +341,7 @@
                 "_token": '{{ csrf_token() }}'
             },
             success: function(response) {
-               $('.ajax-loader').hide();
+               //$('.ajax-loader').hide();
                $('#userDataGiftCoin').html(response);
                $('#gift').modal('show');
             }
@@ -372,7 +358,8 @@
     });
 
     function userSearch(search_keyword, schoolId,page) {
-        $('.loader_outer_container').show();
+        $('#user_search').parent().addClass('loading-screen-parent');
+        $('#user_search').show();
         search_keyword = (search_keyword).trim();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'search_keyword=' + search_keyword + '&schoolId=' +schoolId;
@@ -387,13 +374,14 @@
             success: function(data) {
                 $('.mySearch_area').html(data);
                 $('.show_data').hide();
-                $('.loader_outer_container').hide();
+                $('#user_search').hide();
+                $('#user_search').parent().removeClass('loading-screen-parent');
             }
         });
     }
 
     function updateTeenagerData(id) {
-         $('.ajax-loader').show();
+         //$('.ajax-loader').show();
          var rollnum = $('#rollnum_'+id).val();
          $.ajax({
             url: "{{ url('/school/edit-teen-roll-num') }}",
@@ -404,7 +392,7 @@
                 "rollnum" : rollnum
             },
             success: function(response) {
-                $('.ajax-loader').hide();
+                //$('.ajax-loader').hide();
                 $('#rollno_'+id).text(rollnum);
 
 
@@ -421,6 +409,9 @@
             }
         });
     }
+    $(document).on('click','.icon-close', function(){
+        $('#gift').modal('hide');
+    });
 </script>
 @stop
 
