@@ -125,8 +125,18 @@ class ProfessionInstitutesController extends Controller {
             elseif($questionType == "Gender"){
                 
                 $GenderArray = [
-                                ['label'=>'General', 'value'=>'0'],
+                                ['label'=>'Co-Ed', 'value'=>'0'],
                                 ['label'=>'Girls Only', 'value'=>'1'],
+                            ];
+                $allData['dataArray1'] = $GenderArray;
+
+                $response['arrayCount'] = 1;
+            }
+            elseif($questionType == "Autonomous"){
+                
+                $GenderArray = [
+                                ['label'=>'UnAutonomous', 'value'=>'0'],
+                                ['label'=>'Autonomous', 'value'=>'1'],
                             ];
                 $allData['dataArray1'] = $GenderArray;
 

@@ -3145,6 +3145,7 @@ Class Helpers {
                     ['label' => "Accreditation By", 'value' => "Accreditation", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Hostel Count", 'value' => "Hostel", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Status", 'value' => "Gender", 'type' => "1", "type_description" => "dropdown"], 
+                    ['label' => "Autonomous", 'value' => "Autonomous", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Fees Range", 'value' => "Fees", 'type' => "2", "type_description" => "2 dropdowns"], 
                 ];
 

@@ -12,6 +12,7 @@
         $instituteFeeRange = "-";
         $instituteHostelCount = "-";
         $instituteGender = "Co-Ed";
+        $instituteAutonomous = "No";
         $instituteAccreditationScore = "-";
         $instituteAccreditationBody = "-";
         $instituteSpeciality = [];
@@ -63,6 +64,11 @@
         if(isset($value->girl_exclusive) && $value->girl_exclusive != ""){
             if($value->girl_exclusive = 1){
                 $instituteGender = "Girls Only";
+            }
+        }
+        if(isset($value->autonomous) && $value->autonomous != ""){
+            if($value->autonomous = 1){
+                $instituteAutonomous = "Yes";
             }
         }
         if(isset($value->accreditation_score) && $value->accreditation_score != ""){
@@ -128,6 +134,7 @@
                                         <li><strong>Fee Range in ₹ </strong> {{$instituteFeeRange}}</li>
                                         <li><strong>Hostel Count </strong>{{$instituteHostelCount}}</li>
                                         <li><strong>Status </strong>{{$instituteGender}}</li>
+                                        <li><strong>Autonomous </strong>{{$instituteAutonomous}}</li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
