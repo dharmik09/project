@@ -239,7 +239,7 @@
 </div>
 
 @if(!empty($coupons))
-<div id="rank_list_global" class="modal fade cst_modals" role="dialog">
+<div id="rank_list_global" class="modal fade cst_modals">
     <div class="modal-dialog">
         <div class="modal-content rank_list_global">
             <span id="couponCompeting"></span>
@@ -383,7 +383,7 @@
                                             }
                                           ],
                                           open: function(event, ui) {
-                                                $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                                $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close confirm-close"></i>' );
                                             }
                                         });
                                     } else {
@@ -425,7 +425,7 @@
                                             }
                                           ],
                                           open: function(event, ui) {
-                                                $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                                                $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close confirm-close"></i>' );
                                             }
                                     });
                                 }
@@ -508,8 +508,14 @@ function giftCoins(coins)
         }
     });
 }
-$(document).on('click','.icon-close', function(){
+$(document).on('click','.confirm-close', function(){
     $( "#confirm" ).dialog( "close" );
+});
+$(document).on('click','.coupon-close', function(){
+    $("#rank_list_global").modal("hide");
+});
+$(document).on('click','.event-close', function(){
+    $("#teenager_details").modal("hide");
 });
 </script>
 @stop
