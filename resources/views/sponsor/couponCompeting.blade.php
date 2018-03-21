@@ -1,6 +1,9 @@
 <div class="modal-header">
+    <div class="close">
+        <i class="icon-close coupon-close"></i>
+    </div>
     <h1>{{ucfirst($couponNameD)}} &nbsp; - &nbsp; Total {{count($coupons)}} coupons used</h1>
-    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+    <!-- <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button> -->
 </div>
 <div class="modal-body">
     <div class="table_container_outer">
