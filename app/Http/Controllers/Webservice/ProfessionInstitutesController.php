@@ -226,7 +226,8 @@ class ProfessionInstitutesController extends Controller {
                     $instituteManagement = "-";
                     $instituteFeeRange = "-";
                     $instituteHostelCount = "-";
-                    $instituteGender = "General";
+                    $instituteGender = "Co-Ed";
+                    $instituteAutonomous = "No";
                     $instituteAccreditationScore = "-";
                     $instituteAccreditationBody = "-";
                     $instituteSpeciality = [];
@@ -270,6 +271,11 @@ class ProfessionInstitutesController extends Controller {
                             $instituteGender = "Girls Only";
                         }
                     }
+                    if(isset($value->autonomous) && $value->autonomous != ""){
+                        if($value->autonomous = 1){
+                            $instituteAutonomous = "Yes";
+                        }
+                    }
                     if(isset($value->accreditation_score) && $value->accreditation_score != ""){
                         $instituteAccreditationScore = $value->accreditation_score;
                     }
@@ -292,6 +298,7 @@ class ProfessionInstitutesController extends Controller {
                     $instituteData['FeeRange'] = $instituteFeeRange;
                     $instituteData['HostelCount'] = $instituteHostelCount;
                     $instituteData['Gender'] = $instituteGender;
+                    $instituteData['Autonomous'] = $instituteAutonomous;
                     $instituteData['AccreditationScore'] = $instituteAccreditationScore;
                     $instituteData['AccreditationBody'] = $instituteAccreditationBody;
                     $instituteData['Speciality'] = $instituteSpeciality;
