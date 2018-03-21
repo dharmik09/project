@@ -21,7 +21,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\resetAdminGiftedProCoins',
         'App\Console\Commands\CreateSlug',
         'App\Console\Commands\CalculateHMLScore',
-        'App\Console\Commands\ImportInstituteSpeciality'
+        'App\Console\Commands\ImportInstituteSpeciality',
+        'App\Console\Commands\createThumbFromOriginal'
     ];
 
     /**
