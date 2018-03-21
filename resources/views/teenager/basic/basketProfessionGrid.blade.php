@@ -39,7 +39,7 @@
                                 return $item->pfic_title == 'profession_outlook';
                             })->first();
                     ?>
-                    <div class="col-md-4 col-sm-6" style="background-image:url({{Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')) }}{{ $v->pf_logo }} )">
+                    <div class="col-md-4 col-sm-6">
                         <?php $matchScale = ( isset($v->match_scale) && $v->match_scale != '') ? $v->match_scale : "career-data-nomatch"; ?>
                         
                         <div class="category {{$matchScale}}">
