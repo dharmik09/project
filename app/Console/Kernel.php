@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\CreateSlug',
         'App\Console\Commands\CalculateHMLScore',
         'App\Console\Commands\ImportInstituteSpeciality'
+        'App\Console\Commands\createThumbFromOriginal'
     ];
 
     /**
