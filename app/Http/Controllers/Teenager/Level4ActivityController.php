@@ -210,7 +210,7 @@ class Level4ActivityController extends Controller {
                 $timer = $intermediateActivitiesData->l4ia_question_time;
                 $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
                 //Question Popup Image
-                $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "" && Storage::size($this->questionDescriptionTHUMBImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionTHUMBImage . $intermediateActivitiesData->l4ia_question_popup_image) : '';
+                $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "" && Storage::size($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) : '';
                 $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
                 
                 //Set Question audio

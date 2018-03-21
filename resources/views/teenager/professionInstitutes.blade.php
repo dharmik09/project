@@ -31,6 +31,7 @@
                                 <option value="Accreditation">Accreditation By</option>
                                 <option value="Hostel">Hostel Count</option>
                                 <option value="Gender">Status</option>
+                                <option value="Autonomous">Autonomous</option>
                                 <option value="Fees">Fees Range</option>
                             </select>
                         </div>
@@ -52,7 +53,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group search-bar clearfix">
-                            <input type="text" placeholder="Search by Name" id="answerName" onkeyup="fetchInstituteFilter()" tabindex="1" class="form-control search-feild">
+                            <input type="text" placeholder="Search" id="answerName" onkeyup="fetchInstituteFilter()" tabindex="1" class="form-control search-feild">
                             <button type="submit" class="btn-search">
                                 <i class="icon-search"></i>
                             </button>

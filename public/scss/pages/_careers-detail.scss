@@ -424,15 +424,19 @@
                 .unbox-btn{
                     .unbox-me{
                             background: #ff5f44;
-                            padding: 7px 20px;
+                            padding: 8px 20px;
                             border: 1px solid #ff5f44;
                             color: #fff;
                             font-size: 33px;
                             font-family: hl;
                             line-height: 1.1;
                             vertical-align: top;
+                            font-weight: 700;
                             @include maxlg{
                                 font-size: 28px;
+                                padding: 10px 20px;
+                            }
+                            @include maxmd{
                                 padding: 7px 20px;
                             }
                             @include maxsm{
