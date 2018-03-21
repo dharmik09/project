@@ -78,12 +78,17 @@ class createThumbFromOriginal extends Command
 
             Image::make(Storage::url($orignal))->resize($width,$height)->save($pathThumb);
 
-            $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $destination, $pathThumb, "s3");                
+            $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $destination.'/', $pathThumb, "s3");                
             \File::delete($pathThumb);
         }
 
+        
         $bar->finish();
 
+        // $thumbFiles = Storage::disk('s3')->files($destination);
+        // print_r($originalFiles);
+        // print_r($thumbFiles);
+        
         echo "\n\n";
         echo "Thumb creation completed on ".date("Y-m-d h:i:s A")."\n\n";
         echo "Total Images Converted ".count($originalFiles)."\n\n";
