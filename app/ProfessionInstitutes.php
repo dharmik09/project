@@ -144,12 +144,10 @@ class ProfessionInstitutes extends Model
             }
         }
         elseif($questionType == "Gender" && $answer != ""){
-            if($answer == "0"){
-                $return = $return->where('girl_exclusive',$answer)->get();
-            }
-            else{
-                $return = $return->where('girl_exclusive',$answer)->get();
-            }
+            $return = $return->where('girl_exclusive',$answer)->get();
+        }
+        elseif($questionType == "Autonomous" && $answer != ""){
+            $return = $return->where('autonomous',$answer)->get();
         }
         elseif($questionType == "Fees" && $answer != ""){
             

@@ -140,8 +140,17 @@ class ProfessionInstitutesController extends Controller {
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
                                 <option disabled selected>Select Status</option>
-                                <option value="0">General</option>
+                                <option value="0">Co-Ed</option>
                                 <option value="1">Girls Only</option>
+                            </select>
+                        </div>';
+        }
+        elseif($questionType == "Autonomous"){
+            $response = '<div class="form-group custom-select">
+                            <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
+                                <option disabled selected>Select Type</option>
+                                <option value="0">UnAutonomous</option>
+                                <option value="1">Autonomous</option>
                             </select>
                         </div>';
         }
