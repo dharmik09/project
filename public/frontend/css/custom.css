@@ -536,6 +536,11 @@ a, a:focus, a:hover{color: #d81c02;}
     top: 10px;
     cursor: pointer;
 }
+.submit_register {margin-bottom: 20px;}
+.frgt-pwd-text p,.frgt-pwd-signup{font-family: 'h';font-size: 14px;color: rgba(22, 28, 34, 0.7);}
+.frgt-pwd-signup{font-size: 16px;}
+.frgt-pwd-text a,.frgt-pwd-signup a{font-family: 'h';color: rgba(22, 28, 34, 0.7);text-decoration: underline;}
+.frgt-pwd-text a:hover,.frgt-pwd-signup a:hover{font-family: 'h';color: #fd604b;}
 /*body.fixed-nav{background: #fff;}*/
 
 
