@@ -66,4 +66,23 @@ class ProfessionTag extends Model
     public function professionTags(){
         return $this->hasMany(ProfessionWiseTag::class, 'tag_id');
     }
+
+    public function getProfessionTagBySlugWithProfessionAndAttemptedProfessionByPage($slug, $userid, $records) {
+        $this->userid = $userid;
+        $this->records = $records;
+        $result = $this->select('*')
+                    ->with(['professionTags' => function ($query) {
+                        $query->with(['profession' => function ($query) {
+                            $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                        }])
+                        ->skip($this->records)
+                        ->take(10)
+                        ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                    }])
+                    ->where('pt_slug', $slug)
+                    ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
+                    ->first();
+
+        return $result;
+    }
 }
