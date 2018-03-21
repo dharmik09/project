@@ -11,7 +11,7 @@
         $instituteManagement = "-";
         $instituteFeeRange = "-";
         $instituteHostelCount = "-";
-        $instituteGender = "General";
+        $instituteGender = "Co-Ed";
         $instituteAccreditationScore = "-";
         $instituteAccreditationBody = "-";
         $instituteSpeciality = [];
@@ -25,7 +25,7 @@
         }
         
         if(isset($value->year_of_establishment) && $value->year_of_establishment != ""){
-            $instituteEstablishmentYear = "Year of Establishment ".$value->year_of_establishment;
+            $instituteEstablishmentYear = $value->year_of_establishment;
         }
         
         if(isset($value->address_line1) && $value->address_line1 != ""){
@@ -33,16 +33,16 @@
         }
         
         if(isset($value->latitude) && $value->latitude != "" && $value->latitude != "NA" && isset($value->longitude) && $value->longitude != "" && $value->longitude != "NA"){
-            $instituteMapUrl = "http://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=15&output=embed";
+            $instituteMapUrl = "http://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=15&output=embed&iwloc=near";
         }else{
             if($instituteAddress != ""){                
                 $prepAddr = str_replace(' ','+',$instituteAddress);
-                $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+                $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false&iwloc=near');
                 $output= json_decode($geocode);
                 if(count($output->results)>0){
                     $latitude = $output->results[0]->geometry->location->lat;
                     $longitude = $output->results[0]->geometry->location->lng;
-                    $instituteMapUrl = "http://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=15&output=embed";
+                    $instituteMapUrl = "http://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=15&output=embed&iwloc=near";
                 }
             }
         }
@@ -99,7 +99,7 @@
                                 </div>
                             @endif
                             <h4><a href="{{$instituteWebsite}}" target="_blank">{{ ucwords(strtolower($instituteName)) }} </a></h4>
-                            <h5><strong>{{$instituteEstablishmentYear}}</strong></h5>
+                            <h5><strong>Year of Establishment </strong>{{$instituteEstablishmentYear}}</h5>
                             <h5><strong>Affiliated University </strong>{{$instituteAffiliateUniversity}} </h5>
                             <h5><strong>Address </strong>{{ucwords(strtolower($instituteAddress))}}</h5>
                         </div>

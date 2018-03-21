@@ -5,7 +5,6 @@
 @endpush
 
 @section('content')
-
 <div class="bg-offwhite institute-sec">
     <div class="container">
         <div class="col-sm-12 text-center">
@@ -16,24 +15,27 @@
         <div class="institute-filter">
             <div class="row">
                 <div class="sec-filter clearfix">
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
+                        <span>Filter by:</span>
+                    </div>
+                    <div class="col-sm-3">
                         <div class="form-group custom-select">
                             <select id="questionDropdown" onchange="fetchSearchDropdown();" tabindex="8" class="form-control">
-                                <option value="All_Institue">All Institute</option>
+                                <option value="All_Institue">All Colleges</option>
                                 <option value="Speciality" <?php echo (isset($speciality) && !empty($speciality)) ? 'selected' : '' ?> >Education Stream</option>
                                 <option value="State">State</option>
                                 <option value="City">City</option>
                                 <option value="Pincode">Pincode</option>
                                 <option value="Institute_Affiliation">Institute Affiliation</option>
                                 <option value="Management_Category">Category</option>
-                                <option value="Accreditation">Accreditation</option>
-                                <option value="Hostel">Hostel</option>
-                                <option value="Gender">Gender</option>
+                                <option value="Accreditation">Accreditation By</option>
+                                <option value="Hostel">Hostel Count</option>
+                                <option value="Gender">Status</option>
                                 <option value="Fees">Fees Range</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div id="userAnswer">
                         @if(isset($speciality) && !empty($speciality))
                             <div class="form-group custom-select">

@@ -422,6 +422,28 @@
             &.sec-tags{
                 padding: 0;
                 .unbox-btn{
+                    .unbox-me{
+                            background: #ff5f44;
+                            padding: 7px 20px;
+                            border: 1px solid #ff5f44;
+                            color: #fff;
+                            font-size: 33px;
+                            font-family: hl;
+                            line-height: 1.1;
+                            vertical-align: top;
+                            @include maxlg{
+                                font-size: 28px;
+                                padding: 7px 20px;
+                            }
+                            @include maxsm{
+                                font-size: 22px;
+                                padding: 10px 20px;
+                            }
+                            @include maxms{
+                                padding: 8px 4px;
+                                font-size: 20px;
+                            }
+                    }
                     .coins-outer.institute_coins{
                         margin-left: -5px;
                     }

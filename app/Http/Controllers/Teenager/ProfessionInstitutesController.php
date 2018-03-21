@@ -101,7 +101,7 @@ class ProfessionInstitutesController extends Controller {
             $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAffiliatUniversity();
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
-                            <option disabled selected>Select Affiliation</option>';
+                            <option disabled selected>Select Affiliation By</option>';
             foreach ($institutesData as $key => $value) {
                 $response .= '<option value="'.$value->affiliat_university.'">'.$value->affiliat_university.'</option>';
             }
@@ -121,7 +121,7 @@ class ProfessionInstitutesController extends Controller {
             $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAccreditationBody();
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
-                            <option disabled selected>Select Accreditation</option>';
+                            <option disabled selected>Select Accreditation By</option>';
             foreach ($institutesData as $key => $value) {
                 $response .= '<option value="'.$value->accreditation_body.'">'.$value->accreditation_body.'</option>';
             }
@@ -130,7 +130,7 @@ class ProfessionInstitutesController extends Controller {
         elseif($questionType == "Hostel"){
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
-                                <option disabled selected>Select Type</option>
+                                <option disabled selected>Select Availability</option>
                                 <option value="0">Not Available</option>
                                 <option value="1">Available</option>
                             </select>
@@ -139,7 +139,7 @@ class ProfessionInstitutesController extends Controller {
         elseif($questionType == "Gender"){
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
-                                <option disabled selected>Select Type</option>
+                                <option disabled selected>Select Status</option>
                                 <option value="0">General</option>
                                 <option value="1">Girls Only</option>
                             </select>
