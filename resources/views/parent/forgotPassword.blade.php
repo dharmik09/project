@@ -48,7 +48,7 @@
                             <div class="submit_register"><input type="submit" class="btn primary_btn" value="Reset Password"></div>
                         </div>
                         <div class="text-center frgt-pwd-text">
-                            <p>Not enrolled? <a href="#" title="Sign up now.">Sign up now.</a></p>
+                            <p>Not enrolled? <a href="{{url('parent/signup')}}" title="Sign up now.">Sign up now.</a></p>
                         </div>
                     </div>
                 </form>

@@ -260,7 +260,7 @@
                     <input type="submit" value="Submit" name="save" class="btn primary_btn">
                 </div>
                 <div class="text-center frgt-pwd-signup">
-                    <p><a href="#" title="Forgot password?">Forgot password?</a> Already enrolled? <a href="#" title="Sign in">Sign in now</a>.</p>
+                    <p><a href="{{url('parent/forgot-password')}}" title="Forgot password?">Forgot password?</a> Already enrolled? <a href="{{url('parent/login')}}" title="Sign in">Sign in now</a>.</p>
                 </div>
             </div>
         </form>
