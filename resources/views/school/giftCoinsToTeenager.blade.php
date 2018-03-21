@@ -1,8 +1,8 @@
 @if(isset($userDetail) && !empty($userDetail))
 <div class="request_parent gift_coin">
-    <form id="addTeenCoins" class="form-horizontal" method="post" action={{ url("/school/save-coins-data-for-teen") }}>
+    <form id="addTeenCoins" class="form-horizontal" method="post" action='{{ url("/school/save-coins-data-for-teen") }}'>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <input type="hidden" name="id" value={{$userDetail['id']}}>
+    <input type="hidden" name="id" value="{{$userDetail['id']}}">
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-3 label_user">Name</div>
         <div class="col-md-9 col-sm-9 col-xs-9 detail_user">{{$userDetail['t_name']}}</div>
@@ -26,12 +26,6 @@
     </div>
     </form>
 </div>
-<div class="loader ajax-loader" style="display:none;">
-    <div class="cont_loader">
-        <div class="img1"></div>
-        <div class="img2"></div>
-    </div>
-</div>
 @else
 No data found
 @endif
@@ -45,10 +39,8 @@ No data found
         form.validate();
         if (form.valid()) {
             form.submit();
-            $('.ajax-loader').show();
             $("#saveGiftProCoins").attr("disabled", 'disabled');
         } else {
-            $('.ajax-loader').hide();
             $("#saveGiftProCoins").removeAttr("disabled", 'disabled');
         }
     });
