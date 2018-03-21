@@ -654,7 +654,7 @@ class level3ActivityController extends Controller {
                     $professionsData->profession_licensing = (isset($profession_licensing->pfic_content) && !empty($profession_licensing->pfic_content)) ? $profession_licensing->pfic_content : '';
                     $professionsData->profession_experience = (isset($profession_experience->pfic_content) && !empty($profession_experience->pfic_content)) ? $profession_experience->pfic_content : '';
                     $professionsData->profession_growth_path = (isset($profession_growth_path->pfic_content) && !empty($profession_growth_path->pfic_content)) ? $profession_growth_path->pfic_content : '';
-                    $professionsData->salary_range = (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $currencySymbol.$salary_range->pfic_content : '';
+                    $professionsData->salary_range = (isset($salary_range->pfic_content) && !empty($salary_range->pfic_content)) ? $salary_range->pfic_content : '';
                     $professionsData->profession_bridge = (isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content)) ? $profession_bridge->pfic_content : '';
                     $professionsData->trends_infolinks_usa = (isset($trends_infolinks_usa->pfic_content) && !empty($trends_infolinks_usa->pfic_content)) ? $trends_infolinks_usa->pfic_content : '';
 
