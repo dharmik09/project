@@ -205,8 +205,14 @@ class ProfessionInstitutesController extends Controller {
 
             $record = ($pageNo-1) * 5;
 
+            $nextProfessionInstituteData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilter($searchText, $questionType, $answer, ($record+5));
+            $next = 0;
+            if(count($nextProfessionInstituteData)>0){
+                $next = 1;
+            }
             $professionInstituteData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilter($searchText, $questionType, $answer, $record);
             $data = [];
+            $response['next'] = $next;
             if(count($professionInstituteData)>0){
                 foreach ($professionInstituteData as $key => $value) {
                     $instituteWebsite = "";
@@ -298,7 +304,6 @@ class ProfessionInstitutesController extends Controller {
                 $response['data'] = $data;
                 $response['message'] = trans('appmessages.data_empty_msg');
             }
-
             $response['status'] = 1;
             $response['login'] = 1;
 
