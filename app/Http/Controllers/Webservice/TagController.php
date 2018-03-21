@@ -31,8 +31,18 @@ class TagController extends Controller {
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getForumQuestion'));
         if($request->userId != "" && $teenager) {
 	        if($request->slug != "") {
-
-	            $data = $this->professionTag->getProfessionTagBySlugWithProfessionAndAttemptedProfession($request->slug,$teenager->id);
+	            $records = 0;
+	            if($request->pageNo != '' && $request->pageNo > 1){
+	                $records = ($request->pageNo-1) * 10;
+	            }
+	            $next = 0;
+	            $nextData = $this->professionTag->getProfessionTagBySlugWithProfessionAndAttemptedProfessionByPage($request->slug,$teenager->id,($records+10));
+	            if(isset($nextData->professionTags)){
+	            	if(count($nextData->professionTags)>0){
+	            		$next = 1;
+	            	}
+	            }
+	            $data = $this->professionTag->getProfessionTagBySlugWithProfessionAndAttemptedProfessionByPage($request->slug,$teenager->id,$records);
 	            
 	            if($data){
 	    			if(isset($data->pt_image) && $data->pt_image != '' && Storage::size(Config::get('constant.PROFESSION_TAG_ORIGINAL_IMAGE_UPLOAD_PATH').$data->pt_image) > 0) {
@@ -50,13 +60,7 @@ class TagController extends Controller {
 		            	if(isset($value->profession)){
 		            		unset($value->profession->professionAttempted);
 		            		$professionData = $value->profession;
-
-			                if(isset($value->profession->pf_logo) && $value->profession->pf_logo != '' && Storage::size(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$value->profession->pf_logo) > 0) {
-			                    $professionLogo = Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$value->profession->pf_logo;
-			                } else {
-			                    $professionLogo = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
-			                }
-			                $professionData['pf_logo'] = Storage::url($professionLogo);
+		            		
 			                $youtubeId = Helpers::youtube_id_from_url($value->profession->pf_video);
 			                if($youtubeId != '') {
 			                    $professionData['pf_video'] = $youtubeId;
@@ -84,6 +88,7 @@ class TagController extends Controller {
 		            $response['strong'] = count($match);
 		            $response['potential'] = count($moderate);
 		            $response['unlikely'] = count($nomatch);
+		            $response['next'] = $next;
 		            
 		            $data['profession'] = $profession;
 		            unset($data->professionTags);
