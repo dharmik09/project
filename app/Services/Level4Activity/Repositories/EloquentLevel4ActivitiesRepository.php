@@ -268,8 +268,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
 
         if(isset($result) && !empty($result)) {
             foreach($result as $key => $value) {
-                $value->gt_template_image = (isset($value->gt_template_image) && $value->gt_template_image != '') ? Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH').$value->gt_template_image) : Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
-                $value->gt_template_descritpion_popup_imge = (isset($value->gt_template_descritpion_popup_imge) && $value->gt_template_descritpion_popup_imge != '') ? Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->gt_template_descritpion_popup_imge) : "";
+                $value->gt_template_image = (isset($value->gt_template_image) && $value->gt_template_image != '' && Storage::size(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH').$value->gt_template_image) > 0) ? Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH').$value->gt_template_image) : Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                $value->gt_template_descritpion_popup_imge = (isset($value->gt_template_descritpion_popup_imge) && $value->gt_template_descritpion_popup_imge != '' && Storage::size(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->gt_template_descritpion_popup_imge) > 0) ? Storage::url(Config::get('constant.CONCEPT_ORIGINAL_IMAGE_UPLOAD_PATH') . $value->gt_template_descritpion_popup_imge) : "";
             }
         } else {
             $result = [];
