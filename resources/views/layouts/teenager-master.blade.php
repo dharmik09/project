@@ -159,21 +159,21 @@
     
             $(window).on("load", function(e) {
                 e.preventDefault();
-                // (function getNotificationCount(){
-                //       $.ajax({
-                //         url: "{{url('teenager/get-notification-count')}}", 
-                //         success: function(data) {
-                //             if(data > 0) {
-                //                 $('#notificationCount').html('<span class="badge">'+data+'</span>');
-                //             } else {
-                //                 $('#notificationCount').html('');
-                //             }
-                //         },
-                //         complete: function() {
-                //             setTimeout(getNotificationCount, 10000);
-                //         }
-                //     });
-                // })();
+                (function getNotificationCount(){
+                      $.ajax({
+                        url: "{{url('teenager/get-notification-count')}}", 
+                        success: function(data) {
+                            if(data > 0) {
+                                $('#notificationCount').html('<span class="badge">'+data+'</span>');
+                            } else {
+                                $('#notificationCount').html('');
+                            }
+                        },
+                        complete: function() {
+                            setTimeout(getNotificationCount, 10000);
+                        }
+                    });
+                })();
                 
                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
