@@ -24,6 +24,7 @@
                                     <option value="0">All categories</option>
                                     <option value="1">Industry</option>
                                     <option value="2">Careers</option>
+                                    <option value="7">Match Scale</option>
                                 </select>
                             </div>
                         </div>

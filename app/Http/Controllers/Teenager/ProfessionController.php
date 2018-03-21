@@ -149,7 +149,7 @@ class ProfessionController extends Controller {
         $basketsData = $this->baskets
                         ->with(['profession' => function ($query) use($countryId) {
                             $query->with(['professionHeaders' => function ($query) use($countryId) {
-                                $query->where('country_id',$countryId);
+                                $query->where('country_id',$countryId)->whereIn('pfic_title', ['average_per_year_salary', 'profession_outlook']);
                             }])->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         }])
                         ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
@@ -160,12 +160,6 @@ class ProfessionController extends Controller {
         $matchScaleCount = [];
         
         foreach ($basketsData->profession as $k => $v) {
-            //$professionAttempted = $this->professionsRepository->getTeenagerProfessionAttempted($userid, $v->id,null);
-            // if(count($professionAttempted)>0){
-            //     $basketsData['profession'][$k]['attempted'] = 'yes';
-            //     $professionAttemptedCount++;
-            // }
-
             $professionAttempted = Helpers::getProfessionCompletePercentage($userid, $v->id); 
             if(isset($professionAttempted) && $professionAttempted == 100) {
                $basketsData['profession'][$k]['attempted'] = 1; 
@@ -783,12 +777,11 @@ class ProfessionController extends Controller {
                     }
                 }
                 $professionArray = isset($scale[$ansId]) ? $scale[$ansId] : [];
-                //print_r($scale[$ansId]); 
                 $basketsData = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($countryId, $professionArray);
                 //echo "<pre/>"; print_r($basketsData->toArray()); die();
-                if($view == 'GRID'){
+                if($view == 'GRID') {
                     return view('teenager.basic.level3CareerGridView', compact('basketsData','view','countryId'));
-                }elseif($view == 'LIST'){
+                } elseif($view == 'LIST') {
                     return view('teenager.basic.level3CareerListView', compact('basketsData','view'));
                 }
             }
