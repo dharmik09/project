@@ -799,6 +799,9 @@ class Level4ActivityController extends Controller {
                             $earnedPoints = 0;
                         }
                         $response['systemCorrectAnswerText'] = $getAllQuestionRelatedDataFromQuestionId->correct_option;
+                        //change as per mobile developer need custom direct msg from here
+                        $response['answerRightWrongMsg'] = $response['answerRightWrongMsg']."! Correct answer is ".$response['systemCorrectAnswerText'];
+                        
                         $data = [];
                         $data['l4iaua_teenager'] = $body['userId'];
                         $data['l4iaua_activity_id'] = $body['questionId'];
