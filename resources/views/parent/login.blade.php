@@ -49,7 +49,7 @@
     <div class="container-small">
         <div class="login-form">
             <h1>{{$type}} login</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a tincidunt justo, sit amet tincidunt tortor. </p>
+            <p>Please enter your registered eMail ID to login.</p>
             <span class="icon"><img src="{{ Storage::url('img/hand-icon.png') }}" alt="hand icon"></span>
             <div class="form-sec">
                 <form id="login_form" role="form" method="POST" class="login_form" action="{{ url('/parent/login-check') }}" autocomplete="on" autosuggesion="off">
