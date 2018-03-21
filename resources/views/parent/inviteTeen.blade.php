@@ -94,10 +94,10 @@
         form.validate();
         if (form.valid()) {
             form.submit();
-            $('.ajax-loader').show();
+            //$('.ajax-loader').show();
             $("#submitInvitation").attr("disabled", 'disabled');
         } else {
-            $('.ajax-loader').hide();
+            //$('.ajax-loader').hide();
             $("#submitInvitation").removeAttr("disabled", 'disabled');
         }
     });

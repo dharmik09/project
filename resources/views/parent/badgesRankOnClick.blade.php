@@ -1,9 +1,16 @@
 <div class="front_page">
-    <div class="loader card_loader {{$response['professionId']}} init_loader">
+    <!-- <div class="loader card_loader {{$response['professionId']}} init_loader">
         <div class="cont_loader">
             <div class="img1"></div>
             <div class="img2"></div>
         </div>
+    </div> -->
+
+    <div class="{{$response['professionId']}} loading-screen loading-wrapper-sub" style="display:none;">
+        <div class="loading-text">
+            <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+        </div>
+        <div class="loading-content"></div>
     </div>
 
     <div id="badges_rank_data_{{$response['professionId']}}">

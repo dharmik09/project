@@ -363,11 +363,11 @@
                                 <div class="flip-container">
                                     <div class="slider_card flipper">
                                         <div class="front_page">
-                                            <div class="loader card_loader {{$value['professionId']}} init_loader" style="display:none;">
-                                                <div class="cont_loader">
-                                                    <div class="img1"></div>
-                                                    <div class="img2"></div>
+                                            <div class="{{$value['professionId']}} loading-screen loading-wrapper-sub" style="display:none;">
+                                                <div class="loading-text">
+                                                    <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
                                                 </div>
+                                                <div class="loading-content"></div>
                                             </div>
                                             <div id="badges_rank_data_{{$value['professionId']}}">
 
@@ -400,11 +400,17 @@
                                             @endif
                                         </div>
                                         <div class="back_page first_page">
-                                            <div class="loader card_loader cst_{{$value['professionId']}} init_loader">
+                                            <!-- <div class="loader card_loader cst_{{$value['professionId']}} init_loader">
                                                 <div class="cont_loader">
                                                     <div class="img1"></div>
                                                     <div class="img2"></div>
                                                 </div>
+                                            </div> -->
+                                            <div id="" class="cst_{{$value['professionId']}} loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
+                                                <div class="loading-text">
+                                                    <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+                                                </div>
+                                                <div class="loading-content"></div>
                                             </div>
                                             <div class="full_path">
                                                 <div class="inner_path" id="education_path_{{$value['professionId']}}">
@@ -945,7 +951,9 @@
             }
             else
             {
+                $('.cst_'+professionId).parent().addClass('loading-screen-parent');
                 $('.cst_'+professionId).show();
+                //$('.cst_'+professionId).show();
                 $.ajax({
                     url: "{{ url('/parent/get-profession-education-path') }}",
                     type: 'POST',
@@ -954,9 +962,11 @@
                         "professionId": professionId
                     },
                     success: function(response) {
-                      $('.cst_'+professionId).hide();
-                      $('#education_path_'+professionId).html(response);
-                      $(".flip_scroll").mCustomScrollbar();
+                        $('.cst_'+professionId).hide();
+                        $('.cst_'+professionId).parent().removeClass('loading-screen-parent');
+                        //$('.cst_'+professionId).hide();
+                        $('#education_path_'+professionId).html(response);
+                        $(".flip_scroll").mCustomScrollbar();
                     }
                 });
             }
@@ -1172,6 +1182,8 @@
                     var teenagerId = "{{$teenDetail->id}}";
                     var d_key = default_key - 1;
                     $('.'+professionId[default_key]).show();
+                    //$('.'+professionId[d_key]).show();
+                    $('.'+professionId[d_key]).parent().addClass('loading-screen-parent');
                     $('.'+professionId[d_key]).show();
                     $.ajax({
                         url: "{{ url('/parent/get-profession-badges-and-rank-on-click') }}",
@@ -1186,7 +1198,9 @@
                                 $('.owl-carousel2')
                                 .trigger('add.owl.carousel', ['<div class="item" id="edubox_'+professionId[default_key]+'" data-cstid="'+default_pointer+'"><div class="flip-container"><div class="slider_card flipper"></div></div></div>'])
                                 .trigger('refresh.owl.carousel');
+                               // $('.'+professionId[d_key]).hide();
                                 $('.'+professionId[d_key]).hide();
+                                $('.'+professionId[d_key]).parent().removeClass('loading-screen-parent');
                                 $(".owl-item #edubox_"+professionId[default_key]+" .flip-container .slider_card").html(response);
                                 $('.'+professionId[default_key]).hide();
                                 $(".owl-next.temp_disable").removeClass('temp_disable');

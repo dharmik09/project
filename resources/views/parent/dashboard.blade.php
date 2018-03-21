@@ -131,10 +131,12 @@
 <div class="modal fade default_popup" id="gift">
     <div class="modal-dialog">
         <div class="modal-content">
-            <button type="button" class="close close_next" data-dismiss="modal">Close</button>
+            <div class="close close_next">
+                <i class="icon-close" data-dismiss="modal"></i>
+            </div>
             <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
-            <div id="userData">
+            <div id="userDataView">
 
             </div>
         </div>
@@ -154,7 +156,7 @@
             $("#errorGoneMsg").append("<div class='col-md-8 col-md-offset-2 r_after_click' id='useForClass'><div class='box-body'><div class='alert alert-error danger'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>X</button><span class='fontWeight'>You don't have enough ProCoins. Please Buy more.</span></div></div></div>");
             return false;
         }
-        $('.ajax-loader').show();
+        //$('.ajax-loader').show();
         $.ajax({
             url: "{{ url('parent/gift-coins') }}",
             type: 'post',
@@ -163,8 +165,8 @@
                 "teen_id": id
             },
             success: function(response) {
-               $('.ajax-loader').hide();
-               $('#userData').html(response);
+               //$('.ajax-loader').hide();
+               $('#userDataView').html(response);
                $('#gift').modal('show');
             }
         });

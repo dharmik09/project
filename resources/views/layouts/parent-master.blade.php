@@ -54,12 +54,12 @@
     </head>
 
     <body class="noScroll">
-        <div class="loader init-loader">
+        <!-- <div class="loader init-loader">
             <div class="cont_loader">
                 <div class="img1"></div>
                 <div class="img2"></div>
             </div>
-        </div>
+        </div> -->
         <nav>
             <div class="container">
                 <div class="logo pull-left">
