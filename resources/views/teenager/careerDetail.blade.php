@@ -1853,7 +1853,12 @@
         var consumedCoins = $("#activity_coins").val();
         var componentName = $("#activity_name").val();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + componentName + "&professionId=" + '{{$professionsData->id}}';
+        if (componentName == "{{Config::get('constant.INSTITUTE_FINDER')}}") {
+            var professionId = 0;
+        } else {
+            var professionId = '{{$professionsData->id}}';
+        }
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + componentName + "&professionId=" + professionId;
         $.ajax({
             type: 'POST',
             data: form_data,

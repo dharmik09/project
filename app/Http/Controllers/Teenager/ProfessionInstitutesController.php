@@ -10,6 +10,11 @@ use Auth;
 use Redirect;
 use Request;
 use Input;
+use App\Professions;
+use App\PaidComponent;
+use Config;
+use App\DeductedCoins;
+use Helpers;
 
 class ProfessionInstitutesController extends Controller {
 
@@ -18,6 +23,8 @@ class ProfessionInstitutesController extends Controller {
         $this->objProfessionInstitutes = new ProfessionInstitutes();
         $this->objProfessionInstitutesSpeciality = new ProfessionInstitutesSpeciality();
         $this->objState = new State();
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins; 
     }
 
     public function index(){
@@ -25,30 +32,41 @@ class ProfessionInstitutesController extends Controller {
       
         $user = Auth::guard('teenager')->user();
         
-        if($user->t_view_information == 1){
-            $countryId = 2; // United States
-        }else{
-            $countryId = 1; // India
+        //Institute Finder coins consumption details
+        $instituteComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.INSTITUTE_FINDER'));
+        $instituteDeductedCoinsDetail = (isset($instituteComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($user->id, $instituteComponent->id, 1) : [];
+        $instituteRemainingDays = 0;
+        if (count($instituteDeductedCoinsDetail) > 0) {
+            $instituteRemainingDays = Helpers::calculateRemainingDays($instituteDeductedCoinsDetail[0]->dc_end_date);
         }
-        
-        $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($countryId);
-        
-        $state = [];
-        $city = [];
-        
-        foreach ($stateWiseCityData as $key => $value) {
-            $state[] = array('value' => $value->s_name);
-            foreach ($value->city as $k => $v) {
-                $city[] = array('value' => $v->c_name);
+        if ($instituteRemainingDays && $instituteRemainingDays > 0) {
+            if ($user->t_view_information == 1) {
+                $countryId = 2; // United States
+            } else {
+                $countryId = 1; // India
             }
-        }
+    
+            $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($countryId);
+            
+            $state = [];
+            $city = [];
+            
+            foreach ($stateWiseCityData as $key => $value) {
+                $state[] = array('value' => $value->s_name);
+                foreach ($value->city as $k => $v) {
+                    $city[] = array('value' => $v->c_name);
+                }
+            }
 
-        if(Input::get('speciality')){
-            $speciality = Input::get('speciality');
-            $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
-            return view('teenager.professionInstitutes', compact('speciality','city','state','institutesSpecialityData'));
+            if (Input::get('speciality')){
+                $speciality = Input::get('speciality');
+                $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
+                return view ('teenager.professionInstitutes', compact('speciality','city','state','institutesSpecialityData'));
+            }
+            return view('teenager.professionInstitutes', compact('speciality','city','state'));
+        } else {
+            return Redirect::to('teenager/home')->with('error', 'Sorry, you have to consume coins to show college list');
         }
-        return view('teenager.professionInstitutes', compact('speciality','city','state'));
     }
 
     public function getIndex(){

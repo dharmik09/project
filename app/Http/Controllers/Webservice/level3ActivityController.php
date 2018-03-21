@@ -907,7 +907,7 @@ class level3ActivityController extends Controller {
 
                     //Institute Finder coins consumption activity details
                     $instituteComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.INSTITUTE_FINDER'));
-                    $instituteDeductedCoinsDetail = (isset($instituteComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($request->userId, $instituteComponent->id, 1, $professionsData->id) : [];
+                    $instituteDeductedCoinsDetail = (isset($instituteComponent->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($request->userId, $instituteComponent->id, 1) : [];
                     $instituteRemainingDays = 0;
                     if (count($instituteDeductedCoinsDetail) > 0) {
                         $instituteRemainingDays = Helpers::calculateRemainingDays($instituteDeductedCoinsDetail[0]->dc_end_date);
