@@ -1,5 +1,8 @@
 <div class="modal-header">
     <h1></h1>
+    <div class="close">
+        <i class="icon-close event-close"></i>
+    </div>
     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
 </div>
 <div class="modal-body">
