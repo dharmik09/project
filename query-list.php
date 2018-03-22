@@ -536,3 +536,6 @@ CREATE TABLE `pro_pis_profession_institutes_speciality` (
 
 // Alter table profile institute for school_id ## 19-03-2018 Jaimin
 ALTER TABLE `pro_pi_profession_institutes` CHANGE `school_id` `school_id` BIGINT NOT NULL;
+
+// Add image column in table profile institute ## 22-03-2018 Jaimin
+ALTER TABLE `pro_pi_profession_institutes` ADD `image` VARCHAR(255) NULL AFTER `accreditation_body`;

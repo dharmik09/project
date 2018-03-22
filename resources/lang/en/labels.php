@@ -767,4 +767,10 @@ return [
     'lblaccredationscore' => 'Accredation Score',
     'professioninstitueslistcolumnnotfoundbasicinformation' => 'Column not found for Basic Information  please check file.',
     'professioninstitueslistcolumnnotfoundaccreditation' => 'Column not found for Accreditation please check file.',
+    'lblupdatephoto' => 'Update Image',
+    'lblimage' => 'Image',
+    'lblaction' => 'Action',
+    'lblelselectinstitutephoto' => 'Select Institute Image',
+    'professioninstituesphotouploadsuccess' => 'Profession Institutes Image Updated successfully',
+    'professioninstituesphotonotvalid' => 'Image invalid. Please choose right image and try again.',
 ];

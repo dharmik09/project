@@ -485,3 +485,4 @@ Route::get('/professionInstitute', 'Admin\ProfessionManagementController@profess
 Route::post('/getProfessionInstitute', 'Admin\ProfessionManagementController@getProfessionInstitutesListAjax');
 Route::get('/addProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListAdd');
 Route::post('/saveProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListSave');
+Route::post('/saveProfessionInstitutePhoto', 'Admin\ProfessionManagementController@professionInstitutesPhotoUpdate');

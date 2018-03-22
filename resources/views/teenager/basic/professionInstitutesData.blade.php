@@ -34,7 +34,7 @@
         }
         
         if(isset($value->latitude) && $value->latitude != "" && $value->latitude != "NA" && isset($value->longitude) && $value->longitude != "" && $value->longitude != "NA"){
-            $instituteMapUrl = "http://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=15&output=embed&iwloc=near";
+            $instituteMapUrl = "http://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=10&output=embed&iwloc=near";
         }else{
             if($instituteAddress != ""){                
                 $prepAddr = str_replace(' ','+',$instituteAddress);
@@ -43,11 +43,11 @@
                 if(count($output->results)>0){
                     $latitude = $output->results[0]->geometry->location->lat;
                     $longitude = $output->results[0]->geometry->location->lng;
-                    $instituteMapUrl = "http://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=15&output=embed&iwloc=near";
+                    $instituteMapUrl = "http://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
                 }
             }
         }
-
+      
         if(isset($value->affiliat_university) && $value->affiliat_university != ""){
             $instituteAffiliateUniversity = $value->affiliat_university;
         }        
@@ -79,6 +79,9 @@
         }
         if(isset($value->speciality) && $value->speciality != ""){
             $instituteSpeciality = explode("#", $value->speciality);
+        }
+        if(isset($value->image) && $value->image != ""){
+            $institutePhoto = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_UPLOAD_PATH') .$value->image;
         }
 
 
@@ -143,7 +146,7 @@
                                         @if(count($instituteSpeciality)>0)
                                             <ul class="tag-list">
                                                 @forelse($instituteSpeciality as $key => $value)
-                                                        <li>{{$value}}</li>
+                                                    <li><a href="{{ url('teenager/institute') }}?speciality={{$value}}" title="{{$value}}">{{$value}}</a></li>
                                                 @empty
                                                 @endforelse
                                             </ul>
