@@ -17,9 +17,9 @@
 </div>
 <script type="text/javascript">
     var intermediateCount = 0;
-    //var ansTypeSet = "";
+    var ansTypeSet = "";
     var setPopupTime = 0;
-    //var optionType = "";
-    //var optionName = "";
+    var optionType = "";
+    var optionName = "";
     var limitSelect = 0;
 </script>
