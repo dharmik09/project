@@ -88,6 +88,9 @@
     });
 
     function userSearch(search_keyword, parentId,page) {
+         $('.mySearch_area').append('<div id="giftcoin_search" style="display: none;" class="loading-screen-data loading-wrapper-sub"><div class="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" /></div><div class="loading-content"></div></div>');
+        $('#giftcoin_search').parent().addClass('loading-screen-parent');
+        $('#giftcoin_search').show();
         search_keyword = (search_keyword).trim();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'search_keyword=' + search_keyword + '&parentId=' +parentId;
@@ -101,6 +104,8 @@
             cache: false,
             success: function(data) {
                 $('.mySearch_area').html(data);
+                $('#giftcoin_search').hide();
+                $('#giftcoin_search').parent().removeClass('loading-screen-parent');
             }
         });
     }

@@ -26,12 +26,6 @@
         </div>
     </form>
 </div>
-<div class="loader ajax-loader" style="display:none;">
-    <div class="cont_loader">
-        <div class="img1"></div>
-        <div class="img2"></div>
-    </div>
-</div>
 @else
 No data found
 @endif
@@ -45,10 +39,8 @@ No data found
         form.validate();
         if (form.valid()) {
             form.submit();
-            $('.ajax-loader').show();
             $("#saveGiftProCoins").attr("disabled", 'disabled');
         } else {
-            $('.ajax-loader').hide();
             $("#saveGiftProCoins").removeAttr("disabled", 'disabled');
         }
     });

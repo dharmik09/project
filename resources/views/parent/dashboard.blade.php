@@ -107,7 +107,7 @@
                             <td><?php echo number_format($data['detail']->t_coins); ?></td>
                             <td>
                                 <div class="coupon_control">
-                                    <button class="gift no_ani" onclick="giftCoins({{$data['detail']->id}},'{{$parentData['p_coins']}}');">Gift</button>
+                                    <button class="gift no_ani gift-btn" onclick="giftCoins({{$data['detail']->id}},'{{$parentData['p_coins']}}');">Gift</button>
                                 </div>
                             </td>
                         </tr>
@@ -122,11 +122,17 @@
 
     </div><!-- container End -->
 </div><!-- centerlize End -->
-<div class="loader ajax-loader" style="display:none;">
+<!-- <div class="loader ajax-loader" style="display:none;">
     <div class="cont_loader">
         <div class="img1"></div>
         <div class="img2"></div>
     </div>
+</div> -->
+<div class="loading-screen loading-wrapper-sub loader-transparent" style="display:none;">
+    <div class="loading-text">
+        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+    </div>
+     <div class="loading-content"></div>
 </div>
 <div class="modal fade default_popup" id="gift">
     <div class="modal-dialog">
@@ -156,7 +162,7 @@
             $("#errorGoneMsg").append("<div class='col-md-8 col-md-offset-2 r_after_click' id='useForClass'><div class='box-body'><div class='alert alert-error danger'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>X</button><span class='fontWeight'>You don't have enough ProCoins. Please Buy more.</span></div></div></div>");
             return false;
         }
-        //$('.ajax-loader').show();
+        $('.loader-transparent').show();
         $.ajax({
             url: "{{ url('parent/gift-coins') }}",
             type: 'post',
@@ -165,7 +171,7 @@
                 "teen_id": id
             },
             success: function(response) {
-               //$('.ajax-loader').hide();
+               $('.loader-transparent').hide();
                $('#userDataView').html(response);
                $('#gift').modal('show');
             }
