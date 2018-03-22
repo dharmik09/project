@@ -552,6 +552,7 @@ a, a:focus, a:hover{color: #d81c02;}
 /*.loader-transparent{background: rgba(255,255,255,0.9) !important;position: fixed;}*/
 /* .ajax-loader{display: none !important;} */
 /*body.fixed-nav{background: #fff;}*/
+.ad-slider .owl-prev,.ad-slider .owl-next{display: none;}
 
 
 @media (max-width: 991px) {

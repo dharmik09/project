@@ -321,7 +321,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                       
                         <div class="ad-slider owl-carousel">
                             <div class="ad-sec-h">
                                 <div class="t-table">
@@ -331,7 +331,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                         </div>
                     <div class="col-md-4">
                         <div class="sec-tags">
                             <h4>Tags</h4>
@@ -370,10 +370,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div></div>
                     </div>
                 </div>
-            </div>
         </section>
     </div>
 </div>
