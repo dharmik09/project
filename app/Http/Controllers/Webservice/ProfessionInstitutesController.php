@@ -236,6 +236,7 @@ class ProfessionInstitutesController extends Controller {
                     $instituteAccreditationScore = "-";
                     $instituteAccreditationBody = "-";
                     $instituteSpeciality = [];
+                    $instituteIsSignup = "";
 
                     if(isset($value->website) && $value->website != ""){
                         $instituteWebsite = 'http://'.$value->website;
@@ -293,6 +294,9 @@ class ProfessionInstitutesController extends Controller {
                     if(isset($value->image) && $value->image != ""){
                         $institutePhoto = $this->professionInstituteThumbImageUploadPath.$value->image;
                     }
+                    if(isset($value->is_institute_signup) && $value->is_institute_signup != "" && $value->is_institute_signup == 1){
+                        $instituteIsSignup = Storage::url('img/logo.png');
+                    }
 
                     $instituteData['Website'] = $instituteWebsite;
                     $instituteData['Name'] = ucwords(strtolower($instituteName));
@@ -310,6 +314,7 @@ class ProfessionInstitutesController extends Controller {
                     $instituteData['AccreditationScore'] = $instituteAccreditationScore;
                     $instituteData['AccreditationBody'] = $instituteAccreditationBody;
                     $instituteData['Speciality'] = $instituteSpeciality;
+                    $instituteData['IsSignupImage'] = $instituteIsSignup;
                     $data[] = $instituteData;
                 }
                 $response['data'] = $data;
