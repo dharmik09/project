@@ -289,7 +289,7 @@ h1.search_title_inner {
 }
 .my_teens_inner .login_form,.sponsor_table tr th, .sponsor_table tr td{border-color: #ff5f44;}
 .sponsor_table a{font-family: 'h';}
-.coupon_control .gift {
+.coupon_control .gift{
     background: #f15f4c;
     float: right;
     color: #fff;
@@ -298,6 +298,10 @@ h1.search_title_inner {
     font-size: 15px;
     font-family: hn-b;
 }
+.coupon_control .gift-btn{width: auto;margin-bottom: 0;padding: 7px 10px;text-transform: capitalize;text-align: center;}
+.coupon_control .gift-btn:hover{color: #fff;}
+.coupon_control .gift-btn.sending{padding: 6px 40px 7px 15px;width: auto;}
+.coupon_control .gift:after{background-image: none;}
 footer {
     bottom: 0;
     height:auto;
@@ -542,6 +546,10 @@ a, a:focus, a:hover{color: #d81c02;}
 .frgt-pwd-text a,.frgt-pwd-signup a{font-family: 'h';color: rgba(22, 28, 34, 0.7);text-decoration: underline;}
 .frgt-pwd-text a:hover,.frgt-pwd-signup a:hover{font-family: 'h';color: #fd604b;}
 .my_teens_inner.gift_teen_inner.loading-screen-parent{border: 1px solid #E56A45;border-top: 0px;}
+.ui-datepicker .ui-datepicker-header{font-size: 20px;}
+.ui-state-default, .ui-widget-content .ui-state-default{color: rgba(22,28,34,.7);}
+.ui-state-highlight, .ui-widget-content .ui-state-highlight{color: #fff;}
+/*.loader-transparent{background: rgba(255,255,255,0.9) !important;position: fixed;}*/
 /* .ajax-loader{display: none !important;} */
 /*body.fixed-nav{background: #fff;}*/
 
@@ -582,6 +590,10 @@ a, a:focus, a:hover{color: #d81c02;}
     .intrest_content .col-xs-6{width: 100%;}
     body{padding-bottom: 277px;}
     .main-menu .menu-container h2{font-size: 30px;}
+}
+
+@media (max-width: 430px){
+    .full_width{background: transparent;}
 }
 
 .non_youtube_video{
