@@ -379,4 +379,9 @@ return [
     'PROFESSION_NOT_ATTEMPTED_FLAG' => 0,
     'CAREER_TO_CONSIDER' => 'Careers to Consider ProCoins',
     'INSTITUTE_FINDER' => 'Institute Finder ProCoins',
+
+    'PROFESSION_INSTITUTE_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/profession_institute/original/',
+    'PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/profession_institute/thumb/',
+    'PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_HEIGHT' => '300',
+    'PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_WIDTH' => '300',
 ];
