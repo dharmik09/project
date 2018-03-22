@@ -187,7 +187,7 @@
                             <td>
                                 <div class="coupon_control">
                                     <span class="tool-tip" <?php if($schoolData['sc_coins'] == 0) echo 'data-toggle="tooltip" data-placement="bottom" title="Register as Enterprise to avail ProCoins. If already registered please buy ProCoins package from your Enterprise login"';?>>
-                                        <a href="javascript:void(0);" class="gift no_ani btn-default gift-btn <?php if($schoolData['sc_coins'] == 0){ echo 'disabled';}?>" onclick="giftCoins({{$teenDetail->id}});" <?php if($schoolData['sc_coins'] == 0) { echo 'disabled="disabled"';}?>>
+                                        <a id="gift_{{$teenDetail->id}}" href="javascript:void(0);" class="gift no_ani gift-btn <?php if($schoolData['sc_coins'] == 0){ echo 'disabled';}?>" onclick="giftCoins({{$teenDetail->id}});" <?php if($schoolData['sc_coins'] == 0) { echo 'disabled="disabled"';}?>>
                                         Gift</a>
                                     </span>
                                 </div>
@@ -217,6 +217,13 @@
             </form>
         </div>
     </div>
+</div>
+
+<div class="loading-screen loading-wrapper-sub loader-transparent" style="display:none;">
+    <div class="loading-text">
+        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+    </div>
+     <div class="loading-content"></div>
 </div>
 
 <div class="modal fade default_popup" id="gift">
@@ -294,7 +301,7 @@
                 $('#mail_submit_form').submit(function() {
                     return true;
                 });
-                //$(".ajax-loader").show();
+                $('.loader-transparent').show();
                 $("#errorGoneMsg").html('');                
             }
             else
@@ -311,7 +318,7 @@
         if (coin == 0) {
           return false;
         }
-        //$('.ajax-loader').show();
+        $('.loader-transparent').show();
         $.ajax({
             url: "{{ url('school/gift-coins') }}",
             type: 'post',
@@ -320,7 +327,7 @@
                 "teen_id": id
             },
             success: function(response) {
-                //$('.ajax-loader').hide();
+                $('.loader-transparent').hide();
                 $('#userDataGiftCoin').html(response);
                 $('#gift').modal('show');
             }
@@ -333,7 +340,7 @@
         if (coin == 0) {
           return false;
         }
-        //$('.ajax-loader').show();
+        $('.loader-transparent').show();
         $.ajax({
             url: "{{ url('school/gift-coins-to-all-teen') }}",
             type: 'post',
@@ -341,7 +348,7 @@
                 "_token": '{{ csrf_token() }}'
             },
             success: function(response) {
-               //$('.ajax-loader').hide();
+               $('.loader-transparent').hide();
                $('#userDataGiftCoin').html(response);
                $('#gift').modal('show');
             }
@@ -381,7 +388,7 @@
     }
 
     function updateTeenagerData(id) {
-         //$('.ajax-loader').show();
+         $('.loader-transparent').show();
          var rollnum = $('#rollnum_'+id).val();
          $.ajax({
             url: "{{ url('/school/edit-teen-roll-num') }}",
@@ -392,7 +399,7 @@
                 "rollnum" : rollnum
             },
             success: function(response) {
-                //$('.ajax-loader').hide();
+                $('.loader-transparent').hide();
                 $('#rollno_'+id).text(rollnum);
 
 
