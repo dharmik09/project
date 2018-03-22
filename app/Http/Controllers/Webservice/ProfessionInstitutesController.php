@@ -291,7 +291,7 @@ class ProfessionInstitutesController extends Controller {
                         $instituteSpeciality = explode("#", $value->speciality);
                     }
                     if(isset($value->image) && $value->image != ""){
-                        $institutePhoto = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH').$value->image;
+                        $institutePhoto = $this->professionInstituteThumbImageUploadPath.$value->image;
                     }
 
                     $instituteData['Website'] = $instituteWebsite;
