@@ -59,16 +59,16 @@
                             if($type == 'Parent')
                             {
                                 $signUpRoute = url('parent/signup');
-                                $passwordRoute = url('parent/forgot-password');
+                                //$passwordRoute = url('parent/forgot-password');
                             } else {
                                 $signUpRoute = url('counselor/signup');
-                                $passwordRoute = url('counselor/forgot-password');
+                                //$passwordRoute = url('counselor/forgot-password');
                             }
                             ?>
                      
                             <div class="checkbox">
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
-                                <span class="pull-right"><a href="{{ $passwordRoute }}" title="Forgot username/password?">Forgot password?</a></span>
+                                <span class="pull-right"><a href="{{ url('parent/forgot-password') }}" title="Forgot username/password?">Forgot password?</a></span>
                             </div>
                             <button type="submit" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
                         </form>

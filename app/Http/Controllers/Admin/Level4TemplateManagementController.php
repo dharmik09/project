@@ -439,6 +439,7 @@ class Level4TemplateManagementController extends Controller {
                             $imageInfo = array();
                             foreach($questionData as $keyQuestion => $valueQuestion)
                             {
+                                $newquestionImage = '';
                                 if ($valueQuestion->l4iam_media_type == "I") 
                                 {
                                     $file2 = $this->questionOriginalImageUploadPath.$valueQuestion->l4iam_media_name;
