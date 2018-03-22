@@ -191,6 +191,15 @@ class Level4ActivityController extends Controller {
         $templateId = Input::get('templateId');
         $userId = Auth::guard('teenager')->user()->id;
         if($userId > 0 && $professionId != '' && $templateId != '') {
+            $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
+            if(isset($totalBasicQuestion[0]->NoOfTotalQuestions) && $totalBasicQuestion[0]->NoOfTotalQuestions > 0 && ($totalBasicQuestion[0]->NoOfTotalQuestions > $totalBasicQuestion[0]->NoOfAttemptedQuestions) ) {
+                $response['status'] = 0;
+                $response['title'] = "Opps!";
+                $response['message'] = "First play basic profession quiz!";
+                return view('teenager.basic.careerIntermediateError', compact('response'));
+                exit;
+            }
+            
             $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($userId, $professionId, $templateId);
             $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($userId, $professionId, $templateId);
             $professionName = $this->professionsRepository->getProfessionNameById($professionId);
@@ -232,13 +241,25 @@ class Level4ActivityController extends Controller {
                 $getQuestionImage = $this->level4ActivitiesRepository->getQuestionMultipleImages($intermediateActivitiesData->activityID);
                 if (isset($getQuestionImage) && !empty($getQuestionImage)) {
                     foreach ($getQuestionImage as $key => $image) {
-                        $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = ( $image['image'] != "" && Storage::size($this->questionDescriptionTHUMBImage . $image['image']) > 0 ) ? Storage::url($this->questionDescriptionTHUMBImage . $image['image']) : Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
+                        if($image['image'] != "") {
+                            if( Storage::size($this->questionDescriptionORIGINALImage.$image['image']) > 0) {
+                                $ext = strtolower(pathinfo($image['image'], PATHINFO_EXTENSION)); 
+                                if($ext == 'gif') {
+                                    $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
+                                } else {
+                                    $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . $image['image']);
+                                }
+                            } else {
+                                $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
+                            }
+                        } else {
+                            $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
+                        }
                         $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
                     }
                 } else {
                     $intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
                 }
-
             } else {
                 $intermediateActivitiesData = [];
                 $timer = 0;
@@ -274,8 +295,7 @@ class Level4ActivityController extends Controller {
         }
         $response['status'] = 0;
         $response['message'] = "Something went wrong!";
-
-        return response()->json($response, 200);
+        return view('teenager.basic.careerIntermediateError', compact('response'));
         exit;
     }
 

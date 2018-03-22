@@ -205,7 +205,6 @@
                                     <div class="virtual-plus text-center">
                                         <h4><span>Virtual Role Play</span></h4>
                                         <p>Instructions: The more you play, the better informed you will be experientially. Some sections will require ProCoins to attempt.</p>
-                                        
                                     </div>
                                     <!-- Section for basic, intermediate quiz with seprate blade --> 
                                     <div class="quiz-sec ">
@@ -215,7 +214,7 @@
                                                     <div class="sec-show quiz-basic-sec-show">
                                                         <h3>Quiz</h3>
                                                         <p>Warm up with this basic profession quiz! Better research career detail section before you attempt this!!</p>
-                                                        <span title="Play" class="btn-play btn btn-basic">Play</span>
+                                                        <span title="{{ (isset($level4BasicPlayed) && $level4BasicPlayed) ? 'Played!' : 'Play' }}" class="btn-play btn btn-basic">{{ (isset($level4BasicPlayed) && $level4BasicPlayed) ? "Played!" : "Play" }}</span>
                                                         <span class="btn-play btn-play-basic" style="display:none;"><img src="{{Storage::url('img/loading.gif')}}"></span>
                                                     </div>
                                                     <div class="basic-quiz-area sec-hide" id="basicLevelData">
@@ -236,7 +235,6 @@
                                                             <div class="loading-content"></div>
                                                         </div>
                                                         @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
-                                                        
                                                             @foreach($getQuestionTemplateForProfession as $templateProfession)
                                                                 <div class="col-sm-6 flex-items">
                                                                     <div class="quiz-box">
@@ -245,6 +243,11 @@
                                                                         </div>
                                                                         <h6>{!! $templateProfession->gt_template_title !!}</h6>
                                                                         <p title="{{strip_tags($templateProfession->gt_template_descritpion)}}"> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...more')) !!}</p>
+                                                                        <!-- <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
+                                                                            <a href="javascript:void(0);" title="Play basic quiz first!" class="btn-primary">
+                                                                                <span class="unbox-me">Play basic quiz first!</span>
+                                                                            </a>
+                                                                        </div> -->
                                                                         @if ($templateProfession->remaningDays > 0)
                                                                             @if($templateProfession->attempted == 'yes')
                                                                                 <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
@@ -320,6 +323,7 @@
                                                                                 </div>
                                                                             @endif
                                                                         @endif
+                                                                    
                                                                     </div>
                                                                 </div>
                                                             @endforeach

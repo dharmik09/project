@@ -699,7 +699,20 @@ class Level4ActivityController extends Controller {
                     $getQuestionImage = $this->level4ActivitiesRepository->getQuestionMultipleImages($intermediateActivitiesData->activityID);
                     if (isset($getQuestionImage) && !empty($getQuestionImage)) {
                         foreach ($getQuestionImage as $key => $image) {
-                            $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = ( $image['image'] != "" && Storage::size($this->questionDescriptionTHUMBImage . $image['image']) > 0 ) ? Storage::url($this->questionDescriptionTHUMBImage . $image['image']) : Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
+                            if($image['image'] != "") {
+                                if( Storage::size($this->questionDescriptionORIGINALImage.$image['image']) > 0) {
+                                    $ext = strtolower(pathinfo($image['image'], PATHINFO_EXTENSION)); 
+                                    if($ext == 'gif') {
+                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
+                                    } else {
+                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . $image['image']);
+                                    }
+                                } else {
+                                    $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
+                                }
+                            } else {
+                                $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
+                            }
                             $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
                         }
                     } else {
