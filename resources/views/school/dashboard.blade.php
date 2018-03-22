@@ -187,7 +187,7 @@
                             <td>
                                 <div class="coupon_control">
                                     <span class="tool-tip" <?php if($schoolData['sc_coins'] == 0) echo 'data-toggle="tooltip" data-placement="bottom" title="Register as Enterprise to avail ProCoins. If already registered please buy ProCoins package from your Enterprise login"';?>>
-                                        <a href="javascript:void(0);" class="gift no_ani <?php if($schoolData['sc_coins'] == 0){ echo 'disabled';}?>" onclick="giftCoins({{$teenDetail->id}});" <?php if($schoolData['sc_coins'] == 0) { echo 'disabled="disabled"';}?>>
+                                        <a href="javascript:void(0);" class="gift no_ani btn-default gift-btn <?php if($schoolData['sc_coins'] == 0){ echo 'disabled';}?>" onclick="giftCoins({{$teenDetail->id}});" <?php if($schoolData['sc_coins'] == 0) { echo 'disabled="disabled"';}?>>
                                         Gift</a>
                                     </span>
                                 </div>

@@ -248,11 +248,17 @@
 </div>
 @endif
 
-<div class="loader ajax-loader" style="display:none;">
+<!--<div class="loader ajax-loader" style="display:none;">
     <div class="cont_loader">
         <div class="img1"></div>
         <div class="img2"></div>
     </div>
+</div>-->
+<div class="loading-screen loading-wrapper-sub loader-transparent" style="display:none;">
+    <div class="loading-text">
+        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+    </div>
+     <div class="loading-content"></div>
 </div>
 
 @if(!empty($activityDetail))
@@ -277,7 +283,8 @@
         if (couponId > 0) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var form_data = 'couponId=' + couponId;
-            $('.ajax-loader').show();
+            $('.loading-wrapper-sub').show();
+            //return false;
             $.ajax({
                 type: 'get',
                 data: form_data,
