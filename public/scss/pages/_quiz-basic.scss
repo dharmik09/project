@@ -133,9 +133,11 @@
         font-size: 16px;
         padding: 9px 45px;
         transition: 0.3s all ease-out;
-        &:hover {
-            background: $i-cl;
-            border-color: $i-cl;
+        color: $white !important;
+        &:hover ,  &:focus{
+            background: $i-cl !important;
+            border-color: $i-cl !important;
+            color: $white !important;
         }
     }
 }
@@ -885,6 +887,7 @@
     .emojis-img {
         display: inline-block;
         color: $p-cl;
+        vertical-align: middle;
         /*@include maxlg {
             max-width: 70px;
         }*/

@@ -37,10 +37,20 @@ footer {
         span {
             display: block; //padding-top: 15px;
             font-family: 'h';
+            font-size: 12px;
             strong {
-                font-family: 'hn-b';
+                //font-family: 'hn-b';
                 font-weight: 900;
-                font-size: 20px;
+                //font-size: 20px;
+            }
+        }
+        li{
+            &:last-child{
+                span{
+                    /*font-family: "open sans",sans-serif;
+                    font-size: 12px;*/
+                    text-transform: uppercase;
+                }
             }
         }
     }
