@@ -60,6 +60,10 @@ class ProfessionManagementController extends Controller {
         $this->loggedInUser = Auth::guard('admin');
         $this->objNotifications = new Notifications();
         $this->objProfessionInstitutes = new ProfessionInstitutes();
+        $this->professionInstituteOriginalImageUploadPath = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->professionInstituteThumbImageUploadPath = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_UPLOAD_PATH');
+        $this->professionInstituteThumbImageHeight = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_HEIGHT');
+        $this->professionInstituteThumbImageWidth = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_WIDTH');
     }
 
     public function index() {
@@ -624,6 +628,14 @@ class ProfessionManagementController extends Controller {
         //limit
         $records["data"] = $records["data"]->take($iDisplayLength)->offset($iDisplayStart)->get();
         $sid = 0;
+
+        if (!empty($records["data"])) {
+            foreach ($records["data"] as $key => $_records) {                
+                $records["data"][$key]->action = '<a onClick="showProfessionImageUploadModel('.$_records->id.','.$_records->school_id.','.$_records->image.')" class="btn btn-primary">'.trans("labels.lblupdatephoto").'</a>';
+                $records["data"][$key]->image = ($_records->image != '' && Storage::size($this->professionInstituteThumbImageUploadPath . $_records->image) > 0) ? "<img src='". Storage::url($this->professionInstituteThumbImageUploadPath . $_records->image) ."' height = 50 width = 50 >" : "<img src='". Storage::url('img/insti-logo.png') ."'   height = 50 width= 50>";
+            }
+        }
+
         $records["draw"] = $sEcho;
         $records["recordsTotal"] = $iTotalRecords;
         $records["recordsFiltered"] = $iTotalFiltered;
@@ -723,6 +735,43 @@ class ProfessionManagementController extends Controller {
             } else {
                 return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
             }
+        }
+    } 
+
+    public function professionInstitutesPhotoUpdate() {
+        $file = Input::file('institute_photo');
+        $hiddenLogo = Input::file('oldimage');
+        $validationPass = Helpers::checkValidImageExtension($file);
+        if($validationPass)
+        {
+            $fileName = 'ProfessionInstitute_' . time() . '.' . $file->getClientOriginalExtension();
+            $pathOriginal = public_path($this->professionInstituteOriginalImageUploadPath . $fileName);
+            $pathThumb = public_path($this->professionInstituteThumbImageUploadPath . $fileName);
+            Image::make($file->getRealPath())->save($pathOriginal);
+            Image::make($file->getRealPath())->resize($this->professionInstituteThumbImageWidth, $this->professionInstituteThumbImageHeight)->save($pathThumb);
+            
+            if ($hiddenLogo != '')
+            {
+                $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->professionInstituteOriginalImageUploadPath, "s3");
+                $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($hiddenLogo, $this->professionInstituteThumbImageUploadPath, "s3");
+            }
+
+            //Uploading on AWS
+            $originalImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->professionInstituteOriginalImageUploadPath, $pathOriginal, "s3");
+            $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $this->professionInstituteThumbImageUploadPath, $pathThumb, "s3");
+            \File::delete($this->professionInstituteOriginalImageUploadPath . $fileName);
+            \File::delete($this->professionInstituteThumbImageUploadPath . $fileName);
+            
+            $data['image'] = $fileName;
+            $data['id'] = Input::get('institute_id');
+            $response = $this->objProfessionInstitutes->insertUpdate($data);
+            if($response) {
+                return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstituesphotouploadsuccess'));
+            } else {
+                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
+            }
+        } else {
+            return Redirect::to("admin/professionInstitute")->with('error', trans('labels.professioninstituesphotonotvalid'));
         }
     }
 

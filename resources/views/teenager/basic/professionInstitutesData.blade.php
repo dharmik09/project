@@ -77,8 +77,8 @@
         if(isset($value->accreditation_body) && $value->accreditation_body != ""){
             $instituteAccreditationBody = $value->accreditation_body;
         }
-        if(isset($value->speciality) && $value->speciality != ""){
-            $instituteSpeciality = explode("#", $value->speciality);
+        if(isset($value->image) && $value->image != ""){
+            $institutePhoto = $this->professionInstituteOriginalImageUploadPath.$value->image;
         }
 
 
