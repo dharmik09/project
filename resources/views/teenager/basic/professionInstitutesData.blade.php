@@ -77,8 +77,11 @@
         if(isset($value->accreditation_body) && $value->accreditation_body != ""){
             $instituteAccreditationBody = $value->accreditation_body;
         }
+        if(isset($value->speciality) && $value->speciality != ""){
+            $instituteSpeciality = explode("#", $value->speciality);
+        }
         if(isset($value->image) && $value->image != ""){
-            $institutePhoto = $this->professionInstituteOriginalImageUploadPath.$value->image;
+            $institutePhoto = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_UPLOAD_PATH') .$value->image;
         }
 
 
@@ -143,7 +146,7 @@
                                         @if(count($instituteSpeciality)>0)
                                             <ul class="tag-list">
                                                 @forelse($instituteSpeciality as $key => $value)
-                                                        <li>{{$value}}</li>
+                                                    <li><a href="{{ url('teenager/institute') }}?speciality={{$value}}" title="{{$value}}">{{$value}}</a></li>
                                                 @empty
                                                 @endforelse
                                             </ul>
