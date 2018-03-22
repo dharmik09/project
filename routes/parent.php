@@ -14,7 +14,7 @@ Route::get('/level4-activity/{professionId}/{teenId}', 'Parent\Level4ActivityMan
 Route::post('/play-level4-activity', 'Parent\Level4ActivityManagementController@saveLevel4Ans')->name('play-level4-activity');
 Route::get('/level4-play-more/{professionId}/{teenId}', 'Parent\Level4ActivityManagementController@level4PlayMore')->name('level4-play-more');
 Route::post('/get-available-coins-for-template/', 'Parent\CoinManagementController@getAvailableCoinsForTemplate')->name('get-available-coins-for-template');
-Route::post('/get-coins-for-template/', 'Parent\CoinManagementController@getCoinsForTemplate')->name('get-coins-for-template');
+//Route::post('/get-coins-for-template/', 'Parent\CoinManagementController@getCoinsForTemplate')->name('get-coins-for-template');
 Route::any('/my-coins/', 'Parent\CoinManagementController@display')->name('my-coins');
 Route::get('/get-transaction/', 'Parent\CoinManagementController@getTransaction')->name('get-transaction');
 Route::get('/get-consumption/', 'Parent\CoinManagementController@getConsumption')->name('get-consumption');
@@ -48,6 +48,12 @@ Route::post('/get-level4-advance-step2-details', 'Parent\Level4AdvanceActivityMa
 Route::post('/submit-level4-advance-activity', 'Parent\Level4AdvanceActivityManagementController@submitLevel4AdvanceActivity');
 Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceActivityManagementController@submitLevel4AdvanceActivityForReview');
 Route::post('/delete-user-advance-task', 'Parent\Level4AdvanceActivityManagementController@deleteUserAdvanceTask');
+
+//Level 4 Intermediate Activity
+Route::post('/get-coins-for-template', 'Parent\CoinManagementController@getCoinsForTemplate');
+Route::post('/save-coins-for-template-data', 'Parent\CoinManagementController@saveConceptCoinsDetail');
+Route::post('/play-intermediate-level-activity', 'Parent\Level4ActivityManagementController@professionIntermediateQuestions')->name('play-intermediate-level-activity');
+Route::post('/save-intermediate-level-activity', 'Parent\Level4ActivityManagementController@saveIntermediateLevelActivity')->name('play-intermediate-level-activity');
 
 
 //My Teen

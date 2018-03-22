@@ -421,65 +421,84 @@ class CoinManagementController extends Controller {
     }
 
     public function getCoinsForTemplate() {
-        if (Auth::guard('parent')->check()) {
-            $parentId = $this->loggedInUser->user()->id;
-            $professionId = Input::get('professionId');
-            $template_id = Input::get('template_id');
+        $parentId = Auth::guard('parent')->user()->id;
+        $professionId = Input::get('professionId');
+        $template_id = Input::get('templateId');
+        if($parentId > 0 && $professionId != '' && $template_id != '') {
             $userData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($template_id);
             $coins = $userData['gt_coins'];
             $parentDetail = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
-
-            if (!empty($parentDetail)) {
-                if ($parentDetail['p_coins'] < $coins) {
-                    return $parentDetail['p_coins'];
-                    exit;
-                }
+            if ($coins > 0 && !empty($parentDetail) && $parentDetail['p_coins'] < $coins) {
+                $response['return'] = 0;
+                $response['coins'] = number_format($parentDetail['p_coins']);
+                $response['status'] = 1;
+            } else {
+                $response['return'] = 1;
+                $response['coins'] = number_format($parentDetail['p_coins']);
+                $response['status'] = 1;
             }
-            return "1";
-            exit;
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Invalid User";
+            $response['return'] = 0;
+            $response['redirect'] = '/';
         }
-        return view('parent.login'); exit;
+        return response()->json($response, 200);
+        exit;
     }
 
     public function saveConceptCoinsDetail() {
-        if (Auth::guard('parent')->check()) {
-            $parentId = $this->loggedInUser->user()->id;
-            $professionId = Input::get('professionId');
-            $template_id = Input::get('template_id');
-            $attempted = Input::get('attempted');
+        $professionId = Input::get('professionId');
+        $templateId = Input::get('templateId');
+        $parentId = Auth::guard('parent')->user()->id;
+        $attempted = Input::get('attempted');
+
+        if($parentId > 0 && $professionId != '' && $templateId != '') {
+        
             $objPaidComponent = new PaidComponent();
             $objTemplateDeductedCoins = new TemplateDeductedCoins();
 
-            $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,$template_id,2);
+            $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,$templateId,2);
             $days = 0;
             if (!empty($deductedCoinsDetail->toArray())) {
                 $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
             }
-            $userData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($template_id);
-            $coins = $userData['gt_coins'];
-            if ($days == 0 && $coins != 0 && $attempted == 'no') {
+            $userData = $this->level4ActivitiesRepository->getTemplateDataForCoinsDetail($templateId);
+            $coins = isset($userData['gt_coins']) ? $userData['gt_coins'] : 0;
+            if ($days == 0 && $coins > 0 && $attempted == 'no') {
                 $deductedCoins = $coins;
                 $parentDetail = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
                 if (!empty($parentDetail)) {
                     $coins = $parentDetail['p_coins']-$coins;
 
-                    $response = $this->parentsRepository->updateParentCoinsDetail($parentId, $coins);
+                    $responsep = $this->parentsRepository->updateParentCoinsDetail($parentId, $coins);
                     $saveData = [];
                     $saveData['id'] = 0;
-                    $saveData['tdc_user_id'] = $this->loggedInUser->user()->id;
+                    $saveData['tdc_user_id'] = $parentId;
                     $saveData['tdc_user_type'] = 2;
                     $saveData['tdc_profession_id'] = $professionId;
-                    $saveData['tdc_template_id'] = $template_id;
+                    $saveData['tdc_template_id'] = $templateId;
                     $saveData['tdc_total_coins'] = $deductedCoins;
                     $saveData['tdc_start_date'] = date('y-m-d');;
                     $saveData['tdc_end_date'] = date('Y-m-d', strtotime("+". $userData['gt_valid_upto'] ." days"));
 
-                    $response = $objTemplateDeductedCoins->saveDeductedCoinsDetail($saveData);
+                    $responses = $objTemplateDeductedCoins->saveDeductedCoinsDetail($saveData);
+
+                    $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,$templateId,2);
+                    $remDays = 0;
+                    if ($deductedCoinsDetail && isset($deductedCoinsDetail[0])) {
+                        $remDays = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+                    }
+                    $response['remainingDays'] = $remDays;  
                 }
+                $response['status'] = 1;
+                $response['message'] = "Success!";
+            } else {
+                $response['status'] = 0;
+                $response['message'] = "Invalid User";
             }
-            return "1";
+            return response()->json($response, 200);
             exit;
         }
-        return view('parent.login'); exit;
     }
 }

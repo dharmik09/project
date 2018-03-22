@@ -12,14 +12,17 @@ use Helpers;
 use App\Apptitude;
 use Storage;
 use Config;
+use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
+use App\TemplateDeductedCoins;
 
 class ProfessionController extends Controller {
 
-    public function __construct(ProfessionsRepository $professionsRepository) 
+    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository) 
     {
         $this->professionsRepository = $professionsRepository;
         $this->professions = new Professions;
         $this->objApptitude = new Apptitude;
+        $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->aptitudeThumb = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
         $this->log = new Logger('parent-profession-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
@@ -61,8 +64,42 @@ class ProfessionController extends Controller {
         unset($professionsData->careerMapping);
         $professionsData->ability = $careerMappingdata;
 
+        //Intermediate template details
+        $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionsData->id);
 
-        return view('parent.careerDetail', compact('professionsData', 'countryId', 'teenId'));
+        $objTemplateDeductedCoins = new TemplateDeductedCoins();
+
+        if (!empty($getQuestionTemplateForProfession)) {
+            
+            foreach ($getQuestionTemplateForProfession As $key => $value) {
+                $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($user->id,$professionsData->id,$value->gt_template_id,2);
+                $days = 0;
+
+                if (!empty($deductedCoinsDetail->toArray())) {
+                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+                }
+                $getQuestionTemplateForProfession[$key]->remaningDays = $days;
+                $intermediateActivities = [];
+                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivitiesForParent($user->id, $professionsData->id, $value->gt_template_id);
+                $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestionForParent($user->id, $professionsData->id, $value->gt_template_id);
+                $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
+                $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
+                if (empty($intermediateActivities) || ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
+                   $getQuestionTemplateForProfession[$key]->attempted = 'yes';
+                } else {
+                    $getQuestionTemplateForProfession[$key]->attempted = 'no';
+                }
+            }
+        }
+
+        if (isset($getQuestionTemplateForProfession)) {
+            $response['questionTemplate'] = $getQuestionTemplateForProfession;
+        } else {
+            $response['questionTemplate'] = [];
+        }
+
+
+        return view('parent.careerDetail', compact('professionsData', 'countryId', 'teenId', 'getQuestionTemplateForProfession'));
     }
 
 
