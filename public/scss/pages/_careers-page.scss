@@ -1,67 +1,76 @@
 .banner-career {
     background-image: url(../img/proteen-dummy.jpg);
     margin-bottom: 44px;
-    @include maxmd{margin-top: 20px;}
-    @include maxms{
+    @include maxmd {
+        margin-top: 20px;
+    }
+    @include maxms {
         height: 220px;
     }
 }
-.careers-map{max-width: 100%;
-    .sec-filter{
-        .custom-select.bg-blue{
+
+.careers-map {
+    max-width: 100%;
+    .sec-filter {
+        .custom-select.bg-blue {
             background: $h-cl;
-            .form-control{
+            .form-control {
                 border-color: $h-cl !important;
             }
         }
     }
-    .sec-category p{
+    .sec-category p {
         color: #727476;
     }
 }
-.grid-view.listing-content .panel-heading .panel-title a:before{content: "\e91d";}
-.career-content{
+
+.grid-view.listing-content .panel-heading .panel-title a:before {
+    content: "\e91d";
+}
+
+.career-content {
     margin-bottom: 30px;
-    h2{
+    h2 {
         font-size: 45px;
-        color:$h-cl;  
+        color: $h-cl;
         display: inline-block;
         margin-bottom: 25px;
         width: 85%;
-        @include maxmd{
+        @include maxmd {
             font-size: 36px;
         }
-        @include maxsm{
+        @include maxsm {
             font-size: 28px;
         }
-        @include maxms{
+        @include maxms {
             font-size: 22px;
             width: 78%;
         }
     }
-    .sec-icon{
+    .sec-icon {
         font-size: 26px;
         padding: 12px 0;
-        @include maxmd{
+        @include maxmd {
             font-size: 20px;
         }
-        @include maxsm{
+        @include maxsm {
             padding: 3px 0;
         }
-        span{
+        span {
             margin-right: 20px;
-            @include maxmd{
+            @include maxmd {
                 margin-right: 6px;
             }
-            &:last-child{
+            &:last-child {
                 margin-right: 0;
             }
         }
-        a{
+        a {
             color: $h-cl;
         }
     }
 }
+
 .sec-category {
     .career-map {
         .category {
@@ -69,10 +78,10 @@
             min-height: 357px;
             text-align: center;
             margin-bottom: 22px;
-            @include maxlg{
+            @include maxlg {
                 min-height: 317px;
             }
-            @include maxms{
+            @include maxms {
                 min-height: 280px;
             }
             a {
@@ -86,10 +95,10 @@
                 width: 100%;
                 transform: translate(-50%, -50%);
                 padding: 0 15px;
-                @include maxlg{
+                @include maxlg {
                     font-size: 26px;
                 }
-                @include maxms{
+                @include maxms {
                     font-size: 21px;
                 }
             }
@@ -107,14 +116,14 @@
                 opacity: 0;
                 transition: all 0.5s ease-out;
                 color: $g-cl;
-                @include maxlg{
+                @include maxlg {
                     padding: 20px 0;
                 }
-                @include maxmd{
+                @include maxmd {
                     padding: 18px 0;
                     font-size: 17px;
                 }
-                @include maxms{
+                @include maxms {
                     font-size: 14px;
                 }
                 span {
@@ -137,6 +146,32 @@
                 .overlay {
                     opacity: 1;
                     visibility: visible;
+                }
+            }
+        }
+    }
+    .career-listing {
+        padding-bottom: 0;
+        border-bottom: none;
+        margin-bottom: 0;
+        .category-block figure {
+            .category-img {
+                min-height: 250px;
+                @include maxsm{
+                    min-height: 340px;
+                    background-position: center top;
+                }
+                @include maxms{
+                    min-height: 210px;
+                }
+            }
+            figcaption a {
+                padding: 20px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                @include maxlg{
+                    padding: 20px 15px;
                 }
             }
         }

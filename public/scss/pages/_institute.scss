@@ -186,10 +186,31 @@
         text-transform: capitalize;
         color: $r-cl;
         font-family: 'h';
+        min-width: 175px;
+        max-width: 175px;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        @include maxsm{
+            min-width: 144px;
+            max-width: 144px;
+        }
+        @include maxms{
+            min-width: 134px;
+            max-width: 134px;
+        }
     }
     li {
         margin-bottom:14px;
         font-family: 'h';
+        position: relative;
+        padding-left: 175px;
+        @include maxsm{
+            padding-left: 144px;
+        }
+        @include maxms{
+            padding-left: 134px;
+        }
         &:last-child{
             margin-bottom: 0;
         }
