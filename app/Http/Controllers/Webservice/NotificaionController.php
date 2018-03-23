@@ -34,7 +34,7 @@ class NotificaionController extends Controller {
             if($request->pageNo != '' && $request->pageNo > 1){
                 $pageNo = ($request->pageNo-1) * 20;
             }
-            $data = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo);
+            $data = $this->objNotifications->getNotificationsByUserTypeAndId(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo);
             foreach($data as $key => $value){
                 if(isset($value->senderTeenager) && $value->senderTeenager != '') {
                     $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
