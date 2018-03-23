@@ -316,7 +316,7 @@
                         </div>
                         <!-- active_tab_view End -->
                         
-                        <h2 class="das_title custom-section">Careers to consider</h2>
+                        <h2 class="das_title custom-section"><a href="{{url('teenager/list-career')}}" title="Careers">Explore Careers</a></h2>
                         <div class="das_your_profile my_interests career-consider">
                             <div class="data-explainations clearfix data-interest">
                              <div class="content">
@@ -325,7 +325,7 @@
                                 <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
                              </div>
                             </div>
-                            <h2>My likely fit<span></span><span class="sec-popup"><a id="dashboard-career-consider" href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#home-career-consider" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
+                            <h2>Suggestions<span></span><span class="sec-popup"><a id="dashboard-career-consider" href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#home-career-consider" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="unbox-btn">
                                 <a id="career_unbox" href="javascript:void(0)" title="Unbox Me" @if($remainingDaysForCareerConsider <= 0) onclick="getCareersConsiderDetails('{{Auth::guard('teenager')->user()->t_coins}}', '{{ $componentsCareerConsider->pc_required_coins }}');" @endif class="btn-primary" data-toggle="modal" >
                                     <span class="unbox-me">Unbox Me</span>
@@ -488,21 +488,21 @@
         $('.expandElement').slideToggle('medium', function() {
             if ($(this).is(':visible')) {
                 $(this).css('display','block');
-                $("#interest").text("Collapse");
+                $("#interest_expand").text("Collapse");
             } else {
-                $("#interest").text("Expand");
+                $("#interest_expand").text("Expand");
             }
         });
         return false;
     });
 
-    $(document).on('click', '#strength', function() {
+    $(document).on('click', '#strength_expand', function() {
         $('.expandStrength').slideToggle('medium', function() {
             if ($(this).is(':visible')) {
                 $(this).css('display','block');
-                $("#strength").text("Collapse");
+                $("#strength_expand").text("Collapse");
             } else {
-                $("#strength").text("Expand");
+                $("#strength_expand").text("Expand");
             }
         });
         return false;

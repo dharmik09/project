@@ -137,29 +137,6 @@
     <div id="education_chart"></div>  
 </div>
 
-<?php
-    $edu_stream = $professionsData->professionHeaders->filter(function($item) {
-        return $item->pfic_title == 'edu_stream';
-    })->first();
-
-    if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content)){
-        $collegeList = explode('#', strip_tags($edu_stream->pfic_content));
-    }
-?>
-<div class="block sec-tags">
-    <h4>College Finder</h4>
-    <a href="{{ url('teenager/institute') }}" title="Find College" class="btn btn-default">Find College</a> 
-    @if(isset($edu_stream->pfic_content) && !empty($edu_stream->pfic_content))
-    <ul class="tag-list">
-        @forelse($collegeList as $key => $value)
-            <li><a href="{{ url('teenager/institute') }}?speciality={{$value}}" title="{{$value}}">{{$value}}</a></li>
-        @empty
-        @endforelse
-    </ul>
-    
-    @endif
-</div>
-
 <div class="block">
     <h4>Certifications</h4>
     @if(isset($professionsData->professionCertificates) && !empty($professionsData->professionCertificates))

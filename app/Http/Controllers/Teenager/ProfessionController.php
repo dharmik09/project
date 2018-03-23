@@ -343,12 +343,18 @@ class ProfessionController extends Controller {
         $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
         //1=India, 2=US
         $countryId = ($user->t_view_information == 1) ? 2 : 1;
-
         $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
         $professionsData = ($professionsData) ? $professionsData : [];
         if(!$professionsData) {
             return Redirect::to("teenager/list-career")->withErrors("Invalid professions data");
         }
+        
+        $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($user->id, $professionsData->id);
+        $level4BasicPlayed = 0;
+        if(isset($totalBasicQuestion[0]->NoOfTotalQuestions) && $totalBasicQuestion[0]->NoOfTotalQuestions > 0 && ($totalBasicQuestion[0]->NoOfTotalQuestions <= $totalBasicQuestion[0]->NoOfAttemptedQuestions) ) {
+            $level4BasicPlayed = 1;
+        }
+        
         $objTemplateDeductedCoins = new TemplateDeductedCoins();
         $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionsData->id);
         if( isset($getQuestionTemplateForProfession[0]) ) {
@@ -395,10 +401,6 @@ class ProfessionController extends Controller {
         $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
         
         $professionPromiseParameters = Helpers::getCareerMapColumnName();
-       
-        //Get individual profession 24 PROMISE parameters 
-//        $professionCareerMappingData = $professionsData->careerMapping->tcm_scientific_reasoning;
-
         
         //Get Max score for MI parameters
         $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
@@ -480,8 +482,8 @@ class ProfessionController extends Controller {
             }
         }
         
-        $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_THUMB_IMAGE_UPLOAD_PATH');
+        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_THUMB_IMAGE_UPLOAD_PATH');
         $adsDetails = Helpers::getAds($user->id);
         $mediumAdImages = [];
         $largeAdImages = [];
@@ -572,9 +574,7 @@ class ProfessionController extends Controller {
 
         $professionCompletePercentage = Helpers::getProfessionCompletePercentage($user->id, $professionsData->id);
 
-        //echo "<pre/>"; print_r($getQuestionTemplateForProfession); die();
-
-        return view('teenager.careerDetail', compact('professionCompletePercentage', 'getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers', 'promisePlusComponent', 'promisePlusRemainingDays', 'instituteRemainingDays', 'instituteComponent'));
+        return view('teenager.careerDetail', compact('level4BasicPlayed', 'professionCompletePercentage', 'getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers', 'promisePlusComponent', 'promisePlusRemainingDays', 'instituteRemainingDays', 'instituteComponent'));
     }
 
     public function getTeenagerWhoStarRatedCareer()

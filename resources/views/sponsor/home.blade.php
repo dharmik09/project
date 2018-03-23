@@ -228,10 +228,13 @@
 <div class="modal fade default_popup" id="gift">
     <div class="modal-dialog">
         <div class="modal-content">
-            <button type="button" class="close close_next" data-dismiss="modal">Close</button>
+            <div class="close close_next">
+                <i class="icon-close" data-dismiss="modal"></i>
+            </div>
+            <!-- <button type="button" class="close close_next" data-dismiss="modal">Close</button> -->
             <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
 			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
-            <div id="userData">
+            <div id="userDataDisplay">
 
             </div>
         </div>
@@ -248,18 +251,19 @@
 </div>
 @endif
 
-<div class="loader ajax-loader" style="display:none;">
+<!-- <div class="loader ajax-loader" style="display:none;">
     <div class="cont_loader">
         <div class="img1"></div>
         <div class="img2"></div>
     </div>
-</div>
-<!--<div class="loading-screen loading-wrapper-sub loader-transparent" style="display:none;">
+</div> -->
+
+<div class="loading-screen loading-wrapper-sub loader-transparent" style="display:none;">
     <div class="loading-text">
         <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
     </div>
      <div class="loading-content"></div>
-</div>-->
+</div>
 
 @if(!empty($activityDetail))
 <div id="teenager_details" class="modal fade cst_modals" role="dialog">
@@ -283,8 +287,7 @@
         if (couponId > 0) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var form_data = 'couponId=' + couponId;
-            $('.ajax-loader').show();
-            //return false;
+            $('.loader-transparent').show();
             $.ajax({
                 type: 'get',
                 data: form_data,
@@ -297,7 +300,7 @@
                 success: function(data) {
                     $("#couponCompeting").html(data);
                     $("#rank_list_global").modal('show');
-                    $('.ajax-loader').hide();
+                    $('.loader-transparent').hide();
                     $(".table_container_outer").mCustomScrollbar({
                         axis: "yx"
                     });
@@ -310,7 +313,7 @@
         if (activityId > 0) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var form_data = 'activityId=' + activityId;
-            $('.ajax-loader').show();
+            $('.loader-transparent').show();
             $.ajax({
                 type: 'get',
                 data: form_data,
@@ -323,7 +326,7 @@
                 success: function(data) {
                     $("#appliedForScholarship").html(data);
                     $("#teenager_details").modal('show');
-                    $('.ajax-loader').hide();
+                    $('.loader-transparent').hide();
                     $(".table_container_outer").mCustomScrollbar({
                         axis: "yx"
                     });
@@ -501,7 +504,7 @@ function giftCoins(coins)
         $("#errorGoneMsg").append("<div class='col-md-8 col-md-offset-2 r_after_click' id='useForClass'><div class='box-body'><div class='alert alert-error danger'><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>X</button><span class='fontWeight'>Hey! You can only gift from what you have!</span></div></div></div>");
         return false;
     }
-    $('.ajax-loader').show();
+    $('.loader-transparent').show();
     $.ajax({
         url: "{{ url('sponsor/gift-coins') }}",
         type: 'post',
@@ -509,8 +512,8 @@ function giftCoins(coins)
             "_token": '{{ csrf_token() }}'
         },
         success: function(response) {
-           $('.ajax-loader').hide();
-           $('#userData').html(response);
+           $('.loader-transparent').hide();
+           $('#userDataDisplay').html(response);
            $('#gift').modal('show');
         }
     });

@@ -21,7 +21,7 @@
                 <div class="progress-radial progress-{{$miVal['score']}} {{$progressClass}}">
                     
                 </div>
-                <h4>Scientific Reasoning</h4>
+                <h4>{{$miVal['name']}}</h4>
             </div>
         </div>
         <?php } ?>
@@ -75,7 +75,7 @@
                 $progressClass = '';
             }
         ?>
-        <?php if(strpos($ptVal['slug'], 'pt_') !== false ) { ?>
+        <?php if(substr($ptVal['slug'], 0, 3) === 'pt_' && strpos($ptVal['slug'], 'pt_') !== false ) {  ?>
         <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
             <div class="my_chart">
                 <div class="progress-radial progress-{{$ptVal['score']}} {{$progressClass}}">

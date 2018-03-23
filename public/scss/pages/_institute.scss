@@ -75,12 +75,12 @@
                 }
             }*/
         h5 {
-            font-size: 22px;
+            font-size: 20px;
             color: $r-cl;
             margin-bottom: 6px;
-            @include maxmd {
+            /*@include maxmd {
                 font-size: 20px;
-            }
+            }*/
             @include maxsm {
                 font-size: 19px;
             }
@@ -173,7 +173,7 @@
 .institute-detail {
     list-style-type: none;
     padding: 0;
-    font-size: 18px;
+    font-size: 15px;
     color: $lightgrey;
     @include maxsm {
         font-size: 15px;
@@ -186,30 +186,30 @@
         text-transform: capitalize;
         color: $r-cl;
         font-family: 'h';
-        min-width: 175px;
-        max-width: 175px;
+        min-width: 150px;
+        max-width: 150px;
         display: inline-block;
         position: absolute;
         left: 0;
         @include maxsm{
-            min-width: 144px;
-            max-width: 144px;
+            min-width: 146px;
+            max-width: 146px;
         }
         @include maxms{
-            min-width: 134px;
-            max-width: 134px;
+            min-width: 136px;
+            max-width: 136px;
         }
     }
     li {
         margin-bottom:14px;
         font-family: 'h';
         position: relative;
-        padding-left: 175px;
+        padding-left: 150px;
         @include maxsm{
-            padding-left: 144px;
+            padding-left: 146px;
         }
         @include maxms{
-            padding-left: 134px;
+            padding-left: 136px;
         }
         &:last-child{
             margin-bottom: 0;
@@ -243,7 +243,7 @@
         }
     }
     h5 {
-        font-size: 24px;
+        font-size: 22px;
         color: $h-cl;
         //margin: 0px 0 25px;
         font-weight: 700;

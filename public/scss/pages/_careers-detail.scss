@@ -1613,7 +1613,7 @@
                     display: none;
                 }
             }
-            &:before {
+            /*&:before {
                 position: absolute;
                 content: ">";
                 top: 35%;
@@ -1624,7 +1624,7 @@
                     font-size: 18px;
 
                 }
-            }
+            }*/
             &:after {
                 position: absolute;
                 content: '';
@@ -2030,3 +2030,4 @@ text.highcharts-xaxis-title {
         text-align: left;
     }
 }
+.ad-slider .owl-prev,.ad-slider .owl-next{display: none;}

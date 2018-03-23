@@ -136,13 +136,6 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
-                                <div class="list-icon">
-                                    <span>
-                                        <div id="print_loader">
-                                            <a href="{{url('parent/get-career-pdf/'.$professionsData->pf_slug)}}" target="_blank" title="print"><i class="icon-print"></i></a>
-                                        </div> 
-                                    </span>
-                                </div>
                             </div>
                             <?php
                                 $profession_description = $professionsData->professionHeaders->filter(function($item) {
@@ -196,6 +189,116 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="flexSeprator" style="padding:10px;"></div>
+                                        <div class="row flex-container">
+                                            <div class="col-sm-12">
+                                                <div class="quiz-intermediate">
+                                                    <div class="sec-show clearfix flex-container quiz-intermediate-sec-show">
+                                                            <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
+                                                                <div class="loading-text">
+                                                                    <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
+                                                                </div>
+                                                                <div class="loading-content"></div>
+                                                            </div>
+                                                            @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
+                                                            
+                                                                @foreach($getQuestionTemplateForProfession as $templateProfession)
+                                                                    <div class="col-sm-6 flex-items">
+                                                                        <div class="quiz-box">
+                                                                            <div class="img">
+                                                                                <img src="{{ $templateProfession->gt_template_image }}" alt="{{ $templateProfession->gt_template_title }}">
+                                                                            </div>
+                                                                            <h6>{!! $templateProfession->gt_template_title !!}</h6>
+                                                                            <p title="{{strip_tags($templateProfession->gt_template_descritpion)}}"> {!! strip_tags(str_limit($templateProfession->gt_template_descritpion, '100', '...more')) !!}</p>
+                                                                            @if ($templateProfession->remaningDays > 0)
+                                                                                @if($templateProfession->attempted == 'yes')
+                                                                                    <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
+                                                                                        <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                            <span class="unbox-me">Played!</span>
+                                                                                        </a>
+                                                                                    </div>   
+                                                                                @else
+                                                                                    <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
+                                                                                        <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})" >
+                                                                                            <span class="unbox-me">Play now!</span>
+                                                                                            <span class="coins-outer">
+                                                                                                <span class="coins"></span>
+                                                                                                @if($templateProfession->gt_coins > 0) {{$templateProfession->remaningDays}} Days Left @else this is free enjoy @endif
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </div>    
+                                                                                @endif
+                                                                            @elseif($templateProfession->gt_coins == 0)
+                                                                                @if($templateProfession->attempted == 'yes')
+                                                                                    <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
+                                                                                        <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                            <span class="unbox-me">Played!</span>
+                                                                                        </a>
+                                                                                    </div>   
+                                                                                @else
+                                                                                    <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
+                                                                                        <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                            <span class="unbox-me">Play now!</span>
+                                                                                            <span class="coins-outer">
+                                                                                                <span class="coins"></span> 
+                                                                                                This is free enjoy
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                @endif
+                                                                            @else
+                                                                                @if($templateProfession->attempted == 'yes')
+                                                                                    <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
+                                                                                        <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
+                                                                                            <span class="unbox-me">Played!</span>
+                                                                                        </a>
+                                                                                    </div>   
+                                                                                @else
+                                                                                    <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
+                                                                                        <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" onclick="getTemplateConceptData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}})">
+                                                                                            <span class="unbox-me">Unbox Me</span>
+                                                                                            <span class="coins-outer">
+                                                                                                <span class="coins"></span> 
+                                                                                                {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} 
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    <div class="modal fade" id="myModal{{$templateProfession->gt_template_id}}" role="dialog">
+                                                                                        <div class="modal-dialog">
+                                                                                            <div class="modal-content custom-modal">
+                                                                                                <div class="modal-header">
+                                                                                                    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                                                                                                    <h4 class="modal-title">Congratulations!</h4>
+                                                                                                </div>
+                                                                                                <div class="no-coins-availibility">
+                                                                                                    <div class="modal-body">
+                                                                                                        <p class="my-coins-info">You have {{ (Auth::guard('parent')->user()->t_coins > 0) ? number_format(Auth::guard('parent')->user()->t_coins) : 0 }} ProCoins available.</p>
+                                                                                                        <p>Click OK to consume your {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} ProCoins and play on</p>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-primary btn-intermediate" data-dismiss="modal" onclick="saveCoinsForTemplateData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}}, 'no')" >ok</button>
+                                                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                @endif
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            @else
+
+                                                            @endif
+                                                        </div>
+                                                        <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- Section for real world --> 
                                     <div class="virtual-plus text-center real-world">
@@ -211,8 +314,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
+                       
                         <div class="ad-slider owl-carousel">
                             <div class="ad-sec-h">
                                 <div class="t-table">
@@ -222,7 +324,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                         </div>
                     <div class="col-md-4">
                         <div class="sec-tags">
                             <h4>Tags</h4>
@@ -261,10 +363,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div></div>
                     </div>
                 </div>
-            </div>
         </section>
     </div>
 </div>
@@ -702,7 +803,7 @@
         $('.intermediate-first-question-loader').show();
             
         $.ajax({
-            url: "{{url('teenager/play-intermediate-level-activity')}}",
+            url: "{{url('parent/play-intermediate-level-activity')}}",
             type : 'POST',
             data : { 'professionId' : '{{$professionsData->id}}', 'templateId' : templateId },
             headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
@@ -962,7 +1063,7 @@
                 data: form_data,
                 //async: false,
                 dataType: 'html',
-                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                url: "{{ url('/parent/save-intermediate-level-activity')}}",
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
@@ -1068,7 +1169,7 @@
                 data: form_data,
                 //async: false,
                 dataType: 'html',
-                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                url: "{{ url('/parent/save-intermediate-level-activity')}}",
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
@@ -1149,7 +1250,7 @@
                 data: form_data,
                 //async: false,
                 dataType: 'html',
-                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                url: "{{ url('/parent/save-intermediate-level-activity')}}",
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
@@ -1247,7 +1348,7 @@
                 data : form_data,
                 //async: false,
                 dataType: 'html',
-                url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                url: "{{ url('/parent/save-intermediate-level-activity')}}",
                 headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                 cache: false,
                 success: function(data) {
@@ -1304,7 +1405,7 @@
                     type: 'POST',
                     data: form_data,
                     dataType: 'html',
-                    url: "{{ url('/teenager/save-intermediate-level-activity')}}",
+                    url: "{{ url('/parent/save-intermediate-level-activity')}}",
                     headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
                     cache: false,
                     success: function(data) {
@@ -1933,7 +2034,7 @@
     
     function getTemplateConceptData(professionId, templateId) {
         $.ajax({
-            url: "{{ url('/teenager/get-coins-for-template') }}",
+            url: "{{ url('/parent/get-coins-for-template') }}",
             type: 'POST',
             data: {
                 "_token": '{{ csrf_token() }}',
@@ -1961,7 +2062,7 @@
 
     function saveCoinsForTemplateData(professionId, templateId, attempted) {
         $.ajax({
-            url: "{{ url('/teenager/save-coins-for-template-data') }}",
+            url: "{{ url('/parent/save-coins-for-template-data') }}",
             type: 'POST',
             data: {
                 "_token": '{{ csrf_token() }}',
