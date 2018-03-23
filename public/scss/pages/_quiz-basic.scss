@@ -122,9 +122,9 @@
         //max-width: 350px;
         margin: 0 auto 30px;
         text-align: center;
-        iframe{
+        iframe {
             width: 100%;
-            @include maxms{
+            @include maxms {
                 height: auto;
             }
         }
@@ -133,9 +133,12 @@
         font-size: 16px;
         padding: 9px 45px;
         transition: 0.3s all ease-out;
-        &:hover {
-            background: $i-cl;
-            border-color: $i-cl;
+        color: $white !important;
+        &:hover,
+        &:focus {
+            background: $i-cl !important;
+            border-color: $i-cl !important;
+            color: $white !important;
         }
     }
 }
@@ -315,7 +318,7 @@
         li {
             border: 1px solid $lightgrey;
             border-radius: 5px;
-            min-height: 92px;
+            height: 92px;
             padding: 10px;
             margin-bottom: 15px;
             font-size: 18px;
@@ -352,6 +355,7 @@
             transition: .3s all ease-out;
             overflow-y: auto;
             font-size: 18px;
+            color: #565b5f;
             @include maxsm {
                 font-size: 14px;
             }
@@ -393,9 +397,25 @@
         margin: 0 10px 25px;
         display: inline-block !important;
         vertical-align: text-bottom;
+        max-height: 70px;
+        min-height: 70px;
+        vertical-align: text-bottom;
+        overflow-y: auto;
+        overflow-x: hidden;
         @include maxsm {
             width: 100%;
             margin: 0 0 25px;
+            min-height: auto;
+            max-height: auto;
+        }
+        em {
+            max-height: 66px;
+            min-height: 66px;
+            padding: 0 15px !important;
+            @include maxsm {
+                min-height: auto;
+                max-height: auto;
+            }
         }
         img {
             width: 90px !important;
@@ -885,6 +905,7 @@
     .emojis-img {
         display: inline-block;
         color: $p-cl;
+        vertical-align: middle;
         /*@include maxlg {
             max-width: 70px;
         }*/
@@ -1107,12 +1128,17 @@
         position: absolute;
         right: 15px;
         top: 20px;
-        &:hover,&:focus{
+        &:hover,
+        &:focus {
             outline: none;
         }
     }
-    .modal-header{
+    .modal-header {
         border-bottom: none;
     }
 }
-#single_line_answer_box{text-transform: uppercase;text-align: center;}
+
+#single_line_answer_box {
+    text-transform: uppercase;
+    text-align: center;
+}

@@ -552,6 +552,9 @@ a, a:focus, a:hover{color: #d81c02;}
 /*.loader-transparent{background: rgba(255,255,255,0.9) !important;position: fixed;}*/
 /* .ajax-loader{display: none !important;} */
 /*body.fixed-nav{background: #fff;}*/
+.ad-slider .owl-prev,.ad-slider .owl-next{display: none;}
+.modal{background: #eeeeef !important;}
+.gift_modal_page .submit_register .btn.disable{pointer-events: none;cursor: not-allowed;background: #ccc !important;color: rgba(22,28,34,.7) !important;}
 
 
 @media (max-width: 991px) {
