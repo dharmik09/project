@@ -57,17 +57,14 @@
                 <div>
                     <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                 </div>
-                <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video);?>
+                <?php $videoCode = Helpers::youtube_id_from_url($professionsData->pf_video); ?>
                 @if($videoCode == '')
-          
-                <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls loop style="width: 100%;min-width: 100%;">
-                    <!-- MP4 must be first for iPad! -->
-                    <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->  
-                    Your browser does not support HTML5 video.
-                </video>
-           
+                    <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls loop style="width: 100%; min-width: 100%;">
+                        <source src="{{$professionsData->pf_video}}" type="video/mp4"  />
+                        Your browser does not support HTML5 video.
+                    </video>
                 @else
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Helpers::youtube_id_from_url($professionsData->pf_video)}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1&amp;loop=1&amp;playlist={{Helpers::youtube_id_from_url($professionsData->pf_video)}}" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{$videoCode}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1&amp;loop=1&amp;playlist={{$videoCode}}" frameborder="0" allowfullscreen id="iframe-video"></iframe>
                 @endif   
             </div>
             <div class="detail-content">
@@ -84,7 +81,7 @@
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($average_per_year_salary->pfic_content) && !empty($average_per_year_salary->pfic_content)) ? $average_per_year_salary->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($average_per_year_salary->pfic_content)) ? $average_per_year_salary->pfic_content : '' ?></h4>
                                             <p>Average per year</p>
                                         </li>
                                     </ul>
@@ -98,7 +95,7 @@
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($work_hours_per_week->pfic_content) && !empty($work_hours_per_week->pfic_content)) ? $work_hours_per_week->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($work_hours_per_week->pfic_content)) ? $work_hours_per_week->pfic_content : '' ?></h4>
                                             <p>Hours per week</p>
                                         </li>
                                     </ul>
@@ -112,7 +109,7 @@
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($positions_current->pfic_content)) ? $positions_current->pfic_content : '' ?></h4>
                                             <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '<p>Industry Employment 2017</p>' : '<p>Employment 2017</p>' ?>                                            
                                         </li>
                                     </ul>
@@ -126,7 +123,7 @@
                                             })->first();
                                         ?>
                                         <li>
-                                            <h4><?php echo (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
+                                            <h4><?php echo (isset($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '' ?></h4>
                                             <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '<p>Projected for 2022</p>' : '<p>Projected for 2026</p>' ?>                                            
                                         </li>
                                     </ul>
@@ -154,7 +151,7 @@
                                     return $item->pfic_title == 'profession_description';
                                 })->first();
                             ?>
-                            <p><?php echo (isset($profession_description->pfic_content) && !empty($profession_description->pfic_content)) ? $profession_description->pfic_content : '' ?></p>
+                            <p><?php echo (isset($profession_description->pfic_content)) ? $profession_description->pfic_content : '' ?></p>
                         </div>
                         <div class="career-detail-tab bg-white">
                             <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
@@ -167,8 +164,7 @@
                                     <a data-toggle="tab" href="#menu2">
                                         <span class="dt">
                                             <span class="dtc">Explore <span class="tab-complete">
-                                            <?php $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionsData->id); ?>
-                                            {{ (isset($professionComplete) && $professionComplete > 0) ? $professionComplete : 0}}% Complete</span></span>
+                                            {{ (isset($professionCompletePercentage) && $professionCompletePercentage > 0) ? $professionCompletePercentage : 0}}% Complete</span></span>
                                         </span>
                                     </a>
                                 </li>
@@ -195,7 +191,6 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                                                                
                                     </div>
                                     <!-- Section for promise plus --> 
                                     <div class="promise-plus-outer">
