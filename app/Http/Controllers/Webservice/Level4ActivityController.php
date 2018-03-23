@@ -1545,22 +1545,22 @@ class Level4ActivityController extends Controller {
                 foreach($userLearningData as $key=>$lg){                  
                     if (strpos($lg->ls_name, 'factual_') !== false)
                     {
-                        $subPanelDataFactual[] = array('id'=>$lg->parameterId,'title'=>$lg->ls_name,'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
+                        $subPanelDataFactual[] = array('id'=>$lg->parameterId,'title'=>ucwords(str_replace('_', ' ', $lg->ls_name)),'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
                         $learningGuidance[0] = array('id'=>$lg->parameterId,'name'=>'Factual','slug'=>$lg->ls_name,'panelColor'=>'#ff5f44','image'=>'https://s3proteen.s3.ap-south-1.amazonaws.com/img/brain-img.png','subPanelData'=>$subPanelDataFactual);                                     
                     }
                     elseif (strpos($lg->ls_name, 'conceptual_') !== false)
                     {
-                        $subPanelDataConcept[] = array('id'=>$lg->parameterId,'title'=>$lg->ls_name,'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
+                        $subPanelDataConcept[] = array('id'=>$lg->parameterId,'title'=>ucwords(str_replace('_', ' ', $lg->ls_name)),'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
                         $learningGuidance[1] = array('id'=>$lg->parameterId,'name'=>'Conceptual','slug'=>$lg->ls_name,'panelColor'=>'#27a6b5','image'=>'https://s3proteen.s3.ap-south-1.amazonaws.com/img/bulb-img.png','subPanelData'=>$subPanelDataConcept);                                       
                     }
                     elseif (strpos($lg->ls_name, 'procedural_') !== false)
                     {
-                        $subPanelDataProcedural[] = array('id'=>$lg->parameterId,'title'=>$lg->ls_name,'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
+                        $subPanelDataProcedural[] = array('id'=>$lg->parameterId,'title'=>ucwords(str_replace('_', ' ', $lg->ls_name)),'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
                         $learningGuidance[2] = array('id'=>$lg->parameterId,'name'=>'Procedural','slug'=>$lg->ls_name,'panelColor'=>'#65c6e6','image'=>'https://s3proteen.s3.ap-south-1.amazonaws.com/img/puzzle-img.png','subPanelData'=>$subPanelDataProcedural);                                       
                     }
                     elseif (strpos($lg->ls_name, 'meta_cognitive_') !== false)
                     {
-                        $subPanelDataMeta[] = array('id'=>$lg->parameterId,'title'=>$lg->ls_name,'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
+                        $subPanelDataMeta[] = array('id'=>$lg->parameterId,'title'=>ucwords(str_replace('_', ' ', $lg->ls_name)),'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
                         $learningGuidance[3] = array('id'=>$lg->parameterId,'name'=>'Meta-Cognitive','slug'=>$lg->ls_name,'panelColor'=>'#73376d','image'=>'https://s3proteen.s3.ap-south-1.amazonaws.com/img/star-img.png','subPanelData'=>$subPanelDataMeta);                                       
                     }                   
                 }
