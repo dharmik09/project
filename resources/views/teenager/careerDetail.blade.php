@@ -166,7 +166,7 @@
                                 <li class="custom-tab col-xs-6 tab-color-2">
                                     <a data-toggle="tab" href="#menu2">
                                         <span class="dt">
-                                            <span class="dtc">Explore <span class="tab-complete">
+                                            <span class="dtc">Role Play<span class="tab-complete">
                                             <?php $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionsData->id); ?>
                                             {{ (isset($professionComplete) && $professionComplete > 0) ? $professionComplete : 0}}% Complete</span></span>
                                         </span>
@@ -459,10 +459,12 @@
                                             <?php 
                                                 if($remainingDaysForActivity > 0) {
                                                     $collapseClass = "collapse";
+                                                    $tooltipadv = "";
                                                 } else {
                                                     $collapseClass = "";
+                                                    $tooltipadv = "Please consume procoins to see Advanced View";
                                                 } ?>
-                                            <a data-parent="#accordion"  data-toggle="{{$collapseClass}}" href="#accordion1" class="collapsed">Advanced View</a>
+                                            <a data-parent="#accordion" title="{{$tooltipadv}}" data-toggle="{{$collapseClass}}" href="#accordion1" class="collapsed">Advanced View</a>
                                             <div class="sec-popup">
                                                     <a id="career-detail-advanced-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-advanced-view')" data-trigger="hover" data-toggle="clickover" data-popover-content="#advanced-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                                                         <i class="icon-question"></i>
@@ -506,7 +508,12 @@
                             <div class="text-left">
                                 <div class="unbox-btn">
                                     <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getCoinsConsumptionDetails('{{$componentsData->pc_required_coins}}', '{{$componentsData->pc_element_name}}', '{{$remainingDaysForActivity}}');" @endif class="btn-primary">
-                                        <span class="unbox-me">Unbox Me</span>
+                                        @if($remainingDaysForActivity > 0)                                        
+                                        <span class="unbox-me open_advance_view">See Now!</span>
+                                        @else
+                                        <span class="unbox-me" id="advanced_unbox">Unbox Me</span>
+                                        @endif
+                                        
                                         <span class="coins-outer activity_coins">
                                             <span class="coins"></span> {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
                                         </span>
@@ -515,7 +522,7 @@
                             </div>
                         </div>
                         <div class="sec-tags">
-                            <h4>Tags</h4>
+                            <h4>Hobbies</h4>
                             <div class="sec-popup">
                                 <a id="career-tags" href="javascript:void(0);" onmouseover="getHelpText('career-tags')" data-trigger="hover" data-popover-content="#tags-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                                     <i class="icon-question"></i>
@@ -609,6 +616,7 @@
 <script src="{{ asset('backend/js/highchart.js')}}"></script>
 <script>
     $(document).ready(function() {
+                
         var counterIntermediate = 0;
         $(function() {
             $(".sortable").sortable();
@@ -1854,6 +1862,7 @@
     }
 
     function saveConsumedCoins() {
+        
         var consumedCoins = $("#activity_coins").val();
         var componentName = $("#activity_name").val();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -1876,6 +1885,8 @@
                     if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
                         $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
                         $(".panel-heading a").attr("data-toggle", "collapse");
+                        $("#advanced_unbox").html("See Now!");
+                        $("#advanced_unbox").addClass("open_advance_view");
                         $("#activity_unbox").prop('onclick',null).off('click');
                     } else if (componentName == "{{Config::get('constant.INSTITUTE_FINDER')}}") {
                         $(".institute_coins").html('<span class="coins"></span> ' + response + " days left");  
@@ -2322,7 +2333,11 @@
     $(window).on("load", function(e) {
         e.preventDefault();
         getChallengedParentAndMentorList("{{Auth::guard('teenager')->user()->id}}");
-        getUserProfessionCompetitor({{$professionsData->id}});
+        getUserProfessionCompetitor({{$professionsData->id}});   
+        $(document).on( "click", ".open_advance_view", function() {
+           $("#accordion1").collapse('show');
+        })
+        
     });
 
     function adjusting_box_size() {

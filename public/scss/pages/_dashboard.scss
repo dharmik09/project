@@ -26,6 +26,12 @@ h6 {
         line-height: 30px;
         color: $p-cl;
         margin-bottom: 30px;
+        a{
+            color: $p-cl;
+            &:hover{
+                color:#d81c02;
+            }
+        }
         &.custom-section {
             margin-top: 50px;
             @include maxms {
@@ -205,8 +211,10 @@ h6 {
                 }
                 a{
                     color: $r-cl;
+                    border-bottom: 1px solid $r-cl;
                     &:hover{
                         color: $cl-complete;
+                        border-color: $cl-complete;
                     }
                 }
             }
