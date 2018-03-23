@@ -30,6 +30,6 @@
 
 @if (count($teenagerInterest) > 4 && !empty($teenagerInterest))
     <p>
-        <a id="interest" href="javascript:void(0);" class="interest-section">Expand</a>
+        <a id="interest_expand" href="javascript:void(0);" class="interest-section">Expand</a>
     </p>
 @endif

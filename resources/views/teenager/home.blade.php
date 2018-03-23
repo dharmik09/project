@@ -488,21 +488,21 @@
         $('.expandElement').slideToggle('medium', function() {
             if ($(this).is(':visible')) {
                 $(this).css('display','block');
-                $("#interest").text("Collapse");
+                $("#interest_expand").text("Collapse");
             } else {
-                $("#interest").text("Expand");
+                $("#interest_expand").text("Expand");
             }
         });
         return false;
     });
 
-    $(document).on('click', '#strength', function() {
+    $(document).on('click', '#strength_expand', function() {
         $('.expandStrength').slideToggle('medium', function() {
             if ($(this).is(':visible')) {
                 $(this).css('display','block');
-                $("#strength").text("Collapse");
+                $("#strength_expand").text("Collapse");
             } else {
-                $("#strength").text("Expand");
+                $("#strength_expand").text("Expand");
             }
         });
         return false;
