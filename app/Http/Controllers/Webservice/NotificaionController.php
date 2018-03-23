@@ -48,9 +48,9 @@ class NotificaionController extends Controller {
                 else{
                     $data[$key]->n_request_status = NULL;
                 }
-                //$data[$key]->created_at =
-                $createdDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans(); 
+                $createdDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans();
                 $data[$key]->notification_time = $createdDate;
+                // $data[$key]->notification_time = "";
                 unset($data[$key]->senderTeenager);
                 unset($data[$key]->community);
             }
