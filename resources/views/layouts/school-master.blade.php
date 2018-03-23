@@ -34,11 +34,11 @@
                 <div class="menu-toggle pull-right">
                     <ul class="nav-bar clearfix">
                         <?php
-                            $photo = (isset(Auth::guard('school')->user()->sc_photo)) ? Auth::guard('school')->user()->sc_photo : '';
-                            if (isset($photo) && $photo != '' && Storage::size(Config::get('constant.CONTACT_PERSON_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo) > 0) {
-                                $profilePicUrl = Storage::url(Config::get('constant.CONTACT_PERSON_ORIGINAL_IMAGE_UPLOAD_PATH') . $photo);
+                            $photo = (isset(Auth::guard('school')->user()->sc_logo)) ? Auth::guard('school')->user()->sc_logo : '';
+                            if (isset($photo) && $photo != '' && Storage::size(Config::get('constant.SCHOOL_THUMB_IMAGE_UPLOAD_PATH') . $photo) > 0) {
+                                $profilePicUrl = Storage::url(Config::get('constant.SCHOOL_THUMB_IMAGE_UPLOAD_PATH') . $photo);
                             } else {
-                                $profilePicUrl = Storage::url(Config::get('constant.CONTACT_PERSON_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                $profilePicUrl = Storage::url(Config::get('constant.SCHOOL_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
                             }                                                                                       
                         ?>
                         <li class="n-user submenu-container">

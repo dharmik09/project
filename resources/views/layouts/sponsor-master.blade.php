@@ -35,7 +35,7 @@
                     <ul class="nav-bar clearfix">
                         <li class="n-user submenu-container">
                             <?php
-                                $photo = (isset(Auth::guard('sponsor')->user()->sp_photo)) ? Auth::guard('sponsor')->user()->sp_photo : '';
+                                $photo = (isset(Auth::guard('sponsor')->user()->sp_logo)) ? Auth::guard('sponsor')->user()->sp_logo : '';
                                 if (isset($photo) && $photo != '' && Storage::size(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . $photo) > 0) {
                                     $profilePicUrl = Storage::url(Config::get('constant.SPONSOR_THUMB_IMAGE_UPLOAD_PATH') . $photo);
                                 } else {
