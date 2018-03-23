@@ -76,6 +76,7 @@
             </div>
         </nav>
         @yield('content')
+        <a class="back-to-top bounce" href="#" title="Back to top"><img src="{{ Storage::url('img/arrow-up.png') }}" alt="back to top"></a>
         <footer>
             <div class="container">
                 <div class="left">
