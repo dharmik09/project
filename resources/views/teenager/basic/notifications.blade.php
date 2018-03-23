@@ -1,6 +1,6 @@
 @if(count($notificationData)>0)
     @foreach($notificationData as $key => $value)
-    <div class="notification-block <?php echo ($value->n_read_status == 1) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block" onclick="readNotification('{{$value->id}}')">
+    <div class="notification-block <?php echo (in_array($value->id, $readData)) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block" onclick="readNotification('{{$value->id}}')">
         <div class="notification-img">
             <?php
                 if(isset($value->senderTeenager) && $value->senderTeenager != '') {

@@ -136,13 +136,6 @@
                         <div class="description">
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
-                                <div class="list-icon">
-                                    <span>
-                                        <div id="print_loader">
-                                            <a href="{{url('parent/get-career-pdf/'.$professionsData->pf_slug)}}" target="_blank" title="print"><i class="icon-print"></i></a>
-                                        </div> 
-                                    </span>
-                                </div>
                             </div>
                             <?php
                                 $profession_description = $professionsData->professionHeaders->filter(function($item) {

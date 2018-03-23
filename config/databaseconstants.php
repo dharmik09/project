@@ -108,4 +108,5 @@ return [
     'TBL_TRAITS_QUALITY_ACTIVITY' => 'pro_tqq_traits_quality_activity',
     'TBL_TRAITS_QUALITY_OPTIONS' => 'pro_tqo_traits_quality_options',
     'TBL_TRAITS_QUALITY_ANSWER' => 'pro_tqa_traits_quality_answer',
+    'TBL_TEEN_NOTIFICAION_MANAGEMENT' => 'pro_tnm_teen_notificaion_management',
 ];

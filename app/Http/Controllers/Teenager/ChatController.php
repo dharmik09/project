@@ -16,6 +16,7 @@ use Request;
 use App\Services\Schools\Contracts\SchoolsRepository;  
 use App\Notifications;
 use App\ForumQuestion;
+use App\TeenNotificationManagement;
 use Carbon\Carbon;  
 
 class ChatController extends Controller {
@@ -27,6 +28,7 @@ class ChatController extends Controller {
         $this->schoolsRepository = $schoolsRepository;
         $this->objNotifications = new Notifications();
         $this->objForumQuestion = new ForumQuestion();
+        $this->objTeenNotificationManagement = new TeenNotificationManagement();
     }
 
     /*
@@ -43,12 +45,10 @@ class ChatController extends Controller {
          
         $loggedInTeen = Auth::guard('teenager')->user()->id;  
         $user_profile_thumb_image = (Auth::guard('teenager')->user()->t_photo != "" && Storage::size('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) > 0) ? Storage::url('uploads/teenager/thumb/'.Auth::guard('teenager')->user()->t_photo) : Storage::url('uploads/teenager/thumb/proteen-logo.png');
-        $record = 0;
-        $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$loggedInTeen,$record);
         $limit = 3;
         $skip = 0;
         $forumQuestionData = $this->objForumQuestion->getAllForumQuestionAndAnswersWithTeenagerData($limit,$skip);
-        return view('teenager.chat',compact('user_profile_thumb_image','notificationData','forumQuestionData','otherTeenDetails','otherChat'));        
+        return view('teenager.chat',compact('user_profile_thumb_image','forumQuestionData','otherTeenDetails','otherChat'));        
     }
 
     public function getPageWiseNotification()
@@ -56,32 +56,84 @@ class ChatController extends Controller {
         $loggedInTeen = Auth::guard('teenager')->user()->id;
         $pageNo = Input::get('page_no');
         $record = $pageNo * 20;
-        $notificationData = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$loggedInTeen,$record);
-        $view = view('teenager.basic.notifications',compact('notificationData'));
+
+        /**
+         * First Fetch Notification read and deleted data for perticular notification from notification management
+         * Pass deleted records Array in Notifications to fetch not deleted record
+         * Now pass Notifications Data and ReadArray data in blade file
+         * And match every record with in_array to get that notification is read or not
+         */
+
+        $notificationManagementData = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($loggedInTeen);
+
+        $deletedData = [];
+        $readData = [];
+
+        if(count($notificationManagementData)>0){
+            $deletedData = explode(',', $notificationManagementData->tnm_notification_delete);
+            $readData = explode(',', $notificationManagementData->tnm_notification_read);
+        }
+
+        $notificationData = $this->objNotifications->getNotificationsByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$loggedInTeen,$record,$deletedData);
+
+        $view = view('teenager.basic.notifications',compact('notificationData','readData'));
         $response['notificationCount'] = count($notificationData);
         $response['notifications'] = $view->render();
         $response['pageNo'] = $pageNo+1;
-        return $response;        
+        return $response;
     }
 
     public function deleteNotification()
     {
-        $id = Input::get('id');
-        $response = $this->objNotifications->deleteNotificationById($id);
-        return $response;        
+        // $id = Input::get('id');
+        // $response = $this->objNotifications->deleteNotificationById($id);
+        // return $response;        
+        $loggedInTeen = Auth::guard('teenager')->user()->id;
+        $notificationId = Input::get('id');
+        $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($loggedInTeen);
+        $data['tnm_notification_delete'] = $notificationId;
+        
+        if(count($teenNotificationManagementCheck)>0)
+        {
+            $data['id'] = $teenNotificationManagementCheck->id;
+            if($teenNotificationManagementCheck->tnm_notification_delete != "")
+            {
+                $data['tnm_notification_delete'] = $teenNotificationManagementCheck->tnm_notification_delete.','.$notificationId;
+            }
+        }
+        
+        $response = $this->objTeenNotificationManagement->insertUpdate($data);
+        return $response;
     }
 
     public function getUnreadNotificationCount()
     {
         $loggedInTeen = Auth::guard('teenager')->user()->id;
-        $response = $this->objNotifications->getUnreadNotificationByUserId($loggedInTeen);
-        return $response;        
+        $response = $this->objNotifications->getNotificationByUserId($loggedInTeen);
+        return $response;
     }
 
     public function changeNotificationStatus()
     {
-        $id = Input::get('notification_id');
-        return $this->objNotifications->ChangeNotificationsReadStatus($id,Config::get('constant.NOTIFICATION_STATUS_READ'));
+        // $id = Input::get('notification_id');
+        // return $this->objNotifications->ChangeNotificationsReadStatus($id,Config::get('constant.NOTIFICATION_STATUS_READ'));
+        $loggedInTeen = Auth::guard('teenager')->user()->id;
+        $notificationId = Input::get('notification_id');
+        $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($loggedInTeen);
+        $data['tnm_notification_read'] = $notificationId;
+
+        if(count($teenNotificationManagementCheck)>0)
+        {
+            $data['id'] = $teenNotificationManagementCheck->id;
+            if($teenNotificationManagementCheck->tnm_notification_read != "")
+            {
+                $data['tnm_notification_read'] = $teenNotificationManagementCheck->tnm_notification_read.','.$notificationId;
+            }
+        }
+        
+        $data['tnm_teenager'] = $loggedInTeen;
+        $response = $this->objTeenNotificationManagement->insertUpdate($data);
+        return $response;
     }
 
     /*
