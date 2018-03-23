@@ -40,13 +40,13 @@
                // $prepAddr = str_replace(' ','+',$instituteAddress);
               //  echo $instituteAddress; exit;
               //  $instituteMapUrl = "https://maps.google.com/maps?q='.urlencode($value->city).'&z=5&output=embed";
-//                $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$value->city.'&sensor=false&iwloc=near');
-//                $output= json_decode($geocode);
-//                if(count($output->results)>0){
-//                    $latitude = $output->results[0]->geometry->location->lat;
-//                    $longitude = $output->results[0]->geometry->location->lng;
-//                    $instituteMapUrl = "http://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
-//                }
+                $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($instituteName).'&sensor=false&iwloc=near');
+                $output= json_decode($geocode);
+                if(count($output->results)>0){
+                    $latitude = $output->results[0]->geometry->location->lat;
+                    $longitude = $output->results[0]->geometry->location->lng;
+                    $instituteMapUrl = "http://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
+                }
             }
         }
       
@@ -143,7 +143,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
-                                    <h5>Education Stream</h5>
+                                    <h5>Education Streams</h5>
                                     <div class="sec-tags">
                                         @if(count($instituteSpeciality)>0)
                                             <ul class="tag-list">
