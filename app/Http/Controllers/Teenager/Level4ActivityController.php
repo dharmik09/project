@@ -195,7 +195,7 @@ class Level4ActivityController extends Controller {
             if(isset($totalBasicQuestion[0]->NoOfTotalQuestions) && $totalBasicQuestion[0]->NoOfTotalQuestions > 0 && ($totalBasicQuestion[0]->NoOfTotalQuestions > $totalBasicQuestion[0]->NoOfAttemptedQuestions) ) {
                 $response['status'] = 0;
                 $response['title'] = "Opps!";
-                $response['message'] = "First play basic profession quiz!";
+                $response['message'] = "First play basic profession quiz to play Intermediate!";
                 return view('teenager.basic.careerIntermediateError', compact('response'));
                 exit;
             }

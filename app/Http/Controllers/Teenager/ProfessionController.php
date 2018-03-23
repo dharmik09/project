@@ -401,10 +401,6 @@ class ProfessionController extends Controller {
         $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
         
         $professionPromiseParameters = Helpers::getCareerMapColumnName();
-       
-        //Get individual profession 24 PROMISE parameters 
-//        $professionCareerMappingData = $professionsData->careerMapping->tcm_scientific_reasoning;
-
         
         //Get Max score for MI parameters
         $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
