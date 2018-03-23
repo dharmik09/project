@@ -1434,7 +1434,7 @@
 
                 /*load less more for skill*/
                 $('.content_prime').animate({height: 'auto'}, 1);
-                var newHeight_secondary = $('.content_prime').height();
+                var newHeight = $('.content_prime').height();
                 $('.content_prime').animate({height: '230px'}, 1);
                 $('.intrest_load').click(function(event) {
                     if ($(this).find('span').text() == "Show More")
@@ -1448,7 +1448,7 @@
                     }
                     else {
                         $(this).siblings('.intrest_content').animate({
-                            height: newHeight_secondary,
+                            height: newHeight,
                         }, 1000);
                     }
                 });

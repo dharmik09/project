@@ -2022,7 +2022,7 @@ class DashboardManagementController extends Controller {
                     }
                 }
             }else{
-                $response['message'] = "Please attemp atleast one section of Profile Builder to view your interest!";
+                $response['message'] = "Please attempt atleast one section of Profile Builder to view your interest!";
             }
             return view('parent.teenagerInterest', compact('teenagerInterest'));
             exit;                        
