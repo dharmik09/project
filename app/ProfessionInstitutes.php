@@ -111,7 +111,7 @@ class ProfessionInstitutes extends Model
         $return = ProfessionInstitutes::skip($record)->take(5);
         
         if(isset($answerName) && $answerName != ""){
-            $return->where('college_institution','like','%'.$answerName.'%');
+            $return->where('college_institution','like','%'.$answerName.'%')->orWhere('address_line1','like','%'.$answerName.'%')->orWhere('address_line2','like','%'.$answerName.'%');
         }
 
         if($questionType == "Institute_Affiliation" && $answer != ""){
@@ -127,7 +127,7 @@ class ProfessionInstitutes extends Model
             $return = $return->where('city','like', '%'.$answer.'%')->get();
         }
         elseif($questionType == "Pincode"  && $answer != ""){
-            $return = $return->where('pin_code','like', '%'.$answer.'%')->get();
+            $return = $return->where('pin_code',$answer)->get();
         }
         elseif($questionType == "Management_Category"  && $answer != ""){
             $return = $return->where('management',$answer)->get();
