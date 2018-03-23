@@ -11,7 +11,10 @@
             ?>
             <img src="{{ Storage::url($teenPhoto) }}" alt="notification img">
         </div>
-        <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a><span class="date"></span>
+        <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a>
+            <span class="date">
+                {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans() }}
+            </span>
             @if($value->n_record_id != 0)
             <ul class="btn-list text-right">
                 @if($value->community->tc_status == 1)
