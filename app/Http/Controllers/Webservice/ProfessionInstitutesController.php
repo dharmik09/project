@@ -247,7 +247,7 @@ class ProfessionInstitutesController extends Controller {
                     }
                     
                     if(isset($value->year_of_establishment) && $value->year_of_establishment != ""){
-                        $instituteEstablishmentYear = "Establish in ".$value->year_of_establishment;
+                        $instituteEstablishmentYear = $value->year_of_establishment;
                     }
                     
                     if(isset($value->address_line1) && $value->address_line1 != ""){

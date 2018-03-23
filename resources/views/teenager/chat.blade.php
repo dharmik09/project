@@ -71,53 +71,13 @@
                         <span class="engage-notification"></span>
                     </div>
                 </div>
-                @if(count($notificationData)>0)
-                    <div class="notification-list">
-                        @foreach($notificationData as $key => $value)
-                        <div class="notification-block <?php echo ($value->n_read_status == 1) ? 'read' : 'unread' ?>" id="{{$value->id}}notification-block" onclick="readNotification('{{$value->id}}')">
-                            <div class="notification-img">
-                                <?php
-                                    if(isset($value->senderTeenager) && $value->senderTeenager != '') {
-                                        $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
-                                    } else {
-                                        $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
-                                    }
-                                ?>
-                                <img src="{{ Storage::url($teenPhoto) }}" alt="notification img">
-                            </div>
-                            <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a><span class="date">{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans()}}</span>
-                                @if($value->n_record_id != 0)
-                                <ul class="btn-list text-right">
-                                    @if($value->community->tc_status == 1)
-                                        <li><a href="javascript:void(0);" title="accept" class="accept">Accepted</a></li>
-                                    @elseif($value->community->tc_statsus == 2)
-                                        <li><a href="javascript:void(0);" title="decline" class="decline">Declined</a></li>
-                                    @elseif($value->community->tc_status == 0)
-                                        <li><a href="{{url('teenager/accept-request').'/'.$value->n_record_id}}" title="accept" class="accept">Accept</a></li>
-                                        <li><a href="{{url('teenager/decline-request').'/'.$value->n_record_id}}" title="decline" class="decline">Decline</a></li>
-                                    @endif
-                                </ul>
-                                @endif
-                            </div>
-                            <div class="close"><i class="icon-close" onclick="removeNotificationBlock({{$value->id}});"></i></div>
+                <div class="notification-list">
+                    <div id="pageWiseNotifications"></div>
+                        <div class="text-center load-more" id="loadMoreButton">
+                            <div id="loader_con"></div>
+                            <button class="btn btn-primary" title="Load More" id="pageNo" value="0" onclick="fetchNotification()">Load More</button>
                         </div>
-                        @endforeach
-
-                        <div id="pageWiseNotifications"></div>
-                        @if(count($notificationData) > 9)
-                            <div class="text-center load-more" id="loadMoreButton">
-                                <div id="loader_con"></div>
-                                <button class="btn btn-primary" title="Load More" id="pageNo" value="1" onclick="fetchNotification(this.value)">Load More</button>
-                            </div>
-                        @else
-                            <div class="notification-complete">
-                                <p>No more notifications<p>
-                            </div>
-                        @endif
-                    </div>
-                @else
-                    <div class="sec-forum bg-offwhite"><span>No result Found</span></div>
-                @endif
+                </div>
             </div>
             <!-- sec notification end-->
             <!--sec forum start-->
@@ -398,7 +358,8 @@ function normalChat() {
     
    
    
-    function fetchNotification(pageNo){
+    function fetchNotification(){
+        var pageNo = $('#pageNo').val();
         $("#loader_con").html('<img src="{{Storage::url('img/loading.gif')}}">');
         var CSRF_TOKEN = "{{ csrf_token() }}";
         $.ajax({
@@ -410,7 +371,7 @@ function normalChat() {
             },
             data: {'page_no':pageNo},
             success: function (response) {
-                if(response.notificationCount != 10){
+                if(response.notificationCount != 20){
                     $('#loadMoreButton').removeClass('text-center');
                     $('#loadMoreButton').removeClass('load-more');
                     $('#loadMoreButton').addClass('notification-complete');
@@ -438,7 +399,8 @@ function normalChat() {
             data: {'id':id},
             success: function (response) {
                 $("#pageWiseNotifications").html('');
-                fetchNotification(1);
+                $('#pageNo').val(0);
+                fetchNotification();
             }
         });
     }
@@ -462,7 +424,10 @@ function normalChat() {
         }
     }
     
-   
+    fetchNotification();
+    $(document).ready(function(){
+        $(this).scrollTop(0);
+    });
     
 </script>
 @stop

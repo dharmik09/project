@@ -34,12 +34,14 @@ class NotificaionController extends Controller {
             if($request->pageNo != '' && $request->pageNo > 1){
                 $pageNo = ($request->pageNo-1) * 20;
             }
-            $data = $this->objNotifications->getNotificationsByUserTypeAnsId(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo);
+            $data = $this->objNotifications->getNotificationsByUserTypeAndId(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo);
             foreach($data as $key => $value){
+                $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
                 if(isset($value->senderTeenager) && $value->senderTeenager != '') {
-                    $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
-                } else {
-                    $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
+                    $photoURL = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
+                    if(Storage::size(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo)>0){
+                        $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
+                    }
                 }
                 $data[$key]->n_sender_image = Storage::url($teenPhoto);
                 if($value->n_record_id != 0){
@@ -48,9 +50,9 @@ class NotificaionController extends Controller {
                 else{
                     $data[$key]->n_request_status = NULL;
                 }
-                //$data[$key]->created_at =
-                $createdDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans(); 
+                $createdDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans();
                 $data[$key]->notification_time = $createdDate;
+                // $data[$key]->notification_time = "";
                 unset($data[$key]->senderTeenager);
                 unset($data[$key]->community);
             }
