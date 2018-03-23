@@ -196,7 +196,6 @@ class CommunityController extends Controller
                 
                 $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName('send-connection-request-to-teen');
                 $connectionUniqueId = uniqid("", TRUE);
-                
                 $replaceArray['RECEIVER_TEEN_NAME'] = $receiverTeenDetails->t_name;
                 $replaceArray['SENDER_TEEN_NAME'] = $teenager->t_name;
                 $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);

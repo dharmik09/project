@@ -36,6 +36,7 @@ Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceA
 
 //Careers details page
 Route::get('/career-detail/{slug}/{teenId}', 'Parent\ProfessionController@careerDetails');
+Route::post('/get-teenagers-challenged-to-parent', 'Parent\ProfessionController@getTeenagersChallengedToParent');
 
 //Level4 Basic Activity
 Route::post('/play-basic-level-activity', 'Parent\Level4ActivityManagementController@getL4BasicQuestions');

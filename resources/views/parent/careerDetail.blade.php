@@ -312,6 +312,14 @@
                                     <div class="quiz-advanced quiz-sec">
                                         @include('parent/basic/careerAdvanceQuizSection')
                                     </div>
+                                    <!-- Section for challenge play -->
+                                    <div class="virtual-plus text-center challenge-play">
+                                        <h4><span>challenge Play</span></h4>
+                                        <p>Instructions: Collaborate for guidance from your mentors or simply have fun role playing professions with your parents. Challenge them!!</p>
+                                        <div class="form-challenge">
+                                                        
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                        
@@ -1666,20 +1674,24 @@
         }
     });
 
-    function getChallengedParentAndMentorList() {
+    function getTeenagersChallengedToParent() {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "professionId=" + "{{$professionsData->id}}";
+        var form_data = "professionId=" + "{{$professionsData->id}}" + "&teenId=" + "{{$teenId}}";
         $.ajax({
             type: 'POST',
             data: form_data,
-            url: "{{ url('/teenager/get-challenged-parent-and-mentor-list') }}",
+            url: "{{ url('/parent/get-teenagers-challenged-to-parent') }}",
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
             cache: false,
             success: function(response) {
-                $(".form-challenge").html(response);
-                $(".mentor-list ul").owlCarousel();
+                if (response.status != 0) {
+                    $(".form-challenge").html(response);
+                } else {
+                    $(".form-challenge").html('<p>'+ response.message +'</p>');
+                }
+                //$(".mentor-list ul").owlCarousel();
             }
         });
     }
@@ -2022,7 +2034,8 @@
     
     $(window).on("load", function(e) {
         e.preventDefault();
-        getChallengedParentAndMentorList("{{Auth::guard('parent')->user()->id}}");
+        //getChallengedParentAndMentorList("{{Auth::guard('parent')->user()->id}}");
+        getTeenagersChallengedToParent();
         getUserProfessionCompetitor({{$professionsData->id}});
     });
 

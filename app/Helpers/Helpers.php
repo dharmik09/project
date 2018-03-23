@@ -2413,7 +2413,7 @@ Class Helpers {
                 $teendata = [];
                 if (isset($teenId->teenager_id)) {
                     if ($teenId->t_photo != '') {
-                        if (isset($teenId->t_photo) && !empty($teenId->t_photo)) {
+                        if (isset($teenId->t_photo) && !empty($teenId->t_photo) && Storage::size(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenId->t_photo) > 0) {
                             $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenId->t_photo;
                         } else {
                             $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png";

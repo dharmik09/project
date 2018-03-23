@@ -14,15 +14,18 @@ use Storage;
 use Config;
 use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\TemplateDeductedCoins;
+use App\Services\Teenagers\Contracts\TeenagersRepository;
+use Input;
 
 class ProfessionController extends Controller {
 
-    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository) 
+    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository) 
     {
         $this->professionsRepository = $professionsRepository;
         $this->professions = new Professions;
         $this->objApptitude = new Apptitude;
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;
+        $this->teenagersRepository = $teenagersRepository;
         $this->aptitudeThumb = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
         $this->log = new Logger('parent-profession-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
@@ -98,10 +101,44 @@ class ProfessionController extends Controller {
             $response['questionTemplate'] = [];
         }
 
-
         return view('parent.careerDetail', compact('professionsData', 'countryId', 'teenId', 'getQuestionTemplateForProfession'));
     }
 
+    /*
+     * Returns Teenagers list whose challeged to parent or mentor
+     */
+    public function getTeenagersChallengedToParent() { 
+        $teenUniqueId = Input::get('teenId');
+        $professionId = Input::get('professionId');
+        $parentId = Auth::guard('parent')->user()->id;
+        if ($parentId > 0 && $professionId != '' && $teenUniqueId != '') {
+            $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+            $getCompetingUserList = [];
+            if (isset($teenDetails) && !empty($teenDetails)) {
+                $level4Booster = Helpers::level4Booster($professionId, $teenDetails->id);
+                if (isset($level4Booster) && !empty($level4Booster)) {
+                    $getCompetingUserList = Helpers::getCompetingUserListForParent($professionId, $parentId);
+                    $response['data'][] = $getCompetingUserList;
+                    return view('parent.basic.careerChallengePlaySection', compact('getCompetingUserList'));
+                    exit;
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = "No Records Found";
+                    return response()->json($response, 200);
+                    exit;
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = "No Records Found";
+                return response()->json($response, 200);
+                exit;
+            }
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Something went wrong";
+            return response()->json($response, 200);
+            exit;
+        }
+    }
 
-    
 }
