@@ -44,7 +44,7 @@
                 <form class="registration_form" id="school_registration_form" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/school/save-profile') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="col-md-offset-1 col-md-10 col-sm-12 teen_relative">
-                        <span class="teen_id"><span>School Reference : </span>{{ $user->sc_uniqueid or ''}}</span>
+                        <span class="teen_id">@if ($user->sc_uniqueid && $user->sc_uniqueid != '')<span>School Reference : </span>{{ $user->sc_uniqueid }} @endif</span>
                     </div>
                      <h1><span class="title_border">Update Profile</span></h1>
                     <div class="clearfix">

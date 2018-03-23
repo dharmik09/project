@@ -40,6 +40,6 @@
 
 @if(count($teenagerStrength) > 4 && !empty($teenagerStrength))
     <p>
-        <a id="strength" href="javascript:void(0);" >Expand</a>
+        <a id="strength_expand" href="javascript:void(0);" >Expand</a>
     </p>
 @endif

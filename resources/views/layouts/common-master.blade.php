@@ -55,7 +55,6 @@
             </div>
         </nav>
         @yield('content')
-        <a class="back-to-top" href="#" title="Back to top"><i class="fa fa-angle-up"><!-- --></i></a>
         <footer>
             <div class="container">
                 <div class="left">
@@ -67,12 +66,12 @@
                     </ul>
                     <ul class="links">
                         <li><span>&copy; 2018 ProTeen</span></li>
-                        <li><span>A <strong>UNIDEL</strong> COMPANY</span></li>
+                        <!-- <li><span>A <strong>UNIDEL</strong> COMPANY</span></li> -->
+                        <li><span>A <strong><a href="https://www.unidel-group.com/" target="_blank" title="Unidel Company">UNIDEL</a></strong> Company</span></li>
                     </ul>           
                 </div>
                 <div class="right">
                     <ul class="social">
-                        <li><a href="{{ url('careers') }}"><i class="icon-search"><img src="{{ Storage::url('img/search-icon.png') }}" alt="search" class="icon-img"><img src="{{ Storage::url('img/search-icon-hover.png') }}" alt="search" class="icon-hover"></i></a></li>
                         <li><a href="https://www.facebook.com/proteenlife/" target="_blank"><i class="icon-facebook"></i></a></li>
                         <li><a href="https://twitter.com/ProTeenLife" target="_blank"><i class="icon-twitter"></i></a></li>
                         <li><a href="https://plus.google.com/109414106711493074923" target="_blank"><i class="icon-google"></i></a></li>

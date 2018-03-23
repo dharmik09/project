@@ -131,8 +131,13 @@ class InterestManagementController extends Controller
     {
         $lastCareerId = Input::get('lastCareerId');
         $slug = Input::get('slug');
-        $subSlug = explode('it_', $slug);
-        $finalSlug = (isset($subSlug) && !empty($subSlug)) ? $subSlug[1] : $slug;
+        if (substr($slug, 0, 3) === 'it_' && strpos($slug, 'it_') !== false) {
+            $subSlug = explode('it_', $slug);
+            $finalSlug = $subSlug[1];
+        } else {
+            $finalSlug = $slug;
+        }
+        //$finalSlug = (isset($subSlug[1]) && !empty($subSlug[1])) ? $subSlug[1] : $slug;
         $relatedCareers = $this->objProfessionWiseSubject->getProfessionsBySubjectSlug($finalSlug, $lastCareerId);
         $relatedCareersCount = $this->objProfessionWiseSubject->getProfessionsCountBySubjectSlug($finalSlug, $lastCareerId);
         
