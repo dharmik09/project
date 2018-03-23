@@ -583,7 +583,7 @@ a, a:focus, a:hover{color: #d81c02;}
     ul.nav.nav-tabs li a >span{padding: 15px 10px;}
     ul.nav.nav-tabs li{padding:0;}
     .l-1 span.level_label, .l-2 span.level_label, .l-3 span.level_label, .l-4 span.level_label{font-size: 20px;}
-    .intrest_content{height: 200px !important;}
+    /*.intrest_content{height: 200px !important;}*/
     body{padding-bottom: 212px;}
     .procoins-gift .gift-table .no-data{height: 81.4%;}
     .main-menu .menu-container h2{font-size: 36px;}
