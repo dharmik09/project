@@ -173,7 +173,7 @@
 .institute-detail {
     list-style-type: none;
     padding: 0;
-    font-size: 18px;
+    font-size: 16px;
     color: $lightgrey;
     @include maxsm {
         font-size: 15px;
@@ -186,8 +186,8 @@
         text-transform: capitalize;
         color: $r-cl;
         font-family: 'h';
-        min-width: 175px;
-        max-width: 175px;
+        min-width: 150px;
+        max-width: 150px;
         display: inline-block;
         position: absolute;
         left: 0;
@@ -204,7 +204,7 @@
         margin-bottom:14px;
         font-family: 'h';
         position: relative;
-        padding-left: 175px;
+        padding-left: 150px;
         @include maxsm{
             padding-left: 144px;
         }
