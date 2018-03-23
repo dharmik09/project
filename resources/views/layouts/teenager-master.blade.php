@@ -181,7 +181,12 @@
                 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
                 ga('create', 'UA-85626973-1', 'auto');
-                ga('send', 'pageview');                
+                ga('send', 'pageview');    
+                
+                if (window.location.hash && window.location.hash == '#_=_') 
+                {
+                    window.location.hash = '';
+                }
             });
 
             function getHelpText(helpSlug)
