@@ -56,11 +56,11 @@
                             </div>
                             <div class="checkbox">
                                 <label><input type="checkbox" name="remember_me" value="1" tabindex="3"><span class="checker"></span> Remember me</label>
-                                <span class="pull-right"><a href="{{ url('parent/forgot-password') }}" title="Forgot username/password?">Forgot password?</a></span>
+                                <span class="pull-right"><a href="{{ url('sponsor/forgot-password') }}" title="Forgot username/password?">Forgot password?</a></span>
                             </div>
                             <button type="submit" id="loginSubmit" value="SIGN IN" class="btn btn-default" title="SIGN IN" tabindex="4">sign in</button>
                         </form>
-                        <p>Not enrolled? <a href="{{ url('parent/signup') }}" title="Sign up now.">Sign up now.</a></p>
+                        <p>Not enrolled? <a href="{{ url('sponsor/signup') }}" title="Sign up now.">Sign up now.</a></p>
                     </div>
                 </div>
                 <div class="col-sm-12 flex-items order-2">

@@ -486,8 +486,8 @@ class ProfessionController extends Controller {
             }
         }
         
-        $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_THUMB_IMAGE_UPLOAD_PATH');
+        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_THUMB_IMAGE_UPLOAD_PATH');
         $adsDetails = Helpers::getAds($user->id);
         $mediumAdImages = [];
         $largeAdImages = [];
