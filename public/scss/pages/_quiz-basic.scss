@@ -411,7 +411,7 @@
         em {
             max-height: 66px;
             min-height: 66px;
-            padding: 0 15px !important;
+            padding: 6px 15px !important;
             @include maxsm {
                 min-height: auto;
                 max-height: auto;
@@ -1141,4 +1141,6 @@
 #single_line_answer_box {
     text-transform: uppercase;
     text-align: center;
+    border-image: none;
 }
+.quiz_view .quiz-ans .box .width-50 .incorrect input:checked~em{margin: 0;}

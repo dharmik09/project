@@ -39,9 +39,9 @@ No data found
         form.validate();
         if (form.valid()) {
             form.submit();
-            $("#saveGiftProCoins").attr("disabled", 'disabled');
+            $("#saveGiftProCoins").addClass('disable');
         } else {
-            $("#saveGiftProCoins").removeAttr("disabled", 'disabled');
+            $("#saveGiftProCoins").removeClass('disable');
         }
     });
 

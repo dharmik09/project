@@ -1246,7 +1246,7 @@ class Level4ActivityController extends Controller {
                 } else {
                     $response['status'] = 0;
                     $response['message'] = "Please attempt profession first to see Promise Plus";
-                    $response['data'] = [];
+                    $response['data'] = new \stdClass();
                 }
             } else {
                 $response['status'] = 0;
