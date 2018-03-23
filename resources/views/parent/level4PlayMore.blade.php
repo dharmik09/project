@@ -111,7 +111,7 @@
                                             @else
                                               <div class="promisebtn l4_play_more">
                                                     <a href="javascript:void(0);" class="redbox promise <?php if ($value->gt_coins >0) {echo 'btn_golden_border';}?>" title="" onclick="getConceptData({{$value->l4ia_profession_id}}, {{$value->gt_template_id}}, {{$value->remaningDays}}, {{$key}}, {{$response['teen_id']}},'{{$value->attempted}}');" >
-                                                      <span class="promiseplus">Unbox me</span>
+                                                      <span class="promiseplus">Unlock me</span>
                                                         <span class="coinouter">
                                                             <span class="coinsnum">{{$value->gt_coins}}</span>
                                                             <span class="coinsimg"><img src="{{ Storage::url('frontend/images/coin-stack.png') }}">
@@ -182,7 +182,7 @@
                                               <div style="text-align:center;">
                                                 <div class="promisebtn l4_play_more">
                                                       <a href="javascript:void(0);" class="redbox promise <?php if ($value->gt_coins >0) {echo 'btn_golden_border';}?>" title="" onclick="getConceptData({{$value->l4ia_profession_id}}, {{$value->gt_template_id}}, {{$value->remaningDays}}, {{$key}}, {{$response['teen_id']}},'{{$value->attempted}}');" >
-                                                        <span class="promiseplus">Unbox me</span>
+                                                        <span class="promiseplus">Unlock me</span>
                                                           <span class="coinouter">
                                                               <span class="coinsnum">{{$value->gt_coins}}</span>
                                                               <span class="coinsimg"><img src="{{ Storage::url('frontend/images/coin-stack.png')}} ">

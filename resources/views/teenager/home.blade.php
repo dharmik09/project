@@ -327,8 +327,8 @@
                             </div>
                             <h2>Suggestions<span></span><span class="sec-popup"><a id="dashboard-career-consider" href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#home-career-consider" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
                             <div class="unbox-btn">
-                                <a id="career_unbox" href="javascript:void(0)" title="Unbox Me" @if($remainingDaysForCareerConsider <= 0) onclick="getCareersConsiderDetails('{{Auth::guard('teenager')->user()->t_coins}}', '{{ $componentsCareerConsider->pc_required_coins }}');" @endif class="btn-primary" data-toggle="modal" >
-                                    <span class="unbox-me">Unbox Me</span>
+                                <a id="career_unbox" href="javascript:void(0)" title="Unlock Me" @if($remainingDaysForCareerConsider <= 0) onclick="getCareersConsiderDetails('{{Auth::guard('teenager')->user()->t_coins}}', '{{ $componentsCareerConsider->pc_required_coins }}');" @endif class="btn-primary" data-toggle="modal" >
+                                    <span class="unbox-me">Unlock Me</span>
                                     <span class="coins-outer career_coins">
                                         <span class="coins"></span> {{ ($remainingDaysForCareerConsider > 0) ? $remainingDaysForCareerConsider . ' days left' : $componentsCareerConsider->pc_required_coins }}
                                     </span>

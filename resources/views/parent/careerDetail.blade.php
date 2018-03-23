@@ -262,8 +262,8 @@
                                                                                     </div>   
                                                                                 @else
                                                                                     <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
-                                                                                        <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" onclick="getTemplateConceptData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}})">
-                                                                                            <span class="unbox-me">Unbox Me</span>
+                                                                                        <a href="javascript:void(0);" title="Unlock Me" class="btn-primary" onclick="getTemplateConceptData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}})">
+                                                                                            <span class="unbox-me">Unlock Me</span>
                                                                                             <span class="coins-outer">
                                                                                                 <span class="coins"></span> 
                                                                                                 {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} 

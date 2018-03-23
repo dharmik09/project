@@ -285,8 +285,8 @@
                                                                                 </div>   
                                                                             @else
                                                                                 <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}">
-                                                                                    <a href="javascript:void(0);" title="Unbox Me" class="btn-primary" onclick="getTemplateConceptData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}})">
-                                                                                        <span class="unbox-me">Unbox Me</span>
+                                                                                    <a href="javascript:void(0);" title="Unlock Me" class="btn-primary" onclick="getTemplateConceptData({{$templateProfession->l4ia_profession_id}}, {{$templateProfession->gt_template_id}})">
+                                                                                        <span class="unbox-me">Unlock Me</span>
                                                                                         <span class="coins-outer">
                                                                                             <span class="coins"></span> 
                                                                                             {{ ($templateProfession->gt_coins > 0) ? number_format($templateProfession->gt_coins) : 0 }} 
@@ -499,11 +499,11 @@
                             </div>
                             <div class="text-left">
                                 <div class="unbox-btn">
-                                    <a id="activity_unbox" href="javascript:void(0);" title="Unbox Me" @if($remainingDaysForActivity == 0) onclick="getCoinsConsumptionDetails('{{$componentsData->pc_required_coins}}', '{{$componentsData->pc_element_name}}', '{{$remainingDaysForActivity}}');" @endif class="btn-primary">
+                                    <a id="activity_unbox" href="javascript:void(0);" title="Unlock Me" @if($remainingDaysForActivity == 0) onclick="getCoinsConsumptionDetails('{{$componentsData->pc_required_coins}}', '{{$componentsData->pc_element_name}}', '{{$remainingDaysForActivity}}');" @endif class="btn-primary">
                                         @if($remainingDaysForActivity > 0)                                        
                                         <span class="unbox-me open_advance_view">See Now!</span>
                                         @else
-                                        <span class="unbox-me" id="advanced_unbox">Unbox Me</span>
+                                        <span class="unbox-me" id="advanced_unbox">Unlock Me</span>
                                         @endif
                                         
                                         <span class="coins-outer activity_coins">
