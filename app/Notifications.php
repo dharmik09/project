@@ -72,7 +72,7 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
     /**
      * Get user Notifications by userid
      */
-    public function getNotificationsByUserTypeAnsId($type,$userId,$record)
+    public function getNotificationsByUserTypeAndId($type,$userId,$record)
     {
         return Notifications::orderBy('created_at','DESC')
                             ->with('senderTeenager')
@@ -118,8 +118,8 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
                     ->leftjoin(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS token", 'token.tdt_user_id', '=', 'notification.n_user_id')
                     ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teen", 'teen.id', '=', 'notification.n_user_id')
                     ->selectRaw('token.tdt_device_token, token.tdt_device_type, notification.n_notification_text,notification.n_user_id,notification.id,teen.is_notify')
-                    ->where('notification.n_status' , '=', 0)
-                    ->where('notification.deleted' , '=', 1)
+                    ->where('notification.n_status','=', 0)
+                    ->where('notification.deleted','=', 1)
                     ->take(1000)
                     ->get();
         return $teenagers;
@@ -192,5 +192,25 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
                             ->where('n_notification_type', $notificationData['n_notification_type'])
                             ->where('deleted',config::get('constant.ACTIVE_FLAG'))
                             ->first();
+    }
+
+    /**
+     * Get user Notifications by userid
+     */
+    public function getNotificationsByUserTypeAndIdByDeleted($type,$userId,$record,$deletedData)
+    {
+        return Notifications::orderBy('created_at','DESC')
+                            ->with('senderTeenager')
+                            ->with('community')
+                            ->where(function($query) use ($userId) {
+                                $query->where('n_receiver_id', '=', $userId)
+                                    ->orWhere('n_receiver_id', '=', 0);
+                            })
+                            ->where('n_receiver_type',$type)
+                            ->where('deleted',config::get('constant.ACTIVE_FLAG'))
+                            ->whereNotIn('id', $deletedData)
+                            ->skip($record)
+                            ->take(20)
+                            ->get();
     }
 }
