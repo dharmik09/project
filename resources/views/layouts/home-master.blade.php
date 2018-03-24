@@ -102,7 +102,10 @@
         <script src="{{ Storage::url('js/aos.js') }}"></script>
         <script src="{{ Storage::url('js/general.js') }}"></script>
         <script type="text/javascript">
-            
+            if (window.location.hash && window.location.hash == "#_=_") 
+            {
+                window.location.hash = "";
+            }     
         </script>
         @stack('script-footer')
         @yield('script')
