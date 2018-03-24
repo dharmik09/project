@@ -356,9 +356,9 @@ $(document).ready(function () {
 });*/
 if(window.location.hash) {
   // Fragment exists
-    var hash = window.location.hash;
+    //var hash = window.location.hash;
   // now scroll to element with that id
-  $('html, body').animate({ scrollTop: $(hash).offset().top},2000);
+  //$('html, body').animate({ scrollTop: $(hash).offset().top},2000);
 } else {
   // Fragment doesn't exist
 }
