@@ -148,7 +148,10 @@
         <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
         <script src="{{ asset('js/general.js') }}"></script>
         <script type="text/javascript">
-            
+            if (window.location.hash && window.location.hash === "#_=_") 
+            {
+                window.location.hash = "";
+            }    
             function setSound(data) {
                 $.ajax('{{url("teenager/set-sound-value/")}}/'+data, {
                     success: function(data) {
@@ -213,10 +216,6 @@
                                     return $( $(this).data("popover-content") ).html();
                                 }
                 });
-            }
-            if (window.location.hash && window.location.hash === "#_=_") 
-            {
-                window.location.hash = "";
             }
         </script>
         @stack('script-footer')
