@@ -21,7 +21,7 @@
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
         <!-- <link href="{{ asset('/frontend/css/style-1.css')}}" rel="stylesheet"> -->
         <?php
-        if (!Request::is('parent/career-detail/*')) { ?>
+        if (!Request::is('parent/career-detail/*') || !Request::is('parent/learning-guidance/*')) { ?>
         <link href="{{ asset('/frontend/css/style.css')}}" rel="stylesheet">
         <link href="{{ asset('/frontend/css/custom.css')}}" rel="stylesheet">
         <?php } ?>

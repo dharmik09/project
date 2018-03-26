@@ -32,6 +32,7 @@ use App\Level2ParentsActivity;
 use App\TeenParentChallenge;
 use App\TemplateDeductedCoins;
 use Storage;
+use App\Level4ProfessionProgress;
 
 class Level4ActivityManagementController extends Controller {
 
@@ -62,6 +63,7 @@ class Level4ActivityManagementController extends Controller {
         $this->optionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->optionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH');
         $this->answerResponseImageOriginal = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH');
+        $this->objLevel4ProfessionProgress = new Level4ProfessionProgress;
         $this->loggedInUser = Auth::guard('parent');
     }
 
@@ -1431,5 +1433,243 @@ class Level4ActivityManagementController extends Controller {
 
         return response()->json($response, 200);
         exit;
+    }
+
+    /**
+     * Returns learning Guidance page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function learningGuidance($teenUniqueId)
+    {
+        //$learningGuidance = Helpers::learningGuidance();
+        $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+        $userId = $teenDetails->id;
+        //Insert all user learning style data
+        $professionArray = $this->objLevel4ProfessionProgress->getTeenAttemptProfessionWithTotal($userId);
+        $objLevel4Answers = new Level4Answers();
+        $objProfessionLearningStyle = new ProfessionLearningStyle();
+        $objUserLearningStyle = new UserLearningStyle();
+        if (isset($professionArray) && !empty($professionArray)) {
+            foreach ($professionArray as $key => $proValue) {
+                $professionId = $proValue->id;
+                $level4BasicData = $objLevel4Answers->getLevel4BasicDetailById($userId,$professionId);
+                if (isset($level4BasicData) && !empty($level4BasicData)) {
+                    $templateId = "L4B";
+                    $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId,$templateId);
+                    if ($learningId != '') {
+                        $userData = [];
+                        $userData['uls_learning_style_id'] = $learningId;
+                        $userData['uls_profession_id'] = $professionId;
+                        $userData['uls_teenager_id'] = $userId;
+                        $userData['uls_earned_points'] = $level4BasicData[0]->earned_points;
+                        $result = $objUserLearningStyle->saveUserLearningStyle($userData);
+                    }
+                }
+                $media = array(1,2,3);
+                for ($i = 0; $i < count($media); $i++) {
+                    $level4AdvanceData = $this->level4ActivitiesRepository->getLevel4AdvanceDetailById($userId,$professionId,$media[$i]);
+                    $templateId = '';
+                    if ($media[$i] == 3) {
+                        $templateId = "L4AP";
+                    } else if ($media[$i] == 2) {
+                        $templateId = "L4AD";
+                    } else if ($media[$i] == 1) {
+                        $templateId = "L4AV";
+                    }
+                    $learningId = $objProfessionLearningStyle->getIdByProfessionIdForAdvance($professionId,$templateId);
+                    if (isset($level4AdvanceData) && !empty($level4AdvanceData)) {
+                        if ($learningId != '') {
+                            $userData = [];
+                            $userData['uls_learning_style_id'] = $learningId;
+                            $userData['uls_profession_id'] = $professionId;
+                            $userData['uls_teenager_id'] = $userId;
+                            $userData['uls_earned_points'] = $level4AdvanceData[0]->earned_points;
+                            $result = $objUserLearningStyle->saveUserLearningStyle($userData);
+                        }
+                    }
+                }
+                $level4IntermediateData = $this->level4ActivitiesRepository->getLevel4IntermediateDetailById($userId,$professionId);
+                if (isset($level4IntermediateData) && !empty($level4IntermediateData)) {
+                    $dataArr = [];
+                    $uniqueArr =[];
+                    foreach ($level4IntermediateData AS $key => $value) {
+                        if(!in_array($value->l4iaua_template_id, $uniqueArr))
+                        {
+                            $uniqueArr[] = $value->l4iaua_template_id;
+                            $data = [];
+                            $data['l4iaua_template_id'] = $value->l4iaua_template_id;
+                            $data['l4iaua_earned_point'] = 0;
+                            $dataArr[] = $data;
+                        }
+                    }
+                    foreach ($level4IntermediateData AS $key => $value) {
+                        foreach ($dataArr As $k => $val) {
+                            if ($value->l4iaua_template_id == $val['l4iaua_template_id']){
+                                $dataArr[$k]['l4iaua_earned_point'] += $value->l4iaua_earned_point;
+                            }
+                        }
+                    }
+                    for ($j = 0; $j < count($dataArr); $j++) {
+                        $templateId = $dataArr[$j]['l4iaua_template_id'];
+                        $learningId = $objProfessionLearningStyle->getIdByProfessionId($professionId,$templateId);
+                        if ($learningId != '') {
+                            $userData = [];
+                            $userData['uls_learning_style_id'] = $learningId;
+                            $userData['uls_profession_id'] = $professionId;
+                            $userData['uls_teenager_id'] = $userId;
+                            $userData['uls_earned_points'] = $dataArr[$j]['l4iaua_earned_point'];
+                            $result = $objUserLearningStyle->saveUserLearningStyle($userData);
+                        }
+                    }
+                }
+            }
+        }
+
+        $finalProfessionArray = [];
+        $objLearningStyle = new LearningStyle();
+
+        $userLearningData = $objLearningStyle->getLearningStyleDetails();
+        $objProfession =  new Professions();
+        $AllProData = $objProfession->getActiveProfessions();
+
+        $TotalAttemptedP = 0;
+        $allp = count($AllProData);
+        $attemptedp = count($professionArray);
+        $TotalAttemptedP = ($attemptedp * 100) / $allp;
+        if (!empty($userLearningData)) {
+            foreach ($userLearningData as $k => $value ) {
+                $userLearningData[$k]->earned_points = 0;
+                $userLearningData[$k]->total_points = 0;
+                $userLearningData[$k]->percentage = '';
+                $userLearningData[$k]->interpretationrange = '';
+                $userLearningData[$k]->totalAttemptedP = round($TotalAttemptedP);
+                $photo = $value->ls_image;
+                if ($photo != '' && file_exists($this->learningStyleThumbImageUploadPath . $photo)) {
+                    $value->ls_image = asset($this->learningStyleThumbImageUploadPath . $photo);
+                } else {
+                    $value->ls_image = asset("/frontend/images/proteen-logo.png");
+                }
+            }
+
+            if (isset($professionArray) && !empty($professionArray)) {
+                foreach ($professionArray as $key => $val) {
+                    $professionId = $val->id;
+                    $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
+                    $level4Booster = Helpers::level4Booster($professionId, $userId);
+                    $l4BTotal = (isset($getTeenagerAllTypeBadges['level4Basic']) && !empty($getTeenagerAllTypeBadges['level4Basic'])) ? $getTeenagerAllTypeBadges['level4Basic']['basicAttemptedTotalPoints'] : '';
+                    $l4ATotal = (isset($getTeenagerAllTypeBadges['level4Advance']) && !empty($getTeenagerAllTypeBadges['level4Advance'])) ? $getTeenagerAllTypeBadges['level4Advance']['earnedPoints'] : '';
+                    $UserLerningStyle = [];
+                    
+                    foreach ($userLearningData as $k => $value ) {
+                        $userLData = $objLearningStyle->getLearningStyleDetailsByProfessionId($professionId,$value->parameterId,$userId);
+                        if (!isset($userLData) && count($userLData) > 0) {
+                            $points = '';
+                            $LAPoints = '';
+                            $points = $userLData[0]->uls_earned_points;
+                            $userLearningData[$k]->earned_points += $userLData[0]->uls_earned_points;
+                            $activityName = $userLData[0]->activity_name;
+                            if (strpos($activityName, ',') !== false) {
+                                $Activities = explode(",",$activityName);
+                                foreach ($Activities As $Akey => $acty) {
+                                    if ($acty == 'L4B') {
+                                            $userLearningData[$k]->total_points += $l4BTotal;
+                                    } else if ($acty == 'L4AV') {
+                                        if ($l4ATotal != 0) {
+                                            $userLearningData[$k]->total_points += Config::get('constant.USER_L4_VIDEO_POINTS');
+                                        }
+                                    }else if ($acty == 'L4AP') {
+                                        if ($l4ATotal != 0) {
+                                            $userLearningData[$k]->total_points += Config::get('constant.USER_L4_PHOTO_POINTS');
+                                        }
+                                    }else if ($acty == 'L4AD') {
+                                        if ($l4ATotal != 0) {
+                                            $userLearningData[$k]->total_points += Config::get('constant.USER_L4_DOCUMENT_POINTS');
+                                        }
+                                    } else if ($acty == 'N/A') {
+                                        if ($points != 0) {
+                                            $userLearningData[$k]->total_points += '';
+                                        }
+                                    } else {
+                                        if ($acty != '' && intval($acty) > 0) {
+                                            $TotalPoints = $getTeenagerAllTypeBadges['level4Intermediate']['templateWiseTotalAttemptedPoint'][$acty];
+                                            $userLearningData[$k]->total_points += $TotalPoints;
+                                        }
+
+                                    }
+                                }
+                          } else {
+                              if ($activityName == 'L4B') {
+                                    $userLearningData[$k]->total_points += $l4BTotal;
+                              } else if ($activityName == 'L4AV') {
+                                  if ($l4ATotal != 0) {
+                                      $userLearningData[$k]->total_points += Config::get('constant.USER_L4_VIDEO_POINTS');
+                                  }
+                              }else if ($activityName == 'L4AP') {
+                                  if ($l4ATotal != 0) {
+                                      $userLearningData[$k]->total_points += Config::get('constant.USER_L4_PHOTO_POINTS');
+                                  }
+                              }else if ($activityName == 'L4AD') {
+                                  if ($l4ATotal != 0) {
+                                      $userLearningData[$k]->total_points += Config::get('constant.USER_L4_DOCUMENT_POINTS');
+                                  }
+                              } else if ($activityName == 'N/A') {
+                                  if ($points != 0) {
+                                      $userLearningData[$k]->total_points += '';
+                                  }
+                              } else {
+                                  if (intval($activityName) > 0) {
+                                      $TotalPoints = $getTeenagerAllTypeBadges['level4Intermediate']['templateWiseTotalAttemptedPoint'][$activityName];
+                                      $userLearningData[$k]->total_points += $TotalPoints;
+                                  }
+                              }
+                        }
+                        if ($userLearningData[$k]->total_points != 0) {
+                            $LAPoints = ($value->earned_points * 100) / $userLearningData[$k]->total_points;
+                        }
+                        $range = '';
+                        $LAPoints = round($LAPoints);
+                        if ($LAPoints >= Config::get('constant.LS_LOW_MIN_RANGE') && $LAPoints <= Config::get('constant.LS_LOW_MAX_RANGE') ) {
+                            $range = "Low";
+                        } else if ($LAPoints >= Config::get('constant.LS_MEDIUM_MIN_RANGE') && $LAPoints <= Config::get('constant.LS_MEDIUM_MAX_RANGE') ) {
+                            $range = "Medium";
+                        } else if ($LAPoints >= Config::get('constant.LS_HIGH_MIN_RANGE') && $LAPoints <= Config::get('constant.LS_HIGH_MAX_RANGE') ) {
+                            $range = "High";
+                        }
+                        $userLearningData[$k]->interpretationrange = $range;
+                        $userLearningData[$k]->percentage = $LAPoints;
+                        }
+                    }
+                }
+            }
+        }
+       
+        if(isset($userLearningData) && !empty($userLearningData))
+        {            
+            foreach($userLearningData as $key=>$lg){                  
+                if (strpos($lg->ls_name, 'factual_') !== false)
+                {
+                    $subPanelDataFactual[] = array('id'=>$lg->parameterId,'title'=>$lg->ls_name,'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
+                    $learningGuidance[0] = array('id'=>$lg->parameterId,'name'=>'Factual','slug'=>$lg->ls_name,'panelColor'=>'#ff5f44','image'=>'https://s3proteen.s3.ap-south-1.amazonaws.com/img/brain-img.png','subPanelData'=>$subPanelDataFactual);                                     
+                }
+                elseif (strpos($lg->ls_name, 'conceptual_') !== false)
+                {
+                    $subPanelDataConcept[] = array('id'=>$lg->parameterId,'title'=>$lg->ls_name,'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
+                    $learningGuidance[1] = array('id'=>$lg->parameterId,'name'=>'Conceptual','slug'=>$lg->ls_name,'panelColor'=>'#27a6b5','image'=>'https://s3proteen.s3.ap-south-1.amazonaws.com/img/bulb-img.png','subPanelData'=>$subPanelDataConcept);                                       
+                }
+                elseif (strpos($lg->ls_name, 'procedural_') !== false)
+                {
+                    $subPanelDataProcedural[] = array('id'=>$lg->parameterId,'title'=>$lg->ls_name,'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
+                    $learningGuidance[2] = array('id'=>$lg->parameterId,'name'=>'Procedural','slug'=>$lg->ls_name,'panelColor'=>'#65c6e6','image'=>'https://s3proteen.s3.ap-south-1.amazonaws.com/img/puzzle-img.png','subPanelData'=>$subPanelDataProcedural);                                       
+                }
+                elseif (strpos($lg->ls_name, 'meta_cognitive_') !== false)
+                {
+                    $subPanelDataMeta[] = array('id'=>$lg->parameterId,'title'=>$lg->ls_name,'titleColor'=>'#f1c246','titleType'=>$lg->interpretationrange,'subPanelDescription'=>$lg->ls_description); 
+                    $learningGuidance[3] = array('id'=>$lg->parameterId,'name'=>'Meta-Cognitive','slug'=>$lg->ls_name,'panelColor'=>'#73376d','image'=>'https://s3proteen.s3.ap-south-1.amazonaws.com/img/star-img.png','subPanelData'=>$subPanelDataMeta);                                       
+                }                   
+            }
+        }          
+        
+        return view('parent.learningGuidance', compact('learningGuidance'));
     }
 }

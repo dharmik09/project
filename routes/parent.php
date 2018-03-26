@@ -58,6 +58,8 @@ Route::post('/play-intermediate-level-activity', 'Parent\Level4ActivityManagemen
 Route::post('/save-intermediate-level-activity', 'Parent\Level4ActivityManagementController@saveIntermediateLevelActivity')->name('play-intermediate-level-activity');
 Route::post('/get-competitor-data/', 'Parent\DashboardManagementController@getCompetitorData')->name('get-competitor-data');
 
+//Learning Guidance
+Route::get('/learning-guidance/{teenUniqueId}', 'Parent\Level4ActivityManagementController@learningGuidance');
 
 //My Teen
 Route::get('/pair-with-teen', 'Parent\DashboardManagementController@pairWithTeen')->name('pair-with-teen');
