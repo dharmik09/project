@@ -465,6 +465,7 @@
             <!--Learning Style start-->
                 <div class="dashboard_inner_box no_bord">
                     <h2>Learning Guidance</h2>
+                    {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
                      @if ($response['remainingDaysForLS'] == 0)
                         <a href="javascript:void(0);" class="learning_header learning_style_button" title="">
                              <span class="coinouter btn_golden_border" id="Rdays">
