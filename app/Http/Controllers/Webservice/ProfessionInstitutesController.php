@@ -9,6 +9,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use App\ProfessionInstitutes;
 use App\ProfessionInstitutesSpeciality;
+use App\State;
 use Auth;
 use Redirect;
 use Helpers;
@@ -29,6 +30,7 @@ class ProfessionInstitutesController extends Controller {
         $this->professionInstituteThumbImageUploadPath = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionInstituteThumbImageHeight = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_HEIGHT');
         $this->professionInstituteThumbImageWidth = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_WIDTH');
+        $this->objState = new State();
     }
 
     public function getProfessionInstituteFilter(Request $request){
@@ -134,6 +136,46 @@ class ProfessionInstitutesController extends Controller {
                                 ['label'=>'Girls Only', 'value'=>'1'],
                             ];
                 $allData['dataArray1'] = $GenderArray;
+
+                $response['arrayCount'] = 1;
+            }
+            elseif($questionType == "State"){
+                
+                if ($teenager->t_view_information == 1) {
+                    $countryId = 2; // United States
+                } else {
+                    $countryId = 1; // India
+                }
+        
+                $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($countryId);
+                
+                $state = [];
+                
+                foreach ($stateWiseCityData as $key => $value) {
+                    $state[] = array('value' => ucwords(strtolower($value->s_name)));
+                }
+                $allData['dataArray1'] = $state;
+
+                $response['arrayCount'] = 1;
+            }
+            elseif($questionType == "City"){
+                
+                if ($teenager->t_view_information == 1) {
+                    $countryId = 2; // United States
+                } else {
+                    $countryId = 1; // India
+                }
+        
+                $stateWiseCityData = $this->objState->getAllStatesWithCityByCountryId($countryId);
+                
+                $city = [];
+                
+                foreach ($stateWiseCityData as $key => $value) {
+                    foreach ($value->city as $k => $v) {
+                        $city[] = array('value' => ucwords(strtolower($v->c_name)));
+                    }
+                }
+                $allData['dataArray1'] = $city;
 
                 $response['arrayCount'] = 1;
             }
