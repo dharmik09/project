@@ -30,6 +30,9 @@
 
 .career-content {
     margin-bottom: 30px;
+    @include maxms{
+        margin-bottom: 0;
+    }
     h2 {
         font-size: 45px;
         color: $h-cl;
@@ -154,25 +157,40 @@
         padding-bottom: 0;
         border-bottom: none;
         margin-bottom: 0;
+        .category-block {
+            display: block;
+        }
         .category-block figure {
             .category-img {
                 min-height: 250px;
-                @include maxsm{
+                @include maxsm {
                     min-height: 340px;
                     background-position: center top;
                 }
-                @include maxms{
+                @include maxms {
                     min-height: 210px;
                 }
             }
-            figcaption a {
+            figcaption {
                 padding: 20px;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
-                @include maxlg{
+                width: 100%;
+                color: #fff;
+                font-size: 22px;
+                font-family: hl;
+                display: block;
+                @include maxlg {
                     padding: 20px 15px;
                 }
+                @include maxsm{font-size: 19px;}
+                @include maxms{
+                    padding: 15px;
+                }
+            }
+            .complete{
+                color: $white;
             }
         }
     }
