@@ -33,20 +33,19 @@
             $instituteAddress = $value->address_line1.' '.$value->address_line2.', '.$value->city.', '.$value->district;
         }
         
-        if(isset($value->latitude) && $value->latitude != "" && $value->latitude != "NA" && isset($value->longitude) && $value->longitude != "" && $value->longitude != "NA"){
-            $instituteMapUrl = "https://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=10&output=embed&iwloc=near";
-        }else{
-            if($instituteAddress != ""){                
-               // $prepAddr = str_replace(' ','+',$instituteAddress);
-              //  echo $instituteAddress; exit;
-              //  $instituteMapUrl = "https://maps.google.com/maps?q='.urlencode($value->city).'&z=5&output=embed";
-                $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($instituteName).'&sensor=false&iwloc=near');
-                $output= json_decode($geocode);
-                if(count($output->results)>0){
-                    $latitude = $output->results[0]->geometry->location->lat;
-                    $longitude = $output->results[0]->geometry->location->lng;
-                    $instituteMapUrl = "https://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
-                }
+        if($instituteName != ""){
+            $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($instituteName).'&sensor=false&iwloc=near');
+
+            $output= json_decode($geocode);
+            if(count($output->results)>0)
+            {
+                $latitude = $output->results[0]->geometry->location->lat;
+                $longitude = $output->results[0]->geometry->location->lng;
+                $instituteMapUrl = "https://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
+            }
+            elseif(isset($value->latitude) && $value->latitude != "" && isset($value->longitude) && $value->longitude != "")
+            {
+                $instituteMapUrl = "https://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=10&output=embed&iwloc=near";
             }
         }
       
