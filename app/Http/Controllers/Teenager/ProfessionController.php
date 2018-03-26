@@ -775,10 +775,25 @@ class ProfessionController extends Controller {
         $user = Auth::guard('teenager')->user();
 
         if($user->id > 0) {
+            //Check career consider section coins consumption details
+            $componentsCareerConsider = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.CAREER_TO_CONSIDER'));
+            $deductedCoinsCareerConsider = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($user->id, $componentsCareerConsider->id, 1);
+            $remainingDaysForCareerConsider = 0;
+            if (!empty($deductedCoinsCareerConsider[0])) {
+                $remainingDaysForCareerConsider = Helpers::calculateRemainingDays($deductedCoinsCareerConsider[0]->dc_end_date);
+            }
+
             $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
             $getAllActiveProfessions = Helpers::getActiveProfessions();
             $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
             
+            if ($remainingDaysForCareerConsider == 0) {
+                $response['status'] = 0;
+                $response['message'] = "Please consume your procoins to view your career suggestions!";
+                return response()->json($response, 200);
+                exit;
+            }
+
             if(!$getTeenagerHML) {
                 $response['status'] = 0;
                 $response['message'] = "Build your profile to know careers to consider!";
