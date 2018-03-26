@@ -33,6 +33,7 @@ use DB;
 use App\PaidComponent;
 use App\DeductedCoins;
 use App\Level4ProfessionProgress;
+use View;
 
 class ProfileController extends Controller
 {
@@ -343,5 +344,47 @@ class ProfileController extends Controller
             $teenagerMyIcons = array();
         }
         return view('teenager.basic.profileRoleModelSection', compact('teenagerMyIcons'));
+    }
+
+    public function getCareerDetailsAds(Request $request) {
+        $adsDetails = Helpers::getAds(Auth::guard('teenager')->user()->id);
+        $mediumAdImages = [];
+        $largeAdImages = [];
+        $bannerAdImages = [];
+        if (isset($adsDetails) && !empty($adsDetails)) {
+            foreach ($adsDetails as $ad) {
+                if ($ad['image'] != '') {
+                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ad['image']);
+                } else {
+                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                }
+                switch ($ad['sizeType']) {
+                    case '1':
+                        $mediumAdImages[] = $ad;
+                        break;
+
+                    case '2':
+                        $largeAdImages[] = $ad;
+                        break; 
+
+                    case '3':
+                        $bannerAdImages[] = $ad;
+                        break;
+
+                    default:
+                        break;
+                };
+            }
+        }
+        $sidebarAds = View::make('teenager.basic.careerSidebarAds', compact('mediumAdImages', 'largeAdImages'));
+        $sidebarHtml = $sidebarAds->render();
+        $bannerAds = View::make('teenager.basic.careerBannerAds', compact('bannerAdImages'));
+        $bannerHtml = $bannerAds->render();
+        $response = [];
+        $response['sidebarAds'] = $sidebarHtml;
+        $response['bannerAds'] = $bannerHtml;
+
+        return response()->json($response, 200);
+        exit;
     }
 }
