@@ -463,22 +463,32 @@
            </div>
             </form>
             <!--Learning Style start-->
-                <div class="dashboard_inner_box no_bord">
+                <div class="dashboard_inner_box no_bord sec-guidance">
                     <h2>Learning Guidance</h2>
                     {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
                      @if ($response['remainingDaysForLS'] == 0)
-                        <a href="javascript:void(0);" class="learning_header learning_style_button" title="">
+                        <!--<a href="javascript:void(0);" class="learning_header learning_style_button" title="">
                              <span class="coinouter btn_golden_border" id="Rdays">
                                 <span class="coinsnum">{{$response['required_coins']}}</span>
                                 <span class="coinsimg"><img src="{{Storage::url('frontend/images/coin-stack.png')}}"></span>
                             </span>
-                        </a>
+                        </a>-->
+                        <div class="promisebtn">
+                                                    <a href="javascript:void(0);" class="promise btn_golden_border" title="" >
+                                                        <span class="promiseplus">PROMISE Plus</span>
+                                                        <span class="coinouter">
+                                                            <span class="coinsnum">2500</span>
+                                                            <span class="coinsimg"><img src="https://proteenlive-old.s3.ap-south-1.amazonaws.com/frontend/images/coin-stack.png">
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </div>
                     @else
-                        <a href="javascript:void(0);" class="learning_header learning_style_button" title="">
+                        <!--<a href="javascript:void(0);" class="learning_header learning_style_button" title="">
                             <span class="coinouter btn_golden_border">
                                 <span class="coinsnum">{{$response['remainingDaysForLS']}} Days Left</span>
                             </span>
-                        </a>
+                        </a>-->
                     @endif
                     <div class="row">
                         <div class="col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10">
