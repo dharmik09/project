@@ -16,10 +16,11 @@ use App\Services\Level4Activity\Contracts\Level4ActivitiesRepository;
 use App\TemplateDeductedCoins;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Input;
+use App\Services\Parents\Contracts\ParentsRepository;
 
 class ProfessionController extends Controller {
 
-    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository) 
+    public function __construct(ProfessionsRepository $professionsRepository, Level4ActivitiesRepository $level4ActivitiesRepository, TeenagersRepository $teenagersRepository, ParentsRepository $parentsRepository) 
     {
         $this->professionsRepository = $professionsRepository;
         $this->professions = new Professions;
@@ -27,6 +28,7 @@ class ProfessionController extends Controller {
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->teenagersRepository = $teenagersRepository;
         $this->aptitudeThumb = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
+        $this->parentsRepository = $parentsRepository;
         $this->log = new Logger('parent-profession-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
@@ -136,6 +138,45 @@ class ProfessionController extends Controller {
         } else {
             $response['status'] = 0;
             $response['message'] = "Something went wrong";
+            return response()->json($response, 200);
+            exit;
+        }
+    }
+
+    /*
+     * Returns view of teen-challenge score box
+     */
+    public function showCompetitorData() {
+        $parentId = Auth::guard('parent')->user()->id;
+        $professionId = Input::get('professionId');
+        $teenId = Input::get('teenId');
+        if ($parentId > 0 && $professionId != '' && $teenId != '') {
+            $professionName = '';
+            $getProfessionNameFromProfessionId = $this->professionsRepository->getProfessionsByProfessionId($professionId);
+            if (isset($getProfessionNameFromProfessionId[0]) && !empty($getProfessionNameFromProfessionId[0])) {
+                $professionName = $getProfessionNameFromProfessionId[0]->pf_name;
+            }
+            $level4Booster = Helpers::level4Booster($professionId, $teenId);
+            $level4ParentBooster = Helpers::level4ParentBooster($professionId, $parentId);
+            $teenDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
+            $parentDetail = $this->parentsRepository->getParentDetailByParentId($parentId);
+            $rank = 0;
+            foreach($level4ParentBooster['allData'] AS $key => $value) {
+                if ($level4Booster['yourScore'] != 0) {
+                  if ($level4Booster['yourScore'] == $value) {
+                    $rank = $key+1;
+                  }
+                } else{
+                    $rank = 0;
+                }
+            }
+            return view('parent.basic.careerChallengeScoreBox', compact('level4Booster', 'level4ParentBooster', 'professionName', 'teenDetail', 'parentDetail', 'rank'));
+            exit;
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Something went wrong!";
+            $response['reload'] = 1;
+            $response['redirect'] = '/parent';
             return response()->json($response, 200);
             exit;
         }

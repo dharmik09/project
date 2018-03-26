@@ -28,6 +28,7 @@ h6 {
         margin-bottom: 30px;
         a{
             color: $p-cl;
+            border-bottom: 1px solid;display: inline-block;line-height: 0.85;
             &:hover{
                 color:#d81c02;
             }
@@ -211,10 +212,12 @@ h6 {
                 }
                 a{
                     color: $r-cl;
-                    border-bottom: 1px solid $r-cl;
+                    border-bottom: 1px solid;
+                    /*display: inline-block;
+                    line-height: 0.85;*/
                     &:hover{
                         color: $cl-complete;
-                        border-color: $cl-complete;
+                        //border-color: $cl-complete;
                     }
                 }
             }
