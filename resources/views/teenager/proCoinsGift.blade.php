@@ -128,9 +128,13 @@
                 $('#gift-history-loader').hide();
                 $('#gift-history-loader').parent().removeClass('loading-screen-parent');
                 $('#giftTable').hide();
+                $('.onlyNumber').on('keyup', function() {
+                    this.value = this.value.replace(/[^0-9]/gi, '');
+                });
             }
         });
     }
+
     function saveGiftedCoins(teenager_id,coins)
     {
         $('#gift_'+teenager_id).toggleClass('sending').blur();
