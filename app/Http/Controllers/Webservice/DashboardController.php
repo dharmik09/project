@@ -448,6 +448,7 @@ class DashboardController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
+            $response['availableCoins'] = $teenager->t_coins;
             //Career consider section coins consumption details
             $componentsCareerConsider = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.CAREER_TO_CONSIDER'));
             $deductedCoinsCareerConsider = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($request->userId, $componentsCareerConsider->id, 1);
@@ -461,6 +462,15 @@ class DashboardController extends Controller
             $careerConsiderCoinsDetails['componentCoins'] = $componentsCareerConsider->pc_required_coins;
             $careerConsiderCoinsDetails['remainingDays'] = $remainingDaysForCareerConsider;
             $response['careerConsiderCoinsDetails'] = $careerConsiderCoinsDetails;
+
+            if($remainingDaysForCareerConsider == 0) {
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['data'] = [];
+                $response['message'] = "Please consume your procoins to view your career suggestions!";
+                return response()->json($response, 200);
+                exit;
+            }
 
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             if(!$getTeenagerHML) {

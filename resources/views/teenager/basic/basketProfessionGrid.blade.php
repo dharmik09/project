@@ -33,11 +33,13 @@
                 @foreach($basketsData->profession as $k => $v)           
                     <div class="col-md-4 col-sm-6">
                         <?php $matchScale = ( isset($v->match_scale) && $v->match_scale != '') ? $v->match_scale : "career-data-nomatch"; ?>            
-                        <div class="category-block {{$matchScale}}">
+                            <?php $alias = ' "Also called: '.$v->pf_profession_alias.""; ?>
+                                  
+                            <a href="{{url('teenager/career-detail')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}{{($v->pf_profession_alias && $v->pf_profession_alias != '')?$alias.'"':''}}" class="category-block {{$matchScale}}">
                             <figure>
                                 <div class="category-img" style="background-image: url('{{Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$v->pf_logo)}}')"></div>
                                 <figcaption>
-                                    <a href="{{url('teenager/career-detail')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}">{{$v->pf_name}}</a>
+                                   {{$v->pf_name}}
                                 </figcaption>
                                 @if(isset($v->attempted) && $v->attempted == 1)
                                     <span class="complete">
@@ -45,7 +47,7 @@
                                     </span>
                                 @endif                                         
                             </figure>
-                        </div>
+                            </a>    
                     </div>
                 @endforeach
             @else
