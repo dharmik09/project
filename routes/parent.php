@@ -26,7 +26,6 @@ Route::post('/get-concept-data','Parent\CoinManagementController@saveConceptCoin
 Route::get('/level4-intermediate-activity/{professionId}/{templateId}/{teenId}', 'Parent\Level4ActivityManagementController@level4IntermediateActivity');
 Route::post('/level4-intermediate-activity/{professionId}/{templateId}/{teenId}', 'Parent\Level4ActivityManagementController@level4IntermediateActivity')->name('level4-intermediate-activity');
 Route::post('/play-level4-intermediate-activity', 'Parent\Level4ActivityManagementController@saveLevel4IntermediateAns')->name('play-level4-intermediate-activity');
-Route::post('/show-competitor-data/', 'Parent\DashboardManagementController@showCompetitorData')->name('show-competitor-data');
 
 //Route::post('/get-question-data-advance-level', 'Parent\Level4AdvanceActivityManagementController@getQuestionDataAdvanceLevel')->name('get-question-data-advance-level');
 Route::get('/level4-advance-step2/{professionId}/{typeid}/{teenId}', 'Parent\Level4AdvanceActivityManagementController@level4AdvanceStep2')->name('level4-advance-step2');
@@ -37,6 +36,7 @@ Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceA
 //Careers details page
 Route::get('/career-detail/{slug}/{teenId}', 'Parent\ProfessionController@careerDetails');
 Route::post('/get-teenagers-challenged-to-parent', 'Parent\ProfessionController@getTeenagersChallengedToParent');
+Route::post('/show-competitor-data/', 'Parent\ProfessionController@showCompetitorData')->name('show-competitor-data');
 
 //Level4 Basic Activity
 Route::post('/play-basic-level-activity', 'Parent\Level4ActivityManagementController@getL4BasicQuestions');
@@ -55,6 +55,7 @@ Route::post('/get-coins-for-template', 'Parent\CoinManagementController@getCoins
 Route::post('/save-coins-for-template-data', 'Parent\CoinManagementController@saveConceptCoinsDetail');
 Route::post('/play-intermediate-level-activity', 'Parent\Level4ActivityManagementController@professionIntermediateQuestions')->name('play-intermediate-level-activity');
 Route::post('/save-intermediate-level-activity', 'Parent\Level4ActivityManagementController@saveIntermediateLevelActivity')->name('play-intermediate-level-activity');
+Route::post('/get-competitor-data/', 'Parent\DashboardManagementController@getCompetitorData')->name('get-competitor-data');
 
 
 //My Teen

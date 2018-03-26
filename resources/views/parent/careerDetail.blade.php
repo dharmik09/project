@@ -1692,17 +1692,16 @@
                 } else {
                     $(".form-challenge").html('<p>'+ response.message +'</p>');
                 }
-                //$(".mentor-list ul").owlCarousel();
             }
         });
     }
 
-    function getChallengeScoreDetails(parentId) {
-        $("#"+parentId).addClass('deactive');
+    function getChallengeScoreDetails(teenId) {
+        $("#"+teenId).addClass('deactive');
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "parentId=" + parentId + "&professionId=" + "{{$professionsData->id}}";
+        var form_data = "teenId=" + teenId + "&professionId=" + "{{$professionsData->id}}";
         $.ajax({
-            url: "{{ url('/teenager/get-challenge-score-details') }}",
+            url: "{{ url('/parent/show-competitor-data') }}",
             type: 'POST',
             data: form_data,
             headers: {
@@ -1710,10 +1709,15 @@
             },
             cache: false,
             success: function(response) {
-                $("#"+parentId).removeClass('deactive');
-                $('#scoreModal').html(response);
-                $('#scoreModal').modal('show');
-                //$('.ajax-loader').hide();
+                if (response.status != 0 && response.reload != 1) {
+                    $("#"+teenId).removeClass('deactive');
+                    $('#scoreModal').html(response);
+                    $('#scoreModal').modal('show');
+                } else {
+                    $('#challengeErrorMessage').text(response.message);
+                    var urlSet = response.redirect;
+                    location.reload(true);
+                }
             }
         });
     }

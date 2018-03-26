@@ -2105,4 +2105,5 @@ class DashboardManagementController extends Controller {
         return response()->json($response, 200);
         exit;
     }
+
 }
