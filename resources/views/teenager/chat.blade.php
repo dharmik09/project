@@ -398,9 +398,30 @@ function normalChat() {
             },
             data: {'id':id},
             success: function (response) {
-                $("#pageWiseNotifications").html('');
                 $('#pageNo').val(0);
-                fetchNotification();
+                var pageNo = $('#pageNo').val();
+                var CSRF_TOKEN = "{{ csrf_token() }}";
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('teenager/get-page-wise-notification')}}",
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN
+                    },
+                    data: {'page_no':pageNo},
+                    success: function (response) {
+                        if(response.notificationCount != 20){
+                            $('#loadMoreButton').removeClass('text-center');
+                            $('#loadMoreButton').removeClass('load-more');
+                            $('#loadMoreButton').addClass('notification-complete');
+                            $('#loadMoreButton').html("<p>No more notifications<p>");
+                        }
+                        else{
+                            $('#pageNo').val(response.pageNo);
+                        }
+                        $("#pageWiseNotifications").html(response.notifications);
+                    }
+                });
             }
         });
     }
