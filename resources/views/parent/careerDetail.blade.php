@@ -322,11 +322,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="connect-block sec-progress color-swap">
+                        </div>
+                        <div class="connect-block sec-progress color-swap">
                                 <h2>Connect</h2>
                                 <div class="bg-white">
                                     <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                                        <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Leaderboard</span></span></a></li>
+                                        <li class="active custom-tab col-xs-12 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Leaderboard</span></span></a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div id="menu3" class="tab-pane fade in active">
@@ -335,12 +336,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ad-slider owl-carousel">
-                                <div class="ad-sec-h">
-                                    <div class="t-table">
-                                        <div class="table-cell">
-                                            No Ads available
-                                        </div>
+                        <div class="ad-slider owl-carousel">
+                            <div class="ad-sec-h">
+                                <div class="t-table">
+                                    <div class="table-cell">
+                                         No Ads available
                                     </div>
                                 </div>
                             </div>

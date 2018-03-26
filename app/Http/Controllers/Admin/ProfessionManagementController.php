@@ -649,9 +649,10 @@ class ProfessionManagementController extends Controller {
     }
     
     public function professionInstitutesListSave() {
-        
-        ini_set('memory_limit', '20000M');
+
+        ini_set('memory_limit','-1');
         ini_set('max_execution_time', 0);
+        ini_set('max_input_time', '-1');
         
         $response = '';        
         $path = Input::file('ps_bulk')->getRealPath();
