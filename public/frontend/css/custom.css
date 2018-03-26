@@ -556,8 +556,10 @@ a, a:focus, a:hover{color: #d81c02;}
 .ad-slider .owl-prev,.ad-slider .owl-next{display: none;}
 .modal{background: #eeeeef !important;}
 .gift_modal_page .submit_register .btn.disable{pointer-events: none;cursor: not-allowed;background: #ccc !important;color: rgba(22,28,34,.7) !important;}
-
-
+.sec-guidance {font-family: 'hl';font-size: 17px;color: #565b5f;}
+.sec-guidance p{font-family: 'hl';text-align: left;font-size: 17px;}
+.sec-guidance .promisebtn{max-width: 228px;margin: 30px auto 0;}
+.sec-guidance ul{text-align: left;}
 
 @media (max-width: 991px) {
 .padTop10 {

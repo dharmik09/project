@@ -96,13 +96,11 @@
                                         </div>
                                     </div>
                                     <div class="category-list career-listing">
-                                        <div class="row">
+                                        <div class="row flex-container">
                                             @foreach($value->profession as $k => $v)
-                                                <div class="col-md-4 col-sm-6">
+                                                <div class="col-md-4 col-sm-6 flex-items">
                                                     <?php $matchScale = ( isset($v->match_scale) && $v->match_scale != '') ? $v->match_scale : "career-data-nomatch"; ?>            
-                                                        <?php $alias = ' "Also called: '.$v->pf_profession_alias.""; ?>
-
-                                                        <a href="{{url('teenager/career-detail')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}{{($v->pf_profession_alias && $v->pf_profession_alias != '')?$alias.'"':''}}" class="category-block {{$matchScale}}">
+                                                        <a href="{{url('teenager/career-detail')}}/{{$v->pf_slug}}" title="{{$v->pf_name}}{{($v->pf_profession_alias && $v->pf_profession_alias != '')?' aka '.$v->pf_profession_alias:''}}" class="category-block {{$matchScale}}">
                                                         <figure>
                                                             <div class="category-img" style="background-image: url('{{Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$v->pf_logo)}}')"></div>
                                                             <figcaption>
