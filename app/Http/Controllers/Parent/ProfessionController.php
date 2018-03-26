@@ -182,4 +182,16 @@ class ProfessionController extends Controller {
         }
     }
 
+    /*
+     * Returns leaderboard details.
+     */
+    public function getLeaderBoardDetails()
+    {
+        $slot = Input::get('slot');
+        $professionId = Input::get('professionId');
+        $leaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionId, $slot);
+        $nextleaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionId, $slot + 1);
+        return view('parent.basic.careerDetailsLeaderBoard', compact('leaderboardTeenagers', 'nextleaderboardTeenagers'));
+    }
+
 }

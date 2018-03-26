@@ -291,14 +291,14 @@
                                                             @else
 
                                                             @endif
-                                                        </div>
-                                                        <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
+                                                    </div>
+                                                    <div class="quiz-area sec-hide intermediate-question" id="intermediateLevelData">
                                                             
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    
                                     </div>
                                     <!-- Section for real world --> 
                                     <div class="virtual-plus text-center real-world">
@@ -322,17 +322,30 @@
                                     </div>
                                 </div>
                             </div>
-                       
-                        <div class="ad-slider owl-carousel">
-                            <div class="ad-sec-h">
-                                <div class="t-table">
-                                    <div class="table-cell">
-                                        No Ads available
+                            <div class="connect-block sec-progress color-swap">
+                                <h2>Connect</h2>
+                                <div class="bg-white">
+                                    <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
+                                        <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Leaderboard</span></span></a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="menu3" class="tab-pane fade in active">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ad-slider owl-carousel">
+                                <div class="ad-sec-h">
+                                    <div class="t-table">
+                                        <div class="table-cell">
+                                            No Ads available
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                         </div>
+                    </div>
                     <div class="col-md-4">
                         <div class="sec-tags">
                             <h4>Tags</h4>
@@ -371,9 +384,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div></div>
+                        </div>
                     </div>
                 </div>
+            </div>
         </section>
     </div>
 </div>
@@ -1973,12 +1987,17 @@
 
     var slotCount = 1;
     $(document).on('click','#load-more-leaderboard', function() {
-        $("#menu3 .loader_con").show();
         var slot = slotCount++;
+        getLeaderBoard(slot);
+    });
+
+    function getLeaderBoard(slot)
+    {
+        $("#menu3 .loader_con").show();
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'slot=' + slot + '&professionId=' + '{{$professionsData->id}}';
         $.ajax({
-            url : '{{ url("teenager/load-more-leaderboard-teenagers") }}',
+            url : '{{ url("parent/load-more-leaderboard") }}',
             method : "POST",
             data: form_data,
             headers: {
@@ -1987,13 +2006,13 @@
             dataType : "text",
             success : function (data) {
                 $("#menu3 .loader_con").hide();
-                if(data != '') {
+                if(data.status != '') {
                     $('#menu3 .remove-row').remove();
                     $('#menu3').append(data);
                 } 
             }
         });
-    });
+    }
 
     //get promise plus data 
     function getPromisePlusData(professionId)
@@ -2042,6 +2061,7 @@
         //getChallengedParentAndMentorList("{{Auth::guard('parent')->user()->id}}");
         getTeenagersChallengedToParent();
         getUserProfessionCompetitor({{$professionsData->id}});
+        getLeaderBoard(0);
     });
 
     function adjusting_box_size() {

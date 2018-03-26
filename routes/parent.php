@@ -37,6 +37,7 @@ Route::post('/submit-level4-advance-activity-for-review', 'Parent\Level4AdvanceA
 Route::get('/career-detail/{slug}/{teenId}', 'Parent\ProfessionController@careerDetails');
 Route::post('/get-teenagers-challenged-to-parent', 'Parent\ProfessionController@getTeenagersChallengedToParent');
 Route::post('/show-competitor-data/', 'Parent\ProfessionController@showCompetitorData')->name('show-competitor-data');
+Route::post('/load-more-leaderboard', 'Parent\ProfessionController@getLeaderBoardDetails');
 
 //Level4 Basic Activity
 Route::post('/play-basic-level-activity', 'Parent\Level4ActivityManagementController@getL4BasicQuestions');
