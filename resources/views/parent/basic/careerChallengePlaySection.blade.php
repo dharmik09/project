@@ -1,3 +1,4 @@
+<span id="challengeErrorMessage" class="fontWeight"></span>
 <form>
     <div class="sec-parents">
         <div class="mentor-list">

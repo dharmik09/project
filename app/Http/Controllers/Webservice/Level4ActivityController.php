@@ -142,7 +142,7 @@ class Level4ActivityController extends Controller {
             }
             //Store log in System
             $this->log->info('Retrieve scholarship programs details', array('userid'=>$request->userId));
-            $data['information'] = "Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.";
+            $data['information'] = "Instructions: Here are tasks by your real world sponsors. Impress them & build your professional reputation early on!";
             $data['is_active'] = rand(0, 1);
             $data['scholarshipPrograms'] = $scholarshipDetailsArr;
             $response['login'] = 1;
@@ -235,7 +235,7 @@ class Level4ActivityController extends Controller {
                 }
                 //Store log in System
                 $this->log->info('Retrieve challenge play section data', array('userId'=>$request->userId));
-                $data['information'] = "Instructions: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.";
+                $data['information'] = "Instructions: Collaborate for guidance from your mentors or simply have fun role playing professions with your parents. Challenge them!!";
                 $data['parentList'] = $parentArr;
                 $data['challengedParentList'] = $challengedParentsArr;
                 $response['status'] = 1;

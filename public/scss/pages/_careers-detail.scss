@@ -1353,6 +1353,9 @@
             .mentor-list {
                 margin-top: 30px;
                 max-width: 100%;
+                .owl-prev, .owl-next{
+                    display: none;
+                }
             }
             .mentor-list [class*=col-] {
                 padding: 0 15px;
