@@ -355,29 +355,6 @@ class ProfessionController extends Controller {
             $level4BasicPlayed = 1;
         }
         
-        $objTemplateDeductedCoins = new TemplateDeductedCoins();
-        $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionsData->id);
-        if( isset($getQuestionTemplateForProfession[0]) ) {
-            foreach($getQuestionTemplateForProfession as $key => $professionTemplate) {
-                $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($user->id, $professionsData->id, $professionTemplate->gt_template_id, 1);
-                $days = 0;
-                if ($deductedCoinsDetail && isset($deductedCoinsDetail[0])) {
-                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
-                }
-                $getQuestionTemplateForProfession[$key]->remaningDays = $days;
-                $intermediateActivities = [];
-                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($user->id, $professionsData->id, $professionTemplate->gt_template_id);
-                $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($user->id, $professionsData->id, $professionTemplate->gt_template_id);
-                $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
-                $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
-                if (empty($intermediateActivities) || ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
-                   $getQuestionTemplateForProfession[$key]->attempted = 'yes';
-                } else {
-                    $getQuestionTemplateForProfession[$key]->attempted = 'no';
-                }
-            }
-        }
-        
         $careerMapHelperArray = Helpers::getCareerMapColumnName();
         $careerMappingdata = [];
         
@@ -549,8 +526,9 @@ class ProfessionController extends Controller {
         }
 
         $professionCompletePercentage = Helpers::getProfessionCompletePercentage($user->id, $professionsData->id);
+        $getQuestionTemplateForProfession = [];
 
-        return view('teenager.careerDetail', compact('level4BasicPlayed', 'professionCompletePercentage', 'getQuestionTemplateForProfession', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers', 'promisePlusComponent', 'promisePlusRemainingDays', 'instituteRemainingDays', 'instituteComponent'));
+        return view('teenager.careerDetail', compact('level4BasicPlayed', 'professionCompletePercentage', 'getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages', 'scholarshipPrograms', 'exceptScholarshipIds', 'scholarshipProgramIds', 'expiredActivityIds', 'remainingDaysForActivity', 'componentsData', 'teenagerParents', 'challengedAcceptedParents', 'leaderboardTeenagers', 'nextleaderboardTeenagers', 'promisePlusComponent', 'promisePlusRemainingDays', 'instituteRemainingDays', 'instituteComponent'));
     }
 
     public function getTeenagerWhoStarRatedCareer()

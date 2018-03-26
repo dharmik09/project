@@ -25,6 +25,8 @@ use App\Level4Answers;
 use App\LearningStyle;
 use App\Professions;
 use App\Level4ProfessionProgress;
+use App\TemplateDeductedCoins;
+use View;
 
 class Level4ActivityController extends Controller {
 
@@ -1000,5 +1002,38 @@ class Level4ActivityController extends Controller {
         }          
         
         return view('teenager.learningGuidance', compact('learningGuidance'));
+    }
+
+    public function getIntermediateProfessionTemplate(Request $request) {
+        $professionId = Input::get('professionId');
+        $userId = Auth::guard('teenager')->user()->id;
+
+        $objTemplateDeductedCoins = new TemplateDeductedCoins();
+        $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionId);
+        if( isset($getQuestionTemplateForProfession[0]) ) {
+            foreach($getQuestionTemplateForProfession as $key => $professionTemplate) {
+                $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($userId, $professionId, $professionTemplate->gt_template_id, 1);
+                $days = 0;
+                if ($deductedCoinsDetail && isset($deductedCoinsDetail[0])) {
+                    $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
+                }
+                $getQuestionTemplateForProfession[$key]->remaningDays = $days;
+                $intermediateActivities = [];
+                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($userId, $professionId, $professionTemplate->gt_template_id);
+                $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($userId, $professionId, $professionTemplate->gt_template_id);
+                $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
+                $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
+                if (empty($intermediateActivities) || ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
+                   $getQuestionTemplateForProfession[$key]->attempted = 'yes';
+                } else {
+                    $getQuestionTemplateForProfession[$key]->attempted = 'no';
+                }
+            }
+        }
+        $templates = View::make('teenager.basic.intermediateTemplates', compact('getQuestionTemplateForProfession'));
+        $templatesHTML = $templates->render();
+        
+        return response()->json($templatesHTML, 200);
+        exit;
     }
 }
