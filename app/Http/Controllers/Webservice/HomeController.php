@@ -132,6 +132,8 @@ class HomeController extends Controller
                     $response['status'] = 0;
                     $response['message'] = "Coins already consumed for this activity";
                     $response['data']['remainingDays'] = $days;
+                    $updatedCoins = $this->teenagersRepository->getTeenagerById($teenId);
+                    $response['data']['availableCoins'] = (isset($updatedCoins) && !empty($updatedCoins)) ? $updatedCoins->t_coins : 0;
                 } else {
                     $remainingDays = 0;
                     $deductCoins = 0;
@@ -153,6 +155,8 @@ class HomeController extends Controller
                             $response['status'] = 1; 
                             $response['message'] = trans('appmessages.default_success_msg');
                             $response['data']['remainingDays'] = $remainingDays;
+                            $updatedCoins = $this->teenagersRepository->getTeenagerById($teenId);
+                            $response['data']['availableCoins'] = (isset($updatedCoins) && !empty($updatedCoins)) ? $updatedCoins->t_coins : 0;
                         } else {
                             $response['status'] = 0; 
                             $response['message'] = "Something went wrong.";
