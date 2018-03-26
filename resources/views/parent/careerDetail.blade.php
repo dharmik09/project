@@ -1688,6 +1688,7 @@
             success: function(response) {
                 if (response.status != 0) {
                     $(".form-challenge").html(response);
+                    $(".mentor-list ul").owlCarousel();
                 } else {
                     $(".form-challenge").html('<p>'+ response.message +'</p>');
                 }
