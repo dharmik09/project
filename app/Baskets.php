@@ -438,11 +438,7 @@ class Baskets extends Model
     public function getBasketsAndProfessionByBaketIdAndCountryId($basketId,$countryId){
         $this->countryId = $countryId;
         $return = $this->with(['profession' => function ($query) {
-                            $query->with(['professionHeaders' => function ($query) {
-                                $query->where('country_id',$this->countryId)
-                                    ->where('pfic_title','average_per_year_salary')
-                                    ->orWhere('pfic_title','profession_outlook');
-                            }])->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
+                            $query->where('deleted' ,config::get('constant.ACTIVE_FLAG'));
                         }])
                         ->where('deleted' ,config::get('constant.ACTIVE_FLAG'))
                         ->find($basketId);

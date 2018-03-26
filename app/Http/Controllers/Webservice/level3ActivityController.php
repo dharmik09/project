@@ -79,12 +79,7 @@ class level3ActivityController extends Controller {
             $data = $this->baskets->where('deleted',config::get('constant.ACTIVE_FLAG'))->get();
 
             foreach ($data as $key => $value) {
-                if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
-                    $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
-                }
-                else{
-                    $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
-                }
+                $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
 
                 $youtubeId = Helpers::youtube_id_from_url($value->b_video);
                 if($youtubeId != ''){
@@ -170,11 +165,9 @@ class level3ActivityController extends Controller {
             $basketId = $request->basketId;
             $careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId, $this->countryId);
             if($careersData) {
-                if($careersData->b_logo != '' && Storage::size($this->basketThumbUrl.$careersData->b_logo) > 0) {
-                    $careersData->b_logo = Storage::url($this->basketThumbUrl.$careersData->b_logo);
-                } else {
-                    $careersData->b_logo = Storage::url($this->basketThumbUrl.$this->basketDefaultProteenImage);
-                }
+                
+                $careersData->b_logo = Storage::url($this->basketThumbUrl.$this->basketDefaultProteenImage);
+                
                 $youtubeId = Helpers::youtube_id_from_url($careersData->b_video);
                 if($youtubeId != '') {
                     $careersData->b_video = $youtubeId;
@@ -190,11 +183,7 @@ class level3ActivityController extends Controller {
 
                 $professionAttemptedCount = 0;
                 foreach ($careersData->profession as $key => $value) {
-                    if($value->pf_logo != '' && Storage::size($this->professionThumbUrl . $value->pf_logo) > 0) {
-                        $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $value->pf_logo);
-                    } else {
-                        $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
-                    }
+                    $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
                     //H,M,L Data
                     $careersData->profession[$key]->matched = isset($getTeenagerHML[$value->id]) ? $getTeenagerHML[$value->id] : '';
                     if($careersData->profession[$key]->matched == "match") {
@@ -206,29 +195,8 @@ class level3ActivityController extends Controller {
                     } else {
                         $notSetcareersArr[] = $careersData->profession[$key]->matched;
                     }
-
-                    $average_per_year_salaryData = $value->professionHeaders->filter(function($item) {
-                                                    return $item->pfic_title == 'average_per_year_salary';
-                                                })->first();
-
-                    $profession_outlookData = $value->professionHeaders->filter(function($item) {
-                                                return $item->pfic_title == 'profession_outlook';
-                                            })->first();
-                    
-                    $average_per_year_salary = '';
-                    $profession_outlook = '';
-                    
-                    if(count($average_per_year_salaryData)>0){
-                        $average_per_year_salary = $average_per_year_salaryData->pfic_content;
-                    }
-                    
-                    if(count($profession_outlookData)>0){
-                        $profession_outlook = $profession_outlookData->pfic_content;
-                    }
-                    
-                    $careersData->profession[$key]['average_per_year_salary'] = $average_per_year_salary;
-                    $careersData->profession[$key]['profession_outlook'] = $profession_outlook;
-
+                    $careersData->profession[$key]['average_per_year_salary'] = "";
+                    $careersData->profession[$key]['profession_outlook'] = "";
                     //Check whether profession is attempted or not
                     $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $value->id);
                     if ($professionAttempted && $professionAttempted == 100) {
@@ -283,12 +251,7 @@ class level3ActivityController extends Controller {
                     $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
 
                     foreach ($data as $key => $value) {
-                        //print_r($value); die();
-                        if ($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
-                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
-                        } else {
-                            $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
-                        }
+                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
 
                         $youtubeId = Helpers::youtube_id_from_url($value->b_video);
                         if ($youtubeId != '') {
@@ -435,12 +398,7 @@ class level3ActivityController extends Controller {
                 $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
                 foreach ($data as $key => $value) {
                     $match = $nomatch = $moderate = [];
-                    if($value->b_logo != '' && Storage::size($this->basketThumbUrl . $value->b_logo) > 0){
-                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
-                    }
-                    else{
-                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
-                    }
+                    $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
                     $youtubeId = Helpers::youtube_id_from_url($value->b_video);
                     if($youtubeId != '') {
                         $data[$key]->b_video = $youtubeId;
@@ -992,13 +950,7 @@ class level3ActivityController extends Controller {
                 $data = $this->baskets->getBasketsAndProfessionByProfessionId($careerId, $teenager->id, $countryId);
                             
                 if($data){
-                        
-                        if($data->b_logo != '' && Storage::size($this->basketThumbUrl . $data->b_logo) > 0){
-                            $data->b_logo = Storage::url($this->basketThumbUrl . $data->b_logo);
-                        }
-                        else{
-                            $data->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
-                        }
+                        $data->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
         
                         $youtubeId = Helpers::youtube_id_from_url($data->b_video);
                         if($youtubeId != ''){
@@ -1144,12 +1096,7 @@ class level3ActivityController extends Controller {
                         $match = $nomatch = $moderate = [];
                         $professionAttemptedCount = 0;
                         foreach ($value->profession as $k => $v) {
-                            if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
-                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
-                            }
-                            else{
-                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
-                            }
+                            $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
 
                             $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $v->id);
                             if(isset($professionAttempted) && $professionAttempted == 100) { 
