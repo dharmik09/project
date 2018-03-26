@@ -84,10 +84,7 @@ class ChatController extends Controller {
     }
 
     public function deleteNotification()
-    {
-        // $id = Input::get('id');
-        // $response = $this->objNotifications->deleteNotificationById($id);
-        // return $response;        
+    {       
         $loggedInTeen = Auth::guard('teenager')->user()->id;
         $notificationId = Input::get('id');
         $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($loggedInTeen);
@@ -101,7 +98,7 @@ class ChatController extends Controller {
                 $data['tnm_notification_delete'] = $teenNotificationManagementCheck->tnm_notification_delete.','.$notificationId;
             }
         }
-        
+        $data['tnm_teenager'] = $loggedInTeen;
         $response = $this->objTeenNotificationManagement->insertUpdate($data);
         return $response;
     }
@@ -109,14 +106,22 @@ class ChatController extends Controller {
     public function getUnreadNotificationCount()
     {
         $loggedInTeen = Auth::guard('teenager')->user()->id;
-        $response = $this->objNotifications->getNotificationByUserId($loggedInTeen);
-        return $response;
+        $notificationManagementData = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($loggedInTeen);
+
+        $deletedData = [];
+        $readData = [];
+
+        if(count($notificationManagementData)>0){
+            $deletedData = explode(',', $notificationManagementData->tnm_notification_delete);
+            $readData = explode(',', $notificationManagementData->tnm_notification_read);
+        }
+        $response = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$loggedInTeen,$deletedData);
+        $count = $response - count($readData);
+        return $count;
     }
 
     public function changeNotificationStatus()
     {
-        // $id = Input::get('notification_id');
-        // return $this->objNotifications->ChangeNotificationsReadStatus($id,Config::get('constant.NOTIFICATION_STATUS_READ'));
         $loggedInTeen = Auth::guard('teenager')->user()->id;
         $notificationId = Input::get('notification_id');
         $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($loggedInTeen);

@@ -213,4 +213,19 @@ class Notifications extends Model implements AuthenticatableContract, Authorizab
                             ->take(20)
                             ->get();
     }
+
+    /**
+     * Get user Notifications count by userid
+     */
+    public function getNotificationsCountByUserTypeAndIdByDeleted($type,$userId,$deletedData)
+    {
+        return Notifications::where(function($query) use ($userId) {
+                                $query->where('n_receiver_id', '=', $userId)
+                                    ->orWhere('n_receiver_id', '=', 0);
+                            })
+                            ->where('n_receiver_type',$type)
+                            ->where('deleted',config::get('constant.ACTIVE_FLAG'))
+                            ->whereNotIn('id', $deletedData)
+                            ->count();
+    }
 }

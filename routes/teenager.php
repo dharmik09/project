@@ -180,3 +180,6 @@ Route::post('/get-user-unread-message-chat', 'Teenager\ProfileController@getUser
 Route::get('/institute', 'Teenager\ProfessionInstitutesController@index');
 Route::post('/get-page-wise-institute', 'Teenager\ProfessionInstitutesController@getIndex');
 Route::post('/get-institute-filter', 'Teenager\ProfessionInstitutesController@getInstituteFilter');
+
+//Career Detail Page Ads section
+Route::post('/get-career-detail-ads', 'Teenager\ProfileController@getCareerDetailsAds');
