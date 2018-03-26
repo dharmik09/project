@@ -385,22 +385,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ad-slider owl-carousel">
-                            @forelse ($bannerAdImages as $bannerAdImage)
-                            <div class="ad-sec-h">
-                                <div class="d-table">
-                                    <img src="{{$bannerAdImage['image']}}">
-                                </div>
-                            </div>
-                            @empty
-                            <div class="ad-sec-h">
-                                <div class="t-table">
-                                    <div class="table-cell">
-                                        No Ads available
+                        <div id="bannerAdsSection">
+                            <div class="ad-slider owl-carousel">
+                                @forelse ($bannerAdImages as $bannerAdImage)
+                                <div class="ad-sec-h">
+                                    <div class="d-table">
+                                        <img src="{{$bannerAdImage['image']}}">
                                     </div>
                                 </div>
+                                @empty
+                                <div class="ad-sec-h">
+                                    <div class="t-table">
+                                        <div class="table-cell">
+                                            No Ads available!
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforelse
                             </div>
-                            @endforelse
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -533,39 +535,41 @@
                                 @endforelse
                             </ul>
                         </div>
-                        <div class="ad-slider owl-carousel">
-                            @forelse ($mediumAdImages as $mediumAdImage)
-                            <div class="ad-v">
-                                <div class="d-table">
-                                    <img src="{{$mediumAdImage['image']}}">
-                                </div>
-                            </div>
-                            @empty
-                            <div class="ad-v">
-                                <div class="t-table">
-                                    <div class="table-cell">
-                                        No Ads available
+                        <div id="sidebarAdsSection">
+                            <div class="ad-slider owl-carousel">
+                                @forelse ($mediumAdImages as $mediumAdImage)
+                                <div class="ad-v">
+                                    <div class="d-table">
+                                        <img src="{{$mediumAdImage['image']}}">
                                     </div>
                                 </div>
-                            </div>
-                            @endforelse
-                        </div>
-                        <div class="ad-slider owl-carousel">
-                            @forelse ($largeAdImages as $largeAdImage)
-                            <div class="ad-v-2">
-                                <div class="d-table">
-                                    <img src="{{$largeAdImage['image']}}">
-                                </div>
-                            </div>
-                            @empty
-                            <div class="ad-v-2">
-                                <div class="t-table">
-                                    <div class="table-cell">
-                                        No Ads available
+                                @empty
+                                <div class="ad-v">
+                                    <div class="t-table">
+                                        <div class="table-cell">
+                                            No Ads available!
+                                        </div>
                                     </div>
                                 </div>
+                                @endforelse
                             </div>
-                            @endforelse
+                            <div class="ad-slider owl-carousel">
+                                @forelse ($largeAdImages as $largeAdImage)
+                                <div class="ad-v-2">
+                                    <div class="d-table">
+                                        <img src="{{$largeAdImage['image']}}">
+                                    </div>
+                                </div>
+                                @empty
+                                <div class="ad-v-2">
+                                    <div class="t-table">
+                                        <div class="table-cell">
+                                            No Ads available!
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2329,7 +2333,7 @@
         $(document).on( "click", ".open_advance_view", function() {
            $("#accordion1").collapse('show');
         })
-        
+        getPageAdsDetail();
     });
 
     function adjusting_box_size() {
@@ -2389,6 +2393,19 @@
         });
     }
 
+    function getPageAdsDetail() {
+        $.ajax({
+            url: "{{ url('/teenager/get-career-detail-ads') }}",
+            type: 'POST',
+            data: {
+                "_token": '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $("#bannerAdsSection").html(response.bannerAds);
+                $("#sidebarAdsSection").html(response.sidebarAds);
+            }
+        });
+    }
 </script>
 
 @stop

@@ -488,31 +488,7 @@ class ProfessionController extends Controller {
         $mediumAdImages = [];
         $largeAdImages = [];
         $bannerAdImages = [];
-        if (isset($adsDetails) && !empty($adsDetails)) {
-            foreach ($adsDetails as $ad) {
-                if ($ad['image'] != '') {
-                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ad['image']);
-                } else {
-                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
-                }
-                switch ($ad['sizeType']) {
-                    case '1':
-                        $mediumAdImages[] = $ad;
-                        break;
-
-                    case '2':
-                        $largeAdImages[] = $ad;
-                        break; 
-
-                    case '3':
-                        $bannerAdImages[] = $ad;
-                        break;
-
-                    default:
-                        break;
-                };
-            }
-        }
+        
         $teenagerSponsors = $this->teenagersRepository->getTeenagerSelectedSponsor($user->id);
         $sponsorArr = [];
         if (isset($teenagerSponsors) && count($teenagerSponsors) > 0) {
