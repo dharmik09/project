@@ -120,6 +120,7 @@
             <div class="container">
                 <div class="left">
                     <ul class="links">
+                        <li><a href="{{ url('about-us') }}" title="About Us">About</a></li>
                         <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
                         <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
                         <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>

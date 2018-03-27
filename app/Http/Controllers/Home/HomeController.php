@@ -104,4 +104,9 @@ class HomeController extends Controller
     {
         return view('home.termsCondition');
     }
+
+    public function aboutUs()
+    {
+        return view('home.aboutUs');
+    }
 }
