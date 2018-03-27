@@ -456,29 +456,35 @@
 
 .upload-screen .btn-primary.btn-go {
     padding: 8px 35px;
+    color: $white;
+    &:hover{
+        background-color: $cl-procedural;
+        border-color: $cl-procedural;
+        color: $white;
+    }
 }
 
 .cost-estimator {
     border-color: transparent !important;
     .nav {
         margin: 0 -20px;
-        border-color: $p-cl;
+        border-color: $p-cl !important;
         > li {
             margin-right: 3px;
             > a {
-                background-color: $p-cl;
-                color: $white;
+                background-color: $p-cl !important;
+                color: $white !important;
                 border-radius: 5px 5px 0 0;
             }
             &.active {
                 a {
-                    background-color: $i-cl;
+                    background-color: $i-cl !important;
                     color: $white;
                 }
             }
             &:hover {
                 a {
-                    background-color: $i-cl;
+                    background-color: $i-cl !important;
                     color: $white;
                 }
             }

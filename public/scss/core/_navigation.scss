@@ -330,6 +330,12 @@ nav {
         padding-top: 15px;
         .btn {
             font-weight: 900;
+            color: $white;
+            &:hover{
+                color: #fff !important;
+                background-color: #f11f03 !important;
+                border-color: #ce1a02 !important;
+            }
         }
     }
     h2 {
