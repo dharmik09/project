@@ -435,8 +435,8 @@ class DashboardManagementController extends Controller {
                 $response['finalTeens'] = $finalTeens;
                 $response['coins'] = $coins;
                 $response['finalSortedData'] = $finalSortedData;
-                
-                return view('parent.parentProgress', compact('response', 'teenDetail'));
+                $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
+                return view('parent.parentProgress', compact('response', 'teenDetail', 'learningGuidance'));
 
             } else {
                 Auth::guard('parent')->logout();
