@@ -18,7 +18,7 @@
                 <p>ProTeen is a <strong><a href="https://www.unidel-group.com/" target="_blank" title="Unidel Company">UNIDEL</a></strong> Company, a builder and creator of disruptive technology ventures.</p>
             </div>
         </div>
-        <div class="sec-blank">
+        <div class="sec-blank-about">
         </div>
     </div>
 @stop
