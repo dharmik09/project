@@ -35,10 +35,29 @@
             }
         ?>
         <div class="career-data {{$careerClass}} {{ $careerExpandClassTwo }} " style="display: {{ $carrerStyleTwo }};">
-            <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" title="{{ $professionArray['pf_name'] }}"><h2>{{ $professionArray['pf_name'] }}</h2></a>
+            <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" title="{{ $professionArray['pf_name'] }}">
+                <h2>
+                    @if( $professionArray['added_my_career'] == 0 ) 
+                        <a href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})" >
+                            <img src="{{ Storage::url('img/star.png') }}" class="">
+                        </a>
+                    @else
+                        <a href="javascript:void(0)" class="addto pull-left">
+                            <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
+                        </a>
+                    @endif
+                    {{ $professionArray['pf_name'] }}
+                </h2>
+            </a>
             <div class="clearfix">
-                @if( $professionArray['added_my_career'] == 0 ) <a href="javascript:void(0)" class="addto pull-left text-uppercase prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})">add to my careers</a> @else <a href="javascript:void(0)" class="addto pull-left text-uppercase"> Added </a> @endif
-                @if($professionArray['is_completed'] == 0) <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" class="status-career pull-right">Explore ></a> @else <span class="status-career pull-right">Complete</span> @endif
+                <!-- @if( $professionArray['added_my_career'] == 0 ) 
+                    <a href="javascript:void(0)" class="addto pull-left text-uppercase prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})">add to my careers</a> 
+                @else 
+                    <a href="javascript:void(0)" class="addto pull-left text-uppercase"> Added </a> 
+                @endif -->
+                @if($professionArray['is_completed'] == 0) 
+                    <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" class="status-career pull-right">Explore ></a> @else <span class="status-career pull-right">Complete</span> 
+                @endif
             </div>
         </div>
     @empty
