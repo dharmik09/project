@@ -18,7 +18,7 @@
                 <div class="answer-img t-cell"><a href="#" title="{{$teenagerName}}"><img src="{{ Storage::url($teenPhoto) }}" alt="author img"></a></div>
                 <div class="ans-author-detail t-cell">
                     <h4><a href="#" title="{{$teenagerName}}">{{$teenagerName}}</a></h4>
-                    <span class="ans-posted-date">{{date('jS M Y',strtotime($value->created_at))}}</span>
+                    <span class="ans-posted-date">{{date('d M Y',strtotime($value->created_at))}}</span>
                 </div>
             </div>
             <div class="forum-answer text-overflow">

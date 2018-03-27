@@ -111,7 +111,11 @@ class ProfessionInstitutes extends Model
         $return = ProfessionInstitutes::skip($record)->take(5);
         
         if(isset($answerName) && $answerName != ""){
-            $return->where('college_institution','like','%'.$answerName.'%')->orWhere('address_line1','like','%'.$answerName.'%')->orWhere('address_line2','like','%'.$answerName.'%');
+            $return->where(function($query) use ($answerName) {
+                        $query->where('college_institution','like','%'.$answerName.'%')
+                            ->orWhere('address_line1','like','%'.$answerName.'%')
+                            ->orWhere('address_line2','like','%'.$answerName.'%');
+                    });
         }
 
         if($questionType == "Institute_Affiliation" && $answer != ""){
