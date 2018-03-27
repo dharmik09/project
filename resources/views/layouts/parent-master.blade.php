@@ -21,7 +21,8 @@
         <link href="{{asset('css/style.css')}}" rel="stylesheet">
         <!-- <link href="{{ asset('/frontend/css/style-1.css')}}" rel="stylesheet"> -->
         <?php
-        if (!Request::is('parent/career-detail/*') || !Request::is('parent/learning-guidance/*')) { ?>
+        $newPageRoutes = array('parent/career-detail/{slug}/{teenId}', 'parent/learning-guidance/{teenUniqueId}');
+        if (!in_array(Route::getFacadeRoot()->current()->uri(), $newPageRoutes)) { ?>
         <link href="{{ asset('/frontend/css/style.css')}}" rel="stylesheet">
         <link href="{{ asset('/frontend/css/custom.css')}}" rel="stylesheet">
         <?php } ?>
