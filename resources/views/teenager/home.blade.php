@@ -635,6 +635,7 @@
                 if (typeof response !== "undefined" && typeof response.message !== "undefined" && response.message != "") {
                     //$(".prof_sec_"+professionId).html(response.message).fadeIn('slow');
                     $(".prof_sec_"+professionId).removeAttr('onclick');
+                    $(".prof_sec_"+professionId).addClass('selected');
                     $(".prof_sec_"+professionId).html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">');
                 }
             }
