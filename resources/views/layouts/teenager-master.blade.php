@@ -102,6 +102,7 @@
             <div class="container">
                 <div class="left">
                     <ul class="links">
+                        <li><a href="{{ url('about-us') }}" title="About Us">About</a></li>
                         <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
                         <!--<li><a href="{{ url('team') }}" title="Team">Team</a></li>-->
                         <!--<li><a href="{{ url('/teenager/list-career') }}">Careers</a></li>-->

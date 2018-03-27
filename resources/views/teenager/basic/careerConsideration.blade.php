@@ -42,7 +42,7 @@
                             <img src="{{ Storage::url('img/star.png') }}" class="">
                         </a>
                     @else
-                        <a href="javascript:void(0)" class="addto pull-left">
+                        <a href="javascript:void(0)" class="addto pull-left selected">
                             <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
                         </a>
                     @endif

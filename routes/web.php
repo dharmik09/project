@@ -24,6 +24,7 @@ Route::get('/team', 'Home\HomeController@team');
 Route::get('/contact-us', 'Home\HomeController@contactUs');
 Route::get('/privacy-policy', 'Home\HomeController@privacyPolicy');
 Route::get('/terms-condition', 'Home\HomeController@termsCondition');
+Route::get('/about-us', 'Home\HomeController@aboutUs');
 
 //Get call back route
 Route::get('facebook/callback', 'Teenager\SocialLoginController@handleProviderCallbackFacebook');
