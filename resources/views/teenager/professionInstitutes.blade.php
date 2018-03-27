@@ -209,8 +209,20 @@
 
         if( questionType == 'State' || questionType == 'City' || questionType == 'Pincode'){
             var answer = $('#answerDropdown').val();
-            if(answer.length <= 3){
-                return false;
+            if(answer.length != 0 && answerName.length != 0){
+                if(answer.length <= 3 && answerName.length <= 3){
+                    return false;
+                }
+            }
+            else if(answer.length != 0 && answerName.length == 0){
+                if(answer.length <= 3){
+                    return false;
+                }
+            }
+            else if(answer.length == 0 && answerName.length != 0){
+                if(answerName.length <= 3){
+                    return false;
+                }
             }
         }
 
