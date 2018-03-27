@@ -48,6 +48,18 @@ body{font-family: 'h';font-size: 14px;color:#000;}
         
     }
 }
+.sec-blank-about{    
+    height: 265px;
+    position: relative;
+    background: #eeeeef;
+    @include xlg{
+        height: 140px;
+    }
+    @include maxsm{
+        height: 50px;
+    }
+    
+}
 @include maxsm {
 	.table-responsive{border:none}
 }
