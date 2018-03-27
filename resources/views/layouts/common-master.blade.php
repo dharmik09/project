@@ -90,7 +90,7 @@
             </div>
         </footer>
         <div id="loading-wrapper">
-            <div id="loading-text"><span>Loading...</span></div>
+            <!-- <div id="loading-text"><span>Loading...</span></div> -->
             <div id="loading-content"></div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
