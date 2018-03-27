@@ -1672,4 +1672,46 @@ class Level4ActivityManagementController extends Controller {
         
         return view('parent.learningGuidance', compact('learningGuidance'));
     }
+
+    /*
+     * Store consumed coins details and returns remaining days
+     */
+    public function saveConsumedCoinsDetails() {
+        //$userId = Input::get('teenId');
+        $parentId = Auth::guard('parent')->user()->id;
+        $objPaidComponent = new PaidComponent();
+        $objDeductedCoins = new DeductedCoins();
+        $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
+        $coins = $componentsData->pc_required_coins;
+        $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
+        $days = 0;
+        if (!empty($deductedCoinsDetail->toArray())) {
+            $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+        }
+        $response['status'] = 0;
+        $response['coinsDetails'] = $coins;
+        if ($days == 0) {
+            $deductCoins = 0;
+            //deduct coin from user
+            $parentDetail = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
+            if (!empty($parentDetail)) {
+                $deductCoins = $parentDetail['p_coins']-$coins;
+            }
+            $returnData = $this->parentsRepository->updateParentCoinsDetail($parentId, $deductCoins);
+
+            $return = Helpers::saveDeductedCoinsData($parentId,2,$coins,Config::get('constant.LEARNING_STYLE'),0);
+            if ($return) {
+                $remainingDays = 0;
+                $updatedDeductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
+                if (!empty($updatedDeductedCoinsDetail)) {
+                    $remainingDays = Helpers::calculateRemainingDays($updatedDeductedCoinsDetail[0]->dc_end_date);
+                }
+                $response['status'] = 1;
+                $response['coinsDetails'] = $remainingDays;
+            } 
+        }
+        
+        return response()->json($response, 200);
+        exit;
+    }
 }

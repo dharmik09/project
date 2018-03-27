@@ -60,6 +60,7 @@ Route::post('/get-competitor-data/', 'Parent\DashboardManagementController@getCo
 
 //Learning Guidance
 Route::get('/learning-guidance/{teenUniqueId}', 'Parent\Level4ActivityManagementController@learningGuidance');
+Route::post('/save-consumed-coins-details', 'Parent\Level4ActivityManagementController@saveConsumedCoinsDetails');
 
 //My Teen
 Route::get('/pair-with-teen', 'Parent\DashboardManagementController@pairWithTeen')->name('pair-with-teen');

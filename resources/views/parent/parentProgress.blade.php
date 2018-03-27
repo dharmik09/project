@@ -466,30 +466,28 @@
                 <div class="dashboard_inner_box no_bord sec-guidance">
                     <h2>Learning Guidance</h2>
                     {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
-                     @if ($response['remainingDaysForLS'] == 0)
-                        <!--<a href="javascript:void(0);" class="learning_header learning_style_button" title="">
-                             <span class="coinouter btn_golden_border" id="Rdays">
-                                <span class="coinsnum">{{$response['required_coins']}}</span>
-                                <span class="coinsimg"><img src="{{Storage::url('frontend/images/coin-stack.png')}}"></span>
+                    <div class="promisebtn">
+                        <?php 
+                        if ($response['remainingDaysForLS'] == 0) {
+                            $learningGuidanceUrl = 'javascript:void(0);';
+                            $coinsDetails = $response['required_coins'];
+                            $learningGuidanceText = 'Learn More';
+                            $lgClass = 'learning_guidance';
+                        } else {
+                            $learningGuidanceUrl = url('parent/learning-guidance/'.$teenDetail->t_uniqueid);
+                            $coinsDetails = $response['remainingDaysForLS'].' Days Left';
+                            $learningGuidanceText = 'See More';
+                            $lgClass = '';
+                        } ?>
+                        <a id="lg_activity" href="{{$learningGuidanceUrl}}" class="promise btn_golden_border {{$lgClass}}" title="" >
+                            <span class="promiseplus lg_text" id="Rdays">{{$learningGuidanceText}}</span>
+                            <span class="coinouter">
+                                <span class="coinsnum lg_coins">{{$coinsDetails}}</span>
+                                <span class="coinsimg"><img src="{{Storage::url('frontend/images/coin-stack.png')}}">
+                                </span>
                             </span>
-                        </a>-->
-                        <div class="promisebtn">
-                                                    <a href="javascript:void(0);" class="promise btn_golden_border" title="" >
-                                                        <span class="promiseplus">PROMISE Plus</span>
-                                                        <span class="coinouter">
-                                                            <span class="coinsnum">2500</span>
-                                                            <span class="coinsimg"><img src="https://proteenlive-old.s3.ap-south-1.amazonaws.com/frontend/images/coin-stack.png">
-                                                            </span>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                    @else
-                        <!--<a href="javascript:void(0);" class="learning_header learning_style_button" title="">
-                            <span class="coinouter btn_golden_border">
-                                <span class="coinsnum">{{$response['remainingDaysForLS']}} Days Left</span>
-                            </span>
-                        </a>-->
-                    @endif
+                        </a>
+                    </div>
                     <div class="row">
                         <div class="col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10">
                             <div class="btn_typ_lable labels lg_legend mtb15" id="lg_legend" style="margin:0px;display: none;">
@@ -810,18 +808,19 @@
             });
         }
 
-        function getLearningStyle(teenager_id,r_coins)
-        {
+        $('body').on('click','.learning_guidance',function() {
             var days = <?php echo $response['remainingDaysForLS']; ?>;
+            var r_coins = parseInt("{{$response['required_coins']}}");
             if (days > 0) {
-                getLearningStyleData(teenager_id);
+                $(".lg_coins").html("");
+                $(".lg_coins").html(days + ' days left');
             } else {
                 $.ajax({
                     url: "{{ url('/parent/get-available-coins-for-parent') }}",
                     type: 'POST',
                     data: {
                         "_token": '{{ csrf_token() }}',
-                        "teenId": teenager_id,
+                        "teenId": '{{ $teenDetail->id }}',
                         "parentId": <?php if (Auth::guard('parent')->check()) { echo Auth::guard('parent')->user()->id; } else { echo 0;}?>
                     },
                     success: function(response) {
@@ -842,7 +841,8 @@
                             		text: "Ok",
                             		class : 'btn primary_btn',
                             		click: function() {
-                            		  getLearningStyleData(teenager_id);
+                            		  // getLearningStyleData(teenager_id);
+                                      saveConsumedCoinsDetails();
                             		  $( this ).dialog( "close" );
                             		}
                             	},
@@ -897,56 +897,78 @@
                     }
                 });
             }
-        }
+        });
 
-        function getLearningStyleData(teenager_id) {
-            $('.learn_scroll').slideDown();
-            $('#lg_legend').slideDown();
+        //function getLearningStyleData(teenager_id) {
+            //$('.learn_scroll').slideDown();
+            //$('#lg_legend').slideDown();
+        //     $.ajax({
+        //           url: "{{ url('/parent/get-learning-style') }}",
+        //           type: 'POST',
+        //           data: {
+        //               "_token": '{{ csrf_token() }}',
+        //               "teenId": teenager_id
+        //           },
+        //           success: function(response) {
+                    
+        //             $('.learn_scroll .ajax-loader').hide();
+        //             $('#learn').html(response);
+        //             $('#lg_legend').show();
+        //             $(".learn_scroll").mCustomScrollbar();
+        //             $('.learning_style_button').addClass('activet');
+        //             var parentId = <?php //if (Auth::guard('parent')->check()) { echo Auth::guard('parent')->user()->id; } else { echo 0;}?>;
+        //             getRemaningDays(parentId);
+        //           }
+        //     });
+        // }
+
+        function saveConsumedCoinsDetails() {
             $.ajax({
-                  url: "{{ url('/parent/get-learning-style') }}",
+                  url: "{{ url('/parent/save-consumed-coins-details') }}",
                   type: 'POST',
                   data: {
                       "_token": '{{ csrf_token() }}',
-                      "teenId": teenager_id
                   },
                   success: function(response) {
-                    $('.learn_scroll .ajax-loader').hide();
-                    $('#learn').html(response);
-                    $('#lg_legend').show();
-                    $(".learn_scroll").mCustomScrollbar();
-                    $('.learning_style_button').addClass('activet');
-                    var parentId = <?php if (Auth::guard('parent')->check()) { echo Auth::guard('parent')->user()->id; } else { echo 0;}?>;
-                    getRemaningDays(parentId);
+                    if (response.status != 0) {
+                        $('.lg_text').text('See More');
+                        $('.lg_coins').text(response.coinsDetails + ' days left');
+                        $('.learning_guidance').prop('onclick',null).off('click');
+                        window.location.href = "{{ url('parent/learning-guidance') }}/{{$teenDetail->t_uniqueid}}";
+                    } else {
+                        $('.lg_text').text('Learn More');
+                        $('.lg_coins').text(response.coinsDetails);
+                    }
                   }
             });
         }
 
-        function getRemaningDays(parentId) {
-            $.ajax({
-                url: "{{ url('/parent/get-remaining-days') }}",
-                type: 'POST',
-                data: {
-                    "_token": '{{ csrf_token() }}',
-                    "profession": 0,
-                    "parentId": parentId
-                },
-                success: function(response) {
-                   $('#Rdays').html(response);
-                }
-            });
-        }
+        // function getRemaningDays(parentId) {
+        //     $.ajax({
+        //         url: "{{ url('/parent/get-remaining-days') }}",
+        //         type: 'POST',
+        //         data: {
+        //             "_token": '{{ csrf_token() }}',
+        //             "profession": 0,
+        //             "parentId": parentId
+        //         },
+        //         success: function(response) {
+        //            $('#Rdays').html(response);
+        //         }
+        //     });
+        // }
 
-        $('body').on('click','.learning_style_button',function(){
-          if($(this).hasClass('activet')){
-              $('#learn').slideToggle();
-              $('#lg_legend').slideToggle();
-          }else{
-                var result = getLearningStyle({{$teenId}}, {{$response['required_coins']}});
-                if (result) {
-                    $(this).addClass('activet');
-                }
-          }
-        });
+        // $('body').on('click','.learning_guidance',function(){
+        //   if($(this).hasClass('activet')){
+        //       // $('#learn').slideToggle();
+        //       // $('#lg_legend').slideToggle();
+        //   }else{
+        //         var result = getLearningStyle({{$teenId}}, {{$response['required_coins']}});
+        //         if (result) {
+        //             $(this).addClass('activet');
+        //         }
+        //   }
+        // });
 
         $('body').on('click','#show_hide_btn_15',function(){
              setTimeout(function(){
