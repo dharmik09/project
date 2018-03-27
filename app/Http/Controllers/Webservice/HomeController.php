@@ -34,6 +34,7 @@ class HomeController extends Controller
         $this->objTestimonial = new Testimonial;
         $this->objFAQ = new FAQ;
         $this->faqThumbImageUploadPath = Config::get('constant.FAQ_THUMB_IMAGE_UPLOAD_PATH');
+        $this->faqOriginalImageUploadPath = Config::get('constant.FAQ_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->objVideo = new Video();
         $this->teenagersRepository = $teenagersRepository;
         $this->objPaidComponent = new PaidComponent;
@@ -55,7 +56,7 @@ class HomeController extends Controller
             $data = [];
             if(isset($helps[0]->id) && !empty($helps[0])) {
                 foreach($helps as $help) {
-                    $help->f_photo  = ($help->f_photo != "") ? Storage::url($this->faqThumbImageUploadPath.$help->f_photo) : Storage::url($this->faqThumbImageUploadPath."proteen-logo.png");
+                    $help->f_photo  = ($help->f_photo != "") ? Storage::url($this->faqOriginalImageUploadPath.$help->f_photo) : Storage::url($this->faqOriginalImageUploadPath."proteen-logo.png");
                     $data[] = $help;
                 }
             }
@@ -90,7 +91,7 @@ class HomeController extends Controller
             $data = [];
             if(isset($helps[0]->id) && !empty($helps[0])) {
                 foreach($helps as $help) {
-                    $help->f_photo  = ($help->f_photo != "") ? Storage::url($this->faqThumbImageUploadPath.$help->f_photo) : Storage::url($this->faqThumbImageUploadPath."proteen-logo.png");
+                    $help->f_photo  = ($help->f_photo != "") ? Storage::url($this->faqOriginalImageUploadPath.$help->f_photo) : Storage::url($this->faqOriginalImageUploadPath."proteen-logo.png");
                     $data[] = $help;
                 }
             }

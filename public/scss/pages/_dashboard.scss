@@ -190,6 +190,30 @@ h6 {
                 @include maxms {
                     font-size: 30px;
                 }
+                &.addto{
+                    /*font-size: 28px;
+                    margin-right: 10px;
+                    color: $white;*/
+                    position: relative;
+                    width: 24px;
+                    height: 29px;
+                    margin-right: 10px;
+                    img {
+                        top: 3px;
+                        position: absolute;
+                        &.hover-img{
+                            display: none;
+                        } 
+                    }
+                    &:hover{
+                        text-decoration: none;
+                    }
+                    &.selected{
+                        .hover-img{
+                            display: block;
+                        }
+                    }
+                }
             }
         }
         .my_chart {

@@ -463,15 +463,6 @@ class DashboardController extends Controller
             $careerConsiderCoinsDetails['remainingDays'] = $remainingDaysForCareerConsider;
             $response['careerConsiderCoinsDetails'] = $careerConsiderCoinsDetails;
 
-            if($remainingDaysForCareerConsider == 0) {
-                $response['login'] = 1;
-                $response['status'] = 1;
-                $response['data'] = [];
-                $response['message'] = "Please consume your procoins to view your career suggestions!";
-                return response()->json($response, 200);
-                exit;
-            }
-
             $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             if(!$getTeenagerHML) {
                 $response['login'] = 1;
@@ -625,9 +616,14 @@ class DashboardController extends Controller
                 }
             }
 
+            if($remainingDaysForCareerConsider == 0) {
+                $response['message'] = "Please consume your procoins to view your career suggestions!";
+            } else {
+                $response['message'] = trans('appmessages.default_success_msg');
+            }
+
             $response['login'] = 1;
             $response['status'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $allProfessions;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
