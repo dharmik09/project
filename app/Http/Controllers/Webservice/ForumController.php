@@ -45,7 +45,7 @@ class ForumController extends Controller {
 	            	if(isset($value->latestAnswer)){
 
 		            	if(isset($value->latestAnswer->teenager)){
-
+                            $value->question_date = date('d M Y',strtotime($value->created_at));
 			                if(isset($value->latestAnswer->teenager->t_photo) && $value->latestAnswer->teenager->t_photo != '' && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$value->latestAnswer->teenager->t_photo) > 0) {
 			                    $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->latestAnswer->teenager->t_photo;
 			                } else {
@@ -53,9 +53,10 @@ class ForumController extends Controller {
 			                }
 			                $value->latestAnswer->teenager_image = Storage::url($teenPhoto);
 			                $value->latestAnswer->teenager_fname = $value->latestAnswer->teenager->t_name;
-			                $value->latestAnswer->teenager_lname = $value->latestAnswer->teenager->t_lastname;
-			                unset($value->latestAnswer->teenager);
-			                
+                            $value->latestAnswer->teenager_lname = $value->latestAnswer->teenager->t_lastname;
+                            $value->latestAnswer->answer_date = date('d M Y',strtotime($value->latestAnswer->created_at));
+                            unset($value->latestAnswer->teenager);
+
 		            	}
 		            }
 	            }
@@ -111,7 +112,7 @@ class ForumController extends Controller {
 				                $value->teenager_fname = $value->teenager->t_name;
 				                $value->teenager_lname = $value->teenager->t_lastname;
 				                unset($value->teenager);
-
+                                $value->answer_date = date('d M Y',strtotime($value->created_at));
 			            	}
 			            }
 		            

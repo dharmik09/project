@@ -8,8 +8,8 @@
             <div class="forum-que t-cell">
                 <h4><a href="{{url('teenager/forum-question/'.Crypt::encrypt($value->id))}}" title="{{$value->fq_que}}">{{$value->fq_que}}</a></h4>
                 <ul class="que-detail">
-                    <li class="author-name"><a href="#" title="ProTeen Admin">ProTeen Admin</a></li>
-                    <li class="posted-date">{{date('jS M Y',strtotime($value->created_at))}}</li>
+                    <li class="author-name"><a href="#" title="ProTeen Posted">ProTeen Posted</a></li>
+                    <li class="posted-date">{{date('d M Y',strtotime($value->created_at))}}</li>
                 </ul>
             </div>
         </div>
@@ -25,7 +25,7 @@
                         
                         if(isset($value->latestAnswer)){
                             $answerText = $value->latestAnswer->fq_ans;
-                            $answerTime = date('jS M Y',strtotime($value->latestAnswer->created_at));
+                            $answerTime = date('d M Y',strtotime($value->latestAnswer->created_at));
                         }
 
                         if(isset($value->latestAnswer->teenager)){
