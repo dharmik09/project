@@ -55,7 +55,7 @@ class TagController extends Controller {
 	            	$getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
             		$match = $nomatch = $moderate = [];
 
-		            foreach($data->professionTags as $key => $value){
+		            foreach($data->professionTags as $key => $value) {
 		            	$professionData = [];
 		            	if(isset($value->profession)){
 		            		unset($value->profession->professionAttempted);
@@ -69,15 +69,15 @@ class TagController extends Controller {
 			                    $professionData['type_video'] = '2'; //Dropbox
 			                }
 			                
-			                $professionData['matched'] = isset($getTeenagerHML[$value->id]) ? $getTeenagerHML[$value->id] : '';
+			                $professionData['matched'] = isset($getTeenagerHML[$value->profession->id]) ? $getTeenagerHML[$value->profession->id] : '';
 		                    if($professionData['matched'] == "match") {
-		                        $match[] = $value->id;
+		                        $match[] = $value->profession->id;
 		                    } else if($professionData['matched'] == "nomatch") {
-		                        $nomatch[] = $value->id;
+		                        $nomatch[] = $value->profession->id;
 		                    } else if($professionData['matched'] == "moderate") {
-		                        $moderate[] = $value->id;
+		                        $moderate[] = $value->profession->id;
 		                    } else {
-		                        $notSetArray[] = $value->id;
+		                        $notSetArray[] = $value->profession->id;
 		                    }
 		                    $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $value->profession->id); 
 		                    $professionData['completed'] = (isset($professionComplete) && $professionComplete >= 100) ? 1 : 0;
