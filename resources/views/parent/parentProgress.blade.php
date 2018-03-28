@@ -376,7 +376,7 @@
                                                 <a href="javascript:void(0);" onclick="getProfessionEducationPath({{$value['professionId']}})" class="btn primary_btn">Education Path</a>
                                             </div>
                                             @if ($value['remainingDays'] == 0)
-                                            <div id="days_{{$value['professionId']}}">
+                                            <!-- <div id="days_{{$value['professionId']}}">
                                                 <div class="promisebtn">
                                                     <a href="javascript:void(0);" class="promise btn_golden_border" title="" onclick="getPromisePlus({{$value['professionId']}}, {{$teenDetail->id}}, {{$value['remainingDays']}}, {{$value['required_coins']}});" data-ref="#{{$value['professionId']}}">
                                                         <span class="promiseplus">PROMISE Plus</span>
@@ -387,16 +387,16 @@
                                                         </span>
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             @else
-                                                <div class="promisebtn timer_btn">
+                                                <!-- <div class="promisebtn timer_btn">
                                                     <a href="javascript:void(0);" class="promise btn_golden_border" title="" onclick="getPromisePlus({{$value['professionId']}}, {{$teenDetail->id}}, {{$value['remainingDays']}},{{$value['required_coins']}});" data-ref="#{{$value['professionId']}}">
                                                         <span class="promiseplus">PROMISE Plus</span>
                                                         <span class="coinouter">
                                                             <span class="coinsnum">{{$value['remainingDays']}} Days Left</span>
                                                         </span>
                                                     </a>
-                                                </div>
+                                                </div> -->
                                             @endif
                                         </div>
                                         <div class="back_page first_page">

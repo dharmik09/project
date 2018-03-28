@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="gift-table table-responsive consumption-table searched-promise-plus">
-                                @include('teenager/searchedPromisePlus');
+                                @include('teenager/searchedPromisePlus')
                             </div>
 
                         </div>
