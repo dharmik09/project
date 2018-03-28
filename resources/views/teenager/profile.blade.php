@@ -571,7 +571,7 @@
             </p> -->
             <div class="unbox-btn text-center">
                 <a id="lg_unbox" href="{{ ($remainingDaysForLg > 0) ? url('/teenager/learning-guidance') : 'javascript:void(0)' }}" title="Learn More" class="btn-primary" @if($remainingDaysForLg <= 0) onclick="getLearningGuidanceDetails();" @endif >
-                    <span class="unbox-me">Learn More</span>
+                    <span class="unbox-me lg_text">@if($remainingDaysForLg <= 0) Learn More @else See Now! @endif</span>
                     <span class="coins-outer lg_coins">
                     <span class="coins"></span> {{ ($remainingDaysForLg > 0) ? $remainingDaysForLg . ' days left' : $componentsData->pc_required_coins }}</span>
                 </a>
@@ -1721,9 +1721,11 @@
                 if (response > 0) {
                     $(".lg_coins").html('<span class="coins"></span> ' + response + " days left");  
                     $("#lg_unbox").prop('onclick',null).off('click');
+                    $(".lg_text").text('See Now!');
                     window.location.href = "{{url('/teenager/learning-guidance')}}";
                 } else {
                     $(".lg_coins").html('<span class="coins"></span> ' + consumedCoins);
+                    $(".lg_text").text('Learn More');
                 }
             }
         });

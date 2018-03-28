@@ -709,10 +709,12 @@
             success: function(response) {
                 $(".career_coins").html("");
                 if (response > 0) {
-                    $(".career_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $(".career_coins").html('<span class="coins"></span> ' + response + " days left"); 
+                    $(".career_text").text('See Now!'); 
                     $("#career_unbox").prop('onclick', null).off('click');
                     getCareerConsideration('{{Auth::guard('teenager')->user()->t_coins}}');
                 } else {
+                    $(".career_text").text('Unlock Me');
                     $(".career_coins").html('<span class="coins"></span> ' + consumedCoins);
                 }
             }
