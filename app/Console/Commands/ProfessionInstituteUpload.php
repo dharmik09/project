@@ -82,11 +82,11 @@ class ProfessionInstituteUpload extends Command
 
                 }
                 foreach ($results as $key => $value) {
-                    $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
+                    // $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
                     
-                    if($schoolData){
-                        $data['id'] = $schoolData->id;
-                    }
+                    // if($schoolData){
+                    //     $data['id'] = $schoolData->id;
+                    // }
 
                     $data['school_id'] = $value->id;
                     $data['institute_state'] = $value->state;
