@@ -183,7 +183,7 @@ class level3ActivityController extends Controller {
 
                 $professionAttemptedCount = 0;
                 foreach ($careersData->profession as $key => $value) {
-                    $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                    $careersData->profession[$key]->pf_logo = Storage::url($this->professionThumbUrl.$value->pf_logo);
                     //H,M,L Data
                     $careersData->profession[$key]->matched = isset($getTeenagerHML[$value->id]) ? $getTeenagerHML[$value->id] : '';
                     if($careersData->profession[$key]->matched == "match") {
