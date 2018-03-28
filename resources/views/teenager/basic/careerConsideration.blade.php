@@ -1,7 +1,7 @@
 @if ($careerConsideration && count($careerConsideration) > 0)
     <div class="unbox-btn">
         <a id="career_unbox" href="javascript:void(0)" title="Unlock Me" @if($remainingDaysForCareerConsider <= 0) onclick="getCareersConsiderDetails('{{Auth::guard('teenager')->user()->t_coins}}', '{{ $componentsCareerConsider->pc_required_coins }}');" @endif class="btn-primary" data-toggle="modal" >
-            <span class="unbox-me">Unlock Me</span>
+            <span class="unbox-me career_text">@if($remainingDaysForCareerConsider <= 0) Unlock Me @else See Now! @endif</span>
             <span class="coins-outer career_coins">
                 <span class="coins"></span> {{ ($remainingDaysForCareerConsider > 0) ? $remainingDaysForCareerConsider . ' days left' : $componentsCareerConsider->pc_required_coins }}
             </span>
@@ -38,11 +38,11 @@
             <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" title="{{ $professionArray['pf_name'] }}">
                 <h2>
                     @if( $professionArray['added_my_career'] == 0 ) 
-                        <a href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})" >
-                            <img src="{{ Storage::url('img/star.png') }}" class="">
+                        <a href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})" title="Add to my career">
+                            <img src="{{ Storage::url('img/star.png') }}">
                         </a>
                     @else
-                        <a href="javascript:void(0)" class="addto pull-left selected">
+                        <a href="javascript:void(0)" class="addto pull-left selected" title="Added to my career">
                             <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
                         </a>
                     @endif

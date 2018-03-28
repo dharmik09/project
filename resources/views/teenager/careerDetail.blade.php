@@ -1804,6 +1804,7 @@
                     } else {
                         $(".promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
                         $("#promise_plus").prop('onclick',null).off('click');
+                        $("#promisespan").text('See Now!');
                         getPromisePlusData({{$professionsData->id}});
                     }
                 } else {
@@ -1813,6 +1814,7 @@
                         $(".institute_coins").html('<span class="coins"></span> ' + consumedCoins);  
                     } else {
                         $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
+                        $("#promisespan").text('Unlock Me');
                     }
                 }
             }
