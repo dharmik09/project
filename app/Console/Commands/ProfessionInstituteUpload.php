@@ -62,58 +62,60 @@ class ProfessionInstituteUpload extends Command
 
         $this->log->info("Excel loading started on ".date("Y-m-d h:i:s A"));
 
-        $results = Excel::load($path, function($reader) {})->get();
+        // $results = Excel::load($path, function($reader) {})->get();
 
-        $this->log->info("Excel loaded on ".date("Y-m-d h:i:s A"));
+        // $this->log->info("Excel loaded on ".date("Y-m-d h:i:s A"));
         
         $response = '';        
         if($uploadType == "1") // Upload Basic information
         {
-            if( !isset($results[0]->id) || !isset($results[0]->state) || !isset($results[0]->college_institution) || !isset($results[0]->address_line1) || !isset($results[0]->address_line2) || !isset($results[0]->city) || !isset($results[0]->district) || !isset($results[0]->pin_code) || !isset($results[0]->website) || !isset($results[0]->year_of_establishment) || !isset($results[0]->affiliat_university) || !isset($results[0]->year_of_affiliation) || !isset($results[0]->location) || !isset($results[0]->latitude) || !isset($results[0]->longitude) || !isset($results[0]->type) || !isset($results[0]->management) || !isset($results[0]->speciality) || !isset($results[0]->girl_exclusive) || !isset($results[0]->hostel_count) || !isset($results[0]->is_institute_signup) || !isset($results[0]->minimum_fee) || !isset($results[0]->maximum_fee) ) {
+            Excel::filter('chunk')->load($path)->chunk(500, function ($results) use (&$response) {
+                if( !isset($results[0]->id) || !isset($results[0]->state) || !isset($results[0]->college_institution) || !isset($results[0]->address_line1) || !isset($results[0]->address_line2) || !isset($results[0]->city) || !isset($results[0]->district) || !isset($results[0]->pin_code) || !isset($results[0]->website) || !isset($results[0]->year_of_establishment) || !isset($results[0]->affiliat_university) || !isset($results[0]->year_of_affiliation) || !isset($results[0]->location) || !isset($results[0]->latitude) || !isset($results[0]->longitude) || !isset($results[0]->type) || !isset($results[0]->management) || !isset($results[0]->speciality) || !isset($results[0]->girl_exclusive) || !isset($results[0]->hostel_count) || !isset($results[0]->is_institute_signup) || !isset($results[0]->minimum_fee) || !isset($results[0]->maximum_fee) ) {
 
-                $excelUploadFinish['id'] = $responseManageExcelUpload->id;
-                $excelUploadFinish['status'] = "2"; //Failed
-                $excelUploadFinish['description'] = trans('labels.professioninstitueslistcolumnnotfoundbasicinformation');
-                $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
-                $this->log->info($excelUploadFinish['description']);
-                $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
-                return true;
+                    $excelUploadFinish['id'] = $responseManageExcelUpload->id;
+                    $excelUploadFinish['status'] = "2"; //Failed
+                    $excelUploadFinish['description'] = trans('labels.professioninstitueslistcolumnnotfoundbasicinformation');
+                    $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
+                    $this->log->info($excelUploadFinish['description']);
+                    $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
+                    return true;
 
-            }
-            foreach ($results as $key => $value) {
-                $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
-                
-                if($schoolData){
-                    $data['id'] = $schoolData->id;
                 }
+                foreach ($results as $key => $value) {
+                    $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
+                    
+                    if($schoolData){
+                        $data['id'] = $schoolData->id;
+                    }
 
-                $data['school_id'] = $value->id;
-                $data['institute_state'] = $value->state;
-                $data['college_institution'] = $value->college_institution;
-                $data['address_line1'] = $value->address_line1;
-                $data['address_line2'] = $value->address_line2;
-                $data['city'] = $value->city;
-                $data['district'] = $value->district;
-                $data['pin_code'] = $value->pin_code;
-                $data['website'] = $value->website;
-                $data['year_of_establishment'] = $value->year_of_establishment;
-                $data['affiliat_university'] = $value->affiliat_university;
-                $data['year_of_affiliation'] = $value->year_of_affiliation;
-                $data['location'] = $value->location;
-                $data['latitude'] = $value->latitude;
-                $data['longitude'] = $value->longitude;
-                $data['institute_type'] = $value->type;
-                $data['autonomous'] = $value->autonomous;
-                $data['management'] = $value->management;
-                $data['speciality'] = $value->speciality;
-                $data['girl_exclusive'] = $value->girl_exclusive;
-                $data['hostel_count'] = $value->hostel_count;
-                $data['is_institute_signup'] = $value->is_institute_signup;
-                $data['minimum_fee'] = $value->minimum_fee;
-                $data['maximum_fee'] = $value->maximum_fee;
-                $response = $this->objProfessionInstitutes->insertUpdate($data);
-                $this->log->info("Pointer on -> ".$key);
-            }
+                    $data['school_id'] = $value->id;
+                    $data['institute_state'] = $value->state;
+                    $data['college_institution'] = $value->college_institution;
+                    $data['address_line1'] = $value->address_line1;
+                    $data['address_line2'] = $value->address_line2;
+                    $data['city'] = $value->city;
+                    $data['district'] = $value->district;
+                    $data['pin_code'] = $value->pin_code;
+                    $data['website'] = $value->website;
+                    $data['year_of_establishment'] = $value->year_of_establishment;
+                    $data['affiliat_university'] = $value->affiliat_university;
+                    $data['year_of_affiliation'] = $value->year_of_affiliation;
+                    $data['location'] = $value->location;
+                    $data['latitude'] = $value->latitude;
+                    $data['longitude'] = $value->longitude;
+                    $data['institute_type'] = $value->type;
+                    $data['autonomous'] = $value->autonomous;
+                    $data['management'] = $value->management;
+                    $data['speciality'] = $value->speciality;
+                    $data['girl_exclusive'] = $value->girl_exclusive;
+                    $data['hostel_count'] = $value->hostel_count;
+                    $data['is_institute_signup'] = $value->is_institute_signup;
+                    $data['minimum_fee'] = $value->minimum_fee;
+                    $data['maximum_fee'] = $value->maximum_fee;
+                    $response = $this->objProfessionInstitutes->insertUpdate($data);
+                    $this->log->info("Pointer on -> ".$key);
+                }
+            }, $shouldQueue = false);
             
             if($response) {
                 $excelUploadFinish['status'] = "1"; //Success
@@ -130,32 +132,34 @@ class ProfessionInstituteUpload extends Command
         }
         elseif($uploadType == "2") // Upload Accreditation
         {
-            if(!isset($results[0]->id) || !isset($results[0]->name) || !isset($results[0]->survey_year) || !isset($results[0]->is_accredited) || !isset($results[0]->has_score) || !isset($results[0]->accreditation_body) || !isset($results[0]->max_score) || !isset($results[0]->score)){
-                
-                $excelUploadFinish['id'] = $responseManageExcelUpload->id;
-                $excelUploadFinish['status'] = "2"; //Failed
-                $excelUploadFinish['description'] = trans('labels.professioninstitueslistcolumnnotfoundaccreditation');
-                $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
-                $this->log->info($excelUploadFinish['description']);
-                $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
-                return true;
-            }
             $notFoundSchool = [];
-            foreach ($results as $key => $value) {
-                $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
-                if($schoolData){
+            Excel::filter('chunk')->load($path)->chunk(500, function ($results) use (&$response) {
+                if(!isset($results[0]->id) || !isset($results[0]->name) || !isset($results[0]->survey_year) || !isset($results[0]->is_accredited) || !isset($results[0]->has_score) || !isset($results[0]->accreditation_body) || !isset($results[0]->max_score) || !isset($results[0]->score)){
                     
-                    $data['id'] = $schoolData->id;
-                    $data['accreditation_score'] = $value->score;
-                    $data['accreditation_body'] = $value->accreditation_body;
+                    $excelUploadFinish['id'] = $responseManageExcelUpload->id;
+                    $excelUploadFinish['status'] = "2"; //Failed
+                    $excelUploadFinish['description'] = trans('labels.professioninstitueslistcolumnnotfoundaccreditation');
+                    $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
+                    $this->log->info($excelUploadFinish['description']);
+                    $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
+                    return true;
+                }
+                foreach ($results as $key => $value) {
+                    $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
+                    if($schoolData){
+                        
+                        $data['id'] = $schoolData->id;
+                        $data['accreditation_score'] = $value->score;
+                        $data['accreditation_body'] = $value->accreditation_body;
 
-                    $response = $this->objProfessionInstitutes->insertUpdate($data);
+                        $response = $this->objProfessionInstitutes->insertUpdate($data);
+                    }
+                    else{
+                        $notFoundSchool[] = $value->name;
+                    }
+                    $this->log->info("Pointer on -> ".$key);
                 }
-                else{
-                    $notFoundSchool[] = $value->name;
-                }
-                $this->log->info("Pointer on -> ".$key);
-            }
+            }, $shouldQueue = false);
 
             if($response) {
                 $excelUploadFinish['status'] = "1"; //Success
