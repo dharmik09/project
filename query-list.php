@@ -540,7 +540,7 @@ ALTER TABLE `pro_pi_profession_institutes` CHANGE `school_id` `school_id` BIGINT
 // Add image column in table profession institute ## 22-03-2018 Jaimin
 ALTER TABLE `pro_pi_profession_institutes` ADD `image` VARCHAR(255) NULL AFTER `accreditation_body`;
 
-// Add image column in table teenager notification management ## 23-03-2018 Jaimin
+// Add table notification management ## 23-03-2018 Jaimin
 CREATE TABLE `pro_tnm_teen_notification_management` (
  `id` bigint(20) NOT NULL AUTO_INCREMENT,
  `tnm_teenager` bigint(20) NOT NULL,
@@ -549,5 +549,17 @@ CREATE TABLE `pro_tnm_teen_notification_management` (
  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
  `updated_at` timestamp NULL DEFAULT NULL,
  `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active , 2 - Inactive, 3 - Deleted',
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+// Add excel management table for profession institute excel management ## 28-03-2018 Jaimin
+CREATE TABLE `pro_meu_manage_excel_upload` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `file_type` tinyint(4) NOT NULL COMMENT '1 - Basic Information, 2 - Accreditation',
+ `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - Pending, 1 - Success, 2 - Failed',
+ `description` text NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL,
+ `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
