@@ -134,8 +134,15 @@
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
                                 <div class="list-icon">
-                                    <span>
-                                        <a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a>
+                                    <span class="star-icon">
+                                        <?php
+                                        if (count($professionsData->starRatedProfession)>0) { ?>
+                                            <a href="javascript:void(0)" class="addto pull-left selected" title="Added as favourite">
+                                                <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
+                                            </a>
+                                        <?php } else { ?>
+                                            <a id="add-to-star" href="javascript:void(0)" title="Add as favourite" class=""><i class="icon-star"></i></a>
+                                        <?php } ?>
                                         <div id="favourite_message" class="favourite-text">Career has been selected as favourite</div>
                                     </span>
                                     
@@ -590,8 +597,9 @@
             dataType: "json",
             success : function (response) {
                 if (response != '') {
-                    $('#add-to-star').addClass('favourite-career');
-                    $("#favourite_message").show();
+                    $("#favourite_message").css('display', 'block');
+                    $('#add-to-star').html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">');
+                    $('#add-to-star').attr('title', 'Added as favourite');
                     setTimeout(function () {
                         $("#favourite_message").hide();
                     }, 2500);

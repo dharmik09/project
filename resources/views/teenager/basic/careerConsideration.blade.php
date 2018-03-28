@@ -38,11 +38,11 @@
             <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" title="{{ $professionArray['pf_name'] }}">
                 <h2>
                     @if( $professionArray['added_my_career'] == 0 ) 
-                        <a href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})" title="Add to my career">
+                        <a href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})" title="Add to My Careers">
                             <img src="{{ Storage::url('img/star.png') }}">
                         </a>
                     @else
-                        <a href="javascript:void(0)" class="addto pull-left selected" title="Added to my career">
+                        <a href="javascript:void(0)" class="addto pull-left selected" title="In My Careers">
                             <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
                         </a>
                     @endif

@@ -636,7 +636,12 @@
                     //$(".prof_sec_"+professionId).html(response.message).fadeIn('slow');
                     $(".prof_sec_"+professionId).removeAttr('onclick');
                     $(".prof_sec_"+professionId).addClass('selected');
-                    $(".prof_sec_"+professionId).html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">');
+                    $(".prof_sec_"+professionId).attr('title', 'In My Careers');
+                    $(".prof_sec_"+professionId).html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img"><div class="favourite-text career-message-'+professionId+'">Career has been selected as favourite</div>');
+                    $(".career-message-"+professionId).css('display', 'block');
+                    setTimeout(function () {
+                        $(".career-message-"+professionId).hide();
+                    }, 2500);
                 }
             }
         });
