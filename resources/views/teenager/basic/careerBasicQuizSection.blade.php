@@ -1,10 +1,7 @@
 @if( isset($response['data']) && !empty($response['data']) )
     <div id="basicErrorGoneMsg" class="basicErrorGoneMsg"></div>
     <div class="quiz_view">
-        <div class="loading-screen loading-wrapper-sub basic-question-loader" style="display:none;">
-            <div class="loading-text">
-                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-            </div>
+        <div class="loading-screen loading-wrapper-sub basic-question-loader" style="display:none;">            
             <div class="loading-content"></div>
         </div>
         <div class="clearfix time_noti_view">

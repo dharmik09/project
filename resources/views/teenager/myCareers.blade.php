@@ -88,7 +88,7 @@
     }
 
     function fetchDropdownResult() {
-        $("#maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"></div></div>');
         $("#maindiv").addClass('loading-screen-parent');
         var CSRF_TOKEN = "{{ csrf_token() }}";
         var queId = $("#questionDropdown").val();

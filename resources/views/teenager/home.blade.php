@@ -96,9 +96,7 @@
                             </div>
                             <div class="row flex-container dashboard-interest-detail">
                         	   <div style="display: block;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
-                                    <div class="loading-text">
-                                        <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
-                                    </div>
+                                    
                                     <div class="loading-content"></div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
@@ -126,9 +124,7 @@
                             </div>
                             <div class="row flex-container dashboard-strength-detail">
                                 <div style="display: block;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
-                                    <div class="loading-text">
-                                        <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
-                                    </div>
+                                    
                                     <div class="loading-content"></div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
@@ -413,7 +409,7 @@
 
     function fetch2ActivityQuestion(id) {
         if ( !$("#accordion"+id).hasClass("in") ) {
-            $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-content"></div></div>');
             $("#section"+id).addClass('loading-screen-parent loading-large');
 
             var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -445,7 +441,7 @@
         var answerId = $('input[name='+queId+'l2AnsId]:checked').val();
         var timer = count;
         $("#section"+section).fadeOut('slow', function() {
-            $("#section"+section).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#section"+section).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-content"></div></div>');
             $("#section"+section).fadeIn('slow');
         });
         $("#section"+section).addClass('loading-screen-parent loading-large');
