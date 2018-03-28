@@ -58,8 +58,7 @@
                             <div class="upload-img profile-img" id="img-preview">
                                 <span style="background-image: url({{ $data['user_profile'] }})"></span>
                                 <input type="file" name="pic" accept="image/*" onchange="readURL(this);" title="Edit Profile image">
-                            </div>
-                            <span class="complete-detail">Profile 62% complete</span>
+                            </div>                            
                         </div>
                         <?php
                             if($user->t_pincode != "")
@@ -86,11 +85,7 @@
                                     ?>
                                     {{ $getCityArea }} Area
                                 </li>
-                            </ul>
-                            <ul class="social-media">
-                                <li><a href="#" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
-                                <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
-                            </ul>
+                            </ul>                            
                             
                             <div class="about-info-block">
                                 <p id="display-about-info" style="">{{ ($user->t_about_info != "") ? $user->t_about_info : 'Describe yourself' }}

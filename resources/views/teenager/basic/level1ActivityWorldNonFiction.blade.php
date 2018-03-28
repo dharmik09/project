@@ -62,10 +62,7 @@
                     <span>Please select one category</span>
                 </div>
                 <div class="set-icon-selection loaderSection">
-                    <div style="display: block;" class="loading-screen-data loading-wrapper-sub">
-                        <div class="loading-text">
-                            <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
-                        </div>
+                    <div style="display: block;" class="loading-screen-data loading-wrapper-sub">                        
                         <div class="loading-content"></div>
                     </div>
                     <div class="icon-container-inner selected_category" style="display:none">

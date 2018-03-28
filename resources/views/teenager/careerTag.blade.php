@@ -53,7 +53,7 @@
         fetchTagRelatedProfession();
     });
     function fetchTagRelatedProfession() {
-        $("#related-careers").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $("#related-careers").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-content"></div></div>');
         $("#related-careers").addClass('loading-screen-parent loading-large');
 
         var CSRF_TOKEN = "{{ csrf_token() }}";

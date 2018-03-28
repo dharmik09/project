@@ -15,10 +15,7 @@
              </div>
         </div>
         <div class="loaderSection" id="relation_data" @if(isset($type) && $type == 4) style="display:none" @endif>
-            <div style="display: block;" class="loading-screen-data loading-wrapper-sub">
-                <div class="loading-text">
-                    <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
-                </div>
+            <div style="display: block;" class="loading-screen-data loading-wrapper-sub">                
                 <div class="loading-content"></div>
             </div>
             <form class="clearfix" id="relationWorld">
@@ -50,10 +47,7 @@
             </form>
         </div>
         <div class="loaderSection" id="self_data" @if(isset($type) && $type == 3) style="display:none" @endif  @if(!isset($type)) style="display:none" @endif>
-            <div style="display: block;" class="loading-screen-data loading-wrapper-sub">
-                <div class="loading-text">
-                    <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
-                </div>
+            <div style="display: block;" class="loading-screen-data loading-wrapper-sub">                
                 <div class="loading-content"></div>
             </div>
             <form class="clearfix" id="myOwnWorld">

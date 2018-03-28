@@ -403,10 +403,7 @@
             <h2>My Votes</h2>
             <div id="errorGoneMsg"></div>
             <div class="survey-list">
-                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
-                    <div id="loading-text">
-                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                    </div>
+                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">                    
                     <div id="loading-content"></div>
                 </div>
                 <div class="opinion-sec" id="opinionSection" style="display:none;">
@@ -571,7 +568,7 @@
             </p> -->
             <div class="unbox-btn text-center">
                 <a id="lg_unbox" href="{{ ($remainingDaysForLg > 0) ? url('/teenager/learning-guidance') : 'javascript:void(0)' }}" title="Learn More" class="btn-primary" @if($remainingDaysForLg <= 0) onclick="getLearningGuidanceDetails();" @endif >
-                    <span class="unbox-me">Learn More</span>
+                    <span class="unbox-me lg_text">@if($remainingDaysForLg <= 0) Learn More @else See Now! @endif</span>
                     <span class="coins-outer lg_coins">
                     <span class="coins"></span> {{ ($remainingDaysForLg > 0) ? $remainingDaysForLg . ' days left' : $componentsData->pc_required_coins }}</span>
                 </a>
@@ -1721,9 +1718,11 @@
                 if (response > 0) {
                     $(".lg_coins").html('<span class="coins"></span> ' + response + " days left");  
                     $("#lg_unbox").prop('onclick',null).off('click');
+                    $(".lg_text").text('See Now!');
                     window.location.href = "{{url('/teenager/learning-guidance')}}";
                 } else {
                     $(".lg_coins").html('<span class="coins"></span> ' + consumedCoins);
+                    $(".lg_text").text('Learn More');
                 }
             }
         });
@@ -1777,7 +1776,7 @@
     }
 
     function getUserProfileIcons() {
-        $(".voted-list").html('<div style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".voted-list").html('<div style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $(".voted-list").addClass('loading-screen-parent');
         $.ajax({
             url: "{{ url('teenager/get-user-icons') }}",

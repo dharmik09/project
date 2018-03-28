@@ -74,7 +74,7 @@
         $('.iframe').attr('src', '');
         if ( !$("#profession"+id).hasClass( "dataLoaded" ) ) {
             
-            $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"></div></div>');
             $("#profession"+id).addClass('loading-screen-parent');
             
             var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -102,7 +102,7 @@
         $('#search').keyup(function ()  {
             if($("#search").val().length > 3) {      
                 $('.iframe').attr('src', '');          
-                $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+                $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"></div></div>');
                 $(".maindiv").addClass('loading-screen-parent');
                 var value = $("#search").val();
                 var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -149,7 +149,7 @@
     }
 
     function fetchDropdownResult() {
-        $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"></div></div>');
         $(".maindiv").addClass('loading-screen-parent');
         var CSRF_TOKEN = "{{ csrf_token() }}";
         var queId = $("#questionDropdown").val();

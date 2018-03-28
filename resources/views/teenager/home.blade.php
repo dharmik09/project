@@ -96,9 +96,7 @@
                             </div>
                             <div class="row flex-container dashboard-interest-detail">
                         	   <div style="display: block;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
-                                    <div class="loading-text">
-                                        <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
-                                    </div>
+                                    
                                     <div class="loading-content"></div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
@@ -126,9 +124,7 @@
                             </div>
                             <div class="row flex-container dashboard-strength-detail">
                                 <div style="display: block;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
-                                    <div class="loading-text">
-                                        <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
-                                    </div>
+                                    
                                     <div class="loading-content"></div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6 flex-items">
@@ -326,14 +322,6 @@
                              </div>
                             </div>
                             <h2>Suggestions<span></span><span class="sec-popup"><a id="dashboard-career-consider" href="javascript:void(0);" onmouseover="getHelpText('dashboard-career-consider')" data-trigger="hover" data-popover-content="#home-career-consider" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span></h2>
-                            <div class="unbox-btn">
-                                <a id="career_unbox" href="javascript:void(0)" title="Unlock Me" @if($remainingDaysForCareerConsider <= 0) onclick="getCareersConsiderDetails('{{Auth::guard('teenager')->user()->t_coins}}', '{{ $componentsCareerConsider->pc_required_coins }}');" @endif class="btn-primary" data-toggle="modal" >
-                                    <span class="unbox-me">Unlock Me</span>
-                                    <span class="coins-outer career_coins">
-                                        <span class="coins"></span> {{ ($remainingDaysForCareerConsider > 0) ? $remainingDaysForCareerConsider . ' days left' : $componentsCareerConsider->pc_required_coins }}
-                                    </span>
-                                </a>
-                            </div>
                             <div class="hide" id="home-career-consider">
                                 <div class="popover-data">
                                     <a class="close popover-closer"><i class="icon-close"></i></a>
@@ -341,9 +329,9 @@
                                 </div>
                             </div>
                             <div class="careers-container consideration-section consideration-section-data">
-                                <div class="career-data">
+                                <!-- <div class="career-data">
                                     <h3 href="javascript:void(0);" class="interest-section">Build your profile to know careers to consider!</h3>
-                                </div>        
+                                </div> -->        
                             </div>
                         </div>
                     </div>
@@ -421,7 +409,7 @@
 
     function fetch2ActivityQuestion(id) {
         if ( !$("#accordion"+id).hasClass("in") ) {
-            $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#section"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-content"></div></div>');
             $("#section"+id).addClass('loading-screen-parent loading-large');
 
             var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -453,7 +441,7 @@
         var answerId = $('input[name='+queId+'l2AnsId]:checked').val();
         var timer = count;
         $("#section"+section).fadeOut('slow', function() {
-            $("#section"+section).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+            $("#section"+section).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen bg-offwhite"><div id="loading-content"></div></div>');
             $("#section"+section).fadeIn('slow');
         });
         $("#section"+section).addClass('loading-screen-parent loading-large');
@@ -550,9 +538,7 @@
         e.preventDefault();
         getTeenagerInterestData("{{Auth::guard('teenager')->user()->id}}");
         getTeenagerStrengthData("{{Auth::guard('teenager')->user()->id}}");
-        <?php if ($remainingDaysForCareerConsider > 0) { ?>
-            getCareerConsideration("{{Auth::guard('teenager')->user()->id}}");
-        <?php } ?>
+        getCareerConsideration("{{Auth::guard('teenager')->user()->id}}");
    });
 
     function getTeenagerInterestData(teenagerId) {
@@ -608,6 +594,9 @@
     }
 
     function getCareerConsideration(teenagerId) {
+        $(".consideration-section").html('<div id="considerLoader" style="display: block;" class="loading-screen loading-wrapper-sub bg-offwhite"><div id="loading-text"></div><div id="loading-content"></div></div>');
+        $(".consideration-section").addClass('loading-screen-parent');
+        $("#considerLoader").show();
         $.ajax({
             type: 'POST',
             url: "{{url('teenager/get-career-consideration')}}",
@@ -615,6 +604,8 @@
             headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
             data: {'teenagerId':teenagerId},
             success: function (response) {
+                $("#considerLoader").hide();
+                $(".consideration-section").removeClass('loading-screen-parent');
                 try {
                     var valueOf = $.parseJSON(response);
                 } catch (e) {
@@ -638,8 +629,15 @@
             dataType: "json",
             success : function (response) {
                 if (typeof response !== "undefined" && typeof response.message !== "undefined" && response.message != "") {
-                    $(".prof_sec_"+professionId).html(response.message).fadeIn('slow');
+                    //$(".prof_sec_"+professionId).html(response.message).fadeIn('slow');
                     $(".prof_sec_"+professionId).removeAttr('onclick');
+                    $(".prof_sec_"+professionId).addClass('selected');
+                    $(".prof_sec_"+professionId).attr('title', 'In My Careers');
+                    $(".prof_sec_"+professionId).html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img"><div class="favourite-text career-message-'+professionId+'">Career has been added in My careers</div>');
+                    $(".career-message-"+professionId).css('display', 'block');
+                    setTimeout(function () {
+                        $(".career-message-"+professionId).hide();
+                    }, 2500);
                 }
             }
         });
@@ -712,10 +710,12 @@
             success: function(response) {
                 $(".career_coins").html("");
                 if (response > 0) {
-                    $(".career_coins").html('<span class="coins"></span> ' + response + " days left");  
+                    $(".career_coins").html('<span class="coins"></span> ' + response + " days left"); 
+                    $(".career_text").text('See Now!'); 
                     $("#career_unbox").prop('onclick', null).off('click');
                     getCareerConsideration('{{Auth::guard('teenager')->user()->t_coins}}');
                 } else {
+                    $(".career_text").text('Unlock Me');
                     $(".career_coins").html('<span class="coins"></span> ' + consumedCoins);
                 }
             }

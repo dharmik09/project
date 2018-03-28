@@ -149,7 +149,13 @@
             }
         ?>
         @if ($instituteComponent && !empty($instituteComponent))
-        <a id="institute_activity" href="{{ ($instituteRemainingDays && $instituteRemainingDays > 0) ? url('teenager/institute').'?speciality='.$collegeList[0] : 'javascript:void(0) '}}" title="Find College" @if($instituteRemainingDays == 0) onclick="getCoinsConsumptionDetails('{{$instituteComponent->pc_required_coins}}', '{{$instituteComponent->pc_element_name}}', '{{$instituteRemainingDays}}');" @endif class="btn-primary">
+        <?php
+        $defaultFilter = "";
+        if(isset($collegeList) && count($collegeList)>0){
+            $defaultFilter = '?speciality='.$collegeList[0];
+        }
+        ?>
+        <a id="institute_activity" href="{{ ($instituteRemainingDays && $instituteRemainingDays > 0) ? url('teenager/institute').$defaultFilter : 'javascript:void(0) '}}" title="Find College" @if($instituteRemainingDays == 0) onclick="getCoinsConsumptionDetails('{{$instituteComponent->pc_required_coins}}', '{{$instituteComponent->pc_element_name}}', '{{$instituteRemainingDays}}');" @endif class="btn-primary">
             <span class="unbox-me">College Finder</span>
             <span class="coins-outer institute_coins">
                 <span class="coins"></span> {{ ($instituteRemainingDays && $instituteRemainingDays > 0) ? $instituteRemainingDays . ' days left' : $instituteComponent->pc_required_coins }}

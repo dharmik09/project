@@ -1244,7 +1244,7 @@ class Level4ActivityController extends Controller {
                     //Store log in System
                     $this->log->info('Teenager retrieve promise plus details for profession', array('userId' => $request->userId, 'professionId' => $request->careerId));
                 } else {
-                    $response['status'] = 0;
+                    $response['status'] = 1;
                     $response['message'] = "Please attempt profession first to see Promise Plus";
                     $response['data'] = new \stdClass();
                 }

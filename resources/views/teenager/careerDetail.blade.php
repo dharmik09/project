@@ -134,8 +134,15 @@
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
                                 <div class="list-icon">
-                                    <span>
-                                        <a id="add-to-star" href="javascript:void(0)" title="Like" class="<?php echo (count($professionsData->starRatedProfession)>0) ? "favourite-career" : '' ?>"><i class="icon-star"></i></a>
+                                    <span class="star-icon">
+                                        <?php
+                                        if (count($professionsData->starRatedProfession)>0) { ?>
+                                            <a href="javascript:void(0)" class="addto pull-left selected" title="Added as favourite">
+                                                <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
+                                            </a>
+                                        <?php } else { ?>
+                                            <a id="add-to-star" href="javascript:void(0)" title="Add as favourite" class=""><i class="icon-star"></i></a>
+                                        <?php } ?>
                                         <div id="favourite_message" class="favourite-text">Career has been selected as favourite</div>
                                     </span>
                                     
@@ -224,14 +231,12 @@
                                         <div class="row flex-container">
                                             <div class="col-sm-12">
                                                 <div class="quiz-intermediate">
-                                                    <div class="sec-show clearfix flex-container quiz-intermediate-sec-show">
+                                                    <div class="sec-show clearfix quiz-intermediate-sec-show">
                                                         <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-                                                            <div class="loading-text">
-                                                                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                                                            </div>
+                                                            
                                                             <div class="loading-content"></div>
                                                         </div>
-                                                        <div id="intermediateTemplateList">
+                                                        <div id="intermediateTemplateList" class="flex-container">
                                                                     
                                                         </div>
                                                     </div>
@@ -590,8 +595,9 @@
             dataType: "json",
             success : function (response) {
                 if (response != '') {
-                    $('#add-to-star').addClass('favourite-career');
-                    $("#favourite_message").show();
+                    $("#favourite_message").css('display', 'block');
+                    $('#add-to-star').html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">');
+                    $('#add-to-star').attr('title', 'Added as favourite');
                     setTimeout(function () {
                         $("#favourite_message").hide();
                     }, 2500);
@@ -1804,6 +1810,7 @@
                     } else {
                         $(".promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
                         $("#promise_plus").prop('onclick',null).off('click');
+                        $("#promisespan").text('See Now!');
                         getPromisePlusData({{$professionsData->id}});
                     }
                 } else {
@@ -1813,6 +1820,7 @@
                         $(".institute_coins").html('<span class="coins"></span> ' + consumedCoins);  
                     } else {
                         $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
+                        $("#promisespan").text('Unlock Me');
                     }
                 }
             }
@@ -1909,7 +1917,7 @@
     }
 
     function getQuestionDataAdvanceLevel(activityType) {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
@@ -1929,7 +1937,7 @@
     }
 
     function getMediaUploadSection() {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
@@ -1947,7 +1955,7 @@
     }
 
     function getLevel4AdvanceStep2Details(professionId, type) {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
