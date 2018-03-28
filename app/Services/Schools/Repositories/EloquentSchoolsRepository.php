@@ -510,8 +510,10 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
                   ->distinct('t_class')
                   ->orderBy('t_class', 'ASC')
                   ->get();
-        if(isset($return) && !empty($return)){
-        return $return[0];
+        if(isset($return) && count($return) > 0){   
+            return $return[0];
+        } else {
+            return [];
         }
     }
 
