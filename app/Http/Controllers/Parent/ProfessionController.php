@@ -17,6 +17,8 @@ use App\TemplateDeductedCoins;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Input;
 use App\Services\Parents\Contracts\ParentsRepository;
+use App\PaidComponent;
+use App\DeductedCoins;
 
 class ProfessionController extends Controller {
 
@@ -29,6 +31,8 @@ class ProfessionController extends Controller {
         $this->teenagersRepository = $teenagersRepository;
         $this->aptitudeThumb = Config::get('constant.APPTITUDE_THUMB_IMAGE_UPLOAD_PATH');
         $this->parentsRepository = $parentsRepository;
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
         $this->log = new Logger('parent-profession-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
@@ -103,7 +107,15 @@ class ProfessionController extends Controller {
             $response['questionTemplate'] = [];
         }
 
-        return view('parent.careerDetail', compact('professionsData', 'countryId', 'teenId', 'getQuestionTemplateForProfession'));
+        //Promise plus coins consumption details
+        $promisePlusComponent = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
+        $promisePluseDeductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailById($user->id, $promisePlusComponent->id, 2, $professionsData->id);
+        $promisePlusRemainingDays = 0;
+        if (count($promisePluseDeductedCoinsDetail) > 0) {
+            $promisePlusRemainingDays = Helpers::calculateRemainingDays($promisePluseDeductedCoinsDetail[0]->dc_end_date);
+        }
+
+        return view('parent.careerDetail', compact('professionsData', 'countryId', 'teenId', 'getQuestionTemplateForProfession', 'promisePlusComponent', 'promisePlusRemainingDays'));
     }
 
     /*

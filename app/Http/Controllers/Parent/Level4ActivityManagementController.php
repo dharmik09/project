@@ -64,6 +64,9 @@ class Level4ActivityManagementController extends Controller {
         $this->optionTHUMBImage = Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH');
         $this->answerResponseImageOriginal = Config::get('constant.LEVEL4_INTERMEDIATE_RESPONSE_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->objLevel4ProfessionProgress = new Level4ProfessionProgress;
+        $this->objPaidComponent = new PaidComponent;
+        $this->objDeductedCoins = new DeductedCoins;
+        $this->objPromisePlus = new PromisePlus;
         $this->loggedInUser = Auth::guard('parent');
     }
 
@@ -1679,38 +1682,180 @@ class Level4ActivityManagementController extends Controller {
     public function saveConsumedCoinsDetails() {
         //$userId = Input::get('teenId');
         $parentId = Auth::guard('parent')->user()->id;
-        $objPaidComponent = new PaidComponent();
-        $objDeductedCoins = new DeductedCoins();
-        $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
-        $coins = $componentsData->pc_required_coins;
-        $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
-        $days = 0;
-        if (!empty($deductedCoinsDetail->toArray())) {
-            $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
-        }
+        $consumedCoins = Input::get('consumedCoins');
+        $componentName = Input::get('componentName');
+        $professionId = Input::get('professionId');
+        $componentsData = $this->objPaidComponent->getPaidComponentsData($componentName);
+        if (isset($professionId) && $professionId != "" && $professionId > 0) {
+            $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailById($parentId, $componentsData->id, 2, $professionId);
+        } else {
+            $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId, $componentsData->id, 2);
+        }   
         $response['status'] = 0;
-        $response['coinsDetails'] = $coins;
+        $response['days'] = 0;
+        $days = 0;
+        if (!empty($deductedCoinsDetail[0])) {
+            $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+            $response['status'] = 1;
+            $response['days'] = $days;
+        }
+        $remainingDays = 0;
         if ($days == 0) {
             $deductCoins = 0;
             //deduct coin from user
-            $parentDetail = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
-            if (!empty($parentDetail)) {
-                $deductCoins = $parentDetail['p_coins']-$coins;
+            $userDetail = $this->parentsRepository->getParentDataForCoinsDetail($parentId);
+            if (!empty($userDetail)) {
+                $deductCoins = $userDetail['p_coins'] - $consumedCoins;
             }
             $returnData = $this->parentsRepository->updateParentCoinsDetail($parentId, $deductCoins);
-
-            $return = Helpers::saveDeductedCoinsData($parentId,2,$coins,Config::get('constant.LEARNING_STYLE'),0);
+            $return = Helpers::saveDeductedCoinsData($parentId, 2, $consumedCoins, $componentName, $professionId);
             if ($return) {
-                $remainingDays = 0;
-                $updatedDeductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId,$componentsData->id,2);
+                if (isset($professionId) && $professionId != "" && $professionId > 0) {
+                    $updatedDeductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailById($parentId, $componentsData->id, 2, $professionId);
+                } else {
+                    $updatedDeductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($parentId, $componentsData->id, 2);
+                }
                 if (!empty($updatedDeductedCoinsDetail)) {
                     $remainingDays = Helpers::calculateRemainingDays($updatedDeductedCoinsDetail[0]->dc_end_date);
                 }
-                $response['status'] = 1;
-                $response['coinsDetails'] = $remainingDays;
             } 
+
+            $response['status'] = 1;
+            $response['days'] = $remainingDays;
         }
-        
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /*
+     * Returns promise plus details.
+     */
+    public function getPromisePlus()
+    {
+        $professionId = Input::get('professionId');
+        $teenUniqueId = Input::get('teenUniqueId');
+        if($teenUniqueId != '' && $professionId != '') {
+            $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+            if (isset($teenDetails) && !empty($teenDetails)) {
+                $userId = $teenDetails->id;
+                $level4Booster = Helpers::level4Booster($professionId, $userId);
+                
+                $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($userId, $professionId);
+
+                $totalPoints = 0;
+                if (!empty($getTeenagerAllTypeBadges)) {
+                    if ($getTeenagerAllTypeBadges['level4Basic']['noOfAttemptedQuestion'] != 0) {
+                        $totalPoints += $getTeenagerAllTypeBadges['level4Basic']['basicAttemptedTotalPoints'];
+                    }
+                    if ($getTeenagerAllTypeBadges['level4Intermediate']['noOfAttemptedQuestion'] != 0) {
+                        foreach ($getTeenagerAllTypeBadges['level4Intermediate']['templateWiseEarnedPoint'] AS $k => $val) {
+                           // if ($getTeenagerAllTypeBadges['level4Intermediate']['templateWiseEarnedPoint'][$k] != 0) {
+                                $totalPoints += $getTeenagerAllTypeBadges['level4Intermediate']['templateWiseTotalAttemptedPoint'][$k];
+                          //  }
+                        }
+                    }
+                    if ($getTeenagerAllTypeBadges['level4Advance']['earnedPoints'] != 0) {
+                        $totalPoints += $getTeenagerAllTypeBadges['level4Advance']['advanceTotalPoints'];
+                    }
+                }
+
+                $level2Data = '';
+                $level4PromisePlus = '';
+                $flag = false;
+                if ($totalPoints != 0) {
+                    $level4PromisePlus = Helpers::calculateLevel4PromisePlus($level4Booster['yourScore'], $totalPoints);
+                    $flag = true;
+                }
+
+                $PromisePlus = 0;
+                if ($flag) {
+                    if ($level4PromisePlus >= Config::get('constant.NOMATCH_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.NOMATCH_MAX_RANGE') ) {
+                        $PromisePlus = "nomatch";
+                    } else if ($level4PromisePlus >= Config::get('constant.MODERATE_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.MODERATE_MAX_RANGE') ) {
+                    $PromisePlus = "moderate";
+                    } else if ($level4PromisePlus >= Config::get('constant.MATCH_MIN_RANGE') && $level4PromisePlus <= Config::get('constant.MATCH_MAX_RANGE') ) {
+                    $PromisePlus = "match";
+                    } else {
+                        $PromisePlus = "";
+                    }
+                } else {
+                     $PromisePlus = "";
+                }
+
+                //get L2 HML 
+                $level2Promise = '';
+                $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
+                $level2Promise = isset($getTeenagerHML[$professionId])?$getTeenagerHML[$professionId]:'nomatch';
+
+                if ($level2Promise == 'nomatch') {
+                    $level2Data = 'TOUGH & CHALLENGING';
+                } else if ($level2Promise == 'moderate') {
+                    $level2Data = 'MODERATELY SUITED';
+                } else if ($level2Promise == 'match') {
+                    $level2Data = 'LIKELY FIT FOR YOU';
+                } else {
+                    $level2Promise = "";
+                    $level2Data = '';
+                }
+
+                $promisePlusData = $this->objPromisePlus->getAllPromisePlus();
+
+                $L4promisePlus = [];
+                $colorCode = '';
+                $L4PP = '';
+                $professionFeedback = '';
+                if ($level2Promise == 'nomatch' && $PromisePlus == 'nomatch' ) {
+                    $professionFeedback = 0;
+                    $colorCode = 1;
+                    $L4PP = 1;
+                } else if ($level2Promise == 'nomatch' && $PromisePlus == 'moderate' ) {
+                    $professionFeedback = 3;
+                } else if ($level2Promise == 'nomatch' && $PromisePlus == 'match' ) {
+                    $professionFeedback = 6;
+                } else if ($level2Promise == 'moderate' && $PromisePlus == 'nomatch' ) {
+                    $professionFeedback = 1;
+                } else if ($level2Promise == 'moderate' && $PromisePlus == 'moderate' ) {
+                    $professionFeedback = 4;
+                    $colorCode = 2;
+                    $L4PP = 1;
+                } else if ($level2Promise == 'moderate' && $PromisePlus == 'match' ) {
+                    $professionFeedback = 7;
+                } else if ($level2Promise == 'match' && $PromisePlus == 'nomatch' ) {
+                    $professionFeedback = 2;
+                } else if ($level2Promise == 'match' && $PromisePlus == 'moderate' ) {
+                    $professionFeedback = 5;
+                } else if ($level2Promise == 'match' && $PromisePlus == 'match' ) {
+                    $professionFeedback = 8;
+                    $colorCode = 3;
+                    $L4PP = 1;
+                }
+                if (!empty($promisePlusData)) {
+                    if ($PromisePlus != '') {
+                        $L4promisePlus[] = $promisePlusData[$professionFeedback];
+                    }
+                } else {
+                    $L4promisePlus[] = '';
+                }
+
+                $finalPromisePlusData = [];
+                $finalPromisePlusData['level2Promise'] = $level2Promise;
+                $finalPromisePlusData['promisePlus'] = $PromisePlus;
+                $finalPromisePlusData['colorCode'] = $colorCode;
+                $finalPromisePlusData['L4FeedbackCode'] = $L4PP;
+                $finalPromisePlusData['level2Data'] = $level2Data;
+                $finalPromisePlusData['level4Data'] = $L4promisePlus;
+                $finalPromisePlusData['message'] = trans('appmessages.default_success_msg');
+                $finalPromisePlusData['status'] = 1;
+           
+                return view('parent.basic.getPromisePlus', compact('finalPromisePlusData'));
+            } else {
+                $response['status'] = 0;
+                $response['message'] = "No record found!";
+            }
+        }
+        $response['status'] = 0;
+        $response['message'] = "Something went wrong!";
+
         return response()->json($response, 200);
         exit;
     }

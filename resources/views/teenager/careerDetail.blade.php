@@ -1753,7 +1753,7 @@
         var teenagerCoins = parseInt("{{Auth::guard('teenager')->user()->t_coins}}");
         var consumeCoins = parseInt(consumedCoins);
         if (parseInt(activityRemainingDays) > 0) { 
-            $("#activity_coins").html('<span class="coins"></span>' + "{{$remainingDaysForActivity}}" + " days left");
+            $("#activity_coins").html('<span class="coins"></span>' + activityRemainingDays + " days left");
         } else { 
             if (consumeCoins > teenagerCoins) {
                 $("#activity_buy").show();
