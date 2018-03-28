@@ -69,7 +69,7 @@ class ProfessionInstituteUpload extends Command
         $response = '';        
         if($uploadType == "1") // Upload Basic information
         {
-            Excel::filter('chunk')->load($path)->chunk(500, function ($results) use (&$response) {
+            Excel::filter('chunk')->load($path)->chunk(1000, function ($results) use (&$response) {
                 if( !isset($results[0]->id) || !isset($results[0]->state) || !isset($results[0]->college_institution) || !isset($results[0]->address_line1) || !isset($results[0]->address_line2) || !isset($results[0]->city) || !isset($results[0]->district) || !isset($results[0]->pin_code) || !isset($results[0]->website) || !isset($results[0]->year_of_establishment) || !isset($results[0]->affiliat_university) || !isset($results[0]->year_of_affiliation) || !isset($results[0]->location) || !isset($results[0]->latitude) || !isset($results[0]->longitude) || !isset($results[0]->type) || !isset($results[0]->management) || !isset($results[0]->speciality) || !isset($results[0]->girl_exclusive) || !isset($results[0]->hostel_count) || !isset($results[0]->is_institute_signup) || !isset($results[0]->minimum_fee) || !isset($results[0]->maximum_fee) ) {
 
                     $excelUploadFinish['id'] = $responseManageExcelUpload->id;
