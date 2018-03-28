@@ -7,6 +7,8 @@ use App\ProfessionInstitutes;
 use App\ManageExcelUpload;
 use File;
 use Excel;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class ProfessionInstituteUpload extends Command
 {
@@ -35,6 +37,8 @@ class ProfessionInstituteUpload extends Command
         $this->objProfessionInstitutes = new ProfessionInstitutes();
         $this->objManageExcelUpload = new ManageExcelUpload();
         $this->namespace = 'App';
+        $this->log = new Logger('admin-teenager');
+        $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
 
     /**
@@ -56,11 +60,11 @@ class ProfessionInstituteUpload extends Command
         ini_set('memory_limit', '20000M');
         ini_set('max_execution_time', 0);
 
-        \Log::info("Excel loading started on ".date("Y-m-d h:i:s A"));
+        $this->log->info("Excel loading started on ".date("Y-m-d h:i:s A"));
 
         $results = Excel::load($path, function($reader) {})->get();
 
-        \Log::info("Excel loaded on ".date("Y-m-d h:i:s A"));
+        $this->log->info("Excel loaded on ".date("Y-m-d h:i:s A"));
         
         $response = '';        
         if($uploadType == "1") // Upload Basic information
@@ -71,8 +75,8 @@ class ProfessionInstituteUpload extends Command
                 $excelUploadFinish['status'] = "2"; //Failed
                 $excelUploadFinish['description'] = trans('labels.professioninstitueslistcolumnnotfoundbasicinformation');
                 $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
-                \Log::info($excelUploadFinish['description']);
-                \Log::info("Excel upload completed on ".date("Y-m-d h:i:s A"));
+                $this->log->info($excelUploadFinish['description']);
+                $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
                 return true;
 
             }
@@ -108,7 +112,7 @@ class ProfessionInstituteUpload extends Command
                 $data['minimum_fee'] = $value->minimum_fee;
                 $data['maximum_fee'] = $value->maximum_fee;
                 $response = $this->objProfessionInstitutes->insertUpdate($data);
-                \Log::info("Pointer on -> ".$key);
+                $this->log->info("Pointer on -> ".$key);
             }
             
             if($response) {
@@ -120,8 +124,8 @@ class ProfessionInstituteUpload extends Command
             }
             $excelUploadFinish['id'] = $responseManageExcelUpload->id;
             $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
-            \Log::info($excelUploadFinish['description']);
-            \Log::info("Excel upload completed on ".date("Y-m-d h:i:s A"));
+            $this->log->info($excelUploadFinish['description']);
+            $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
             return true;
         }
         elseif($uploadType == "2") // Upload Accreditation
@@ -132,8 +136,8 @@ class ProfessionInstituteUpload extends Command
                 $excelUploadFinish['status'] = "2"; //Failed
                 $excelUploadFinish['description'] = trans('labels.professioninstitueslistcolumnnotfoundaccreditation');
                 $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
-                \Log::info($excelUploadFinish['description']);
-                \Log::info("Excel upload completed on ".date("Y-m-d h:i:s A"));
+                $this->log->info($excelUploadFinish['description']);
+                $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
                 return true;
             }
             $notFoundSchool = [];
@@ -150,7 +154,7 @@ class ProfessionInstituteUpload extends Command
                 else{
                     $notFoundSchool[] = $value->name;
                 }
-                \Log::info("Pointer on -> ".$key);
+                $this->log->info("Pointer on -> ".$key);
             }
 
             if($response) {
@@ -169,8 +173,8 @@ class ProfessionInstituteUpload extends Command
 
             $excelUploadFinish['id'] = $responseManageExcelUpload->id;
             $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
-            \Log::info($excelUploadFinish['description']);
-            \Log::info("Excel upload completed on ".date("Y-m-d h:i:s A"));
+            $this->log->info($excelUploadFinish['description']);
+            $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
             return true;
 
         }
