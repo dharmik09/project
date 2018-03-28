@@ -233,9 +233,7 @@
                                                 <div class="quiz-intermediate">
                                                     <div class="sec-show clearfix quiz-intermediate-sec-show">
                                                         <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-                                                            <div class="loading-text">
-                                                                <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                                                            </div>
+                                                            
                                                             <div class="loading-content"></div>
                                                         </div>
                                                         <div id="intermediateTemplateList" class="flex-container">
@@ -1919,7 +1917,7 @@
     }
 
     function getQuestionDataAdvanceLevel(activityType) {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
@@ -1939,7 +1937,7 @@
     }
 
     function getMediaUploadSection() {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
@@ -1957,7 +1955,7 @@
     }
 
     function getLevel4AdvanceStep2Details(professionId, type) {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({

@@ -403,10 +403,7 @@
             <h2>My Votes</h2>
             <div id="errorGoneMsg"></div>
             <div class="survey-list">
-                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
-                    <div id="loading-text">
-                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                    </div>
+                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">                    
                     <div id="loading-content"></div>
                 </div>
                 <div class="opinion-sec" id="opinionSection" style="display:none;">
@@ -1779,7 +1776,7 @@
     }
 
     function getUserProfileIcons() {
-        $(".voted-list").html('<div style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".voted-list").html('<div style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $(".voted-list").addClass('loading-screen-parent');
         $.ajax({
             url: "{{ url('teenager/get-user-icons') }}",

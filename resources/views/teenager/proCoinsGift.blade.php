@@ -24,9 +24,7 @@
         <!--procoins sec-->
         <div class="container">
             <div class="bg-white procoins-gift">
-                <div id="gift-history-loader" class="loading-screen loading-wrapper-sub">
-                    <div id="loading-text">
-                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                <div id="gift-history-loader" class="loading-screen loading-wrapper-sub">                    
                     <div id="loading-content">
                     </div>
                 </div>

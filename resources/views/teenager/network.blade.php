@@ -39,9 +39,7 @@
             </div>
             <!-- network list-->
             <section class="connection-list">
-                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">
-                    <div id="loading-text">
-                        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">                    
                     <div id="loading-content">
                     </div>
                 </div>

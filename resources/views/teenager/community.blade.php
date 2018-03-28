@@ -64,9 +64,7 @@
                     <li class="custom-tab col-xs-6 tab-color-2"><a data-toggle="tab" href="#menu2"><span class="dt"><span class="dtc">My Connections</span></span></a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="loading-wrapper-sub" class="loading-screen remove-loader">
-                        <div id="loading-text">
-                            <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div>
+                    <div id="loading-wrapper-sub" class="loading-screen remove-loader">                        
                         <div id="loading-content">
                         </div>
                     </div>
