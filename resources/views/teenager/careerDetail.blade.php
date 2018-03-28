@@ -224,14 +224,14 @@
                                         <div class="row flex-container">
                                             <div class="col-sm-12">
                                                 <div class="quiz-intermediate">
-                                                    <div class="sec-show clearfix flex-container quiz-intermediate-sec-show">
+                                                    <div class="sec-show clearfix quiz-intermediate-sec-show">
                                                         <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
                                                             <div class="loading-text">
                                                                 <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
                                                             </div>
                                                             <div class="loading-content"></div>
                                                         </div>
-                                                        <div id="intermediateTemplateList">
+                                                        <div id="intermediateTemplateList" class="flex-container">
                                                                     
                                                         </div>
                                                     </div>
