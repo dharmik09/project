@@ -166,6 +166,10 @@
                                     @include('parent/basic/careerDetailInfoSection')
                                 </div>
                                 <div id="menu2" class="tab-pane fade in">
+                                    <!-- Section for promise plus --> 
+                                    <div class="promise-plus-outer">
+                                        @include('parent/basic/careerPromisePlusSection')
+                                    </div>
                                     <!-- Section start with virtual play role --> 
                                     <div class="virtual-plus text-center">
                                         <h4><span>Virtual Role Play</span></h4>
@@ -405,7 +409,7 @@
                 <p id="activity_sub_message"></p>
             </div>
             <div class="modal-footer">
-                <a id="activity_buy" href="{{ url('teenager/buy-procoins') }}" type="submit" class="btn btn-primary btn-next" style="display: none;">buy</a>
+                <a id="activity_buy" href="{{ url('parent/my-coins') }}" type="submit" class="btn btn-primary btn-next" style="display: none;">buy</a>
                 <button id="activity_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins();" style="display: none;" >ok </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
@@ -414,6 +418,27 @@
 </div>
 <div class="modal fade" id="scoreModal" role="dialog">
     
+</div>
+<div class="modal fade" id="coinsConsumption" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                <h4 id="activity_title" class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <input id="activity_coins" type="hidden" value="">
+                <input id="activity_name" type="hidden" value="">
+                <p id="activity_message"></p>
+                <p id="activity_sub_message"></p>
+            </div>
+            <div class="modal-footer">
+                <a id="activity_buy" href="{{ url('teenager/buy-procoins') }}" type="submit" class="btn btn-primary btn-next" style="display: none;">buy</a>
+                <button id="activity_consume_coin" type="submit" class="btn btn-primary btn-next" data-dismiss="modal" onclick="saveConsumedCoins();" style="display: none;" >ok </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <span id="setResponse" value="0"></span>
 <span id="setResponseIntermediate" value="0"></span>
@@ -2019,11 +2044,12 @@
     { 
         $('#promisespan').addClass('sending');
         $.ajax({
-            url: "{{ url('teenager/get-teen-profession-promiseplus') }}",
+            url: "{{ url('parent/get-promise-plus') }}",
             type: 'post',
             data: {
                 "_token": '{{ csrf_token() }}',
-                'professionId':professionId
+                'professionId':professionId,
+                'teenUniqueId':'{{$teenId}}'
             },
             success: function(response) {               
                 $('#showPromisePlusData').html(response);
@@ -2116,6 +2142,61 @@
                     }
                 } else {
                     location.href = "{{url('/')}}";
+                }
+            }
+        });
+    }
+
+    function getCoinsConsumptionDetails(consumedCoins, componentName, activityRemainingDays) {
+        var parentCoins = parseInt("{{Auth::guard('parent')->user()->p_coins}}");
+        var consumeCoins = parseInt(consumedCoins);
+        if (parseInt(activityRemainingDays) > 0) { 
+            $("#activity_coins").html('<span class="coins"></span>' + activityRemainingDays + " days left");
+        } else { 
+            if (consumeCoins > parentCoins) {
+                $("#activity_buy").show();
+                $("#activity_title").text("Notification!");
+                $("#activity_message").text("You don't have enough ProCoins. Please Buy more.");
+            } else {
+                $("#activity_consume_coin").show();
+                $("#activity_title").text("Congratulations!");
+                $("#activity_message").text("You have " + format(parentCoins) + " ProCoins available.");
+                $("#activity_sub_message").text("Click OK to consume your " + format(consumeCoins) + " ProCoins and play on");
+                $("#activity_coins").val(consumedCoins);
+                $("#activity_name").val(componentName);
+            }
+            $('#coinsConsumption').modal('show');
+        } 
+    }
+
+    function saveConsumedCoins() {
+        
+        var consumedCoins = $("#activity_coins").val();
+        var componentName = $("#activity_name").val();
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        if (componentName == "{{Config::get('constant.INSTITUTE_FINDER')}}") {
+            var professionId = 0;
+        } else {
+            var professionId = '{{$professionsData->id}}';
+        }
+        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + componentName + "&professionId=" + professionId;
+        $.ajax({
+            type: 'POST',
+            data: form_data,
+            url: "{{ url('/parent/save-consumed-coins-details') }}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            cache: false,
+            success: function(response) {
+                if (response.status != 0) {
+                        $(".promise-plus-coins").html('<span class="coins"></span> ' + response.days + " days left");  
+                        $("#promise_plus").attr('onclick', "getPromisePlusData({{$professionsData->id}})");
+                        $("#promisespan").text('See Now!');
+                        getPromisePlusData({{$professionsData->id}});
+                } else {
+                    $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
+                    $("#promisespan").text('Unlock Me');
                 }
             }
         });

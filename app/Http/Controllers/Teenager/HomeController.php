@@ -268,7 +268,7 @@ class HomeController extends Controller
             } else {
                 $coinsConsumedFor = "";
             }
-            $this->log->info('User coins consumed for' . $coinsConsumedFor, array('userId' => $teenId));
+            $this->log->info('User(teenager) coins consumed for' . $coinsConsumedFor, array('userId' => $teenId));
         } 
         return $remainingDays;
     }
