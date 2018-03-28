@@ -649,20 +649,17 @@ class ProfessionManagementController extends Controller {
     }
     
     public function professionInstitutesListSave() {
-
-        ini_set('memory_limit','-1');
+        
+           ini_set('memory_limit','-1');
         ini_set('max_execution_time', 0);
         ini_set('max_input_time', '-1');
         
         $response = '';        
         $path = Input::file('ps_bulk')->getRealPath();
-        $results = Excel::load($path, function($reader) {})->get();
+        // $results = Excel::load($path, function($reader) {})->get();
         $uploadType = Input::get('ps_upload_type');
-        if($uploadType == 1) // Upload Basic information
-        {
-            if(!isset($results[0]->id) || !isset($results[0]->state) || !isset($results[0]->college_institution) || !isset($results[0]->address_line1) || !isset($results[0]->address_line2) || !isset($results[0]->city) || !isset($results[0]->district) || !isset($results[0]->pin_code) || !isset($results[0]->website) || !isset($results[0]->year_of_establishment) || !isset($results[0]->affiliat_university) || !isset($results[0]->year_of_affiliation) || !isset($results[0]->location) || !isset($results[0]->latitude) || !isset($results[0]->longitude) || !isset($results[0]->type) || !isset($results[0]->management) || !isset($results[0]->speciality) || !isset($results[0]->girl_exclusive) || !isset($results[0]->hostel_count)){
-                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.professioninstitueslistcolumnnotfoundbasicinformation'));
-            }
+        $data = [];
+        Excel::filter('chunk')->load($path)->chunk(1000, function ($results) use (&$data) {
             foreach ($results as $key => $value) {
                 $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
                 
@@ -696,35 +693,10 @@ class ProfessionManagementController extends Controller {
                 $data['maximum_fee'] = $value->maximum_fee;
                 $response = $this->objProfessionInstitutes->insertUpdate($data);
             }
-            
-            if($response) {
-                return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstitueslistuploadsuccess'));
-            } else {
-                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
-            }
-        }
-        elseif($uploadType == 2) // Upload Accreditation
-        {
-            if(!isset($results[0]->id) || !isset($results[0]->name) || !isset($results[0]->survey_year) || !isset($results[0]->is_accredited) || !isset($results[0]->has_score) || !isset($results[0]->accreditation_body) || !isset($results[0]->max_score) || !isset($results[0]->score)){
-                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.professioninstitueslistcolumnnotfoundaccreditation'));
-            }
-            $notFoundSchool = [];
-            foreach ($results as $key => $value) {
-                $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
-                if($schoolData){
-                    
-                    $data['id'] = $schoolData->id;
-                    $data['accreditation_score'] = $value->score;
-                    $data['accreditation_body'] = $value->accreditation_body;
-
-                    $response = $this->objProfessionInstitutes->insertUpdate($data);
-                }
-                else{
-                    $notFoundSchool[] = $value->name;
-                }
-
-            }
-
+        }, $shouldQueue = false);
+        echo "Done";
+        exit;
+      
             if($response) {
                 if(count($notFoundSchool)>0){
                     $notFoundSchoolImplode = implode(', ', $notFoundSchool);
@@ -736,7 +708,7 @@ class ProfessionManagementController extends Controller {
             } else {
                 return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
             }
-        }
+        
     } 
 
     public function professionInstitutesPhotoUpdate() {

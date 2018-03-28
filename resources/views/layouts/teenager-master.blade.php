@@ -134,7 +134,6 @@
             </div>
         </footer>
         <div id="loading-wrapper">
-            <div id="loading-text"></div>
             <div id="loading-content"></div>
         </div> 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
