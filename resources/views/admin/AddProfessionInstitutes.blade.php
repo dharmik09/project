@@ -82,7 +82,7 @@
                                     @if (file_exists(public_path('uploads/excel/ProfessionInstituteBasic.xlsx')))
                                         <a href="{{ url('/admin/professionInstituteUpload') }}/1" target="_blank" class="btn btn-default">Upload</a>
                                     @else
-                                        No file Found
+                                        File not found
                                     @endif
                                 </td>
                                 @if(isset($basicExcelData) && count($basicExcelData)>0)
@@ -113,7 +113,7 @@
                                     @if (file_exists(public_path('uploads/excel/ProfessionInstituteAccreditation.xlsx')))
                                         <a href="{{ url('/admin/professionInstituteUpload') }}/2" target="_blank" class="btn btn-default">Upload</a>
                                     @else
-                                        No file Found
+                                        File not found
                                     @endif
                                 </td>
                                 @if(isset($accreditationExcelData) && count($accreditationExcelData)>0)
