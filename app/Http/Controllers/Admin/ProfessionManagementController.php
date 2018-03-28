@@ -658,14 +658,16 @@ class ProfessionManagementController extends Controller {
         $uploadType = Input::get('ps_upload_type');
         if($uploadType == 1) // Upload Basic information Excel to uploads/excel
         {
-
             $getFileName = "ProfessionInstituteBasic.".Input::file('ps_bulk')->getClientOriginalExtension();
         }
         elseif($uploadType == 2) // Upload Accreditation Excel to uploads/excel
         {
             $getFileName = "ProfessionInstituteAccreditation.".Input::file('ps_bulk')->getClientOriginalExtension();
         }
-        
+        if (file_exists(public_path('uploads/excel/'.$getFileName)))
+        {
+            \File::delete('uploads/excel/'.$getFileName);
+        }
         $checkFile = Input::file('ps_bulk')->move(public_path('uploads/excel/'), $getFileName);
 
         if($checkFile) {

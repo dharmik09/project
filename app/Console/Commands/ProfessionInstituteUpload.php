@@ -108,7 +108,7 @@ class ProfessionInstituteUpload extends Command
                 $data['minimum_fee'] = $value->minimum_fee;
                 $data['maximum_fee'] = $value->maximum_fee;
                 $response = $this->objProfessionInstitutes->insertUpdate($data);
-                // \Log::info("Pointer on -> ".$key);
+                \Log::info("Pointer on -> ".$key);
             }
             
             if($response) {
@@ -150,7 +150,7 @@ class ProfessionInstituteUpload extends Command
                 else{
                     $notFoundSchool[] = $value->name;
                 }
-                // \Log::info("Pointer on -> ".$key);
+                \Log::info("Pointer on -> ".$key);
             }
 
             if($response) {
