@@ -97,16 +97,19 @@ class HomeController extends Controller
 
     public function privacyPolicy()
     {
-        return view('home.privacyPolicy');
+        $info = $this->cmsObj->getCmsBySlug('privacy-policy');
+        return view('home.privacyPolicy', compact('info'));
     }
 
     public function termsCondition()
     {
-        return view('home.termsCondition');
+        $termInfo = $this->cmsObj->getCmsBySlug('term-and-condition');
+        return view('home.termsCondition', compact('termInfo'));
     }
 
     public function aboutUs()
     {
-        return view('home.aboutUs');
+        $info = $this->cmsObj->getCmsBySlug('about-us');
+        return view('home.aboutUs', compact('info'));
     }
 }
