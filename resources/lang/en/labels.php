@@ -779,5 +779,5 @@ return [
     'lblupload' => 'Upload ',
     'status' => 'Status',
     'description' => 'Description',
-    'lastuploadtime' => 'Last Upload Date-Time',
+    'lastuploadtime' => 'Last Uploaded Date-Time',
 ];

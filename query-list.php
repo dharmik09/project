@@ -563,3 +563,6 @@ CREATE TABLE `pro_meu_manage_excel_upload` (
  `deleted` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active, 2 - Inactive, 3 - Deleted',
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+// Add year of establishment column in table profession institute table ## 22-03-2018 Jaimin
+ALTER TABLE `pro_pi_profession_institutes` CHANGE `year_of_establishment` `year_of_establishment` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
