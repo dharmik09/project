@@ -486,3 +486,4 @@ Route::post('/getProfessionInstitute', 'Admin\ProfessionManagementController@get
 Route::get('/addProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListAdd');
 Route::post('/saveProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListSave');
 Route::post('/saveProfessionInstitutePhoto', 'Admin\ProfessionManagementController@professionInstitutesPhotoUpdate');
+Route::get('/professionInstituteUpload/{uploadType}', 'Admin\ProfessionManagementController@professionInstitutesArtisanUpload');
