@@ -23,7 +23,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\CalculateHMLScore',
         'App\Console\Commands\ImportInstituteSpeciality',
         'App\Console\Commands\checkFilesInFolder',
-        'App\Console\Commands\createThumbFromOriginal'
+        'App\Console\Commands\createThumbFromOriginal',
+        'App\Console\Commands\ProfessionInstituteUpload'
     ];
 
     /**

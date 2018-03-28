@@ -608,9 +608,10 @@
         border-color: transparent;
         .unbox-me {
             background: $cl-complete;
-            padding: 14px 32px;
+            padding: 13px 32px;
             border: 1px solid $cl-complete;
             color: $white;
+            vertical-align: top;
             @include maxlg {
                 padding: 12px 15px;
             }
@@ -1540,7 +1541,7 @@
         margin-top: 0;
         position: absolute;
         bottom: 10px;
-        left: 46%;
+        left: 50%;
         transform: translateX(-50%);
         font-size: 26px;
         font-family: hl;

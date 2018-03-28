@@ -194,10 +194,12 @@ h6 {
                     /*font-size: 28px;
                     margin-right: 10px;
                     color: $white;*/
-                    position: relative;
+                   
+                    position: absolute;
                     width: 24px;
                     height: 29px;
                     margin-right: 10px;
+                    left: 0;
                     .favourite-text{margin-top: 40px;}
                     img {
                         top: 3px;
@@ -481,6 +483,8 @@ h6 {
         h2 {
             color: $white;
             margin-bottom: 20px;
+                position: relative;
+   
             @include maxms {
                 margin-bottom: 10px;
             }
@@ -597,14 +601,21 @@ h6 {
 }
 
 .career-data {
-    padding: 20px 50px;
+    padding:20px 15px;
     margin-bottom: 3px;
-    @include maxmd {
-        padding: 20px;
-    }
+    position: relative;
     h2 {
         color: $white;
         margin-bottom: 20px;
+        padding-left: 33px;
+        padding-right: 110px;
+        font-size: 24px !important;
+        @include maxmd{
+            padding-right: 74px;font-size: 20px !important;
+        }
+        @include maxms{
+            font-size: 18px !important;
+        }
     }
     .addto {
         color: $white;
@@ -620,16 +631,17 @@ h6 {
         }
     }
     .status-career {
-        font-size: 26px;
+        font-size: 24px;
         font-family: 'ht';
         color: $white;
         line-height: 20px;
         opacity: 0.7;
+        position: absolute;top: 25px;right: 15px;
         @include maxmd {
             font-size: 18px;
         }
         @include maxms {
-            margin-top: 10px;
+            //margin-top: 10px;
             display: block
         }
         &:hover{

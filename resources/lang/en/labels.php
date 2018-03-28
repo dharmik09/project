@@ -752,6 +752,8 @@ return [
     'lblinstitutes' => 'Institutes',
     'professioninstitueslist' => 'Institutes List',
     'professioninstitueslistupload' => 'Profession Institutess List Upload',
+    'professioninstituesexceluploadsuccess' => 'Profession Institutes excel uploaded successfully',
+    'professioninstituesexcelnotfound' => 'Profession Institutes excel not found please uploaded excel then try again',
     'professioninstitueslistuploadsuccess' => 'Profession Institutes list uploaded successfully',
     'professioninstitueslistuploadsuccesswithnotfound' => 'Institutes not found and other Profession Institutes list uploaded successfully',
     'professionschooluploadtype' => 'Select upload type',
@@ -773,4 +775,9 @@ return [
     'lblelselectinstitutephoto' => 'Select Institute Image',
     'professioninstituesphotouploadsuccess' => 'Profession Institutes Image Updated successfully',
     'professioninstituesphotonotvalid' => 'Image invalid. Please choose right image and try again.',
+    'fileName' => 'File',
+    'lblupload' => 'Upload ',
+    'status' => 'Status',
+    'description' => 'Description',
+    'lastuploadtime' => 'Last Uploaded Date-Time',
 ];

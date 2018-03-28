@@ -61,6 +61,85 @@
                     </div><!-- /.box-footer -->
                 </form>
             </div>   <!-- /.row -->
+            <div class="box box-info">
+                <div class="box-body">
+                    <table id="listTag" class="table table-striped display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>{{trans('labels.fileName')}}</th>
+                                <th>{{trans('labels.lblupload')}}</th>
+                                <th>{{trans('labels.status')}}</th>
+                                <th>{{trans('labels.description')}}</th>
+                                <th>{{trans('labels.lastuploadtime')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {{trans('labels.professionschooluploadtypebasicinformation')}}
+                                </td>
+                                <td>
+                                    @if (file_exists(public_path('uploads/excel/ProfessionInstituteBasic.xlsx')))
+                                        <a href="{{ url('/admin/professionInstituteUpload') }}/1" target="_blank" class="btn btn-default">Upload</a>
+                                    @else
+                                        File not found
+                                    @endif
+                                </td>
+                                @if(isset($basicExcelData) && count($basicExcelData)>0)
+                                    <td>
+                                        @if($basicExcelData->status == '0')
+                                            Pending
+                                        @elseif($basicExcelData->status == '1')
+                                            Success
+                                        @elseif($basicExcelData->status == '2')
+                                            Failed
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{$basicExcelData->description}}
+                                    </td>
+                                    <td>
+                                        {{date('d/M/Y h:i:s A',strtotime($basicExcelData->created_at))}}
+                                    </td>
+                                @else
+                                    <td></td><td></td><td></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>
+                                    {{trans('labels.professionschooluploadtypeaccreditation')}}
+                                </td>
+                                <td>
+                                    @if (file_exists(public_path('uploads/excel/ProfessionInstituteAccreditation.xlsx')))
+                                        <a href="{{ url('/admin/professionInstituteUpload') }}/2" target="_blank" class="btn btn-default">Upload</a>
+                                    @else
+                                        File not found
+                                    @endif
+                                </td>
+                                @if(isset($accreditationExcelData) && count($accreditationExcelData)>0)
+                                    <td>
+                                        @if($accreditationExcelData->status == '0')
+                                            Pending
+                                        @elseif($accreditationExcelData->status == '1')
+                                            Success
+                                        @elseif($accreditationExcelData->status == '2')
+                                            Failed
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{$accreditationExcelData->description}}
+                                    </td>
+                                    <td>
+                                        {{date('d/M/Y h:i:s A',strtotime($accreditationExcelData->created_at))}}
+                                    </td>
+                                @else
+                                    <td></td><td></td><td></td>
+                                @endif
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </section><!-- /.content -->

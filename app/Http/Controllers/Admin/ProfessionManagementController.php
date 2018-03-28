@@ -29,7 +29,10 @@ use App\ProfessionTag;
 use App\ProfessionWiseTag;
 use App\Country;
 use App\ProfessionInstitutes;
+use App\ManageExcelUpload;
 use Storage;
+use Artisan;
+
 class ProfessionManagementController extends Controller {
 
     public function __construct(FileStorageRepository $fileStorageRepository, ProfessionHeadersRepository $professionsHeadersRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository,TeenagersRepository $teenagersRepository) {
@@ -64,6 +67,7 @@ class ProfessionManagementController extends Controller {
         $this->professionInstituteThumbImageUploadPath = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionInstituteThumbImageHeight = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_HEIGHT');
         $this->professionInstituteThumbImageWidth = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_WIDTH');
+        $this->objManageExcelUpload = new ManageExcelUpload();
     }
 
     public function index() {
@@ -645,71 +649,58 @@ class ProfessionManagementController extends Controller {
     }
 
     public function professionInstitutesListAdd() {
-        return view('admin.AddProfessionInstitutes');
+        $basicExcelData = $this->objManageExcelUpload->getLatestRecordByExcelType('1');
+        $accreditationExcelData = $this->objManageExcelUpload->getLatestRecordByExcelType('2');
+        return view('admin.AddProfessionInstitutes', compact('basicExcelData','accreditationExcelData'));
     }
     
     public function professionInstitutesListSave() {
-        
-           ini_set('memory_limit','-1');
-        ini_set('max_execution_time', 0);
-        ini_set('max_input_time', '-1');
-        
-        $response = '';        
-        $path = Input::file('ps_bulk')->getRealPath();
-        // $results = Excel::load($path, function($reader) {})->get();
         $uploadType = Input::get('ps_upload_type');
-        $data = [];
-        Excel::filter('chunk')->load($path)->chunk(1000, function ($results) use (&$data) {
-            foreach ($results as $key => $value) {
-                $schoolData = $this->objProfessionInstitutes->getProfessionInstitutesByInstitutesId($value->id);
-                
-                if($schoolData){
-                    $data['id'] = $schoolData->id;
-                }
+        if($uploadType == 1) // Upload Basic information Excel to uploads/excel
+        {
+            $getFileName = "ProfessionInstituteBasic.".Input::file('ps_bulk')->getClientOriginalExtension();
+        }
+        elseif($uploadType == 2) // Upload Accreditation Excel to uploads/excel
+        {
+            $getFileName = "ProfessionInstituteAccreditation.".Input::file('ps_bulk')->getClientOriginalExtension();
+        }
+        if (file_exists(public_path('uploads/excel/'.$getFileName)))
+        {
+            \File::delete('uploads/excel/'.$getFileName);
+        }
+        $checkFile = Input::file('ps_bulk')->move(public_path('uploads/excel/'), $getFileName);
 
-                $data['school_id'] = $value->id;
-                $data['institute_state'] = $value->state;
-                $data['college_institution'] = $value->college_institution;
-                $data['address_line1'] = $value->address_line1;
-                $data['address_line2'] = $value->address_line2;
-                $data['city'] = $value->city;
-                $data['district'] = $value->district;
-                $data['pin_code'] = $value->pin_code;
-                $data['website'] = $value->website;
-                $data['year_of_establishment'] = $value->year_of_establishment;
-                $data['affiliat_university'] = $value->affiliat_university;
-                $data['year_of_affiliation'] = $value->year_of_affiliation;
-                $data['location'] = $value->location;
-                $data['latitude'] = $value->latitude;
-                $data['longitude'] = $value->longitude;
-                $data['institute_type'] = $value->type;
-                $data['autonomous'] = $value->autonomous;
-                $data['management'] = $value->management;
-                $data['speciality'] = $value->speciality;
-                $data['girl_exclusive'] = $value->girl_exclusive;
-                $data['hostel_count'] = $value->hostel_count;
-                $data['is_institute_signup'] = $value->is_institute_signup;
-                $data['minimum_fee'] = $value->minimum_fee;
-                $data['maximum_fee'] = $value->maximum_fee;
-                $response = $this->objProfessionInstitutes->insertUpdate($data);
-            }
-        }, $shouldQueue = false);
-        echo "Done";
-        exit;
-      
-            if($response) {
-                if(count($notFoundSchool)>0){
-                    $notFoundSchoolImplode = implode(', ', $notFoundSchool);
-                    return Redirect::to("admin/professionInstitute")->with('success', $notFoundSchoolImplode.' '.trans('labels.professioninstitueslistuploadsuccesswithnotfound'));
-                }
-                else{
-                    return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstitueslistuploadsuccess'));
-                }
-            } else {
-                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
-            }
+        if($checkFile) {
+            return Redirect::to("admin/addProfessionInstituteCourseList")->with('success', trans('labels.professioninstituesexceluploadsuccess'));
+        } else {
+            return Redirect::to("admin/addProfessionInstituteCourseList")->with('error', trans('labels.commonerrormessage'));
+        }
+    }
+
+    public function professionInstitutesArtisanUpload($uploadType) {
         
-    } 
+        if($uploadType == "1") // Upload Basic information Excel to uploads/excel
+        {
+            $fileName = 'uploads/excel/ProfessionInstituteBasic.xlsx';
+        }
+        elseif($uploadType == "2") // Upload Accreditation Excel to uploads/excel
+        {
+            $fileName = 'uploads/excel/ProfessionInstituteAccreditation.xlsx';
+        }
+
+        if (file_exists(public_path($fileName)))
+        {
+            Artisan::call("ProfessionInstituteUpload", [
+                '--file' => public_path($fileName),
+                '--uploadType' => $uploadType
+            ]);
+        }
+        else{
+            return Redirect::to("admin/addProfessionInstituteCourseList")->with('error', trans('labels.professioninstituesexcelnotfound'));
+        }
+
+        return Redirect::to("admin/addProfessionInstituteCourseList");
+    }
 
     public function professionInstitutesPhotoUpdate() {
         $file = Input::file('institute_photo');

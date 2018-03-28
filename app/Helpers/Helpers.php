@@ -3004,10 +3004,10 @@ Class Helpers {
            $profileComplete = $profileComplete + Config::get('constant.TEEN_BASIC_PROFILE_COMPLETE');
        }
        //Calculate L1 question complete
-       $level1Activities = $objLevel1Activity->getNoOfTotalQuestionsAttemptedQuestion($user->id);
-       if(isset($level1Activities) && !empty($level1Activities)){
-           $profileComplete = $profileComplete + (($level1Activities[0]->NoOfAttemptedQuestions*Config::get('constant.TEEN_LEVEL1_PROFILE_COMPLETE'))/$level1Activities[0]->NoOfTotalQuestions);
-       }
+//       $level1Activities = $objLevel1Activity->getNoOfTotalQuestionsAttemptedQuestion($user->id);
+//       if(isset($level1Activities) && !empty($level1Activities)){
+//           $profileComplete = $profileComplete + (($level1Activities[0]->NoOfAttemptedQuestions*Config::get('constant.TEEN_LEVEL1_PROFILE_COMPLETE'))/$level1Activities[0]->NoOfTotalQuestions);
+//       }
        
        //Calculate L2 question complete
        $level2Activities = $objLevel2Activity->getNoOfTotalQuestionsAttemptedQuestion($user->id);
@@ -3017,10 +3017,10 @@ Class Helpers {
        }
        
        //Calculate Icons complete
-       $level1Icons = $objLevel1Activity->getTeenAttemptedQualityType($user->id);
-       if(isset($level1Icons) && !empty($level1Icons)){
-           $profileComplete = $profileComplete + (count($level1Icons)*Config::get('constant.TEEN_LEVEL1_ICON_PROFILE_COMPLETE'))/4;
-       }       
+//       $level1Icons = $objLevel1Activity->getTeenAttemptedQualityType($user->id);
+//       if(isset($level1Icons) && !empty($level1Icons)){
+//           $profileComplete = $profileComplete + (count($level1Icons)*Config::get('constant.TEEN_LEVEL1_ICON_PROFILE_COMPLETE'))/4;
+//       }       
        return intval($profileComplete);
     }
 
