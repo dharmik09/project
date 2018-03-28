@@ -34,21 +34,21 @@
                 $careerExpandClassTwo = "";
             }
         ?>
-        <div class="career-data {{$careerClass}} {{ $careerExpandClassTwo }} " style="display: {{ $carrerStyleTwo }};">
-            <a href="{{ url('teenager/career-detail/') }}/{{ $professionArray['pf_slug'] }}" title="{{ $professionArray['pf_name'] }}">
-                <h2>
-                    @if( $professionArray['added_my_career'] == 0 ) 
-                        <a href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})" title="Add to My Careers">
-                            <img src="{{ Storage::url('img/star.png') }}">
-                        </a>
-                    @else
-                        <a href="javascript:void(0)" class="addto pull-left selected" title="In My Careers">
-                            <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
-                        </a>
-                    @endif
-                    {{ $professionArray['pf_name'] }}
-                </h2>
-            </a>
+        <div class="careers-container">
+        <div class="career-data {{$careerClass}} {{ $careerExpandClassTwo }} " style="display: {{ $carrerStyleTwo }};">           
+            <h2>
+                @if( $professionArray['added_my_career'] == 0 ) 
+                    <a href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})" title="Add to My Careers">
+                        <img src="{{ Storage::url('img/star.png') }}">
+                    </a>
+                @else
+                    <a href="javascript:void(0)" class="addto pull-left selected" title="In My Careers">
+                        <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
+                    </a>
+                @endif
+                {{ $professionArray['pf_name'] }}
+            </h2>
+            
             <div class="clearfix">
                 <!-- @if( $professionArray['added_my_career'] == 0 ) 
                     <a href="javascript:void(0)" class="addto pull-left text-uppercase prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})">add to my careers</a> 
@@ -60,6 +60,7 @@
                 @endif
             </div>
         </div>
+        </div>    
     @empty
         <div class="career-data">
             <h3 href="javascript:void(0);" class="interest-section">Build your profile to know careers to consider!</h3>
