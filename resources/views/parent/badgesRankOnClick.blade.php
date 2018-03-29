@@ -28,61 +28,14 @@
             <span style="font-size: 14px;"><?php echo ($teenagerId == Auth::guard('parent')->user()->id)?"My":''; ?> Points : {{$response['yourscore']}}</span>
         </div>
 
-        <div class="ahchivement">
-            <?php
-            if (isset($response['badges'][0]['newbie']) && $response['badges'][0]['newbie'] != '') {
-                ?>
-                <img src="{{$response['badges'][0]['newbie']}}" alt="" />
-            <?php } else {
-                ?>
-                <img src="{{Storage::url('frontend/images/newbie_default.png')}}" alt="" />
-                <?php
-            }
-            if (isset($response['badges'][0]['apprentice']) && $response['badges'][0]['apprentice'] != '') {
-                ?>
-                <img src="{{$response['badges'][0]['apprentice']}}" alt="" />
-            <?php } else {
-                ?>
-                <img src="{{Storage::url('frontend/images/apprentice_default.png')}}" alt="" />
-                <?php
-            }
-            if (isset($response['badges'][0]['wizard']) && $response['badges'][0]['wizard'] != '') {
-                ?>
-                <img src="{{$response['badges'][0]['wizard']}}" alt="" />
-            <?php } else {
-                ?>
-                <img src="{{Storage::url('frontend/images/wizard_default.png')}}" alt="" />
-            <?php } ?>
-        </div>
+        
     </div>
 
     <div class="dashboard_edu_text">
         <a href="javascript:void(0);" onclick="getProfessionEducationPath({{$response['professionId']}})" class="btn primary_btn">Education Path</a>
     </div>
 
-    @if ($response['remainingDays'] == 0)
-    <div id="days_{{$response['professionId']}}">
-        <div class="promisebtn">
-            <a href="javascript:void(0);" class="promise btn_golden_border" title="" onclick="getPromisePlus({{$response['professionId']}}, {{$response['teenagerId']}}, {{$response['remainingDays']}}, {{$response['required_coins']}});" data-ref="#{{$response['professionId']}}">
-                <span class="promiseplus">PROMISE Plus</span>
-                <span class="coinouter">
-                    <span class="coinsnum">{{$response['required_coins']}}</span>
-                    <span class="coinsimg"><img src="{{Storage::url('frontend/images/coin-stack.png')}}">
-                    </span>
-                </span>
-            </a>
-        </div>
-    </div>
-    @else
-        <div class="promisebtn timer_btn">
-            <a href="javascript:void(0);" class="promise btn_golden_border" title="" onclick="getPromisePlus({{$response['professionId']}}, {{$response['teenagerId']}}, {{$response['remainingDays']}}, {{$response['required_coins']}});" data-ref="#{{$response['professionId']}}">
-                <span class="promiseplus">PROMISE Plus</span>
-                <span class="coinouter">
-                    <span class="coinsnum">{{$response['remainingDays']}} Days Left</span>
-                </span>
-            </a>
-        </div>
-    @endif
+   
 </div>
 
 <div class="back_page first_page">
@@ -93,9 +46,6 @@
         </div>
     </div> -->
     <div id="" class="cst_{{$response['professionId']}} loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-        <div class="loading-text">
-            <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-        </div>
         <div class="loading-content"></div>
     </div>
     <div class="full_path">

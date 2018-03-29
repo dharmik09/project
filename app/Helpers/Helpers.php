@@ -50,6 +50,7 @@ use App\Jobs\SetProfessionMatchScale;
 use Illuminate\Support\Facades\Auth;
 use App\Level1Activity;
 use App\TeenagerPromiseScore;
+use App\Level4ProfessionProgress;
 
 Class Helpers {
     /*
@@ -192,7 +193,9 @@ Class Helpers {
     public static function getCompetingUserList($professionId) {
         $objProfession = new Professions();
         $objTeenagers = new Teenagers();
-        $totalCompeting = $objProfession->getTotalCompetingOfProfession($professionId);
+        //$totalCompeting = $objProfession->getTotalCompetingOfProfession($professionId);
+        $objLevel4ProfessionProgress = new Level4ProfessionProgress();
+        $totalCompeting = $objLevel4ProfessionProgress->getTotalCompetingOfProfession($professionId);
         $getLevel4AllScore = $objProfession->getLevel4AllScore($professionId);
 
         $level4Competing = [];
