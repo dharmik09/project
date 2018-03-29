@@ -522,4 +522,25 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
         return $parentDetail;
     }
 
+
+    public function getLevel4AdvancePointforParent($parentId, $professionId) {
+        $level4AdvancePoint = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_PARENT_DATA'))
+                    ->distinct()
+                    ->where(['deleted' => 1, 'l4aapa_parent_id' => $parentId, 'l4aapa_profession_id' => $professionId, 'l4aapa_is_verified' => 2])
+                    ->selectRaw('l4aapa_media_type, id, l4aapa_earned_points')
+                    ->get();
+        $data = [];
+        if (isset($level4AdvancePoint) && count($level4AdvancePoint) > 0) {
+            foreach ($level4AdvancePoint as $key => $value) {
+                if ($value->l4aapa_media_type != '') {
+                    $data[] = $value->l4aapa_media_type;
+                }
+            }
+        }
+        $data = array_count_values($data);
+        $result['image'] = (isset($data[3]) ? $data[3] : 0);
+        $result['video'] = (isset($data[1]) ? $data[1] : 0);
+        $result['document'] = (isset($data[2]) ? $data[2] : 0);
+        return $result;
+    }
 }

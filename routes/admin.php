@@ -487,3 +487,4 @@ Route::get('/addProfessionInstituteCourseList', 'Admin\ProfessionManagementContr
 Route::post('/saveProfessionInstituteCourseList', 'Admin\ProfessionManagementController@professionInstitutesListSave');
 Route::post('/saveProfessionInstitutePhoto', 'Admin\ProfessionManagementController@professionInstitutesPhotoUpdate');
 Route::get('/professionInstituteUpload/{uploadType}', 'Admin\ProfessionManagementController@professionInstitutesArtisanUpload');
+Route::get('/deleteallprofessioninstitute', 'Admin\ProfessionManagementController@deleteAllProfessionInstitutes');

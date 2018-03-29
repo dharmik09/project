@@ -83,7 +83,7 @@
                                 <p></p>
                             @endif
                             <p>{{(isset($task->l4aaua_note) && !empty($task->l4aaua_note)) ? $task->l4aaua_note : ''}}</p>
-                            <span class="view-img"><a target="_blank" onclick="viewImage({{$task->id}});" href="javascript:void(0)">View Image</a></span>
+                            <span class="view-img"><a onclick="viewImage({{$task->id}});" href="javascript:void(0)">View Image</a></span>
                         </div>
                         <!-- The Modal -->
                         <div id="l4advanceImage" class="modal">

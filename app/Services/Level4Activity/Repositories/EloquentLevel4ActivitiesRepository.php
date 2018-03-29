@@ -1156,6 +1156,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
      */
     public function updateUserTaskStatusByAdmin($id,$updateData)
     {
+        $response = '';
         if ($id != '' && $id > 0) {
             $response = DB::table(config::get('databaseconstants.TBL_LEVEL4_ADVANCE_ACTIVITY_USER_DATA'))->where('id', $id)->update($updateData);
         }

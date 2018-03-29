@@ -28,6 +28,8 @@ use App\DeviceToken;
 use Cache;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Storage;
+use App\Jobs\CalculateProfessionCompletePercentage;
+use App\Jobs\CalculateParentProfessionCompletePercentage;
 
 class Level4AdvanceActivityManagementController extends Controller {
 
@@ -154,7 +156,10 @@ class Level4AdvanceActivityManagementController extends Controller {
                     $saveUserData['l4aaua_note'] = isset($postData['note'][$key]) ? $postData['note'][$key] : '';
                     $saveUserData['l4aaua_verified_by'] = Auth::guard('admin')->user()->id;
                     $saveUserData['l4aaua_verified_date'] = date('Y-m-d');
-                    $this->level4ActivitiesRepository->updateUserTaskStatusByAdmin($key, $saveUserData);
+                    $updateStatus = $this->level4ActivitiesRepository->updateUserTaskStatusByAdmin($key, $saveUserData);
+                    if ($updateStatus && !empty($updateStatus) && $updateStatus == 1) {
+                        dispatch( new CalculateProfessionCompletePercentage($postData['teenager'], $postData['profession_id']) );
+                    } 
 
                     $teenagerLevel4PointsRow = [];
                     $teenagerLevel4PointsRow['tlb_teenager'] = $postData['teenager'];
@@ -339,7 +344,11 @@ class Level4AdvanceActivityManagementController extends Controller {
                     $saveUserData['l4aapa_note'] = isset($postData['note'][$key]) ? $postData['note'][$key] : '';
                     $saveUserData['l4aapa_verified_by'] = Auth::guard('admin')->user()->id;
                     $saveUserData['l4aapa_verified_date'] = date('Y-m-d');
-                    $this->level4ActivitiesRepository->updateParentTaskStatusByAdmin($key, $saveUserData);
+                    $updateStatus = $this->level4ActivitiesRepository->updateParentTaskStatusByAdmin($key, $saveUserData);
+
+                    if ($updateStatus && !empty($updateStatus) && $updateStatus == 1) {
+                        dispatch( new CalculateParentProfessionCompletePercentage($postData['parent'], $postData['profession_id']) );
+                    } 
 
                     $parentLevel4PointsRow = [];
                     $parentLevel4PointsRow['plb_parent_id'] = $postData['parent'];
