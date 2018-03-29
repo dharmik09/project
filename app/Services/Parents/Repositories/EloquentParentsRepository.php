@@ -532,8 +532,8 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
         $data = [];
         if (isset($level4AdvancePoint) && count($level4AdvancePoint) > 0) {
             foreach ($level4AdvancePoint as $key => $value) {
-                if ($value->l4aaua_media_type != '') {
-                    $data[] = $value->l4aaua_media_type;
+                if ($value->l4aapa_media_type != '') {
+                    $data[] = $value->l4aapa_media_type;
                 }
             }
         }
