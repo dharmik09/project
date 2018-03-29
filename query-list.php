@@ -566,3 +566,17 @@ CREATE TABLE `pro_meu_manage_excel_upload` (
 
 // Add year of establishment column in table profession institute table ## 22-03-2018 Jaimin
 ALTER TABLE `pro_pi_profession_institutes` CHANGE `year_of_establishment` `year_of_establishment` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+//Add new table for parent profession progress calculation
+CREATE TABLE IF NOT EXISTS `pro_l4p_level4_parent_profession_progress` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
+  `profession_id` int(11) DEFAULT NULL,
+  `level4_basic` int(11) DEFAULT '0',
+  `level4_intermediate` int(11) DEFAULT '0',
+  `level4_advance` int(11) DEFAULT '0',
+  `level4_total` int(11) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
