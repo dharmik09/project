@@ -79,7 +79,7 @@ class level3ActivityController extends Controller {
             $data = $this->baskets->where('deleted',config::get('constant.ACTIVE_FLAG'))->get();
 
             foreach ($data as $key => $value) {
-                $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
 
                 $youtubeId = Helpers::youtube_id_from_url($value->b_video);
                 if($youtubeId != ''){
@@ -166,7 +166,7 @@ class level3ActivityController extends Controller {
             $careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId, $this->countryId);
             if($careersData) {
                 
-                $careersData->b_logo = Storage::url($this->basketThumbUrl.$this->basketDefaultProteenImage);
+                $careersData->b_logo = Storage::url($this->basketThumbUrl.$careersData->b_logo);
                 
                 $youtubeId = Helpers::youtube_id_from_url($careersData->b_video);
                 if($youtubeId != '') {
@@ -251,7 +251,7 @@ class level3ActivityController extends Controller {
                     $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
 
                     foreach ($data as $key => $value) {
-                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
 
                         $youtubeId = Helpers::youtube_id_from_url($value->b_video);
                         if ($youtubeId != '') {
@@ -398,7 +398,7 @@ class level3ActivityController extends Controller {
                 $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
                 foreach ($data as $key => $value) {
                     $match = $nomatch = $moderate = [];
-                    $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                    $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
                     $youtubeId = Helpers::youtube_id_from_url($value->b_video);
                     if($youtubeId != '') {
                         $data[$key]->b_video = $youtubeId;
@@ -950,7 +950,7 @@ class level3ActivityController extends Controller {
                 $data = $this->baskets->getBasketsAndProfessionByProfessionId($careerId, $teenager->id, $countryId);
                             
                 if($data){
-                        $data->b_logo = Storage::url($this->basketThumbUrl . $this->basketDefaultProteenImage);
+                        $data->b_logo = Storage::url($this->basketThumbUrl . $data->b_logo);
         
                         $youtubeId = Helpers::youtube_id_from_url($data->b_video);
                         if($youtubeId != ''){
