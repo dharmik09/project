@@ -122,7 +122,7 @@ class ProfessionInstituteUpload extends Command
                         $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
                         return true;
                     }
-                    $response = dispatch( new ImportProfessionInstituteAccreditation($results) );
+                    $response = dispatch( new ImportProfessionInstituteAccreditation($results,$responseManageExcelUpload) );
                 }, $shouldQueue = false);
 
                 if($response) {
