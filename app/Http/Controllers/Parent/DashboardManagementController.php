@@ -950,12 +950,12 @@ class DashboardManagementController extends Controller {
                     $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
                 }
                 //Get teenager attempted profession
-
-                $professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($teenDetail->id);
+                $professionArray = $this->objLevel4ProfessionProgress->getTeenAttemptProfessions($teenDetail->id);
+                //$professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($teenDetail->id);
                 $professionAttempted = array();
                 if (isset($professionArray) && !empty($professionArray)) {
                     foreach ($professionArray as $key => $val) {
-                        $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($val->id);
+                        $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($val->profession_id);
                         if (isset($professionHeaderDetail) && !empty($professionHeaderDetail)) {
                             if (strpos($professionHeaderDetail[2]->pfic_content, "Salary Range") !== FALSE) {
                                 $profession_acadamic_path = substr($professionHeaderDetail[2]->pfic_content, 0, strpos($professionHeaderDetail[2]->pfic_content, 'Salary Range'));
@@ -977,7 +977,7 @@ class DashboardManagementController extends Controller {
                         $professionAttempted[$key]['badges'][] = $badgesCollection;
 
                         $totalBadges[$key] = count(array_filter($badgesCollection));
-                        $pData = Helpers::getCompetingUserList($val->id);
+                        $pData = Helpers::getCompetingUserList($val->profession_id);
                         $professionAllScore = $pData[$teenDetail->id];
                         $level4Booster = Helpers::level4Booster($val->id, $teenDetail->id);
                         if (isset($professionAllScore) && !empty($professionAllScore)) {
