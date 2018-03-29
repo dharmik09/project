@@ -13,29 +13,3 @@
 </div>
 
 
-<div class="ahchivement">
-    <?php
-    if (isset($response['badges'][0]['newbie']) && $response['badges'][0]['newbie'] != '') {
-        ?>
-        <img src="{{$response['badges'][0]['newbie']}}" alt="" />
-    <?php } else {
-        ?>
-        <img src="{{Storage::url('frontend/images/newbie_default.png')}}" alt="" />
-        <?php
-    }
-    if (isset($response['badges'][0]['apprentice']) && $response['badges'][0]['apprentice'] != '') {
-        ?>
-        <img src="{{$response['badges'][0]['apprentice']}}" alt="" />
-    <?php } else {
-        ?>
-        <img src="{{Storage::url('frontend/images/apprentice_default.png')}}" alt="" />
-        <?php
-    }
-    if (isset($response['badges'][0]['wizard']) && $response['badges'][0]['wizard'] != '') {
-        ?>
-        <img src="{{$response['badges'][0]['wizard']}}" alt="" />
-    <?php } else {
-        ?>
-        <img src="{{Storage::url('frontend/images/wizard_default.png')}}" alt="" />
-    <?php } ?>
-</div>

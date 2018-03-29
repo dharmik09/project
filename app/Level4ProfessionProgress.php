@@ -41,4 +41,22 @@ class Level4ProfessionProgress extends Model
        
         return $careerData;
     }
+
+    //Returns attempted profession list by Teenager id
+    public function getTeenAttemptProfessions($teenId) 
+    {
+       
+        $careerData = $this->join(Config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'pro_l4aapa_level4_profession_progress.profession_id', '=', 'profession.id')->selectRaw('pro_l4aapa_level4_profession_progress.*, profession.pf_name')->where('teenager_id', $teenId)->where('level4_total','>', 0)->get();
+       return $careerData;
+    }
+
+    //Returns teenager list for attempted profession by profession id
+    public function getTotalCompetingOfProfession($professionId) {
+        $getTotalCompetingFromLevel3 = $this->join("pro_t_teenagers AS teenager", 'teenager.id', '=', 'pro_l4aapa_level4_profession_progress.teenager_id')
+                ->select(DB::raw('DISTINCT(pro_l4aapa_level4_profession_progress.teenager_id) as teenager_id, teenager.t_photo, teenager.t_name, teenager.t_uniqueid,teenager.is_search_on, teenager.t_phone, teenager.t_email', 'pro_l4aapa_level4_profession_progress.*'))
+                ->where('pro_l4aapa_level4_profession_progress.profession_id', $professionId)
+                ->where('teenager.deleted', 1)
+                ->get();
+        return $getTotalCompetingFromLevel3;
+    }
 }
