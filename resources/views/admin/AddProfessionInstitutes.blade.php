@@ -11,7 +11,7 @@
             {{trans('labels.professioninstitueslist')}}
         </div>
         <div class="col-md-2">
-            <a href="{{ url('admin/deleteallprofessioninstitue') }}" class="btn btn-block btn-primary  pull-right">{{trans('labels.deleteallrecord')}}</a>
+            <a href="{{ url('admin/deleteallprofessioninstitute') }}" class="btn btn-block btn-primary  pull-right">{{trans('labels.deleteallrecord')}}</a>
         </div>
     </h1>
 </section>
