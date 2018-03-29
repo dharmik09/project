@@ -33,6 +33,7 @@ use App\TeenParentChallenge;
 use App\TemplateDeductedCoins;
 use Storage;
 use App\Level4ProfessionProgress;
+use App\Jobs\CalculateParentProfessionCompletePercentage;
 
 class Level4ActivityManagementController extends Controller {
 
@@ -892,7 +893,7 @@ class Level4ActivityManagementController extends Controller {
             $basicCompleted = 0; 
             if(isset($totalQuestion[0]->NoOfTotalQuestions) && $totalQuestion[0]->NoOfTotalQuestions > 0 && ($totalQuestion[0]->NoOfTotalQuestions == $totalQuestion[0]->NoOfAttemptedQuestions) ) {
                 $basicCompleted = 1;
-                //dispatch( new CalculateProfessionCompletePercentage($userId, $professionId) );
+                dispatch( new CalculateParentProfessionCompletePercentage($userId, $professionId) );
             }
             
             $activities = $this->level4ActivitiesRepository->getNotAttemptedActivitiesForParent($userId, $professionId);
@@ -1033,7 +1034,7 @@ class Level4ActivityManagementController extends Controller {
             $intermediateCompleted = 0;
             if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
                 $intermediateCompleted = 1;
-                //dispatch( new CalculateProfessionCompletePercentage($userId, $professionId) );
+                dispatch( new CalculateParentProfessionCompletePercentage($userId, $professionId) );
             }
             
             //$activities = $this->level4ActivitiesRepository->getNotAttemptedActivities($userId, $professionId);
