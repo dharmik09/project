@@ -490,6 +490,13 @@ class DashboardController extends Controller
                     $array['pf_logo_thumb'] = ($profession->pf_logo != "") ? Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo) : Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                     $array['matched'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
                     $array['attempted'] = rand(0,1);
+                    $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $profession->id);
+                    if(isset($professionAttempted) && $professionAttempted == 100) { 
+                        $array['attempted'] = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                        //$professionAttemptedCount++;
+                    } else {
+                        $array['attempted'] = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');
+                    }
                     $array['star_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
                     //$allProfessions[] = $array;
                     
