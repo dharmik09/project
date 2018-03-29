@@ -37,6 +37,7 @@ use Illuminate\Http\Request;
 use App\MultipleIntelligentScale;
 use App\ApptitudeTypeScale;
 use App\PersonalityScale;
+use App\Level4ProfessionProgress;
 
 class DashboardManagementController extends Controller {
 
@@ -66,6 +67,7 @@ class DashboardManagementController extends Controller {
         $this->objMIScale = new MultipleIntelligentScale;
         $this->objApptitudeScale = new ApptitudeTypeScale;
         $this->objPersonalityScale = new PersonalityScale;
+        $this->objLevel4ProfessionProgress = new Level4ProfessionProgress;
     }
 
     public function index() {
@@ -360,44 +362,62 @@ class DashboardManagementController extends Controller {
                 } 
 
                 //Get teenager attempted profession
-
-                $professionArray = $this->professionsRepository->getTeenagerAttemptedProfessionForDashboard($teenDetail->id);
+                $professionArray = $this->objLevel4ProfessionProgress->getTeenAttemptProfessions($teenDetail->id);
                 $professionAttempted = array();
                 $setAttemptedProfessionIds = [];
-                $objDeductedCoins = new DeductedCoins();
-                $objPaidComponent = new PaidComponent();
-                $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
-
-                if (isset($professionArray) && !empty($professionArray))
-                {
-                    foreach($professionArray as $key=>$val)
-                    {
-                        $setAttemptedProfessionIds[] = $val->id;
+                if (isset($professionArray) && count($professionArray) > 0) {
+                    foreach($professionArray as $key=>$val) {
+                        $setAttemptedProfessionIds[] = $val->profession_id;
                     }
-                    foreach ($professionArray as $key => $val)
-                    {
-                        if($key < 4)
-                        {
+                    foreach ($professionArray as $key => $val) {
+                        if($key < 4) {
                             $yourScore = $idAndRank = 0;
-                            $professionAttempted[$key]['professionId'] = $val->id;
+                            $professionAttempted[$key]['professionId'] = $val->profession_id;
                             $professionAttempted[$key]['profession_name'] = $val->pf_name;
-                            if(isset($componentsData) && !empty($componentsData)){
-                                $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$val->id,2,$componentsData->id);
-                            }
-                            $days = 0;
-                            if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
-                                $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
-                            }
-                            $professionAttempted[$key]['remainingDays'] = $days;
-                            $professionAttempted[$key]['required_coins'] = $componentsData->pc_required_coins;
-                        }
-                        else
-                        {
+                        } else {
                             break;
                         }
                     }
-
                 }
+
+                //$professionArray = $this->professionsRepository->getTeenagerAttemptedProfessionForDashboard($teenDetail->id);
+
+                // $professionAttempted = array();
+                // $setAttemptedProfessionIds = [];
+                // $objDeductedCoins = new DeductedCoins();
+                // $objPaidComponent = new PaidComponent();
+                // $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
+
+                // if (isset($professionArray) && !empty($professionArray))
+                // {
+                //     foreach($professionArray as $key=>$val)
+                //     {
+                //         $setAttemptedProfessionIds[] = $val->id;
+                //     }
+                //     foreach ($professionArray as $key => $val)
+                //     {
+                //         if($key < 4)
+                //         {
+                //             $yourScore = $idAndRank = 0;
+                //             $professionAttempted[$key]['professionId'] = $val->id;
+                //             $professionAttempted[$key]['profession_name'] = $val->pf_name;
+                //             if(isset($componentsData) && !empty($componentsData)){
+                //                 $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$val->id,2,$componentsData->id);
+                //             }
+                //             $days = 0;
+                //             if (isset($deductedCoinsDetail[0]) && !empty($deductedCoinsDetail)) {
+                //                 $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+                //             }
+                //             $professionAttempted[$key]['remainingDays'] = $days;
+                //             $professionAttempted[$key]['required_coins'] = $componentsData->pc_required_coins;
+                //         }
+                //         else
+                //         {
+                //             break;
+                //         }
+                //     }
+
+                // }
                 $objDeductedCoins = new DeductedCoins();
                 $objPaidComponent = new PaidComponent();
                 $componentsData = $objPaidComponent->getPaidComponentsData('Parent Report');
@@ -460,10 +480,10 @@ class DashboardManagementController extends Controller {
         $professionData = $this->professionsRepository->getProfessionsById($professionId);
 
         $professionName = isset($professionData[0]->pf_name)?$professionData[0]->pf_name:'';
-        if (isset($professionData[0]->pf_logo) && $professionData[0]->pf_logo != '' && file_exists($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo)) {
-            $profession_logo = asset($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo);
+        if (isset($professionData[0]->pf_logo) && $professionData[0]->pf_logo != '' && Storage::size($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo) > 0) {
+            $profession_logo = Storage::url($this->professionOriginalImageUploadPath . $professionData[0]->pf_logo);
         } else {
-            $profession_logo = asset($this->professionOriginalImageUploadPath . 'proteen-logo.png');
+            $profession_logo = Storage::url($this->professionOriginalImageUploadPath . 'proteen-logo.png');
         }
 
         //Get badges
@@ -504,36 +524,58 @@ class DashboardManagementController extends Controller {
         $response['teenagerId'] = $teenagerId;
         $response['message'] = "";
         $response['status'] = 0;
-
         if($teenagerId != '')
         {
             if($professionId != "")
             {
+                //Get teenager attempted profession
+                // $professionArray = $this->objLevel4ProfessionProgress->getTeenAttemptProfessions($teenDetail->id);
+                // $professionAttempted = array();
+                // $setAttemptedProfessionIds = [];
+                // if (isset($professionArray) && count($professionArray) > 0) {
+                //     foreach($professionArray as $key=>$val) {
+                //         $setAttemptedProfessionIds[] = $val->id;
+                //     }
+                //     foreach ($professionArray as $key => $val) {
+                //         if($key < 4) {
+                //             $yourScore = $idAndRank = 0;
+                //             $professionAttempted[$key]['professionId'] = $val->profession_id;
+                //             $professionAttempted[$key]['profession_name'] = $val->pf_name;
+                //         } else {
+                //             break;
+                //         }
+                //     }
+                // }
                 $setAttemptedProfessionIds = [];
-                $professionArray = $this->professionsRepository->getTeenagerAttemptedProfessionForDashboard($teenagerId);
+                $professionArray = $this->objLevel4ProfessionProgress->getTeenAttemptProfessions($teenagerId);
                 if(isset($professionArray) && !empty($professionArray))
                 {
                     foreach($professionArray as $key=>$val)
                     {
-                        $setAttemptedProfessionIds[] = $val->id;
+                        if ($key < 4) {
+                            continue;
+                        } else {
+                            $setAttemptedProfessionIds[] = $val->profession_id;
+                        }
                     }
                 }
                 if(in_array($professionId, $setAttemptedProfessionIds))
                 {
-                    $objPaidComponent = new PaidComponent();
-                    $objDeductedCoins = new DeductedCoins();
-                    $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
+                    // $objPaidComponent = new PaidComponent();
+                    // $objDeductedCoins = new DeductedCoins();
+                    // $componentsData = $objPaidComponent->getPaidComponentsData(Config::get('constant.PROMISE_PLUS'));
                    
-                    if(isset($componentsData) && !empty($componentsData)){
-                        $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData->id);
-                    }
+                    // if(isset($componentsData) && !empty($componentsData)){
+                    //     $deductedCoinsDetail = $objDeductedCoins->getDeductedCoinsDetailById($parentId,$professionId,2,$componentsData->id);
+                    // }
                     
-                    $days = 0;
-                    if (count($deductedCoinsDetail) > 0) {                       
-                        $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
-                    }
-                    $response['remainingDays'] = $days;
-                    $response['required_coins'] = $componentsData->pc_required_coins;
+                    // $days = 0;
+                    // if (count($deductedCoinsDetail) > 0) {                       
+                    //     $days = Helpers::calculateRemaningDays($deductedCoinsDetail[0]->dc_end_date);
+                    // }
+                    // $response['remainingDays'] = $days;
+                    // $response['required_coins'] = $componentsData->pc_required_coins;
+
                     //get profession name and logo
                     $professionData = $this->professionsRepository->getProfessionsById($professionId);
                    

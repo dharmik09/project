@@ -364,9 +364,9 @@
                                     <div class="slider_card flipper">
                                         <div class="front_page">
                                             <div class="{{$value['professionId']}} loading-screen loading-wrapper-sub" style="display:none;">
-                                                <div class="loading-text">
+                                                <!-- <div class="loading-text">
                                                     <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                                                </div>
+                                                </div> -->
                                                 <div class="loading-content"></div>
                                             </div>
                                             <div id="badges_rank_data_{{$value['professionId']}}">
@@ -375,29 +375,6 @@
                                             <div class="dashboard_edu_text">
                                                 <a href="javascript:void(0);" onclick="getProfessionEducationPath({{$value['professionId']}})" class="btn primary_btn">Education Path</a>
                                             </div>
-                                            @if ($value['remainingDays'] == 0)
-                                            <!-- <div id="days_{{$value['professionId']}}">
-                                                <div class="promisebtn">
-                                                    <a href="javascript:void(0);" class="promise btn_golden_border" title="" onclick="getPromisePlus({{$value['professionId']}}, {{$teenDetail->id}}, {{$value['remainingDays']}}, {{$value['required_coins']}});" data-ref="#{{$value['professionId']}}">
-                                                        <span class="promiseplus">PROMISE Plus</span>
-                                                        <span class="coinouter">
-                                                            <span class="coinsnum">{{$value['required_coins']}}</span>
-                                                            <span class="coinsimg"><img src="{{Storage::url('frontend/images/coin-stack.png')}}">
-                                                            </span>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            </div> -->
-                                            @else
-                                                <!-- <div class="promisebtn timer_btn">
-                                                    <a href="javascript:void(0);" class="promise btn_golden_border" title="" onclick="getPromisePlus({{$value['professionId']}}, {{$teenDetail->id}}, {{$value['remainingDays']}},{{$value['required_coins']}});" data-ref="#{{$value['professionId']}}">
-                                                        <span class="promiseplus">PROMISE Plus</span>
-                                                        <span class="coinouter">
-                                                            <span class="coinsnum">{{$value['remainingDays']}} Days Left</span>
-                                                        </span>
-                                                    </a>
-                                                </div> -->
-                                            @endif
                                         </div>
                                         <div class="back_page first_page">
                                             <!-- <div class="loader card_loader cst_{{$value['professionId']}} init_loader">
@@ -1206,7 +1183,6 @@
             var default_key = 4;
             var setAttemptedProfessionIdsArray = '<?php echo json_encode($response['setAttemptedProfessionIds']);?>';
             var professionId = JSON.parse(setAttemptedProfessionIdsArray);
-
             $('body').on('click','.owl-carousel2 .owl-next',function(){
                 var activeClassCheck = parseInt($(".owl-carousel2 .owl-stage .owl-item.active .item").attr('data-cstid')) + 2;
                 var setDifferent = parseInt(default_pointer) - activeClassCheck ;
