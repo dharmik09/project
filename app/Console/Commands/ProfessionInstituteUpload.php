@@ -39,7 +39,7 @@ class ProfessionInstituteUpload extends Command
         $this->objProfessionInstitutes = new ProfessionInstitutes();
         $this->objManageExcelUpload = new ManageExcelUpload();
         $this->namespace = 'App';
-        $this->log = new Logger('admin-teenager');
+        $this->log = new Logger('admin-profession-institute');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
 
@@ -64,29 +64,23 @@ class ProfessionInstituteUpload extends Command
 
         $this->log->info("Excel loading started on ".date("Y-m-d h:i:s A"));
 
-        // $results = Excel::load($path, function($reader) {})->get();
+        $results = Excel::load($path, function($reader) {})->get();
 
-        // $this->log->info("Excel loaded on ".date("Y-m-d h:i:s A"));
+        $this->log->info("Excel loaded on ".date("Y-m-d h:i:s A"));
         
         $response = '';        
         if($uploadType == "1") // Upload Basic information
         {
-            Excel::filter('chunk')->load($path)->chunk(500, function ($results) use (&$response) {
-                if( !isset($results[0]->id) || !isset($results[0]->state) || !isset($results[0]->college_institution) || !isset($results[0]->address_line1) || !isset($results[0]->address_line2) || !isset($results[0]->city) || !isset($results[0]->district) || !isset($results[0]->pin_code) || !isset($results[0]->website) || !isset($results[0]->year_of_establishment) || !isset($results[0]->affiliat_university) || !isset($results[0]->year_of_affiliation) || !isset($results[0]->location) || !isset($results[0]->latitude) || !isset($results[0]->longitude) || !isset($results[0]->type) || !isset($results[0]->management) || !isset($results[0]->speciality) || !isset($results[0]->girl_exclusive) || !isset($results[0]->hostel_count) || !isset($results[0]->is_institute_signup) || !isset($results[0]->minimum_fee) || !isset($results[0]->maximum_fee) ) {
-
-                    $excelUploadFinish['id'] = $responseManageExcelUpload->id;
-                    $excelUploadFinish['status'] = "2"; //Failed
-                    $excelUploadFinish['description'] = trans('labels.professioninstitueslistcolumnnotfoundbasicinformation');
-                    $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
-                    $this->log->info($excelUploadFinish['description']);
-                    $this->log->info("Excel upload completed on ".date("Y-m-d h:i:s A"));
-                    return true;
-
-                }
-
-                $response = dispatch( new ImportProfessionInstituteBasicInformation($results) );
-            }, $shouldQueue = false);
+            $data = [];
             
+            foreach ($results as $value) {
+                $data[] = $value->toArray();
+            }
+            
+            $this->log->info("==  data variable loaded on ".date("Y-m-d h:i:s A")." ==");
+
+            $response = dispatch( new ImportProfessionInstituteBasicInformation($data) )->onQueue('processing');
+
             if($response) {
                 $excelUploadFinish['status'] = "1"; //Success
                 $excelUploadFinish['description'] = trans('labels.professioninstitueslistuploadsuccess');
@@ -94,6 +88,7 @@ class ProfessionInstituteUpload extends Command
                 $excelUploadFinish['status'] = "2"; //Failed
                 $excelUploadFinish['description'] = trans('labels.commonerrormessage');
             }
+
             $excelUploadFinish['id'] = $responseManageExcelUpload->id;
             $this->objManageExcelUpload->insertUpdate($excelUploadFinish);
             $this->log->info($excelUploadFinish['description']);

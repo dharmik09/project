@@ -7,7 +7,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        {{trans('labels.professioninstitueslist')}}
+        <div class="col-md-10">
+            {{trans('labels.professioninstitueslist')}}
+        </div>
+        <div class="col-md-2">
+            <a href="{{ url('admin/deleteallprofessioninstitue') }}" class="btn btn-block btn-primary  pull-right">{{trans('labels.deleteallrecord')}}</a>
+        </div>
     </h1>
 </section>
 

@@ -702,6 +702,11 @@ class ProfessionManagementController extends Controller {
         return Redirect::to("admin/addProfessionInstituteCourseList");
     }
 
+    public function deleteAllProfessionInstitutes() {
+        $this->objProfessionInstitutes->truncate();
+        return Redirect::to("admin/addProfessionInstituteCourseList")->with('success', trans('labels.professioninstituesdeleteallsuccess'));
+    }
+
     public function professionInstitutesPhotoUpdate() {
         $file = Input::file('institute_photo');
         $hiddenLogo = Input::file('oldimage');

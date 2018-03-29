@@ -780,4 +780,6 @@ return [
     'status' => 'Status',
     'description' => 'Description',
     'lastuploadtime' => 'Last Uploaded Date-Time',
+    'deleteallrecord' => 'Delete All Record',
+    'professioninstituesdeleteallsuccess' => 'Profession Institutes all record deleted successfully',
 ];
