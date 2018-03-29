@@ -111,7 +111,8 @@ class ProfessionInstituteUpload extends Command
         elseif($uploadType == "2") // Upload Accreditation
         {
             try{
-                Excel::filter('chunk')->load($path)->chunk(500, function ($results) use (&$response) {
+                $response = '';
+                Excel::filter('chunk')->load($path)->chunk(500, function ($results) use (&$response,$responseManageExcelUpload) {
                     if(!isset($results[0]->id) || !isset($results[0]->name) || !isset($results[0]->survey_year) || !isset($results[0]->is_accredited) || !isset($results[0]->has_score) || !isset($results[0]->accreditation_body) || !isset($results[0]->max_score) || !isset($results[0]->score)){
                         
                         $excelUploadFinish['id'] = $responseManageExcelUpload->id;

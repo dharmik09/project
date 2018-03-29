@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Helpers;
 use App\ProfessionInstitutes;
+use App\ManageExcelUpload;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -58,9 +59,7 @@ class ImportProfessionInstituteAccreditation implements ShouldQueue
                 $this->log->info("Pointer on -> ".$key);
             }
 
-            $returnData['notFoundSchool'] = $notFoundSchool;
-            $returnData['response'] = $response;
-            return $returnData;
+            return $notFoundSchool;
         } 
         catch(\Exception $e){
             $excelUploadFinish['status'] = "2"; //Failed
