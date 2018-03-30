@@ -5,7 +5,7 @@
     $metaDescription = ( isset($forumQuestionData->fq_que) && $forumQuestionData->fq_que != "") ? $forumQuestionData->fq_que : "ProTeenLife - Forum Questions";
     $siteUrl = url('teenager/forum-question/'.Crypt::encrypt($forumQuestionData->id));
     //$siteUrl = url('/');
-    $shareImageUrl = Storage::url('img/logo.png');
+    $shareImageUrl = asset('img/logo.png');
 ?>
 
 @push('script-header')
@@ -81,10 +81,10 @@
                 <h2>{{$forumQuestionData->fq_que}}</h2>
                 <span><button title="Answer" class="btn btn-ans btn-default">Post Answer</button></span>
                 <ul class="social">
-                   <li>Share :</li>
+                    <li>Share :</li>
                     <li><a href="http://www.facebook.com/share.php?u={{$siteUrl}}&title={{urlencode($metaTitle)}}&description={{urlencode($metaDescription)}}&picture={{urlencode($shareImageUrl)}}" target="_blank" title="Facebook"><i class="icon-facebook"></i></a></li>
                     <li><a href="http://twitter.com/intent/tweet?status={{$metaTitle}}+,+&nbsp;+{{$siteUrl}}+&nbsp;+@ProTeenLife" target="_blank" title="Twitter"><i class="icon-twitter"></i></a></li>
-                    <li><a href="https://plus.google.com/share?url={{$siteUrl}}" target="_blank" title="Google plus"><i class="icon-google"></i></a></li>
+                    <li><a href="https://plus.google.com/share?url={{$siteUrl}}&image={{$shareImageUrl}}" target="_blank" title="Google plus"><i class="icon-google"></i></a></li>
                     <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{urlencode($siteUrl)}}&title={{$metaTitle}}&source={{urlencode($siteUrl)}}" target="_blank" title="Linkedin"><i class="icon-linkdin"></i></a></li>
                 </ul>
             </div>
