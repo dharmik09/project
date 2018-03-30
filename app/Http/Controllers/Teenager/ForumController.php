@@ -59,6 +59,7 @@ class ForumController extends Controller {
     {
         $queId = Crypt::decrypt($id);
         $forumQuestionData = $this->objForumQuestion->find($queId);
+        //echo "<pre/>"; print_r($forumQuestionData->toArray()); die();
         return view('teenager.singleQuestion', compact('forumQuestionData'));        
     }
 

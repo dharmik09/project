@@ -36,13 +36,13 @@
                     <span class="ans-posted-date">{{$answerTime}}</span>
                 </div>
             </div>
-            @if(strlen($answerText)>0)
+            @if(strlen($answerText) > 0)
                 <div class="forum-answer text-overflow">
                     <div class="text-full">
                         <p>{{$answerText}}</p>
                     </div>
                 </div>
-                <span><a href="#" title="Read More" class="read-more">Read More</a></span>
+                @if(strlen($answerText) > 100) <span><a href="#" title="Read More" class="read-more">Read More</a></span> @endif
             @else
                 <div class="sec-forum bg-offwhite"><span>No answer yet, Be the first to answer this question</span></div>
             @endif
