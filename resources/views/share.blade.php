@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <?php 
-    $metaTitle = $_GET['title'];
-    $metaDescription = $_GET['description'];
-    $siteUrl = $_GET['url'];
-    $shareImageUrl = $_GET['image'];
+    $metaTitle = "Title";
+    $metaDescription = "Description";
+    $siteUrl = "Url";
+    $shareImageUrl = "Image";
 ?>
 <html lang="en">
     <head>
