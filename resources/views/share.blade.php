@@ -35,7 +35,7 @@
                 <h1>Click Here to Login</h1>
                 <div class="form-sec">
                     <form  autocomplete="off">
-                        <a href="{{$siteUrl}}"> <button value="Login" class="btn btn-default" title="Login" tabindex="4">Login</button> </a>
+                        <a href="{{ url('teenager/login') }}"> <button value="Login" class="btn btn-default" title="Login" tabindex="4">Login</button> </a>
                     </form>
                 </div>
             </div>
