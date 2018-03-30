@@ -86,7 +86,11 @@ class createThumbFromOriginalLocal extends Command
                 $pathThumb = public_path($destination .'/'. $fileName);
                 // echo $pathThumb."\n";
 
-                Image::make($orignal)->resize($width,$height)->save($pathThumb);
+                Image::make($orignal)
+                        ->resize($width, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })
+                        ->save($pathThumb);
 
                 $this->log->info("Completed ".($key+1)."/".$countAllImages." => ".$fileName);
             }

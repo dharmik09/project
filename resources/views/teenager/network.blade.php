@@ -57,7 +57,7 @@
                                     <div class="overlay">
                                         <ul>
                                             <li><a href="{{ url('teenager/network-member') }}/{{$memberDetail->t_uniqueid }}" title="{{ $memberDetail->t_name }}"><i class="icon-pro-user"></i></a></li>
-                                            <li><a href="#" title="chat"><i class="icon-chat"></i></a></li>
+                                            <li><a href="{{ url('teenager/chat') }}" title="chat"><i class="icon-chat"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
