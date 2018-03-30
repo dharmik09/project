@@ -3,9 +3,10 @@
 <?php 
     $metaTitle = ( isset($forumQuestionData->fq_que) && $forumQuestionData->fq_que != "") ? $forumQuestionData->fq_que : "ProTeenLife - Forum Questions";
     $metaDescription = ( isset($forumQuestionData->fq_que) && $forumQuestionData->fq_que != "") ? $forumQuestionData->fq_que : "ProTeenLife - Forum Questions";
-    $siteUrl = url('teenager/forum-question/'.Crypt::encrypt($forumQuestionData->id));
-    //$siteUrl = url('/');
+    $url = url('/teenager');
     $shareImageUrl = asset('img/logo.png');
+    $urlLink = "share?title=".$metaTitle."&description=".$metaDescription."&url=".$url."&image=".$shareImageUrl;
+    $siteUrl = url($urlLink);
 ?>
 
 @push('script-header')

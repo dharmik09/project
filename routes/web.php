@@ -26,6 +26,8 @@ Route::get('/privacy-policy', 'Home\HomeController@privacyPolicy');
 Route::get('/terms-condition', 'Home\HomeController@termsCondition');
 Route::get('/about-us', 'Home\HomeController@aboutUs');
 
+Route::get('/share/{any?}', function() { return view('share'); });
+
 //Get call back route
 Route::get('facebook/callback', 'Teenager\SocialLoginController@handleProviderCallbackFacebook');
 Route::get('google/callback', 'Teenager\SocialLoginController@handleProviderCallbackGooglePlus');
