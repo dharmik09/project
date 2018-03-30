@@ -263,6 +263,9 @@
                                     <div class="virtual-plus text-center competitive-role">
                                         <h4><span>competitive role Play</span></h4>
                                         <p>Instructions: Here are tasks by your real world sponsors. Impress them & build your professional reputation early on!</p>
+                                        <div class="alert competitive-div" style="display: none;">
+                                            <span id="competitive-message" class="fontWeight"></span>
+                                        </div>
                                         <div class="competitive-list quiz-sec">
                                             @include('teenager/basic/careerCompetitiveRoleSection')        
                                         </div>
@@ -909,6 +912,10 @@
                 $('.quiz-basic .sec-show').addClass('hide');
                 $('.quiz-basic .basic-quiz-area').addClass('active');
                 $('#basicLevelData').html(data);
+                var basicCompleted = $(".basicCompleted").val();
+                if (basicCompleted != '' && basicCompleted == 1) {
+                    getProfessionCompletionPercentage(professionId);
+                }
             }
         }); 
     }
@@ -965,7 +972,9 @@
                     scrollTop: $('#flexSeprator').offset().top 
                 }, 300);
                 $('#intermediateLevelData').html(data);
-                
+                if($('.intermediateCompleted').val() != '' && $('.intermediateCompleted').val() == 1) {
+                    getProfessionCompletionPercentage('{{$professionsData->id}}');
+                } 
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
                 
@@ -1724,7 +1733,7 @@
     function applyForScholarshipProgram(activityId)
     {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = 'activityId=' + activityId;
+        var form_data = 'activityId=' + activityId + '&professionId=' + '{{$professionsData->id}}';
         $.ajax({
             url : '{{ url("teenager/apply-for-scholarship-program") }}',
             method : "POST",
@@ -1733,18 +1742,27 @@
                 'X-CSRF-TOKEN': CSRF_TOKEN,
             },
             success : function (response) {
-                if (response == 'applied') {
-                    $("#scholarship_message_"+activityId).text("You have already applied for this program");
+                if (response.status != 0) {
+                    if (response.message == 'applied') {
+                        $("#scholarship_message_"+activityId).text("You have already applied for this program");
+                    } else {
+                        $("#scholarship_message_"+activityId).text("You successfully applied for this scholarship program");
+                        $("#apply_"+activityId).prop('onclick',null).off('click');
+                    }
+                    $("#scholarship_message_"+activityId).show();
+                    setTimeout(function () {
+                        $("#scholarship_message_"+activityId).hide();
+                    }, 2500)
+                    $("#apply_"+activityId).text("Applied");
+                    $("#apply_"+activityId).attr("disabled","disabled");
                 } else {
-                    $("#scholarship_message_"+activityId).text("You successfully applied for this scholarship program");
-                    $("#apply_"+activityId).prop('onclick',null).off('click');
+                    $(".competitive-div").addClass('alert-error danger');
+                    $(".competitive-div").show();
+                    $("#competitive-message").text(response.message);
+                    setTimeout(function () {
+                        $(".competitive-div").hide();
+                    }, 5000);
                 }
-                $("#scholarship_message_"+activityId).show();
-                setTimeout(function () {
-                    $("#scholarship_message_"+activityId).hide();
-                }, 2500)
-                $("#apply_"+activityId).text("Applied");
-                $("#apply_"+activityId).attr("disabled","disabled");
             }
         });
     }
@@ -2255,6 +2273,7 @@
         $(document).on( "click", ".open_advance_view", function() {
            $("#accordion1").collapse('show');
         })
+        getProfessionCompletionPercentage({{$professionsData->id}});
     });
 
     function adjusting_box_size() {
@@ -2352,6 +2371,25 @@
                 $("#intermediateTemplateList").html(response);
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
+            }
+        });   
+    }
+
+    function getProfessionCompletionPercentage(professionId) {
+        $.ajax({
+            url: "{{ url('/teenager/get-profession-completion-percentage') }}",
+            type: 'POST',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "professionId" : professionId
+            },
+            success: function(response) {
+                if (response.status != 0) {
+                    if (response.percentage >= 100) {
+                        $("#competitiveSection").remove();
+                    }
+                    $(".tab-complete").html(response.percentage+'% Complete');
+                }
             }
         });   
     }

@@ -30,6 +30,7 @@
                         <div class="unbox-btn set-template-{{$templateProfession->gt_template_id}}" >
                             <a href="javascript:void(0);" title="Play now!" class="btn-primary" onclick="getConceptData({{$templateProfession->gt_template_id}})">
                                 <span class="unbox-me">Played!</span>
+                                <?php echo "hello"; ?>
                             </a>
                         </div>   
                     @else
