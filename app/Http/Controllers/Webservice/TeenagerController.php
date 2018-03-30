@@ -11,6 +11,7 @@ use App\Services\Community\Contracts\CommunityRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Teenagers;
 use App\Notifications;
+use App\DeviceToken;
 use Helpers;
 use App\Country;
 use Config;
@@ -35,6 +36,7 @@ class TeenagerController extends Controller
         $this->teenThumbImageWidth = Config::get('constant.TEEN_THUMB_IMAGE_WIDTH');
         $this->objCountry = new Country();
         $this->objNotifications = new Notifications();
+        $this->objDeviceToken = new DeviceToken();
         
     }
 
@@ -204,6 +206,29 @@ class TeenagerController extends Controller
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW');
             $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has viewed your profile';
             $this->objNotifications->insertUpdate($notificationData);
+
+            $androidToken = [];
+            $pushNotificationData = [];
+            $pushNotificationData['message'] = $notificationData['n_notification_text'];
+            $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+            $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($networkTeenager->id);
+
+            if(count($userDeviceToken)>0){
+                foreach ($userDeviceToken as $key => $value) {
+                    if($value->tdt_device_type == "1"){
+                        $androidToken[] = $value->tdt_device_token;
+                    }
+                    if($value->tdt_device_type == "2"){
+                        Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                    }
+                }
+
+                if(isset($androidToken) && count($androidToken) > 0)
+                {
+                    Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                }
+
+            }
 
                 $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($request->teenagerId);
                 $arrayData = [];

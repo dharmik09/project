@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use App\Events\SendMail;
 use Event;
 use App\Notifications;
+use App\DeviceToken;
 
 class CommunityController extends Controller
 {
@@ -33,6 +34,7 @@ class CommunityController extends Controller
         $this->teenagersRepository = $teenagersRepository;
         $this->teenagerThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
         $this->objNotifications = new Notifications();
+        $this->objDeviceToken = new DeviceToken();
     }
 
     /* Request Params : communityNewConnections
@@ -226,6 +228,29 @@ class CommunityController extends Controller
                     $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
                     $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has sent you a connection request';
                     $this->objNotifications->insertUpdate($notificationData);
+
+                    $androidToken = [];
+                    $pushNotificationData = [];
+                    $pushNotificationData['message'] = $notificationData['n_notification_text'];
+                    $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+                    $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($data['tc_receiver_id']);
+
+                    if(count($userDeviceToken)>0){
+                        foreach ($userDeviceToken as $key => $value) {
+                            if($value->tdt_device_type == "1"){
+                                $androidToken[] = $value->tdt_device_token;
+                            }
+                            if($value->tdt_device_type == "2"){
+                                Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                            }
+                        }
+
+                        if(isset($androidToken) && count($androidToken) > 0)
+                        {
+                            Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                        }
+
+                    }
 
                     $response['message'] = "Connection request sent successfully!";
                 } else {
