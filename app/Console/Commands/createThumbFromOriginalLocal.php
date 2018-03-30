@@ -13,20 +13,20 @@ use Image;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-class createThumbFromOriginal extends Command
+class createThumbFromOriginalLocal extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * Default Path is set for command is public/uploads/ for aws s3
      *
-     * php artisan createThumbFromOriginal --source="" --destination= --width=300 --height=300
+     * php artisan createThumbFromOriginalLocal --source="" --destination= --width=300 --height=300
      *
-     * Example Command : php artisan createThumbFromOriginal --source="testing/original" --destination="testing/thumb" --width=300 --height=300
+     * Example Command : php artisan createThumbFromOriginalLocal --source="testing/original" --destination="testing/thumb" --width=300 --height=300
      *
      * @var string
      */
-    protected $signature = 'createThumbFromOriginal {--source=} {--destination=} {--width=} {--height=}';
+    protected $signature = 'createThumbFromOriginalLocal {--source=} {--destination=} {--width=} {--height=}';
 
     /**
      * The console command description.
@@ -40,11 +40,10 @@ class createThumbFromOriginal extends Command
      *
      * @return void
      */
-    public function __construct(FileStorageRepository $fileStorageRepository)
+    public function __construct()
     {
         parent::__construct();
-        $this->fileStorageRepository = $fileStorageRepository;
-        $this->log = new Logger('create-thumnb-s3');
+        $this->log = new Logger('create-thumnb-local');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
 
@@ -66,7 +65,8 @@ class createThumbFromOriginal extends Command
         $width = $this->option('width');
         $height = $this->option('height');
 
-        $originalFiles = Storage::disk('s3')->files($source);
+
+        $originalFiles = File::allFiles(public_path($source));
 
         $bar = $this->output->createProgressBar(count($originalFiles));
         
@@ -86,10 +86,8 @@ class createThumbFromOriginal extends Command
             $pathThumb = public_path($destination .'/'. $fileName);
             // echo $pathThumb."\n";
 
-            Image::make(Storage::url($orignal))->resize($width,$height)->save($pathThumb);
+            Image::make($orignal)->resize($width,$height)->save($pathThumb);
 
-            $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $destination.'/', $pathThumb, "s3");                
-            \File::delete($pathThumb);
             $this->log->info("Completed ".($key+1)."/".$countAllImages." => ".$fileName);
         }
 
