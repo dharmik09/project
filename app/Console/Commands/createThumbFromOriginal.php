@@ -58,7 +58,7 @@ class createThumbFromOriginal extends Command
         echo "Thumb creation Started on ".date("Y-m-d h:i:s A")."\n\n";
         $this->log->info("Thumb creation Started on ".date("Y-m-d h:i:s A")."\n\n");
 
-        ini_set('memory_limit', '20000M');
+        ini_set('memory_limit', -1);
         ini_set('max_execution_time', 0);
 
         $source = 'uploads/'.$this->option('source');
@@ -76,7 +76,7 @@ class createThumbFromOriginal extends Command
         
         $countAllImages = count($originalFiles);
 
-        foreach ($originalFiles as $key => $orignal){
+        foreach (array_chunk($originalFiles,500) as $key => $orignal){
 
             $bar->advance();
             // echo Storage::url($orignal)."\n";
