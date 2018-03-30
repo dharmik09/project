@@ -2,7 +2,7 @@
 <?php 
     $metaTitle = $_GET['title'];
     $metaDescription = $_GET['description'];
-    $siteUrl = $_GET['onUrl'];
+    $siteUrl = $_GET['url'];
     $shareImageUrl = $_GET['image'];
 ?>
 <html lang="en">
