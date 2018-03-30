@@ -324,7 +324,7 @@ class CommunityManagementController extends Controller {
             $pushNotificationData = [];
             $pushNotificationData['message'] = $notificationData['n_notification_text'];
             $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
-            $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($data['tc_receiver_id'];);
+            $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($data['tc_receiver_id']);
 
             if(count($userDeviceToken)>0){
                 foreach ($userDeviceToken as $key => $value) {
