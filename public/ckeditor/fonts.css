@@ -1,0 +1,16 @@
+@font-face {
+	font-family: 'ArcherPro-Book';
+	/* font-family: 'ab'; */
+	src: url('fonts/ArcherPro-Book.eot');
+	src: url('fonts/ArcherPro-Book.woff2') format('woff2'), url('fonts/ArcherPro-Book.woff') format('woff'), url('fonts/ArcherPro-Book.ttf') format('truetype'), url('fonts/ArcherPro-Book.svg#ArcherPro-Book') format('svg'), url('fonts/ArcherPro-Book.eot?#iefix') format('embedded-opentype');
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Helvetica-Light';
+	/* font-family: 'hl'; */
+	src: url('fonts/Helvetica-Light.eot');
+	src: url('fonts/Helvetica-Light.woff2') format('woff2'), url('fonts/Helvetica-Light.woff') format('woff'), url('fonts/Helvetica-Light.ttf') format('truetype'), url('fonts/Helvetica-Light.svg#Helvetica-Light') format('svg'), url('fonts/Helvetica-Light.eot?#iefix') format('embedded-opentype');
+	font-weight: 300;
+	font-style: normal;
+}
