@@ -7,9 +7,6 @@
     </div> -->
 
     <div class="{{$response['professionId']}} loading-screen loading-wrapper-sub" style="display:none;">
-        <div class="loading-text">
-            <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-        </div>
         <div class="loading-content"></div>
     </div>
 
