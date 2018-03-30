@@ -25,6 +25,7 @@ use App\PromiseParametersMaxScore;
 use App\MultipleIntelligentScale;
 use App\ApptitudeTypeScale;
 use App\PersonalityScale;
+use App\DeviceToken;
 
 
 class CommunityManagementController extends Controller {
@@ -42,6 +43,7 @@ class CommunityManagementController extends Controller {
         $this->objMIScale = new MultipleIntelligentScale();
         $this->objApptitudeScale = new ApptitudeTypeScale();
         $this->objPersonalityScale = new PersonalityScale();
+        $this->objDeviceToken = new DeviceToken();
     }
 
     public function index()
@@ -201,6 +203,29 @@ class CommunityManagementController extends Controller {
                 $this->objNotifications->insertUpdate($notificationData);
             }
             
+            $androidToken = [];
+            $pushNotificationData = [];
+            $pushNotificationData['message'] = $notificationData['n_notification_text'];
+            $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+            $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($teenDetails->id);
+
+            if(count($userDeviceToken)>0){
+                foreach ($userDeviceToken as $key => $value) {
+                    if($value->tdt_device_type == "1"){
+                        $androidToken[] = $value->tdt_device_token;
+                    }
+                    if($value->tdt_device_type == "2"){
+                        Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                    }
+                }
+
+                if(isset($androidToken) && count($androidToken) > 0)
+                {
+                    Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                }
+            
+            }
+            
             return view('teenager.networkMember', compact('teenagerTrait', 'teenDetails', 'myConnections', 'teenagerStrength', 'teenagerInterest', 'connectionStatus', 'myConnectionsCount'));
         } else {
             return Redirect::back()->with('error', 'Member not found');
@@ -278,7 +303,9 @@ class CommunityManagementController extends Controller {
             $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
 
             $response = $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
+
             $userData = Auth::guard('teenager')->user();
+            
             $notificationData['n_sender_id'] = $userData->id;
             $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_receiver_id'] = $data['tc_receiver_id'];
@@ -293,8 +320,32 @@ class CommunityManagementController extends Controller {
             }
             $this->objNotifications->insertUpdate($notificationData);
 
+            $androidToken = [];
+            $pushNotificationData = [];
+            $pushNotificationData['message'] = $notificationData['n_notification_text'];
+            $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+            $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($data['tc_receiver_id']);
+
+            if(count($userDeviceToken)>0){
+                foreach ($userDeviceToken as $key => $value) {
+                    if($value->tdt_device_type == "1"){
+                        $androidToken[] = $value->tdt_device_token;
+                    }
+                    if($value->tdt_device_type == "2"){
+                        Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                    }
+                }
+
+                if(isset($androidToken) && count($androidToken) > 0)
+                {
+                    Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                }
+    
+            }
+
+
             return Redirect::back()->with('success', 'Connection request sent successfully');
-            
+
         } else {
             return Redirect::back()->with('error', 'Request already sent');
         }

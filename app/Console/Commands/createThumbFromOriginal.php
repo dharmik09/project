@@ -76,6 +76,8 @@ class createThumbFromOriginal extends Command
         
         $countAllImages = count($originalFiles);
 
+        $count = 1;
+
         foreach (array_chunk($originalFiles,500) as $key => $value){
             foreach ($value as $k => $orignal) {
                 $bar->advance();
@@ -85,12 +87,17 @@ class createThumbFromOriginal extends Command
 
                 $pathThumb = public_path($destination .'/'. $fileName);
                 // echo $pathThumb."\n";
-
-                Image::make(Storage::url($orignal))->resize($width,$height)->save($pathThumb);
+     
+                Image::make($orignal)
+                        ->resize($width, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })
+                        ->save($pathThumb);
 
                 $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $destination.'/', $pathThumb, "s3");                
                 \File::delete($pathThumb);
-                $this->log->info("Completed ".($key+1)."/".$countAllImages." => ".$fileName);
+                $this->log->info("Completed ".($count)."/".$countAllImages." => ".$fileName);
+                $count++;
             }
         }
 
