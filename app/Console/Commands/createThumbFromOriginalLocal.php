@@ -80,22 +80,27 @@ class createThumbFromOriginalLocal extends Command
 
         foreach (array_chunk($originalFiles,500) as $key => $value){
             foreach ($value as $k => $orignal) {
-                $bar->advance();
-                // echo Storage::url($orignal)."\n";
-                $fileName = basename($orignal);
-                // echo $fileName."\n";
+                $bar->advance();                
+                $ext = pathinfo($orignal, PATHINFO_EXTENSION);
+                $extension = strtolower($ext);
+               
+                if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif'){
+                    // echo Storage::url($orignal)."\n";
+                    $fileName = basename($orignal);
+                    // echo $fileName."\n";
 
-                $pathThumb = public_path($destination .'/'. $fileName);
-                // echo $pathThumb."\n";
+                    $pathThumb = public_path($destination .'/'. $fileName);
+                    // echo $pathThumb."\n";
 
-                Image::make($orignal)
-                        ->resize($width, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })
-                        ->save($pathThumb);
+                    Image::make($orignal)
+                            ->resize($width, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            })
+                            ->save($pathThumb);
 
-                $this->log->info("Completed ".($count)."/".$countAllImages." => ".$fileName);
-                $count++;
+                    $this->log->info("Completed ".($count)."/".$countAllImages." => ".$fileName);
+                    $count++;
+                }
             }
         }
 
