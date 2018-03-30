@@ -205,7 +205,7 @@ class CommunityManagementController extends Controller {
             
             $androidToken = [];
             $pushNotificationData = [];
-            $pushNotificationData['message'] = ($notificationData['n_notification_text'])?$notificationData['n_notification_text']:'';
+            $pushNotificationData['message'] = isset($notificationData['n_notification_text'])?$notificationData['n_notification_text']:'';
             $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
             $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($teenDetails->id);
 
