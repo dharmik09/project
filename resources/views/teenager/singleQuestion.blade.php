@@ -3,9 +3,9 @@
 <?php 
     $metaTitle = ( isset($forumQuestionData->fq_que) && $forumQuestionData->fq_que != "") ? $forumQuestionData->fq_que : "ProTeenLife - Forum Questions";
     $metaDescription = ( isset($forumQuestionData->fq_que) && $forumQuestionData->fq_que != "") ? $forumQuestionData->fq_que : "ProTeenLife - Forum Questions";
-    $url = url('/');
+    $store = url('/');
     $shareImageUrl = asset('img/logo.png');
-    $urlLink = "share?title=".$metaTitle."&description=".$metaDescription."&url=".$url."&image=".$shareImageUrl;
+    $urlLink = "share?title=".$metaTitle."&description=".$metaDescription."&store=".$store."&image=".$shareImageUrl;
     $siteUrl = url(urlencode($urlLink));
 ?>
 
