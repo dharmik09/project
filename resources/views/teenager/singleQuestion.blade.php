@@ -18,13 +18,13 @@
     <meta name="twitter:title" content="{{$metaTitle}}" />
     <meta name="twitter:description" content="{{$metaDescription}}" />
     <meta name="twitter:creator" content="@ProTeenLife" />
-    <meta name="twitter:image"  content="{{asset($shareImageUrl)}}"  />
+    <meta name="twitter:image"  content="{{$shareImageUrl}}"  />
     <!-- Facebook Card data -->
     <meta property="fb:app_id" content="1899859370300984" />
     <meta property="og:title" content="{{$metaTitle}}" />
     <meta property="og:type" content="deal" />
     <meta property="og:url" content="{{$siteUrl}}" />
-    <meta property="og:image"  content="{{asset($shareImageUrl)}}"  />
+    <meta property="og:image"  content="{{$shareImageUrl}}"  />
     <meta property="og:description" content="{{$metaDescription}}" />
     <meta property="og:site_name" content="ProTeenLife" />
 @endpush
@@ -81,7 +81,7 @@
                 <span><button title="Answer" class="btn btn-ans btn-default">Post Answer</button></span>
                 <ul class="social">
                    <li>Share :</li>
-                    <li><a href="#" target="_blank" title="Facebook"><i class="icon-facebook"></i></a></li>
+                    <li><a href="http://www.facebook.com/share.php?u={{url($siteUrl)}}&title={{urlencode($metaTitle)}}&description={{urlencode($metaDescription)}}&picture={{urlencode($shareImageUrl)}}" target="_blank" title="Facebook"><i class="icon-facebook"></i></a></li>
                     <li><a href="#" target="_blank" title="Twitter"><i class="icon-twitter"></i></a></li>
                     <li><a href="#" target="_blank" title="Google plus"><i class="icon-google"></i></a></li>
                     <li><a href="#" target="_blank" title="Linkedin"><i class="icon-linkdin"></i></a></li>
