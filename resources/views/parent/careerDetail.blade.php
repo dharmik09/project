@@ -199,9 +199,6 @@
                                                 <div class="quiz-intermediate">
                                                     <div class="sec-show clearfix flex-container quiz-intermediate-sec-show">
                                                             <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-                                                                <div class="loading-text">
-                                                                    <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                                                                </div>
                                                                 <div class="loading-content"></div>
                                                             </div>
                                                             @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
@@ -366,7 +363,7 @@
                             </div>
                             <ul class="tag-list">
                                 @forelse($professionsData->professionTags as $professionTags)
-                                    <li><a href="{{ url('/teenager/career-tag/'.$professionTags->tag['pt_slug']) }}" title="Lorem ipsum">{{$professionTags->tag['pt_name']}}</a></li>
+                                    <li><a href="javascript:void(0);" title="{{$professionTags->tag['pt_name']}}">{{$professionTags->tag['pt_name']}}</a></li>
                                 @empty
                                 @endforelse
                             </ul>
