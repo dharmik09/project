@@ -38,10 +38,12 @@
     @empty
     @endforelse
 </div>
-<div class="overlay">
+@if (isset($professionCompletePercentage) && $professionCompletePercentage < 100) {
+<div id="competitiveSection" class="overlay">
     <div class="overlay-inner">
         <div class="icon"><!--<i class="icon-lock"></i>-->
         <img src="{{ Storage::url('img/img-lock.png') }}" alt="lock image"></div>
         <p>Complete previous section<br> to unlock</p>
     </div>
 </div>
+@endif

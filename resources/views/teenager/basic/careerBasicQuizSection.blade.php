@@ -1,3 +1,4 @@
+<input type="hidden" value="{{$response['basicCompleted']}}" class="basicCompleted">
 @if( isset($response['data']) && !empty($response['data']) )
     <div id="basicErrorGoneMsg" class="basicErrorGoneMsg"></div>
     <div class="quiz_view">
@@ -98,8 +99,10 @@
                     </div>
                 </div>
             </div>
-            
         </div>
+        <!-- <script type="text/javascript">
+            getProfessionCompletionPercentage($response['professionId']);
+        </script> -->
     @else
         <div class="quiz_view">
             <div class="clearfix time_noti_view">

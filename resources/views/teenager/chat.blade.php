@@ -123,9 +123,7 @@
                                             
                                             if(isset($value->latestAnswer)){
                                                 $answerText = $value->latestAnswer->fq_ans;
-
                                                 $answerTime = date('jS M Y',strtotime($value->latestAnswer->created_at));
-
                                             }
 
                                             if(isset($value->latestAnswer->teenager)){
@@ -142,7 +140,7 @@
                                             <p>{{$answerText}}</p>
                                         </div>
                                     </div>
-                                    <span><a href="#" title="Read More" class="read-more">Read More</a></span>
+                                    @if(strlen($answerText) > 100) <span><a href="#" title="Read More" class="read-more">Read More</a></span> @endif
                                 @else
                                     <div class="sec-forum bg-offwhite"><span>The first five contributors will win ProCoins! Answer now!!</span></div>
                                 @endif
@@ -233,27 +231,6 @@
 <script src="{{asset('chat/js/app.js')}}"></script>
 
 <script type="text/javascript">
-//var $applozic = jQuery.noConflict(true);
-//Sample json contains display name and photoLink for userId
-
-function readMessage() {
-        //console.log(userId);
-}
-//Callback Function to return display name by userId
-/*  function displayName(userId) {
-      //Todo: replace this with users display name
-      var contact = contacts[userId];   // contacts sample given above
-      if (typeof contact !== 'undefined') {
-          return contact.displayName;
-      }
-  }*/
-//Callback Function to return contact image url by userId
-/*  function contactImageSrc(userId) {
-      var contact = contacts[userId]; // contacts sample given above
-      if (typeof contact !== 'undefined') {
-          return contact.imageLink;
-      }
-  }*/
 //callback function execute after plugin initialize.
 function onInitialize(response,data) {
         if (response.status === 'success') {
@@ -267,28 +244,29 @@ function onInitialize(response,data) {
 // Examples shows how to define variable for auto suggest
 
 var enableOtherUserChat = '{{$otherChat}}';   
-   if(enableOtherUserChat > 0){
-       otherUserId = '{{(isset($otherTeenDetails->t_uniqueid) && $otherTeenDetails->t_uniqueid != '')?$otherTeenDetails->t_uniqueid:''}}';
-       otherUserName = '{{(isset($otherTeenDetails->t_name) && $otherTeenDetails->t_name != '')?$otherTeenDetails->t_name:''}}';
-       normalChat();
-   }else{
-       normalChat();
-   }
- function getContacts(handleData)
-    {
-        $.ajax({
-            url: "{{ url('/teenager/getChatUsers') }}",
-            type: 'post',
-            data: {
-                "_token": '{{ csrf_token() }}'
-            },
-            success: function(response)
-            {
-                var contactsJSON = JSON.parse(response);
-                handleData(contactsJSON);
-            }
-        });
-    }
+if(enableOtherUserChat > 0){
+   otherUserId = '{{(isset($otherTeenDetails->t_uniqueid) && $otherTeenDetails->t_uniqueid != '')?$otherTeenDetails->t_uniqueid:''}}';
+   otherUserName = '{{(isset($otherTeenDetails->t_name) && $otherTeenDetails->t_name != '')?$otherTeenDetails->t_name:''}}';
+   normalChat();
+} else {
+   normalChat();
+}
+
+function getContacts(handleData)
+{
+    $.ajax({
+        url: "{{ url('/teenager/getChatUsers') }}",
+        type: 'post',
+        data: {
+            "_token": '{{ csrf_token() }}'
+        },
+        success: function(response)
+        {
+            var contactsJSON = JSON.parse(response);
+            handleData(contactsJSON);
+        }
+    });
+}
 
 // Function to initialize auto suggest plugin on message textbox
 function normalChat() {
@@ -331,8 +309,6 @@ function normalChat() {
                 $applozic.fn.applozic('loadContacts', {"contacts": output});
            });
     }
-    
-    
 </script>
 
 <script> 
@@ -355,8 +331,6 @@ function normalChat() {
             }
         });
     } 
-    
-   
    
     function fetchNotification(){
         var pageNo = $('#pageNo').val();
