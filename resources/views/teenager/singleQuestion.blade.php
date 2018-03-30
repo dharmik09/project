@@ -3,6 +3,7 @@
 <?php 
     $metaTitle = ( isset($forumQuestionData->fq_que) && $forumQuestionData->fq_que != "") ? $forumQuestionData->fq_que : "ProTeenLife - Forum Questions";
     $metaDescription = ( isset($forumQuestionData->fq_que) && $forumQuestionData->fq_que != "") ? $forumQuestionData->fq_que : "ProTeenLife - Forum Questions";
+    
     $onUrl = url('/');
     $shareImageUrl = asset('img/logo.png');
     $urlLink = "share?title=".$metaTitle."&description=".$metaDescription."&onUrl=".$onUrl."&image=".$shareImageUrl;
