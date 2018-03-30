@@ -76,22 +76,26 @@ class createThumbFromOriginalLocal extends Command
         
         $countAllImages = count($originalFiles);
 
-        foreach (array_chunk($originalFiles,500) as $key => $orignal){
+        foreach (array_chunk($originalFiles,500) as $key => $value){
+            foreach ($value as $k => $orignal) {
+                $bar->advance();
+                // echo Storage::url($orignal)."\n";
+                $fileName = basename($orignal);
+                // echo $fileName."\n";
 
-            $bar->advance();
-            // echo Storage::url($orignal)."\n";
-            $fileName = basename($orignal);
-            // echo $fileName."\n";
+                $pathThumb = public_path($destination .'/'. $fileName);
+                // echo $pathThumb."\n";
 
-            $pathThumb = public_path($destination .'/'. $fileName);
-            // echo $pathThumb."\n";
+                Image::make($orignal)
+                        ->resize($width, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })
+                        ->save($pathThumb);
 
-            Image::make($orignal)->resize($width,$height)->save($pathThumb);
-
-            $this->log->info("Completed ".($key+1)."/".$countAllImages." => ".$fileName);
+                $this->log->info("Completed ".($key+1)."/".$countAllImages." => ".$fileName);
+            }
         }
 
-        
         $bar->finish();
 
         // $thumbFiles = Storage::disk('s3')->files($destination);
