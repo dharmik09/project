@@ -92,6 +92,7 @@ Route::post('/get-challenged-parent-and-mentor-list', 'Teenager\ProfessionContro
 Route::post('/get-challenge-score-details', 'Teenager\ProfessionController@getChallengeScoreDetails');
 Route::post('/load-more-leaderboard-teenagers', 'Teenager\ProfessionController@loadMoreLeaderboardTeenagers');
 Route::post('/get-intermediate-profession-template', 'Teenager\Level4ActivityController@getIntermediateProfessionTemplate');
+Route::post('/get-profession-completion-percentage', 'Teenager\ProfessionController@getProfessionCompletionPercentage');
 
 //Tag
 Route::get('/career-tag/{slug}', 'Teenager\ProfessionTagController@index');

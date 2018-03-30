@@ -1029,17 +1029,34 @@ class ProfessionController extends Controller {
     //Store records of teenager scholarship program
     public function applyForScholarshipProgram()
     {
-        $activityDetails = [];
-        $activityDetails['tsp_activity_id'] = Input::get('activityId');
-        $activityDetails['tsp_teenager_id'] = Auth::guard('teenager')->user()->id;
-        $checkIfAlreadyApplied = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
-        if (isset($checkIfAlreadyApplied) && !empty($checkIfAlreadyApplied)) {
-            $message = "applied";
+        $professionId = Input::get('professionId');
+        $activityId = Input::get('activityId');
+        if ($activityId != '' && $professionId != '') {
+            $professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionId);
+            if ($professionComplete && $professionComplete != '' && $professionComplete == 100) {
+                $activityDetails = [];
+                $activityDetails['tsp_activity_id'] = $activityId;
+                $activityDetails['tsp_teenager_id'] = Auth::guard('teenager')->user()->id;
+                $checkIfAlreadyApplied = $this->objTeenagerScholarshipProgram->getScholarshipProgramDetailsByActivity($activityDetails);
+                if (isset($checkIfAlreadyApplied) && !empty($checkIfAlreadyApplied)) {
+                    $response['status'] = 1;
+                    $response['message'] = "applied";
+                } else {
+                    $appliedForScholarship = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
+                    $response['status'] = 1;
+                    $response['message'] = "success"; 
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = "Please complete all activities of profession";
+            }
         } else {
-            $appliedForScholarship = $this->objTeenagerScholarshipProgram->StoreDetailsForScholarshipProgram($activityDetails);
-            $message = "success"; 
+            $response['status'] = 0;
+            $response['message'] = "Something went wrong!";
         }
-        return $message;
+        return response()->json($response, 200);
+        exit;
+        //return $message;
     }
 
     //Store records for parent/mentor challenge request
@@ -1194,6 +1211,23 @@ class ProfessionController extends Controller {
         $leaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionId, $slot);
         $nextleaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionId, $slot + 1);
         return view('teenager.basic.careerDetailsLeaderBoard', compact('leaderboardTeenagers', 'nextleaderboardTeenagers'));
+    }
+
+    public function getProfessionCompletionPercentage()
+    {
+        $professionId = Input::get('professionId');
+        $response['status'] = 0;
+        $response['message'] = 'Something went wrong!';
+        $response['percentage'] = 0;
+        if ($professionId != '') {
+            $completionPercentage = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionId);
+            $professionComplete = (isset($completionPercentage) && !empty($completionPercentage)) ? $completionPercentage : 0;
+            $response['status'] = 1;
+            $response['message'] = 'success';
+            $response['percentage'] = $professionComplete;
+        }
+        return response()->json($response, 200);
+        exit;
     }
 
 }
