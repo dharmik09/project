@@ -76,33 +76,25 @@ class createThumbFromOriginal extends Command
         
         $countAllImages = count($originalFiles);
 
-        $count = 1;
+        foreach ($originalFiles as $key => $orignal){
 
-        foreach (array_chunk($originalFiles,500) as $key => $value){
-            foreach ($value as $k => $orignal) {
-                $bar->advance();                
-                $ext = pathinfo($orignal, PATHINFO_EXTENSION);
-                $extension = strtolower($ext);
-                
-                if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif'){
-                    // echo Storage::url($orignal)."\n";
-                    $fileName = basename($orignal);
-                    // echo $fileName."\n";
+            $bar->advance();
+            $ext = pathinfo($orignal, PATHINFO_EXTENSION);
+            $extension = strtolower($ext);
+            
+            if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif'){
+                // echo Storage::url($orignal)."\n";
+                $fileName = basename($orignal);
+                // echo $fileName."\n";
 
-                    $pathThumb = public_path($destination .'/'. $fileName);
-                    // echo $pathThumb."\n";
+                $pathThumb = public_path($destination .'/'. $fileName);
+                // echo $pathThumb."\n";
 
-                    Image::make($orignal)
-                            ->resize($width, null, function ($constraint) {
-                                $constraint->aspectRatio();
-                            })
-                            ->save($pathThumb);
+                Image::make(Storage::url($orignal))->resize($width,$height)->save($pathThumb);
 
-                    $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $destination.'/', $pathThumb, "s3");                
-                    \File::delete($pathThumb);
-                    $this->log->info("Completed ".($count)."/".$countAllImages." => ".$fileName);
-                    $count++;
-                }
+                $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $destination.'/', $pathThumb, "s3");                
+                \File::delete($pathThumb);
+                $this->log->info("Completed ".($key+1)."/".$countAllImages." => ".$fileName);
             }
         }
 
