@@ -6,7 +6,7 @@
     $url = url('/teenager');
     $shareImageUrl = asset('img/logo.png');
     $urlLink = "share?title=".$metaTitle."&description=".$metaDescription."&url=".$url."&image=".$shareImageUrl;
-    $siteUrl = url(http_build_url($urlLink));
+    $siteUrl = url(urlencode($urlLink));
 ?>
 
 @push('script-header')
