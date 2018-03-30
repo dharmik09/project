@@ -4,10 +4,10 @@
         <div class="careers-img">
             <!-- <i class="icon-image"></i> -->
             <?php
-                if ($myCareer->pf_logo != "" && Storage::size(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo) > 0) {
-                    $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo);
+                if ($myCareer->pf_logo != "" && Storage::size(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$myCareer->pf_logo) > 0) {
+                    $pfLogo = Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$myCareer->pf_logo);
                 } else {
-                    $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                    $pfLogo = Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                 } ?>
         <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
         </div>
