@@ -12,6 +12,7 @@ use Input;
 use App\Services\Template\Contracts\TemplatesRepository;
 use App\Teenagers;
 use App\Notifications;
+use App\DeviceToken;
 use Mail;
 use Helpers;
 
@@ -26,6 +27,7 @@ class CouponManagementController extends Controller {
         $this->templateRepository = $templateRepository;
         $this->objTeenagers = new Teenagers();
         $this->objNotifications = new Notifications();
+        $this->objDeviceToken = new DeviceToken();
     }
 
     public function coupons() 
@@ -144,6 +146,30 @@ class CouponManagementController extends Controller {
                                 $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_COUPANS');
                                 $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> gifted you '.$data['couponData']->cp_code.' coupan';
                                 $this->objNotifications->insertUpdate($notificationData);
+
+
+                                $androidToken = [];
+                                $pushNotificationData = [];
+                                $pushNotificationData['message'] = $notificationData['n_notification_text'];
+                                $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+                                $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($giftedUserData->id);
+
+                                if(count($userDeviceToken)>0){
+                                    foreach ($userDeviceToken as $key => $value) {
+                                        if($value->tdt_device_type == "1"){
+                                            $androidToken[] = $value->tdt_device_token;
+                                        }
+                                        if($value->tdt_device_type == "2"){
+                                            Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                                        }
+                                    }
+    
+                                    if(isset($androidToken) && count($androidToken) > 0)
+                                    {
+                                        Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                                    }
+                                }
+
                             }
                         }                      
                     });     

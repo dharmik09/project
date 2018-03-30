@@ -486,10 +486,10 @@
                                 <div class="careers-block">
                                     <div class="careers-img">
                                         <?php
-                                            if ($myCareer->pf_logo != "" && Storage::size(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo) > 0) {
-                                                $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$myCareer->pf_logo);
+                                            if ($myCareer->pf_logo != "" && Storage::size(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$myCareer->pf_logo) > 0) {
+                                                $pfLogo = Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$myCareer->pf_logo);
                                             } else {
-                                                $pfLogo = Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH')."proteen-logo.png");
+                                                $pfLogo = Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH')."proteen-logo.png");
                                             } ?>
                                         <span class="i-image"><img src="{{ $pfLogo }}" alt="career image"></span>
                                     </div>
@@ -972,7 +972,6 @@
         e.preventDefault();
         getFirstLevelData();
         fetchLevel1TraitQuestion();
-        getDefaultAreaLocation();
         getUserUnreadMessageCountChat();
         getUserProfileIcons();
     });
@@ -1655,24 +1654,6 @@
             }, 300);
             $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">All options voted!</span></div></div></div>');
         }
-    }
-
-    function getDefaultAreaLocation() {
-        // $.ajax({
-        //     url: "http://maps.googleapis.com/maps/api/geocode/json?address={{$user->t_pincode}}&sensor=true",
-        //     type: 'post',
-        //     success: function(response) {
-        //         var valueOf = $.parseJSON(response); 
-        //         // if (typeof valueOf !== "undefined" && typeof valueOf.status !== "undefined" && valueOf.status == 0) {
-        //         //     $("html, body").animate({
-        //         //         scrollTop: $('#errorGoneMsg').offset().top 
-        //         //     }, 300);
-        //         //     $("#errorGoneMsg").append('<div class="col-md-12 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-error danger"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">'+valueOf.message+'</span></div></div></div>');
-        //         // }
-        //         console.log(valueOf);
-        //         $('#countrycode').text(response.);
-        //     }
-        // });
     }
 
     function getLearningGuidanceDetails() {
