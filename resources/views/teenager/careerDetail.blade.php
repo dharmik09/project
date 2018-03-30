@@ -2324,6 +2324,15 @@
             success: function(response) {
                 $("#bannerAdsSection").html(response.bannerAds);
                 $("#sidebarAdsSection").html(response.sidebarAds);
+                $('.ad-slider').owlCarousel({
+                    loop: true,
+                    margin: 10,
+                    items: 1,
+                    nav: false,
+                    dots: false,
+                    smartSpeed: 500,
+                    autoplay:true,
+                });
             }
         });
     }

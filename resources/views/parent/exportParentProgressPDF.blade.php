@@ -234,10 +234,6 @@
             </td>
             <td width="180px" style="border-bottom:2px solid #E66A45;">
                 <span>Profession &nbsp; : &nbsp;{{ $value['name'] }}</span>
-                <br/>
-                <span >Rank : {{$value['yourRank']}}/{{$value['competitors']}}</span>
-                <br/>
-                <span>Points : {{$value['yourscore']}}/{{$value['total']}}</span>
             </td>
             <td width="150px" style="border-bottom:2px solid #E66A45;">
                 {!! strip_tags($value['profession_acadamic_path'], "<p></p><br/><ul></ul><li></li><sub></sub><sup></sup><span></span>") !!}

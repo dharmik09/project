@@ -86,7 +86,7 @@
     });
 
     function userSearch(search_keyword, schoolId,page) {
-        $('.mySearch_area').append('<div id="giftcoin_search" style="display: none;" class="loading-screen-data loading-wrapper-sub"><div class="loading-text"><img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" /></div><div class="loading-content"></div></div>');
+        $('.mySearch_area').append('<div id="giftcoin_search" style="display: none;" class="loading-screen-data loading-wrapper-sub"><div class="loading-content"></div></div>');
         $('#giftcoin_search').parent().addClass('loading-screen-parent');
         $('#giftcoin_search').show();
         search_keyword = (search_keyword).trim();
