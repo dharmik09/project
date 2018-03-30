@@ -950,12 +950,12 @@ class DashboardManagementController extends Controller {
                     $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
                 }
                 //Get teenager attempted profession
-
-                $professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($teenDetail->id);
+                $professionArray = $this->objLevel4ProfessionProgress->getTeenAttemptProfessions($teenDetail->id);
+                //$professionArray = $this->professionsRepository->getTeenagerAttemptedProfession($teenDetail->id);
                 $professionAttempted = array();
                 if (isset($professionArray) && !empty($professionArray)) {
                     foreach ($professionArray as $key => $val) {
-                        $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($val->id);
+                        $professionHeaderDetail = $this->professionsRepository->getProfessionsHeaderByProfessionId($val->profession_id);
                         if (isset($professionHeaderDetail) && !empty($professionHeaderDetail)) {
                             if (strpos($professionHeaderDetail[2]->pfic_content, "Salary Range") !== FALSE) {
                                 $profession_acadamic_path = substr($professionHeaderDetail[2]->pfic_content, 0, strpos($professionHeaderDetail[2]->pfic_content, 'Salary Range'));
@@ -965,32 +965,32 @@ class DashboardManagementController extends Controller {
                         } else {
                             $profession_acadamic_path = '';
                         }
-                        $yourScore = $idAndRank = 0;
+                        //$yourScore = $idAndRank = 0;
                         $professionAttempted[$key]['name'] = $val->pf_name;
                         $professionAttempted[$key]['profession_id'] = $val->id;
                         $professionAttempted[$key]['profession_acadamic_path'] = str_replace('<strong>Education Path</strong><br />', '', $profession_acadamic_path);
-                        $getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($teenDetail->id, $val->id);
+                        //$getTeenagerAllTypeBadges = $this->teenagersRepository->getTeenagerAllTypeBadges($teenDetail->id, $val->id);
 
-                        $badgesCollection['newbie'] = (isset($getTeenagerAllTypeBadges['level4Basic']['badges'])) ? $getTeenagerAllTypeBadges['level4Basic']['badges'] : '';
-                        $badgesCollection['apprentice'] = (isset($getTeenagerAllTypeBadges['level4Intermediate']['badges'])) ? $getTeenagerAllTypeBadges['level4Intermediate']['badges'] : '';
-                        $badgesCollection['wizard'] = (isset($getTeenagerAllTypeBadges['level4Advance']['badges'])) ? $getTeenagerAllTypeBadges['level4Advance']['badges'] : '';
-                        $professionAttempted[$key]['badges'][] = $badgesCollection;
+                        // $badgesCollection['newbie'] = (isset($getTeenagerAllTypeBadges['level4Basic']['badges'])) ? $getTeenagerAllTypeBadges['level4Basic']['badges'] : '';
+                        // $badgesCollection['apprentice'] = (isset($getTeenagerAllTypeBadges['level4Intermediate']['badges'])) ? $getTeenagerAllTypeBadges['level4Intermediate']['badges'] : '';
+                        // $badgesCollection['wizard'] = (isset($getTeenagerAllTypeBadges['level4Advance']['badges'])) ? $getTeenagerAllTypeBadges['level4Advance']['badges'] : '';
+                        //$professionAttempted[$key]['badges'][] = $badgesCollection;
 
-                        $totalBadges[$key] = count(array_filter($badgesCollection));
-                        $pData = Helpers::getCompetingUserList($val->id);
-                        $professionAllScore = $pData[$teenDetail->id];
-                        $level4Booster = Helpers::level4Booster($val->id, $teenDetail->id);
-                        if (isset($professionAllScore) && !empty($professionAllScore)) {
-                            $professionAttempted[$key]['highestScore'] = (isset($professionAllScore['highestScore'])) ? $professionAllScore['highestScore'] : 0;
-                            $professionAttempted[$key]['yourscore'] = (isset($professionAllScore['yourScore'])) ? $professionAllScore['yourScore'] : 0;
-                            $professionAttempted[$key]['competitors'] = (isset($professionAllScore['competitors'])) ? $professionAllScore['competitors'] : 0;
-                            $professionAttempted[$key]['yourRank'] = (isset($professionAllScore['rank'])) ? $professionAllScore['rank'] : 0;
-                            $professionAttempted[$key]['total'] = (isset($level4Booster) && !empty($level4Booster)) ? $level4Booster['totalPobScore'] : 0;
-                        } else {
-                            $professionAttempted[$key]['highestScore'] = 0;
-                            $professionAttempted[$key]['yourscore'] = 0;
-                            $professionAttempted[$key]['rank'] = 0;
-                        }
+                        //$totalBadges[$key] = count(array_filter($badgesCollection));
+                        // $pData = Helpers::getCompetingUserList($val->profession_id);
+                        // $professionAllScore = $pData[$teenDetail->id];
+                        // $level4Booster = Helpers::level4Booster($val->id, $teenDetail->id);
+                        // if (isset($professionAllScore) && !empty($professionAllScore)) {
+                        //     $professionAttempted[$key]['highestScore'] = (isset($professionAllScore['highestScore'])) ? $professionAllScore['highestScore'] : 0;
+                        //     $professionAttempted[$key]['yourscore'] = (isset($professionAllScore['yourScore'])) ? $professionAllScore['yourScore'] : 0;
+                        //     $professionAttempted[$key]['competitors'] = (isset($professionAllScore['competitors'])) ? $professionAllScore['competitors'] : 0;
+                        //     $professionAttempted[$key]['yourRank'] = (isset($professionAllScore['rank'])) ? $professionAllScore['rank'] : 0;
+                        //     $professionAttempted[$key]['total'] = (isset($level4Booster) && !empty($level4Booster)) ? $level4Booster['totalPobScore'] : 0;
+                        // } else {
+                        //     $professionAttempted[$key]['highestScore'] = 0;
+                        //     $professionAttempted[$key]['yourscore'] = 0;
+                        //     $professionAttempted[$key]['rank'] = 0;
+                        // }
                         if (isset($val->pf_logo) && $val->pf_logo != '') {
                             $professionAttempted[$key]['thumb_logo'] = Storage::url($this->professionThumbImageUploadPath . $val->pf_logo);
                         } else {
@@ -1003,15 +1003,15 @@ class DashboardManagementController extends Controller {
                         }
                     }
                 }
-                $professionAttempted2 = [];
-                if (isset($totalBadges) && !empty($totalBadges)) {
-                    arsort($totalBadges);
-                    foreach ($totalBadges as $keyId => $keyValue) {
-                        if (isset($professionAttempted[$keyId])) {
-                            $professionAttempted2[] = $professionAttempted[$keyId];
-                        }
-                    }
-                }
+                 $professionAttempted2 = $professionAttempted;
+                // if (isset($totalBadges) && !empty($totalBadges)) {
+                //     arsort($totalBadges);
+                //     foreach ($totalBadges as $keyId => $keyValue) {
+                //         if (isset($professionAttempted[$keyId])) {
+                //             $professionAttempted2[] = $professionAttempted[$keyId];
+                //         }
+                //     }
+                // }
 
                 //Get Promise plus
                 $allProPromisePlus = [];

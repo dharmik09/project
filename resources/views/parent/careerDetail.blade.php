@@ -199,9 +199,6 @@
                                                 <div class="quiz-intermediate">
                                                     <div class="sec-show clearfix flex-container quiz-intermediate-sec-show">
                                                             <div class="loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-                                                                <div class="loading-text">
-                                                                    <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-                                                                </div>
                                                                 <div class="loading-content"></div>
                                                             </div>
                                                             @if(isset($getQuestionTemplateForProfession[0]) && count($getQuestionTemplateForProfession[0]) > 0)
@@ -366,7 +363,7 @@
                             </div>
                             <ul class="tag-list">
                                 @forelse($professionsData->professionTags as $professionTags)
-                                    <li><a href="{{ url('/teenager/career-tag/'.$professionTags->tag['pt_slug']) }}" title="Lorem ipsum">{{$professionTags->tag['pt_name']}}</a></li>
+                                    <li><a href="javascript:void(0);" title="{{$professionTags->tag['pt_name']}}">{{$professionTags->tag['pt_name']}}</a></li>
                                 @empty
                                 @endforelse
                             </ul>
@@ -510,25 +507,25 @@
         var isYouTube = 1;
     }
     
-    setTimeout(function() {
-        saveBoosterPoints({{$professionsData->id}}, 2, isYouTube);
-    }, 60000);
+    // setTimeout(function() {
+    //     saveBoosterPoints({{$professionsData->id}}, 2, isYouTube);
+    // }, 60000);
     
-    function saveBoosterPoints(professionId, type, isYouTube)
-    {
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = '&professionId=' + professionId + '&type=' + type + '&isYouTube=' + isYouTube;
-        $.ajax({
-            url : '{{ url("teenager/teen-l3-career-research") }}',
-            method : "POST",
-            data: form_data,
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN,
-            },
-            success : function (response) {
-            }
-        });
-    }
+    // function saveBoosterPoints(professionId, type, isYouTube)
+    // {
+    //     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    //     var form_data = '&professionId=' + professionId + '&type=' + type + '&isYouTube=' + isYouTube;
+    //     $.ajax({
+    //         url : '{{ url("teenager/teen-l3-career-research") }}',
+    //         method : "POST",
+    //         data: form_data,
+    //         headers: {
+    //             'X-CSRF-TOKEN': CSRF_TOKEN,
+    //         },
+    //         success : function (response) {
+    //         }
+    //     });
+    // }
     
     <?php
         $high_school_req = $professionsData->professionHeaders->filter(function($item) {
@@ -1762,7 +1759,7 @@
     }
 
     function getQuestionDataAdvanceLevel(activityType) {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
@@ -1782,7 +1779,7 @@
     }
 
     function getMediaUploadSection() {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
@@ -1800,7 +1797,7 @@
     }
 
     function getLevel4AdvanceStep2Details(professionId, type) {
-        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-text"><img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img"></div><div id="loading-content"></div></div>');
+        $(".quiz-advanced").append('<div id="advance_quiz_loader" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
         $('#advance_quiz_loader').parent().addClass('loading-screen-parent');
         $('#advance_quiz_loader').show();
         $.ajax({
@@ -2067,20 +2064,20 @@
     }
     
     //get profession competitors data
-    function getUserProfessionCompetitor(professionId)
-    {
-        $.ajax({
-            url: "{{ url('teenager/get-teen-profession-competitor') }}",
-            type: 'post',
-            data: {
-                "_token": '{{ csrf_token() }}',
-                'professionId':professionId
-            },
-            success: function(response) {               
-                $('#load-user-profession-competitor').html(response);
-            }
-        });
-    }
+    // function getUserProfessionCompetitor(professionId)
+    // {
+    //     $.ajax({
+    //         url: "{{ url('teenager/get-teen-profession-competitor') }}",
+    //         type: 'post',
+    //         data: {
+    //             "_token": '{{ csrf_token() }}',
+    //             'professionId':professionId
+    //         },
+    //         success: function(response) {               
+    //             $('#load-user-profession-competitor').html(response);
+    //         }
+    //     });
+    // }
     
     $(window).on("load", function(e) {
         e.preventDefault();

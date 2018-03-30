@@ -66,7 +66,7 @@
                                                                 <img src="{{ Storage::url($sponsorOriginalImagePath . $user->sp_logo) }}"/> 
                                                         <?php } else { ?>
                                                                 <span>
-                                                                    <img src="{{ Storage::url('frontend/images/proteen_logo.png') }}" alt="" height = "150" width = "150">
+                                                                    <img src="{{ Storage::url('frontend/images/proteen-logo.png') }}" alt="" height = "150" width = "150">
                                                                 </span>
                                                                 <p>
                                                                     <span>Upload Enterprise Logo</span>

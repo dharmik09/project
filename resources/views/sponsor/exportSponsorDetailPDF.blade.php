@@ -91,10 +91,10 @@
                 </td>
 
                 <td>
-                    <?php if (isset($acDetails->sa_image) && $acDetails->sa_image != '') { ?>
-                        <img src="{{ Storage::url($saThumbImagePath.$acDetails->sa_image)}}" />
+                    <?php if ($acDetails->sa_image != '' && Storage::size($saThumbImagePath.$acDetails->sa_image) > 0) { ?>
+                        <img src="{{ Storage::url($saThumbImagePath.$acDetails->sa_image)}}" width="50px" height="50px" />
                     <?php } else { ?>
-                        <img src="{{ Storage::url($saThumbImagePath.'proteen-logo.png')}}" class="user-image" alt="Default Image">
+                        <img src="{{ Storage::url($saThumbImagePath.'proteen-logo.png')}}" class="user-image" alt="Default Image" width="50px" height="50px" >
                     <?php } ?>
                 </td>
 
@@ -147,9 +147,9 @@
             <td>{{$coupon->cp_description}}</td>
             <td>
                 <?php if (isset($coupon->cp_image) && $coupon->cp_image != '') { ?>
-                    <img src="{{ Storage::url($couponThumbImagePath.$coupon->cp_image)}}" />
+                    <img src="{{ Storage::url($couponThumbImagePath.$coupon->cp_image)}}" width="50px" height="50px" />
                 <?php } else { ?>
-                    <img src="{{ Storage::url($couponThumbImagePath.'proteen-logo.png')}}" class="user-image" alt="Default Image">
+                    <img src="{{ Storage::url($couponThumbImagePath.'proteen-logo.png')}}" class="user-image" alt="Default Image" width="50px" height="50px" >
                 <?php } ?>
             </td>
             <td>{{$coupon->cp_limit}}</td>
@@ -199,7 +199,7 @@ foreach ($couponsData AS $key => $value) {
                                         $t_photo = Storage::url(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
                                     }
                                 ?>
-                                <img src="{{$t_photo}}" title="Proteen-Coupon-User"/>
+                                <img src="{{$t_photo}}" title="Proteen-Coupon-User"/ width="50px" height="50px" >
                             </span>
                         </td>
                         <td>{{ucfirst($competingValue->t_name)}}</td>

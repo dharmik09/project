@@ -89,9 +89,6 @@
                 <input type="hidden" name="totalPage" value="{{$totalPage}}" id="totalPage" />
                 <div class="my_teens_inner gift_teen_inner">
                     <div id="user_search" style="display: none;" class="loading-screen-data loading-wrapper-sub bg-offwhite">
-                        <div class="loading-text">
-                            <img src="{{Storage::url('img/ProTeen_Loading_edit.gif')}}" alt="loader img" />
-                        </div>
                         <div class="loading-content"></div>
                     </div>
                 <div>
@@ -220,10 +217,7 @@
 </div>
 
 <div class="loading-screen loading-wrapper-sub loader-transparent" style="display:none;">
-    <div class="loading-text">
-        <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
-    </div>
-     <div class="loading-content"></div>
+    <div class="loading-content"></div>
 </div>
 
 <div class="modal fade default_popup" id="gift">
