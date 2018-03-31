@@ -90,7 +90,7 @@ class createThumbFromOriginal extends Command
                 $pathThumb = public_path($destination .'/'. $fileName);
                 // echo $pathThumb."\n";                
                 
-                Image::make($orignal)
+                Image::make(Storage::url($orignal))
                             ->resize($width, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             })
