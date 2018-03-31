@@ -88,9 +88,13 @@ class createThumbFromOriginal extends Command
                 // echo $fileName."\n";
 
                 $pathThumb = public_path($destination .'/'. $fileName);
-                // echo $pathThumb."\n";
-
-                Image::make(Storage::url($orignal))->resize($width,$height)->save($pathThumb);
+                // echo $pathThumb."\n";                
+                
+                Image::make($orignal)
+                            ->resize($width, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            })
+                            ->save($pathThumb);
 
                 $thumbImage = $this->fileStorageRepository->addFileToStorage($fileName, $destination.'/', $pathThumb, "s3");                
                 \File::delete($pathThumb);
