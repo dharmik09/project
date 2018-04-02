@@ -199,7 +199,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
                             }
                             else{
                                // $temp['optionAsImage'] = asset(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1]);
-                                $temp['optionAsImage'] = ($optionAsImage[$key1] != "" && Storage::size(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH').$optionAsImage[$key1]) > 0 ) ? Storage::url((Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1])) : Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
+                                $temp['optionAsImage'] = ($optionAsImage[$key1] != "" && Storage::size(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH').$optionAsImage[$key1]) > 0 ) ? Storage::url((Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . $optionAsImage[$key1])) : Storage::url(Config::get('constant.LEVEL4_INTERMEDIATE_ANSWER_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png");
                             } 
                         } else {
                             $temp['optionAsImage'] = '';
