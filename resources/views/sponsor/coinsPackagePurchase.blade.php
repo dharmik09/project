@@ -89,7 +89,7 @@
                             ?>
                             @endforeach
                             @else
-                                No Packages found.
+                                <p>No Packages found.</p>
                             @endif
                         </div>
                     </div>
