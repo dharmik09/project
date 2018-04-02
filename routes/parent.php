@@ -39,6 +39,7 @@ Route::post('/get-teenagers-challenged-to-parent', 'Parent\ProfessionController@
 Route::post('/show-competitor-data/', 'Parent\ProfessionController@showCompetitorData')->name('show-competitor-data');
 Route::post('/load-more-leaderboard', 'Parent\ProfessionController@getLeaderBoardDetails');
 Route::post('/get-promise-plus', 'Parent\Level4ActivityManagementController@getPromisePlus');
+Route::post('/get-profession-completion-percentage', 'Parent\ProfessionController@getProfessionCompletionPercentage');
 
 //Level4 Basic Activity
 Route::post('/play-basic-level-activity', 'Parent\Level4ActivityManagementController@getL4BasicQuestions');

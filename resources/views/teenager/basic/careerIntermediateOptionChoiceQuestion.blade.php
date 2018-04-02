@@ -82,11 +82,13 @@
                             @foreach($response['data']->options as $keyOption => $option)
                                 <?php
                                     $option['optionImage'] = $extraSpan = "";
+                                    $imageLabelClass = "";
                                     if ($option['optionAsImage'] != '') {
                                         $optionAsImage = $option['optionAsImage'];
                                         if ($option['optionImageText'] != '') {
                                             $extraSpan = $option['optionImageText'];
                                         }
+                                        $imageLabelClass = "label-img";
                                         $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='".$extraSpan."' class='pop_up_me' />";
                                     }
 
@@ -94,7 +96,7 @@
                                 @if ($setFlag % 2 == 0)
                                     <div class="width-50 clearfix">
                                 @endif
-                                    <label class="{{$optionType}} class{{$option['optionId']}}">
+                                    <label class="{{$optionType}} class{{$option['optionId']}} {{$imageLabelClass}}">
                                         <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
                                         <span class="checker"></span>
                                         <em>

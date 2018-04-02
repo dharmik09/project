@@ -155,8 +155,7 @@
                                     <a data-toggle="tab" href="#menu2">
                                         <span class="dt">
                                             <span class="dtc">Explore <span class="tab-complete">
-                                            <?php //$professionComplete = Helpers::getProfessionCompletePercentage(Auth::guard('teenager')->user()->id, $professionsData->id); ?>
-                                            50% Complete</span></span>
+                                            <?php echo (isset($professionCompletePercentage) && !empty($professionCompletePercentage)) ? $professionCompletePercentage : 0; ?>% Complete</span></span>
                                         </span>
                                     </a>
                                 </li>
@@ -803,6 +802,10 @@
                 $('.quiz-basic .sec-show').addClass('hide');
                 $('.quiz-basic .basic-quiz-area').addClass('active');
                 $('#basicLevelData').html(data);
+                var basicCompleted = $(".basicCompleted").val();
+                if (basicCompleted != '' && basicCompleted == 1) {
+                    getProfessionCompletionPercentage(professionId);
+                }
             }
         }); 
     }
@@ -859,7 +862,9 @@
                     scrollTop: $('#flexSeprator').offset().top 
                 }, 300);
                 $('#intermediateLevelData').html(data);
-                
+                if($('.intermediateCompleted').val() != '' && $('.intermediateCompleted').val() == 1) {
+                    getProfessionCompletionPercentage('{{$professionsData->id}}');
+                } 
                 $('.intermediate-first-question-loader').hide();
                 $('.intermediate-first-question-loader').parent().removeClass('loading-screen-parent');
                 
@@ -2081,10 +2086,10 @@
     
     $(window).on("load", function(e) {
         e.preventDefault();
-        //getChallengedParentAndMentorList("{{Auth::guard('parent')->user()->id}}");
         getTeenagersChallengedToParent();
-        getUserProfessionCompetitor({{$professionsData->id}});
+        //getUserProfessionCompetitor({{$professionsData->id}});
         getLeaderBoard(0);
+        getProfessionCompletionPercentage({{$professionsData->id}})
     });
 
     function adjusting_box_size() {
@@ -2197,6 +2202,22 @@
                 }
             }
         });
+    }
+
+    function getProfessionCompletionPercentage(professionId) {
+        $.ajax({
+            url: "{{ url('/parent/get-profession-completion-percentage') }}",
+            type: 'POST',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "professionId" : professionId
+            },
+            success: function(response) {
+                if (response.status != 0) {
+                    $(".tab-complete").html(response.percentage+'% Complete');
+                }
+            }
+        });   
     }
 
 </script>

@@ -152,3 +152,26 @@ Route::post('/ccavenue/response', 'PaymentController@orderResponse');
 //SEO Pages
 Route::get('/careers', 'Teenager\SEOCareerController@careers');
 Route::get('/career-detail/{slug}', 'Teenager\SEOCareerController@careerDetails');
+
+//Image invalid
+Route::get('/img/{filename}', function($filename) {
+    return response( file_get_contents('./img/logo.png') )->header('Content-Type','image/png');
+});
+Route::get('/img/{any?}/{filename}', function($filename) {
+    return response( file_get_contents('./img/logo.png') )->header('Content-Type','image/png');
+});
+Route::get('/uploads/{filename}', function($filename) {
+    return response( file_get_contents('./img/logo.png') )->header('Content-Type','image/png');
+});
+Route::get('/uploads/{any?}/{filename}', function($filename) {
+    return response( file_get_contents('./img/logo.png') )->header('Content-Type','image/png');
+});
+Route::get('/uploads/{any?}/{any2?}/{filename}', function($filename) {
+    return response( file_get_contents('./img/logo.png') )->header('Content-Type','image/png');
+});
+Route::get('/uploads/{any?}/{any2?}/{any3?}/{filename}', function($filename) {
+    return response( file_get_contents('./img/logo.png') )->header('Content-Type','image/png');
+});
+Route::get('/frontend/{any?}/{filename}', function($filename) {
+    return response( file_get_contents('./img/logo.png') )->header('Content-Type','image/png');
+});

@@ -1,3 +1,4 @@
+<input type="hidden" value="{{$response['basicCompleted']}}" class="basicCompleted">
 @if( isset($response['data']) && !empty($response['data']) )
     <div id="basicErrorGoneMsg" class="basicErrorGoneMsg"></div>
     <div class="quiz_view">
