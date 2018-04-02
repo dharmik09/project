@@ -1,4 +1,4 @@
-@extends('layouts.sponsor-master')
+@extends('layouts.common-master')
 
 @section('content')
 <div>
@@ -38,84 +38,60 @@
 <div class="container_padd">
     <div class="container lil_profile">
         <div class="row">
-            <div class="col-md-10 col-sm-12 col-md-offset-1">
                 <div class="pricing_title">
                     <h1><span class="title_border">{{trans('labels.pcoinsp')}}</span></h1>
                 </div>
-                <div class="pricing_box">
-                    <div class="row">
-                        @if(isset($coinsDetail) && !empty($coinsDetail))
-                        <?php $column_count = 1; ?>
-                        @foreach($coinsDetail as $key=>$val)
-                        <div class="col-md-4 col-sm-4 price_box_outer">
-                            <div class="price_box   ">
-                                <div class="back_image">
-                                    <div class="back_image_normal">
-                                        <?php if ($column_count == 1) {
-                                        ?>
-                                            <img src="{{Storage::url('frontend/images/price-normal.png')}}" alt="">
-                                        <?php
-                                        } if ($column_count == 2) {
-                                        ?>
-                                            <img src="{{Storage::url('frontend/images/price-smart.png')}}" alt="">
-                                        <?php
-                                        }if ($column_count == 3) {
-                                        ?>
-                                            <img src="{{Storage::url('frontend/images/price-genius.png')}}" alt="">
-                                        <?php
-                                        } ?>
-                                    </div>
-                                </div>
-                                <div class="content_hold">
-                                    <div class="price_img">
+                <div class="sec-procoins">
+                    <div class="list-procoins">
+                        <div class="row flex-container">
+                            @if(isset($coinsDetail) && count($coinsDetail) > 0)
+                            <?php $column_count = 1; ?>
+                            @foreach($coinsDetail as $key=>$val)
+                            <div class="col-sm-6 flex-items">
+                                <div class="block-procoins">
+                                    <div class="coin-info">
+                                        <div class="icon">
                                         <?php
                                             if (isset($val->id) && $val->id != '0') {
-                                                $uploadCoinsThumbPath = '/uploads/coins/original/';
-                                                if (isset($val->c_image) && $val->c_image != '') {
-                                                    ?><br>
-                                                    <img src="{{ Storage::url($uploadCoinsThumbPath.$val->c_image) }}" alt="{{$val->c_image}}" >
-                                                <?php } else { ?>
-                                                    <img src="{{ Storage::url('frontend/images/proteen_logo.png')}}" class="user-image" alt="Default Image" >
-                                                    <?php
+                                                $uploadCoinsThumbPath = 'uploads/coins/thumb/';
+                                                if (isset($val->c_image) && $val->c_image != '' && Storage::size($uploadCoinsThumbPath . $val->c_image) > 0) {
+                                                    $coinImage = Storage::url($uploadCoinsThumbPath . $val->c_image);
+                                                    $altImage = $val->c_image;
+                                                } else { 
+                                                    $coinImage = Storage::url('frontend/images/proteen_logo.png');
+                                                    $altImage = 'Default Image';
                                                 }
                                             }
-                                         ?>
-                                    </div>
-                                    <h4>{{$val->c_package_name}}</h4>
-                                    <div class="price">
-                                        <i class="fa fa-<?php if ($val->c_currency == 1) { echo 'inr';} else {echo 'usd';}?>" aria-hidden="true"></i>
-                                        <span><?php echo intval($val->c_price); ?></span>
-                                    </div>
-                                    <div class="total_coin">
-                                        <span class="amount"><?php echo number_format($val->c_coins);?></span>
-                                        <span class="cons_calc">{{trans('labels.formlblcoins')}}</span>
-                                    </div>
-                                    <div class="gradient_border">
-                                    </div>
-                                    <div class="list">
-                                        <div>
-                                            <i class="fa fa-check" aria-hidden="true"></i>
-                                            <span class="coin_desc_text">{{$val->c_description}}</span>
+                                        ?>
+                                        <img src="{{ $coinImage }}" alt="{{ $altImage }}">
                                         </div>
+                                        <h4>{{$val->c_package_name}}</h4>
+                                        <h2 class="price">
+                                            @if($val->c_currency == 1)
+                                            <span class="rupee-symbol">
+                                                <i class="fa fa-inr"></i>
+                                            </span>
+                                            @else
+                                            <span class="dollar-symbol">$</span>
+                                            @endif
+                                            <?php echo intval($val->c_price); ?>    
+                                        </h2>
+                                        <div class="procoins-value"><?php echo number_format($val->c_coins);?> <span>ProCoins</span>
+                                        </div>
+                                        <p>{{$val->c_description}}</p>
                                     </div>
                                     <?php $packageId = base64_encode($val->id);?>
-                                    <a class="btn buy_btn btn_golden_border" onclick="purchasedCoins('{{$packageId}}',{{$val->c_valid_for}});" href="javascript:void(0);">BUY</a>
+                                    <a href="javascript:void(0);" title="Buy" class="btn btn-primary" onclick="purchasedCoins('{{$packageId}}', {{$val->c_valid_for}});">Buy</a>
                                 </div>
                             </div>
+                            <?php
+                                $column_count++;
+                            ?>
+                            @endforeach
+                            @else
+                                No Packages found.
+                            @endif
                         </div>
-                        <?php
-                            $column_count++;
-                        ?>
-                        @endforeach
-                       @else
-                       <div class="no_data">
-                            <span class="nodata_outer">
-                                <span class="nodata_middle">
-                                    No data found...
-                                </span>
-                            </span>
-                        </div>
-                       @endif
                     </div>
                 </div>
             </div>
@@ -137,31 +113,38 @@
             $.ui.dialog.prototype._focusTabbable = function(){};
             $( "#confirm" ).dialog({
 
-            resizable: false,
-            height: "auto",
-            width: 400,
-            draggable: false,
-            modal: true,
-            buttons: [
-                    {
-                        text: "BUY",
-                        class : 'btn primary_btn',
-                        click: function() {
-                          var path = '<?php echo url('sponsor/save-coin-package-purchased-data').'/'; ?>'+package_id+'?id='+<?php echo $sponsorData['id']; ?>;
-                          location.href = path;
-                        }
-                    },
-                    {
-                        text: "Cancel",
-                        class : 'btn primary_btn',
-                        click: function() {
-                          $( this ).dialog( "close" );
-                          $(".confirm_coins").text(' ');
-                        }
+                resizable: false,
+                height: "auto",
+                width: 400,
+                draggable: false,
+                modal: true,
+                buttons: [
+                {
+                    text: "BUY",
+                    class : 'btn primary_btn',
+                    click: function() {
+                      var path = '<?php echo url('sponsor/save-coin-package-pre-purchased-data').'/'; ?>'+package_id;
+                      location.href = path;
+                      //$(".confirm_coins").text(' ');
                     }
-                  ]
+                },
+                {
+                    text: "Cancel",
+                    class : 'btn primary_btn',
+                    click: function() {
+                      $( this ).dialog( "close" );
+                      $(".confirm_coins").text(' ');
+                    }
+                }],
+                open: function(event, ui) {
+                    $(".ui-dialog-titlebar-close").replaceWith( '<i class="icon-close"></i>' );
+                }
             });
         }
     }
+
+    $(document).on('click','.icon-close', function(){
+        $( "#confirm" ).dialog( "close" );
+    });
 </script>
 @stop
