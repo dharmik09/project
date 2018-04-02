@@ -418,9 +418,17 @@
             }
         }
         img {
-            width: 90px !important;
-            height: 90px !important;
+            width: 100px !important;
+            height: 100px !important;
             margin: 14px auto 10px !important;
+        }
+    }
+    .label-img{
+        min-height: 130px;
+        max-height: 130px;
+        @include maxsm {
+            min-height: 120px;
+            max-height: 120px;
         }
     }
 }
