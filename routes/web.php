@@ -81,6 +81,7 @@ Route::group(['prefix' => 'sponsor'], function () {
 	Route::post('/do-signup', 'Sponsor\SignupController@doSignup')->name('sponsor.doSignup');
 	Route::get('/do-signup', 'Sponsor\SignupController@signup');
 	Route::get('/enterprise-request', 'Sponsor\SignupController@preLoginPackagePurchase')->name('sponsor.enterprise-request');
+	Route::get('/save-coin-package-pre-purchased-data/{p_id}', 'Sponsor\SignupController@saveCoinPurchasedData');
 	Route::get('/forgot-password', 'Sponsor\PasswordManagementController@forgotPassword')->name('sponsor.forgot-password');
 	Route::post('/forgot-password-OTP', 'Sponsor\PasswordManagementController@forgotPasswordOTP')->name('forgot-password-OTP');
 	Route::post('/forgot-password-OTP-verify', 'Sponsor\PasswordManagementController@forgotPasswordOTPVerify')->name('forgot-password-OTP-verify');

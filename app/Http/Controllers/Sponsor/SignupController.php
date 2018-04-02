@@ -265,7 +265,6 @@ class SignupController extends Controller {
                   'merchant_param3' => $sponsorId,
 
             ];
-
             $order = Indipay::prepare($parameters);
             return Indipay::process($order);
         }

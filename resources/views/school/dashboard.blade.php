@@ -65,6 +65,7 @@
                             <span class="tool-tip" <?php if($schoolData['sc_coins'] == 0) echo 'data-toggle="tooltip" data-placement="bottom" title="Register as Enterprise to avail ProCoins. If already registered please buy ProCoins package from your Enterprise login"';?>>
                                 <a href="javascript:void(0);" rel="tooltip" onclick="giftCoinsToAll();" class="btn primary_btn space_btm <?php if($schoolData['sc_coins'] == 0) echo 'disabled';?>">Gift ProCoins To All</a>
                             </span>
+                            <a href="#" class="btn primary_btn">Add Questions</a>
                         </div>
                     </div>
                 </div>
