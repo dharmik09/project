@@ -809,4 +809,36 @@ class ProfessionManagementController extends Controller {
         return \Response::json($records);
         exit;
     }
+    
+    public function exportInstitute() 
+    {
+        ini_set('memory_limit', '20000M');
+        ini_set('max_execution_time', 0);
+        
+        $result = $this->objProfessionInstitutes->getAllProfessionInstitutes();
+        $finalData = $result->toArray();
+        if(isset($finalData) && !empty($finalData))
+        {
+           
+            foreach($finalData as $key=>$data){
+                unset($data['id']);
+                unset($data['location']);
+                unset($data['image']);
+                unset($data['created_at']);
+                unset($data['updated_at']);
+                unset($data['deleted']);                
+                $exportData[] = $data;
+            }                       
+            Excel::create('institute', function($excel) use($exportData) {
+                $excel->sheet('Sheet 1', function($sheet) use($exportData) {
+                    $sheet->fromArray($exportData);
+                });
+            })->export('xlsx');
+        }else{
+            return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
+        }
+        
+        
+        
+    }
 }

@@ -17,10 +17,11 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: $white;
+    background: rgba(255,255,255,0.9);
     z-index: 99999;
     overflow: hidden;
     display: none;
+    transition: all 2s;
     &.bg-offwhite {
         background: $bg-offwhite;
     }
@@ -54,12 +55,13 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: $white;
+    background: rgba(255,255,255,0.9);
     z-index: 9999;
     overflow: hidden;
     display: none;
+    transition: all 2s;
     &.bg-offwhite {
-        background: $bg-offwhite;
+        background: rgba(238,238,238,0.9);
     }
     .refresh-text {
         top: 50%;
@@ -76,11 +78,13 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: $white;
+    background:  rgba(255,255,255,0.9);
     z-index: 99999;
     overflow: hidden; //display: none;
+    transition: all 2s;
+    
 }
-
+.fadeLoader{opacity: 0 !important;}
 #loading-text,
 .loading-text {
     display: block;

@@ -72,7 +72,7 @@
                             $LHSText = array();
                             $LHSImages = array();
                             $input = '';
-
+                            $imageLabelClass = "";
                             foreach ($response['data']->options as $keyOption => $option) {
                                 if ($option['optionImageText'] != '') {
                                     $LHSText[] = $option['optionImageText'];
@@ -82,6 +82,7 @@
                             foreach ($response['data']->options as $keyOptionImage => $optionImage) {
                                 if ($optionImage['optionAsImage'] != '') {
                                     $LHSImages[] = $optionImage['optionAsImage'];
+                                    $imageLabelClass = "label-img";
                                 }
                             }
 
@@ -97,7 +98,7 @@
 
                             if (isset($LHSImages) && !empty($LHSImages)) {
                                 $input .= "<div class='sort-list connectify image_h'>";
-                                $input .= "<ul id='sortable_1' class='reorder_question_type fixed_box'>";
+                                $input .= "<ul id='sortable_1' class='reorder_question_type fixed_box ".$imageLabelClass."'>";
                                 foreach ($LHSImages as $key1 => $LHSoptionImage) {
                                     $input .= "<li class=''><span class='sortable_outer_container'><span class='sortable_container'></span></span><img src='" . $LHSoptionImage . "' alt='' height='100' class='pop_up_me'/></li>";
                                 }
@@ -112,7 +113,7 @@
                             }
 
                             $input .= "<div class='" . $RHSClass . "'>";
-                            $input .= "<ul id='sortable' class='reorder_question_type sortable'>";
+                            $input .= "<ul id='sortable' class='reorder_question_type sortable ".$imageLabelClass."'>";
                             shuffle($response['data']->options);
                             //$sorImage = Storage::url('frontend/images/sorting.png');
                             foreach ($response['data']->options as $keyOption => $option) {

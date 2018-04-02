@@ -306,7 +306,7 @@
 }
 
 .sort-list {
-    width: 40%;
+    width: 45%;
     float: left;
     @include maxsm {
         float: none;
@@ -330,11 +330,26 @@
                 height: 70px;
             }
         }
+        &.label-img{
+            li{
+                height: 115px;
+                @include maxms{
+                    height: 85px;
+                }
+                img{
+                    width: auto;
+                    height: 70px;
+                    @include maxms{
+                        height: 50px;
+                    }
+                }
+            }
+        }
     }
 }
 
 .sort-list-ans {
-    width: 55%;
+    width: 52%;
     float: right;
     @include maxsm {
         float: none;
@@ -372,6 +387,14 @@
                 background-size: contain;
                 height: 15px;
                 width: 15px;
+            }
+        }
+        &.label-img{
+            li{
+                height: 115px;
+                @include maxms{
+                    height: 85px;
+                }
             }
         }
     }
@@ -433,9 +456,14 @@
         em{
             max-height: 130px;
             min-height: 130px;
+            padding: 6px 5px !important;
             @include maxsm{
                 max-height: 130px;
                 min-height: 130px;
+            }
+            img{
+                height: 100px !important;
+                width: auto !important;
             }
         }
     }

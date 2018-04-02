@@ -6,11 +6,14 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <div class="col-md-11">
+        <div class="col-md-6">
             {{trans('labels.professioninstitueslist')}}
         </div>
-        <div class="col-md-1">
-            <a href="{{ url('admin/addProfessionInstituteCourseList') }}" class="btn btn-block btn-primary add-btn-primary pull-right">{{trans('labels.add')}}</a>
+        <div class="col-md-3">
+                <a href="{{ url('admin/exportInstitute') }}" class="btn btn-block btn-primary">Export All Institute</a>
+            </div>
+        <div class="col-md-3">
+            <a href="{{ url('admin/addProfessionInstituteCourseList') }}" class="btn btn-block btn-primary">Upload Institutes</a>
         </div>
     </h1>
 </section>
