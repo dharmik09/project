@@ -1214,10 +1214,13 @@ class Level4ActivityController extends Controller {
                     if ($level2Promise == 'match') {
                         if ($promisePlus == 'match') {
                             $data['image'] = Storage::url('img/Original-image/s-icon-1.png');
+                            $data['color'] = "07c9a7";
                         } else if ($promisePlus == 'moderate') {
                             $data['image'] = Storage::url('img/Original-image/m-icon-2.png');
+                            $data['color'] = "f1c246";
                         } else if ($promisePlus == 'nomatch') {
                             $data['image'] = Storage::url('img/Original-image/icon-3.png');
+                            $data['color'] = "ff5f44";
                         }                   
                     }
 
@@ -1225,10 +1228,13 @@ class Level4ActivityController extends Controller {
                     if ($level2Promise == 'moderate') {
                         if ($promisePlus == 'match') {
                             $data['image'] = Storage::url('img/Original-image/s-icon-4.png');  
+                            $data['color'] = "07c9a7";
                         } else if ($promisePlus == 'moderate') {
                             $data['image'] = Storage::url('img/Original-image/m-icon-5.png');
+                            $data['color'] = "f1c246";
                         } else if ($promisePlus == 'nomatch') {
                             $data['image'] = Storage::url('img/Original-image/icon-6.png');
+                            $data['color'] = "ff5f44";
                         }                   
                     }
 
@@ -1236,10 +1242,13 @@ class Level4ActivityController extends Controller {
                     if ($level2Promise == 'nomatch') {
                         if ($promisePlus == 'match') {
                             $data['image'] = Storage::url('img/Original-image/s-icon-7.png'); 
+                            $data['color'] = "07c9a7";
                         } else if ($promisePlus == 'moderate') {
                             $data['image'] = Storage::url('img/Original-image/m-icon-8.png'); 
+                            $data['color'] = "f1c246";
                         } else if ($promisePlus == 'nomatch') {
                             $data['image'] = Storage::url('img/Original-image/icon-9.png');
+                            $data['color'] = "ff5f44";
                         }                   
                     } 
 

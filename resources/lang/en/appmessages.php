@@ -20,7 +20,7 @@ return [
     'level4_inclination_for_level2' => 'Professional Play opens only on earning 6000 points. Go get them now!',
     'level4_inclination_for_level3' => "Professional Play opens only on earning 6000 points. Go get them now!",
     'notvarified_user_msg' => 'User is not verified',
-    'not_verified_login' => "Activate your account using Email verification link",
+    'not_verified_login' => "Activate your account using eMail verification link",
     'invalid_user_pwd_msg' => 'Invalid user or password',
     'missing_data_msg' => 'Parameters missing',
     'default_success_msg' => 'Success',
@@ -62,4 +62,6 @@ return [
     'nocareerconsiderfoundmsg' => 'Build your profile to know careers to consider!',
     'nomycareerfoundmsg' => 'Careers you wish to shortlist',
     'nonetworkfoundmsg' => 'Explore Community to build your networks!',
+    'invalid_username_password_msg' => 'Invalid entry. Please login with registered eMail and password',
+    'invalid_mobile_number' => 'Your mobile number did not match with our records',
 ];

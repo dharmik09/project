@@ -741,6 +741,15 @@ class DashboardController extends Controller {
             exit;
         }
         return view('school.login'); exit;
-     }
+    }
+
+    /*
+     * Returns add questions form
+     */
+    public function addQuestions()
+    {
+        $activityDetail = [];
+        return view('school.editQuestions', compact('activityDetail'));
+    }
 }
 

@@ -52,7 +52,7 @@ class ForumQuestion extends Model
     }
 
     public function latestAnswer(){
-        return $this->hasOne(ForumAnswers::class, 'fq_que_id')->orderBy('created_at','DESC');
+        return $this->hasOne(ForumAnswers::class, 'fq_que_id')->orderBy('created_at','DESC')->where('deleted', Config::get('constant.ACTIVE_FLAG'));
     }
 
 
@@ -65,7 +65,7 @@ class ForumQuestion extends Model
                                 }])
                                 ->skip($skip)
                                 ->take($limit)
-                                ->where('deleted',Config::get('constant.ACTIVE_FLAG'))
+                                ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
                                 ->orderBy('id','DESC')
                                 ->get();
         return $return;
