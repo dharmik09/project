@@ -40,13 +40,13 @@ class LoginController extends Controller
     		if (!filter_var($request->email, FILTER_VALIDATE_EMAIL) && is_numeric($request->email) && $request->email > 0 && $request->email == round($request->email, 0)) {
     			$teenager = $this->teenagersRepository->getTeenagerByMobile($request->email);
     			if(!$teenager) {
-    				$response['message'] = trans('appmessages.invalid_mobile_user_msg');
+    				$response['message'] = trans('appmessages.invalid_mobile_number');
     				return response()->json($response, 200);
     			}
     		} else {
     			$teenager = $this->teenagersRepository->getTeenagerDetailByEmailId($request->email);
     			if(!$teenager) {
-    				$response['message'] = trans('appmessages.usernotexistwithemail');
+    				$response['message'] = trans('appmessages.invalid_username_password_msg');
     				return response()->json($response, 200);
     			}
     		}
@@ -95,13 +95,13 @@ class LoginController extends Controller
     					//$response['login'] = 1;
     					$response['data'] = $teenager;
     				} else {
-    					$response['message'] = trans('appmessages.invalid_user_pwd_msg');
+    					$response['message'] = trans('appmessages.invalid_username_password_msg');
     				}
     			} else {
     				$response['message'] = trans('appmessages.not_verified_login');
     			}
     		} else {
-    			$response['message'] = trans('appmessages.invalid_user_pwd_msg');
+    			$response['message'] = trans('appmessages.invalid_username_password_msg');
     		}
     	} else {
     		$response['message'] = trans('appmessages.missing_data_msg');
