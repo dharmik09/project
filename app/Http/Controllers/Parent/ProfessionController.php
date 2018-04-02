@@ -115,7 +115,9 @@ class ProfessionController extends Controller {
             $promisePlusRemainingDays = Helpers::calculateRemainingDays($promisePluseDeductedCoinsDetail[0]->dc_end_date);
         }
 
-        return view('parent.careerDetail', compact('professionsData', 'countryId', 'teenId', 'getQuestionTemplateForProfession', 'promisePlusComponent', 'promisePlusRemainingDays'));
+        //Profile complete calculations
+        $professionCompletePercentage = Helpers::getProfessionCompletePercentageForParent($user->id, $professionsData->id);
+        return view('parent.careerDetail', compact('professionsData', 'countryId', 'teenId', 'getQuestionTemplateForProfession', 'promisePlusComponent', 'promisePlusRemainingDays', 'professionCompletePercentage'));
     }
 
     /*
@@ -204,6 +206,26 @@ class ProfessionController extends Controller {
         $leaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionId, $slot);
         $nextleaderboardTeenagers = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($professionId, $slot + 1);
         return view('parent.basic.careerDetailsLeaderBoard', compact('leaderboardTeenagers', 'nextleaderboardTeenagers'));
+    }
+
+    /*
+     * Returns profession completion percentage.
+     */
+    public function getProfessionCompletionPercentage()
+    {
+        $professionId = Input::get('professionId');
+        $response['status'] = 0;
+        $response['message'] = 'Something went wrong!';
+        $response['percentage'] = 0;
+        if ($professionId != '') {
+            $completionPercentage = Helpers::getProfessionCompletePercentageForParent(Auth::guard('parent')->user()->id, $professionId);
+            $professionComplete = (isset($completionPercentage) && !empty($completionPercentage)) ? $completionPercentage : 0;
+            $response['status'] = 1;
+            $response['message'] = 'success';
+            $response['percentage'] = $professionComplete;
+        }
+        return response()->json($response, 200);
+        exit;
     }
 
 }
