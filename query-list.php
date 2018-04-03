@@ -580,3 +580,6 @@ CREATE TABLE IF NOT EXISTS `pro_l4p_level4_parent_profession_progress` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+//Add new field in l2 activity table ## 03-04-2018
+ALTER TABLE `pro_l2ac_level2_activities` ADD `l2ac_school_id` BIGINT(20) NOT NULL DEFAULT '0' AFTER `section_type`;
