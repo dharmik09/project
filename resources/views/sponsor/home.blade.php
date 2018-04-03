@@ -160,6 +160,15 @@
                             <td colspan="11"><?php echo "No records found.."; ?></td>
                         </tr>    
                         @endforelse
+                        @if (isset($activityDetail) && count($activityDetail) > 0)
+                        <tr>
+                            <td colspan="11" class="sub-button">
+                                <div class="pull-right">
+                                    <?php echo $activityDetail->render(); ?>
+                                </div>
+                            </td>
+                        </tr>
+                        @endif
                     <?php } ?>
                 </table>
             </div>
@@ -219,7 +228,16 @@
                     <tr>
                         <td colspan="11"><?php echo "No record found..."; ?></td>
                     </tr>
-                    @endforelse                   
+                    @endforelse
+                    @if (isset($coupons) && count($coupons) > 0)
+                    <tr>
+                        <td colspan="11" class="sub-button">
+                            <div class="pull-right">
+                                <?php echo $coupons->render(); ?>
+                            </div>
+                        </td>
+                    </tr>
+                    @endif                   
                 </table>
             </div>            
         </div>
