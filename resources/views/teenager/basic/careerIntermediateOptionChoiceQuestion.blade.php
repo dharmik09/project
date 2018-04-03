@@ -30,7 +30,7 @@
                         @if(isset($response['data']->question_images) && !empty($response['data']->question_images))
                             @foreach($response['data']->question_images as $key=>$image)
                                 <div class="question-img">
-                                    <img src="{{$image['l4ia_question_image']}}" title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" class="pop-me pop_up_me">
+                                    <img src="{{$image['l4ia_question_image']}}" title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" class="pop-me pop_up_me option-question-image" onclick="viewPicture('{{$image['l4ia_question_original_image']}}');">
                                 </div>
                             @endforeach
                         @endif
@@ -79,9 +79,10 @@
                         @if(isset($response['data']->options) && !empty($response['data']->options))
                             @php( shuffle($response['data']->options) )
                             @php( $setFlag = 2 )
+                            
                             @foreach($response['data']->options as $keyOption => $option)
                                 <?php
-                                    $option['optionImage'] = $extraSpan = "";
+                                    $option['optionImage'] = $extraSpan = $optionAsOriginalImage = "" ;
                                     $imageLabelClass = "";
                                     if ($option['optionAsImage'] != '') {
                                         $optionAsImage = $option['optionAsImage'];
@@ -89,7 +90,11 @@
                                             $extraSpan = $option['optionImageText'];
                                         }
                                         $imageLabelClass = "label-img";
-                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='".$extraSpan."' class='pop_up_me' />";
+                                        $option['optionImage'] = "<img src='$optionAsImage' alt='image' title='".$extraSpan."' class='pop_up_me' ";
+                                        
+                                    }
+                                    if($option['optionAsImageOriginal'] != '') {
+                                        $optionAsOriginalImage = $option['optionAsImageOriginal'];
                                     }
 
                                 ?>
@@ -99,6 +104,9 @@
                                     <label class="{{$optionType}} class{{$option['optionId']}} {{$imageLabelClass}}">
                                         <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
                                         <span class="checker"></span>
+                                        @if ($optionAsOriginalImage && !empty($optionAsOriginalImage))
+                                            <span class=""><i class="fa fa-search-plus" onclick="viewPicture('{{$optionAsOriginalImage}}')"></i></span>
+                                        @endif
                                         <em>
                                             {!! $option['optionImage'] !!}
                                             {!! $extraSpan !!}

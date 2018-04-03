@@ -521,6 +521,12 @@
 <div class="modal fade" id="scoreModal" role="dialog">
     
 </div>
+<!-- The Modal -->
+<div id="imageModal" class="modal view-image">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="imageCaption"></div>
+</div>
 <span id="setResponse" value="0"></span>
 <span id="setResponseIntermediate" value="0"></span>
 <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
@@ -2194,6 +2200,21 @@
             captionText.innerHTML = imgAlt;
         //});
     }
+
+    function viewPicture(imgSrc) {
+        var modal = document.getElementById('imageModal');
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        // var imgSrc = $('.'+elementClass).attr('src');
+        // var imgAlt = $('.'+elementClass).attr('alt');
+
+        var modalImg = $("#img01");
+        var captionText = document.getElementById("imgCaption");
+        modal.style.display = "block";
+        modalImg.attr('src', imgSrc);
+        captionText.innerHTML = imgAlt;
+    }
+
+
 
     $(document).on("click", '.close-modal', function(event) { 
         var modal = document.getElementById('l4advanceImage');
