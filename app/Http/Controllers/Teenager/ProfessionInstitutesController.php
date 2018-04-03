@@ -76,7 +76,10 @@ class ProfessionInstitutesController extends Controller {
         $answer = Input::get('answer');
         $record = $pageNo * 5;
 
-        $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilter($answerName, $questionType, $answer, $record);
+        $user = Auth::guard('teenager')->user();
+        $countryId = ($user->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
+        
+        $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilterByCountryId($answerName, $questionType, $answer, $record, $countryId);
 
         $view = view('teenager.basic.professionInstitutesData',compact('institutesData'));
         $response['instituteCount'] = count($institutesData);
@@ -86,6 +89,9 @@ class ProfessionInstitutesController extends Controller {
     }
 
     public function getInstituteFilter(){
+        $user = Auth::guard('teenager')->user();
+        $countryId = ($user->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
+
     	$questionType = Input::get('question_type');
         if($questionType == "Speciality"){
             $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
@@ -98,7 +104,7 @@ class ProfessionInstitutesController extends Controller {
             $response .= '</select></div>';
         }
         elseif($questionType == "Institute_Affiliation"){
-            $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAffiliatUniversity();
+            $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAffiliatUniversityByCountryId($countryId);
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
                             <option disabled selected>Select Affiliation By</option>';
@@ -108,7 +114,7 @@ class ProfessionInstitutesController extends Controller {
             $response .= '</select></div>';
         }
         elseif($questionType == "Management_Category"){
-            $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueManagement();
+            $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueManagementByCountryId($countryId);
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
                             <option disabled selected>Select Category</option>';
@@ -118,7 +124,7 @@ class ProfessionInstitutesController extends Controller {
             $response .= '</select></div>';
         }
         elseif($questionType == "Accreditation"){
-            $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAccreditationBody();
+            $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAccreditationBodyByCountryId($countryId);
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
                             <option disabled selected>Select Accreditation By</option>';
@@ -155,8 +161,8 @@ class ProfessionInstitutesController extends Controller {
                         </div>';
         }
         elseif($questionType == "Fees"){
-            $minimumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMinimumFee();
-            $maximumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMaximumFee();
+            $minimumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMinimumFeeByCountryId($countryId);
+            $maximumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMaximumFeeByCountryId($countryId);
             $response = '<div class="col-sm-6"><div class="form-group custom-select">
                             <select id="answerDropdownMinimumFees" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
                             <option value="##" disabled selected>Min Fee</option>';
