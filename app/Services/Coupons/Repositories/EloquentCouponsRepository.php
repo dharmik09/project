@@ -167,4 +167,15 @@ class EloquentCouponsRepository extends EloquentBaseRepository
                               ->get();
         return $couponData;
     }
+
+    public function getCouponsBySponsorIdPagewise($sponsorId)
+    {
+        $coupons = DB::table(config::get('databaseconstants.TBL_COUPONS'). " AS coupon")
+                              ->join(config::get('databaseconstants.TBL_SPONSORS') . " AS sponsor", 'coupon.cp_sponsor', '=', 'sponsor.id')
+                              ->selectRaw('coupon.* , sponsor.sp_company_name')
+                              ->whereRaw('coupon.deleted != 3')
+                              ->whereRaw('coupon.cp_sponsor = '.$sponsorId)
+                              ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'), ['*'], 'coupon');
+        return $coupons; 
+    }
 }

@@ -12,8 +12,6 @@ Route::post('/gift-coins-to-all-teen/', 'School\DashboardController@giftcoinstoA
 Route::post('/save-coins-data-for-all-teenager','School\DashboardController@saveCoinsDataForAllTeenager')->name('save-coins-data-for-all-teenager');
 Route::post('/user-search-for-school-data/', 'School\DashboardController@userSearchForSchoolData')->name('user-search-for-school-data');
 Route::post('/edit-teen-roll-num', 'School\DashboardController@editTeenRollnum')->name('edit-teen-roll-num');
-Route::get('/questions', 'School\QuestionsController@index');
-Route::get('/add-questions', 'School\QuestionsController@add');
 
 //My Profile
 Route::get('/update-profile', 'School\UpdateProfileController@updateProfile')->name('update-profile');
@@ -32,3 +30,10 @@ Route::get('/progress/{cid}', 'School\UpdateProfileController@progress');
 Route::get('/get-gift-coins/', 'School\DashboardController@getGiftCoins')->name('get-gift-coins');
 Route::get('/get-consumption/', 'School\DashboardController@getConsumption')->name('get-consumption');
 Route::post('/user-search-for-show-gift-coins/', 'School\DashboardController@userSearchForShowGiftCoins')->name('user-search-for-show-gift-coins');
+
+//Level2 Questions
+Route::get('/questions', 'School\QuestionsController@index');
+Route::get('/add-questions', 'School\QuestionsController@add');
+Route::post('/save-level2-questions', 'School\QuestionsController@save');
+Route::get('/edit-level2-questions/{activityId}', 'School\QuestionsController@edit');
+Route::get('/delete-level2-questions/{activityId}', 'School\QuestionsController@delete');
