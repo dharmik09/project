@@ -10,7 +10,7 @@
             {{trans('labels.professioninstitueslist')}}
         </div>
         <div class="col-md-3">
-            <a href="{{ url('admin/updateeducationspeciality') }}" class="btn btn-block btn-primary">Update Education Speciality</a>
+            <a href="{{ url('admin/updateeducationspeciality') }}" class="btn btn-block btn-primary">Refresh Education Speciality</a>
         </div>
         <div class="col-md-3">
                 <a href="{{ url('admin/exportInstitute') }}" class="btn btn-block btn-primary">Export All Institute</a>
