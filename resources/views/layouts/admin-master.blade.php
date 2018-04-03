@@ -250,7 +250,7 @@
                                     @endif
                                     <li class=" {{ in_array(Route::getFacadeRoot()->current()->uri(), ['admin/listGamificationTemplate']) ? 'active' : '' }} treeview">
                                         <a href="{{ url('admin/listGamificationTemplate') }}">
-                                            <i class="{{ (Request::is('admin/listGamificationTemplate')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i> <span>Questions Concepts</span>
+                                            <i class="{{ (Request::is('admin/listGamificationTemplate')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i><span>Questions Concepts</span>
                                         </a>
                                     </li>
                                     <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/addIntermediateActivity') ? 'active' : '' }} treeview">
