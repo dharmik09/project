@@ -20,9 +20,9 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
        @$searchParamArray : Array of Searching and Sorting parameters
      */
 
-    public function getAllLeve2Activities()
+    public function getAllLeve2Activities($schoolId = '')
     {
-        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity")
+        $query = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity")
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'activity.id', '=', 'options.l2op_activity')
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_APPTITUDE') . " AS apptitude", 'apptitude.id', '=', 'activity.l2ac_apptitude_type')
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_MI') . " AS mi", 'mi.id', '=', 'activity.l2ac_mi_type')
@@ -30,8 +30,12 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_PERSONALITY') . " AS personality", 'personality.id', '=', 'activity.l2ac_personality_type')
                           ->selectRaw('activity.* , GROUP_CONCAT(options.l2op_option) AS l2op_option, GROUP_CONCAT(options.l2op_fraction) AS l2op_fraction , mi.mit_name , interest.it_name , personality.pt_name, apptitude.apt_name')
                           ->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'))
-                          ->groupBy('activity.id')
-                          ->get();
+                          ->groupBy('activity.id');
+        if ($schoolId && !empty($schoolId) && $schoolId > 0) {
+            $level2activities = $query->where('activity.l2ac_school_id')->get();
+        } else {
+            $level2activities = $query->get(); 
+        }
         return $level2activities;
     }
 

@@ -12,7 +12,7 @@ Route::post('/gift-coins-to-all-teen/', 'School\DashboardController@giftcoinstoA
 Route::post('/save-coins-data-for-all-teenager','School\DashboardController@saveCoinsDataForAllTeenager')->name('save-coins-data-for-all-teenager');
 Route::post('/user-search-for-school-data/', 'School\DashboardController@userSearchForSchoolData')->name('user-search-for-school-data');
 Route::post('/edit-teen-roll-num', 'School\DashboardController@editTeenRollnum')->name('edit-teen-roll-num');
-Route::post('/add-questions', 'School\DashboardController@addQuestions');
+Route::get('/questions', 'School\QuestionsController@index');
 
 //My Profile
 Route::get('/update-profile', 'School\UpdateProfileController@updateProfile')->name('update-profile');
