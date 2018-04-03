@@ -91,16 +91,19 @@
                                 // } else {
                                 //     $option['optionText'] = $option['optionText'];
                                 // }
-
-                                if ($option['optionAsImage'] != '') {
-                                    $optionAsImage = $option['optionAsImage'];
-                                    $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
-                                }
                                 $optionAsOriginalImage = '';
                                 if($option['optionAsImageOriginal'] != '') {
                                     $optionAsOriginalImage = $option['optionAsImageOriginal'];
                                 }
-
+                                if ($option['optionAsImage'] != '') {
+                                    $optionAsImage = $option['optionAsImage'];
+                                    if ($optionAsOriginalImage && !empty($optionAsOriginalImage)) {
+                                        $option['optionText'] = "<em class='enlarge-popup' title='Click to enlarge image'><i class='fa fa-search-plus' onclick='viewPicture()'></i></em><img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
+                                    } else {
+                                        $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
+                                    }
+                                    
+                                }
                                 $input .= "<li><span>";
                                 $input .= $option['optionText'];
                                 $input .= "</span></li>";
