@@ -37,7 +37,7 @@
             <div class="col-md-offset-1 col-md-10 col-sm-12 padd_none">
                 <form name="addActivity" id="addActivity" method="post" class="sponsor_account_form" action="{{ url('/sponsor/save') }}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <h1><span class="title_border" style="margin-bottom: 30px;">Advertisements</span></h1>                    
+                    <h1><span class="title_border" style="margin-bottom: 30px;">Activities</span></h1>                    
                     <input type="hidden" name="id" value="<?php echo (isset($activityDetail) && !empty($activityDetail)) ? $activityDetail->id : '0' ?>">
                     <input type="hidden" name="hidden_logo" value="<?php echo (isset($activityDetail) && !empty($activityDetail)) ? $activityDetail->sa_image : '' ?>">
                     <div class="clearfix">
