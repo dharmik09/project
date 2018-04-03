@@ -22,12 +22,15 @@ use App\Services\Teenagers\Contracts\TeenagersRepository;
 use Mail;
 use App\TeenagerCoinsGift;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\Notifications;
+use App\Jobs\SendPushNotificationToAllTeenagers;
 
 class SponsorManagementController extends Controller
 {
     public function __construct(FileStorageRepository $fileStorageRepository, SponsorsRepository $sponsorsRepository,TemplatesRepository $templatesRepository,TeenagersRepository $teenagersRepository)
     {
         $this->objSponsors                = new Sponsors();
+        $this->objNotifications           = new Notifications();
         $this->sponsorsRepository         = $sponsorsRepository;
         $this->teenagersRepository        = $teenagersRepository;
         $this->templateRepository = $templatesRepository;
@@ -253,27 +256,39 @@ class SponsorManagementController extends Controller
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SPONSORS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.sponsorapprovesuccess'), '', $_SERVER['REMOTE_ADDR']);
             $SponsorDetailbyId = $this->sponsorsRepository->getSponsorById($id);
 
+            $notificationData['n_sender_id'] = '0';
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_ADMIN');
+            $notificationData['n_receiver_id'] = 0;
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_SCHOOL_APPROVE');
+            $notificationData['n_notification_text'] = 'New sponsor <strong>'.$return->sp_company_name.'</strong> has been arrived in ProTeen!';
+            $this->objNotifications->insertUpdate($notificationData);
 //            $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
 //            foreach ($teenagers AS $key => $value) {
 //                $message = 'New enterprise "' .$SponsorDetailbyId->sp_company_name.'" has been added into ProTeen!';
 //                $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
 //            }
-                        // --------------------start sending mail -----------------------------//
-                        $replaceArray = array();
-                        $replaceArray['SPONSOR_NAME'] = $SponsorDetailbyId->sp_first_name;
-                        $replaceArray['SPONSOR_LOGIN_URL'] = url('sponsor/login');
 
-                        $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.SPONSOR_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
-                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-                        $data = array();
-                        $data['subject'] = $emailTemplateContent->et_subject;
-                        $data['toEmail'] = $SponsorDetailbyId->sp_email;
-                        $data['toName'] = $SponsorDetailbyId->sp_first_name;
-                        $data['content'] = $content;
-                        Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
-                                    $message->subject($data['subject']);
-                                    $message->to($data['toEmail'], $data['toName']);
-                                 });
+            // --------------------start sending mail -----------------------------//
+
+            $replaceArray = array();
+            $replaceArray['SPONSOR_NAME'] = $SponsorDetailbyId->sp_first_name;
+            $replaceArray['SPONSOR_LOGIN_URL'] = url('sponsor/login');
+
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.SPONSOR_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $data = array();
+            $data['subject'] = $emailTemplateContent->et_subject;
+            $data['toEmail'] = $SponsorDetailbyId->sp_email;
+            $data['toName'] = $SponsorDetailbyId->sp_first_name;
+            $data['content'] = $content;
+            Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
+                        $message->subject($data['subject']);
+                        $message->to($data['toEmail'], $data['toName']);
+                     });
+
+            dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
+
             return Redirect::to("admin/sponsors")->with('success', trans('labels.sponsorapprovesuccess'));
         }
         else

@@ -32,6 +32,14 @@ class DeviceToken extends Model {
         return $result;
     }
 
+    public function getAllDeviceTokenDetail() {
+      $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN'))
+                        ->selectRaw('*')
+                        ->where('deleted', '1')
+                        ->get();
+        return $result;
+    }
+
      /*
      * Delete device token
     */
