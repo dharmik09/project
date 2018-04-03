@@ -6,8 +6,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <div class="col-md-6">
+        <div class="col-md-3">
             {{trans('labels.professioninstitueslist')}}
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url('admin/updateeducationspeciality') }}" class="btn btn-block btn-primary">Update Education Speciality</a>
         </div>
         <div class="col-md-3">
                 <a href="{{ url('admin/exportInstitute') }}" class="btn btn-block btn-primary">Export All Institute</a>
@@ -71,6 +74,7 @@
                                 <th>{{trans('labels.lblmanagement')}}</th>
                                 <th>{{trans('labels.lblaccredationbody')}}</th>
                                 <th>{{trans('labels.lblaccredationscore')}}</th>
+                                <th>{{trans('labels.lblcountry')}}</th>
                                 <th>{{trans('labels.lblimage')}}</th>
                                 <th>{{trans('labels.lblaction')}}</th>
                             </tr>
@@ -127,6 +131,7 @@
                 { "data" : "management" },
                 { "data" : "accreditation_body" },
                 { "data" : "accreditation_score" },
+                { "data" : "country" },
                 { "data" : "image" },
                 { "data" : "action" }
             ]

@@ -583,3 +583,6 @@ CREATE TABLE IF NOT EXISTS `pro_l4p_level4_parent_profession_progress` (
 
 //Add new field in l2 activity table ## 03-04-2018
 ALTER TABLE `pro_l2ac_level2_activities` ADD `l2ac_school_id` BIGINT(20) NOT NULL DEFAULT '0' AFTER `section_type`;
+
+//Add country id field in profession_institutes table ## 03-04-2018
+ALTER TABLE `pro_pi_profession_institutes` ADD `country_id` INT NOT NULL DEFAULT '1' AFTER `image`;
