@@ -89,8 +89,8 @@
                                 <li>{{ $myConnectionsCount }} {{ ($myConnectionsCount == 1) ? "Connection" : "Connections" }} </li>
                             </ul>
                             <ul class="social-media">
-                                <li><a href="javascript:void(0);" title="facebook" target="_blank" onclick="shareFacebook('{{url('/')}}','My Profile!','{{$user->t_about_info}}','{{ $data['user_profile'] }}')"><i class="icon-facebook"></i></a></li>
-                                <li><a href="#" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
+                                <li><a href="javascript:void(0);" title="facebook"><i class="icon-facebook"></i></a></li>
+                                <li><a href="javascript:void(0);" title="google plus" ><i class="icon-google"></i></a></li>
                             </ul>
                             <div class="chat-icon">
                                 <a href="{{ url('/teenager/chat') }}" title="Chat"><i class="icon-chat"></i>
@@ -269,7 +269,7 @@
                                             </span>
                                         </label>
                                     </li>
-                                    <li>Share info with teachers
+                                    <li>Share info with mentors
                                         <label class="switch">
                                             <input type="checkbox" id="share_with_teachers" name="share_with_teachers" <?php echo (isset($user->is_share_with_teachers) && $user->is_share_with_teachers == '1') ? "checked='checked'": '' ?> value="1">
                                             <span class="slider round">

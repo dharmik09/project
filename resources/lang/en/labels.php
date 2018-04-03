@@ -599,7 +599,7 @@ return [
     'transectiondate' => 'Transaction Date',
     'transactionhistory' => 'Transaction History',
     'consumedcoins' => 'ProCoins',
-    'l4concept' => 'L4 Concept Template',
+    'l4concept' => 'Role Play',
     'component' => 'ProPay Component',
     'consumedcoinsdate' => 'Consumed on',
     'enddate' => 'Valid upto',
