@@ -71,6 +71,7 @@
                             @if(isset($response['data']->question_images) && !empty($response['data']->question_images))
                                 @foreach($response['data']->question_images as $key => $image)
                                     <div class="question-img image-left quiz-inter width-50">
+                                        <em class="enlarge-popup" title="Click to enlarge image"><i class="fa fa-search-plus" onclick="viewPicture('{{$image['l4ia_question_original_image']}}')"></i></em>
                                         <img src="{{$image['l4ia_question_image']}}" title="{{isset($image['l4ia_question_imageDescription']) && ($image['l4ia_question_imageDescription'] != '') ? $image['l4ia_question_imageDescription']:'Click to enlarge image'}}" class="pop-me pop_up_me">
                                     </div>
                                 @endforeach
