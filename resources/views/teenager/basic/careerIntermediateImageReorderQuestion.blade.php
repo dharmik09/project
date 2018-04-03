@@ -96,6 +96,10 @@
                                     $optionAsImage = $option['optionAsImage'];
                                     $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
                                 }
+                                $optionAsOriginalImage = '';
+                                if($option['optionAsImageOriginal'] != '') {
+                                    $optionAsOriginalImage = $option['optionAsImageOriginal'];
+                                }
 
                                 $input .= "<li><span>";
                                 $input .= $option['optionText'];

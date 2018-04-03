@@ -79,7 +79,6 @@
                         @if(isset($response['data']->options) && !empty($response['data']->options))
                             @php( shuffle($response['data']->options) )
                             @php( $setFlag = 2 )
-                            
                             @foreach($response['data']->options as $keyOption => $option)
                                 <?php
                                     $option['optionImage'] = $extraSpan = $optionAsOriginalImage = "" ;
@@ -105,7 +104,7 @@
                                         <input type="{{$optionType}}" id="check{{$option['optionId']}}" name="{{$optionName}}" value="{{$option['optionId']}}" class="selectionCheck multiCast"/>
                                         <span class="checker"></span>
                                         @if ($optionAsOriginalImage && !empty($optionAsOriginalImage))
-                                            <span class=""><i class="fa fa-search-plus" onclick="viewPicture('{{$optionAsOriginalImage}}')"></i></span>
+                                            <span class="enlarge-popup" title="Click to enlarge image"><i class="fa fa-search-plus" onclick="viewPicture('{{$optionAsOriginalImage}}')"></i></span>
                                         @endif
                                         <em>
                                             {!! $option['optionImage'] !!}
