@@ -872,7 +872,7 @@ class ProfessionManagementController extends Controller {
             }
             
             if($response){
-                return Redirect::to("admin/professionInstitute")->with('success', "All Done");
+                return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstitutesspecialitylistupdatedsuccessfully'));
             }
             else{            
                 return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
