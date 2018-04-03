@@ -588,6 +588,7 @@
     $(document).on('click','#add-to-star', function(){
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var form_data = 'careerId=' + '{{$professionsData->id}}';
+        var profession_name = '{{$professionsData->pf_name}}';
         $.ajax({
             url : '{{ url("teenager/add-star-to-career") }}',
             method : "POST",
@@ -598,12 +599,13 @@
             dataType: "json",
             success : function (response) {
                 if (response != '') {
+                    $("#favourite_message").html('Congratulation! You just favorited '+profession_name+'. You can now explore it directly from "My careers"');
                     $("#favourite_message").css('display', 'block');
                     $('#add-to-star').html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">');
                     $('#add-to-star').attr('title', 'Added as favourite');
                     setTimeout(function () {
                         $("#favourite_message").hide();
-                    }, 2500);
+                    }, 7000);
                 }
             }
         });
