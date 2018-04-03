@@ -782,4 +782,6 @@ return [
     'lastuploadtime' => 'Last Uploaded Date-Time',
     'deleteallrecord' => 'Delete All Record',
     'professioninstituesdeleteallsuccess' => 'Profession Institutes all record deleted successfully',
+    'lblcountry' => 'Country',
+    'professioninstitutesspecialitylistupdatedsuccessfully' => 'Profession Institutes Speciality List Updated Successfully',
 ];

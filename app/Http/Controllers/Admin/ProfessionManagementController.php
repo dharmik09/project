@@ -30,6 +30,7 @@ use App\ProfessionWiseTag;
 use App\Country;
 use App\ProfessionInstitutes;
 use App\ManageExcelUpload;
+use App\ProfessionInstitutesSpeciality;
 use Storage;
 use Artisan;
 
@@ -68,6 +69,7 @@ class ProfessionManagementController extends Controller {
         $this->professionInstituteThumbImageHeight = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_HEIGHT');
         $this->professionInstituteThumbImageWidth = Config::get('constant.PROFESSION_INSTITUTE_PHOTO_THUMB_IMAGE_WIDTH');
         $this->objManageExcelUpload = new ManageExcelUpload();
+        $this->objProfessionInstitutesSpeciality = new ProfessionInstitutesSpeciality();
     }
 
     public function index() {
@@ -585,6 +587,7 @@ class ProfessionManagementController extends Controller {
             5 => 'management',
             6 => 'accreditation_body',
             7 => 'accreditation_score',
+            8 => 'country',
         );
         
         $order = Input::get('order');
@@ -637,6 +640,7 @@ class ProfessionManagementController extends Controller {
             foreach ($records["data"] as $key => $_records) {                
                 $records["data"][$key]->action = '<a onClick="showProfessionImageUploadModel('.$_records->id.','.$_records->school_id.','.$_records->image.')" class="btn btn-primary">'.trans("labels.lblupdatephoto").'</a>';
                 $records["data"][$key]->image = ($_records->image != '' && Storage::size($this->professionInstituteThumbImageUploadPath . $_records->image) > 0) ? "<img src='". Storage::url($this->professionInstituteThumbImageUploadPath . $_records->image) ."' height = 50 width = 50 >" : "<img src='". Storage::url('img/insti-logo.png') ."'   height = 50 width= 50>";
+                $records["data"][$key]->country = ($_records->country_id != '' && $_records->country_id == '1') ? "India" : "USA";
             }
         }
 
@@ -836,6 +840,46 @@ class ProfessionManagementController extends Controller {
             })->export('xlsx');
         }else{
             return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
-        }                        
+        }
+    }
+
+    public function updateEducationSpeciality() 
+    {
+        ini_set('memory_limit', '20000M');
+        ini_set('max_execution_time', 0);
+        
+        $results = $this->objProfessionInstitutes->getAllProfessionInstitutesSpeciality();
+
+        if(isset($results) && !empty($results))
+        {       
+            $data = [];
+            foreach ($results as $key => $value) {
+                $eduStream = explode("#", $value->speciality);
+                foreach ($eduStream as $key => $value) {
+                    $data[] = trim($value);
+                }
+            }
+
+            $dataResults = array_unique($data);
+            
+            if(count($dataResults)>0){
+                $this->objProfessionInstitutesSpeciality->truncate();
+                foreach ($dataResults as $key => $value) {
+                    $pisData = [];
+                    $pisData['pis_name'] = $value;
+                    $response = $this->objProfessionInstitutesSpeciality->insertUpdate($pisData);
+                }
+            }
+            
+            if($response){
+                return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstitutesspecialitylistupdatedsuccessfully'));
+            }
+            else{            
+                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
+            }
+
+        }else{
+            return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
+        }
     }
 }
