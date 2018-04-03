@@ -87,7 +87,7 @@
                         </div>
                         <!-- The Modal -->
                         <div id="l4advanceImage" class="modal">
-                            <span class="close-modal">&times;</span>
+                            <span class="close-modal advance-close">&times;</span>
                             <img class="modal-content" id="img01">
                             <div id="caption"></div>
                         </div>

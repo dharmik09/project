@@ -81,7 +81,10 @@
 
                             foreach ($response['data']->options as $keyOptionImage => $optionImage) {
                                 if ($optionImage['optionAsImage'] != '') {
-                                    $LHSImages[] = $optionImage['optionAsImage'];
+                                    $LHSImageArr = [];
+                                    $LHSImageArr['thumbPath'] = $optionImage['optionAsImage'];
+                                    $LHSImageArr['originalPath'] = $optionImage['optionAsImage'];
+                                    $LHSImages[] = $LHSImageArr;
                                     $imageLabelClass = "label-img";
                                 }
                             }
@@ -100,7 +103,8 @@
                                 $input .= "<div class='sort-list connectify image_h'>";
                                 $input .= "<ul id='sortable_1' class='reorder_question_type fixed_box ".$imageLabelClass."'>";
                                 foreach ($LHSImages as $key1 => $LHSoptionImage) {
-                                    $input .= "<li class=''><span class='sortable_outer_container'><span class='sortable_container'></span></span><img src='" . $LHSoptionImage . "' alt='' height='100' class='pop_up_me'/></li>";
+                                    $imageFunction = "viewPicture('".$LHSoptionImage['originalPath']."')";
+                                    $input .= '<li class=""><span class="enlarge-popup" title="Click to enlarge image"><i class="fa fa-search-plus" onclick="'.$imageFunction.'"></i></span><span class="sortable_outer_container"><span class="sortable_container"></span></span><img src="' . $LHSoptionImage['thumbPath'] . '" alt="" height="100" class="pop_up_me"/></li>';
                                 }
                                 $input .= "</ul>";
                                 $input .= "</div>";

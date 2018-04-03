@@ -524,7 +524,7 @@
 <!-- The Modal -->
 <div id="imageModal" class="modal view-image">
     <span class="close-modal">&times;</span>
-    <img class="modal-content" id="img01">
+    <img class="modal-content" id="img02">
     <div id="imageCaption"></div>
 </div>
 <span id="setResponse" value="0"></span>
@@ -2191,7 +2191,7 @@
         // Get the image and insert it inside the modal - use its "alt" text as a caption
         var imgSrc = $('.l4advance'+taskId).attr('src');
         var imgAlt = $('.l4advance'+taskId).attr('alt');
-        var modalImg = $("#img01");
+        var modalImg = $("#img02");
         var captionText = document.getElementById("caption");
         //$('.myImg').click(function() {
             modal.style.display = "block";
@@ -2207,17 +2207,22 @@
         // var imgSrc = $('.'+elementClass).attr('src');
         // var imgAlt = $('.'+elementClass).attr('alt');
 
-        var modalImg = $("#img01");
+        var modalImg = $("#img02");
         var captionText = document.getElementById("imgCaption");
         modal.style.display = "block";
         modalImg.attr('src', imgSrc);
-        captionText.innerHTML = imgAlt;
+        //captionText.innerHTML = imgAlt;
     }
 
 
 
-    $(document).on("click", '.close-modal', function(event) { 
+    $(document).on("click", '.advance-close', function(event) { 
         var modal = document.getElementById('l4advanceImage');
+        modal.style.display = "none";
+    });
+
+    $(document).on("click", '.close-modal', function(event) { 
+        var modal = document.getElementById('imageModal');
         modal.style.display = "none";
     });
 

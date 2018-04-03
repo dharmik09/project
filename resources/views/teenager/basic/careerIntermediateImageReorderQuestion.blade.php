@@ -98,7 +98,8 @@
                                 if ($option['optionAsImage'] != '') {
                                     $optionAsImage = $option['optionAsImage'];
                                     if ($optionAsOriginalImage && !empty($optionAsOriginalImage)) {
-                                        $option['optionText'] = "<em class='enlarge-popup' title='Click to enlarge image'><i class='fa fa-search-plus' onclick='viewPicture()'></i></em><img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
+                                        $imagefunction = "viewPicture('".$optionAsOriginalImage."')";
+                                        $option['optionText'] = "<em class='enlarge-popup' title='Click to enlarge image'><i class='fa fa-search-plus' onclick='".$imagefunction."'></i></em><img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
                                     } else {
                                         $option['optionText'] = "<img src='$optionAsImage' data-imageid='" . $option['optionId'] . "' class='pop_up_me' />".$option['optionText'];
                                     }
