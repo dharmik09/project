@@ -1,6 +1,27 @@
 @extends('layouts.school-master')
 
 @section('content')
+@if($message = Session::get('success'))
+<div class="col-md-12">
+    <div class="box-body">
+        <div class="alert alert-success alert-succ-msg alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+            <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+            {{ $message }}
+        </div>
+    </div>
+</div>
+@endif
+@if($message = Session::get('error'))
+<div class="col-md-12">
+    <div class="box-body">
+        <div class="alert alert-error alert-dismissable danger">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+            {{ $message }}
+        </div>
+    </div>
+</div>
+@endif
 <!-- Content Wrapper. Contains page content -->
 
 <!-- Content Header (Page header) -->
@@ -41,7 +62,6 @@
                     <th>{{trans('labels.promiseparameters')}}</th>
                     <th>{{trans('labels.activityblheadpoints')}}</th>
                     <th>{{trans('labels.activityblheadoptions')}}</th>
-                    <th>{{trans('labels.activityblheadstatus')}}</th>
                     <th>{{trans('labels.activityblheadsection')}}</th>
                     <th>{{trans('labels.activityblheadaction')}}</th>
                 </tr>
@@ -89,27 +109,29 @@
                         ?>
                     </td>
                     <td>
-                         @if ($level2activity->deleted == 1)
-                        <i class="s_active fa fa-square"></i>
-                        @else
-                            <i class="s_inactive fa fa-square"></i>
-                        @endif
-                    </td>
-                    <td>
                          {{trans('labels.activityblheadsection')}}-{{$level2activity->section_type}}
                     </td>
                     <td>
                         <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
-                        <a href="{{ url('/admin/editLevel2Activity') }}/{{$level2activity->id}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
-                        <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteLevel2Activity') }}/{{$level2activity->id}}"><i class="i_delete fa fa-trash"></i></a>
+                        <a href="{{ url('/school/edit-level2-questions') }}/{{$level2activity->id}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
+                        <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/school/delete-level2-questions') }}/{{$level2activity->id}}"><i class="i_delete fa fa-trash"></i></a>
                     </td>
                 </tr>
                 <?php $serialno++; ?>
                 @empty
                 <tr>
-                    <td colspan="8"><center>{{trans('labels.norecordfound')}}</center></td>
+                    <td colspan="7"><center>{{trans('labels.norecordfound')}}</center></td>
                 </tr>
                 @endforelse
+                <tr>
+                    <td colspan="7" class="sub-button">
+                        @if (isset($level2activities) && count($level2activities) > 0)
+                        <div class="pull-right">
+                            <?php echo $level2activities->render(); ?>
+                        </div>
+                        @endif
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="mySearch_area">

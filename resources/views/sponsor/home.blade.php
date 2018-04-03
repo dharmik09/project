@@ -75,7 +75,7 @@
                 <div class="button_container coins_button_container">
                     <div class="coin_summary cst_cst_dsh cst_dsh clearfix">
                         <div class="right col-md-3 col-sm-4 col-xs-12">
-                            <div class="clearfix"><a href="{{url('/sponsor/data-add')}}" class="btn primary_btn invite_teen_btn">Add Advertisements</a></div>
+                            <div class="clearfix"><a href="{{url('/sponsor/data-add')}}" class="btn primary_btn invite_teen_btn">Add Activities</a></div>
                         </div>
                         <div class="left col-md-6 col-sm-4 col-xs-12">
                             <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
@@ -160,6 +160,15 @@
                             <td colspan="11"><?php echo "No records found.."; ?></td>
                         </tr>    
                         @endforelse
+                        @if (isset($activityDetail) && count($activityDetail) > 0)
+                        <tr>
+                            <td colspan="11" class="sub-button">
+                                <div class="pull-right">
+                                    <?php echo $activityDetail->render(); ?>
+                                </div>
+                            </td>
+                        </tr>
+                        @endif
                     <?php } ?>
                 </table>
             </div>
@@ -219,7 +228,16 @@
                     <tr>
                         <td colspan="11"><?php echo "No record found..."; ?></td>
                     </tr>
-                    @endforelse                   
+                    @endforelse
+                    @if (isset($coupons) && count($coupons) > 0)
+                    <tr>
+                        <td colspan="11" class="sub-button">
+                            <div class="pull-right">
+                                <?php echo $coupons->render(); ?>
+                            </div>
+                        </td>
+                    </tr>
+                    @endif                   
                 </table>
             </div>            
         </div>

@@ -10,13 +10,13 @@
         <div class="procoin-heading gift-heading history-heading">
             <div class="container">
                 <h1 class="font-blue">history</h1>
-                <p>Track your ProCoins Transactions and Consumption</p>
+                <p>Track your ProCoins Transactions</p>
             </div>
         </div>
         <!--procoins sec-->
         <div class="container">
             <div class="procoins-history">
-                <h2>Transactions</h2>
+                <h2>Credited</h2>
                 <div class="bg-white procoins-gift">
                     <div class="gift-table table-responsive history-table">
                         <table class="table table-hover">
@@ -64,7 +64,7 @@
         <!--sec-consumption-->
         <section class="sec-progress sec-consumption">
             <div class="container">
-                <h2>Consumption</h2>
+                <h2>Consumed</h2>
                 <div class="bg-white my-progress procoins-gift">
                     <!--<ul class="nav nav-tabs progress-tab">
                         <li class="acheivement active"><a data-toggle="tab" href="#menu1">Promise Plus</a></li>

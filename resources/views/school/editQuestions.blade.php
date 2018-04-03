@@ -63,7 +63,7 @@
         }
         ?>
         <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
-        <form id="addLevel2Activity" class="form-horizontal" method="post" action="{{ url('/school/save-level2-activity') }}" enctype="multipart/form-data">
+        <form id="addLevel2Activity" class="form-horizontal" method="post" action="{{ url('/school/save-level2-questions') }}" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" value="<?php echo (isset($id) && !empty($id)) ? $id : '0'?>">
             <input type="hidden" name="hidden_logo" value="<?php echo (isset($l2ac_image) && !empty($l2ac_image)) ? $l2ac_image : '' ?>">
@@ -124,7 +124,7 @@
                     </div>
 
                   <?php
-                    for($i=2 ; $i< (count($option)) ; $i++)
+                    for($i=2 ; $i < (count($option)) ; $i++)
                     {
                    ?>
                     <div class="form-group" id='delete_action_<?php echo $i; ?>'>

@@ -56,7 +56,7 @@ class DashboardManagementController extends Controller
             $sponsorId = $this->loggedInUser->user()->id;
             $saThumbImagePath = $this->saThumbImagePath;
             $activityDetail = $this->sponsorsRepository->getActiveSponsorActivityDetail($sponsorId);
-            $coupons = $this->couponsRepository->getCouponsBySponsorId($sponsorId);
+            $coupons = $this->couponsRepository->getCouponsBySponsorIdPagewise($sponsorId);
             $couponThumbImagePath = $this->couponThumbImageUploadPath;
 
             //Get total used credit history

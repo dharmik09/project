@@ -307,7 +307,7 @@ class EloquentSponsorsRepository extends EloquentBaseRepository
                                   ->selectRaw('activity.*,level.sl_name,type.cfg_key')
                                   ->whereRaw('activity.deleted != 3')                                  
                                   ->whereRaw('activity.sa_sponsor_id = '.$sponsorId)
-                                  ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'));
+                                  ->paginate(Config::get('constant.ADMIN_RECORD_PER_PAGE'), ['*'], 'activity');
         return $activityDetail;
     }
     

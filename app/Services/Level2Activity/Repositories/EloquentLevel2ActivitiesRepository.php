@@ -29,12 +29,11 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_INTEREST') . " AS interest", 'interest.id', '=', 'activity.l2ac_interest')
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_PERSONALITY') . " AS personality", 'personality.id', '=', 'activity.l2ac_personality_type')
                           ->selectRaw('activity.* , GROUP_CONCAT(options.l2op_option) AS l2op_option, GROUP_CONCAT(options.l2op_fraction) AS l2op_fraction , mi.mit_name , interest.it_name , personality.pt_name, apptitude.apt_name')
-                          ->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'))
                           ->groupBy('activity.id');
-        if ($schoolId && !empty($schoolId) && $schoolId > 0) {
-            $level2activities = $query->where('activity.l2ac_school_id')->get();
+        if (isset($schoolId) && !empty($schoolId) && $schoolId > 0) {
+            $level2activities = $query->where('activity.l2ac_school_id', $schoolId)->where('activity.deleted', Config::get('constant.ACTIVE_FLAG'))->paginate(Config::get('constant.RECORD_PER_PAGE'));
         } else {
-            $level2activities = $query->get(); 
+            $level2activities = $query->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'))->get(); 
         }
         return $level2activities;
     }

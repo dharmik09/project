@@ -833,7 +833,7 @@ class ProfessionManagementController extends Controller {
                 unset($data['deleted']);                
                 $exportData[] = $data;
             }                       
-            Excel::create('institute', function($excel) use($exportData) {
+            Excel::create("export_institute_".date('d-M-y')."", function($excel) use($exportData) {
                 $excel->sheet('Sheet 1', function($sheet) use($exportData) {
                     $sheet->fromArray($exportData);
                 });
