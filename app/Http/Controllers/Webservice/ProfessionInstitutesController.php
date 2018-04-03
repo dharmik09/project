@@ -66,6 +66,8 @@ class ProfessionInstitutesController extends Controller {
         if($request->userId != "" && $teenager && $request->filterType != "") {
             
             $allData = [];
+            
+            $countryId = ($teenager->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
 
             $questionType = $request->filterType;
             if($questionType == "Speciality"){
@@ -81,7 +83,7 @@ class ProfessionInstitutesController extends Controller {
                 $response['arrayCount'] = 1;
             }
             elseif($questionType == "Institute_Affiliation"){
-                $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAffiliatUniversity();
+                $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAffiliatUniversityByCountryId($countryId);
                 
                 $dataArray1 = [];
                 foreach ($institutesData as $key => $value) {
@@ -94,7 +96,7 @@ class ProfessionInstitutesController extends Controller {
                 $response['arrayCount'] = 1;
             }
             elseif($questionType == "Management_Category"){
-                $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueManagement();
+                $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueManagementByCountryId($countryId);
                 
                 $dataArray1 = [];
                 foreach ($institutesData as $key => $value) {
@@ -107,7 +109,7 @@ class ProfessionInstitutesController extends Controller {
                 $response['arrayCount'] = 1;
             }
             elseif($questionType == "Accreditation"){
-                $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAccreditationBody();
+                $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueAccreditationBodyByCountryId($countryId);
                 
                 $dataArray1 = [];
                 foreach ($institutesData as $key => $value) {
@@ -190,8 +192,8 @@ class ProfessionInstitutesController extends Controller {
                 $response['arrayCount'] = 1;
             }
             elseif($questionType == "Fees"){
-                $minimumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMinimumFee();
-                $maximumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMaximumFee();
+                $minimumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMinimumFeeByCountryId($countryId);
+                $maximumFeesData = $this->objProfessionInstitutes->getProfessionInstitutesUniqueMaximumFeeByCountryId($countryId);
 
                 $dataArray1 = [];
                 foreach ($minimumFeesData as $key => $value) {
@@ -231,6 +233,8 @@ class ProfessionInstitutesController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getProfessionInstitute'));
         if($request->userId != "" && $teenager) {
+
+            $countryId = ($teenager->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
             
             $pageNo = 1;
             $questionType = "";
@@ -252,12 +256,12 @@ class ProfessionInstitutesController extends Controller {
 
             $record = ($pageNo-1) * 5;
 
-            $nextProfessionInstituteData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilter($searchText, $questionType, $answer, ($record+5));
+            $nextProfessionInstituteData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilterByCountryId($searchText, $questionType, $answer, ($record+5), $countryId);
             $next = 0;
             if(count($nextProfessionInstituteData)>0){
                 $next = 1;
             }
-            $professionInstituteData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilter($searchText, $questionType, $answer, $record);
+            $professionInstituteData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilterByCountryId($searchText, $questionType, $answer, $record, $countryId);
             $data = [];
             $response['next'] = $next;
             if(count($professionInstituteData)>0){

@@ -206,6 +206,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
                             } 
                         } else {
                             $temp['optionAsImage'] = '';
+                            $temp['optionAsImageOriginal'] = '';
                         }
                        
                         if (isset($optionResponseImage[$key1]) && $optionResponseImage[$key1] != '') {

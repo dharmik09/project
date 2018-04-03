@@ -288,7 +288,7 @@ function normalChat() {
                 //  messageBubbleAvator: true,
                 notificationIconLink : "https://www.applozic.com/resources/images/applozic_icon.png",
                 notificationSoundLink : "",
-                readConversation : readMessage, // readMessage function defined above
+                readConversation : "", // readMessage function defined above
                 onInit : onInitialize, //callback function execute on plugin initialize
                 maxAttachmentSize : 25, //max attachment size in MB
                 desktopNotification : true,

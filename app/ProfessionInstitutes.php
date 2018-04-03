@@ -75,11 +75,7 @@ class ProfessionInstitutes extends Model
     /**
      * get Profession Institutes unique AffiliatUniversity
      */
-    public function getProfessionInstitutesUniqueAffiliatUniversity() {
-
-        $user = Auth::guard('teenager')->user();
-        $countryId = ($user->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
-
+    public function getProfessionInstitutesUniqueAffiliatUniversityByCountryId($countryId) {
         $return = ProfessionInstitutes::groupBy('affiliat_university')->where('country_id',$countryId)->where('affiliat_university','<>',NULL)->get();
         return $return;
     }
@@ -87,11 +83,7 @@ class ProfessionInstitutes extends Model
     /**
      * get Profession Institutes unique Managaement
      */
-    public function getProfessionInstitutesUniqueManagement() {
-        
-        $user = Auth::guard('teenager')->user();
-        $countryId = ($user->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
-
+    public function getProfessionInstitutesUniqueManagementByCountryId($countryId) {
         $return = ProfessionInstitutes::groupBy('management')->where('country_id',$countryId)->where('management','<>',NULL)->get();
         return $return;
     }
@@ -99,11 +91,7 @@ class ProfessionInstitutes extends Model
     /**
      * get Profession Institutes unique AccreditationBody
      */
-    public function getProfessionInstitutesUniqueAccreditationBody() {
-        
-        $user = Auth::guard('teenager')->user();
-        $countryId = ($user->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
-
+    public function getProfessionInstitutesUniqueAccreditationBodyByCountryId($countryId) {
         $return = ProfessionInstitutes::groupBy('accreditation_body')->where('country_id',$countryId)->where('accreditation_body','<>',NULL)->get();
         return $return;
     }
@@ -111,11 +99,7 @@ class ProfessionInstitutes extends Model
     /**
      * get Profession Institutes unique MinimumFee
      */
-    public function getProfessionInstitutesUniqueMinimumFee() {
-        
-        $user = Auth::guard('teenager')->user();
-        $countryId = ($user->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
-
+    public function getProfessionInstitutesUniqueMinimumFeeByCountryId($countryId) {
         $return = ProfessionInstitutes::groupBy('minimum_fee')->orderBy('minimum_fee','asc')->where('country_id',$countryId)->where('minimum_fee','<>',NULL)->get();
         return $return;
     }
@@ -123,11 +107,7 @@ class ProfessionInstitutes extends Model
     /**
      * get Profession Institutes unique MaximumFee
      */
-    public function getProfessionInstitutesUniqueMaximumFee() {
-        
-        $user = Auth::guard('teenager')->user();
-        $countryId = ($user->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
-
+    public function getProfessionInstitutesUniqueMaximumFeeByCountryId($countryId) {
         $return = ProfessionInstitutes::groupBy('maximum_fee')->orderBy('maximum_fee','asc')->where('country_id',$countryId)->where('maximum_fee','<>',NULL)->get();
         return $return;
     }
@@ -135,10 +115,7 @@ class ProfessionInstitutes extends Model
     /**
      * get Profession Institutes get page wise and filter
      */
-    public function getProfessionInstitutesWithFilter($answerName, $questionType, $answer, $record) {
-        
-        $user = Auth::guard('teenager')->user();
-        $countryId = ($user->t_view_information == 1) ? 2 /* United States */ : 1 /* India */;
+    public function getProfessionInstitutesWithFilterByCountryId($answerName, $questionType, $answer, $record, $countryId) {
 
         $return = ProfessionInstitutes::where('country_id',$countryId)->skip($record)->take(5);
         
