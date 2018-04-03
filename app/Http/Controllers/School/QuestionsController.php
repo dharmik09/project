@@ -34,9 +34,19 @@ class QuestionsController extends Controller {
     /*
      * Returns questions listing page
      */
-    public function index() {
+    public function index() 
+    {
         $level2activities = $this->level2ActivitiesRepository->getAllLeve2Activities(Auth::guard('school')->user()->id);
         return view('school.listQuestions', compact('level2activities'));
+    }
+
+    /*
+     * Returns Add questions form
+     */
+    public function add()
+    {
+        $activityDetail = [];
+        return view('school.editQuestions', compact('activityDetail'));
     }
 }
 

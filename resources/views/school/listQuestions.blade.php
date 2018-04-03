@@ -13,8 +13,12 @@
 <div class="centerlize">
     <div class="container">
         <div class="container_padd">
-            <div class="header">
-                <div class="credit"></div>
+            <div class="button_container coins_button_container">
+                <div class="coin_summary cst_dsh clearfix">
+                    <div class="dashboard_page pull-right col-md-3 col-sm-4 col-xs-12">
+                        <a href="{{ url('school/add-questions') }}" class="btn primary_btn space_btm">Add</a>
+                    </div>
+                </div>
             </div>
             <div class="table_title">
                 <div class="row">
