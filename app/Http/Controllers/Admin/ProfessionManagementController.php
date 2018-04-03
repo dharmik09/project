@@ -33,6 +33,7 @@ use App\ManageExcelUpload;
 use App\ProfessionInstitutesSpeciality;
 use Storage;
 use Artisan;
+use App\Jobs\SendPushNotificationToAllTeenagers;
 
 class ProfessionManagementController extends Controller {
 
@@ -264,9 +265,11 @@ class ProfessionManagementController extends Controller {
             $notificationData['n_receiver_id'] = 0;
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_ADD_PROFESSION');
-            $notificationData['n_notification_text'] = '<strong> Admin </strong> added new profession <strong>'.$professionDetail['pf_name'].'</strong>';
+            $notificationData['n_notification_text'] = 'Profession <strong>'.$professionDetail['pf_name'].'</strong> updated in ProTeen!';
             $this->objNotifications->insertUpdate($notificationData);
             
+            dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
+
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_PROFESSIONS'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.professionupdatesuccess'), serialize($professionDetail), $_SERVER['REMOTE_ADDR']);
             return Redirect::to("admin/professions".$postData['pageRank'])->with('success', trans('labels.professionupdatesuccess'));
         } else {

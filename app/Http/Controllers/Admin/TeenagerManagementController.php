@@ -34,6 +34,7 @@ use App\Notifications;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use App\Jobs\SendPushNotificationToAllTeenagers;
 
 class TeenagerManagementController extends Controller {
 
@@ -1162,6 +1163,8 @@ class TeenagerManagementController extends Controller {
         $notificationData['n_notification_text'] = '<strong> Admin </strong> gifted you '.$giftCoins.' coins';
         $this->objNotifications->insertUpdate($notificationData);
 
+        dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
+        
         $userArray = $this->teenagersRepository->getTeenagerByTeenagerId($id);
         $objGiftUser = new TeenagerCoinsGift();
         if($flag) {

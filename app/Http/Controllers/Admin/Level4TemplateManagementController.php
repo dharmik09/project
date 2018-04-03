@@ -21,6 +21,8 @@ use Cache;
 use App\Services\Teenagers\Contracts\TeenagersRepository;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Storage;
+use App\Jobs\SendPushNotificationToAllTeenagers;
+use App\Notifications;
 
 class Level4TemplateManagementController extends Controller {
 
@@ -40,6 +42,7 @@ class Level4TemplateManagementController extends Controller {
         $this->questionDescriptionORIGINALImage = Config::get('constant.LEVEL4_INTERMEDIATE_QUESTION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenagersRepository       = $teenagersRepository;
         $this->fileStorageRepository = $fileStorageRepository;
+        $this->objNotifications = new Notifications();
     }
 
     public function index() {
@@ -199,8 +202,20 @@ class Level4TemplateManagementController extends Controller {
                     $saveData['gt_template_descritpion_popup_imge'] = $popupFileName;
                 }
             }
+
         }
         $response = $this->level4ActivitiesRepository->saveGamificationTemplate($saveData);
+
+        $notificationData['n_sender_id'] = '0';
+        $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_ADMIN');
+        $notificationData['n_receiver_id'] = 0;
+        $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+        $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_ADD_PROFESSION');
+        $notificationData['n_notification_text'] = 'New Role Play <strong>'.$saveData['gt_template_title'].'</strong> updated in ProTeen!';
+        $this->objNotifications->insertUpdate($notificationData);
+        
+        dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
+
 //        $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
 //        foreach ($teenagers AS $key => $value) {
 //            $message = 'Role play "' .$saveData['gt_template_title'].'" as a "'.$professionName.'" in ProTeen now!';

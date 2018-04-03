@@ -21,6 +21,7 @@ use Mail;
 use App\TeenagerCoinsGift;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications;
+use App\Jobs\SendPushNotificationToAllTeenagers;
 
 class SchoolManagementController extends Controller
 {
@@ -262,37 +263,41 @@ class SchoolManagementController extends Controller
         $return = $this->schoolsRepository->editToApprovedSchool($id);
         if($return)
         {
+            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.schoolapprovesuccess'), '', $_SERVER['REMOTE_ADDR']);
+            $SchoolDetailbyId = $this->schoolsRepository->getSchoolById($id);
+
             $notificationData['n_sender_id'] = '0';
             $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_ADMIN');
             $notificationData['n_receiver_id'] = 0;
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_SCHOOL_APPROVE');
-            $notificationData['n_notification_text'] = '<strong> Admin </strong> has approved school <strong>'.$return->sc_name.'</strong>';
+            $notificationData['n_notification_text'] = 'New school <strong>'.$return->sc_name.'</strong> has been arrived in ProTeen!';
             $this->objNotifications->insertUpdate($notificationData);
             
-            Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_SCHOOLS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.schoolapprovesuccess'), '', $_SERVER['REMOTE_ADDR']);
-            $SchoolDetailbyId = $this->schoolsRepository->getSchoolById($id);
             /*$teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
             foreach ($teenagers AS $key => $value) {
                 $message = 'New school "' .$SchoolDetailbyId->sc_name.'" has been added into ProTeen!';
                 $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
             }*/
-                        // --------------------start sending mail -----------------------------//
-                        $replaceArray = array();
-                        $replaceArray['SCHOOL_NAME'] = $SchoolDetailbyId->sc_first_name;
-                        $replaceArray['SCHOOL_LOGIN_URL'] = url('school/login');
+            
+            // --------------------start sending mail -----------------------------//
+            $replaceArray = array();
+            $replaceArray['SCHOOL_NAME'] = $SchoolDetailbyId->sc_first_name;
+            $replaceArray['SCHOOL_LOGIN_URL'] = url('school/login');
 
-                        $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.SCHOOL_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
-                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-                        $data = array();
-                        $data['subject'] = $emailTemplateContent->et_subject;
-                        $data['toEmail'] = $SchoolDetailbyId->sc_email;
-                        $data['toName'] = $SchoolDetailbyId->sc_first_name;
-                        $data['content'] = $content;
-                        Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
-                                    $message->subject($data['subject']);
-                                    $message->to($data['toEmail'], $data['toName']);
-                                 });
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.SCHOOL_VAIRIFIED_EMAIL_TEMPLATE_NAME'));
+            $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+            $data = array();
+            $data['subject'] = $emailTemplateContent->et_subject;
+            $data['toEmail'] = $SchoolDetailbyId->sc_email;
+            $data['toName'] = $SchoolDetailbyId->sc_first_name;
+            $data['content'] = $content;
+            Mail::send(['html' => 'emails.Template'], $data, function($message) use ($data) {
+                        $message->subject($data['subject']);
+                        $message->to($data['toEmail'], $data['toName']);
+                     });
+
+            dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
             return Redirect::to("admin/schools")->with('success', trans('labels.schoolapprovesuccess'));
         }
         else

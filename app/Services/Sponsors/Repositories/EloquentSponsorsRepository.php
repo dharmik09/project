@@ -139,6 +139,7 @@ class EloquentSponsorsRepository extends EloquentBaseRepository
      public function editToApprovedSponser($id)
      {
         $return = $this->model->where('id', $id)->update(['sp_isapproved' => 1]);
+        $return = $this->model->where('id', $id)->first();
         return $return;
      }
 
