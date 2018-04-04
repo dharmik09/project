@@ -143,6 +143,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/getCareerFans', 'Webservice\level3ActivityController@getCareerFansPageWise');
 	Route::post('/getMyCareerPageFilterDetails', 'Webservice\level3ActivityController@getMyCareerPageFilterDetails');
 	Route::post('/getCareerLeaderboardDetails', 'Webservice\level3ActivityController@getCareerLeaderboardDetails');
+	Route::post('/getCareersByMatchScale', 'Webservice\level3ActivityController@getCareersByMatchScale');
 
 	//Notification
 	Route::post('/getNotification', 'Webservice\NotificaionController@getNotificationPageWise');

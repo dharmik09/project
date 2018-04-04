@@ -1481,5 +1481,96 @@ class level3ActivityController extends Controller {
         }
         return response()->json($response, 200);
     }
+
+    /* @getCareersByMatchScale
+     * @params: loginToken, userId, matchScale
+     */
+    public function getCareersByMatchScale(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            if ($request->matchScale != "") {
+                $data = [];
+                $this->countryId = ($teenager->t_view_information == 1) ? 2 : 1;
+                $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+                $scale = [];
+                foreach($getTeenagerHML as $key => $value) {
+                    if($value == "match") {
+                        $scale[1][] = $key;
+                    } else if($value == "moderate") {
+                        $scale[2][] = $key;
+                    } else if($value == "nomatch") {
+                        $scale[3][] = $key;
+                    }
+                }
+                $professionArray = isset($scale[$request->matchScale]) ? $scale[$request->matchScale] : [];
+                $data = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($this->countryId, $professionArray);
+                if ($data) {
+                    foreach ($data as $key => $value) {
+                        $match = $nomatch = $moderate = [];
+                        $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
+                        $youtubeId = Helpers::youtube_id_from_url($value->b_video);
+                        if($youtubeId != '') {
+                            $data[$key]->b_video = $youtubeId;
+                            $data[$key]->type_video = '1'; //Youtube
+                        } else {
+                            $data[$key]->type_video = '2'; //Dropbox
+                        }
+                    
+                        $data[$key]->total_basket_profession = count($value->profession);
+                        $professionAttemptedCount = 0;
+                        foreach ($value->profession as $k => $v) {
+                            if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
+                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                            } else {
+                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                            }
+                            $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $v->id);
+                            if(isset($professionAttempted) && $professionAttempted == 100) { 
+                                $data[$key]->profession[$k]->completed = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
+                                $professionAttemptedCount++;
+                            } else {
+                                $data[$key]->profession[$k]->completed = Config::get('constant.PROFESSION_NOT_ATTEMPTED_FLAG');
+                            }
+                            $data[$key]->profession[$k]->matched = isset($getTeenagerHML[$v->id]) ? $getTeenagerHML[$v->id] : '';
+                            if($data[$key]->profession[$k]->matched == "match") {
+                                $match[] = $v->id;
+                            } else if($data[$key]->profession[$k]->matched == "nomatch") {
+                                $nomatch[] = $v->id;
+                            } else if($data[$key]->profession[$k]->matched == "moderate") {
+                                $moderate[] = $v->id;
+                            } else {
+                                $notSetArray[] = $v->id;
+                            }
+                        }
+
+                        $data[$key]->basket_completed_profession = $professionAttemptedCount;
+
+                        $data[$key]->strong_match = count($match);
+                        $data[$key]->potential_match = count($moderate);
+                        $data[$key]->unlikely_match = count($nomatch);
+                    }
+                    $response['data']['baskets'] = $data;
+                    $totalProfession = $this->professions->getteenagerTotalProfessionStarRatedCount($request->userId);
+                    $response['data']['total_profession'] = (isset($totalProfession) && $totalProfession > 0) ? $totalProfession : 0;
+                    $totalCompletedProfession = Helpers::getProfessionCompleteCount($request->userId, 1);
+                    $response['data']['completed_profession'] = (isset($totalCompletedProfession) && $totalCompletedProfession > 0) ? $totalCompletedProfession : 0;
+                    //Store log in System
+                    $this->log->info('Retrieve careers details by match scale', array('userId' => $request->userId, 'matchScale' => $request->matchScale));
+                    $response['login'] = 1;
+                    $response['status'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['data'] = $data;
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+    }
  
 }
