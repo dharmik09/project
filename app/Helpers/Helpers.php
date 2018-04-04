@@ -51,6 +51,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Level1Activity;
 use App\TeenagerPromiseScore;
 use App\Level4ProfessionProgress;
+use App\Community;
 
 Class Helpers {
     /*
@@ -3138,9 +3139,21 @@ Class Helpers {
      *  @params : parentId, professionId
      *  @response : All level booster points with total points 
      */
-    public static function getProfessionCompletePercentageForParent($parentId, $professionId) {
+    public static function getProfessionCompletePercentageForParent($parentId, $professionId) 
+    {
         $data = DB::table('pro_l4p_level4_parent_profession_progress')->where(['parent_id' => $parentId, 'profession_id' => $professionId])->first();
         return (isset($data->level4_total) && $data->level4_total != "" && $data->level4_total > 0) ? ($data->level4_total > 100) ? 100 : $data->level4_total : 0;
+    }
+
+    /* @getTeenAlreadyInConnection
+     *  @params : teenagerId, memberId
+     *  @response : Teenager connection status with passed memberId 
+     */
+    public static function getTeenAlreadyInConnection($teenagerId, $memberId)
+    {
+        $objCommunity = new Community;
+        $connStatus = $objCommunity->checkTeenConnectionStatus($teenagerId, $memberId);
+        return $connStatus;
     }
     
 }
