@@ -29,7 +29,21 @@
                     $teenPoints = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
                 ?>
                 {{ $teenPoints }} points
-                <a href="#" title="Chat"><i class="icon-chat"><!-- --></i></a>
+                <?php $connStatus = Helpers::getTeenAlreadyInConnection(Auth::guard('teenager')->user()->id, $guru->id); 
+                    $chatUrl = "javascript:void(0);";
+                    if (isset($connStatus) && !empty($connStatus)) {
+                        if (isset($connStatus['count']) && !empty($connStatus['count']) && $connStatus['count'] == 1) {
+                            $chatUrl = url("teenager/chat/" . $guru->t_uniqueid );
+                        } else if (isset($connStatus['count']) && !empty($connStatus['count'])  && $connStatus['count'] == 3) {
+                            if (isset($connStatus['connectionDetails']) && !empty($connStatus['connectionDetails'])) {
+                                if ($connStatus['connectionDetails']->tc_status != '' && $connStatus['connectionDetails']->tc_status == 1) {
+                                    $chatUrl = url("teenager/chat/" . $guru->t_uniqueid );
+                                }
+                            }
+                        }
+                    } 
+                ?>
+                <a href="{{$chatUrl}}" title="Chat"><i class="icon-chat"><!-- --></i></a>
             </div>
         </div>
     </div>
