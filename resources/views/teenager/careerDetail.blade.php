@@ -2204,11 +2204,8 @@
     function viewPicture(imgSrc) {
         var modal = document.getElementById('imageModal');
         // Get the image and insert it inside the modal - use its "alt" text as a caption
-        // var imgSrc = $('.'+elementClass).attr('src');
-        // var imgAlt = $('.'+elementClass).attr('alt');
-
         var modalImg = $("#img02");
-        var captionText = document.getElementById("imgCaption");
+        //var captionText = document.getElementById("imgCaption");
         modal.style.display = "block";
         modalImg.attr('src', imgSrc);
         //captionText.innerHTML = imgAlt;
@@ -2223,6 +2220,7 @@
 
     $(document).on("click", '.close-modal', function(event) { 
         var modal = document.getElementById('imageModal');
+        $("#img02").attr('src', '');
         modal.style.display = "none";
     });
 
