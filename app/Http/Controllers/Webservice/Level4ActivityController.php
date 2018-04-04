@@ -766,12 +766,8 @@ class Level4ActivityController extends Controller {
 
                 $getTemplateNo = Helpers::getTemplateNo($userId, $professionId);
                 $response['congratulation'] = $getTemplateNo;
-                $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userId);
                 $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
                 $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
-                $level4Booster = Helpers::level4Booster($professionId, $userId);
-                $level4Booster['total'] = ( isset($getTeenagerBoosterPoints['total']) ) ? $getTeenagerBoosterPoints['total'] : "";
-                $response['level4Booster'] = $level4Booster;
                 $response['professionId'] = $professionId;
 
                 $response['boosterScale'] = 50;
@@ -1010,11 +1006,11 @@ class Level4ActivityController extends Controller {
                         $response['status'] = 0;
                         $response['message'] = "Invalid Answer Type";
                     }
-                    $getTeenagerBoosterPoints2 = $this->teenagersRepository->getTeenagerBoosterPoints($body['userId']);
+                    
                     $message = '';
-                    if (!empty($getTeenagerBoosterPoints2)) {
-                        $message = Helpers::sendMilestoneNotification($getTeenagerBoosterPoints2['total']);
-                    }
+//                    if (!empty($getTeenagerBoosterPoints2)) {
+//                        $message = Helpers::sendMilestoneNotification($getTeenagerBoosterPoints2['total']);
+//                    }
 
                     $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($body['userId'], $professionId, $getAllQuestionRelatedDataFromQuestionId->l4ia_question_template);
                     if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
@@ -1023,9 +1019,6 @@ class Level4ActivityController extends Controller {
                     }
 
                     $response['displayMsg'] = $message;
-                    $level4Booster = Helpers::level4Booster($professionId, $body['userId']);
-                    $level4Booster['total'] = $getTeenagerBoosterPoints2['total'];
-                    $response['level4Booster'] = $level4Booster;
                     //$response['booster_points'] = '';
                     $response['templateId'] = $getAllQuestionRelatedDataFromQuestionId->l4ia_question_template;
                     $response['answerType'] = $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type;
@@ -1066,10 +1059,8 @@ class Level4ActivityController extends Controller {
                         }
 
                         $getQuestionTemplateForProfession[$key]->remainingDays = $days;
-                        $intermediateActivities = [];
-                        $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($request->userId, $request->professionId, $value->gt_template_id);
                         $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($request->userId, $request->professionId, $value->gt_template_id);
-                        if (empty($intermediateActivities) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions == $totalIntermediateQuestion[0]->NoOfAttemptedQuestions) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions < $totalIntermediateQuestion[0]->NoOfAttemptedQuestions)) {
+                        if ($totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 || ($totalIntermediateQuestion[0]->NoOfTotalQuestions == $totalIntermediateQuestion[0]->NoOfAttemptedQuestions) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions < $totalIntermediateQuestion[0]->NoOfAttemptedQuestions)) {
                            $getQuestionTemplateForProfession[$key]->played = 1;
                         } else {
                             $getQuestionTemplateForProfession[$key]->played = 0;
@@ -1082,20 +1073,12 @@ class Level4ActivityController extends Controller {
                 } else {
                     $response['questionTemplate'] = [];
                 }
-                $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($request->userId);
+                
                 $response['message'] = trans('appmessages.default_success_msg');
                 $response['status'] = 1;
                 $userDetail = $this->teenagersRepository->getUserDataForCoinsDetail($request->userId);
                 $response['availableCoins'] = $userDetail['t_coins'];
-                $level4Booster = Helpers::level4Booster($request->professionId, $request->userId);
-                $l4BoosterDetails = [];
-                $l4BoosterDetails['competing'] = $level4Booster['competing'];
-                $l4BoosterDetails['yourScore'] = $level4Booster['yourScore'];
-                $l4BoosterDetails['highestScore'] = $level4Booster['highestScore'];
-                $l4BoosterDetails['yourRank'] = $level4Booster['yourRank'];
-                $l4BoosterDetails['totalPobScore'] = $level4Booster['totalPobScore'];
-                $level4Booster['total'] = $getTeenagerBoosterPoints['total'];
-                $response['level4Booster'] = $l4BoosterDetails;
+                
                 //$response['boosterScale'] = 50;
             } else {
                 $response['status'] = 0;
@@ -1596,7 +1579,38 @@ class Level4ActivityController extends Controller {
         
         return response()->json($response, 200);
         exit;
-
     }
 
+    /* Request Params : getLevel4IntermediateTemplate
+     *  loginToken, userId, professionId
+     */
+    public function getProfessionL4Pointpoints(Request $request) 
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($teenager) {
+            if (isset($request->professionId) && $request->professionId != "") {
+                
+                $level4Booster = Helpers::level4Booster($request->professionId, $request->userId);
+                $l4BoosterDetails = [];
+                $l4BoosterDetails['competing'] = $level4Booster['competing'];
+                $l4BoosterDetails['yourScore'] = $level4Booster['yourScore'];
+                $l4BoosterDetails['highestScore'] = $level4Booster['highestScore'];
+                $l4BoosterDetails['yourRank'] = $level4Booster['yourRank'];
+                $l4BoosterDetails['totalPobScore'] = $level4Booster['totalPobScore'];
+                $response['level4Booster'] = $l4BoosterDetails;
+                
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['status'] = 1;                 
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg'); 
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;     
+    }
 }
