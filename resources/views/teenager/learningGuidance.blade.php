@@ -17,7 +17,7 @@
                         <span><i class="icon-success"></i></span>
                     </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lobortis vestibulum ipsum id commodo. Curabitur non turpis eget turpis laoreet mattisac sit amet turpismolestie lacus non, elementum velit.</p>
+                <p>Role play tasks are based on mental, physical and emotional skills of varied professions. Learning Guidance is a personalized insight based on your experential role plays. The more you play the better the insight.</p>
             </div>
         </div>
         <!-- accordian section-->

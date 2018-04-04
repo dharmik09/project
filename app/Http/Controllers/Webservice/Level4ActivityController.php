@@ -1584,7 +1584,7 @@ class Level4ActivityController extends Controller {
                     }                   
                 }
             }
-            $responseData['learningGuidanceInfo'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lobortis vestibulum ipsum id commodo. Curabitur non turpis eget turpis laoreet mattisac sit amet turpismolestie lacus non, elementum velit.";
+            $responseData['learningGuidanceInfo'] = "Role play tasks are based on mental, physical and emotional skills of varied professions. Learning Guidance is a personalized insight based on your experential role plays. The more you play the better the insight.";
             $responseData['panelData'] = $learningGuidance;
             $response['login'] = 1;
             $response['status'] = 1;
