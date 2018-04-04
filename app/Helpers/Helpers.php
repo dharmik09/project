@@ -1994,10 +1994,7 @@ Class Helpers {
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
-        echo $message."<br/>";
-        echo "<pre>";
-        print_r($token);
-        exit;
+        
         $downstreamResponse = FCM::sendTo($token, $option, NULL, $data);
 
         $downstreamResponse->numberSuccess();
