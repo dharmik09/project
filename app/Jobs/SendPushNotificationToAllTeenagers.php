@@ -54,10 +54,10 @@ class SendPushNotificationToAllTeenagers implements ShouldQueue
             $this->log->info("IOS notification sent started");
 
             foreach ($userDeviceToken as $key => $value) {
-                if($value->tdt_device_type == "1"){
+                if($value->tdt_device_type == 2){
                     $androidToken[] = $value->tdt_device_token;
                 }
-                if($value->tdt_device_type == "2"){
+                if($value->tdt_device_type == 1){
                     Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
                     // $this->log->info("IOS notification found on Pointer => ". $key);
                 }

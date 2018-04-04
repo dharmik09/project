@@ -423,21 +423,21 @@ class CoinController extends Controller
             $notificationData['n_receiver_id'] = $request->giftedUserId;
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
-            $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> gifted you '.$request->giftedCoins.' coins';
+            $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> gifted you '.$request->giftedCoins.' ProCoins';
             $this->objNotifications->insertUpdate($notificationData);
 
             $androidToken = [];
             $pushNotificationData = [];
-            $pushNotificationData['message'] = $notificationData['n_notification_text'];
+            $pushNotificationData['message'] = strip_tags($notificationData['n_notification_text']);
             $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
             $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($request->giftedUserId);
 
             if(count($userDeviceToken)>0){
                 foreach ($userDeviceToken as $key => $value) {
-                    if($value->tdt_device_type == "1"){
+                    if($value->tdt_device_type == 2){
                         $androidToken[] = $value->tdt_device_token;
                     }
-                    if($value->tdt_device_type == "2"){
+                    if($value->tdt_device_type == 1){
                         Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
                     }
                 }

@@ -1994,7 +1994,7 @@ Class Helpers {
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
-
+        
         $downstreamResponse = FCM::sendTo($token, $option, NULL, $data);
 
         $downstreamResponse->numberSuccess();
