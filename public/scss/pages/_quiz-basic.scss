@@ -114,6 +114,15 @@
         &.quiz-inter {
             //max-width: 220px;
         }
+        .enlarge-popup{
+            right: 55px;top: 5px;
+            @include maxsm{
+                right: 35%;
+            }
+            @include maxms{
+                right: 26%;
+            }
+        }
     }
     .clearfix {
         clear: both;
