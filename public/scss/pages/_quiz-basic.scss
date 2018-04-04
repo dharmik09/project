@@ -115,12 +115,12 @@
             //max-width: 220px;
         }
         .enlarge-popup{
-            right: 55px;top: 5px;
+            right: 28px;top: 5px;
             @include maxsm{
-                right: 35%;
+                right: 10%;
             }
             @include maxms{
-                right: 26%;
+                right: 9%;
             }
         }
     }
