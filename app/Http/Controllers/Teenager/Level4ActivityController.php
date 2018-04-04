@@ -1022,12 +1022,11 @@ class Level4ActivityController extends Controller {
                     $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->tdc_end_date);
                 }
                 $getQuestionTemplateForProfession[$key]->remaningDays = $days;
-                $intermediateActivities = [];
-                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($userId, $professionId, $professionTemplate->gt_template_id);
                 $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($userId, $professionId, $professionTemplate->gt_template_id);
+                
                 $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
                 $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
-                if (empty($intermediateActivities) || ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
+                if($response['NoOfTotalQuestions'] > 0 || ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
                    $getQuestionTemplateForProfession[$key]->attempted = 'yes';
                 } else {
                     $getQuestionTemplateForProfession[$key]->attempted = 'no';
