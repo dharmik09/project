@@ -1591,7 +1591,7 @@ class Level4ActivityController extends Controller {
     /* Request Params : getLevel4IntermediateTemplate
      *  loginToken, userId, professionId
      */
-    public function getProfessionLeaderboard(Request $request) 
+    public function getProfessionL4Pointpoints(Request $request) 
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
