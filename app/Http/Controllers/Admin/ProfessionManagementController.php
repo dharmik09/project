@@ -423,6 +423,10 @@ class ProfessionManagementController extends Controller {
                 }
         }
 
+		if(count($results)>0){
+			$this->objProfessionWiseCertification->truncate();
+		}
+		
         foreach ($results as $key => $value) {
                 $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
                 $data = [];
@@ -480,6 +484,10 @@ class ProfessionManagementController extends Controller {
                     return Redirect::to("admin/professions")->with('error',$value['profession_name'].' '.trans('labels.professionwiseSubjectbulkuploadprofessionnotfound'));
                 }
         }
+
+		if(count($results)>0){
+			$this->objProfessionWiseSubject->truncate();
+		}
 
         foreach ($results as $key => $value) {
                 $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
@@ -541,6 +549,10 @@ class ProfessionManagementController extends Controller {
                     return Redirect::to("admin/professions")->with('error',$value['profession_name'].' '.trans('labels.professionwiseTagbulkuploadprofessionnotfound'));
                 }
         }
+
+		if(count($results)>0){
+			$this->objProfessionWiseTag->truncate();
+		}
 
         foreach ($results as $key => $value) {
                 $professionsData = $this->objProfession->getProfessionByName($value['profession_name']);
