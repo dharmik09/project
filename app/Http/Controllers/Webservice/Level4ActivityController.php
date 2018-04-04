@@ -766,12 +766,8 @@ class Level4ActivityController extends Controller {
 
                 $getTemplateNo = Helpers::getTemplateNo($userId, $professionId);
                 $response['congratulation'] = $getTemplateNo;
-                $getTeenagerBoosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($userId);
                 $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
                 $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
-                $level4Booster = Helpers::level4Booster($professionId, $userId);
-                $level4Booster['total'] = ( isset($getTeenagerBoosterPoints['total']) ) ? $getTeenagerBoosterPoints['total'] : "";
-                $response['level4Booster'] = $level4Booster;
                 $response['professionId'] = $professionId;
 
                 $response['boosterScale'] = 50;
@@ -1010,11 +1006,11 @@ class Level4ActivityController extends Controller {
                         $response['status'] = 0;
                         $response['message'] = "Invalid Answer Type";
                     }
-                    $getTeenagerBoosterPoints2 = $this->teenagersRepository->getTeenagerBoosterPoints($body['userId']);
+                    
                     $message = '';
-                    if (!empty($getTeenagerBoosterPoints2)) {
-                        $message = Helpers::sendMilestoneNotification($getTeenagerBoosterPoints2['total']);
-                    }
+//                    if (!empty($getTeenagerBoosterPoints2)) {
+//                        $message = Helpers::sendMilestoneNotification($getTeenagerBoosterPoints2['total']);
+//                    }
 
                     $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($body['userId'], $professionId, $getAllQuestionRelatedDataFromQuestionId->l4ia_question_template);
                     if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
@@ -1023,9 +1019,6 @@ class Level4ActivityController extends Controller {
                     }
 
                     $response['displayMsg'] = $message;
-                    $level4Booster = Helpers::level4Booster($professionId, $body['userId']);
-                    $level4Booster['total'] = $getTeenagerBoosterPoints2['total'];
-                    $response['level4Booster'] = $level4Booster;
                     //$response['booster_points'] = '';
                     $response['templateId'] = $getAllQuestionRelatedDataFromQuestionId->l4ia_question_template;
                     $response['answerType'] = $getAllQuestionRelatedDataFromQuestionId->gt_temlpate_answer_type;
