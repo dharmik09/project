@@ -226,7 +226,7 @@ class CommunityController extends Controller
                     $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
                     $notificationData['n_record_id'] = $connectionResponse->id;
                     $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
-                    $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has sent you a connection request';
+                    $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has sent you a friend request';
                     $this->objNotifications->insertUpdate($notificationData);
 
                     $androidToken = [];
