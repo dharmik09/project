@@ -490,7 +490,7 @@ class level3ActivityController extends Controller {
                     
                     $getTeenagerHML = Helpers::getTeenagerMatchScale($teenager->id);
                     
-                    $professionHMLScale = isset($getTeenagerHML[$professionsData->id])?$getTeenagerHML[$professionsData->id]:'nomatch';
+                    $professionHMLScale = isset($getTeenagerHML[$professionsData->id])?$getTeenagerHML[$professionsData->id]:'';
                     
                     $professionsData->countryId = $countryId;
                     if($professionsData->pf_logo != '' && Storage::size($this->professionThumbUrl . $professionsData->pf_logo) > 0){
