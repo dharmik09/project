@@ -231,16 +231,16 @@ class CommunityController extends Controller
 
                     $androidToken = [];
                     $pushNotificationData = [];
-                    $pushNotificationData['message'] = $notificationData['n_notification_text'];
+                    $pushNotificationData['message'] = strip_tags($notificationData['n_notification_text']);
                     $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
                     $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($data['tc_receiver_id']);
 
                     if(count($userDeviceToken)>0){
                         foreach ($userDeviceToken as $key => $value) {
-                            if($value->tdt_device_type == "1"){
+                            if($value->tdt_device_type == 2){
                                 $androidToken[] = $value->tdt_device_token;
                             }
-                            if($value->tdt_device_type == "2"){
+                            if($value->tdt_device_type == 1){
                                 Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
                             }
                         }

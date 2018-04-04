@@ -423,7 +423,7 @@ class CoinController extends Controller
             $notificationData['n_receiver_id'] = $request->giftedUserId;
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
-            $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> gifted you '.$request->giftedCoins.' coins';
+            $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> gifted you '.$request->giftedCoins.' ProCoins';
             $this->objNotifications->insertUpdate($notificationData);
 
             $androidToken = [];
