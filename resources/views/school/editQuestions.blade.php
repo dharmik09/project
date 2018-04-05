@@ -236,7 +236,7 @@
             </div>
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-flat">{{trans('labels.savebtn')}}</button>
-                <a class="btn btn-danger btn-flat pull-right" href="{{ url('admin/level2Activity') }}{{$page}}"> {{trans('labels.cancelbtn')}}</a>
+                <a class="btn btn-danger btn-flat pull-right" href="{{ url('school/questions') }}{{$page}}"> {{trans('labels.cancelbtn')}}</a>
             </div><!-- /.box-footer -->
         </form>
         </div>
