@@ -77,12 +77,12 @@
                         <div class="right col-md-3 col-sm-4 col-xs-12">
                             <div class="clearfix"><a href="{{url('/sponsor/data-add')}}" class="btn primary_btn invite_teen_btn">Add Activities</a></div>
                         </div>
-                        <div class="left col-md-6 col-sm-4 col-xs-12">
+                        <!-- <div class="left col-md-6 col-sm-4 col-xs-12">
                             <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
                             <span>{{trans('labels.availablecoins')}}</span>
-                            <span class="coin_count_ttl"><?php echo number_format($loggedInUser->user()->sp_credit);?></span>
-                        </div>
-                        <div class="dashboard_page col-md-3 col-sm-4 col-xs-12">
+                            <span class="coin_count_ttl"><?php //echo number_format($loggedInUser->user()->sp_credit);?></span>
+                        </div> -->
+                        <div class="dashboard_page col-md-3 col-sm-4 col-xs-12 pull-right">
                            <a href="javascript:void(0);" rel="tooltip" data-title="Dieser Link führt zu Google"  onclick="giftCoins({{$loggedInUser->user()->sp_credit}});" class="btn primary_btn space_btm">Gift ProCoins</a>                        </div>
                     </div>
                 </div>
