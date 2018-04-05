@@ -103,11 +103,11 @@
                 <div class="menu-container">
                     <ul>
                         <?php $inArrayRoute = ['parent/my-challengers', 'parent/my-challengers-research/{professionId}', 'parent/my-challengers-accept/{professionId}/{teenId}', 'parent/level4-activity/{professionId}/{teenId}', 'parent/level4-play-more/{professionId}/{teenId}','parent/level4-intermediate-activity/{professionId}/{templateId}/{teenId}', 'parent/level4-advance/{professionId}/{teenId}', 'parent/level4-advance-step2/{professionId}/{typeid}/{teenId}']; ?>
-                        <li><a href="{{ url('parent/my-challengers') }}" title="My Challengers" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), $inArrayRoute) ? 'active' : ''}}" >My Challengers</a></li>
-                        <li><a href="{{ url('/parent/update-profile') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/update-profile') ? 'active' : '' }}" title="Profile">My Profile</a></li>
-                        <li><a href="{{ url('/parent/home') }}" title="My Teens" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/home') ? 'active' : '' }}" >My Teen</a></li>
+                        <li><a href="{{ url('parent/my-challengers') }}" title="My Challengers" class="{{ in_array(Route::getFacadeRoot()->current()->uri(), $inArrayRoute) ? 'active' : ''}}" >Challengers</a></li>
+                        <li><a href="{{ url('/parent/update-profile') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/update-profile') ? 'active' : '' }}" title="Profile">Profile</a></li>
+                        <li><a href="{{ url('/parent/home') }}" title="My Teens" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/home') ? 'active' : '' }}" >Teen</a></li>
                         <li><a href="{{ url('/parent/progress') }}" title="Progress" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/progress') ? 'active' : '' }}" >Progress</a></li>
-                        <li><a href="{{ url('/parent/my-coins') }}" title="My Coins" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/my-coins') ? 'active' : '' }}" >My ProCoins</a></li>
+                        <li><a href="{{ url('/parent/my-coins') }}" title="My Coins" class="{{ (Route::getFacadeRoot()->current()->uri() == 'parent/my-coins') ? 'active' : '' }}" >ProCoins</a></li>
                     </ul>
                     <a href="#" class="menu-close"><i class="icon-close"></i></a>
                 </div>

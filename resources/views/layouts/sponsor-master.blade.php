@@ -65,9 +65,9 @@
             <div class="main-menu">
                 <div class="menu-container">
                     <ul>
-                        <li><a href="{{ url('sponsor/update-profile') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'sponsor/update-profile') ? 'active' : '' }}" title="My Profile">My Profile</a></li>
+                        <li><a href="{{ url('sponsor/update-profile') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'sponsor/update-profile') ? 'active' : '' }}" title="Profile">Profile</a></li>
                         <li><a href="{{ url('sponsor/home') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'sponsor/home') ? 'active' : '' }}" title="Progress">Progress</a></li>
-                        <li><a href="{{ url('sponsor/my-coins') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'sponsor/my-coins') ? 'active' : '' }}" title="My ProCoins">My ProCoins</a></li>
+                        <li><a href="{{ url('sponsor/my-coins') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'sponsor/my-coins') ? 'active' : '' }}" title="My ProCoins">ProCoins</a></li>
                     </ul>
                     <a href="#" class="menu-close"><i class="icon-close"></i></a>
                     

@@ -16,7 +16,7 @@
             <h6>{{$scholarshipProgram->sa_name}}</h6>
             <p>{{$scholarshipProgram->sa_description}}</p>
             <ul class="btn-list">
-                <li><a href="#" title="learn more" class="btn">learn more</a></li>
+                <li><a href="{{ ($scholarshipProgram->sa_image_href && !empty($scholarshipProgram->sa_image_href)) ? $scholarshipProgram->sa_image_href : 'javascript:void(0)' }}" title="learn more" class="btn">learn more</a></li>
                 <?php 
                     if (!empty($expiredActivityIds) && in_array($scholarshipProgram->id, $expiredActivityIds)) {
                         $callbleFunction = "";

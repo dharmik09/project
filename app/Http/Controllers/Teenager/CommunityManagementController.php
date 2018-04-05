@@ -198,10 +198,8 @@ class CommunityManagementController extends Controller {
                 $notificationData = [];
                 $notificationData['created_at'] = Carbon::now();
                 $notificationData['id'] = $recordExist->id;
-                $this->objNotifications->insertUpdate($notificationData);
-            } else {
-                $this->objNotifications->insertUpdate($notificationData);
             }
+            $this->objNotifications->insertUpdate($notificationData);
             
             $androidToken = [];
             $pushNotificationData = [];

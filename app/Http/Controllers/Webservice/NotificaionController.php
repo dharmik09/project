@@ -74,7 +74,7 @@ class NotificaionController extends Controller {
             $count = $noticationCount - count($readData);
 
             $response['data'] = $data;
-            $response['notificationUnreadCount'] = $count;
+            $response['notificationUnreadCount'] = (isset($count) && $count > 0) ? $count : 0;
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
@@ -128,7 +128,7 @@ class NotificaionController extends Controller {
                 $response['data'] = [];
                 $response['status'] = 1;
                 $response['login'] = 1;
-                $response['notificationUnreadCount'] = $count;
+                $response['notificationUnreadCount'] = (isset($count) && $count > 0) ? $count : 0;
                 $this->log->info('Response for fetch Notifications page wise' , array('api-name'=> 'getNotification'));
             } else {
                 $this->log->error('Parameter missing error' , array('api-name'=> 'getNotification'));
@@ -221,7 +221,7 @@ class NotificaionController extends Controller {
             $response['data'] = [];
             $response['status'] = 1;
             $response['login'] = 1;
-            $response['notificationUnreadCount'] = $count;
+            $response['notificationUnreadCount'] = (isset($count) && $count > 0) ? $count : 0;
             $this->log->info('Response for change Notifications status to read' , array('api-name'=> 'readNotification'));
 
         } else {

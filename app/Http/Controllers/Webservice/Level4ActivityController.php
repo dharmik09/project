@@ -127,7 +127,7 @@ class Level4ActivityController extends Controller {
                     $scholarshipData['companyName'] = $scholarshipProgram->sp_company_name;
                     $scholarshipData['title'] = $scholarshipProgram->sa_name;
                     $scholarshipData['details'] = $scholarshipProgram->sa_description;
-                    $scholarshipData['learnMoreLink'] = url('teenager/learnMoreL4');
+                    $scholarshipData['learnMoreLink'] = ($scholarshipProgram->sa_image_href && !empty($scholarshipProgram->sa_image_href)) ? $scholarshipProgram->sa_image_href : '';
                     $scholarshipData['is_expired'] = (!empty($expiredActivityIds) && in_array($scholarshipProgram->id, $expiredActivityIds)) ? 1 : 0;
                     $scholarshipData['is_applied'] = (!empty($scholarshipProgramIds) && in_array($scholarshipProgram->id, $scholarshipProgramIds)) ? 1 : 0;
                     if (!empty($expiredActivityIds) && in_array($scholarshipProgram->id, $expiredActivityIds)) {

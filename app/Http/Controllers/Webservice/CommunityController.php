@@ -193,47 +193,37 @@ class CommunityController extends Controller
             $receiverTeenDetails = $this->teenagersRepository->getTeenagerById($request->receiverId);
             $connectedTeen = $this->communityRepository->checkTeenConnectionStatus($request->receiverId, $request->senderId);
             if ($connectedTeen == 2) {
-                $data = array();
-                $replaceArray = array();
-                
-                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName('send-connection-request-to-teen');
-                $connectionUniqueId = uniqid("", TRUE);
-                $replaceArray['RECEIVER_TEEN_NAME'] = $receiverTeenDetails->t_name;
-                $replaceArray['SENDER_TEEN_NAME'] = $teenager->t_name;
-                $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
-                
-                if (isset($emailTemplateContent) && !empty($emailTemplateContent)) {
-                    $data['subject'] = $emailTemplateContent->et_subject;
-                    $data['toEmail'] = $receiverTeenDetails->t_email;
-                    $data['toName'] = $receiverTeenDetails->t_name." ".$receiverTeenDetails->t_lastname;
-                    $data['content'] = $content;
-                    $data['tc_unique_id'] = $connectionUniqueId;
-                    $data['tc_sender_id'] = $teenager->id;
-                    $data['tc_receiver_id'] = $receiverTeenDetails->id;
-                    
-                    Event::fire(new SendMail("emails.Template", $data));
-
-                    $connectionRequestData['tc_unique_id'] = $data['tc_unique_id'];
-                    $connectionRequestData['tc_sender_id'] = $data['tc_sender_id'];
-                    $connectionRequestData['tc_receiver_id'] = $data['tc_receiver_id'];
-                    $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
+                // $data = array();
+                // $connectionUniqueId = uniqid("", TRUE);
+                // $data['tc_unique_id'] = $connectionUniqueId;
+                // $data['tc_sender_id'] = $teenager->id;
+                // $data['tc_receiver_id'] = $receiverTeenDetails->id;
+                $connectionRequestData['tc_unique_id'] = uniqid("", TRUE);
+                $connectionRequestData['tc_sender_id'] = $teenager->id;
+                $connectionRequestData['tc_receiver_id'] = $receiverTeenDetails->id;
+                $connectionRequestData['tc_status'] = Config::get('constant.CONNECTION_PENDING_STATUS');
 
                     $connectionResponse = $this->communityRepository->saveConnectionRequest($connectionRequestData, '');
                     
                     $notificationData['n_sender_id'] = $teenager->id;
                     $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
-                    $notificationData['n_receiver_id'] = $data['tc_receiver_id'];
+                    $notificationData['n_receiver_id'] = $receiverTeenDetails->id;
                     $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
                     $notificationData['n_record_id'] = $connectionResponse->id;
                     $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST');
                     $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has sent you a friend request';
+                    $notificationExist = $this->objNotifications->checkIfConnectionNotitficationExist($notificationData);
+                    if ($notificationExist && !empty($notificationExist)) { 
+                        $notificationData['id'] = $notificationExist->id;
+                        $notificationData['created_at'] = Carbon::now();
+                    }
                     $this->objNotifications->insertUpdate($notificationData);
 
                     $androidToken = [];
                     $pushNotificationData = [];
                     $pushNotificationData['message'] = strip_tags($notificationData['n_notification_text']);
                     $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
-                    $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($data['tc_receiver_id']);
+                    $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($receiverTeenDetails->id);
 
                     if(count($userDeviceToken)>0){
                         foreach ($userDeviceToken as $key => $value) {
@@ -253,9 +243,9 @@ class CommunityController extends Controller
                     }
 
                     $response['message'] = "Connection request sent successfully!";
-                } else {
-                    $response['message'] = trans('validation.somethingwrong');
-                }
+                // } else {
+                //     $response['message'] = trans('validation.somethingwrong');
+                // }
                 $response['login'] = 1;
                 $response['status'] = 1;
             } else {

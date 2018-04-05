@@ -66,10 +66,10 @@
             <div class="main-menu">
                 <div class="menu-container">
                     <ul>
-                        <li><a href="{{ url('school/update-profile') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'school/update-profile') ? 'active' : '' }}" title="My Profile">My Profile</a></li>
-                        <li><a href="{{ url('school/home') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'school/home') ? 'active' : '' }}" title="My Student">My Student</a></li>
-                        <li><a href="{{ url('school/progress') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'school/progress') ? 'active' : '' }}" title="progress">progress</a></li>
-                        <li><a href="{{ url('school/get-gift-coins') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'school/get-gift-coins') ? 'active' : '' }}" title="My procoins">My procoins</a></li>
+                        <li><a href="{{ url('school/update-profile') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'school/update-profile') ? 'active' : '' }}" title="Profile">Profile</a></li>
+                        <li><a href="{{ url('school/home') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'school/home') ? 'active' : '' }}" title="Student">Student</a></li>
+                        <li><a href="{{ url('school/progress') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'school/progress') ? 'active' : '' }}" title="Progress">Progress</a></li>
+                        <li><a href="{{ url('school/get-gift-coins') }}" class="{{ (Route::getFacadeRoot()->current()->uri() == 'school/get-gift-coins') ? 'active' : '' }}" title="Procoins">Procoins</a></li>
                     </ul>
                     <a href="#" class="menu-close"><i class="icon-close"></i></a>
                 </div>
