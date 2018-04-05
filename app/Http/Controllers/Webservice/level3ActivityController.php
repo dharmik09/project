@@ -1505,7 +1505,7 @@ class level3ActivityController extends Controller {
                 }
                 $professionArray = isset($scale[$request->matchScale]) ? $scale[$request->matchScale] : [];
                 $data = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($this->countryId, $professionArray);
-                if ($data) {
+                if (isset($data) && count($data) > 0) {
                     foreach ($data as $key => $value) {
                         $match = $nomatch = $moderate = [];
                         $data[$key]->b_logo = Storage::url($this->basketThumbUrl . $value->b_logo);
@@ -1550,18 +1550,19 @@ class level3ActivityController extends Controller {
                         $data[$key]->potential_match = count($moderate);
                         $data[$key]->unlikely_match = count($nomatch);
                     }
-                    $response['data']['baskets'] = $data;
-                    $totalProfession = $this->professions->getteenagerTotalProfessionStarRatedCount($request->userId);
-                    $response['data']['total_profession'] = (isset($totalProfession) && $totalProfession > 0) ? $totalProfession : 0;
-                    $totalCompletedProfession = Helpers::getProfessionCompleteCount($request->userId, 1);
-                    $response['data']['completed_profession'] = (isset($totalCompletedProfession) && $totalCompletedProfession > 0) ? $totalCompletedProfession : 0;
-                    //Store log in System
-                    $this->log->info('Retrieve careers details by match scale', array('userId' => $request->userId, 'matchScale' => $request->matchScale));
-                    $response['login'] = 1;
-                    $response['status'] = 1;
-                    $response['message'] = trans('appmessages.default_success_msg');
-                    $response['data'] = $response;
-                }
+                } 
+                $responseData = [];
+                $responseData['baskets'] = $data;
+                $totalProfession = $this->professions->getteenagerTotalProfessionStarRatedCount($request->userId);
+                $responseData['total_profession'] = (isset($totalProfession) && $totalProfession > 0) ? $totalProfession : 0;
+                $totalCompletedProfession = Helpers::getProfessionCompleteCount($request->userId, 1);
+                $responseData['completed_profession'] = (isset($totalCompletedProfession) && $totalCompletedProfession > 0) ? $totalCompletedProfession : 0;
+                //Store log in System
+                $this->log->info('Retrieve careers details by match scale', array('userId' => $request->userId, 'matchScale' => $request->matchScale));
+                $response['login'] = 1;
+                $response['status'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['data'] = $responseData;
             } else {
                 $response['status'] = 0;
                 $response['message'] = trans('appmessages.missing_data_msg');

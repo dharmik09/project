@@ -495,11 +495,8 @@ class Baskets extends Model
 
         $return = $this->select('*')
                 ->with(['profession' => function ($query) use($professionArray) {
-                    $query->with(['professionHeaders' => function ($query) {
-                        $query->where('country_id', $this->countryId)->whereIn('pfic_title', ['average_per_year_salary', 'profession_outlook']);
-                    }])->whereIn('pro_pf_profession.id', $professionArray)->where('deleted', config::get('constant.ACTIVE_FLAG'));
+                    $query->whereIn('pro_pf_profession.id', $professionArray)->where('deleted', config::get('constant.ACTIVE_FLAG'));
                 }])
-                //->where('id', $this->basketId)
                 ->where('deleted' ,'1')
                 ->get();
         return $return;
