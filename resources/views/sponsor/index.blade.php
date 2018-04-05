@@ -259,10 +259,10 @@
             $('iframe').show();
         });
         $("#login_form").submit(function() {
-            $("#loginSubmit").toggleClass('sending').blur();
             var form = $("#login_form");
             form.validate();
             if (form.valid()) {
+                $("#loginSubmit").toggleClass('sending').blur();
                 //form.submit();
                 return true;
                 setTimeout(function () {
