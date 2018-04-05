@@ -205,8 +205,14 @@ class TeenagerController extends Controller
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW');
             $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has viewed your profile';
+            $recordExist = $this->objNotifications->checkIfNotificationAlreadyExist($notificationData);
+            if ($recordExist && count($recordExist) > 0) {
+                //$notificationData = [];
+                $notificationData['created_at'] = Carbon::now();
+                $notificationData['id'] = $recordExist->id;
+            }
             $this->objNotifications->insertUpdate($notificationData);
-
+            
             $androidToken = [];
             $pushNotificationData = [];
             $pushNotificationData['message'] = strip_tags($notificationData['n_notification_text']);
