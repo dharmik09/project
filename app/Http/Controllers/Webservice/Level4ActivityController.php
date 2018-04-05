@@ -1060,7 +1060,7 @@ class Level4ActivityController extends Controller {
 
                         $getQuestionTemplateForProfession[$key]->remainingDays = $days;
                         $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($request->userId, $request->professionId, $value->gt_template_id);
-                        if ($totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 || ($totalIntermediateQuestion[0]->NoOfTotalQuestions == $totalIntermediateQuestion[0]->NoOfAttemptedQuestions) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions < $totalIntermediateQuestion[0]->NoOfAttemptedQuestions)) {
+                        if ($totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfTotalQuestions == $totalIntermediateQuestion[0]->NoOfAttemptedQuestions) || ($totalIntermediateQuestion[0]->NoOfTotalQuestions < $totalIntermediateQuestion[0]->NoOfAttemptedQuestions)) {
                            $getQuestionTemplateForProfession[$key]->played = 1;
                         } else {
                             $getQuestionTemplateForProfession[$key]->played = 0;

@@ -60,6 +60,15 @@ class checkFilesInFolder extends Command
         $tableData = DB::table($tableName)
                         ->where('deleted', Config::get('constant.ACTIVE_FLAG'))
                         ->get();
+        
+        $tableData = DB::table("pro_l4iam_level4_intermediate_activity_media AS media")
+                        ->join("pro_l4ia_level4_intermediate_activity AS l4act", 'l4act.id', '=', 'media.l4iam_question_id')
+                        ->join(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession", 'profession.id', '=', 'l4act.l4ia_profession_id')
+                        ->join("pro_gt_gamification_template AS concept", 'concept.id', '=', 'l4act.l4ia_question_template')
+                        ->select('profession.pf_name','concept.gt_template_title','l4act.l4ia_question_text','media.*')
+                        ->where('media.deleted', Config::get('constant.ACTIVE_FLAG'))
+                        ->get();
+        
         $notFoundData = [];
 
         $bar = $this->output->createProgressBar(count($tableData));        
