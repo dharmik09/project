@@ -1560,7 +1560,7 @@ class level3ActivityController extends Controller {
                     $response['login'] = 1;
                     $response['status'] = 1;
                     $response['message'] = trans('appmessages.default_success_msg');
-                    $response['data'] = $data;
+                    $response['data'] = $response;
                 }
             } else {
                 $response['status'] = 0;
