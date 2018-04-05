@@ -56,12 +56,12 @@
                         <div class="right col-md-3 col-sm-4 col-xs-12">
                             <a href="{{ url('school/bulk-import') }}" class="btn primary_btn space_btm">Student Bulk Import</a>
                         </div>
-                        <div class="left col-md-6 col-sm-4 col-xs-12">
+                        <!-- <div class="left col-md-6 col-sm-4 col-xs-12">
                             <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
                             <span>{{trans('labels.availablecoins')}}</span>
-                            <span class="coin_count_ttl">@if(!empty($schoolData)) <?php echo number_format($schoolData['sc_coins']);?> @endif</span>
-                        </div>
-                        <div class="dashboard_page col-md-3 col-sm-4 col-xs-12">
+                            <span class="coin_count_ttl">@if(!empty($schoolData)) <?php //echo number_format($schoolData['sc_coins']);?> @endif</span>
+                        </div> -->
+                        <div class="dashboard_page col-md-3 col-sm-4 col-xs-12 pull-right">
                             <span class="tool-tip" <?php if($schoolData['sc_coins'] == 0) echo 'data-toggle="tooltip" data-placement="bottom" title="Register as Enterprise to avail ProCoins. If already registered please buy ProCoins package from your Enterprise login"';?>>
                                 <a href="javascript:void(0);" rel="tooltip" onclick="giftCoinsToAll();" class="btn primary_btn space_btm <?php if($schoolData['sc_coins'] == 0) echo 'disabled';?>">Gift ProCoins To All</a>
                             </span>

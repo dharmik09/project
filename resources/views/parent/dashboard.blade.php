@@ -47,12 +47,12 @@
     <div class="container">
         <div class="my_teens_content clearfix">
             <div class="coin_summary clearfix">
-              <div class="col-md-6 col-sm-12 col-xs-12 left">
+              <!-- <div class="col-md-6 col-sm-12 col-xs-12 left">
                   <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
                   <span>{{trans('labels.availablecoins')}}</span>
-                  <span class="coin_count_ttl"><?php echo number_format($parentData['p_coins']);?></span>
-              </div>
-              <div class="col-md-6 col-sm-12 col-xs-12 left">
+                  <span class="coin_count_ttl"><?php //echo number_format($parentData['p_coins']);?></span>
+              </div> -->
+              <div class="col-md-6 col-sm-12 col-xs-12 pull-right">
                 <div class="clearfix"><a href="{{ url('parent/pair-with-teen') }}" class="btn primary_btn invite_teen_btn cst_pull_right">Invite Teen</a></div>
               </div>
             </div>

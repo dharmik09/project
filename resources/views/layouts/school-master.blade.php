@@ -59,6 +59,19 @@
                                 </div>
                             </div>
                         </li>
+                        <li class="n-coin submenu-container">
+                            <a href="javascript:void(0);">
+                                <span class="coins"></span>
+                                <span id="user_procoins">{{ (Auth::guard('school')->user()->sc_coins > 0) ? number_format(Auth::guard('school')->user()->sc_coins) : 'No Coins' }}</span>
+                            </a>
+                            <div class="submenu">
+                                <h2>My ProCoins</h2>
+                                <div class="btns">
+                                    <a href="{{ url('/school/get-gift-coins') }}" class="btn btn-success btn-small text-uppercase">Gift</a>
+                                    <a href="{{ url('/school/get-consumption') }}" class="btn btn-success btn-small text-uppercase">History</a>
+                                </div>
+                            </div>
+                        </li>
                         <li class="n-menu"><a href="javascript:void(0);" class="menu-toggler"><i class="icon-menu"></i></a></li>
                     </ul>
                 </div>
