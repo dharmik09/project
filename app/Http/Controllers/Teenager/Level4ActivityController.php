@@ -1026,7 +1026,7 @@ class Level4ActivityController extends Controller {
                 
                 $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
                 $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
-                if($response['NoOfTotalQuestions'] > 0 || ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
+                if($response['NoOfTotalQuestions'] > 0 && ($response['NoOfTotalQuestions'] == $response['NoOfAttemptedQuestions']) || ($response['NoOfTotalQuestions'] < $response['NoOfAttemptedQuestions'])) {
                    $getQuestionTemplateForProfession[$key]->attempted = 'yes';
                 } else {
                     $getQuestionTemplateForProfession[$key]->attempted = 'no';
