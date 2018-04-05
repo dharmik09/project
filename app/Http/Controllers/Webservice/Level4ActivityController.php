@@ -674,107 +674,117 @@ class Level4ActivityController extends Controller {
                 $template_id = (int)$request->templateId;
                 $userId = (int)$request->userId;
 
-                $objTemplateDeductedCoins = new TemplateDeductedCoins();
-                $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($userId, $professionId, $template_id, 1);
-                $days = 0;
-                            
-                $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($userId, $professionId, $template_id);
-                $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($userId, $professionId, $template_id);
+                $total = $this->teenagersRepository->getTeenagerTotalBoosterPoints($userId);
+                $professionId = intval($professionId);
+                $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
                 
-                $intermediateCompleted = 0;
-                if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
-                    $intermediateCompleted = 1;
-                    dispatch( new CalculateProfessionCompletePercentage($userId, $professionId) );
-                }
-                
-                if (isset($intermediateActivities[0]) && !empty($intermediateActivities[0])) {
-                    $intermediateActivitiesData = $intermediateActivities[0];
-                    $intermediateActivitiesData->gt_temlpate_answer_type = Helpers::getAnsTypeFromGamificationTemplateId($intermediateActivitiesData->l4ia_question_template);
-                    $intermediateActivitiesData->l4ia_extra_question_time = $this->extraQuestionDescriptionTime;
-                    $timer = $intermediateActivitiesData->l4ia_question_time;
-                    $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
+                if ($totalBasicQuestion[0]->NoOfTotalQuestions > 0 && ( $totalBasicQuestion[0]->NoOfTotalQuestions > $totalBasicQuestion[0]->NoOfAttemptedQuestions ) ) {
+                    $response['status'] = 1;
+                    $response['message'] = "First, play basic to play advance activtiy.";
+                    $response['data'] = [];
+                } else {
+                    $objTemplateDeductedCoins = new TemplateDeductedCoins();
+                    $deductedCoinsDetail = $objTemplateDeductedCoins->getDeductedCoinsDetailById($userId, $professionId, $template_id, 1);
+                    $days = 0;
+                                
+                    $intermediateActivities = $this->level4ActivitiesRepository->getNotAttemptedIntermediateActivities($userId, $professionId, $template_id);
+                    $totalIntermediateQuestion = $this->level4ActivitiesRepository->getNoOfTotalIntermediateQuestionsAttemptedQuestion($userId, $professionId, $template_id);
                     
-                    //Question audio
-                    if (isset($intermediateActivitiesData->l4ia_question_audio) && $intermediateActivitiesData->l4ia_question_audio != '') {
-                        $intermediateActivitiesData->l4ia_question_audio = Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_audio);
-                    } else {
-                        $intermediateActivitiesData->l4ia_question_audio = '';
+                    $intermediateCompleted = 0;
+                    if(isset($totalIntermediateQuestion[0]->NoOfTotalQuestions) && $totalIntermediateQuestion[0]->NoOfTotalQuestions > 0 && ($totalIntermediateQuestion[0]->NoOfAttemptedQuestions >= $totalIntermediateQuestion[0]->NoOfTotalQuestions) ) {
+                        $intermediateCompleted = 1;
+                        dispatch( new CalculateProfessionCompletePercentage($userId, $professionId) );
                     }
+                    
+                    if (isset($intermediateActivities[0]) && !empty($intermediateActivities[0])) {
+                        $intermediateActivitiesData = $intermediateActivities[0];
+                        $intermediateActivitiesData->gt_temlpate_answer_type = Helpers::getAnsTypeFromGamificationTemplateId($intermediateActivitiesData->l4ia_question_template);
+                        $intermediateActivitiesData->l4ia_extra_question_time = $this->extraQuestionDescriptionTime;
+                        $timer = $intermediateActivitiesData->l4ia_question_time;
+                        $response['timer'] = $intermediateActivitiesData->l4ia_question_time;
+                        
+                        //Question audio
+                        if (isset($intermediateActivitiesData->l4ia_question_audio) && $intermediateActivitiesData->l4ia_question_audio != '') {
+                            $intermediateActivitiesData->l4ia_question_audio = Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_audio);
+                        } else {
+                            $intermediateActivitiesData->l4ia_question_audio = '';
+                        }
 
-                    //Question image
-                    $getQuestionImage = $this->level4ActivitiesRepository->getQuestionMultipleImages($intermediateActivitiesData->activityID);
-                    if (isset($getQuestionImage) && !empty($getQuestionImage)) {
-                        foreach ($getQuestionImage as $key => $image) {
-                            if($image['image'] != "") {
-                                if( Storage::size($this->questionDescriptionORIGINALImage.$image['image']) > 0) {
-                                    $ext = strtolower(pathinfo($image['image'], PATHINFO_EXTENSION)); 
-                                    if($ext == 'gif') {
-                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
-                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = "";
+                        //Question image
+                        $getQuestionImage = $this->level4ActivitiesRepository->getQuestionMultipleImages($intermediateActivitiesData->activityID);
+                        if (isset($getQuestionImage) && !empty($getQuestionImage)) {
+                            foreach ($getQuestionImage as $key => $image) {
+                                if($image['image'] != "") {
+                                    if( Storage::size($this->questionDescriptionORIGINALImage.$image['image']) > 0) {
+                                        $ext = strtolower(pathinfo($image['image'], PATHINFO_EXTENSION)); 
+                                        if($ext == 'gif') {
+                                            $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
+                                            $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = "";
+                                        } else {
+                                            $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . $image['image']);
+                                            $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
+                                        }
                                     } else {
-                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . $image['image']);
-                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
+                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
+                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png');
                                     }
                                 } else {
                                     $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
                                     $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png');
                                 }
-                            } else {
-                                $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . 'proteen-logo.png');
-                                $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png');
+                                $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
                             }
-                            $intermediateActivitiesData->question_images[$key]['l4ia_question_imageDescription'] = $image['imageDescription'];
-                        }
-                    } else {
-                    	$intermediateActivitiesData->question_images = [];
-                        //$intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
-                    }
-
-                    //Set question youtube video
-                    $getQuestionVideo = $this->level4ActivitiesRepository->getQuestionVideo($intermediateActivitiesData->activityID);
-                    if (isset($getQuestionVideo['video']) && !empty($getQuestionVideo['video'])) {
-                        $videoCode = Helpers::youtube_id_from_url($getQuestionVideo['video']);
-                        $intermediateActivitiesData->l4ia_question_video = $videoCode;
-                    } else {
-                        $intermediateActivitiesData->l4ia_question_video = '';
-                    }
-
-                    //Popup image
-                    $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "") ? (Storage::size($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) :  Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png') : "";
-                    //Popup description
-                    $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
-                    
-                    //Image reorder extra options
-                    if ($intermediateActivitiesData->gt_temlpate_answer_type == "image_reorder") {
-                        if (isset($intermediateActivitiesData->l4ia_options_metrix) && $intermediateActivitiesData->l4ia_options_metrix != '') {
-                            $columns = unserialize($intermediateActivitiesData->l4ia_options_metrix);
-                            $intermediateActivitiesData->no_of_column = $columns['column'];
                         } else {
-                            $intermediateActivitiesData->no_of_column = 4;
+                        	$intermediateActivitiesData->question_images = [];
+                            //$intermediateActivitiesData->l4ia_question_image = $intermediateActivitiesData->l4ia_question_imageDescription = '';
                         }
+
+                        //Set question youtube video
+                        $getQuestionVideo = $this->level4ActivitiesRepository->getQuestionVideo($intermediateActivitiesData->activityID);
+                        if (isset($getQuestionVideo['video']) && !empty($getQuestionVideo['video'])) {
+                            $videoCode = Helpers::youtube_id_from_url($getQuestionVideo['video']);
+                            $intermediateActivitiesData->l4ia_question_video = $videoCode;
+                        } else {
+                            $intermediateActivitiesData->l4ia_question_video = '';
+                        }
+
+                        //Popup image
+                        $intermediateActivitiesData->l4ia_question_popup_image = ($intermediateActivitiesData->l4ia_question_popup_image != "") ? (Storage::size($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) > 0) ? Storage::url($this->questionDescriptionORIGINALImage . $intermediateActivitiesData->l4ia_question_popup_image) :  Storage::url($this->questionDescriptionORIGINALImage . 'proteen-logo.png') : "";
+                        //Popup description
+                        $intermediateActivitiesData->l4ia_question_popup_description = ($intermediateActivitiesData->l4ia_question_popup_description != "") ? $intermediateActivitiesData->l4ia_question_popup_description : '';
+                        
+                        //Image reorder extra options
+                        if ($intermediateActivitiesData->gt_temlpate_answer_type == "image_reorder") {
+                            if (isset($intermediateActivitiesData->l4ia_options_metrix) && $intermediateActivitiesData->l4ia_options_metrix != '') {
+                                $columns = unserialize($intermediateActivitiesData->l4ia_options_metrix);
+                                $intermediateActivitiesData->no_of_column = $columns['column'];
+                            } else {
+                                $intermediateActivitiesData->no_of_column = 4;
+                            }
+                        }
+
+                        if ($intermediateActivitiesData->gt_temlpate_answer_type == "select_from_dropdown_option" || $intermediateActivitiesData->gt_temlpate_answer_type == "option_reorder" || $intermediateActivitiesData->gt_temlpate_answer_type == "option_choice" || $intermediateActivitiesData->gt_temlpate_answer_type == "true_false" || $intermediateActivitiesData->gt_temlpate_answer_type == "single_line_answer") {
+                            if ($intermediateActivitiesData->gt_temlpate_answer_type == "select_from_dropdown_option") {
+                                $response['optionOrder'] = (isset($intermediateActivitiesData->correctOrder)) ? explode(",", $intermediateActivitiesData->correctOrder) : '';
+                            }
+                            //$intermediateActivitiesData->questionAnswerText = ($intermediateActivitiesData->l4ia_question_answer_description != '') ? $intermediateActivitiesData->l4ia_question_answer_description : '';
+                        }
+                    } else {
+                        $intermediateActivitiesData = new \stdClass();
                     }
 
-                    if ($intermediateActivitiesData->gt_temlpate_answer_type == "select_from_dropdown_option" || $intermediateActivitiesData->gt_temlpate_answer_type == "option_reorder" || $intermediateActivitiesData->gt_temlpate_answer_type == "option_choice" || $intermediateActivitiesData->gt_temlpate_answer_type == "true_false" || $intermediateActivitiesData->gt_temlpate_answer_type == "single_line_answer") {
-                        if ($intermediateActivitiesData->gt_temlpate_answer_type == "select_from_dropdown_option") {
-                            $response['optionOrder'] = (isset($intermediateActivitiesData->correctOrder)) ? explode(",", $intermediateActivitiesData->correctOrder) : '';
-                        }
-                        //$intermediateActivitiesData->questionAnswerText = ($intermediateActivitiesData->l4ia_question_answer_description != '') ? $intermediateActivitiesData->l4ia_question_answer_description : '';
-                    }
-                } else {
-                    $intermediateActivitiesData = new \stdClass();
-                }
+                    $getTemplateNo = Helpers::getTemplateNo($userId, $professionId);
+                    $response['congratulation'] = $getTemplateNo;
+                    $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
+                    $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
+                    $response['professionId'] = $professionId;
 
-                $getTemplateNo = Helpers::getTemplateNo($userId, $professionId);
-                $response['congratulation'] = $getTemplateNo;
-                $response['NoOfTotalQuestions'] = $totalIntermediateQuestion[0]->NoOfTotalQuestions;
-                $response['NoOfAttemptedQuestions'] = $totalIntermediateQuestion[0]->NoOfAttemptedQuestions;
-                $response['professionId'] = $professionId;
+                    $response['boosterScale'] = 50;
+                    $response['data'] = $intermediateActivitiesData;
 
-                $response['boosterScale'] = 50;
-                $response['data'] = $intermediateActivitiesData;
-
-                $response['status'] = 1;
-                $response['message'] = trans('appmessages.default_success_msg');
+                    $response['status'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                } 
             } else {
                 $response['status'] = 0;
                 $response['message'] = trans('appmessages.missing_data_msg'); 
