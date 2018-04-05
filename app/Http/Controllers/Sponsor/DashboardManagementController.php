@@ -187,8 +187,8 @@ class DashboardManagementController extends Controller
                     break;
 
                 default:
-                    $imageWidth = 730;
-                    $imageHeight = 50;
+                    $imageWidth = 200;
+                    $imageHeight = 200;
                     break;
             };
         
@@ -200,6 +200,14 @@ class DashboardManagementController extends Controller
                         return Redirect::to("sponsor/data-add")->withErrors('Image width must be '. $imageWidth .'px and Height '. $imageHeight .'px')->withInput();
                         exit;
                     }
+            } else if ($width < $imageWidth || $height < $imageHeight && $activityDetail['sa_type'] == 3) { 
+                if($activityDetail['id'] > 0) {
+                    return Redirect::to("sponsor/edit/".$activityDetail['id'])->withErrors('Image width and height must be minimun '. $imageWidth . ' X ' . $imageHeight)->withInput();
+                    exit;
+                } else {
+                    return Redirect::to("sponsor/data-add")->withErrors('Image width and height must be minimun '. $imageWidth . ' X ' . $imageHeight)->withInput();
+                    exit;
+                }
             } else {
                 $pathOriginal = public_path($this->saOrigionalImagePath . $fileName);
                 $pathThumb = public_path($this->saThumbImagePath . $fileName);

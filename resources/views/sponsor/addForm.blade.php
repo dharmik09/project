@@ -573,6 +573,10 @@ jQuery(document).ready(function () {
                                 $(".photo-error").text("Image width must be " + imageWidth + "px and Height " + imageHeight + "px");
                                 $(this).val('');
                                 a.style.backgroundImage = "";
+                            } else if ((this.height < 200 || this.width < 200) && (activityType == 'Scholarship' || activityType == 3)) {
+                                $(".photo-error").text("Image width and height must be 200 X 200");
+                                $(this).val('');
+                                
                             } else {
                                 a.style.backgroundImage = "url('" + e.target.result + "')";
                                 a.className = "upload_image activated";
