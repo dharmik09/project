@@ -134,7 +134,7 @@
             </div>
         </footer>
         <div id="loading-wrapper">
-            <div id="loading-content"></div>
+            <div id="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
         </div> 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>

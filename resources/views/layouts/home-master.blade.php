@@ -88,8 +88,10 @@
                 </div>
             </div>
         </footer>
+        
         <div id="loading-wrapper">
-            <div id="loading-content"></div>
+       <!-- <div id="loading-text"><img src="img/ProTeen_Loading_edit.gif" alt="loader img"></div>-->
+            <div id="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{{ Storage::url('js/jquery-3.2.1.min.js') }}"></script>
