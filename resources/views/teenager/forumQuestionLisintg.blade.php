@@ -119,7 +119,10 @@
                     $('#loadMoreButton').removeClass('text-center');
                     $('#loadMoreButton').removeClass('load-more');
                     $('#loadMoreButton').addClass('question-complete');
-                    $('#loadMoreButton').html("<center><p>No more questions<p></center>");
+                    if (response.pageNo == 1) {
+                        $('#loadMoreButton').html("<center><p>No more questions<p></center>");
+                    }
+                    $('#loadMoreButton').html("");
                 }
                 else{
                     $('#pageNo').val(response.pageNo);

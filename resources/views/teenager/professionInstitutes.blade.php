@@ -136,7 +136,10 @@
                         $('#loadMoreButton').removeClass('text-center');
                         $('#loadMoreButton').removeClass('load-more');
                         $('#loadMoreButton').addClass('notification-complete');
-                        $('#loadMoreButton').html("<p>No more institutes<p>");
+                        $('#loadMoreButton').html("");
+                        if (response.pageNo == 1) {
+                            $('#loadMoreButton').html("<p>No more institutes<p>");
+                        }
                     }
                     else{
                         $('#loadMoreButton').html("");
@@ -260,7 +263,10 @@
                         $('#loadMoreButton').removeClass('text-center');
                         $('#loadMoreButton').removeClass('load-more');
                         $('#loadMoreButton').addClass('notification-complete');
-                        $('#loadMoreButton').html("<p>No more institutes<p>");
+                        $('#loadMoreButton').html("");
+                        if (response.pageNo == 1) {
+                            $('#loadMoreButton').html("<p>No more institutes<p>");
+                        }
                     }
                     else{
                         $('#loadMoreButton').html("");
