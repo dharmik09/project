@@ -127,7 +127,7 @@
                                             }
 
                                             if(isset($value->latestAnswer->teenager)){
-                                                $teenagerName = ucfirst($value->latestAnswer->teenager->t_name).' '.ucfirst($value->latestAnswer->teenager->t_lastname);
+                                                $teenagerName = $value->latestAnswer->teenager->t_name.' '.$value->latestAnswer->teenager->t_lastname;
                                             }
                                         ?>
                                         <h4><a href="#" title="{{$teenagerName}}">{{$teenagerName}}</a></h4>
