@@ -80,7 +80,7 @@
 
     function fetch_competitors_details($id)
     {
-        alert("hi");
+        //alert("hi");
        $.ajax({
          type: 'post',
          url: '{{ url("admin/getUserCompetitorsData") }}',

@@ -368,8 +368,8 @@ class ProfessionManagementController extends Controller {
     public function getUserCompetitorsData() {
         $profession_Id = $_REQUEST['Professionid'];
         $pf_name = $this->professionsRepository->getProfessionNameById($profession_Id);
-        $data = Helpers::getCompetingUserList($profession_Id);
-
+        //$data = Helpers::getCompetingUserList($profession_Id);
+        $data = $this->teenagersRepository->getTeenagerListingWithBoosterPointsByProfession($profession_Id, 0);
         return view('admin.UserCompetitorspopupDetail',compact('data','pf_name'));
     }
 

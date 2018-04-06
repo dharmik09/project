@@ -23,7 +23,8 @@
     </div>
     <div class="flex-item">
         <div class="team-point">
-            {{ $leaderBoard->tlb_points }} points
+            <span class="points">
+            {{ $leaderBoard->tlb_points }} points</span>
             <?php $connStatus = Helpers::getTeenAlreadyInConnection(Auth::guard('teenager')->user()->id, $leaderBoard->id); 
                     $chatUrl = "javascript:void(0);";
                     if (isset($connStatus) && !empty($connStatus)) {

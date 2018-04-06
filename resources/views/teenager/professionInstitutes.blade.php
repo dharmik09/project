@@ -74,6 +74,8 @@
                     </p>
                 </div>
         </div>
+        <div class="sec-blank">
+        </div>
     </div>
 </div>
 
@@ -131,12 +133,16 @@
             },
             data: {'page_no':pageNo, 'questionType':questionType, 'answer':answer, 'answerName':answerName},
             success: function (response) {
+                $('.sec-blank').hide();
                 if(response.instituteCount != 5){
                     if(response.instituteCount > 0){
                         $('#loadMoreButton').removeClass('text-center');
                         $('#loadMoreButton').removeClass('load-more');
                         $('#loadMoreButton').addClass('notification-complete');
-                        $('#loadMoreButton').html("<p>No more institutes<p>");
+                        $('#loadMoreButton').html("");
+                        if (response.pageNo == 1) {
+                            $('#loadMoreButton').html("<p>No more institutes<p>");
+                        }
                     }
                     else{
                         $('#loadMoreButton').html("");
@@ -260,7 +266,10 @@
                         $('#loadMoreButton').removeClass('text-center');
                         $('#loadMoreButton').removeClass('load-more');
                         $('#loadMoreButton').addClass('notification-complete');
-                        $('#loadMoreButton').html("<p>No more institutes<p>");
+                        $('#loadMoreButton').html("");
+                        if (response.pageNo == 1) {
+                            $('#loadMoreButton').html("<p>No more institutes<p>");
+                        }
                     }
                     else{
                         $('#loadMoreButton').html("");
