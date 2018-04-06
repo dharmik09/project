@@ -723,7 +723,7 @@ class Level4ActivityController extends Controller {
                                     $ext = strtolower(pathinfo($image['image'], PATHINFO_EXTENSION)); 
                                     if($ext == 'gif') {
                                         $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
-                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = "";
+                                        $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
                                     } else {
                                         $intermediateActivitiesData->question_images[$key]['l4ia_question_image'] = Storage::url($this->questionDescriptionTHUMBImage . $image['image']);
                                         $intermediateActivitiesData->question_images[$key]['l4ia_question_original_image'] = Storage::url($this->questionDescriptionORIGINALImage . $image['image']);
