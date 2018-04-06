@@ -23,6 +23,8 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Storage;
 use App\Jobs\SendPushNotificationToAllTeenagers;
 use App\Notifications;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class Level4TemplateManagementController extends Controller {
 
@@ -43,6 +45,8 @@ class Level4TemplateManagementController extends Controller {
         $this->teenagersRepository       = $teenagersRepository;
         $this->fileStorageRepository = $fileStorageRepository;
         $this->objNotifications = new Notifications();
+        $this->log = new Logger('admin-copy-concept');
+        $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
 
     public function index() {
@@ -304,12 +308,14 @@ class Level4TemplateManagementController extends Controller {
         $postData = Input::all();
         $conceptNames = array();
         $conceptOriginalImageUploadPath = $this->conceptOriginalImageUploadPath;
-        if (isset($postData['concept']) && !empty($postData['concept'])) {
-            foreach ($postData['concept'] as $key => $conceptId) {
+        if (isset($postData['concept']) && !empty($postData['concept'])) {        
+            foreach ($postData['concept'] as $key => $conceptId) {                
+                $this->log->info('Basic concept data copy start from profession id ->'.$postData["professionId"].' to profession id ->'.$postData["to_profession_id"]); 
+                
                 if ($conceptId != 0) {
                     //copy existing image of concept
                     $conceptDetail = $this->level4ActivitiesRepository->getGamificationTemplateById($conceptId);
-                        
+                    $this->log->info('Copy concept started, from concept Id ->'.$conceptId.' And concept name ->'.$conceptDetail->gt_template_title);     
                     $newconceptImage = '';
                     $file = $conceptOriginalImageUploadPath.$conceptDetail->gt_template_image;
                     if (Storage::size($conceptOriginalImageUploadPath.$conceptDetail->gt_template_image) > 0 && $conceptDetail->gt_template_image != '') {
@@ -323,9 +329,10 @@ class Level4TemplateManagementController extends Controller {
                     $return = $this->level4ActivitiesRepository->copyConcept($conceptId,$postData['to_profession_id'],$newconceptImage);
                     $new_templateID[] = $return;
                     $conceptNames[] = $conceptDetail->gt_template_title;
+                    $this->log->info('Basic concept data copy end from profession id ->'.$postData["professionId"].' to profession id ->'.$postData["to_profession_id"]); 
+                    $this->log->info('From concept id ->'.$conceptId.' to newly created concept id->'.$return);  
                 }
             }
-           
             $professionName = '';
             //Get Profession name 
             $professionData = $this->professionsRepository->getProfessionsDataFromId($postData['to_profession_id']);
@@ -345,6 +352,7 @@ class Level4TemplateManagementController extends Controller {
                     $oldId = explode(",",$id);
                    
                     for ($k = 0; $k < count($oldId); $k++) {
+                        $this->log->info('Start Copy concept question data question id ->'.$oldId[$k]); 
                         $level4Detail = $this->level4ActivitiesRepository->getLevel4ActivityDataById($oldId[$k]);
                         
                         if (!empty($level4Detail)) {
@@ -352,24 +360,32 @@ class Level4TemplateManagementController extends Controller {
                             //Set Question audio
                             if (isset($level4Detail[0]->l4ia_question_audio) && $level4Detail[0]->l4ia_question_audio != '') {
                                 if (Storage::size($this->questionDescriptionORIGINALImage . $level4Detail[0]->l4ia_question_audio) > 0) {
+                                    $this->log->info('Question Audio file copy start...');
                                     $audioFile = $this->questionDescriptionORIGINALImage.$level4Detail[0]->l4ia_question_audio;
                                     $newAudioFileName = $oldId[$k].'_'.time().'_'.$level4Detail[0]->l4ia_question_audio;
                                     $newAudioFile = $this->questionDescriptionORIGINALImage.$newAudioFileName;
                                     if (!Storage::copy($audioFile, $newAudioFile)) 
                                     {
+                                        $this->log->error('Question Audio file copy failed audio file name ->'.$level4Detail[0]->l4ia_question_audio);
                                         return Redirect::to("admin/copyConcept")->withErrors('Audio file not copied perfectly')->withInput();
                                         exit;
                                     }
+                                    $this->log->info('Question audio file copied successfully old audio file name ->'.$level4Detail[0]->l4ia_question_audio.' and New audio file name ->'.$newAudioFileName);
                                 } 
+
                             }
                             //$audioFile = public_path($this->questionOriginalImageUploadPath.$level4Detail[0]->l4ia_question_popup_image); 
                             $file = $this->questionOriginalImageUploadPath.$level4Detail[0]->l4ia_question_popup_image;
                             $thumbfile = $this->questionThumbImageUploadPath.$level4Detail[0]->l4ia_question_popup_image;
                             if (Storage::size($this->questionOriginalImageUploadPath.$level4Detail[0]->l4ia_question_popup_image) > 0 && $level4Detail[0]->l4ia_question_popup_image != '') {
+
+                                $this->log->info('Question popup image copy start...');
+
                                 $newImage = $oldId[$k].'_'.time().'_'.$level4Detail[0]->l4ia_question_popup_image;
                                 $newfile = $this->questionOriginalImageUploadPath.$newImage;
                                 $newthumbfile = $this->questionThumbImageUploadPath.$newImage;
                                 if (!Storage::copy($file, $newfile)) {
+                                    $this->log->error('Question popup image copy failed audio file name ->'.$level4Detail[0]->l4ia_question_popup_image);
                                     return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                     exit;
                                 }
@@ -377,14 +393,19 @@ class Level4TemplateManagementController extends Controller {
                                 if($imageInfo['extension'] != 'gif')
                                 {
                                     if (!Storage::copy($thumbfile, $newthumbfile)) {
+                                        $this->log->error('Question popup image copy failed audio file name ->'.$level4Detail[0]->l4ia_question_popup_image);
                                         return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                         exit;
                                     }
                                 }
+                                $this->log->info('Question popup image copied successfully old popup image name ->'.$level4Detail[0]->l4ia_question_popup_image.' and New popupimage name ->'.$newImage);
                             }
                             
                             $activityData = $this->level4ActivitiesRepository->copyLevel4ActivityData($oldId[$k],$postData['to_profession_id'],$new_templateID[$i],$newImage, $newAudioFileName);
+
+                            $this->log->info('Successfully End Copy concept question data new question id ->'.$activityData); 
                         }
+                        
                     }
                    
                     $count = count($oldId);
@@ -393,6 +414,9 @@ class Level4TemplateManagementController extends Controller {
                     $newId = $newConceptId[0]->oldId;                    
                     $newId = explode(",",$newId);
                     for ($j = 0; $j < $count; $j++) {
+
+                        $this->log->info('Start copy question answer data for question id ->'.$oldId[$j]);
+
                         $optionDetail = $this->level4ActivitiesRepository->getLevel4ActivityOptionsData($oldId[$j]);
                         if (!empty($optionDetail)) 
                         {
@@ -401,6 +425,7 @@ class Level4TemplateManagementController extends Controller {
                             $imageInfo = array();
                             foreach($optionDetail as $keyOption => $optionValue)
                             {
+                                $this->log->info('Start copy answer image name ->'.$optionValue->l4iao_answer_image);
                                 $newanswerImage = '';
                                 $file = $this->answerOriginalImageUploadPath.$optionValue->l4iao_answer_image;
                                 $thumbfile = $this->answerThumbImageUploadPath.$optionValue->l4iao_answer_image;
@@ -409,19 +434,26 @@ class Level4TemplateManagementController extends Controller {
                                     $newfile = $this->answerOriginalImageUploadPath.$newanswerImage;
                                     $newthumbfile = $this->answerThumbImageUploadPath.$newanswerImage;
                                     if (!Storage::copy($file, $newfile)) {
+                                        $this->log->error('Copy answer image failed original name ->'.$optionValue->l4iao_answer_image);
                                         return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                         exit;
                                     }
                                     if (!Storage::copy($thumbfile,$newthumbfile)) {
+                                        $this->log->error('Copy answer image failed thumb name ->'.$optionValue->l4iao_answer_image);
                                         return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                         exit;
                                     }
+
+                                    $this->log->info('End successfully copy answer image name ->'.$newanswerImage);
                                 }
 
                                 $newresponseImage = '';
                                 $file1 = $this->responseOriginalImageUploadPath.$optionValue->l4iao_answer_response_image;
                                 $thumbfile1 = $this->responseThumbImageUploadPath.$optionValue->l4iao_answer_response_image;
                                 if (Storage::size($this->responseOriginalImageUploadPath.$optionValue->l4iao_answer_response_image) > 0 && $optionValue->l4iao_answer_response_image != '') {
+
+                                    $this->log->info('Start copy answer response image name ->'.$optionValue->l4iao_answer_response_image);
+
                                     $newresponseImage = $oldId[$j].'_'.time().'_'.$optionValue->l4iao_answer_response_image;
                                     $newfile1 = $this->responseOriginalImageUploadPath.$newresponseImage;
                                     $newThumbfile1 = $this->responseThumbImageUploadPath.$newresponseImage;
@@ -437,6 +469,7 @@ class Level4TemplateManagementController extends Controller {
                                             exit;
                                         }
                                     }
+                                    $this->log->info('End successfully copy answer response image name ->'.$newresponseImage);
                                 } 
 
                                 $newanswerImageArray[$optionValue->optionsId] = $newanswerImage;
@@ -445,6 +478,8 @@ class Level4TemplateManagementController extends Controller {
                             
                             $activityOptionData = $this->level4ActivitiesRepository->copyLevel4ActivityOptionsData(
                             $oldId[$j],$newId[$j],$newanswerImageArray,$newresponseImageArray);
+
+                            $this->log->info('End successfully copy question answer data new option id ->'.$activityOptionData);
                         }
 
                         $questionData = $this->level4ActivitiesRepository->getQuestionMediaById($oldId[$j]);
@@ -452,11 +487,13 @@ class Level4TemplateManagementController extends Controller {
                         {
                             $newquestionImageArray = [];
                             $imageInfo = array();
+                            $this->log->info('Now start copy question images and video');
                             foreach($questionData as $keyQuestion => $valueQuestion)
                             {
                                 $newquestionImage = '';
                                 if ($valueQuestion->l4iam_media_type == "I") 
                                 {
+                                    $this->log->info('Start copy question images image name ->'.$valueQuestion->l4iam_media_name);
                                     $file2 = $this->questionOriginalImageUploadPath.$valueQuestion->l4iam_media_name;
                                     $thumbfile2 = $this->questionThumbImageUploadPath.$valueQuestion->l4iam_media_name;
                                     if (Storage::size($this->questionOriginalImageUploadPath.$valueQuestion->l4iam_media_name) > 0 && $valueQuestion->l4iam_media_name != '') {
@@ -464,6 +501,7 @@ class Level4TemplateManagementController extends Controller {
                                         $newfile2 = $this->questionOriginalImageUploadPath.$newquestionImage;
                                         $newthumbfile2 = $this->questionThumbImageUploadPath.$newquestionImage;
                                         if (!Storage::copy($file2, $newfile2)) {
+                                            $this->log->error('Copy original question failed image name ->'.$newquestionImage);
                                             return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                             exit;
                                         }
@@ -471,17 +509,19 @@ class Level4TemplateManagementController extends Controller {
                                         if($imageInfo['extension'] != 'gif')
                                         {
                                             if (!Storage::copy($thumbfile2, $newthumbfile2)) {
+                                                $this->log->error('Copy thumb question failed image name ->'.$newquestionImage);
                                                 return Redirect::to("admin/copyConcept")->withErrors('')->withInput();
                                                 exit;
                                             }
                                         }
                                     }
+                                    $this->log->info('End successfully copy question images image name ->'.$newquestionImage);
                                 } else {
                                     $newquestionImage = $valueQuestion->l4iam_media_name;
                                 }
                                 $newquestionImageArray[$valueQuestion->mediaId] = $newquestionImage;
                             }    
-                            
+                             $this->log->info('Copy successfully end question images and video');
                             $activityMediaData = $this->level4ActivitiesRepository->copyLevel4ActivityMediaData($oldId[$j],$newId[$j],$newquestionImageArray);
                         }
                     }                   

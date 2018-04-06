@@ -1163,7 +1163,7 @@ class TeenagerManagementController extends Controller {
         $notificationData['n_notification_text'] = '<strong> Admin </strong> gifted you '.$giftCoins.' coins';
         $this->objNotifications->insertUpdate($notificationData);
 
-        dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
+        //dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
         
         $userArray = $this->teenagersRepository->getTeenagerByTeenagerId($id);
         $objGiftUser = new TeenagerCoinsGift();
