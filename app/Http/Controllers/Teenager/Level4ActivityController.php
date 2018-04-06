@@ -196,8 +196,8 @@ class Level4ActivityController extends Controller {
             $totalBasicQuestion = $this->level4ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($userId, $professionId);
             if(isset($totalBasicQuestion[0]->NoOfTotalQuestions) && $totalBasicQuestion[0]->NoOfTotalQuestions > 0 && ($totalBasicQuestion[0]->NoOfTotalQuestions > $totalBasicQuestion[0]->NoOfAttemptedQuestions) ) {
                 $response['status'] = 0;
-                $response['title'] = "Opps!";
-                $response['message'] = "First play basic profession quiz to play Intermediate!";
+                $response['title'] = "Warm-up before you Role Play!";
+                $response['message'] = "Play and complete the easier Quiz first before you get into the professions Role Play";
                 return view('teenager.basic.careerIntermediateError', compact('response'));
                 exit;
             }
