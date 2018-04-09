@@ -47,7 +47,6 @@ class Level2ActivityController extends Controller {
         $user = Auth::guard('teenager')->user();
 
         $totalQuestion = $this->level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestion($user->id);
-
         $level2TotalTime = $this->level2TotalTime;
 
         if (isset($totalQuestion[0]->NoOfAttemptedQuestions) && $totalQuestion[0]->NoOfAttemptedQuestions > 0) {
@@ -68,25 +67,24 @@ class Level2ActivityController extends Controller {
         $response['timer'] = ($timer < 0) ? 0 : $timer;
         $timer = $response['timer'];
 
-        $sectionPercentageCollection = $this->level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,$section);      
+        $sectionPercentageCollection = $this->level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id, $section, $user->t_school);
         $sectionPercentage = 0;
         if($sectionPercentageCollection[0]->NoOfTotalQuestions != 0){
             $sectionPercentage = ($sectionPercentageCollection[0]->NoOfAttemptedQuestions >= $sectionPercentageCollection[0]->NoOfTotalQuestions) ? 100 : ($sectionPercentageCollection[0]->NoOfAttemptedQuestions*100)/$sectionPercentageCollection[0]->NoOfTotalQuestions;
         }
         if($sectionPercentage == 0){
             $response['sectionPercentage'] = 'Begin now';
-        }
-        else{
+        } else {
             $response['sectionPercentage'] = number_format((float)$sectionPercentage, 0, '.', '').'% Complete';
         }
         $sectionPercentage = $response['sectionPercentage'];
 
-        $activities = $this->level2ActivitiesRepository->getNotAttemptedActivitiesBySection($user->id, $section);
+        $activities = $this->level2ActivitiesRepository->getNotAttemptedActivitiesBySection($user->id, $section, $user->t_school);
         
         if(isset($activities) && !empty($activities))
         {
             $isSectionCompleted = false;
-        }else{
+        } else {
             $isSectionCompleted = true;
         }
         

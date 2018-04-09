@@ -374,9 +374,30 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
      * Parameter : $section
      * return : activity which is not attempted by teenager passed
     */
-    public function getNotAttemptedActivitiesBySection($teenagerId,$section)
+    public function getNotAttemptedActivitiesBySection($teenagerId, $section, $schoolId = 0)
     {
-        $activities = DB::select(DB::raw("SELECT tmp.*
+        if($section == Config::get('constant.LEVEL2_SECTION_4')) {
+            $activities = DB::select(DB::raw("SELECT tmp.*
+                                            FROM (SELECT
+                                                L2AC.id AS activityID,
+                                                l2ac_text,
+                                                l2ac_points,
+                                                l2ac_image,
+                                                section_type,
+                                                l2ac_school_id,
+                                                GROUP_CONCAT(L2OP.id) AS optionIds,
+                                                GROUP_CONCAT(l2op_option) AS options,
+                                                L2AC.deleted,
+                                                count(*) as 'NoOfTotalQuestions'
+                                                FROM
+                                                " . config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS L2AC
+                                            INNER JOIN " . config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS L2OP ON L2OP.l2op_activity = L2AC.id
+                                            GROUP BY
+                                                L2AC.id) AS tmp
+                                            LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL2_ANSWERS') . " AS L2ANS ON L2ANS.l2ans_activity = tmp.activityID AND L2ANS.l2ans_teenager = $teenagerId
+                                            WHERE tmp.deleted=1 and tmp.section_type = $section and tmp.l2ac_school_id = $schoolId and tmp.l2ac_school_id > 0 and L2ANS.id IS NULL AND L2ANS.l2ans_teenager IS NULL AND L2ANS.l2ans_activity IS NULL AND L2ANS.l2ans_answer IS NULL ORDER BY RAND() LIMIT 1"));
+        } else {
+            $activities = DB::select(DB::raw("SELECT tmp.*
                                             FROM (SELECT
                                                 L2AC.id AS activityID,
                                                 l2ac_text,
@@ -395,6 +416,7 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
                                             LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL2_ANSWERS') . " AS L2ANS ON L2ANS.l2ans_activity = tmp.activityID AND L2ANS.l2ans_teenager = $teenagerId
                                             WHERE tmp.deleted=1 and tmp.section_type=$section and L2ANS.id IS NULL AND L2ANS.l2ans_teenager IS NULL AND L2ANS.l2ans_activity IS NULL AND L2ANS.l2ans_answer IS NULL ORDER BY RAND() LIMIT 1"));
 
+        }
 
         foreach($activities as $key => $activity)
         {
@@ -422,9 +444,13 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
      * Parameter : $section
      * return : array/object of the activities which are attempted by teenager passed and total no of questions
     */
-    public function getNoOfTotalQuestionsAttemptedQuestionBySection($teenagerId,$section)
+    public function getNoOfTotalQuestionsAttemptedQuestionBySection($teenagerId, $section, $schoolId = 0)
     {
-        $result = DB::select(DB::raw("select (SELECT count(*) FROM ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." where deleted=1 and section_type = ".$section.") as 'NoOfTotalQuestions', (select count(*) from ".config::get('databaseconstants.TBL_LEVEL2_ANSWERS')." as ANS JOIN ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." as ACT ON ACT.id = ANS.l2ans_activity AND ACT.section_type = ".$section." where l2ans_teenager=".$teenagerId.") as 'NoOfAttemptedQuestions' "), array());
+        if($section == Config::get('constant.LEVEL2_SECTION_4')) {
+            $result = DB::select(DB::raw("select (SELECT count(*) FROM ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." where deleted=1 and section_type = ".$section." and l2ac_school_id = ".$schoolId." and l2ac_school_id > 0) as 'NoOfTotalQuestions', (select count(*) from ".config::get('databaseconstants.TBL_LEVEL2_ANSWERS')." as ANS JOIN ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." as ACT ON ACT.id = ANS.l2ans_activity AND ACT.section_type = ".$section." AND ACT.l2ac_school_id = ".$schoolId." AND ACT.l2ac_school_id > 0 where l2ans_teenager=".$teenagerId.") as 'NoOfAttemptedQuestions' "), array());
+        } else {
+            $result = DB::select(DB::raw("select (SELECT count(*) FROM ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." where deleted=1 and section_type = ".$section.") as 'NoOfTotalQuestions', (select count(*) from ".config::get('databaseconstants.TBL_LEVEL2_ANSWERS')." as ANS JOIN ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." as ACT ON ACT.id = ANS.l2ans_activity AND ACT.section_type = ".$section." where l2ans_teenager=".$teenagerId.") as 'NoOfAttemptedQuestions' "), array());
+        }
         return $result;
     }
 
@@ -442,9 +468,31 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
      * Parameter : $section
      * return : activity which is not attempted by teenager passed
     */
-    public function getAllNotAttemptedActivitiesBySection($teenagerId,$section)
+    public function getAllNotAttemptedActivitiesBySection($teenagerId, $section, $schoolId = 0)
     {
-        $activities = DB::select(DB::raw("SELECT tmp.*
+        if($section == Config::get('constant.LEVEL2_SECTION_4')) {
+            $activities = DB::select(DB::raw("SELECT tmp.*
+                                            FROM (SELECT
+                                                L2AC.id AS activityID,
+                                                l2ac_text,
+                                                l2ac_points,
+                                                l2ac_image,
+                                                section_type,
+                                                l2ac_school_id,
+                                                GROUP_CONCAT(L2OP.id) AS optionIds,
+                                                GROUP_CONCAT(l2op_option) AS options,
+                                                L2AC.deleted,
+                                                count(*) as 'NoOfTotalQuestions'
+                                                FROM
+                                                " . config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS L2AC
+                                            INNER JOIN " . config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS L2OP ON L2OP.l2op_activity = L2AC.id
+                                            GROUP BY
+                                                L2AC.id) AS tmp
+                                            LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL2_ANSWERS') . " AS L2ANS ON L2ANS.l2ans_activity = tmp.activityID AND L2ANS.l2ans_teenager = $teenagerId
+                                            WHERE tmp.deleted=1 and tmp.section_type=$section and tmp.l2ac_school_id = $schoolId and tmp.l2ac_school_id > 0 and L2ANS.id IS NULL AND L2ANS.l2ans_teenager IS NULL AND L2ANS.l2ans_activity IS NULL AND L2ANS.l2ans_answer IS NULL "), array());
+
+        } else {
+            $activities = DB::select(DB::raw("SELECT tmp.*
                                             FROM (SELECT
                                                 L2AC.id AS activityID,
                                                 l2ac_text,
@@ -463,6 +511,7 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
                                             LEFT JOIN " . config::get('databaseconstants.TBL_LEVEL2_ANSWERS') . " AS L2ANS ON L2ANS.l2ans_activity = tmp.activityID AND L2ANS.l2ans_teenager = $teenagerId
                                             WHERE tmp.deleted=1 and tmp.section_type=$section and L2ANS.id IS NULL AND L2ANS.l2ans_teenager IS NULL AND L2ANS.l2ans_activity IS NULL AND L2ANS.l2ans_answer IS NULL "), array());
 
+        }
 
         foreach($activities as $key => $activity)
         {

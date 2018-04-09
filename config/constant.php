@@ -105,6 +105,7 @@ return [
     'LEVEL2_SECTION_1' => 1,
     'LEVEL2_SECTION_2' => 2,
     'LEVEL2_SECTION_3' => 3,
+    'LEVEL2_SECTION_4' => 4,
     'RELATION_ICON_ORIGINAL_IMAGE_UPLOAD_PATH' => 'uploads/relation/original/',
     'RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH' => 'uploads/relation/thumb/',
     'RELATION_THUMB_IMAGE_HEIGHT' => '300',

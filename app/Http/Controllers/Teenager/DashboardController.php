@@ -95,12 +95,15 @@ class DashboardController extends Controller
         
         $basicBoosterPoint = $this->teenagersRepository->getTeenagerBasicBooster($user->id);
         
-        $section1Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,1);
-        $section2Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,2);
-        $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id,3);
+        $section1Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id, Config::get('constant.LEVEL2_SECTION_1'));
+        $section2Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id, Config::get('constant.LEVEL2_SECTION_2'));
+        $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id, Config::get('constant.LEVEL2_SECTION_3'));
+        $section4Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($user->id, Config::get('constant.LEVEL2_SECTION_4'), $user->t_school);
+
         $section1Percentage = 0;
         $section2Percentage = 0;
         $section3Percentage = 0;
+        $section4Percentage = 0;
         
         if($section1Collection[0]->NoOfTotalQuestions != 0){
             $section1Percentage = ($section1Collection[0]->NoOfAttemptedQuestions >= $section1Collection[0]->NoOfTotalQuestions) ? 100 : ($section1Collection[0]->NoOfAttemptedQuestions*100)/$section1Collection[0]->NoOfTotalQuestions;
@@ -111,8 +114,11 @@ class DashboardController extends Controller
         if($section3Collection[0]->NoOfTotalQuestions != 0){
             $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions >= $section3Collection[0]->NoOfTotalQuestions) ? 100 : ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
         }
+        if($section4Collection[0]->NoOfTotalQuestions != 0){
+            $section4Percentage = ($section4Collection[0]->NoOfAttemptedQuestions >= $section4Collection[0]->NoOfTotalQuestions) ? 100 : ($section4Collection[0]->NoOfAttemptedQuestions*100)/$section4Collection[0]->NoOfTotalQuestions;
+        }
 
-        $secComplete1 = $secComplete2 = $secComplete3 = 0; 
+        $secComplete1 = $secComplete2 = $secComplete3 = $secComplete4 = 0; 
         if($section1Percentage == 0){
             $section1 = 'Begin now';
         }
@@ -137,6 +143,14 @@ class DashboardController extends Controller
             $secComplete3 = (number_format((float)$section3Percentage, 0, '.', '') >= 100) ? 1 : 0;
         }
 
+        if($section4Percentage == 0){
+            $section4 = 'Begin now';
+        }
+        else{
+            $section4 = number_format((float)$section4Percentage, 0, '.', '').'% Complete';
+            $secComplete4 = (number_format((float)$section4Percentage, 0, '.', '') >= 100) ? 1 : 0;
+        }
+
         $teenagerNetwork = $this->communityRepository->getMyConnections($user->id, array(), '', '', '', 1);
         $teenThumbImageUploadPath = $this->teenThumbImageUploadPath;
         $teenagerCareers = $this->professionsRepository->getMyCareers($user->id);
@@ -147,33 +161,7 @@ class DashboardController extends Controller
 
         $careerConsideration = [];
         $match = $nomatch = $moderate = [];
-        // if($getAllActiveProfessions) {
-        //     foreach($getAllActiveProfessions as $profession) {
-        //         $array = [];
-        //         $array['id'] = $profession->id;
-        //         $array['match_scale'] = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
-        //         $array['added_my_career'] = (in_array($profession->id, $teenagerCareersIds)) ? 1 : 0;
-        //         $array['pf_name'] = $profession->pf_name;
-        //         $array['pf_slug'] = $profession->pf_slug;
-        //         if($array['match_scale'] == "match") {
-        //             $match[] = $array;
-        //         } else if($array['match_scale'] == "nomatch") {
-        //             $nomatch[] = $array;
-        //         } else if($array['match_scale'] == "moderate") {
-        //             $moderate[] = $array;
-        //         } else {
-        //             $notSetArray[] = $array;
-        //         }
-        //     }
-        //     if(count($match) < 1 && count($moderate) < 1) {
-        //         $careerConsideration = $nomatch;
-        //     } else if(count($match) > 0 || count($moderate) > 0) {
-        //         $careerConsideration = array_merge($match, $moderate);
-        //     } else {
-        //         $careerConsideration = $notSetArray;
-        //     }
-        // }
-
+        
         $adsDetails = Helpers::getAds($user->id);
         $advertisements = [];
         foreach ($adsDetails as $ad) {
@@ -195,7 +183,7 @@ class DashboardController extends Controller
             $remainingDaysForCareerConsider = Helpers::calculateRemainingDays($deductedCoinsCareerConsider[0]->dc_end_date);
         }
 
-        return view('teenager.home', compact('basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2','section3', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers', 'advertisements', 'profileMessage', 'remainingDaysForCareerConsider', 'remainingDaysForCareerConsider', 'componentsCareerConsider'));
+        return view('teenager.home', compact('section4Collection', 'basicBoosterPoint', 'careerConsideration', 'getTeenagerHML' ,'secComplete3', 'secComplete4', 'secComplete2', 'secComplete1', 'data', 'user', 'section1','section2', 'section3', 'section4', 'teenagerNetwork', 'teenThumbImageUploadPath', 'teenagerCareers', 'advertisements', 'profileMessage', 'remainingDaysForCareerConsider', 'remainingDaysForCareerConsider', 'componentsCareerConsider'));
     }
 
     //Update meta information for teenager
