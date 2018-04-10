@@ -393,6 +393,7 @@
     <audio id="audio_0" src="{{ Storage::url('frontend/audio/L1A_0.wav')}}"></audio>
     <audio id="audio_1" src="{{ Storage::url('frontend/audio/L1A_1.wav')}}"></audio>
     <audio id="audio_2" src="{{ Storage::url('frontend/audio/L1A_2.wav')}}"></audio>
+    <audio id="login_success_audio" src="{{ Storage::url('frontend/audio/Login_Success.wav')}}"></audio>
 @stop
 
 @section('script')
@@ -734,6 +735,14 @@
                 }
             }
         });
+    }
+
+    <?php $login_success = Session::has('login_success') ? true : false; ?>
+    "{{ Session::forget('login_success') }}";
+    var login_success = '<?php echo $login_success ?>';
+    if (login_success){
+        var audio = document.getElementById('login_success_audio');
+        audio.play();
     }
 </script>
 @stop

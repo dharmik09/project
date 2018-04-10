@@ -89,10 +89,18 @@
             </div>
         </div>
     </section>
+    <audio id="user_logout_audio" src="{{ Storage::url('frontend/audio/User_Logout.wav')}}"></audio>
 @stop
 
+<?php $user_logout = Session::has('user_logout') ? true : false; ?>
+{{ Session::forget('user_logout') }}
 @section('script')
     <script type="text/javascript">
+        var user_logout = '<?php echo $user_logout ?>';
+        if (user_logout) {
+            var audio = document.getElementById('user_logout_audio');
+            audio.play();
+        }
         jQuery(document).ready(function() {
             var loginRules = {
                 password: {

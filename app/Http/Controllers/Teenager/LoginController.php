@@ -59,6 +59,9 @@ class LoginController extends Controller
                 if(is_numeric($emailPhone) && $emailPhone > 0 && $emailPhone == round($emailPhone, 0) && isset($teenager->id)) {
                     if ($teenager->t_isverified == '1') {
                         if (Auth::guard('teenager')->attempt(['t_email' => $teenager->t_email, 'password' => $password, 'deleted' => 1], $rememberMe)) {
+                            if(Auth::guard('teenager')->user()->is_sound_on == 1){
+                                Session::put('login_success', 1);
+                            }
                             return redirect()->to(route('teenager.home'));
                         } else {
                             return Redirect::to('/teenager/login')->with('error', trans('appmessages.invalid_user_pwd_msg'))->with('id', $teenager->id);
@@ -73,6 +76,9 @@ class LoginController extends Controller
                 if (Auth::guard('teenager')->attempt(['t_email' => $emailPhone, 'password' => $password, 'deleted' => 1], $rememberMe)) {
                     $teenager = $this->teenagersRepository->getTeenagerDetailByEmailId($emailPhone);
                     if ($teenager->t_isverified == '1') {
+                        if(Auth::guard('teenager')->user()->is_sound_on == 1){
+                            Session::put('login_success', 1);
+                        }
                         return redirect()->to(route('teenager.home'));
                     } else {
                         Auth::guard('teenager')->logout();
@@ -95,6 +101,9 @@ class LoginController extends Controller
         $user = Auth::guard('teenager')->user();
         $currentProgress = Helpers::calculateProfileComplete($user->id);
         $increasedProgress = $currentProgress - $user->t_logout_progress;
+        if ($user->is_sound_on == 1){
+            Session::put('user_logout', 1);
+        }
         $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($user->id, $increasedProgress,$currentProgress);
         Auth::guard('teenager')->logout();
         return redirect()->to(route('login'))->with('success', 'Logout successfully!');;
