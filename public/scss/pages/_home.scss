@@ -6,9 +6,9 @@
     position: relative;
     width: 100%;
     @include maxh700minw768 {
-        height:680px;
+        height: 680px;
     }
-    @media (max-height:480px){
+    @media (max-height:480px) {
         height: auto;
     }
     @include maxms {
@@ -33,7 +33,7 @@
     @include maxsm {
         height: 560px;
     }
-    @include maxms{
+    @include maxms {
         height: calc(100vh - 66px);
     }
 }
@@ -41,7 +41,7 @@
 .banner-0-1 {
     background-image: url("https://s3proteen.s3.ap-south-1.amazonaws.com/img/Banner-0-1.jpg");
     background-color: $dark;
-    @include maxsm{
+    @include maxsm {
         background-image: url(../img/banner-0-1-mob.jpg);
     }
 }
@@ -49,7 +49,7 @@
 .banner-0-2 {
     background-image: url("https://s3proteen.s3.ap-south-1.amazonaws.com/img/Banner-0-2.jpg");
     background-color: $dark;
-     @include maxsm{
+    @include maxsm {
         background-image: url(../img/banner-0-2-mob.jpg);
     }
 }
@@ -57,7 +57,7 @@
 .banner-0-3 {
     background-image: url("https://s3proteen.s3.ap-south-1.amazonaws.com/img/Banner-0-3.jpg");
     background-color: $dark;
-     @include maxsm{
+    @include maxsm {
         background-image: url(../img/banner-0-3-mob.jpg);
     }
 }
@@ -65,7 +65,7 @@
 .banner-0-4 {
     background-image: url("https://s3proteen.s3.ap-south-1.amazonaws.com/img/Banner-0-4.jpg");
     background-color: $dark;
-     @include maxsm{
+    @include maxsm {
         background-image: url(../img/banner-0-4-mob.jpg);
     }
 }
@@ -140,7 +140,7 @@
         list-style: none;
         margin: 30px 0 30px 80px;
         max-width: 555px;
-        @include maxlg{
+        @include maxlg {
             font-size: 18px;
         }
         @include maxsm {
@@ -150,19 +150,18 @@
             font-size: 15px;
         }
     }
-    .dot-container{
-            height: 100% !important;
-    position: static !important;
+    .dot-container {
+        height: 100% !important;
+        position: static !important;
     }
     .owl-dots {
         // padding: 20px 0;
         // transform:translate(50%,-50%);
         transition: all 0.5s;
         position: absolute;
-        bottom: 31%;
-        //left: 13.5%;
+        bottom: 31%; //left: 13.5%;
         padding-left: 80px;
-        
+
         @include maxlg {
             bottom: 28.5%;
         }
@@ -170,7 +169,7 @@
             bottom: 34%;
             padding-left: 11%;
         }
-        @include maxms{
+        @include maxms {
             bottom: 25%;
         }
     }
@@ -181,7 +180,7 @@
         height: 12px;
         margin-right: 21px;
         width: 12px;
-        @include maxms{
+        @include maxms {
             height: 10px;
             width: 10px;
             margin-right: 15px;
@@ -234,7 +233,7 @@
             line-height: 1;
             word-spacing: 0;
         }
-        @include maxsm{
+        @include maxsm {
             padding-left: 5%;
         }
         .tag-intro {
@@ -257,7 +256,7 @@
                 @include maxmd {
                     max-width: 120px;
                 }
-                 @include maxsm {
+                @include maxsm {
                     max-width: 100px;
                 }
             }
@@ -290,7 +289,7 @@
     position: absolute;
     width: 100%;
     z-index: 9;
-    
+
     @include maxlg {
         .container {
             padding: 0 100px;
@@ -339,7 +338,8 @@
     }
     .teen {
         left: 0;
-        &.active,&.teen-active {
+        &.active,
+        &.teen-active {
             a {
                 color: $p-cl;
                 &:before {
@@ -357,7 +357,8 @@
     }
     .parent {
         left: 25%;
-        &.active,&.parent-active {
+        &.active,
+        &.parent-active {
             a {
                 color: $i-cl;
                 &:before {
@@ -373,7 +374,8 @@
     }
     .mentor {
         left: 50%;
-        &.active,&.mentor-active {
+        &.active,
+        &.mentor-active {
             a {
                 color: $s-cl;
                 &:before {
@@ -389,7 +391,8 @@
     }
     .school {
         left: 75%;
-        &.active,&.school-active {
+        &.active,
+        &.school-active {
             a {
                 color: $w-cl;
                 &:before {
@@ -426,35 +429,33 @@
 .banner {
     img {
         opacity: 0;
-       transform: translateY(100px);
+        transform: translateY(100px);
         transition: all 3s ease-out;
     }
     .box {
-        margin-top: 18vh;
-       // opacity: 0;
-        padding: 50px 63px 50px 76px;
-       // transition: opacity 0.5s ease-out, transform 2s ease-out;
+        margin-top: 18vh; // opacity: 0;
+        padding: 50px 63px 50px 76px; // transition: opacity 0.5s ease-out, transform 2s ease-out;
         //visibility: hidden;
         max-width: 505px;
-//        position: absolute;
-       /* top: 50%;
+        //        position: absolute;
+        /* top: 50%;
         transform: translateY(-50%);*/
         @include maxh700minw768 {
             //margin-top:325px;
-            margin-top:155px;
+            margin-top: 155px;
         }
         @include maxlg {
-           // margin-bottom: 20vh;
-           // margin-top: 45vh;
+            // margin-bottom: 20vh;
+            // margin-top: 45vh;
             padding: 30px 40px;
         }
         @include maxmd {
-           // margin-bottom: 0;
-           // margin-top: 20vh;
-           // transform: translateY(-50%);
+            // margin-bottom: 0;
+            // margin-top: 20vh;
+            // transform: translateY(-50%);
         }
         @include maxsm {
-          //  margin-top: 20vh;
+            //  margin-top: 20vh;
             padding: 30px;
             width: 70%;
             max-width: 100%;
@@ -490,18 +491,19 @@
             display: inline-block;
             font-family: 'hn-b';
             font-size: 12px;
-            margin-top:36px;
+            margin-top: 36px;
             padding: 5px 41px;
             text-decoration: none;
             text-transform: uppercase;
-            &:hover, &:focus{
+            &:hover,
+            &:focus {
                 border-color: $dark;
                 background: $dark;
             }
             @include maxlg {
                 margin-top: 30px;
             }
-            @include maxms{
+            @include maxms {
                 padding: 5px 25px;
             }
         }
@@ -512,7 +514,7 @@
             transform: translateY(0);
         }
         .box {
-           /* opacity: 1;
+            /* opacity: 1;
             transform: translateY(-50%);
             visibility: visible;
             @include maxmd {
@@ -527,8 +529,7 @@
         position: absolute;
         right: 0;
         top: 50vh;
-        transform: translate(130%,-50%);
-        //transform: translate(-130%, 0%);
+        transform: translate(130%, -50%); //transform: translate(-130%, 0%);
     }
     .i-hand-teen {
         left: 34%;
@@ -541,16 +542,16 @@
             //margin-left: 30%;
             right: 15px;
         }
-        @include maxms{
+        @include maxms {
             right: auto;
         }
     }
-    img{
+    img {
         position: absolute;
     }
-    &.active{
+    &.active {
         .i-teen-arrow {
-              transform: translate(0%, 0%);
+            transform: translate(0%, 0%);
         }
     }
 }
@@ -559,12 +560,12 @@
     .box {
         background-color: $i-cl;
     }
-    img{
+    img {
         position: absolute;
     }
     img.i-parent-arrow {
         position: absolute;
-        transform: translate(0%,-50%);
+        transform: translate(0%, -50%);
         top: 65%;
     }
     &.active {
@@ -581,16 +582,16 @@
 }
 
 .banner-3 {
-    img{
+    img {
         position: absolute;
     }
     .box {
         background-color: $s-cl;
         @include maxsm {
-           // margin-left: 30%;
+            // margin-left: 30%;
             right: 15px;
         }
-        @include maxms{
+        @include maxms {
             right: auto;
         }
     }
@@ -609,21 +610,21 @@
 }
 
 .banner-4 {
-    img{
+    img {
         position: absolute;
     }
     .box {
         background-color: $w-cl;
     }
     img.i-school-arrow {
-        transform: translate(0 ,-50%);
+        transform: translate(0, -50%);
     }
     &.active {
         img.i-school-arrow {
-           // left: 90%;
-           // position: absolute;
+            // left: 90%;
+            // position: absolute;
             //top: 60%;
-             transform: translate(180%, -70%);
+            transform: translate(180%, -70%);
         }
         img.i-school-hand {
             position: absolute;
@@ -635,19 +636,19 @@
 }
 
 .banner-5 {
-    img{
+    img {
         position: absolute;
     }
     img.i-enterprise-arrow {
-         transform: translate(0 ,-50%);
+        transform: translate(0, -50%);
     }
     .box {
         background-color: $m-cl;
         @include maxsm {
-           // margin-left: 30%;
+            // margin-left: 30%;
             right: 15px;
         }
-        @include maxms{
+        @include maxms {
             right: auto;
         }
     }
@@ -670,7 +671,23 @@
         display: none !important;
     }
 }
+
 a[href^="tel"],
 a[href^="mailto"] {
     white-space: nowrap;
+}
+
+.finalist-img {
+    position: fixed;
+    z-index: 99;
+    bottom: 5%;
+    max-width: 150px;
+    left: 20px;
+    @include  maxlg{
+        max-width: 130px;
+    }
+    span {
+        display: inline-block;
+        width: 70%;
+    }
 }

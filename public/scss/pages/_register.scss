@@ -181,6 +181,9 @@
                     @include maxms {
                         width: 25%;
                     }
+                    ::i-block-chrome{
+                        font-size: 12px;
+                    }
                 }
                 .date-feild {
                     display: inline-block;
