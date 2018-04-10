@@ -74,6 +74,10 @@
                 <div class="modal-body">
                     <input type="hidden" id="coupon_id" name="coupon_id" />
                     <input id="searchForUser" type="text" placeholder="search" tabindex="1" class="form-control search-feild" >
+                    <div id="coupon-loader" class="loading-wrapper-sub loading-screen">    <div id="loading-content">
+                            <img src="{{ Storage::url("img/Bars.gif") }}">
+                        </div>
+                    </div>
                     <div id="userData">
                     </div>
                 </div>
@@ -168,8 +172,8 @@
         function getUsers(search_keyword, teenager_id, coupon_id, page)
         {
             coupon_id = $("#coupon_id").val();
-            $('#loading-wrapper-sub').parent().addClass('loading-screen-parent').blur();
-            $('#loading-wrapper-sub').show();
+            $('#coupon-loader').parent().addClass('loading-screen-parent').blur();
+            $('#coupon-loader').show();
             $.ajax({
                 url: "{{ url('teenager/get-users?page=') }}"+page,
                 type: 'post',
@@ -181,8 +185,8 @@
                 },
                 success: function(response) {
                     $('#userData').html(response);
-                    $('#loading-wrapper-sub').hide();
-                    $('#loading-wrapper-sub').parent().removeClass('loading-screen-parent');
+                    $('#coupon-loader').hide();
+                    $('#coupon-loader').parent().removeClass('loading-screen-parent');
                 }
             });
         }
