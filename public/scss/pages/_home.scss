@@ -41,21 +41,33 @@
 .banner-0-1 {
     background-image: url("https://s3proteen.s3.ap-south-1.amazonaws.com/img/Banner-0-1.jpg");
     background-color: $dark;
+    @include maxsm{
+        background-image: url(../img/banner-0-1-mob.jpg);
+    }
 }
 
 .banner-0-2 {
     background-image: url("https://s3proteen.s3.ap-south-1.amazonaws.com/img/Banner-0-2.jpg");
     background-color: $dark;
+     @include maxsm{
+        background-image: url(../img/banner-0-2-mob.jpg);
+    }
 }
 
 .banner-0-3 {
     background-image: url("https://s3proteen.s3.ap-south-1.amazonaws.com/img/Banner-0-3.jpg");
     background-color: $dark;
+     @include maxsm{
+        background-image: url(../img/banner-0-3-mob.jpg);
+    }
 }
 
 .banner-0-4 {
     background-image: url("https://s3proteen.s3.ap-south-1.amazonaws.com/img/Banner-0-4.jpg");
     background-color: $dark;
+     @include maxsm{
+        background-image: url(../img/banner-0-4-mob.jpg);
+    }
 }
 
 .banner-1 {

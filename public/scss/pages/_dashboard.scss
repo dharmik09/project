@@ -279,6 +279,9 @@ h6 {
                 border-bottom: 1px solid $p-cl;cursor: pointer;
                 &:hover{
                     color: $dark;border-color: $dark;
+                    @include maxsm{
+                         color: $p-cl;border-color: $p-cl;
+                    }
                 }
             }
         }
