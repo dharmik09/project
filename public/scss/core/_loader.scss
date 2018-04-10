@@ -33,7 +33,7 @@
     .loading-content {
         top: 200px;
         left: 0;
-        width: 100%;text-align: center;
+        width: 100%;text-align: center;transform: translate(0,0);
     }
     &.loading-wrapper-sub {
         #loading-text,
