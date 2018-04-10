@@ -81,7 +81,7 @@
             font-size: 17px;
             width: 100%;
         }
-        @include maxms{
+        @include maxms {
             font-size: 14px;
         }
     }
@@ -155,14 +155,17 @@
                         width: 85px;
                     }
                     @include maxmd {
-                        font-size: 60px;width: 60px;
+                        font-size: 60px;
+                        width: 60px;
                     }
                     @include maxsm {
-                        font-size: 50px;width: 50px;
+                        font-size: 50px;
+                        width: 50px;
                         margin-right: 25px;
                     }
                     @include maxms {
-                        font-size: 36px;width: 36px;
+                        font-size: 36px;
+                        width: 36px;
                         margin-right: 15px;
                     }
                 }
@@ -176,10 +179,10 @@
                     position: relative;
                     background: $dark;
                     &:hover {
-                        background: $strong !important;
+                        //background: $strong !important;
                         text-decoration: none;
                     }
-                    &:focus{
+                    &:focus {
                         text-decoration: none;
                     }
                     @include maxlg {
@@ -196,7 +199,7 @@
                         font-size: 24px;
                         padding: 10px 20px;
                     }
-                     /*&.collapsed {
+                    /*&.collapsed {
                         :before {
                             transform: rotate(-90deg);
                           //font-size: 50px;
@@ -216,7 +219,7 @@
                         }
                         @include maxms {
                             font-size: 35px;
-                            right: 10px;
+                            right: 16px;
                         }
                     }
                     &.factual-cl {
@@ -257,7 +260,7 @@
                     font-size: 24px;
                     text-transform: capitalize;
                     margin-bottom: 8px;
-                    @include maxsm{
+                    @include maxsm {
                         font-size: 20px;
                     }
                 }
@@ -271,7 +274,7 @@
                     @include maxsm {
                         font-size: 17px;
                     }
-                    @include maxms{
+                    @include maxms {
                         font-size: 14px;
                     }
                 }
@@ -303,14 +306,24 @@
         }
     }
 }
-.learning-guidance-page{
-    .panel-heading .panel-title a:before{
-        margin-top:-22px !important;
+
+.learning-guidance-page {
+    .panel-heading .panel-title a:before {
+        margin-top: -22px !important;
         @include maxms {
-            margin-top:-15px !important;
+            margin-top: -15px !important;
         }
     }
 }
-.sec-accordian .learning-guidance .panel-heading .panel-title a.collapsed:before{
-    transform: rotate(90deg);right: 25px;
+
+.sec-accordian .learning-guidance .panel-heading .panel-title a.collapsed:before {
+    transform: rotate(90deg);
+    right: 35px;
+    @include maxsm {
+        right: 15px;
+    }
+    @include maxms {
+        font-size: 35px;
+        right: 10px;
+    }
 }
