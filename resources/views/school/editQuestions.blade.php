@@ -14,7 +14,7 @@
 
 <div class="centerlize">
     <div class="container">
-        <div class="container_padd detail_container">
+        <div class="container_padd detail_container add-question-sec">
         <?php
         if($activityDetail)
         {
