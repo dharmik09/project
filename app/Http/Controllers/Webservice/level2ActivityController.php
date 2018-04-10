@@ -46,14 +46,12 @@ class level2ActivityController extends Controller {
                     } else {
                         $timer = $level2TotalTime - $getLastAttemptedQuestionData->l2ans_answer_timer;
                     }
-                    
                 } else {
                     $timer = $level2TotalTime;
                 }
             } else {
                 $timer = $level2TotalTime;
             }
-
             if($timer < 0){
                 $data['timer'] = 0;
             } else{
@@ -91,14 +89,15 @@ class level2ActivityController extends Controller {
             $data['section_1'] = $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId, Config::get('constant.LEVEL2_SECTION_1'));
             $data['section_2'] = $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId, Config::get('constant.LEVEL2_SECTION_2'));
             $data['section_3'] = $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId, Config::get('constant.LEVEL2_SECTION_3'));
-            $data['section_4'] = ($teenager->t_school_status == 1) ? $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId, Config::get('constant.LEVEL2_SECTION_4'), $teenager->t_school) : [];
+            $data['section_4'] = ($teenager->t_school_status == 1 && $teenager->t_school > 0) ? $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId, Config::get('constant.LEVEL2_SECTION_4'), $teenager->t_school) : [];
 
-            $response['is_section_4'] = ($teenager->t_school_status == 1) ? 1 : 0;
+            $response['is_section_4'] = ($teenager->t_school > 0 && $teenager->t_school_status == 1) ? 1 : 0;
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $data;
             $this->log->info('Response for Level2questions' , array('api-name'=> 'getLevel2Activity'));
+        
         } else {
             $this->log->error('Parameter missing error' , array('api-name'=> 'getLevel2Activity'));
             $response['message'] = trans('appmessages.missing_data_msg');
@@ -124,28 +123,34 @@ class level2ActivityController extends Controller {
             $answers['questionID'] = $questionID;
             $answers['timer'] = $timer;
             $answers['points'] = (isset($points->l2ac_points)) ? $points->l2ac_points : 0;
-            
+
             if (isset($request->userId) && $request->userId > 0 && isset($answers['timer']) && $answers['timer'] != '' && isset($answerID) && isset($questionID) && $questionID != 0 && $answerID != 0) {
                 $questionsArray = $this->Level2ActivitiesRepository->saveTeenagerActivityResponseOneByOne($request->userId, $answers);
                 if($questionsArray){
                     $response['status'] = 1;
                     $response['login'] = 1;
+                    
                     $section1Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($request->userId,Config::get('constant.LEVEL2_SECTION_1'));
                     $section2Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($request->userId,Config::get('constant.LEVEL2_SECTION_2'));
                     $section3Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($request->userId,Config::get('constant.LEVEL2_SECTION_3'));
+                    $section4Collection = $this->Level2ActivitiesRepository->getNoOfTotalQuestionsAttemptedQuestionBySection($request->userId,Config::get('constant.LEVEL2_SECTION_4'), $teenager->t_school);
 
                     $section1Percentage = 0;
                     $section2Percentage = 0;
                     $section3Percentage = 0;
-                    
-                    if($section1Collection[0]->NoOfTotalQuestions != 0){
+                    $section4Percentage = 0;
+
+                    if($section1Collection[0]->NoOfTotalQuestions != 0) {
                         $section1Percentage = ($section1Collection[0]->NoOfAttemptedQuestions >= $section1Collection[0]->NoOfTotalQuestions) ? 100 : ($section1Collection[0]->NoOfAttemptedQuestions*100)/$section1Collection[0]->NoOfTotalQuestions;
                     }
-                    if($section2Collection[0]->NoOfTotalQuestions != 0){
+                    if($section2Collection[0]->NoOfTotalQuestions != 0) {
                         $section2Percentage = ($section2Collection[0]->NoOfAttemptedQuestions >= $section2Collection[0]->NoOfTotalQuestions) ? 100 : ($section2Collection[0]->NoOfAttemptedQuestions*100)/$section2Collection[0]->NoOfTotalQuestions;
                     }
-                    if($section3Collection[0]->NoOfTotalQuestions != 0){
+                    if($section3Collection[0]->NoOfTotalQuestions != 0) {
                         $section3Percentage = ($section3Collection[0]->NoOfAttemptedQuestions >= $section3Collection[0]->NoOfTotalQuestions) ? 100 : ($section3Collection[0]->NoOfAttemptedQuestions*100)/$section3Collection[0]->NoOfTotalQuestions;
+                    }
+                    if(isset($section4Collection[0]->NoOfTotalQuestions) && $section4Collection[0]->NoOfTotalQuestions != 0) {
+                        $section4Percentage = ($section4Collection[0]->NoOfAttemptedQuestions >= $section4Collection[0]->NoOfTotalQuestions) ? 100 : ($section4Collection[0]->NoOfAttemptedQuestions*100)/$section4Collection[0]->NoOfTotalQuestions;
                     }
                     
                     //Job dispatch
@@ -158,9 +163,15 @@ class level2ActivityController extends Controller {
                     if($section3Percentage == 100){
                         $dispatchJob = Helpers::professionMatchScaleCalculate($section3Collection, $request->userId);
                     }
+                    if($teenager->t_school > 0 && $teenager->t_school_status == 1 && $section4Percentage == 100){
+                        $dispatchJob = Helpers::professionMatchScaleCalculate($section4Collection, $request->userId);
+                    }
                     $data['section_1_Percentage'] = number_format((float)$section1Percentage, 0, '.', '');
                     $data['section_2_Percentage'] = number_format((float)$section2Percentage, 0, '.', '');
                     $data['section_3_Percentage'] = number_format((float)$section3Percentage, 0, '.', '');
+                    $data['section_4_Percentage'] = number_format((float)$section4Percentage, 0, '.', '');
+
+                    $response['is_section_4'] = ($teenager->t_school > 0 && $teenager->t_school_status == 1) ? 1 : 0;
                     $response['message'] = trans('appmessages.default_success_msg');
                     $response['data'] = $data;
                 } else {
