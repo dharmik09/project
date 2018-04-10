@@ -18,7 +18,6 @@
         
         @stack('script-header')
         <style>
-            .fadeLoader{opacity:0 !important;}
             @media(min-width:992px) {
                 .noScroll{ overflow: hidden !important; padding-right:17px; }
             }
@@ -138,7 +137,7 @@
                 </div>
             </div>
         </footer>
-        <div id="loading-wrapper" class="loading-wrapper-set-object">
+        <div id="loading-wrapper">
             <div id="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
         </div> 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
