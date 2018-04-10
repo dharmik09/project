@@ -137,7 +137,7 @@
                            {{trans('labels.formblfraction')}}
                         </div>
                         <div class="col-sm-1" onclick="delete_action('<?php echo $i; ?>');">
-                        <a href="#" class="btn btn-success " name="minus">
+                        <a href="javascript:void(0);" class="btn btn-success " name="minus">
                             <span class="glyphicon glyphicon-minus"> </span>
                         </a>
                         </div>
@@ -152,7 +152,7 @@
                 <div class="form-group">
                     <label  class="col-sm-2 control-label"></label>
                     <div class="col-sm-2">
-                        <a href="#" class="btn btn-success " name="add" id="add">
+                        <a href="javascript:void(0);" class="btn btn-success " name="add" id="add">
                             <span class="glyphicon glyphicon-plus"> </span>
                         </a>
                     </div>
@@ -299,7 +299,7 @@
                                '<?php  echo trans('labels.formblfraction'); ?>'+
                           '</div>'+
                           '<div class="col-sm-1" onclick="delete_action('+countRaw+');">'+
-                            '<a href="#" class="btn btn-success " name="minus">'+
+                            '<a href="javascript:void(0);" class="btn btn-success " name="minus">'+
                                 '<span class="glyphicon glyphicon-minus"> </span>'+
                             '</a>'+
                             '</div>'+
