@@ -12,6 +12,7 @@
         <div id="loader-promise-plus" class="loading-screen loading-wrapper-sub">
             
             <div id="loading-content">
+                <img src="{{ Storage::url("img/Bars.gif") }}">
             </div>
         </div>
         @if(!empty($deductedCoinsDetail) && count($deductedCoinsDetail) > 0)

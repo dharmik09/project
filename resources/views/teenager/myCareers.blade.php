@@ -88,7 +88,7 @@
     }
 
     function fetchDropdownResult() {
-        $("#maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"></div></div>');
+        $("#maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
         $("#maindiv").addClass('loading-screen-parent');
         var CSRF_TOKEN = "{{ csrf_token() }}";
         var queId = $("#questionDropdown").val();

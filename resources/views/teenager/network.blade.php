@@ -41,6 +41,7 @@
             <section class="connection-list">
                 <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">                    
                     <div id="loading-content">
+                        <img src="{{ Storage::url("img/Bars.gif") }}">
                     </div>
                 </div>
                 <div class="row existing-connection">

@@ -1,6 +1,7 @@
 <div id="loading-wrapper-sub" class="loading-screen">
     
     <div id="loading-content">
+        <img src="{{ Storage::url("img/Bars.gif") }}">
     </div>
 </div>
 <table class="table table-hover">

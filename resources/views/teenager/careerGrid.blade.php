@@ -79,7 +79,7 @@
         $('.iframe').attr('src', '');
         if ( !$("#profession"+id).hasClass( "dataLoaded" ) ) {
             
-            $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"></div></div>');
+            $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
             $("#profession"+id).addClass('loading-screen-parent');
 
             var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -109,7 +109,7 @@
 
                 $('.iframe').attr('src', '');
                 
-                $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"></div></div>');
+                $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
                 $(".maindiv").addClass('loading-screen-parent');
                 var value = $("#search").val();
                 var CSRF_TOKEN = "{{ csrf_token() }}";
@@ -156,7 +156,7 @@
     }
 
     function fetchDropdownResult() {
-        $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"></div></div>');
+        $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
         $(".maindiv").addClass('loading-screen-parent');
         var CSRF_TOKEN = "{{ csrf_token() }}";
         var queId = $("#questionDropdown").val();

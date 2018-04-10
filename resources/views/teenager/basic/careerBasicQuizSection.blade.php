@@ -3,7 +3,7 @@
     <div id="basicErrorGoneMsg" class="basicErrorGoneMsg"></div>
     <div class="quiz_view">
         <div class="loading-screen loading-wrapper-sub basic-question-loader" style="display:none;">            
-            <div class="loading-content"></div>
+            <div class="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div>
         </div>
         <div class="clearfix time_noti_view">
             <span class="time_type pull-left">

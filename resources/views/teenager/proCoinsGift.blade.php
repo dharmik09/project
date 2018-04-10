@@ -26,6 +26,7 @@
             <div class="bg-white procoins-gift">
                 <div id="gift-history-loader" class="loading-screen loading-wrapper-sub">                    
                     <div id="loading-content">
+                        <img src="{{ Storage::url("img/Bars.gif") }}">
                     </div>
                 </div>
                 <div id="giftTable" class="gift-table table-responsive">
