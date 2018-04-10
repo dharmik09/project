@@ -533,6 +533,7 @@ a {
     color: $lightgrey;
     font-family: hl;
     font-size: 17px;
+    position: relative;
     @include maxlg {
         padding: 90px 0;
     }
@@ -568,6 +569,7 @@ a {
             }
         }
     }
+    .finalist-img{position: absolute;bottom: 20%;}
 }
 
 .container-large {
