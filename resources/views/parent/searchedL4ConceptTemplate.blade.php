@@ -11,6 +11,7 @@
     <tbody>
         <div id="loader-l4concept-template" class="loading-screen loading-wrapper-sub">
             <div id="loading-content">
+                <img src="{{ Storage::url('img/Bars.gif') }}">
             </div>
         </div>
         @if(!empty($deductedTemplateCoinsDetail) && count($deductedTemplateCoinsDetail) > 0)

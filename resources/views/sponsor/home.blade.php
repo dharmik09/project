@@ -277,7 +277,7 @@
 </div> -->
 
 <div class="loading-screen loading-wrapper-sub loader-transparent" style="display:none;">
-    <div class="loading-content"></div>
+    <div class="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
 </div>
 
 @if(!empty($activityDetail))

@@ -367,7 +367,9 @@
                                                 <!-- <div class="loading-text">
                                                     <img src="{{ Storage::url('img/ProTeen_Loading_edit.gif') }}" alt="loader img">
                                                 </div> -->
-                                                <div class="loading-content"></div>
+                                                <div class="loading-content">
+                                                    <img src="{{ Storage::url('img/Bars.gif') }}">
+                                                </div>
                                             </div>
                                             <div id="badges_rank_data_{{$value['professionId']}}">
 
@@ -384,7 +386,9 @@
                                                 </div>
                                             </div> -->
                                             <div id="" class="cst_{{$value['professionId']}} loading-screen loading-wrapper-sub intermediate-first-question-loader" style="display:none;">
-                                                <div class="loading-content"></div>
+                                                <div class="loading-content">
+                                                    <img src="{{ Storage::url('img/Bars.gif') }}">
+                                                </div>
                                             </div>
                                             <div class="full_path">
                                                 <div class="inner_path" id="education_path_{{$value['professionId']}}">

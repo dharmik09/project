@@ -137,7 +137,7 @@
                            {{trans('labels.formblfraction')}}
                         </div>
                         <div class="col-sm-1" onclick="delete_action('<?php echo $i; ?>');">
-                        <a href="#" class="btn btn-success " name="minus">
+                        <a href="javascript:void(0);" class="btn btn-success " name="minus">
                             <span class="glyphicon glyphicon-minus"> </span>
                         </a>
                         </div>
@@ -152,14 +152,14 @@
                 <div class="form-group">
                     <label  class="col-sm-2 control-label"></label>
                     <div class="col-sm-2">
-                        <a href="#" class="btn btn-success " name="add" id="add">
+                        <a href="javascript:void(0);" class="btn btn-success " name="add" id="add">
                             <span class="glyphicon glyphicon-plus"> </span>
                         </a>
                     </div>
                 </div> 
                 <div class="form-group">
                         <label for="pf_parent" class="col-sm-2 control-label">{{trans('labels.formlblapptitude')}}</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-10 school-select">
                              <?php $apptitude = Helpers::getActiveApptitude(); ?>
                             <select class="form-control" id="l2ac_apptitude" name="l2ac_apptitude">
                                     <option value="" >{{trans('labels.formlblselectapptitude')}}</option>
@@ -172,7 +172,7 @@
                 </div>
                 <div class="form-group">
                     <label for="pf_parent" class="col-sm-2 control-label">{{trans('labels.formlblinterest')}}</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 school-select">
                          <?php $interest = Helpers::getActiveInterest();  ?> 
                         <select class="form-control" id="l2ac_interest" name="l2ac_interest">
                                 <option value="" >{{trans('labels.formlblselectinterest')}}</option>
@@ -187,7 +187,7 @@
                 </div>
                 <div class="form-group">
                     <label for="pf_parent" class="col-sm-2 control-label">{{trans('labels.formlblmi')}}</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 school-select">
                          <?php $multipleinterest = Helpers::getActiveMultipleIntelligent();  ?>
                         <select class="form-control" id="l2ac_multipleintelligent" name="l2ac_multipleintelligent">
                                 <option value="" >{{trans('labels.formlblselectmi')}}</option>
@@ -201,7 +201,7 @@
                 </div> 
                 <div class="form-group">
                     <label for="pf_parent" class="col-sm-2 control-label">{{trans('labels.formlblpersonality')}}</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 school-select">
                          <?php  $personality = Helpers::getActivePersonality();  ?>
                         <select class="form-control" id="l2ac_personality" name="l2ac_personality">
                                 <option value="" >{{trans('labels.formlblselectpersonality')}}</option>
@@ -215,7 +215,7 @@
                 </div>
                 <div class="form-group">
                     <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblsection')}}</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 school-select">
                         <select class="form-control" id="section_type" name="section_type">
                             <option value="{{Config::get('constant.LEVEL2_SECTION_4')}}">Section 4</option>
                         </select>
@@ -223,7 +223,7 @@
                 </div>
                 <div class="form-group">
                     <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblstatus')}}</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 school-select">
                         <?php $staus = Helpers::status(); ?>
                             <select class="form-control" id="deleted" name="deleted">
                                 <?php foreach ($staus as $key => $value) { ?>
@@ -299,7 +299,7 @@
                                '<?php  echo trans('labels.formblfraction'); ?>'+
                           '</div>'+
                           '<div class="col-sm-1" onclick="delete_action('+countRaw+');">'+
-                            '<a href="#" class="btn btn-success " name="minus">'+
+                            '<a href="javascript:void(0);" class="btn btn-success " name="minus">'+
                                 '<span class="glyphicon glyphicon-minus"> </span>'+
                             '</a>'+
                             '</div>'+

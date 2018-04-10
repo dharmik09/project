@@ -33,7 +33,7 @@
 
 <div class="centerlize">
     <div class="container">
-        <div class="container_padd">
+        <div class="container_padd list-question">
             <div class="button_container coins_button_container">
                 <div class="coin_summary cst_dsh clearfix">
                     <div class="dashboard_page pull-right col-md-3 col-sm-4 col-xs-12">
