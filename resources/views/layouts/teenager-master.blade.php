@@ -17,10 +17,14 @@
         <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
         
         @stack('script-header')
-        
+        <style>
+            @media(min-width:992px) {
+                .noScroll{ overflow: hidden !important; padding-right:17px; }
+            }
+        </style>
         @yield('header')
     </head>
-    <body>
+    <body class="noScroll">
         <nav>
             <div class="container">
                 <div class="logo pull-left">
@@ -135,7 +139,13 @@
         </footer>
         <div id="loading-wrapper">
             <div id="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
-        </div> 
+        </div>
+        <script type="text/javascript">
+            if (window.location.hash && window.location.hash === "#_=_") 
+            {
+                window.location.hash = "";
+            }
+        </script> 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -148,10 +158,6 @@
         <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
         <script src="{{ asset('js/general.js') }}"></script>
         <script type="text/javascript">
-            if (window.location.hash && window.location.hash === "#_=_") 
-            {
-                window.location.hash = "";
-            }    
             function setSound(data) {
                 $.ajax('{{url("teenager/set-sound-value/")}}/'+data, {
                     success: function(data) {
@@ -186,10 +192,9 @@
                 ga('create', 'UA-85626973-1', 'auto');
                 ga('send', 'pageview');    
                 
-                if (window.location.hash && window.location.hash == '#_=_') 
-                {
-                    window.location.hash = '';
-                }
+                setTimeout(function(){
+                    $('body').removeClass("noScroll");
+                },2000);
             });
 
             function getHelpText(helpSlug)
