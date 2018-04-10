@@ -165,6 +165,9 @@
         </div>
     </section>
     <!-- masonary section end-->
+    <div class="finalist-img">
+        <span><img src="{{ Storage::url('img/award-finalist-transparent.png')}}" alt="award img"></span>
+    </div>
 @stop
 
 @section('script')

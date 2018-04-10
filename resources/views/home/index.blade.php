@@ -221,6 +221,9 @@
             </div>
         </div>
     </div>
+    <div class="finalist-img">
+        <span><img src="{{ Storage::url('img/award-finalist-black.png') }}" alt="award img"></span>
+    </div>
 @stop
 
 @section('script')
