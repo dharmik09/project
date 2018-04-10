@@ -4,7 +4,7 @@
     <div id="intermediateErrorGoneMsg" class="intermediateErrorGoneMsg"></div>
     <div class="quiz_view">
         <div class="loading-screen loading-wrapper-sub intermediate-question-loader" style="display:none;">
-            <div class="loading-content"></div>
+            <div class="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
         </div>
         
         <div class="clearfix time_noti_view">

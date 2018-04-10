@@ -88,7 +88,7 @@
     });
 
     function userSearch(search_keyword, parentId,page) {
-         $('.mySearch_area').append('<div id="giftcoin_search" style="display: none;" class="loading-screen-data loading-wrapper-sub"><div class="loading-content"></div></div>');
+         $('.mySearch_area').append('<div id="giftcoin_search" style="display: none;" class="loading-screen-data loading-wrapper-sub"><div class="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div></div>');
         $('#giftcoin_search').parent().addClass('loading-screen-parent');
         $('#giftcoin_search').show();
         search_keyword = (search_keyword).trim();
