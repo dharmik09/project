@@ -32,6 +32,8 @@
     #loading-content,
     .loading-content {
         top: 200px;
+        left: 0;
+        width: 100%;text-align: center;transform: translate(0,0);
     }
     &.loading-wrapper-sub {
         #loading-text,
@@ -106,10 +108,11 @@
 #loading-content,
 .loading-content {
     display: block;
-    position: relative;
+    position: absolute;
     left: 50%;
     top: 50%;
-    margin: -85px 0 0 -85px;
+    margin: 0;
+    transform: translate(-50%,-50%);
    /* width: 130px;
     height: 130px;
     border: 2px solid #F00;*/
