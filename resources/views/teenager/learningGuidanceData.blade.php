@@ -10,6 +10,7 @@
     <tbody>
         <div id="loader-learning-guidance" class="loading-screen loading-wrapper-sub">            
             <div id="loading-content">
+                <img src="{{ Storage::url("img/Bars.gif") }}">
             </div>
         </div>
         @if(!empty($deductedCoinsDetailLS) && count($deductedCoinsDetailLS) > 0)

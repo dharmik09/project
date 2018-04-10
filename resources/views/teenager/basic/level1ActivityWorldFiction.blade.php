@@ -63,7 +63,7 @@
                 </div>
                 <div class="set-icon-selection loaderSection">
                     <div style="display: block;" class="loading-screen-data loading-wrapper-sub">                        
-                        <div class="loading-content"></div>
+                        <div class="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div>
                     </div>
                     <div class="icon-container-inner selected_category" style="display:none">
                         

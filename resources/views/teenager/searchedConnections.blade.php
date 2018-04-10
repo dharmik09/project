@@ -10,6 +10,7 @@
                 <div class="tab-content">
                     <div id="loading-wrapper-sub" class="loading-screen">                        
                         <div id="loading-content">
+                            <img src="{{ Storage::url("img/Bars.gif") }}">
                         </div>
                     </div>
                     <div id="menu3" class="tab-pane fade in active search-new-connection">

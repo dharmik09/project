@@ -66,6 +66,7 @@
                 <div class="tab-content">
                     <div id="loading-wrapper-sub" class="loading-screen remove-loader">                        
                         <div id="loading-content">
+                            <img src="{{ Storage::url("img/Bars.gif") }}">
                         </div>
                     </div>
                     <div id="menu1" class="tab-pane fade in active search-new-connection">

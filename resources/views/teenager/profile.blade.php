@@ -406,7 +406,7 @@
             <div id="errorGoneMsg"></div>
             <div class="survey-list">
                 <div id="loading-wrapper-sub" class="loading-screen bg-offwhite">                    
-                    <div id="loading-content"></div>
+                    <div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div>
                 </div>
                 <div class="opinion-sec" id="opinionSection" style="display:none;">
                 </div>
@@ -1759,7 +1759,7 @@
     }
 
     function getUserProfileIcons() {
-        $(".voted-list").html('<div style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-content"></div></div>');
+        $(".voted-list").html('<div style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
         $(".voted-list").addClass('loading-screen-parent');
         $.ajax({
             url: "{{ url('teenager/get-user-icons') }}",

@@ -1,6 +1,6 @@
 @if(isset($traitQuestion[0]) && count($traitQuestion) > 0)
     <div class="loading-wrapper-sub" style="display: none;" class="loading-screen bg-offwhite">        
-        <div class="loading-content"></div>
+        <div class="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div>
     </div>
     <div class="survey-list">
         <div class="qualities-sec">
