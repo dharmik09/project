@@ -373,6 +373,6 @@ $(document).keydown(function (e) {
 //loader
 $(window).on('load', function(){
   // Animate loader off screen
-    $('#loading-wrapper').hide();
+    $('#loading-wrapper').fadeOut(4000);
     $('body').removeClass('overflw-hide');
 });

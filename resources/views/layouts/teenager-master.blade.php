@@ -17,10 +17,15 @@
         <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
         
         @stack('script-header')
-        
+        <style>
+            .fadeLoader{opacity:0 !important;}
+            @media(min-width:992px) {
+                .noScroll{ overflow: hidden !important; padding-right:17px; }
+            }
+        </style>
         @yield('header')
     </head>
-    <body>
+    <body class="noScroll">
         <nav>
             <div class="container">
                 <div class="logo pull-left">
@@ -133,7 +138,7 @@
                 </div>
             </div>
         </footer>
-        <div id="loading-wrapper">
+        <div id="loading-wrapper" class="loading-wrapper-set-object">
             <div id="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
         </div> 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -190,6 +195,9 @@
                 {
                     window.location.hash = '';
                 }
+                setTimeout(function(){
+                    $('body').removeClass("noScroll");
+                },2000);
             });
 
             function getHelpText(helpSlug)
