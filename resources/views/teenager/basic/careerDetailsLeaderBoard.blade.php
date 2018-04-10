@@ -48,6 +48,9 @@
     </div>
 </div>
 @empty
+<center>
+    <h3>No Records found.</h3>
+</center>
 @endforelse
 @if ($nextleaderboardTeenagers && count($nextleaderboardTeenagers) > 0)
     <div class="loader_con remove-row">
