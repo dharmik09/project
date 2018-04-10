@@ -141,6 +141,9 @@
         }
         &:hover {
             color: $dark;
+            @include maxsm{
+                color: $white;
+            }
         }
     }
 }

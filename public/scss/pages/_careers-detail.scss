@@ -1290,13 +1290,12 @@
         .custom-select {
             position: relative;
             font-family: hn-b;
-            height: 47px;
-            border: 1px solid #dddedf;
+           
             color: $r-cl;
             font-size: 16px;
-            @include maxms {
+            /*@include maxms {
                 height: 42px;
-            }
+            }*/
             &:before {
                 display: inline-block;
                 content: "<";
@@ -1317,7 +1316,8 @@
                 cursor: pointer;
                 appearance: none;
                 border: none;
-                height: 47px;
+                 height: 47px;
+                border: 1px solid #dddedf;
                 padding-right: 40px;
                 @include maxms {
                     height: 42px;
