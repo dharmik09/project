@@ -673,7 +673,7 @@ class ReportController extends Controller {
         $all = Input::get('all');
         //Get concept for the profession
         $getQuestionTemplateForProfession = $this->level4ActivitiesRepository->getQuestionTemplateForProfession($professionId);
-        return view('admin.ajaxProfessionConcepts',compact('getQuestionTemplateForProfession','selectedconcept','all'));
+        return view('admin.AjaxProfessionConcepts',compact('getQuestionTemplateForProfession','selectedconcept','all'));
         exit;
     }
 
