@@ -115,9 +115,9 @@
                 </div>
             </div>
         </div>
-        <div class="finalist-img">
+<!--        <div class="finalist-img">
             <span><img src="{{ Storage::url('img/award-finalist-transparent.png')}}" alt="award img"></span>
-        </div>
+        </div>-->
     </section>
     <!-- content area end-->
     <!-- masonary section-->
