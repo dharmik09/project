@@ -519,7 +519,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .sec-login .login-form .icon{-webkit-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);font-size: 100px;}
 .popover.bottom>.arrow{display: block;}
 h2 .tooltip-inner {color: #161c22;background: #fff!important;}
-body{background-image : none !important; background-color: #eeeeef;font-family: 'h';font-size: 14px;color: #333;padding-bottom: 170px;}
+body{background-image : none !important; background-color: #eeeeef;font-family: 'h';font-size: 14px;color: #333;padding-bottom: 160px;}
 a, a:focus, a:hover{color: #d81c02;}
 .card span.title{font-family: ab;line-height: 1.2;color: #27a6b5;}
 .card span.count, .profession_attempted_carousel{color: #f15f4c;}
