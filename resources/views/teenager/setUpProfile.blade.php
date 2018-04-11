@@ -207,6 +207,8 @@
                             <div class="col-sm-12">
                                 <div class="sponsor-sec">
                                     <div class="sponsor-content">
+                                        <p>Select at least one sponsor.</p>
+                                        <p>Benefits can include sponsored events, contests, scholarships and coupons.</p>
                                         <div class="form-register sponsor-list owl-carousel">
                                             @forelse($sponsorDetail as $key => $value)
                                                 <div class="checkbox">
