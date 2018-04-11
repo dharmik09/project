@@ -50,6 +50,8 @@ class ProfessionSubjectManagementController extends Controller
         $subjectDetail['id'] = Input::get('id');
         $subjectDetail['ps_name'] = Input::get('ps_name');
         $subjectDetail['ps_slug'] = Input::get('ps_slug');
+        $subjectDetail['ps_description'] = Input::get('ps_description');
+        $subjectDetail['ps_video'] = Input::get('ps_video');
         $subjectDetail['deleted'] = Input::get('deleted');
 
         if (Input::file())

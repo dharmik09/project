@@ -88,6 +88,34 @@
                         <label for="image_format" class="col-sm-3 control-label">{{trans('labels.pictureformat')}}</label>
                     </div>
                     <?php
+                    if (old('ps_description'))
+                        $ps_description = old('ps_description');
+                    elseif ($subject)
+                        $ps_description = $subject->ps_description;
+                    else
+                        $ps_description = '';
+                    ?>
+                    <div class="form-group" id="ps_description">
+                        <label for="ps_description" class="col-sm-2 control-label">{{trans('labels.frmpsdescription')}}</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" id="ps_description" name="ps_description" rows="8">{{$ps_description}}</textarea>
+                        </div>
+                    </div>
+                    <?php
+                    if (old('ps_video'))
+                        $it_video = old('ps_video');
+                    elseif ($subject)
+                        $ps_video = $subject->ps_video;
+                    else
+                        $ps_video = '';
+                    ?>
+                    <div class="form-group">
+                        <label for="ps_video" class="col-sm-2 control-label">{{trans('labels.formlblvideo')}}</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="ps_video" name="ps_video" placeholder="{{trans('labels.formlblvideo')}}" value="{{$ps_video}}" minlength="3" maxlength="50"/>
+                        </div>
+                    </div>
+                    <?php
                     if (old('deleted'))
                         $deleted = old('deleted');
                     elseif ($subject)

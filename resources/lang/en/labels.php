@@ -784,4 +784,5 @@ return [
     'professioninstituesdeleteallsuccess' => 'Profession Institutes all record deleted successfully',
     'lblcountry' => 'Country',
     'professioninstitutesspecialitylistupdatedsuccessfully' => 'Profession Institutes Speciality List Updated Successfully',
+    'frmpsdescription' => 'Description',
 ];

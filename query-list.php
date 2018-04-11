@@ -586,3 +586,7 @@ ALTER TABLE `pro_l2ac_level2_activities` ADD `l2ac_school_id` BIGINT(20) NOT NUL
 
 //Add country id field in profession_institutes table ## 03-04-2018
 ALTER TABLE `pro_pi_profession_institutes` ADD `country_id` INT NOT NULL DEFAULT '1' AFTER `image`;
+
+//Add new column in profession subjects table ## 11-04-2014
+ALTER TABLE `pro_ps_profession_subjects` ADD `ps_description` TEXT NULL AFTER `ps_image`;
+ALTER TABLE `pro_ps_profession_subjects` ADD `ps_video` TEXT NULL AFTER `ps_description`;
