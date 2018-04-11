@@ -577,6 +577,25 @@
             </div>
         </div>
     </section>
+    <section class="bg-offwhite">
+        <div class="container">
+            <div class="col-xs-12">
+                @if ($message = Session::get('panelSuccess'))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <div class="alert alert-success alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                                <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    </section>
     <div class="sec-record" id="sec-record">
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">

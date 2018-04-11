@@ -198,8 +198,7 @@ class DashboardController extends Controller
         
         //Saving the record 
         $teenagerMeta = $this->teenagersRepository->saveTeenagerMetaData($data);
-        
-        return Redirect::to("teenager/my-profile")->with('success', 'Achievement updated successfully.');
+        return Redirect::to("teenager/my-profile#sec-record")->with('panelSuccess', 'Achievement updated successfully.');
     }
 
     //Update meta information for teenager
@@ -215,7 +214,7 @@ class DashboardController extends Controller
         //Saving the record 
         $teenagerMeta = $this->teenagersRepository->saveTeenagerMetaData($data);
         
-        return Redirect::to("teenager/my-profile")->with('success', 'Academic record updated successfully.');
+        return Redirect::to("teenager/my-profile#sec-record")->with('panelSuccess', 'Academic record updated successfully.');
     }
 
     public function getPhoneCodeByCountry(Request $request) {
