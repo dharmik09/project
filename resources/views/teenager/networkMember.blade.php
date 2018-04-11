@@ -148,6 +148,7 @@
                 </div>
                 @if(isset($teenagerTrait[0]))
                 <div class="text-center">
+                    <h2> {{ ($teenDetails->t_name && $teenDetails->t_name != '') ? $teenDetails->t_name . "'s" : '' }} Traits</h2>
                     <ul class="sec-traits row flex-container">
                         @forelse($teenagerTrait as $key => $teenTrait)
 							<?php if($loop->index > 2) { break; } ?>

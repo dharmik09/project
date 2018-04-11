@@ -146,6 +146,17 @@
             }
         }
     }
+    h2{
+        color: $white;
+        margin: 40px 0 0;
+        @include maxmd{
+            margin-top: 20px;
+        }
+        @include maxsm{
+            margin: 20px 0;
+            font-size: 25px;
+        }
+    }
 }
 
 .sec-traits {

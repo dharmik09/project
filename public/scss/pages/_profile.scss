@@ -1666,6 +1666,7 @@ input:checked + .slider:before {
                 width: 83px;
                 height: 83px;
                 display: table-cell; //vertical-align: top; //margin-right: 10%;
+                vertical-align: inherit;
                 @include maxsm {
                     // margin-right: 40px;
                 }
