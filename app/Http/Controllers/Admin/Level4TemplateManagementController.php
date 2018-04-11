@@ -553,10 +553,10 @@ class Level4TemplateManagementController extends Controller {
     public function addCoinsDataForTemplate() {
         $data = [];
         $data['template_Id'] = $_REQUEST['templateid'];
-        $data['searchBy'] = $_REQUEST['searchBy'];
-        $data['searchText'] = $_REQUEST['searchText'];
-        $data['orderBy'] = $_REQUEST['orderBy'];
-        $data['sortOrder'] = $_REQUEST['sortOrder'];
+        // $data['searchBy'] = $_REQUEST['searchBy'];
+        // $data['searchText'] = $_REQUEST['searchText'];
+        // $data['orderBy'] = $_REQUEST['orderBy'];
+        // $data['sortOrder'] = $_REQUEST['sortOrder'];
         $data['page'] = $_REQUEST['page'];
 
         return view('admin.AddCoinsDataForTemplate',compact('data'));

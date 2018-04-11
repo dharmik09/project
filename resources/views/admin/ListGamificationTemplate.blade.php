@@ -69,10 +69,10 @@
          },
          data: {
            templateid:$id,
-           searchBy: $('#searchBy').val(),
-           searchText: $('#searchText').val(),
-           orderBy: $('#orderBy').val(),
-           sortOrder: $('#sortOrder').val(),
+           // searchBy: $('#searchBy').val(),
+           // searchText: $('#searchText').val(),
+           // orderBy: $('#orderBy').val(),
+           // sortOrder: $('#sortOrder').val(),
            page: <?php echo (isset($_GET['page']) && $_GET['page'] > 0 )? $_GET['page']: 1 ;?>
          },
          success: function (response)

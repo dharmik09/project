@@ -15,10 +15,10 @@
         $html .= '<form id="addCoins" class="form-horizontal" method="post" action="'. url('/admin/saveCoinsDataForTemplate').'">';
         $html .= '<input type="hidden" name="_token" value="'.csrf_token().'">';
         $html .= '<input type="hidden" name="id" value="'. $data['template_Id'] .'">';
-        $html .= '<input type="hidden" name="searchBy" value="'. $data['searchBy'] .'">';
-        $html .= '<input type="hidden" name="searchText" value="'. $data['searchText'] .'">';
-        $html .= '<input type="hidden" name="orderBy" value="'. $data['orderBy'] .'">';
-        $html .= '<input type="hidden" name="sortOrder" value="'. $data['sortOrder'] .'">';
+        // $html .= '<input type="hidden" name="searchBy" value="'. $data['searchBy'] .'">';
+        // $html .= '<input type="hidden" name="searchText" value="'. $data['searchText'] .'">';
+        // $html .= '<input type="hidden" name="orderBy" value="'. $data['orderBy'] .'">';
+        // $html .= '<input type="hidden" name="sortOrder" value="'. $data['sortOrder'] .'">';
         $html .= '<input type="hidden" name="page" value="'. $data['page'] .'">';
 
         $html .= '<div class="form-group">';
