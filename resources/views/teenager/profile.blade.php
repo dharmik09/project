@@ -172,8 +172,8 @@
                             <div class="col-sm-6 col-xs-12 flex-items">
                                 <div class="form-group custom-select">
                                     <select tabindex="9" class="form-control" id="gender" name="gender" required >
-                                        <option value="1" <?php echo (old('gender') && old('gender') == 1) ? "selected='selected'" : ''; ?> >Male</option>
-                                        <option value="2" <?php echo (old('gender') && old('gender') == 2) ? "selected='selected'" : ''; ?> >Female</option>
+                                        <option value="1" <?php if (isset($user->t_gender) && $user->t_gender == 1) { ?> selected <?php } ?> >Male</option>
+                                        <option value="2" <?php if (isset($user->t_gender) && $user->t_gender == 2) { ?> selected <?php } ?> >Female</option>
                                     </select>
                                 </div>
                             </div>
