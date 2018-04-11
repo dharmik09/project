@@ -436,7 +436,7 @@ class ProfileController extends Controller
             $data = ($teenagerMeta) ? $teenagerMeta : [];
             $response['data'] = $data;
             $response['login'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+            $response['message'] = 'Academic record updated successfully.';
             $response['status'] = 1;
         } else {
             $response['message'] = "Something went wrong or missing data!";
@@ -473,7 +473,7 @@ class ProfileController extends Controller
             $data = ($teenagerMeta) ? $teenagerMeta : [];
             $response['data'] = $data;
             $response['login'] = 1;
-            $response['message'] = trans('appmessages.default_success_msg');
+            $response['message'] = 'Achievement updated successfully.';
             $response['status'] = 1;
         } else {
             $response['message'] = "Something went wrong or missing data!";

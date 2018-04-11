@@ -293,8 +293,8 @@ class DashboardController extends Controller
                         } else {
                             $data['logo'] = Storage::url($this->subjectOriginalImageUploadPath . 'proteen-logo.png');
                         }
-                        $data['video'] = "";
-                        $data['details'] = "";
+                        $data['video'] = $subjectDetails->ps_video;
+                        $data['details'] = $subjectDetails->ps_description;
                     }
                 }
                 $response['message'] = trans('appmessages.default_success_msg');
