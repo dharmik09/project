@@ -347,7 +347,7 @@ class ProfileController extends Controller
                     //$response['ads'] = $ads;
                     $response['status'] = 1;
                     $response['login'] = 1;
-                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['message'] = "Profile updated successfully";
                     $response['loginToken'] = base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
                     $response['data'] = $teenager;
                 } else {

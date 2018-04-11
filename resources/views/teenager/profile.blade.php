@@ -218,7 +218,7 @@
                                 <div class="sponsor-sec">
                                     <div class="sponsor-content">
                                        <p>Select at least one sponsor.</p>
-                                       <p>Benefits include coupon code voucher and event participation.</p>
+                                       <p>Benefits can include sponsored events, contests, scholarships and coupons.</p>
                                         <div class="form-register sponsor-list owl-carousel">
                                             @forelse($sponsorDetail as $key => $value)
                                                 <div class="checkbox">
@@ -592,7 +592,7 @@
                                 {!! $achievementStr !!}
                             @endif
                             </span>
-                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed">Edit</a>
+                            <a id="achievementBtn" data-parent="#accordion" data-toggle="collapse" href="#accordion1" class="collapsed">Edit</a>
                         </div>
                     </h4>
                 </div>
@@ -626,7 +626,7 @@
                                 {!! $academicStr !!}
                             @endif
                             </span>
-                            <a data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed">Edit</a>
+                            <a id="academicBtn" data-parent="#accordion" data-toggle="collapse" href="#accordion2" class="collapsed">Edit</a>
                         </div>
                     </h4>
                 </div>
@@ -1796,7 +1796,22 @@
             }
         });
     }
-    
+
+    //Change button text
+    $('#accordion1').on('show.bs.collapse', function () {
+        $("#achievementBtn").text('Close');
+    });
+    $('#accordion1').on('hide.bs.collapse', function () {
+        $("#achievementBtn").text('Edit');
+    });
+
+    //Change button text
+    $('#accordion2').on('show.bs.collapse', function () {
+        $("#academicBtn").text('Close');
+    });
+    $('#accordion2').on('hide.bs.collapse', function () {
+        $("#academicBtn").text('Edit');
+    });
       
 </script>
 @stop
