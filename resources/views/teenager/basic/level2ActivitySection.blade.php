@@ -1,6 +1,6 @@
 <div class="panel-heading">
     <h4 class="panel-title">
-        <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{$section}}" class="collapsed career-cl" id="{{$section}}" aria-expanded="true" @if(isset($activities[0]) && count($activities[0]) > 0) onclick="fetch2ActivityQuestion(this.id)" @endif>
+        <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{$section}}" class="collapsed career-lc" id="{{$section}}" aria-expanded="true" @if(isset($activities[0]) && count($activities[0]) > 0) onclick="fetch2ActivityQuestion(this.id)" @endif>
             Profile Builder {{$section}}<span id="percentageSection{{$section}}">{{$sectionPercentage}}</span>
         </a>
     </h4>

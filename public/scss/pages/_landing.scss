@@ -39,19 +39,23 @@ a {
 }
 
 .teen-bio .form-group input::-webkit-input-placeholder {
-    color: $white;text-transform:lowercase
+    color: $white;
+    text-transform: lowercase
 }
 
 .teen-bio .form-group input::-moz-placeholder {
-    color: $white;text-transform:lowercase
+    color: $white;
+    text-transform: lowercase
 }
 
 .teen-bio .form-group input :-ms-input-placeholder {
-    color: $white;text-transform:lowercase
+    color: $white;
+    text-transform: lowercase
 }
 
 .teen-bio .form-group input:-moz-placeholder {
-    color: $white;text-transform:lowercase
+    color: $white;
+    text-transform: lowercase
 }
 
 .container-small {
@@ -104,7 +108,7 @@ a {
 .teen-bio {
     padding: 70px 0 110px;
     font-family: hl;
-    color:$lightgrey;
+    color: $lightgrey;
     font-size: 17px;
     @include maxlg {
         padding-bottom: 70px;
@@ -163,11 +167,11 @@ a {
             left: 60%;
             top: -30%;
             @include maxlg {
-               // left: 40%;
+                // left: 40%;
                 top: -15%;
             }
             @include maxmd {
-               //     left: 45%;
+                //     left: 45%;
                 top: -41%;
             }
             @include maxms {
@@ -186,10 +190,10 @@ a {
         @include maxlg {
             padding-right: 10px;
         }
-        @include maxmd{
+        @include maxmd {
             font-size: 15px;
         }
-        @include maxms{
+        @include maxms {
             font-size: 14px;
         }
         p {
@@ -255,8 +259,8 @@ a {
                     border-color: #fff;
                 }
             }
-            .pull-right{
-                @include maxms{
+            .pull-right {
+                @include maxms {
                     float: none !important;
                     display: block;
                     margin-top: 5px;
@@ -272,9 +276,7 @@ a {
             }
             li {
                 display: inline-block;
-                width: 49%;
-                //margin-left: -4px;
-
+                width: 49%; //margin-left: -4px;
                 &:last-child {
                     a {
                         margin-right: 0;
@@ -357,7 +359,7 @@ a {
             font-size: 17px;
             margin-bottom: 6px;
             font-family: hb;
-            @include maxms{
+            @include maxms {
                 font-size: 14px;
             }
         }
@@ -368,27 +370,27 @@ a {
                 text-decoration: underline;
             }
         }
-        .invalid{
+        .invalid {
             color: $white;
         }
     }
-    .order-1{
-        @include maxsm{
+    .order-1 {
+        @include maxsm {
             order: 1;
         }
     }
-    .order-3{
-        @include maxsm{
+    .order-3 {
+        @include maxsm {
             width: 100%;
             order: 3
         }
     }
-    .order-2{
-        @include maxsm{
+    .order-2 {
+        @include maxsm {
             order: 2;
         }
     }
-    .flex-items{
+    .flex-items {
         align-items: flex-start !important;
     }
 }
@@ -457,8 +459,7 @@ a {
                     color: $lightgrey;
                     margin-bottom: 5px;
                     @include maxsm {
-                        font-size: 16px;
-                       // margin-bottom: 15px;
+                        font-size: 16px; // margin-bottom: 15px;
                         line-height: 1.2;
                     }
                 }
@@ -544,8 +545,8 @@ a {
         padding: 40px 0;
         font-size: 14px;
     }
-    span{
-        @include maxms{
+    span {
+        @include maxms {
             font-size: 14px !important;
         }
     }
@@ -569,7 +570,13 @@ a {
             }
         }
     }
-    .finalist-img{position: absolute;bottom: 20%;}
+    .finalist-img {
+        position: absolute;
+        bottom: 20%;
+        @include maxlg{
+            display: none;
+        }
+    }
 }
 
 .container-large {
@@ -616,7 +623,7 @@ a {
             }
             @include maxsm {
                 width: 49.5%;
-                padding:  0 12px 0 16px;
+                padding: 0 12px 0 16px;
             }
             @include maxms {
                 width: 100%;
@@ -704,13 +711,13 @@ a {
     margin-bottom: 23px;
     line-height: 1.5;
     position: relative;
-    @include maxlg{
+    @include maxlg {
         padding: 7px 43px;
     }
-    @include maxmd{
+    @include maxmd {
         padding: 7px 38px;
     }
-    @include maxsm{
+    @include maxsm {
         padding: 7px 52px;
     }
     @include maxms {
@@ -754,7 +761,7 @@ a {
         pointer-events: none;
         cursor: not-allowed;
         &:not(.expand) {
-           // text-align: center;
+            // text-align: center;
         }
         &:before {
             transition-delay: 0.5s;
@@ -780,9 +787,8 @@ a {
         }
         li {
             display: inline-block;
-            width:49.4%;
-           // margin-left: -4px;
-            @include maxms{
+            width: 49.4%; // margin-left: -4px;
+            @include maxms {
                 width: 49%;
             }
             &:last-child {
@@ -839,7 +845,13 @@ a {
         }
     }
 }
-.teen-bio .form-sec .invalid{color: $white;display: block;margin-top: 5px;}
+
+.teen-bio .form-sec .invalid {
+    color: $white;
+    display: block;
+    margin-top: 5px;
+}
+
 // Animations
 //**********************//
 @keyframes rotate {
@@ -856,6 +868,7 @@ a {
         transform: rotate(360deg);
     }
 }
-.full-width{
+
+.full-width {
     width: 100%;
 }

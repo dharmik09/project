@@ -312,7 +312,7 @@
                                     <div class="panel panel-default factual quiz4">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_4')}}" class="collapsed career-cl" id="{{Config::get('constant.LEVEL2_SECTION_4')}}" @if($secComplete4 != 1) onclick="fetch2ActivityQuestion(this.id)" @endif >Profile Builder 4<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_4')}}">{{$section4}}</span></a>
+                                                <a data-parent="#accordionx" data-toggle="collapse" href="#accordion{{Config::get('constant.LEVEL2_SECTION_4')}}" class="collapsed career-lc" id="{{Config::get('constant.LEVEL2_SECTION_4')}}" @if($secComplete4 != 1) onclick="fetch2ActivityQuestion(this.id)" @endif >Profile Builder 4<span id="percentageSection{{Config::get('constant.LEVEL2_SECTION_4')}}">{{$section4}}</span></a>
                                             </h4>
                                         </div>
                                         <div class="panel-collapse collapse" id="accordion{{Config::get('constant.LEVEL2_SECTION_4')}}">

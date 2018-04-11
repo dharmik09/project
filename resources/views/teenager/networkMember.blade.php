@@ -215,24 +215,31 @@
                                 </div>
                             </div>
                         </div>
-                        <ul class="badge-list interest-list clearfix">
-                            @forelse($teenagerInterest as $interestKey => $interestValue)
-                                <li>
-                                    <figure>
-                                        <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
-                                            <div class="progress-radial progress-{{$interestValue['score']}} progress-strong"></div>
-                                        </a>
-                                        <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
-                                            <figcaption>{{ $interestValue['name']}}</figcaption>
-                                        </a>
-                                    </figure>
-                                </li>
-                            @empty
-                                <center>
-                                    <h3>No any Interest found!</h3>
-                                </center>
-                            @endforelse
-                        </ul>
+                        <div class="strength-list">
+                            <div class="data-explainations clearfix">
+                                <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
+                                <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
+                                <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
+                            </div>
+                            <ul class="badge-list interest-list clearfix">
+                                @forelse($teenagerInterest as $interestKey => $interestValue)
+                                    <li>
+                                        <figure>
+                                            <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
+                                                <div class="progress-radial progress-{{$interestValue['score']}} progress-strong"></div>
+                                            </a>
+                                            <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
+                                                <figcaption>{{ $interestValue['name']}}</figcaption>
+                                            </a>
+                                        </figure>
+                                    </li>
+                                @empty
+                                    <center>
+                                        <h3>No any Interest found!</h3>
+                                    </center>
+                                @endforelse
+                            </ul>
+                        </div>
                     </div>
                     <div id="menu2" class="tab-pane fade">
                         <div class="sec-popup">
