@@ -879,6 +879,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
         $saveData['deleted'] = config::get('constant.DELETED_FLAG');
         $return = DB::table(config::get('databaseconstants.TBL_GAMIFICATION_TEMPLATE'))->where('id', $id)->update($saveData);
         if ($return) {
+            DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY'))->where('l4ia_question_template', $id)->update($saveData);            
             return true;
         } else {
             return false;
