@@ -129,7 +129,9 @@ class ProfessionInstitutesController extends Controller {
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
                             <option disabled selected>Select Accreditation By</option>';
             foreach ($institutesData as $key => $value) {
-                $response .= '<option value="'.$value->accreditation_body.'">'.$value->accreditation_body.'</option>';
+                if($value != ''){
+                    $response .= '<option value="'.$value->accreditation_body.'">'.$value->accreditation_body.'</option>';
+                }
             }
             $response .= '</select></div>';
         }
