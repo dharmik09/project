@@ -111,7 +111,7 @@
                             <h4><a href="{{$instituteWebsite}}" target="_blank">{{ $instituteName }} </a></h4>
                             <h5><strong>Year of Establishment </strong>{{$instituteEstablishmentYear}}</h5>
                             <h5><strong>Affiliated University </strong>{{$instituteAffiliateUniversity}} </h5>
-                            <h5><strong>Address </strong>{{ucwords(strtolower($instituteAddress))}}</h5>
+                            <h5><strong>Address </strong>{{$instituteAddress}}</h5>
                         </div>
                     </div>
                 </div>
