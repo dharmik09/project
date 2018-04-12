@@ -116,6 +116,19 @@ class DashboardManagementController extends Controller {
             exit;
         }
         if (isset($teenDetail) && !empty($teenDetail)) {
+            $parentType = Auth::guard('parent')->user()->p_user_type;
+            if ($parentType == Config::get('constant.PARENT_USER_FLAG')) {
+                if ($teenDetail->is_share_with_parents == Config::get('constant.SHARE_INFO_WITH_PARENT_OFF')) {
+                    return Redirect::to("parent/home")->with('error', 'Private Teen Profile');
+                    exit;
+                }
+            }
+            if ($parentType == Config::get('constant.MENTOR_USER_FLAG')) {
+                if ($teenDetail->is_share_with_teachers == Config::get('constant.SHARE_INFO_WITH_MENTOR_OFF')) {
+                    return Redirect::to("parent/home")->with('error', 'Private Teen Profile');
+                    exit;
+                }
+            }
             $checkuserexist = $this->teenagersRepository->checkActiveTeenager($teenDetail->id);
             if (isset($checkuserexist) && $checkuserexist) {
                 //Get all teenager detail

@@ -83,8 +83,12 @@ class CommunityManagementController extends Controller {
     {
         $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($uniqueId);
         if (isset($teenDetails) && !empty($teenDetails)) {
-            if($teenDetails->id == Auth::guard('teenager')->user()->id){
+            if ($teenDetails->id == Auth::guard('teenager')->user()->id){
                 return Redirect::to("teenager/my-profile");
+            }
+            if ($teenDetails->is_search_on != Config('constant.TEENAGER_PUBLIC_PROFILE_ON')) {
+                return Redirect::to("teenager/home")->with('error', 'Private profile');
+                exit;
             }
             
             //register user in applozic if already not available
