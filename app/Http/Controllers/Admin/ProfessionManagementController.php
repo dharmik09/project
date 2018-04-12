@@ -837,12 +837,10 @@ class ProfessionManagementController extends Controller {
         $result = $this->objProfessionInstitutes->getAllProfessionInstitutes();
         $finalData = $result->toArray();
         if(isset($finalData) && !empty($finalData))
-        {
-           
+        {           
             foreach($finalData as $key=>$data){
                 unset($data['id']);
                 unset($data['location']);
-                unset($data['image']);
                 unset($data['created_at']);
                 unset($data['updated_at']);
                 unset($data['deleted']);                
