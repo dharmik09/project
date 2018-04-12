@@ -1520,11 +1520,11 @@ class level3ActivityController extends Controller {
                         $data[$key]->total_basket_profession = count($value->profession);
                         $professionAttemptedCount = 0;
                         foreach ($value->profession as $k => $v) {
-                            if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
-                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
-                            } else {
-                                $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
-                            }
+                            // if($v->pf_logo != '' && Storage::size($this->professionThumbUrl . $v->pf_logo) > 0){
+                            $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $v->pf_logo);
+                            // } else {
+                            //     $data[$key]->profession[$k]->pf_logo = Storage::url($this->professionThumbUrl . $this->professionDefaultProteenImage);
+                            // }
                             $professionAttempted = Helpers::getProfessionCompletePercentage($request->userId, $v->id);
                             if(isset($professionAttempted) && $professionAttempted == 100) { 
                                 $data[$key]->profession[$k]->completed = Config::get('constant.PROFESSION_ATTEMPTED_FLAG');
