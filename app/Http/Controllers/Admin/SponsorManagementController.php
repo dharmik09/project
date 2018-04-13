@@ -261,7 +261,7 @@ class SponsorManagementController extends Controller
             $notificationData['n_receiver_id'] = 0;
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_SCHOOL_APPROVE');
-            $notificationData['n_notification_text'] = 'New sponsor <strong>'.$return->sp_company_name.'</strong> has been arrived in ProTeen!';
+            $notificationData['n_notification_text'] = 'New sponsor '.$return->sp_company_name.' has been arrived in ProTeen!';
             $this->objNotifications->insertUpdate($notificationData);
 //            $teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
 //            foreach ($teenagers AS $key => $value) {

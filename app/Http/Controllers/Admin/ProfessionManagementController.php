@@ -265,7 +265,7 @@ class ProfessionManagementController extends Controller {
             $notificationData['n_receiver_id'] = 0;
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_ADD_PROFESSION');
-            $notificationData['n_notification_text'] = 'Profession <strong>'.$professionDetail['pf_name'].'</strong> updated in ProTeen!';
+            $notificationData['n_notification_text'] = 'ProTeen updated '.$professionDetail['pf_name'];
             $this->objNotifications->insertUpdate($notificationData);
             
             dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
