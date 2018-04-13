@@ -1462,6 +1462,7 @@ class level3ActivityController extends Controller {
                     $teenArr['t_photo'] = $teenagerThumbImage;
                     $teenArr['t_uniqueid'] = $teenager->t_uniqueid;
                     $teenArr['t_coins'] = $teenager->t_coins;
+                    $teenArr['is_search_on'] = $teenager->is_search_on;
                     $teenArr['points'] = $teenager->tlb_points;
                     $data[] = $teenArr;
                 }
