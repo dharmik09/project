@@ -71,7 +71,7 @@
                     <p>Purchase ProCoins Packs Online</p>
                     <div class="list-procoins">
                         <div class="row flex-container">
-                            @if(isset($coinsDetail) && !empty($coinsDetail))
+                            @if(isset($coinsDetail) && count($coinsDetail) > 0)
                             <?php $column_count = 1; ?>
                             @foreach($coinsDetail as $key=>$val)
                             <div class="col-sm-6 flex-items">
@@ -120,7 +120,7 @@
                             ?>
                             @endforeach
                             @else
-                                No Packages found.
+                            <div class="sec-forum"><span>No result found</span></div>
                             @endif
                         </div>
                     </div>
