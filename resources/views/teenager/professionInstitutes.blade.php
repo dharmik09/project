@@ -18,6 +18,7 @@
                     <div class="col-sm-2">
                         <span>Filter by:</span>
                     </div>
+                    <?php $pincodeLabel = ($countryId == 1)?'Pincode':'Zip Code'; ?>
                     <div class="col-sm-3">
                         <div class="form-group custom-select">
                             <select id="questionDropdown" onchange="fetchSearchDropdown();" tabindex="8" class="form-control">
@@ -25,7 +26,7 @@
                                 <option value="Speciality" <?php echo (isset($speciality) && !empty($speciality)) ? 'selected' : '' ?> >Education Stream</option>
                                 <option value="State">State</option>
                                 <option value="City">City</option>
-                                <option value="Pincode">Pincode</option>
+                                <option value="Pincode">{{$pincodeLabel}}</option>
                                 <option value="Institute_Affiliation">Institute Affiliation</option>
                                 <option value="Management_Category">Category</option>
                                 <option value="Accreditation">Accreditation By</option>

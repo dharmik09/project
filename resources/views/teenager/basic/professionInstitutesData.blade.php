@@ -30,7 +30,19 @@
         }
         
         if(isset($value->address_line1) && $value->address_line1 != ""){
-            $instituteAddress = $value->address_line1.' '.$value->address_line2.', '.$value->city.', '.$value->district;
+            $instituteAddress = $value->address_line1;
+        }
+        if(isset($value->address_line2) && $value->address_line2 != ""){
+            $instituteAddress.= ', '.$value->address_line2;
+        }
+        if(isset($value->city) && $value->city != ""){
+            $instituteAddress.= ', '.$value->city;
+        }
+        if(isset($value->district) && $value->district != ""){
+            $instituteAddress.= ', '.$value->district;
+        }
+        if(isset($value->pin_code) && $value->pin_code != ""){
+            $instituteAddress.= ', '.$value->pin_code;
         }
         
         if($instituteName != ""){
@@ -135,8 +147,8 @@
                                             <li><strong>Accreditation CGPA </strong>{{$instituteAccreditationScore}}</li>
                                             <li><strong>Accreditation By </strong>{{$instituteAccreditationBody}}</li>
                                         @endif
-                                        <li><strong>Fee Range in ₹ </strong> {{$instituteFeeRange}}</li>
-                                        <li><strong>Hostel Count </strong>{{$instituteHostelCount}}</li>
+                                        <li><strong>Fee Range in <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?> </strong> {{$instituteFeeRange}}</li>
+                                        <li><strong>Hostel <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? 'Count' : 'Availability' ?> </strong>{{$instituteHostelCount}}</li>
                                         <li><strong>Status </strong>{{$instituteGender}}</li>
                                         <li><strong>Autonomous </strong>{{$instituteAutonomous}}</li>
                                     </ul>

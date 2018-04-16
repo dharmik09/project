@@ -61,9 +61,9 @@ class ProfessionInstitutesController extends Controller {
             if (Input::get('speciality')){
                 $speciality = Input::get('speciality');
                 $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
-                return view ('teenager.professionInstitutes', compact('speciality','city','state','institutesSpecialityData'));
+                return view ('teenager.professionInstitutes', compact('speciality','city','state','institutesSpecialityData','countryId'));
             }
-            return view('teenager.professionInstitutes', compact('speciality','city','state'));
+            return view('teenager.professionInstitutes', compact('speciality','city','state','countryId'));
         } else {
             return Redirect::to('teenager/home')->with('error', 'Sorry, you have to consume ProCoins to view institute list');
         }
@@ -81,7 +81,7 @@ class ProfessionInstitutesController extends Controller {
         
         $institutesData = $this->objProfessionInstitutes->getProfessionInstitutesWithFilterByCountryId($answerName, $questionType, $answer, $record, $countryId);
 
-        $view = view('teenager.basic.professionInstitutesData',compact('institutesData'));
+        $view = view('teenager.basic.professionInstitutesData',compact('institutesData','countryId'));
         $response['instituteCount'] = count($institutesData);
         $response['institutes'] = $view->render();
         $response['pageNo'] = $pageNo+1;

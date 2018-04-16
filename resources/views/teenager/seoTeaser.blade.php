@@ -1,7 +1,7 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>Seo teasor</title>
+    <title>Seo teasor</title>    
 @endpush
 
 @section('content')
@@ -26,7 +26,7 @@
                 </form>
                 <h1>{{$professionsData->pf_name}}</h1>
                 <div class="career-banner banner-landing">
-                    <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
+                    <img id="profession_image" src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}">
                     <div>
                         <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="{{ Storage::url('img/play-icon.png') }}" alt="play icon"></a></div>
                     </div>
@@ -35,7 +35,7 @@
 
                     <video id="dropbox_video_player" poster="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" oncontextmenu="return false;"  controls style="width: 100%;min-width: 100%;">
                         <!-- MP4 must be first for iPad! -->
-                        <source src="{{$professionsData->pf_video}}" type="video/mp4"  /><!-- Safari / iOS, IE9 -->  
+                        <source src="{{$professionsData->pf_video}}" type="video/mp4"/><!-- Safari / iOS, IE9 -->  
                         Your browser does not support HTML5 video.
                     </video>
 
@@ -899,7 +899,7 @@ if (!empty($allProfessions)) {
         $('.play-icon').click(function() {
             $(this).hide();
             $('video').show();
-            $('img').hide();
+            $('#profession_image').hide();
         });
 
         $('#iframe-video-click').on('click', function(ev) {
@@ -907,64 +907,12 @@ if (!empty($allProfessions)) {
             if(youtubeVideo == '') {
                 $("#dropbox_video_player")[0].play();
             } else {
-                $('img').hide();
+                $('#profession_image').hide();
                 $('iframe').show();
                 $("#iframe-video")[0].src += "&autoplay=1";
                 ev.preventDefault();
             }
-        });
-
-        $('.btn-next').click(function() {
-            $('.front_page').hide();
-            $('.promise-plus-overlay').show(500);
-        })
-        $('.promise-plus-overlay .close').click(function() {
-            $('.promise-plus-overlay').hide();
-            $('.front_page').show(500);
-        })
-        $('.btn-basic').click(function() {
-            $('.quiz-basic .sec-show').addClass('hide');
-            $('.quiz-basic .basic-quiz-area').addClass('active');
-        })
-        $('.quiz-box .close').click(function() {
-            $('.sec-show').removeClass('hide');
-            $('.sec-hide').removeClass('active');
-        });
-        $('.btn-intermediate').click(function(){
-            $('.quiz-intermediate .sec-show').addClass('hide');
-            $('.quiz-intermediate .sec-hide').addClass('active');
-        })
-        $('.quiz-area .close').click(function() {
-             $('.sec-show').removeClass('hide');
-            $('.sec-hide').removeClass('active');
-        });
-        $('.btn-advanced').click(function(){
-            $('.quiz-advanced .sec-show').addClass('hide');
-            $('.quiz-advanced .sec-hide').addClass('active');
-        })
-        $('.upload-screen .close').click(function() {
-             $('.sec-show').removeClass('hide');
-            $('.sec-hide').removeClass('active');
-        });
-
-        $(".progress-match").each(function(){
-
-          var $bar = $(this).find(".bar");
-          var $val = $(this).find("span");
-          var perc = parseInt( $val.text(), 10);
-
-          $({p:0}).animate({p:perc}, {
-            duration: 3000,
-            easing: "swing",
-            step: function(p) {
-              $bar.css({
-                transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
-                // 45 is to add the needed rotation to have the green borders at the bottom
-              });
-              $val.text(p|0);
-            }
-          });
-        });
+        });   
     });
 
     $(window).bind("load", function() {
