@@ -137,11 +137,11 @@
                                     <span class="star-icon">
                                         <?php
                                         if (count($professionsData->starRatedProfession)>0) { ?>
-                                            <a href="javascript:void(0)" class="addto pull-left selected" title="Added as favourite">
+                                            <a id="remove-star" href="javascript:void(0)" class="addto pull-left selected add-to-star" title="Added as favourite" onclick="updateCareerfavoriteStatus({{Config::get('constant.REMOVE_STAR_FROM_CAREER')}});">
                                                 <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
                                             </a>
                                         <?php } else { ?>
-                                            <a id="add-to-star" href="javascript:void(0)" title="Add as favourite" class=""><i class="icon-star"></i></a>
+                                            <a id="add-to-star" href="javascript:void(0)" title="Add as favourite" class="add-to-star" onclick="updateCareerfavoriteStatus({{Config::get('constant.ADD_STAR_TO_CAREER')}});"><i class="icon-star"></i></a>
                                         <?php } ?>
                                         <div id="favourite_message" class="favourite-text">Career has been selected as favourite</div>
                                     </span>
@@ -591,9 +591,10 @@
         });
     });
 
-    $(document).on('click','#add-to-star', function(){
+    // $(document).on('click','#add-to-star', function(){
+    function updateCareerfavoriteStatus(favoriteStatus) {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = 'careerId=' + '{{$professionsData->id}}';
+        var form_data = 'careerId=' + '{{$professionsData->id}}' + '&favoriteStatus=' + favoriteStatus;
         var profession_name = '{{$professionsData->pf_name}}';
         $.ajax({
             url : '{{ url("teenager/add-star-to-career") }}',
@@ -605,17 +606,27 @@
             dataType: "json",
             success : function (response) {
                 if (response != '') {
-                    $("#favourite_message").html('Congratulation! You just favorited '+profession_name+'. You can now explore it directly from "My careers"');
-                    $("#favourite_message").css('display', 'block');
-                    $('#add-to-star').html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">');
-                    $('#add-to-star').attr('title', 'Added as favourite');
+                    if (favoriteStatus == "{{Config::get('constant.ADD_STAR_TO_CAREER')}}") {
+                        $("#favourite_message").html('Congratulation! You just favorited '+profession_name+'. You can now explore it directly from "My careers"');
+                        $('.add-to-star').html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">');
+                        $('.add-to-star').attr('title', 'Added as favorite');
+                        $("#favourite_message").css('display', 'block');
+                        $(".add-to-star").attr("onclick","updateCareerfavoriteStatus("+"{{Config::get('constant.REMOVE_STAR_FROM_CAREER')}}"+")");
+                    } else if (favoriteStatus == "{{Config::get('constant.REMOVE_STAR_FROM_CAREER')}}") {
+                        $('.add-to-star').html('<i class="icon-star"></i>');
+                        $('.add-to-star').attr('title', 'Add as favourite');
+                        $("#favourite_message").html('You just remove ' + profession_name + ' from favorite.');
+                        $("#favourite_message").css('display', 'block');
+                        $(".add-to-star").attr("onclick","updateCareerfavoriteStatus("+"{{Config::get('constant.ADD_STAR_TO_CAREER')}}"+")");
+                    }
+                    
                     setTimeout(function () {
                         $("#favourite_message").hide();
                     }, 7000);
                 }
             }
         });
-    });
+    }
     
     var youtubeVideo = '{{$videoCode}}';
     if(youtubeVideo == '') {

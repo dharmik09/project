@@ -31,5 +31,12 @@ class StarRatedProfession extends Model
         $return = $this->where('srp_teenager_id', $careerDetails['srp_teenager_id'])->where('srp_profession_id', $careerDetails['srp_profession_id'])->first();
         return $return;
     }
+
+    //Delete record from table
+    public function deleteRecord($careerDetails)
+    {
+        $return = $this->where('srp_teenager_id', $careerDetails['srp_teenager_id'])->where('srp_profession_id', $careerDetails['srp_profession_id'])->delete();
+        return $return;
+    }
     
 }
