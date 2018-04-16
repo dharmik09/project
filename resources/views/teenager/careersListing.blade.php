@@ -39,21 +39,12 @@
             <section class="career-content listing-content">
                 <div class="bg-white">
                     <div class="panel-group maindiv" id="accordion">
-                        @forelse($basketsData as $key => $value)
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$value->id}}" id="{{$value->id}}" onclick="fetchProfessionData(this.id)" class="collapsed">{{$value->b_name}}</a> <a href="{{ url('teenager/career-grid') }}" title="Grid view" class="grid"><i class="icon-grid"></i></a></h4>
-                            </div>
-                            <div class="panel-collapse collapse <?php if($key == 0){echo 'in'; $firstId = $value->id;} ?>" id="accordion{{$value->id}}">
-                                <div id="profession{{$value->id}}"></div>
-                            </div>
-                        </div>
-                        @empty
-                        @endforelse
+                        
                     </div>
                 </div>
             </section>
             <!-- mid section end-->
+            <div class="sec-blank"></div>
         </div>
     </div>
 </div>
@@ -69,61 +60,60 @@
         $("#iframe-video-"+id).show();
     }
 
-    function fetchProfessionData(id) {
-        $('.play-btn').show();
-        $('.iframe').attr('src', '');
-        if ( !$("#profession"+id).hasClass( "dataLoaded" ) ) {
+    // function fetchProfessionData(id) {
+    //     $('.play-btn').show();
+    //     $('.iframe').attr('src', '');
+    //     if ( !$("#profession"+id).hasClass( "dataLoaded" ) ) {
             
-            $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
-            $("#profession"+id).addClass('loading-screen-parent');
+    //         $("#profession"+id).html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
+    //         $("#profession"+id).addClass('loading-screen-parent');
             
-            var CSRF_TOKEN = "{{ csrf_token() }}";
-            $.ajax({
-                type: 'POST',
-                url: "{{url('teenager/career-list')}}",
-                dataType: 'html',
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN
-                },
-                data: {'basket_id':id},
-                success: function (response) {
-                    $("#profession"+id).html(response);
-                    $("#profession"+id).addClass("dataLoaded");
-                    $("#profession"+id).removeClass('loading-screen-parent');
-                }
-            });
-        }
-    }
+    //         var CSRF_TOKEN = "{{ csrf_token() }}";
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: "{{url('teenager/career-list')}}",
+    //             dataType: 'html',
+    //             headers: {
+    //                 'X-CSRF-TOKEN': CSRF_TOKEN
+    //             },
+    //             data: {'basket_id':id},
+    //             success: function (response) {
+    //                 $("#profession"+id).html(response);
+    //                 $("#profession"+id).addClass("dataLoaded");
+    //                 $("#profession"+id).removeClass('loading-screen-parent');
+    //             }
+    //         });
+    //     }
+    // }
 
-    fetchProfessionData({{$firstId}});
 
-    $(function() {
+    // $(function() {
 
-        $('#search').keyup(function ()  {
-            if($("#search").val().length > 3) {      
-                $('.iframe').attr('src', '');          
-                $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
-                $(".maindiv").addClass('loading-screen-parent');
-                var value = $("#search").val();
-                var CSRF_TOKEN = "{{ csrf_token() }}";
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('teenager/search-career-list')}}",
-                    dataType: 'html',
-                    headers: {
-                        'X-CSRF-TOKEN': CSRF_TOKEN
-                    },
-                    data: {'search_text':value},
-                    success: function (response) {
-                        $(".maindiv").html(response);
-                        $(".maindiv").addClass("dataLoaded");
-                        $(".maindiv").removeClass('loading-screen-parent');
-                        //$('.maindiv').removeHighlight().highlight($('#search').val());
-                    }
-                });
-            }
-        });
-    });
+    //     $('#search').keyup(function ()  {
+    //         if($("#search").val().length > 3) {      
+    //             $('.iframe').attr('src', '');          
+    //             $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
+    //             $(".maindiv").addClass('loading-screen-parent');
+    //             var value = $("#search").val();
+    //             var CSRF_TOKEN = "{{ csrf_token() }}";
+    //             $.ajax({
+    //                 type: 'POST',
+    //                 url: "{{url('teenager/search-career-list')}}",
+    //                 dataType: 'html',
+    //                 headers: {
+    //                     'X-CSRF-TOKEN': CSRF_TOKEN
+    //                 },
+    //                 data: {'search_text':value},
+    //                 success: function (response) {
+    //                     $(".maindiv").html(response);
+    //                     $(".maindiv").addClass("dataLoaded");
+    //                     $(".maindiv").removeClass('loading-screen-parent');
+    //                     //$('.maindiv').removeHighlight().highlight($('#search').val());
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
 
     function fetchSearchDropdown() {
         if($("#questionDropdown").val() != 0){
@@ -149,25 +139,86 @@
     }
 
     function fetchDropdownResult() {
-        $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
+        // $(".maindiv").html('<div id="loading-wrapper-sub" style="display: block;" class="loading-screen"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
+        // $(".maindiv").addClass('loading-screen-parent');
+        // var CSRF_TOKEN = "{{ csrf_token() }}";
+        // var queId = $("#questionDropdown").val();
+        // var ansId = $("#answerId").val();
+        // var view = 'LIST';
+        // $.ajax({
+        //     type: 'POST',
+        //     url: "{{url('teenager/get-dropdown-search-result')}}",
+        //     dataType: 'html',
+        //     headers: {
+        //         'X-CSRF-TOKEN': CSRF_TOKEN
+        //     },
+        //     data: {'queId':queId,'ansId':ansId,'view':view},
+        //     success: function (response) {
+        //         $(".maindiv").html(response);
+        //         $(".maindiv").removeClass('loading-screen-parent');
+        //     }
+        // });
+        fetchProfessionDetails();
+    }
+
+    function fetchProfessionDetails()
+    {
+        $(".sec-blank").remove();
+        var filterBy = $("#questionDropdown").val();
+        var filterOption = $("#answerId").val();
+        var searchText = $("#search").val();
+        var layoutType = layoutType;
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var formData = 'searchText=' + searchText + '&filterBy=' + filterBy + '&filterOption=' + filterOption;
+        $(".maindiv").html('<div id="list-career-loader" style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
         $(".maindiv").addClass('loading-screen-parent');
-        var CSRF_TOKEN = "{{ csrf_token() }}";
-        var queId = $("#questionDropdown").val();
-        var ansId = $("#answerId").val();
-        var view = 'LIST';
+        $("#list-career-loader").show();
         $.ajax({
             type: 'POST',
-            url: "{{url('teenager/get-dropdown-search-result')}}",
-            dataType: 'html',
+            data: formData,
+            url: "{{ url('/teenager/get-professions-details') }}",
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
-            data: {'queId':queId,'ansId':ansId,'view':view},
-            success: function (response) {
-                $(".maindiv").html(response);
-                $(".maindiv").removeClass('loading-screen-parent');
+            cache: false,
+            success: function(response) {
+                if (response != '') {
+                    $(".maindiv").html(response);
+                    $("#list-career-loader").hide();
+                    $(".maindiv").removeClass('loading-screen-parent');
+                } else {
+                    
+                }
             }
         });
+    }
+
+    $(document).on('keyup','#search',function(e) {
+        if ((e.which <= 90 && e.which >= 48) || e.which == 222) {
+            if (this.value.length == 1 || this.value.length == 2) {
+                return false;
+            } else {
+                fetchProfessionDetails();
+            }
+        } else {
+            return false;
+        }
+        e.preventDefault();
+    });
+
+    $(window).on("load", function(e) {
+        e.preventDefault();
+        fetchProfessionDetails();
+    });
+
+    function changePageLayout(layoutType, basketId) {
+        if (layoutType == 2) {
+            $("#grid-layout-"+basketId).show();
+            $("#list-layout-"+basketId).hide();
+        } else {
+            $("#list-layout-"+basketId).show();
+            $("#grid-layout-"+basketId).hide();    
+        }
     }
 </script>
 @stop
