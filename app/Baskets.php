@@ -501,4 +501,83 @@ class Baskets extends Model
                 ->get();
         return $return;
     }
+
+    //Returns profession details
+    public function getProfessionDetails($searchText = '', $filterBy = '', $filterOption = '', $professionArray) {
+        $this->searchText = $searchText;
+        $this->filterBy = $filterBy;
+        $this->filterOption = $filterOption;
+        $this->professionArray = $professionArray;
+        // $professionsQry = $this->select('*');
+ 
+        // if ( $this->searchText != '' || ($this->filterBy != '' && $this->filterOption != '') ) {
+        //     //Searching for profession name
+        //     if ($searchText && $searchText != '') {
+        //         $professionsQry->with(['profession' => function ($query) use($searchText) {
+        //                 $query->where('pf_name', 'like', '%'.$searchText.'%')
+        //                 ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+        //             }])
+        //         ->whereHas('profession', function ($query) {
+        //             $query->where('pf_name', 'like', '%'.$this->searchText.'%')
+        //             ->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+        //         });
+        //     }
+
+        //     if ($filterBy && $filterBy != '' && $filterOption && $filterOption != '') {
+        //         if ($filterBy == 1) {
+        //             $professionsQry->with('profession')->where('id', $filterOption); //Filter by Industry(baskets)
+        //         } else if ($filterBy == 2) {
+        //             $professionsQry->with(['profession' => function ($query) use($filterOption) {
+        //                 $query->where('id', $filterOption)->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+        //             }])
+        //             ->whereHas('profession', function ($query) {
+        //                 $query->where('id', $this->filterOption)->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+        //             }); //Filter by Careers(professions)
+        //         }
+        //     }
+        // } else {
+        //     $professionsQry->with('profession');
+        // }
+        // $professions = $professionsQry->where('deleted', Config::get('constant.ACTIVE_FLAG'))->get();
+        // return $professions;
+
+        $professionQuery = $this->select('*')
+                            ->with(['profession' => function ($qry) {
+                                if (isset($this->searchText) && !empty($this->searchText)) {
+                                    $qry->where('pf_name', 'like', '%'.$this->searchText.'%');
+                                }
+
+                                if(isset($this->filterBy) && !empty($this->filterBy) && isset($this->filterOption) && !empty($this->filterOption)) {
+                                    if ($this->filterBy == 2) {
+                                        $qry->where('id', $this->filterOption);
+                                    }
+                                    if ($this->filterBy == 7) {
+                                        $qry->whereIn('pro_pf_profession.id', $this->professionArray);
+                                    }
+                                }
+                                $qry->where('deleted', Config::get('constant.ACTIVE_FLAG'));
+                            }])
+                            ->whereHas('profession', function ($query) use ($searchText, $filterBy, $filterOption, $professionArray) {
+                                if (isset($searchText) && !empty($searchText)) {
+                                    $query->where('pf_name', 'like', '%'.$searchText.'%');
+                                }
+
+                                if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
+                                    if ($filterBy == 2) {
+                                        $query->where('id', $filterOption);
+                                    }
+                                    if ($filterBy == 7) {
+                                        $query->whereIn('pro_pf_profession.id', $this->professionArray);
+                                    }
+                                }
+                            });
+                            
+                            if ($filterBy != '' && $filterOption != '' && $filterBy == 1) {
+                                $professionQuery->where('id', $filterOption);
+                            }
+                            
+        $professionDetails = $professionQuery->where('deleted', Config::get('constant.ACTIVE_FLAG'))
+                            ->get();
+        return $professionDetails;
+    }
 }

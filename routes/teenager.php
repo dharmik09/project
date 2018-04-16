@@ -185,3 +185,6 @@ Route::post('/get-institute-filter', 'Teenager\ProfessionInstitutesController@ge
 
 //Career Detail Page Ads section
 Route::post('/get-career-detail-ads', 'Teenager\ProfileController@getCareerDetailsAds');
+
+//List-Career Page
+Route::post('/get-professions-details', 'Teenager\ProfessionController@getProfessionsDetails');

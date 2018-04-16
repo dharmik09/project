@@ -1230,4 +1230,86 @@ class ProfessionController extends Controller {
         exit;
     }
 
+    /*
+    * Returns professions array with details
+    */
+    public function getProfessionsDetails()
+    {
+        $searchText = Input::get('searchText');
+        $filterBy = Input::get('filterBy');
+        $filterOption = Input::get('filterOption');
+        $userId = Auth::guard('teenager')->user()->id;
+
+        if (empty($searchText) && $filterBy == 0 && $filterOption == 0) {
+            $showElement = 1;
+        } else {
+            $showElement = 0;
+        }
+        if ($filterBy == 7) {
+            if(Auth::guard('teenager')->user()->t_view_information == 1) {
+                $countryId = 2; // United States
+            } else {
+                $countryId = 1; // India
+            }
+            $getTeenagerHML2 = Helpers::getTeenagerMatchScale($userId);
+            $scale = [];
+            foreach($getTeenagerHML2 as $key => $value) {
+                if($value == "match") {
+                    $scale[1][] = $key;
+                } else if($value == "moderate") {
+                    $scale[2][] = $key;
+                } else if($value == "nomatch") {
+                    $scale[3][] = $key;
+                }
+            }
+            $professionArray = isset($scale[$filterOption]) ? $scale[$filterOption] : [];
+            //$basketDetails = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($countryId, $professionArray);
+        } else {
+            $professionArray = [];
+            
+        }
+        $basketDetails = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
+        $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
+        
+        $professionAttemptedCount = 0;
+        $matchScaleCount = [];
+        foreach($basketDetails as $basket) {
+            $professionAttemptedCount = 0;
+            $match = [];
+            $nomatch = [];
+            $moderate = [];
+            foreach ($basket->profession as $key => $profession) {
+                $professionAttempted = Helpers::getProfessionCompletePercentage($userId, $profession->id);
+                if(isset($professionAttempted) && $professionAttempted == 100){
+                    $profession->attempted = 1;
+                    $professionAttemptedCount++;
+                } else {
+                    $profession->attempted = 0;
+                }
+                $matchScale = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+                if($matchScale == "match") {
+                    $basket->profession[$key]->match_scale = "match-strong";
+                    //$matchScaleCount['match'][] = $profession->id;
+                    $match[] = $profession->id; 
+                } else if($matchScale == "nomatch") {
+                    $basket->profession[$key]->match_scale = "match-unlikely";
+                    //$matchScaleCount['nomatch'][] = $profession->id;
+                    $nomatch[] = $profession->id;
+                } else if($matchScale == "moderate") {
+                    $basket->profession[$key]->match_scale = "match-potential";
+                    //$matchScaleCount['moderate'][] = $profession->id;
+                    $moderate[] = $profession->id;
+                } else {
+                    $basket->profession[$key]->match_scale = "career-data-nomatch";
+                }
+            }
+            $basket->match = $match;
+            $basket->nomatch = $nomatch;
+            $basket->moderate = $moderate;
+            $basket->professionAttemptedCount = $professionAttemptedCount;
+        }
+        
+        return view('teenager.basic.careerPageLayout', compact('basketDetails', 'searchText', 'filterBy', 'filterOption', 'matchScaleCount', 'professionAttemptedCount', 'showElement'));
+    }
+
 }
