@@ -559,12 +559,17 @@ class ProfessionController extends Controller {
     public function addStarToCareer(Request $request) 
     {
         $careerId = Input::get('careerId');
+        $favoriteStatus = Input::get('favoriteStatus');
         $careerDetails['srp_teenager_id'] = Auth::guard('teenager')->user()->id;
         $careerDetails['srp_profession_id'] = $careerId;
-        $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
-        
+        if ($favoriteStatus == Config::get('constant.ADD_STAR_TO_CAREER')) {
+            $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
+            $response['message'] = "Added";
+        } else {
+            $return = $this->objStarRatedProfession->deleteRecord($careerDetails);
+            $response['message'] = "Removed";
+        }
         $response['status'] = 1;
-        $response['message'] = "Added";
         return response()->json($response, 200);
         exit;
     }

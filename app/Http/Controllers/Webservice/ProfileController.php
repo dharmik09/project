@@ -342,7 +342,22 @@ class ProfileController extends Controller
 
                     $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
                     $response['learningGuidenceDescription'] = (isset($learningGuidance->cms_body) && !empty($learningGuidance->cms_body)) ? strip_tags($learningGuidance->cms_body) : "";
+                    $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
                     
+                    //Learning Guidance coins consumption details
+                    $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.LEARNING_STYLE'));
+                    $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($request->userId, $componentsData->id, 1) : [];
+                    $remainingDaysForActivity = 0;
+                    if (!empty($deductedCoinsDetail[0])) {
+                        $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+                    }
+                    $coinConsumptionDetails = [];
+                    $coinConsumptionDetails['componentId'] = $componentsData->id;
+                    $coinConsumptionDetails['componentName'] = Config::get('constant.LEARNING_STYLE');
+                    $coinConsumptionDetails['componentCoins'] = $componentsData->pc_required_coins;
+                    $coinConsumptionDetails['remainingDays'] = $remainingDaysForActivity;
+
+                    $response['learningGuidanceCoinsDetails'] = $coinConsumptionDetails;
                     //$ads = Helpers::getAds($teenager->id);
                     //$response['ads'] = $ads;
                     $response['status'] = 1;

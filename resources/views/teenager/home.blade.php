@@ -449,7 +449,7 @@
     
     function saveAns(queId, key = '') {
         <?php if ($user->is_sound_on == Config::get('constant.SOUND_FLAG_ON')) { ?>
-            var audio = $("#audio_"+key);
+            var audio = $("#audio_0");
             audio.trigger('play');
         <?php } ?>
         var section = $('#'+queId+'l2AnsSection').val();
