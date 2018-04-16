@@ -94,39 +94,56 @@ class NotificaionController extends Controller {
         if($request->userId != "" && $teenager) {
             if($request->notificationId != "") {
                 $notificationId = $request->notificationId;
-                $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($teenager->id);
-                $notificationData['tnm_notification_delete'] = $notificationId;
-                
-                if(count($teenNotificationManagementCheck)>0)
-                {
-                    $notificationData['id'] = $teenNotificationManagementCheck->id;
-                    if($teenNotificationManagementCheck->tnm_notification_delete != "")
-                    {
-                        $notificationData['tnm_notification_delete'] = $teenNotificationManagementCheck->tnm_notification_delete.','.$notificationId;
+                $notificationDetails = $this->objNotifications->find($notificationId);
+                if (isset($notificationDetails) && !empty($notificationDetails)) {
+                    $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($teenager->id);
+                    $deletedNotificationArr = ($teenNotificationManagementCheck->tnm_notification_delete && !empty($teenNotificationManagementCheck->tnm_notification_delete)) ? explode(',', $teenNotificationManagementCheck->tnm_notification_delete) : [];
+                    if (!in_array($notificationId, $deletedNotificationArr)) {
+                        $notificationData['tnm_notification_delete'] = $notificationId;
+                        if(count($teenNotificationManagementCheck)>0)
+                        {
+                            $notificationData['id'] = $teenNotificationManagementCheck->id;
+                            if($teenNotificationManagementCheck->tnm_notification_delete != "")
+                            {
+                                $notificationData['tnm_notification_delete'] = $teenNotificationManagementCheck->tnm_notification_delete.','.$notificationId;
+                            }
+                        }
+                        $notificationData['tnm_teenager'] = $teenager->id;
+                        $data = $this->objTeenNotificationManagement->insertUpdate($notificationData);
+                        if ($data) {
+                            $response['status'] = 1;
+                            $response['message'] = 'Notification deleted.';
+                        }
+                        else{
+                            $response['status'] = 0;
+                            $response['message'] = trans('appmessages.default_error_msg');
+                        }
+                    } else {
+                        $response['status'] = 0;
+                        $response['message'] = 'Notification already deleted.';
                     }
-                }
-                $notificationData['tnm_teenager'] = $teenager->id;
-                $data = $this->objTeenNotificationManagement->insertUpdate($notificationData);
-                if($data){
-                    $response['message'] = trans('appmessages.default_success_msg');
-                }
-                else{
-                    $response['message'] = trans('appmessages.default_error_msg');
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = 'Notification not available.';
                 }
                 $notificationManagementData = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($teenager->id);
 
                 $deletedData = [];
                 $readData = [];
 
-                if(count($notificationManagementData)>0){
-                    $deletedData = explode(',', $notificationManagementData->tnm_notification_delete);
-                    $readData = explode(',', $notificationManagementData->tnm_notification_read);
+                if(count($notificationManagementData)>0) {
+                    if (!empty($notificationManagementData->tnm_notification_delete) && isset($notificationManagementData->tnm_notification_delete)) {
+                        $deletedData = explode(',', $notificationManagementData->tnm_notification_delete);
+                    }
+                    if (!empty($notificationManagementData->tnm_notification_read) && isset($notificationManagementData->tnm_notification_read)) {
+                        $readData = explode(',', $notificationManagementData->tnm_notification_read);
+                    }
                 }
-                $notificationCount = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$deletedData);
-                $count = $notificationCount - count($readData);
+                $finalArr = array_unique(array_merge($deletedData, $readData));
+                $notificationCount = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,[]);
+                $count = $notificationCount - count($finalArr);
 
                 $response['data'] = [];
-                $response['status'] = 1;
                 $response['login'] = 1;
                 $response['notificationUnreadCount'] = (isset($count) && $count > 0) ? $count : 0;
                 $this->log->info('Response for fetch Notifications page wise' , array('api-name'=> 'getNotification'));
@@ -186,25 +203,42 @@ class NotificaionController extends Controller {
         if($request->userId != "" && $teenager) {
 
             $notificationId = $request->notificationId;
-            $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($teenager->id);
-            $notificationData['tnm_notification_read'] = $notificationId;
 
-            if(count($teenNotificationManagementCheck)>0)
-            {
-                $notificationData['id'] = $teenNotificationManagementCheck->id;
-                if($teenNotificationManagementCheck->tnm_notification_read != "")
-                {
-                    $notificationData['tnm_notification_read'] = $teenNotificationManagementCheck->tnm_notification_read.','.$notificationId;
-                }
-            }
+
+            $notificationDetails = $this->objNotifications->find($notificationId);
+            if (isset($notificationDetails) && !empty($notificationDetails)) {
+                $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($teenager->id);
+
+                $readNotificationArr = ($teenNotificationManagementCheck->tnm_notification_read && !empty($teenNotificationManagementCheck->tnm_notification_read)) ? explode(',', $teenNotificationManagementCheck->tnm_notification_read) : [];
+                
+                if (!in_array($notificationId, $readNotificationArr)) {
+                    $notificationData['tnm_notification_read'] = $notificationId;
+                    if(count($teenNotificationManagementCheck)>0)
+                    {
+                        $notificationData['id'] = $teenNotificationManagementCheck->id;
+                        if($teenNotificationManagementCheck->tnm_notification_read != "")
+                        {
+                            $notificationData['tnm_notification_read'] = $teenNotificationManagementCheck->tnm_notification_read.','.$notificationId;
+                        }
+                    }
             
-            $notificationData['tnm_teenager'] = $teenager->id;
-            $data = $this->objTeenNotificationManagement->insertUpdate($notificationData);
-            if(isset($data)){
-                $response['message'] = trans('appmessages.default_success_msg');
-            }
-            else{
-                $response['message'] = trans('appmessages.default_error_msg');
+                    $notificationData['tnm_teenager'] = $teenager->id;
+                    $data = $this->objTeenNotificationManagement->insertUpdate($notificationData);
+                    if(isset($data)) {
+                        $response['status'] = 1;
+                        $response['message'] = trans('appmessages.default_success_msg');
+                    }
+                    else {
+                        $response['status'] = 0;
+                        $response['message'] = trans('appmessages.default_error_msg');
+                    }
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = 'Notification already read by you';
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = 'Notification not available.';
             }
             $notificationManagementData = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($teenager->id);
 
@@ -212,14 +246,19 @@ class NotificaionController extends Controller {
             $readData = [];
 
             if(count($notificationManagementData)>0){
-                $deletedData = explode(',', $notificationManagementData->tnm_notification_delete);
-                $readData = explode(',', $notificationManagementData->tnm_notification_read);
+                if (isset($notificationManagementData->tnm_notification_delete) && !empty($notificationManagementData->tnm_notification_delete)) {
+                    $deletedData = explode(',', $notificationManagementData->tnm_notification_delete);
+                }
+                if (isset($notificationManagementData->tnm_notification_read) && !empty($notificationManagementData->tnm_notification_read)) {
+                    $readData = explode(',', $notificationManagementData->tnm_notification_read);
+                }
             }
-            $notificationCount = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$deletedData);
-            $count = $notificationCount - count($readData);
+            $finalReadCount = array_unique(array_merge($deletedData, $readData));
+            $notificationCount = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,[]);
+            $count = $notificationCount - count($finalReadCount);
 
             $response['data'] = [];
-            $response['status'] = 1;
+            //$response['status'] = 1;
             $response['login'] = 1;
             $response['notificationUnreadCount'] = (isset($count) && $count > 0) ? $count : 0;
             $this->log->info('Response for change Notifications status to read' , array('api-name'=> 'readNotification'));
