@@ -128,7 +128,7 @@ class LoginController extends Controller
                 $increasedProgress = $currentProgress - $user->t_logout_progress;
                 $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($request->userId, $increasedProgress, $currentProgress);
                 $response['status'] = 1;
-                $response['message'] = trans('appmessages.default_success_msg');
+                $response['message'] = 'Logout successfully!';
             } else {
                 $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
             }
