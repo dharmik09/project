@@ -54,7 +54,7 @@
                 <div class="button_container coins_button_container">
                     <div class="coin_summary cst_dsh clearfix">
                         <div class="right col-md-3 col-sm-4 col-xs-12">
-                            <a href="{{ url('school/bulk-import') }}" class="btn primary_btn space_btm">Student Bulk Import</a>
+                            <a href="{{ url('school/bulk-import') }}" class="btn primary_btn space_btm">Register Your Students</a>
                         </div>
                         <!-- <div class="left col-md-6 col-sm-4 col-xs-12">
                             <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
@@ -101,7 +101,7 @@
                         <tr class="cst_status">
                             <th>{{trans('labels.stuname')}}</th>
                             <th>{{trans('labels.formlblnickname')}}</th>
-                            <th>Roll No</th>
+                            <th>Roll No.</th>
                             <th>{{trans('labels.class')}}</th>
                             <th>{{trans('labels.division')}}</th>
                             <th>Email</th>
@@ -111,9 +111,9 @@
                                     <label for="checkall"><em></em><span></span></label>                                  
                                 </span>
                             </th>
-                            <th class="school_dashboard_column">Verified Status</th>
+                            <th class="school_dashboard_column">Verification Status</th>
                             <th>Active Status</th>
-                            <th>Gift</th>
+                            <th>Gift ProCoins</th>
                         </tr>
                         <?php $checkValue = 0;?>
                         @forelse($teenDetailSchoolWise as $teenDetail)                        

@@ -2983,8 +2983,14 @@ Class Helpers {
        //Calculate for basic profile
        if(isset($user) && !empty($user))
        {
-           if($user->t_name != '' && $user->t_lastname != '' && $user->t_email != '' && $user->t_pincode != '' && $user->t_country != '' && $user->t_photo != '')
-           $profileComplete = $profileComplete + Config::get('constant.TEEN_BASIC_PROFILE_COMPLETE');
+           if($user->t_name != '' && $user->t_lastname != '' && $user->t_email != '' && $user->t_pincode != '' && $user->t_country != '')
+           {    
+               $profileComplete = $profileComplete + Config::get('constant.TEEN_BASIC_PROFILE_COMPLETE');
+           }
+           if($user->t_photo != '')
+           {
+               $profileComplete = $profileComplete + Config::get('constant.TEEN_BASIC_PROFILE_PHOTO_COMPLETE');
+           }
        }
        //Calculate L1 question complete
 //       $level1Activities = $objLevel1Activity->getNoOfTotalQuestionsAttemptedQuestion($user->id);
