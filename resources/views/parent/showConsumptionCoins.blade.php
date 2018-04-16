@@ -48,7 +48,7 @@
                     <span>Back</span>
                 </a>
             </div>
-            <h1><span class="title_border">{{trans('labels.consumedcoins')}}</span></h1>
+            <h1><span class="title_border">Consumption History</span></h1>
 
         </div>
         <!--sec-consumption-->

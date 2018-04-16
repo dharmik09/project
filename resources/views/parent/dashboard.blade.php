@@ -58,15 +58,15 @@
             </div>
             <div class="my_teens_inner">
                 <div class="login_form">
-                    <h1><span class="title_border">My Teens</span></h1>
+                    <h1><span class="title_border">My ProTeen Connects</span></h1>
                 </div><!-- login_form End -->
                 <div class="table_container">
                     <table class="sponsor_table">
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Image</th>
-                            <th>Teen Points</th>
+                            <th>Photo</th>
+                            <th>ProTeen Users Points</th>
                             <th>Progress</th>
                             <!--<th>Status</th>-->
                             <th>Contact</th>
