@@ -903,6 +903,8 @@ class level3ActivityController extends Controller {
                     $professionComplete = Helpers::getProfessionCompletePercentage($request->userId, $professionsData->id); 
                     $professionsData->completedProfession = (isset($professionComplete) && $professionComplete > 0) ? $professionComplete : 0;
 
+                    //Careers details page sharing link
+                    $professionsData->detailSharingLink = url('career-detail/' . $professionsData->pf_slug);
                     unset($professionsData->careerMapping);
                     unset($professionsData->professionHeaders);
                     unset($professionsData->professionCertificates);
