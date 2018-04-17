@@ -913,25 +913,26 @@
         // }
 
         function saveConsumedCoinsDetails() {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var form_data = "consumedCoins=" + '{{$coinsDetails}}' + "&componentName=" + "{{Config::get('constant.LEARNING_STYLE')}}" + "&professionId=" + 0;
             $.ajax({
-                  url: "{{ url('/parent/save-consumed-coins-details') }}",
-                  type: 'POST',
-
-                  data: {
-                      "_token": '{{ csrf_token() }}',
-                  },
-                  success: function(response) {
+                url: "{{ url('/parent/save-consumed-coins-details') }}",
+                type: 'POST',
+                data: form_data,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                success: function(response) {
                     if (response.status != 0) {
                         $('.lg_text').text('See More');
                         $('.lg_coins').text(response.days + ' days left');
                         $('.learning_guidance').prop('onclick',null).off('click');
-                        //window.location.href = "{{ url('parent/learning-guidance') }}/{{$teenDetail->t_uniqueid}}";
+                        window.location.href = "{{ url('parent/learning-guidance') }}/{{$teenDetail->t_uniqueid}}";
                     } else {
                         $('.lg_text').text('Learn More');
                         $('.lg_coins').text(response.coinsDetails);
                     }
-                  }
+                }
             });
         }
 
