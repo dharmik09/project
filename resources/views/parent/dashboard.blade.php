@@ -87,10 +87,10 @@
                             <td>
                                 <div class="outer_level_box bar_box">
                                     <div class="level_box">
-                                        <div class="level_cst level-1"><span class="l-1 bar_logo"><span class="level_label">L-1</span></span><span class="center_detial">{{$data['booster']['Level1'] or 0}}</span></div>
-                                        <div class="level_cst level-2"><span class="l-2 bar_logo"><span class="level_label">L-2</span></span><span class="center_detial">{{$data['booster']['Level2'] or 0}}</span></div>
-                                        <div class="level_cst level-3"><span class="l-3 bar_logo"><span class="level_label">L-3</span></span><span class="center_detial">{{$data['booster']['Level3'] or 0}}</span></div>
-                                        <div class="level_cst level-4"><span class="l-4 bar_logo"><span class="level_label">L-4</span></span><span class="center_detial">{{$data['booster']['Level4'] or 0}}</span></div>
+                                        <div class="level_cst level-1"><span class="center_detial">{{$data['booster']['Level1'] or 0}}</span></div>
+                                        <div class="level_cst level-2"><span class="center_detial">{{$data['booster']['Level2'] or 0}}</span></div>
+                                        <div class="level_cst level-3"><span class="center_detial">{{$data['booster']['Level3'] or 0}}</span></div>
+                                        <div class="level_cst level-4"><span class="center_detial">{{$data['booster']['Level4'] or 0}}</span></div>
                                     </div>
                                 </div>
                             </td>

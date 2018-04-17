@@ -203,7 +203,7 @@ class DashboardManagementController extends Controller {
                         $image = '';
                         $info = '';
                         if (!empty($aptitudemage)) {
-                            if ($aptitudemage->apt_logo != '' && file_exists($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo)) {
+                            if ($aptitudemage->apt_logo != '' && isset($aptitudemage->apt_logo)) {
                                 $image = Storage::url($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo);
                             } else {
                                 $image = Storage::url($this->apptitudeOriginalImageUploadPath . 'proteen-logo.png');
@@ -267,8 +267,9 @@ class DashboardManagementController extends Controller {
                         $image = '';
                         $info = '';
                         $personalityimage = Helpers::getPersonalityData($personality);
+                        
                         if (!empty($personalityimage)) {
-                            if ($personalityimage->pt_logo != '' && file_exists($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo)) {
+                            if ($personalityimage->pt_logo != '' && isset($personalityimage->pt_logo)) {
                                 $image = Storage::url($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo);
                             } else {
                                 $image = Storage::url($this->personalityOriginalImageUploadPath . 'proteen-logo.png');
@@ -292,6 +293,7 @@ class DashboardManagementController extends Controller {
                         $teenagerPersonality[] = array('image' => $image, 'aptitude' => $personality, 'scale' => $personalityscale, 'video' => $video, 'info' => $info, 'type' => 'personality','parentScale' => $parentScale);
                         //}
                     }
+                    
                     $finalMIParameters = array_merge($teenagerApptitude, $teenagerMI, $teenagerPersonality);
 
                     if (isset($finalMIParameters) && !empty($finalMIParameters)) {
@@ -309,7 +311,7 @@ class DashboardManagementController extends Controller {
                     }
                     $finalSortedData = array_merge($sortedMIHData, $sortedMIMData, $sortedMILData);
                 }
-
+               
                 $teenagerApptitudeData = array();
                 $teenagerMIData = array();
                 $teenagerPersonalityData = array();

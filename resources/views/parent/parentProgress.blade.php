@@ -21,7 +21,7 @@
                                 <div class="parent_assessment">
                                     <div id="errorGoneMsg"></div>
                                     <div class="section" id="section1">
-                                        <h1><span class="title_border"><span class="parent_assessment_header_text">How well do you know your Teen ?</span><br/>VOTE your
+                                        <h1><span class="title_border"><span class="parent_assessment_header_text">How well do you know {{$teenDetail->t_name}}</span><br/>VOTE your
                                             <span class="high_label">H - High,</span>
                                             <span class="mid_label"> M - Moderate,</span>
                                             <span class="low_label">L - Low </span> on 24 aspects</span></h1>
@@ -75,10 +75,10 @@
                                         </div>
                                     </div>
                                     <div class="section" id="section2" style="display: none;">
-                                        <h1><span class="title_border">How much do you know your Teen ?<br/>v your
-                                            <span class="high_label">H</span>
-                                            <span class="mid_label">M</span>
-                                            <span class="low_label">L</span> VOTE on these 24 aspects</span></h1>
+                                        <h1><span class="title_border">><span class="parent_assessment_header_text">How well do you know {{$teenDetail->t_name}}</span><br/>VOTE your
+                                            <span class="high_label">H - High,</span>
+                                            <span class="mid_label"> M - Moderate,</span>
+                                            <span class="low_label">L - Low </span> on 24 aspects</span></h1>
                                         <div id="displayAssessmentData2">
                                             @if(isset($response['teenagerPersonalityData']) && !empty($response['teenagerPersonalityData']))
                                                 <form id="assesmentDataP" method="post">
@@ -130,10 +130,10 @@
                                         </div>
                                     </div>
                                     <div class="section" id="section3" style="display: none;">
-                                        <h1><span class="title_border">How much do you know your Teen ?<br/>v your
-                                            <span class="high_label">H</span>
-                                            <span class="mid_label">M</span>
-                                            <span class="low_label">L</span> VOTE on these 24 aspects</span></h1>
+                                        <h1><span class="parent_assessment_header_text">How well do you know {{$teenDetail->t_name}}</span><br/>VOTE your
+                                            <span class="high_label">H - High,</span>
+                                            <span class="mid_label"> M - Moderate,</span>
+                                            <span class="low_label">L - Low </span> on 24 aspects</span></h1>
                                         <div id="displayAssessmentData3">
                                             @if(isset($response['teenagerApptitudeData']) && !empty($response['teenagerApptitudeData']))
                                                 <form id="assesmentDataA" method="post">
@@ -265,7 +265,7 @@
                 <div class="clearfix col-md-12">
                     <div class="row">
                         <div class="parent_h2_header col-xs-12">
-                            <h2><span class="l-1"><span class="level_label">L-1</span></span> Results &amp; Trends</h2>
+                            <h2>Opinion and Trends</h2>
                         </div>
                     </div>
                     @if(isset($response['level1result']) && !empty($response['level1result']))
@@ -273,8 +273,8 @@
                             <table class="sponsor_table">
                                 <tr>
                                     <th>Questions</th>
-                                    <th>Teen Response</th>
-                                    <th>Teen Trends</th>
+                                    <th>User response</th>
+                                    <th>Response Trends</th>
                                 </tr>
 
                                 @foreach($response['level1result'] as $key=>$val)
@@ -302,7 +302,7 @@
 
                 <!-- dashboard_inner_box End -->
                 <div class="icon-voted profession_attempted">
-                    <h2>Icon Voted in L1</h2>
+                    <h2>Role Models Voted</h2>
                     <div class="voted-list">
                         @if(isset($response['teenagerMyIcons']) && count($response['teenagerMyIcons']) > 0)
                         <ul class="row owl-carousel">
@@ -321,14 +321,26 @@
                 </div>
 
                 <div class="dash_progress my_intrest col-md-12 teen_interest">
+                    
                     <div class="parent_h2_header">
-                        <h2>Interests from <span class="l-2"><span class="level_label margintb0">L-2</span></span> <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"> PROMISE</span></h2>
+                        <h2>Interests
+                            <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"></span>
+                        </h2>
+                    </div>
+                    <div class="data-explainations clearfix text-center data-dashboard">
+                        <div class="content">
+                            <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
+                            <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
+                            <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
+                        </div>
                     </div>
                 </div><!-- dashboard_inner_box End -->
 
-                <div class="dash_progress my_intrest col-md-12 teenager_skill">
+                <div class="dash_progress my_intrest col-md-12 teenager_skill">                    
                     <div class="parent_h2_header">
-                        <h2>Multiple Intelligences from <span class="l-2"><span class="level_label margintb0">L-2</span></span> <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"> PROMISE</span></h2>
+                        <h2>Strengths 
+                            <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"></span>
+                        </h2>
                     </div>
                     
                     <!--<h2 style="text-align:center;"><span class="parent_assessment_header_text">Your "How well do you know your Teen ?" response </span>
@@ -339,7 +351,7 @@
                     <h2 style="text-align:center;" class="multiple-heading">Your "How well do you know your Teen ?" response </h2>
                     <div class="data-explainations clearfix text-center data-dashboard">
                         <div class="content">
-                            <div class="data"><span class="small-box career-data-color-1"></span><span>high</span></div>
+                            <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
                             <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
                             <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
                         </div>
@@ -355,7 +367,7 @@
 
                 <div class="col-md-12">
                     <div class="dashboard_inner_box dash_progress no_bord mtb15">
-                    <h2>Professions Explored in <span class="l-3"><span class="level_label margintb0">L-3</span></span></h2> </div>
+                    <h2>Professions Explored</h2> </div>
                     @if(isset($response['attempted_profession']) && !empty($response['attempted_profession']))
                     <div class="owl-carousel2 owl-carousel nav_dis">
                         @foreach($response['attempted_profession'] as $key => $value)
@@ -1423,32 +1435,13 @@
                 }
                 $('.teen_interest .loading-screen-data').hide();
                 $('.teen_interest').removeClass('loading-screen-parent');
-                /*load less more for skill*/
-                // $('.content_prime').animate({height: 'auto'}, 1);
-                // var newHeight = $('.content_prime').height();
-                // $('.content_prime').animate({height: '230px'}, 1);
-                // $('.intrest_load').click(function(event) {
-                //     if ($(this).find('span').text() == "Show More")
-                //         $(this).find('span').text("Show less")
-                //     else
-                //         $(this).find('span').text("Show More");
-                //     $(this).toggleClass('rotation');
-                //     $(this).siblings('.intrest_content').toggleClass('close_load');
-                //     if ($(this).siblings('.intrest_content').hasClass('close_load')) {
-                //         $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
-                //     }
-                //     else {
-                //         $(this).siblings('.intrest_content').animate({
-                //             height: newHeight,
-                //         }, 1000);
-                //     }
-                // });
+                
 
                 /*load less more for skill*/
                 $('.content_prime').animate({height: 'auto'}, 1);
                 var newHeight = $('.content_prime').height();
-                $('.content_prime').animate({height: '230px'}, 1);
-                $('.intrest_load').click(function(event) {
+                $('.content_prime').animate({height: '250px'}, 1);
+                $('.intrest_load').on('click',function(event) {
                     if ($(this).find('span').text() == "Show More")
                         $(this).find('span').text("Show less")
                     else
@@ -1456,7 +1449,7 @@
                     $(this).toggleClass('rotation');
                     $(this).siblings('.intrest_content').toggleClass('close_load');
                     if ($(this).siblings('.intrest_content').hasClass('close_load')) {
-                        $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
+                        $(this).siblings('.intrest_content').animate({height: '250px'}, 1000);
                     }
                     else {
                         $(this).siblings('.intrest_content').animate({
