@@ -1171,6 +1171,7 @@ class level3ActivityController extends Controller {
                         $response['status'] = 0;
                         $response['message'] = "Career not added as favorite";
                     }
+                    $response['data'] = ['careerId' => $request->careerId, 'careerStarStatus' => Config::get('constant.REMOVE_STAR_FROM_CAREER')];
                     $this->log->info('Remove star from Career'.$request->userId , array('api-name'=> 'addStarToCareer'));
                 } else if ($favoriteStatus == Config::get('constant.REMOVE_STAR_FROM_CAREER')) {
                     $checkIfAlreadyExist = $this->objStarRatedProfession->checkStarGivenToCareer($careerDetails);
@@ -1181,9 +1182,9 @@ class level3ActivityController extends Controller {
                         $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
                         $response['message'] = "Added as favorite";
                     }
+                    $response['data'] = ['careerId' => $request->careerId, 'careerStarStatus' => Config::get('constant.ADD_STAR_TO_CAREER')];
                     $this->log->info('Add Career to my career'.$request->userId , array('api-name'=> 'addStarToCareer'));
                 }
-                $response['data'] = ['careerId' => $request->careerId];
             } else {
                 $this->log->error('Parameter missing error' , array('api-name'=> 'addStarToCareer'));
                 $response['status'] = 0;
