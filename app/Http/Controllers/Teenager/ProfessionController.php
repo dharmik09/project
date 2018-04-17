@@ -1247,8 +1247,14 @@ class ProfessionController extends Controller {
 
         if (empty($searchText) && $filterBy == 0 && $filterOption == 0) {
             $showElement = 1;
+            $industryImageShow = 1;
         } else {
             $showElement = 0;
+            if ($filterBy == 1 || $filterBy == 7) {
+                $industryImageShow = 1; 
+            } else {
+                $industryImageShow = 0;
+            }
         }
         if ($filterBy == 7) {
             if(Auth::guard('teenager')->user()->t_view_information == 1) {
@@ -1314,7 +1320,7 @@ class ProfessionController extends Controller {
             $basket->professionAttemptedCount = $professionAttemptedCount;
         }
         
-        return view('teenager.basic.careerPageLayout', compact('basketDetails', 'searchText', 'filterBy', 'filterOption', 'matchScaleCount', 'professionAttemptedCount', 'showElement'));
+        return view('teenager.basic.careerPageLayout', compact('basketDetails', 'searchText', 'filterBy', 'filterOption', 'matchScaleCount', 'professionAttemptedCount', 'showElement', 'industryImageShow'));
     }
 
 }
