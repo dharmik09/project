@@ -86,7 +86,7 @@
                                                             <img src="{{Storage::url($contactperson)}}"/>
                                                         <?php } else { ?>
                                                             <span><img src="{{Storage::url('frontend/images/proteen_logo.png')}}"/></span>
-                                                            <p><span>Upload sponsor photo</span></p>
+                                                            <p><span>Upload contact photo</span></p>
                                                         <?php } ?>
                                                             </span>
                                                     </div>

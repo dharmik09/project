@@ -69,7 +69,7 @@ class LoginController extends Controller {
                 $school = $this->schoolsRepository->getSchoolDetailByEmailId($email);
                 if (!empty($school) && $school['sc_isapproved'] == '1') {
                     //flash('Welcome to the school panel')->success();
-                    return redirect()->to(route('school.home'))->with('success', 'Welcome to the school panel');
+                    return redirect()->to(route('school.home'))->with('success', 'Welcome to your ProTeen Dashboard');
                     exit;
                 } else {
                     Auth::guard('school')->logout();

@@ -39,8 +39,8 @@
     <div class="container">
         <div class="container_padd detail_container">
             <form class="registration_form" id="invite_teen" role="form" enctype="multipart/form-data" method="POST" action="{{ url('/parent/save-pair') }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                <h1><span class="title_border">Invite Teen</span></h1>
-                <div style="text-align: center;margin-bottom: 10px;">(Enter unique Teen ID to send invitation)</div>
+                <h1><span class="title_border">Invite User</span></h1>
+                <div style="text-align: center;margin-bottom: 10px;">(Enter unique ProTeen User ID to send invitation)</div>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                 <div class="clearfix">

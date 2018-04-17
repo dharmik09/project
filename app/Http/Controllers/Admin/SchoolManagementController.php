@@ -271,7 +271,7 @@ class SchoolManagementController extends Controller
             $notificationData['n_receiver_id'] = 0;
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_SCHOOL_APPROVE');
-            $notificationData['n_notification_text'] = 'New school '.$return->sc_name.' has been arrived in ProTeen!';
+            $notificationData['n_notification_text'] = $return->sc_name.' registered on ProTeen!';
             $this->objNotifications->insertUpdate($notificationData);
             
             /*$teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
