@@ -302,7 +302,7 @@
 
                 <!-- dashboard_inner_box End -->
                 <div class="icon-voted profession_attempted">
-                    <h2>Icon Voted in L1</h2>
+                    <h2>Role Models Voted</h2>
                     <div class="voted-list">
                         @if(isset($response['teenagerMyIcons']) && count($response['teenagerMyIcons']) > 0)
                         <ul class="row owl-carousel">
@@ -322,13 +322,17 @@
 
                 <div class="dash_progress my_intrest col-md-12 teen_interest">
                     <div class="parent_h2_header">
-                        <h2>Interests from <span class="l-2"><span class="level_label margintb0">L-2</span></span> <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"> PROMISE</span></h2>
+                        <h2>Interests
+                            <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"></span>
+                        </h2>
                     </div>
                 </div><!-- dashboard_inner_box End -->
 
                 <div class="dash_progress my_intrest col-md-12 teenager_skill">
                     <div class="parent_h2_header">
-                        <h2>Multiple Intelligences from <span class="l-2"><span class="level_label margintb0">L-2</span></span> <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"> PROMISE</span></h2>
+                        <h2>Strengths 
+                            <span data-toggle="tooltip" title="ProTeen Multiple Intelligence Synthesis Engine"  data-placement="bottom"></span>
+                        </h2>
                     </div>
                     
                     <!--<h2 style="text-align:center;"><span class="parent_assessment_header_text">Your "How well do you know your Teen ?" response </span>
@@ -339,7 +343,7 @@
                     <h2 style="text-align:center;" class="multiple-heading">Your "How well do you know your Teen ?" response </h2>
                     <div class="data-explainations clearfix text-center data-dashboard">
                         <div class="content">
-                            <div class="data"><span class="small-box career-data-color-1"></span><span>high</span></div>
+                            <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
                             <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
                             <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
                         </div>
@@ -1421,32 +1425,13 @@
                 }
                 $('.teen_interest .loading-screen-data').hide();
                 $('.teen_interest').removeClass('loading-screen-parent');
-                /*load less more for skill*/
-                // $('.content_prime').animate({height: 'auto'}, 1);
-                // var newHeight = $('.content_prime').height();
-                // $('.content_prime').animate({height: '230px'}, 1);
-                // $('.intrest_load').click(function(event) {
-                //     if ($(this).find('span').text() == "Show More")
-                //         $(this).find('span').text("Show less")
-                //     else
-                //         $(this).find('span').text("Show More");
-                //     $(this).toggleClass('rotation');
-                //     $(this).siblings('.intrest_content').toggleClass('close_load');
-                //     if ($(this).siblings('.intrest_content').hasClass('close_load')) {
-                //         $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
-                //     }
-                //     else {
-                //         $(this).siblings('.intrest_content').animate({
-                //             height: newHeight,
-                //         }, 1000);
-                //     }
-                // });
+                
 
                 /*load less more for skill*/
                 $('.content_prime').animate({height: 'auto'}, 1);
                 var newHeight = $('.content_prime').height();
-                $('.content_prime').animate({height: '230px'}, 1);
-                $('.intrest_load').click(function(event) {
+                $('.content_prime').animate({height: '250px'}, 1);
+                $('.intrest_load').on('click',function(event) {
                     if ($(this).find('span').text() == "Show More")
                         $(this).find('span').text("Show less")
                     else
@@ -1454,7 +1439,7 @@
                     $(this).toggleClass('rotation');
                     $(this).siblings('.intrest_content').toggleClass('close_load');
                     if ($(this).siblings('.intrest_content').hasClass('close_load')) {
-                        $(this).siblings('.intrest_content').animate({height: '220px'}, 1000);
+                        $(this).siblings('.intrest_content').animate({height: '250px'}, 1000);
                     }
                     else {
                         $(this).siblings('.intrest_content').animate({

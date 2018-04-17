@@ -11,7 +11,7 @@
             </div>
         </div>
         @empty
-            <div class="col-md-12 col-sm-12 col-xs-12 flex-items ">
+            <div class="col-md-12 col-sm-12 col-xs-12 flex-items">
                 <center>
                     <h3>Build your profile to discover professions matching your interests!</h3>
                 </center>
@@ -19,11 +19,10 @@
         @endforelse
     </div>
 </div>
-<p>
+
     <a href="javascript:void(0)" class="load_more intrest_load">
         <span>Show More</span>
     </a>
-</p>
 @else
 @endif
                  
