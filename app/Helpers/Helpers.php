@@ -3116,13 +3116,14 @@ Class Helpers {
         return $data;
     }
 
-    public static function getProfessionInstituteFilter() 
+    public static function getProfessionInstituteFilter($country = '') 
     {
+        $text = ($country != '' && $country == 1) ? "Zipcode" : "Pincode";
         $data = [
                     ['label' => "Education Stream", 'value' => "Speciality", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "State", 'value' => "State", 'type' => "0", "type_description" => "textbox"], 
                     ['label' => "City", 'value' => "City", 'type' => "0", "type_description" => "textbox"], 
-                    ['label' => "Pincode", 'value' => "Pincode", 'type' => "0", "type_description" => "textbox"], 
+                    ['label' => $text, 'value' => $text, 'type' => "0", "type_description" => "textbox"], 
                     ['label' => "Institute Affiliation", 'value' => "Institute_Affiliation", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Category", 'value' => "Management_Category", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Accreditation By", 'value' => "Accreditation", 'type' => "1", "type_description" => "dropdown"], 

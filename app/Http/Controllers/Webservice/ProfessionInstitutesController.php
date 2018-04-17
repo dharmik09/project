@@ -38,8 +38,8 @@ class ProfessionInstitutesController extends Controller {
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getProfessionInstituteFilter'));
         if($request->userId != "" && $teenager) {
-
-            $filterData = Helpers::getProfessionInstituteFilter();
+            $country = $teenager->t_view_information;
+            $filterData = Helpers::getProfessionInstituteFilter($country);
             if(count($filterData)>0){
                 $response['data'] = $filterData;
             }
