@@ -1161,12 +1161,13 @@ class level3ActivityController extends Controller {
                 $favoriteStatus = $request->careerStarStatus;
                 $careerDetails['srp_teenager_id'] = $request->userId;
                 $careerDetails['srp_profession_id'] = $request->careerId;
+                $professionName =  $this->professionsRepository->getProfessionNameById($request->careerId);
                 if ($favoriteStatus == Config::get('constant.ADD_STAR_TO_CAREER')) {
                     $checkIfAlreadyExist = $this->objStarRatedProfession->checkStarGivenToCareer($careerDetails);
                     if ($checkIfAlreadyExist && !empty($checkIfAlreadyExist)) {
                         $return = $this->objStarRatedProfession->deleteRecord($careerDetails);
                         $response['status'] = 1;
-                        $response['message'] = "Removed from favorite";
+                        $response['message'] = "You just remove " . $professionName .  " from favorite.";
                     } else {
                         $response['status'] = 0;
                         $response['message'] = "Career not added as favorite";
@@ -1180,7 +1181,7 @@ class level3ActivityController extends Controller {
                         $response['message'] = "Already added as favorite";
                     } else {
                         $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
-                        $response['message'] = "Added as favorite";
+                        $response['message'] = "Congratulation! You just favorited " . $professionName .". You can now explore it directly from My careers";
                     }
                     $response['data'] = ['careerId' => $request->careerId, 'careerStarStatus' => Config::get('constant.ADD_STAR_TO_CAREER')];
                     $this->log->info('Add Career to my career'.$request->userId , array('api-name'=> 'addStarToCareer'));
