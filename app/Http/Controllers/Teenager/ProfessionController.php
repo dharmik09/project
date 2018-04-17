@@ -1244,7 +1244,7 @@ class ProfessionController extends Controller {
         $filterBy = Input::get('filterBy');
         $filterOption = Input::get('filterOption');
         $userId = Auth::guard('teenager')->user()->id;
-
+        $basketId = Input::get('basketId'); 
         if (empty($searchText) && $filterBy == 0 && $filterOption == 0) {
             $showElement = 1;
             $industryImageShow = 1;
@@ -1281,7 +1281,6 @@ class ProfessionController extends Controller {
         }
         $basketDetails = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
         $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
-        
         $professionAttemptedCount = 0;
         $matchScaleCount = [];
         foreach($basketDetails as $basket) {
@@ -1289,38 +1288,63 @@ class ProfessionController extends Controller {
             $match = [];
             $nomatch = [];
             $moderate = [];
-            foreach ($basket->profession as $key => $profession) {
-                $professionAttempted = Helpers::getProfessionCompletePercentage($userId, $profession->id);
-                if(isset($professionAttempted) && $professionAttempted == 100){
-                    $profession->attempted = 1;
-                    $professionAttemptedCount++;
-                } else {
-                    $profession->attempted = 0;
+            if (isset($basketId)) {
+                $shownBasketId = $basketId;
+            } else {
+                if (empty($basketId) && $basketId == "") {
+                    if ($basketDetails->first() == $basket) {
+                        $shownBasketId = $basket->id;
+                    } else {
+                        //$shownBasketId = '';
+                        break;
+                    }
                 }
-                $matchScale = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
-                if($matchScale == "match") {
-                    $basket->profession[$key]->match_scale = "match-strong";
-                    //$matchScaleCount['match'][] = $profession->id;
-                    $match[] = $profession->id; 
-                } else if($matchScale == "nomatch") {
-                    $basket->profession[$key]->match_scale = "match-unlikely";
-                    //$matchScaleCount['nomatch'][] = $profession->id;
-                    $nomatch[] = $profession->id;
-                } else if($matchScale == "moderate") {
-                    $basket->profession[$key]->match_scale = "match-potential";
-                    //$matchScaleCount['moderate'][] = $profession->id;
-                    $moderate[] = $profession->id;
-                } else {
-                    $basket->profession[$key]->match_scale = "career-data-nomatch";
+            }
+            // if(empty($basketId) && $basketId == "") {
+            //     $basketId = $basket->id;
+            // } 
+            if ($basket->id == $shownBasketId) {
+                foreach ($basket->profession as $key => $profession) {
+                    $professionAttempted = Helpers::getProfessionCompletePercentage($userId, $profession->id);
+                    if(isset($professionAttempted) && $professionAttempted == 100){
+                        $profession->attempted = 1;
+                        $professionAttemptedCount++;
+                    } else {
+                        $profession->attempted = 0;
+                    }
+                    $matchScale = isset($getTeenagerHML[$profession->id]) ? $getTeenagerHML[$profession->id] : '';
+                    if($matchScale == "match") {
+                        $basket->profession[$key]->match_scale = "match-strong";
+                        //$matchScaleCount['match'][] = $profession->id;
+                        $match[] = $profession->id; 
+                    } else if($matchScale == "nomatch") {
+                        $basket->profession[$key]->match_scale = "match-unlikely";
+                        //$matchScaleCount['nomatch'][] = $profession->id;
+                        $nomatch[] = $profession->id;
+                    } else if($matchScale == "moderate") {
+                        $basket->profession[$key]->match_scale = "match-potential";
+                        //$matchScaleCount['moderate'][] = $profession->id;
+                        $moderate[] = $profession->id;
+                    } else {
+                        $basket->profession[$key]->match_scale = "career-data-nomatch";
+                    }
                 }
             }
             $basket->match = $match;
             $basket->nomatch = $nomatch;
             $basket->moderate = $moderate;
             $basket->professionAttemptedCount = $professionAttemptedCount;
+            // if ($getFromAllRecords == 0) {
+            //     break;
+            // }
         }
         
-        return view('teenager.basic.careerPageLayout', compact('basketDetails', 'searchText', 'filterBy', 'filterOption', 'matchScaleCount', 'professionAttemptedCount', 'showElement', 'industryImageShow'));
+        if (isset($basketId) && !empty($basketId) && $basketId != "") {
+            $basket = $basketDetails->find($basketId);
+            return view('teenager.basic.careerListGridSection', compact('basketDetails', 'searchText', 'filterBy', 'filterOption', 'matchScaleCount', 'professionAttemptedCount', 'showElement', 'industryImageShow', 'shownBasketId', 'basket'));
+        } else {
+            return view('teenager.basic.careerPageLayout', compact('basketDetails', 'searchText', 'filterBy', 'filterOption', 'matchScaleCount', 'professionAttemptedCount', 'showElement', 'industryImageShow', 'shownBasketId'));
+        }
     }
 
 }
