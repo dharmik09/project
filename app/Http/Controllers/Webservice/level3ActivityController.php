@@ -1181,6 +1181,7 @@ class level3ActivityController extends Controller {
                         $response['message'] = "Already added as favorite";
                     } else {
                         $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
+                        $response['status'] = 1;
                         $response['message'] = "Congratulation! You just favorited " . $professionName .". You can now explore it directly from My careers";
                     }
                     $response['data'] = ['careerId' => $request->careerId, 'careerStarStatus' => Config::get('constant.ADD_STAR_TO_CAREER')];
