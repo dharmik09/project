@@ -161,7 +161,7 @@
         fetchProfessionDetails();
     }
 
-    function fetchProfessionDetails()
+    function fetchProfessionDetails(basketId = '')
     {
         $(".sec-blank").remove();
         var filterBy = $("#questionDropdown").val();
@@ -169,10 +169,19 @@
         var searchText = $("#search").val();
         var layoutType = layoutType;
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var formData = 'searchText=' + searchText + '&filterBy=' + filterBy + '&filterOption=' + filterOption;
-        $(".maindiv").html('<div id="list-career-loader" style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
-        $(".maindiv").addClass('loading-screen-parent');
-        $("#list-career-loader").show();
+        var formData = 'searchText=' + searchText + '&filterBy=' + filterBy + '&filterOption=' + filterOption + '&basketId=' + basketId;
+        
+        if (basketId != "") {
+            $("#accordion"+basketId).html('<div id="panel-loader" style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
+            $("#accordion"+basketId).addClass('loading-screen-parent');
+            $("#panel-loader").show();
+
+        } else {
+            $(".maindiv").html('<div id="list-career-loader" style="display: block;" class="loading-screen loading-wrapper-sub"><div id="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div></div>');
+            $(".maindiv").addClass('loading-screen-parent');
+            $("#list-career-loader").show();
+        }
+        
         $.ajax({
             type: 'POST',
             data: formData,
@@ -183,11 +192,15 @@
             cache: false,
             success: function(response) {
                 if (response != '') {
-                    $(".maindiv").html(response);
-                    $("#list-career-loader").hide();
-                    $(".maindiv").removeClass('loading-screen-parent');
-                } else {
-                    
+                    if (basketId != '') {
+                        $("#accordion"+basketId).html(response);
+                        $("#panel-loader").hide();
+                        $("#accordion"+basketId).removeClass('loading-screen-parent');
+                    } else {
+                        $(".maindiv").html(response);
+                        $("#list-career-loader").hide();
+                        $(".maindiv").removeClass('loading-screen-parent');
+                    } 
                 }
             }
         });

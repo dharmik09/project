@@ -503,7 +503,7 @@ class Baskets extends Model
     }
 
     //Returns profession details
-    public function getProfessionDetails($searchText = '', $filterBy = '', $filterOption = '', $professionArray) {
+    public function getProfessionDetails($searchText = '', $filterBy = '', $filterOption = '', $professionArray = []) {
         $this->searchText = $searchText;
         $this->filterBy = $filterBy;
         $this->filterOption = $filterOption;
