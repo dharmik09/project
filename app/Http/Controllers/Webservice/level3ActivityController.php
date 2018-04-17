@@ -1156,20 +1156,42 @@ class level3ActivityController extends Controller {
     {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
-        $this->log->info('Add Career to my career'.$request->userId , array('api-name'=> 'addStarToCareer'));
         if($request->userId != "" && $teenager) {
-            $careerId = $request->careerId;
-            $careerDetails['srp_teenager_id'] = $request->userId;
-            $careerDetails['srp_profession_id'] = $careerId;
-            $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
-            
-            $response['status'] = 1;
+            if ($request->careerId != "" && $request->careerStarStatus != '') {
+                $favoriteStatus = $request->careerStarStatus;
+                $careerDetails['srp_teenager_id'] = $request->userId;
+                $careerDetails['srp_profession_id'] = $request->careerId;
+                if ($favoriteStatus == Config::get('constant.ADD_STAR_TO_CAREER')) {
+                    $checkIfAlreadyExist = $this->objStarRatedProfession->checkStarGivenToCareer($careerDetails);
+                    if ($checkIfAlreadyExist && !empty($checkIfAlreadyExist)) {
+                        $return = $this->objStarRatedProfession->deleteRecord($careerDetails);
+                        $response['status'] = 1;
+                        $response['message'] = "Removed from favorite";
+                    } else {
+                        $response['status'] = 0;
+                        $response['message'] = "Career not added as favorite";
+                    }
+                    $this->log->info('Remove star from Career'.$request->userId , array('api-name'=> 'addStarToCareer'));
+                } else if ($favoriteStatus == Config::get('constant.REMOVE_STAR_FROM_CAREER')) {
+                    $checkIfAlreadyExist = $this->objStarRatedProfession->checkStarGivenToCareer($careerDetails);
+                    if (isset($checkIfAlreadyExist) && !empty($checkIfAlreadyExist)) {
+                        $response['status'] = 0;
+                        $response['message'] = "Already added as favorite";
+                    } else {
+                        $return = $this->objStarRatedProfession->addStarToCareer($careerDetails);
+                        $response['message'] = "Added as favorite";
+                    }
+                    $this->log->info('Add Career to my career'.$request->userId , array('api-name'=> 'addStarToCareer'));
+                }
+                $response['data'] = ['careerId' => $request->careerId];
+            } else {
+                $this->log->error('Parameter missing error' , array('api-name'=> 'addStarToCareer'));
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
             $response['login'] = 1;
-            $response['message'] = "Added";
-            $response['data'] = ['careerId' => $request->careerId];
         } else {
-            $this->log->error('Parameter missing error' , array('api-name'=> 'addStarToCareer'));
-            $response['message'] = trans('appmessages.missing_data_msg');
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
         return response()->json($response, 200);
         exit;
