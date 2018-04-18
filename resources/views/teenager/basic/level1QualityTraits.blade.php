@@ -24,7 +24,8 @@
             <button onclick="saveLevel1TraitQuestion();" id="btnSaveTrait" title="Next" class="btn btn-primary" disabled="disabled">Next</button>
         </div>
     </div>
-@else 
+@else
+    @if ($toUserId == Auth::guard('teenager')->user()->id)
     <div class="survey-list">
         <div class="qualities-sec">
             <div class="row flex-container">
@@ -43,5 +44,7 @@
             </div>
         </div>
     </div>
-    <!-- <div class="sec-forum"><span>All traits completed</span></div> -->
+    @else
+        <div class="sec-forum"><span>All traits completed</span></div>
+    @endif
 @endif

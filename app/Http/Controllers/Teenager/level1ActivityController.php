@@ -244,7 +244,7 @@ class Level1ActivityController extends Controller
         $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId,$toUserId);
         $teenagerTrait = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($userId);
         
-        return view('teenager.basic.level1QualityTraits', compact('traitQuestion', 'teenagerTrait'));
+        return view('teenager.basic.level1QualityTraits', compact('traitQuestion', 'teenagerTrait', 'toUserId'));
     }
 
     public function saveLevel1Trait() {
@@ -284,7 +284,7 @@ class Level1ActivityController extends Controller
             }
             $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId, $toUserId);
             $teenagerTrait = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($userId);
-            return view('teenager.basic.level1QualityTraits', compact('traitQuestion', 'teenagerTrait'));
+            return view('teenager.basic.level1QualityTraits', compact('traitQuestion', 'teenagerTrait', 'toUserId'));
         }
         
         $response['status'] = 0;
