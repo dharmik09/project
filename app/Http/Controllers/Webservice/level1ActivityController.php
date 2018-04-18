@@ -999,4 +999,33 @@ class Level1ActivityController extends Controller
         return response()->json($response, 200);
     }
 
+    /*
+     * @Request: getLevel1TeenagerTraits
+     * @params: userId, loginToken
+    */
+    public function getLevel1TeenagerTraits(Request $request)
+    {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($teenager && !empty($teenager)){
+            $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($request->userId, $request->userId);
+            if ($traitQuestion && count($traitQuestion) > 0) {
+                $response['status'] = 0;
+                $response['message'] = "You have not attempted all traits";
+                $response['data'] = [];
+            } else {
+                $data = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($request->userId);
+                $response['status'] = 1;
+                $response['message'] = trans('appmessages.default_success_msg');
+                $response['data'] = (isset($data) && count($data) > 0) ? $data : [];
+            }
+            $response['login'] = 1;
+            $this->log->info('Get Level1 Teenager traits'.$request->userId , array('api-name'=> 'getLevel1TeenagerTraits'));
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        
+        return response()->json($response, 200);
+    }
+
 }
