@@ -220,7 +220,7 @@
     }
 
     $(document).on('keyup','#search',function(e) {
-        if ((e.which <= 90 && e.which >= 48) || e.which == 222) {
+        if ((e.which <= 90 && e.which >= 48) || e.which == 222 || e.which === 8) {
             if (this.value.length == 1 || this.value.length == 2) {
                 return false;
             } else {
