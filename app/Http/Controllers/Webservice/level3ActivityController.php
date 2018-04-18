@@ -1511,7 +1511,7 @@ class level3ActivityController extends Controller {
     }
 
     /* @getCareersByMatchScale
-     * @params: loginToken, userId, matchScale
+     * @params: loginToken, userId, matchScale, searchText
      */
     public function getCareersByMatchScale(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -1519,6 +1519,9 @@ class level3ActivityController extends Controller {
         if($request->userId != "" && $teenager) {
             if ($request->matchScale != "") {
                 $data = [];
+                $filterBy = 7;
+                $filterOption = $request->matchScale;
+                $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : '';
                 $this->countryId = ($teenager->t_view_information == 1) ? 2 : 1;
                 $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
                 $scale = [];
@@ -1532,7 +1535,8 @@ class level3ActivityController extends Controller {
                     }
                 }
                 $professionArray = isset($scale[$request->matchScale]) ? $scale[$request->matchScale] : [];
-                $data = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($this->countryId, $professionArray);
+                //$data = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($this->countryId, $professionArray);
+                $data = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
                 if (isset($data) && count($data) > 0) {
                     foreach ($data as $key => $value) {
                         $match = $nomatch = $moderate = [];
