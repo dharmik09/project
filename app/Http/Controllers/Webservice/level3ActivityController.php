@@ -947,15 +947,22 @@ class level3ActivityController extends Controller {
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getBasketByCareerId'));
         if($request->userId != "" && $teenager) {
             if($request->careerId != "") {
-                $careerId = $request->careerId;
+                //$careerId = $request->careerId;
                 if($teenager->t_view_information == 1){
                     $countryId = 2; // United States
                 } else { 
                     $countryId = 1; // India
                 }
 
-                $data = $this->baskets->getBasketsAndProfessionByProfessionId($careerId, $teenager->id, $countryId);
-                            
+                $filterBy = 2;
+                $filterOption = $request->careerId;
+                $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : '';
+                $professionArray = [];
+                $basketDetails = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
+
+                //$data = $this->baskets->getBasketsAndProfessionByProfessionId($careerId, $teenager->id, $countryId);
+                //$data = 
+                $data = (isset($basketDetails) && count($basketDetails) > 0) ? $basketDetails->first() : [];       
                 if($data){
                         $data->b_logo = Storage::url($this->basketThumbUrl . $data->b_logo);
         
