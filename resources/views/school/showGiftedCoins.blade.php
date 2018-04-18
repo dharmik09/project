@@ -45,6 +45,9 @@
         <div class="pricing_title">
             <div class="my_teens_content ">
                 <div class="btn_cont gift_modal_page">
+                    <span class="tool-tip" <?php if($schoolData['sc_coins'] == 0) echo 'data-toggle="tooltip" data-placement="bottom" title="Register as Enterprise to avail ProCoins. If already registered please buy ProCoins package from your Enterprise login"';?>>
+                        <a style="margin-bottom:0px;" href="javascript:void(0);" rel="tooltip" onclick="giftCoinsToAll();" class="btn primary_btn space_btm <?php if($schoolData['sc_coins'] == 0) echo 'disabled';?>">Gift ProCoins To All</a>
+                            </span>
                     <a href="{{ url('school/get-gift-coins') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-gift-coins') ? 'active' : '' }}" >{{trans('labels.giftcoins')}}</a>
                     <a href="{{ url('school/get-consumption') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-consumption') ? 'active' : '' }}" >{{trans('labels.consumption')}}</a>
                 </div>
@@ -71,6 +74,21 @@
             </div>
         </div>
 
+    </div>
+</div>
+<div class="modal fade default_popup" id="gift">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- <button type="button" class="close close_next" data-dismiss="modal">Close</button> -->
+            <div class="close close_next">
+                <i class="icon-close"></i>
+            </div>
+            <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
+			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
+            <div id="userDataGiftCoin">
+
+            </div>
+        </div>
     </div>
 </div>
 @stop
@@ -107,6 +125,28 @@
             }
         });
     }
+    
+    function giftCoinsToAll()
+    {
+        var coin = <?php echo $schoolData['sc_coins'];?>;
+        if (coin == 0) {
+          return false;
+        }
+        $('.loader-transparent').show();
+        $.ajax({
+            url: "{{ url('school/gift-coins-to-all-teen') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}'
+            },
+            success: function(response) {
+               $('.loader-transparent').hide();
+               $('#userDataGiftCoin').html(response);
+               $('#gift').modal('show');
+            }
+        });
+    }
+    $('[data-toggle="tooltip"]').tooltip();
 </script>
 
 @stop

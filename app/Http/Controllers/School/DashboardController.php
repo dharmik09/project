@@ -427,8 +427,9 @@ class DashboardController extends Controller {
             $schoolid = $this->loggedInUser->user()->id;
             $objTeenagerCoinsGift = new TeenagerCoinsGift();
             $teenCoinsDetail = $objTeenagerCoinsGift->getTeenagerCoinsGiftDetail($schoolid,3);
-
-            return view('school.showGiftedCoins', compact('teenCoinsDetail'));
+            $schoolData = $this->schoolsRepository->getSchoolDataForCoinsDetail($schoolid);
+            
+            return view('school.showGiftedCoins', compact('teenCoinsDetail','schoolData'));
         }
         return view('school.login'); exit;
     }
