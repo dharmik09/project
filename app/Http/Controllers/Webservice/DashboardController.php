@@ -270,7 +270,16 @@ class DashboardController extends Controller
                     $interest = $this->objInterest->getInterestDetailBySlug($request->interestSlug);
                     if ($interest) {
                         $interestThumbImageUploadPath = $this->interestThumbImageUploadPath;
-                        $interest->it_video = ($interest->it_video != "") ? Helpers::youtube_id_from_url($interest->it_video) : "WoelVRjFO4A";
+                        if ($interest->it_video != "") {
+                            $videoId = Helpers::youtube_id_from_url($interest->it_video);
+                            if (isset($videoId) && $videoId != false) {
+                                $interest->it_video = $videoId;
+                            } else {
+                                $interest->it_video = "";
+                            }
+                        } else {
+                            $interest->it_video = "";
+                        }
                         $data['id'] = $interest->id;
                         $data['title'] = $interest->it_name;
                         $data['slug'] = $interest->it_slug;
@@ -292,6 +301,16 @@ class DashboardController extends Controller
                             $data['logo'] = Storage::url($this->subjectOriginalImageUploadPath . $subjectDetails->ps_image);
                         } else {
                             $data['logo'] = Storage::url($this->subjectOriginalImageUploadPath . 'proteen-logo.png');
+                        }
+                        if ($subjectDetails->ps_video != "") {
+                            $videoId = Helpers::youtube_id_from_url($subjectDetails->ps_video);
+                            if (isset($videoId) && $videoId != false) {
+                                $subjectDetails->ps_video = $videoId;
+                            } else {
+                                $subjectDetails->ps_video = "";
+                            }
+                        } else {
+                            $subjectDetails->ps_video = "";
                         }
                         $data['video'] = $subjectDetails->ps_video;
                         $data['details'] = $subjectDetails->ps_description;
@@ -325,7 +344,7 @@ class DashboardController extends Controller
                 
                 if($getStrengthTypeRelatedInfo) {
                     $getStrengthTypeRelatedInfo['details'] = ( isset($getStrengthTypeRelatedInfo['description']) ) ? $getStrengthTypeRelatedInfo['description'] : "";
-                    $getStrengthTypeRelatedInfo['video'] = ( isset($getStrengthTypeRelatedInfo['video']) && $getStrengthTypeRelatedInfo['video'] != "" ) ? $getStrengthTypeRelatedInfo['video'] : "WoelVRjFO4A";
+                    $getStrengthTypeRelatedInfo['video'] = ( isset($getStrengthTypeRelatedInfo['video']) && $getStrengthTypeRelatedInfo['video'] != "" ) ? $getStrengthTypeRelatedInfo['video'] : "";
                 }
                 unset($getStrengthTypeRelatedInfo['description']);
                 $data = $getStrengthTypeRelatedInfo;
