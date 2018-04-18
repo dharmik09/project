@@ -1846,7 +1846,7 @@
                         $(".institute_list li").removeClass('disabled');
                     } else {
                         $(".promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
-                        $("#promise_plus").prop('onclick',null).off('click');
+                        $("#promise_plus").attr('onclick', "getPromisePlusData({{$professionsData->id}})");
                         $("#promisespan").text('See Now!');
                         getPromisePlusData({{$professionsData->id}});
                     }
