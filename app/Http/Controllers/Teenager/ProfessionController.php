@@ -1283,27 +1283,32 @@ class ProfessionController extends Controller {
         $getTeenagerHML = Helpers::getTeenagerMatchScale($userId);
         $professionAttemptedCount = 0;
         $matchScaleCount = [];
+        $shownBasketId = [];
         foreach($basketDetails as $basket) {
             $professionAttemptedCount = 0;
             $match = [];
             $nomatch = [];
             $moderate = [];
             if (isset($basketId)) {
-                $shownBasketId = $basketId;
+                $shownBasketId[] = $basketId;
             } else {
                 if (empty($basketId) && $basketId == "") {
-                    if ($basketDetails->first() == $basket) {
-                        $shownBasketId = $basket->id;
+                    if ($searchText != "" && $filterBy == 0 && $filterOption == 0) {
+                        $shownBasketId[] = $basket->id;
                     } else {
-                        //$shownBasketId = '';
-                        break;
+                        if ($basketDetails->first() == $basket) {
+                            $shownBasketId[] = $basket->id;
+                        } else {
+                            //$shownBasketId = '';
+                            break;
+                        }
                     }
                 }
             }
             // if(empty($basketId) && $basketId == "") {
             //     $basketId = $basket->id;
             // } 
-            if ($basket->id == $shownBasketId) {
+            if (in_array($basket->id, $shownBasketId)) {
                 foreach ($basket->profession as $key => $profession) {
                     $professionAttempted = Helpers::getProfessionCompletePercentage($userId, $profession->id);
                     if(isset($professionAttempted) && $professionAttempted == 100){

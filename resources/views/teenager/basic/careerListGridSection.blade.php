@@ -31,7 +31,7 @@
         @endif
     </div>
     <ul class="career-list">
-        @if ($basket->id == $shownBasketId)
+        @if (in_array($basket->id, $shownBasketId))
         @foreach ($basket->profession as $profession)
             <?php $matchScale = ( isset($profession->match_scale) && $profession->match_scale != '') ? $profession->match_scale : "career-data-nomatch"; ?>
             <li class="{{ $matchScale }} complete-feild"><a href="{{ url('teenager/career-detail') }}/{{$profession->pf_slug}}" title="{{$profession->pf_name}}">{{$profession->pf_name}}</a>
@@ -79,7 +79,7 @@
             @endif
             <div class="category-list career-listing">
                 <div class="row flex-container">
-                    @if ($basket->id == $shownBasketId)
+                    @if (in_array($basket->id, $shownBasketId))
                     @foreach ($basket->profession as $profession)
                     <div class="col-md-4 col-sm-6 flex-items">
                         <?php $matchGridScale = ( isset($profession->match_scale) && $profession->match_scale != '') ? $profession->match_scale : "career-data-nomatch"; ?>
