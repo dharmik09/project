@@ -162,10 +162,15 @@ class level3ActivityController extends Controller {
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getCareersByBasketId'));
         if($request->userId != "" && $teenager) {
             $this->countryId = ($teenager->t_view_information == 1) ? 2 : 1;
-            $basketId = $request->basketId;
-            $careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId, $this->countryId);
+            //$basketId = $request->basketId;
+            $filterBy = 1;
+            $filterOption = $request->basketId;
+            $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : '';
+            $professionArray = [];
+            $basketDetails = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
+            //$careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId, $this->countryId);
+            $careersData = (count($basketDetails) > 0) ? $basketDetails->find($filterOption) : [];
             if($careersData) {
-                
                 $careersData->b_logo = Storage::url($this->basketThumbUrl.$careersData->b_logo);
                 
                 $youtubeId = Helpers::youtube_id_from_url($careersData->b_video);
