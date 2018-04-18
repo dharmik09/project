@@ -123,7 +123,10 @@ class ProfessionInstitutes extends Model
             $return->where(function($query) use ($answerName) {
                         $query->where('college_institution','like','%'.$answerName.'%')
                             ->orWhere('address_line1','like','%'.$answerName.'%')
-                            ->orWhere('address_line2','like','%'.$answerName.'%');
+                            ->orWhere('address_line2','like','%'.$answerName.'%')
+                            ->orWhere('city','like','%'.$answerName.'%')
+                            ->orWhere('district','like','%'.$answerName.'%')
+                            ->orWhere('pin_code','like','%'.$answerName.'%');
                     });
         }
 
@@ -171,13 +174,13 @@ class ProfessionInstitutes extends Model
 
             
             if(isset($fees['minimumFees']) && empty($fees['maximumFees']) || $fees['maximumFees'] == 'null'){
-                $return = $return->where('minimum_fee','>=',$fees['minimumFees'])->get();
+                $return = $return->where('minimum_fee','>=',$fees['minimumFees'])->orderBy('minimum_fee', 'asc')->get();
             }
             elseif(isset($fees['maximumFees']) && empty($fees['minimumFees']) || $fees['minimumFees'] == 'null'){        
-                $return = $return->where('maximum_fee','<=',$fees['maximumFees'])->get();
+                $return = $return->where('maximum_fee','<=',$fees['maximumFees'])->orderBy('maximum_fee', 'desc')->get();
             }
             else{
-                $return = $return->where('minimum_fee','>=',$fees['minimumFees'])->where('maximum_fee','<=',$fees['maximumFees'])->get();
+                $return = $return->where('minimum_fee','>=',$fees['minimumFees'])->where('maximum_fee','<=',$fees['maximumFees'])->orderBy('minimum_fee', 'asc')->get();
             }
         }
         else{

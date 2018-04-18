@@ -53,20 +53,13 @@
 
                 <div class="button_container coins_button_container">
                     <div class="coin_summary cst_dsh clearfix">
-                        <div class="right col-md-3 col-sm-4 col-xs-12">
-                            <a href="{{ url('school/bulk-import') }}" class="btn primary_btn space_btm">Register Your Students</a>
-                        </div>
+                        
                         <!-- <div class="left col-md-6 col-sm-4 col-xs-12">
                             <span class="coin_img"><img src="{{Storage::url('frontend/images/available_coin.png')}}" alt=""></span>
                             <span>{{trans('labels.availablecoins')}}</span>
                             <span class="coin_count_ttl">@if(!empty($schoolData)) <?php //echo number_format($schoolData['sc_coins']);?> @endif</span>
                         </div> -->
-                        <div class="dashboard_page col-md-3 col-sm-4 col-xs-12 pull-right">
-                            <span class="tool-tip" <?php if($schoolData['sc_coins'] == 0) echo 'data-toggle="tooltip" data-placement="bottom" title="Register as Enterprise to avail ProCoins. If already registered please buy ProCoins package from your Enterprise login"';?>>
-                                <a href="javascript:void(0);" rel="tooltip" onclick="giftCoinsToAll();" class="btn primary_btn space_btm <?php if($schoolData['sc_coins'] == 0) echo 'disabled';?>">Gift ProCoins To All</a>
-                            </span>
-                            <a href="{{url('school/questions')}}" class="btn primary_btn">Add Questions</a>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -221,23 +214,6 @@
     <div class="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
 </div>
 
-<div class="modal fade default_popup" id="gift">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- <button type="button" class="close close_next" data-dismiss="modal">Close</button> -->
-            <div class="close close_next">
-                <i class="icon-close"></i>
-            </div>
-            <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
-			<div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
-            <div id="userDataGiftCoin">
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!--</div>-->
 @stop
 @section('script')
@@ -329,26 +305,7 @@
         });
     }
 
-    function giftCoinsToAll()
-    {
-        var coin = <?php echo $schoolData['sc_coins'];?>;
-        if (coin == 0) {
-          return false;
-        }
-        $('.loader-transparent').show();
-        $.ajax({
-            url: "{{ url('school/gift-coins-to-all-teen') }}",
-            type: 'post',
-            data: {
-                "_token": '{{ csrf_token() }}'
-            },
-            success: function(response) {
-               $('.loader-transparent').hide();
-               $('#userDataGiftCoin').html(response);
-               $('#gift').modal('show');
-            }
-        });
-    }
+    
     $('[data-toggle="tooltip"]').tooltip();
 
     $(document).on('click', '.pagination a', function (e) {
