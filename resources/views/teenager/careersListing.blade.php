@@ -161,7 +161,7 @@
         fetchProfessionDetails();
     }
 
-    function fetchProfessionDetails(basketId = '')
+    function fetchProfessionDetails(basketId = '', layoutType = '')
     {
         $(".sec-blank").remove();
         var filterBy = $("#questionDropdown").val();
@@ -194,6 +194,19 @@
                 if (response != '') {
                     if (basketId != '') {
                         $("#accordion"+basketId).html(response);
+                        if (layoutType != '' && layoutType == 2) {
+                            $("#list-layout-"+basketId).hide();
+                            $("#grid-layout-"+basketId).show();
+                            $("#grid-icon-"+basketId).addClass('active');
+                            $("#list-icon-"+basketId).removeClass('active');
+                        } else {
+                            $("#list-layout-"+basketId).show();
+                            $("#grid-layout-"+basketId).hide();
+                            $("#list-icon-"+basketId).addClass('active');
+                            $("#grid-icon-"+basketId).removeClass('active');
+                        }
+                        $('.panel-collapse').removeClass('in');
+                        $("#accordion"+basketId).addClass('in');
                         $("#panel-loader").hide();
                         $("#accordion"+basketId).removeClass('loading-screen-parent');
                     } else {
@@ -226,11 +239,23 @@
 
     function changePageLayout(layoutType, basketId) {
         if (layoutType == 2) {
-            $("#grid-layout-"+basketId).show();
-            $("#list-layout-"+basketId).hide();
+            if ($("#accordion"+basketId).hasClass('in')) {
+                $("#grid-layout-"+basketId).show();
+                $("#list-layout-"+basketId).hide();
+                $("#grid-icon-"+basketId).addClass('active');
+                $("#list-icon-"+basketId).removeClass('active');
+            } else {
+                fetchProfessionDetails(basketId, layoutType);
+            }
         } else {
-            $("#list-layout-"+basketId).show();
-            $("#grid-layout-"+basketId).hide();    
+            if ($("#accordion"+basketId).hasClass('in')) {
+                $("#list-layout-"+basketId).show();
+                $("#grid-layout-"+basketId).hide();
+                $("#list-icon-"+basketId).addClass('active'); 
+                $("#grid-icon-"+basketId).removeClass('active'); 
+            } else {
+                fetchProfessionDetails(basketId, layoutType);
+            }
         }
     }
 </script>
