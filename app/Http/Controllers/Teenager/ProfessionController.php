@@ -1343,7 +1343,6 @@ class ProfessionController extends Controller {
             //     break;
             // }
         }
-        
         if (isset($basketId) && !empty($basketId) && $basketId != "") {
             $basket = $basketDetails->find($basketId);
             return view('teenager.basic.careerListGridSection', compact('basketDetails', 'searchText', 'filterBy', 'filterOption', 'matchScaleCount', 'professionAttemptedCount', 'showElement', 'industryImageShow', 'shownBasketId', 'basket'));

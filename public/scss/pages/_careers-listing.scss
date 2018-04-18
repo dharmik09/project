@@ -7,13 +7,13 @@
     @include maxmd {
         padding: 40px 0 20px;
     }
-    @include maxms{
+    @include maxms {
         padding: 20px 0 0;
     }
 }
 
 .listing-filter {
-  //  width: 89%;
+    //  width: 89%;
     margin: 0 auto 22px;
     @include maxmd {
         width: 100%;
@@ -61,38 +61,42 @@
                     font-size: 24px;
                     padding: 15px 90px 15px 15px;
                 }
-                @include maxms{
+                @include maxms {
                     font-size: 18px;
                     padding: 15px 80px 15px 15px;
                 }
-                
+
                 &:hover,
                 &:focus {
                     text-decoration: none;
                 }
             }
             span {
-                    position: absolute;
-                    right: 100px;
-                    font-family: proteen;
-                    line-height: 1;
-                    top: 59px;
-                    font-size: 26px;
-                    color: $g-cl;
-                    @include maxmd {
-                        top: 32px;
-                        right: 70px;
-                    }
-                    @include maxsm {
-                        top: 15px;
-                        right: 60px;
-                        font-size: 23px;
-                    }
-                    @include maxms{
-                        right: 50px;
-                        font-size: 18px;
-                    }
+                position: absolute;
+                right: 100px;
+                font-family: proteen;
+                line-height: 1;
+                top: 59px;
+                font-size: 26px;
+                color: $h-cl;
+                cursor: pointer;
+                @include maxmd {
+                    top: 32px;
+                    right: 70px;
                 }
+                @include maxsm {
+                    top: 15px;
+                    right: 60px;
+                    font-size: 23px;
+                }
+                @include maxms {
+                    right: 50px;
+                    font-size: 18px;
+                }
+                &.active {
+                    color: $g-cl;
+                }
+            }
             .grid {
                 position: absolute;
                 right: 0;
@@ -108,12 +112,15 @@
                     padding: 15px 20px;
                     top: 0;
                 }
-                @include maxms{
+                @include maxms {
                     padding: 15px;
                     font-size: 17px;
                 }
                 &:before {
                     display: none;
+                }
+                &.active {
+                    color: $g-cl;
                 }
             }
         }
@@ -124,7 +131,7 @@
         @include maxmd {
             padding: 0 25px 30px;
         }
-        @include maxsm{
+        @include maxsm {
             padding: 0 15px 20px;
         }
         .career-heading {
@@ -139,7 +146,7 @@
                     font-size: 17px;
                     margin-bottom: 10px;
                 }
-                @include maxms{
+                @include maxms {
                     font-size: 14px;
                 }
                 strong {
@@ -155,7 +162,7 @@
                         margin-right: 5px;
                         font-size: 15px;
                     }
-                    @include maxms{
+                    @include maxms {
                         font-size: 14px;
                     }
                     &:last-child {
@@ -199,7 +206,7 @@
                     @include maxmd {
                         width: 74% !important;
                     }
-                    @include maxsm{
+                    @include maxsm {
                         width: 80% !important;
                     }
                 }
@@ -212,7 +219,7 @@
                     @include maxmd {
                         width: 26% !important;
                     }
-                    @include maxsm{
+                    @include maxsm {
                         width: 10% !important;
                     }
                     &.thumb {
@@ -222,11 +229,11 @@
                         @include maxmd {
                             font-size: 18px;
                         }
-                        @include maxsm{
+                        @include maxsm {
                             font-size: 0px;
                         }
-                        i{
-                            @include maxsm{
+                        i {
+                            @include maxsm {
                                 font-size: 18px;
                             }
                         }
@@ -243,9 +250,21 @@
         }
     }
 }
-.highlight{font-family: hn-b;background: #4ba82e;color: $white;}
-.custom-select .form-control{
-    padding: 6px 32px 6px 12px !important; 
+
+.highlight {
+    font-family: hn-b;
+    background: #4ba82e;
+    color: $white;
 }
-.new-career .career-list{margin-bottom: 0 !important;}
-.new-career p.remove-row{margin-top: 25px !important;}
+
+.custom-select .form-control {
+    padding: 6px 32px 6px 12px !important;
+}
+
+.new-career .career-list {
+    margin-bottom: 0 !important;
+}
+
+.new-career p.remove-row {
+    margin-top: 25px !important;
+}

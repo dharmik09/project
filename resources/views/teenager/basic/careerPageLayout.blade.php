@@ -4,10 +4,10 @@
         <div class="panel-heading">
             <h4 class="panel-title">
             <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$basket->id}}" class="collapsed" onclick="fetchProfessionDetails({{$basket->id}})">{{$basket->b_name}}</a> 
-            <span onclick="changePageLayout(1, {{$basket->id}});">
+            <span id="list-icon-{{$basket->id}}" onclick="changePageLayout(1, {{$basket->id}});" class="active">
                 <i class="icon-list"></i>
             </span>
-            <a href="javascript:void(0);" onclick="changePageLayout(2, {{$basket->id}});" title="Careers" class="grid">
+            <a id="grid-icon-{{$basket->id}}" href="javascript:void(0);" onclick="changePageLayout(2, {{$basket->id}});" title="Careers" class="grid">
                 <i class="icon-grid"></i>
             </a>
             </h4>
