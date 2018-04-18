@@ -258,5 +258,13 @@
             }
         }
     }
+
+    function openProfessionTab(basketId) {
+        if ($("#accordion"+basketId).hasClass('in')) {
+            $("#accordion"+basketId).collapse("hide");
+        } else {
+            fetchProfessionDetails(basketId);
+        }
+    }
 </script>
 @stop
