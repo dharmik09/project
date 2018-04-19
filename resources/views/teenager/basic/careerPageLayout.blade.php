@@ -12,7 +12,7 @@
             </a>
             </h4>
         </div>
-        <div class="panel-collapse collapse <?php if (in_array($basket->id, $shownBasketId)) { ?> in <?php } ?> " id="accordion{{$basket->id}}">
+        <div class="panel-collapse collapse <?php if (in_array($basket->id, $shownBasketId)) { ?> in collapsedTab <?php } ?> " id="accordion{{$basket->id}}">
             @include('teenager/basic/careerListGridSection')
         </div>
     </div>

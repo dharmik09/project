@@ -193,6 +193,7 @@
             success: function(response) {
                 if (response != '') {
                     if (basketId != '') {
+                        $("#accordion"+basketId).collapse('show');
                         $("#accordion"+basketId).html(response);
                         if (layoutType != '' && layoutType == 2) {
                             $("#list-layout-"+basketId).hide();
@@ -205,8 +206,6 @@
                             $("#list-icon-"+basketId).addClass('active');
                             $("#grid-icon-"+basketId).removeClass('active');
                         }
-                        $('.panel-collapse').removeClass('in');
-                        $("#accordion"+basketId).addClass('in');
                         $("#panel-loader").hide();
                         $("#accordion"+basketId).removeClass('loading-screen-parent');
                     } else {
@@ -245,6 +244,7 @@
                 $("#grid-icon-"+basketId).addClass('active');
                 $("#list-icon-"+basketId).removeClass('active');
             } else {
+                $('.panel-collapse').collapse('hide');
                 fetchProfessionDetails(basketId, layoutType);
             }
         } else {
@@ -254,6 +254,7 @@
                 $("#list-icon-"+basketId).addClass('active'); 
                 $("#grid-icon-"+basketId).removeClass('active'); 
             } else {
+                $('.panel-collapse').collapse('hide');
                 fetchProfessionDetails(basketId, layoutType);
             }
         }
@@ -263,6 +264,7 @@
         if ($("#accordion"+basketId).hasClass('in')) {
             $("#accordion"+basketId).collapse("hide");
         } else {
+            $('.panel-collapse').collapse('hide');
             fetchProfessionDetails(basketId);
         }
     }
