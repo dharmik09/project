@@ -249,8 +249,28 @@ class level3ActivityController extends Controller {
         
         if($request->userId != "" && $teenager) {
             if($request->searchText != "") {
-                $searchValue = $request->searchText;
-                $data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
+                //$searchValue = $request->searchText;
+                $filterBy = (isset($request->filterBy) && !empty($request->filterBy)) ? $request->filterBy : "";
+                $filterOption = (isset($request->filterOption) && !empty($request->filterOption)) ? $request->filterOption : "";
+                $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : '';
+                if ($filterBy == 7) {
+                    $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+                    $scale = [];
+                    foreach($getTeenagerHML as $key => $value) {
+                        if($value == "match") {
+                            $scale[1][] = $key;
+                        } else if($value == "moderate") {
+                            $scale[2][] = $key;
+                        } else if($value == "nomatch") {
+                            $scale[3][] = $key;
+                        }
+                    }
+                    $professionArray = isset($scale[$request->filterOption]) ? $scale[$request->filterOption] : [];
+                } else {
+                    $professionArray = [];
+                }
+                $data = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
+                //$data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
                 if ($data) {
                     
                     $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
