@@ -59,6 +59,14 @@
             <div class="my_teens_inner">
                 <div class="login_form">
                     <h1><span class="title_border">My ProTeen Connects</span></h1>
+                    <div class="data-explainations clearfix data-interest">
+                                <div class="content">
+                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Vote</span></div>
+                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Profile</span></div>
+                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Career Detail</span></div>
+                                    <div class="data"><span class="small-box career-data-color-4"></span><span>Role Play</span></div>
+                                </div>
+                            </div>
                 </div><!-- login_form End -->
                 <div class="table_container">
                     <table class="sponsor_table">
