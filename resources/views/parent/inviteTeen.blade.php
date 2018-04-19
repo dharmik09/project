@@ -48,9 +48,9 @@
                         <div class="mandatory">*</div>
                         <input type="text" name="p_teenager_reference_id" maxlength="100" class="cst_input_primary" placeholder="Teen Pair">
                         <!--<span class="info_popup_open" style="right: 22px;top: 10px; cursor:pointer;" title="Enter unique Teen ID. Teen will receive an email once you submit the form. Once Teen verifies your invitation, you can see their progress through the ProTeen levels. If you are not aware of unique Teen ID, please contact the Teen or you can find it in their Profile section."><i aria-hidden="true" class="fa fa-question-circle"></i></span>-->
-                        <span class="sec-popup help_noti"><a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                        <span class="sec-popup help_noti"><a id="parent-invite-teen" href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom" onmouseover="getHelpText('parent-invite-teen')"><i class="icon-question"></i></a></span>
                         <div id="pop1" class="hide popoverContent">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                            <span class="parent-invite-teen"></span>
                         </div>
                     </div>
 
@@ -101,6 +101,31 @@
             $("#submitInvitation").removeAttr("disabled", 'disabled');
         }
     });
+    function getHelpText(helpSlug)
+    {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('parent/get-help-text')}}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'helpSlug':helpSlug},
+            success: function(response) {
+                $("."+helpSlug).text(response);    
+                showPopover(helpSlug);
+            }
+        });
+    }
+
+    function showPopover(helpSlug) {
+        $('#'+helpSlug).popover({
+            html:true,
+            content : function() { 
+                return $( $(this).data("popover-content") ).html();
+            }
+        });
+    }
 
 </script>
 @stop
