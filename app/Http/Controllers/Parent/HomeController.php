@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Video;
 use App\CMS;
 use App\Testimonial;
+use App\Helptext;
+use Input;
 
 class HomeController extends Controller
 {
@@ -22,6 +24,7 @@ class HomeController extends Controller
         $this->cmsObj = new CMS();
         $this->objTestimonial = new Testimonial;
         $this->objVideo = new Video;
+        $this->objHelptext = new Helptext;
         //$this->middleware('admin.guest', ['except' => 'logout']);
     }
 
@@ -82,5 +85,21 @@ class HomeController extends Controller
         $videoCount = $this->objVideo->loadMoreVideoCount($id);
         return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
     }
+
+    /*
+     * Get chat users and pass json data
+     */
+    public function getHelpTextBySlug()
+    { 
+        $helpSlug = Input::get('helpSlug');
+        
+        $helptext = $this->objHelptext->getHelptextBySlug($helpSlug);
+        if(isset($helptext) && count($helptext) > 0){
+            $help = $helptext->h_description;
+        }else{
+            $help = 'Invalid slug passed';
+        }
+        return $help;            
+    }        
    
 }

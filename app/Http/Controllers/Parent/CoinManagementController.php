@@ -50,10 +50,15 @@ class CoinManagementController extends Controller {
             $Current_time = strtotime(date('Y-m-d'));
 
             $coinsData = $this->coinRepository->getAllCoinsDetailByid($transactionsDetail[0]->tn_package_id);
-            $end_time = strtotime($transactionsDetail[0]->tn_trans_date . "+".$coinsData[0]->c_valid_for." days");
 
-            $final_date = round(abs($end_time - $Current_time) / 86400, 2);
-            if ($end_time > $Current_time) {
+            $end_time = '';
+            if (isset($coinsData) && count($coinsData) > 0) {
+                $end_time = strtotime($transactionsDetail[0]->tn_trans_date . "+".$coinsData[0]->c_valid_for." days");
+            }
+
+            $final_date = ($end_time != '') ? round(abs($end_time - $Current_time) / 86400, 2) : '';
+
+            if ($final_date != '' && $end_time != '' && $end_time > $Current_time) {
                 $day = round($final_date);
             }
         }

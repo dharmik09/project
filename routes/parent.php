@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/home', 'Parent\DashboardManagementController@index')->name('home');
+Route::post('/get-help-text', 'Parent\HomeController@getHelpTextBySlug');
 
 //My Profile
 Route::get('/update-profile', 'Parent\ProfileManagementController@updateProfile')->name('update-profile');
