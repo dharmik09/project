@@ -242,7 +242,11 @@ class Level1ActivityController extends Controller
         }
         $traitAllQuestion = $this->level1ActivitiesRepository->getAllLeve1Traits();
         $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId,$toUserId);
-        $teenagerTrait = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($userId);
+        if ($toUserId == Auth::guard('teenager')->user()->id) {
+            $teenagerTrait = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($userId);
+        } else {
+            $teenagerTrait = $this->level1ActivitiesRepository->getTeenagerTraitFromAnotherUser($userId, $toUserId);
+        }
         
         return view('teenager.basic.level1QualityTraits', compact('traitQuestion', 'teenagerTrait', 'toUserId'));
     }

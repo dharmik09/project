@@ -817,4 +817,19 @@ class EloquentLevel1ActivitiesRepository extends EloquentBaseRepository implemen
                 ->get();
         return $data;
     }    
+
+    /**
+     * @return Teenager Trait Answer 
+     * @params: toUser, fromUser
+     */
+    public function getTeenagerTraitFromAnotherUser($fromUser, $toUser) {
+        $data = DB::table('pro_tqa_traits_quality_answer As trait_answer')
+                ->join('pro_tqo_traits_quality_options As trait_option', 'trait_option.id', '=', 'trait_answer.tqo_id')
+                ->select('trait_answer.*', DB::raw('count(trait_answer.tqo_id) AS options_count'), 'trait_option.tqo_option As options_text')
+                ->where('trait_answer.tqa_to', $toUser)
+                ->where('trait_answer.tqa_from', $fromUser)
+                ->groupBy('trait_answer.tqo_id')
+                ->get();
+        return $data;
+    }
 }

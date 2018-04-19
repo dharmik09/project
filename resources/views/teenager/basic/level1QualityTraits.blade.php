@@ -25,7 +25,6 @@
         </div>
     </div>
 @else
-    @if ($toUserId == Auth::guard('teenager')->user()->id)
     <div class="survey-list">
         <div class="qualities-sec">
             <div class="row flex-container">
@@ -44,7 +43,4 @@
             </div>
         </div>
     </div>
-    @else
-        <div class="sec-forum"><span>All traits completed</span></div>
-    @endif
 @endif
