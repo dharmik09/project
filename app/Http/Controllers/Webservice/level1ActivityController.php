@@ -1001,7 +1001,7 @@ class Level1ActivityController extends Controller
 
     /*
      * @Request: getLevel1TeenagerTraits
-     * @params: userId, loginToken
+     * @params: userId, loginToken, memberId
     */
     public function getLevel1TeenagerTraits(Request $request)
     {
@@ -1014,7 +1014,11 @@ class Level1ActivityController extends Controller
                 $response['message'] = "You have not attempted all traits";
                 $response['data'] = [];
             } else {
-                $data = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($request->userId);
+                if (isset($request->memberId) && !empty($request->memberId)) {
+                    $data = $this->level1ActivitiesRepository->getTeenagerTraitFromAnotherUser($request->userId, $request->memberId);
+                } else {
+                    $data = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($request->userId);
+                }
                 $response['status'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
                 $response['data'] = (isset($data) && count($data) > 0) ? $data : [];
