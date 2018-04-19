@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                     <div class="btns">
-                                       <a href="javascript:void(0);" title="Profile" class="btn btn-primary btn-small text-uppercase">My Profile</a>
+                                       <a href="{{ url('parent/update-profile') }}" title="Profile" class="btn btn-primary btn-small text-uppercase">My Profile</a>
                                         <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-small text-uppercase">Sign out</a>
                                         <form id="logout-form" action="{{ url('/parent/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
