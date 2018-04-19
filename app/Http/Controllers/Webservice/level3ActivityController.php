@@ -227,7 +227,7 @@ class level3ActivityController extends Controller {
                 $response['data']['completed_profession'] = (isset($totalCompletedProfession) && $totalCompletedProfession > 0) ? $totalCompletedProfession : 0;
             }
             else{
-                $response['data']['baskets'] = [];
+                $response['data']['baskets'] = new \stdClass();
             }
 
             $response['status'] = 1;
