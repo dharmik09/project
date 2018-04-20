@@ -30,6 +30,13 @@
     <div class="parent_h2_header">
         <h2 class="parent_h2_text">Aptitude</h2>
     </div>
+    <div class="data-explainations clearfix text-center data-dashboard">
+        <div class="content">
+            <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
+            <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
+            <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
+        </div>
+    </div>
     <div class="row flex-container">
     @foreach($teenagerStrength as $aptKey => $aptVal)
     <?php
@@ -59,6 +66,13 @@
     </div>
     <div class="parent_h2_header">
         <h2 class="parent_h2_text">Personality</h2>
+    </div>
+    <div class="data-explainations clearfix text-center data-dashboard">
+        <div class="content">
+            <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
+            <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
+            <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
+        </div>
     </div>
     <div class="row flex-container">
     @foreach($teenagerStrength as $ptKey => $ptVal)

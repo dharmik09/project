@@ -349,6 +349,9 @@
                         <span class="low_label" style="font-size:18px;">L - Low </span>
                     </h2>-->
                     <h2 style="text-align:center;" class="multiple-heading">Your "How well do you know your Teen ?" response </h2>
+                    <div class="parent_h2_header">
+                        <h2 class="parent_h2_text">Multiple Intelligences</h2>
+                    </div>
                     <div class="data-explainations clearfix text-center data-dashboard">
                         <div class="content">
                             <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
@@ -356,10 +359,6 @@
                             <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
                         </div>
                     </div>
-                    <div class="parent_h2_header">
-                        <h2 class="parent_h2_text">Multiple Intelligences</h2>
-                    </div>
-
                     
                     
                 </div>
