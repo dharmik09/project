@@ -116,6 +116,7 @@ Route::group(['prefix' => 'parent'], function () {
 	Route::get('/save-forgot-password', 'Parent\PasswordManagementController@forgotPassword');
 	Route::post('/load-more-video', 'Parent\HomeController@loadMoreVideo')->name('load-more-video');
 	Route::post('/set-profile', 'Parent\LoginController@setProfile')->name('set-profile');
+	Route::post('/get-help-text', 'Parent\HomeController@getHelpTextBySlug');
 });
 
 //Counselor

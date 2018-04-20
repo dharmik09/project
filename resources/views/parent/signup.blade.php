@@ -148,9 +148,9 @@
                 <div class="col-md-5 col-sm-6 pair_with_teen input_icon">
                     <div class="mandatory">*</div>
                     <input type="text" name="p_teenager_reference_id" maxlength="100" class="cst_input_primary" value="{{$p_teenager_reference_id}}" placeholder="Teen Pair : Use Teen Reference Code"> 
-                    <span class="sec-popup help_noti"><a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                    <span class="sec-popup help_noti"><a id="parent-signup-teen-reference-field" href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom" onmouseover="getHelpText('parent-signup-teen-reference-field')"><i class="icon-question"></i></a></span>
                     <div id="pop1" class="hide popoverContent">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
+                        <span class="parent-signup-teen-reference-field"></span>
                     </div>
                 </div>
             </div>
@@ -493,6 +493,32 @@ var password = $('#password').val();
         $("#pass_validation").text('');
         return false;
     }
+}
+
+function getHelpText(helpSlug)
+{
+    var CSRF_TOKEN = "{{ csrf_token() }}";
+    $.ajax({
+        type: 'POST',
+        url: "{{url('parent/get-help-text')}}",
+        headers: {
+            'X-CSRF-TOKEN': CSRF_TOKEN
+        },
+        data: {'helpSlug':helpSlug},
+        success: function(response) {
+            $("."+helpSlug).text(response);    
+            showPopover(helpSlug);
+        }
+    });
+}
+
+function showPopover(helpSlug) {
+    $('#'+helpSlug).popover({
+        html:true,
+        content : function() { 
+            return $( $(this).data("popover-content") ).html();
+        }
+    });
 }
 
 </script>
