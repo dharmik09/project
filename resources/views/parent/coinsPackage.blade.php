@@ -43,16 +43,16 @@
                 </div>
                 <div class="col-md-10 col-sm-12 col-md-offset-1 cst_coin_summry">
                     <div class="coin_summary row">
-                        <div class="col-md-6 col-sm-12 col-xs-12 left">
-                            <span class="coin_img"><img src="{{ Storage::url('frontend/images/available_coin.png') }}" alt=""></span>
+                        <div class="col-md-3 col-sm-3 col-xs-3 left">
+                            <!-- <span class="coin_img"><img src="{{ Storage::url('frontend/images/available_coin.png') }}" alt=""></span>
                             <span>{{trans('labels.availablecoins')}}</span>
-                            <span class="coin_count_ttl"><?php echo number_format($parentData->p_coins);?></span>
+                            <span class="coin_count_ttl"><?php //echo number_format($parentData->p_coins);?></span>
                             @if($day != '' && $parentData->p_coins != 0)
                                 <div><center>Valid Upto {{$day}} Days</center></div>
-                            @endif
+                            @endif -->
                         </div>
                         <div class="col-md-6 col-sm-12 col-xs-12 right">
-                            <div class="title">{{trans('labels.history')}}</div>
+                            <center><div class="title">{{trans('labels.history')}}</div></center>
                             <div class="btn_cont">
                                 <a href="{{ url('parent/get-gift-coins') }}" class="btn primary_btn">{{trans('labels.giftcoins')}}</a>
                                 <a href="{{ url('parent/get-transaction') }}" class="btn primary_btn">{{trans('labels.transaction')}}</a>
@@ -114,7 +114,7 @@
                             ?>
                             @endforeach
                             @else
-                                No Packages found.
+                                <p>No Packages found.</p>
                             @endif
                         </div>
                     </div>
