@@ -65,7 +65,7 @@ class QuestionsController extends Controller {
         $activityDetail['l2ac_interest'] = input::get('l2ac_interest');
         $activityDetail['l2ac_mi_type'] = input::get('l2ac_multipleintelligent');
         $activityDetail['l2ac_personality_type'] = input::get('l2ac_personality');
-        $activityDetail['section_type'] = input::get('section_type');
+        $activityDetail['section_type'] = Config::get('constant.LEVEL2_SECTION_4');
         $activityDetail['l2ac_school_id'] = Auth::guard('school')->user()->id;
         $activityDetail['deleted'] = e(input::get('deleted'));
         $postData['pageRank'] = Input::get('pageRank');

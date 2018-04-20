@@ -27,7 +27,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        {{trans('labels.level2activity')}}
+        Ask Your Students
     </h1>
 </section>
 
@@ -57,11 +57,11 @@
         <div class="table_container show_data">
             <table class="sponsor_table table_ckbx nobopd" id="table1">
                 <tr class="cst_status">
-                    <th>{{trans('labels.serialnumber')}}</th>
-                    <th>{{trans('labels.activityblheadtext')}}</th>
-                    <th>{{trans('labels.promiseparameters')}}</th>
+                    <th>Sr. No</th>
+                    <th>Question</th>
+                    <th>Question Type</th>
                     <th>{{trans('labels.activityblheadpoints')}}</th>
-                    <th>{{trans('labels.activityblheadoptions')}}</th>
+                    <th>Answer Choices</th>
                     <th>{{trans('labels.activityblheadsection')}}</th>
                     <th>{{trans('labels.activityblheadaction')}}</th>
                 </tr>
