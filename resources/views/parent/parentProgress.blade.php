@@ -1345,7 +1345,7 @@
                         $("#page_loader").hide();
                         if (rdata == 0) {
                             $('.close_modal').modal('hide');
-                            $("#errorMsg").html('<div class="col-md-8 col-md-offset-2 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-success success"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Your teen assessment has been saved successfully</span></div></div></div>');
+                            $("#errorMsg").html('<div class="col-md-8 col-md-offset-2 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-success success"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Your Opinion of users strengths completed</span></div></div></div>');
                             location.reload(true);
                         }
                     }
