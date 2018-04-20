@@ -192,7 +192,7 @@ class SignupController extends Controller {
 
                         /* save sponser by teenager id if sponsor id is not blank */
                         $schoolDetailbyId = $this->schoolsRepository->getSchoolById($schoolDetailSaved['id']);
-                        $responseMsg = 'Hi <strong>'.$schoolDetailbyId->sc_first_name.'</strong>,<br/> Once ProTeen Admin verify your account, you will be able to login.';                            
+                        $responseMsg = 'Hi <strong>'.$schoolDetailbyId->sc_first_name.'</strong>,<br/> Thank you for registering your institute on ProTeen. Team ProTeen will process your request as soon as possible to enable your login access at ';                            
                         return view('school.signupVerification', compact('responseMsg'));
                     }
                 }
