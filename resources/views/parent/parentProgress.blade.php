@@ -304,19 +304,17 @@
                 <div class="icon-voted profession_attempted">
                     <h2>Role Models Voted</h2>
                     <div class="voted-list">
-                        @if(isset($response['teenagerMyIcons']) && count($response['teenagerMyIcons']) > 0)
                         <ul class="row owl-carousel">
-                           @foreach($response['teenagerMyIcons'] as $teenagerMyIcon)
+                           @forelse($response['teenagerMyIcons'] as $teenagerMyIcon)
                             <li class="col-sm-3 col-xs-6">
                                 <figure>
                                     <div class="icon-img"><a href="javascript:void(0);" data-placement="bottom" title="{{ str_limit($teenagerMyIcon['iconDescription'], $limit = 100, $end = '...') }}" data-toggle="tooltip"><img src="{{$teenagerMyIcon['iconImage']}}"></a></div>
                                 </figure>
                             </li>
-                            @endforeach
+                            @empty
+                                No records found
+                            @endforelse
                         </ul>
-                        @else
-                            No records found
-                        @endif
                     </div>
                 </div>
 
@@ -604,29 +602,28 @@
                 }
             });
         });
-        if ($('.voted-list ul').children().length > 4) {
-                $('.voted-list ul').owlCarousel({
-                    loop: true,
-                    margin: 0,
-                    items: 4,
-                    autoplay: false,
-                    autoplayTimeout: 3000,
-                    smartSpeed: 1000,
-                    nav: true,
-                    dots: false,
-                    responsive: {
-                        0: {
-                            items: 1
-                        },
-                        480: {
-                            items: 2
-                        },
-                        768: {
-                            items: 4
-                        },
-                    }
-                });
+        
+        $('.voted-list ul').owlCarousel({
+            loop: false,
+            margin: 0,
+            items: 4,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                768: {
+                    items: 4
+                },
             }
+        });
         $('#teenName').on('change', function() {
             $("a[id=report]").each(
                 function(){
