@@ -44,7 +44,7 @@
                         $professionAttemptedCount = Helpers::getProfessionCompleteCount(Auth::guard('teenager')->user()->id, 1, $value->id);
                         $basketTotalProfession = Helpers::getTotalBasketProfession($value->id);
                     ?>
-                    <p>You have completed <strong>{{(isset($professionAttemptedCount)) ? $professionAttemptedCount : 0 }} of {{(isset($basketTotalProfession)) ? $basketTotalProfession : 0 }}</strong> careers</p>
+                    <p><strong>{{(isset($professionAttemptedCount)) ? $professionAttemptedCount : 0 }} of {{(isset($basketTotalProfession)) ? $basketTotalProfession : 0 }}</strong> Career Role Plays Fully Completed</p>
                 </div>
                 @if(!Request::ajax())
                 <div class="col-md-6">
