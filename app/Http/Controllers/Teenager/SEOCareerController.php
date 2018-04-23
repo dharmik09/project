@@ -80,4 +80,64 @@ class SEOCareerController extends Controller {
         
         return view('teenager.seoTeaser',compact('professionsData','countryId','allProfessions','slug'));
     }
+
+    /* @getStrengthDetails
+     * @params : $type, $slug
+     * @response : Returns view for SEO Multi-intelligence page
+     */
+    public function getStrengthDetails($type, $slug)
+    {
+        if (!empty($type) || !empty($slug)) {
+            $multipleIntelligence = new \stdClass();
+            switch($type) {
+                case Config::get('constant.MULTI_INTELLIGENCE_TYPE'):
+                    $mi = $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($slug);
+                    if(isset($mi) && count($mi) > 0) {
+                        $multipleIntelligence->title = $mi->mit_name;
+                        $multipleIntelligence->slug = $mi->mi_slug;
+                        $multipleIntelligence->logo = $mi->mit_logo;
+                        $multipleIntelligence->video = $mi->mi_video;
+                        $multipleIntelligence->description = $mi->mi_information;
+                        $miThumbImageUploadPath = $this->miThumb;
+                    }else{
+                        return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
+                    }
+                    break;
+
+                case Config::get('constant.APPTITUDE_TYPE'):
+                    $apptitude = $this->objApptitude->getApptitudeDetailBySlug($slug);
+                    if(isset($apptitude) && count($apptitude) > 0) {
+                        $multipleIntelligence->title = $apptitude->apt_name;
+                        $multipleIntelligence->slug = $apptitude->apt_slug;
+                        $multipleIntelligence->logo = $apptitude->apt_logo;
+                        $multipleIntelligence->video = $apptitude->apt_video;
+                        $multipleIntelligence->description = $apptitude->ap_information;
+                        $miThumbImageUploadPath = $this->aptitudeThumb;
+                    }else{
+                        return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
+                    }
+                    break;
+
+                case Config::get('constant.PERSONALITY_TYPE'):
+                    $personality =$this->objPersonality->getPersonalityDetailBySlug($slug);
+                    if(isset($personality) && count($personality) > 0) {
+                        $multipleIntelligence->title = $personality->pt_name;
+                        $multipleIntelligence->slug = $personality->pt_slug;
+                        $multipleIntelligence->logo = $personality->pt_logo;
+                        $multipleIntelligence->video = $personality->pt_video;
+                        $multipleIntelligence->description = $personality->pt_information;
+                        $miThumbImageUploadPath = $this->personalityThumb;
+                    }else{
+                        return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
+                    }
+                    break;
+
+                default:
+                    return redirect::back()->with('error', trans('labels.commonerrormessage'));
+            };
+            return view('teenager.seoMi', compact('multipleIntelligence', 'miThumbImageUploadPath'));
+        } else {
+            return redirect::back()->with('error', trans('labels.commonerrormessage'));
+        }
+    }
 }

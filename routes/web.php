@@ -154,6 +154,7 @@ Route::post('/ccavenue/response', 'PaymentController@orderResponse');
 //SEO Pages
 Route::get('/careers', 'Teenager\SEOCareerController@careers');
 Route::get('/career-detail/{slug}', 'Teenager\SEOCareerController@careerDetails');
+Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\SEOCareerController@getStrengthDetails');
 
 //Image invalid
 Route::get('/img/{filename}', function($filename) {

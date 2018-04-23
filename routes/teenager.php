@@ -23,9 +23,6 @@ Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceMa
 Route::post('/see-more-related-careers', 'Teenager\MultipleIntelligenceManagementController@seeMoreRelatedCareers');
 Route::post('/see-more-gurus', 'Teenager\MultipleIntelligenceManagementController@seeMoreGurus');
 
-Route::get('/seo-mi', function() {
-	return view('teenager.seoMi');
-});
 Route::get('/seo-teaser', function() {
 	return view('teenager.seoTeaser');
 });

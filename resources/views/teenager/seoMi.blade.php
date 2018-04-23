@@ -1,4 +1,4 @@
-@extends('layouts.teenager-master')
+@extends('layouts.home-master')
 
 @push('script-header')
     <title>Seo Multiple Intelligence</title>
@@ -9,7 +9,7 @@
         <!-- mid section starts-->
         <div class="inner-banner">
             <div class="container">
-                <div class="sec-banner multiple-banner">
+                <div class="sec-banner multiple-banner" style="background-image: url('{{ Storage::url($miThumbImageUploadPath . $multipleIntelligence->logo) }}');">
                     <!-- -->
                 </div>
             </div>
@@ -19,7 +19,7 @@
         <div class="container">
             <section class="introduction-text">
                 <div class="heading-sec clearfix">
-                    <h1>Multiple Intelligence Title</h1>
+                    <h1>{{ $multipleIntelligence->title }}</h1>
                     <div class="sec-popup">
                         <a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                         <div class="hide" id="pop1">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem. Fusce ut est id sem pellentesque viverra. Sed aliquam mi pellentesque suscipit dignissim. Morbi bibendum turpis vel suscipit accumsan. Vestibulum non vulputate nibh, vel congue turpis. Mauris non tellus in mi commodo ornare et sodales mi. Donec pellentesque vehicula nisi a eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue velit vel nisi vulputate, eu faucibus eros porttitor. Nam nec placerat nunc. Suspendisse scelerisque luctus libero, ut tincidunt mi. Fusce quis tincidunt justo, at bibendum lorem.</p>
+                <p>{{ $multipleIntelligence->description }}</p>
             </section>
         </div>
         <!--introduction text end-->
