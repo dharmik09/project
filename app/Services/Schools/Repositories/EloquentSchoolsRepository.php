@@ -561,9 +561,15 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
         }
     }
 
-     public function getSchoolBySchoolUniqueid($id) {
+    public function getSchoolBySchoolUniqueid($id) {
         $schoolData = $this->model->where('sc_uniqueid', '=', $id)->where('deleted', 1)->first();
         return $schoolData;
+    }
+
+    public function getTotalAddedL2QuestionsBySchool($schoolId)
+    {
+        $l2Activities = DB::table(Config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'))->where('l2ac_school_id', $schoolId)->where('deleted', Config::get('constant.ACTIVE_FLAG'))->get();
+        return $l2Activities;
     }
 }
 

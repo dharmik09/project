@@ -3163,4 +3163,52 @@ Class Helpers {
         return $connStatus;
     }
     
+    /* @getStudentForSchoolL2
+     *  @params : questionId, schoolId, classId
+     *  @response : Total teenager count who given answer for question
+     */
+    public static function getStudentForSchoolL2($questionId, $schoolId, $classId)
+    {
+        $return = DB::table(config::get('databaseconstants.TBL_TEENAGERS') ." AS teenager")
+                  ->join(config::get('databaseconstants.TBL_LEVEL2_ANSWERS') ." AS level2answer", 'teenager.id', '=', 'level2answer.l2ans_teenager')
+                  ->selectRaw('teenager.*, level2answer.l2ans_teenager')
+                  ->where('teenager.t_school', $schoolId)
+                  ->where('teenager.t_class', $classId)
+                  ->where('level2answer.l2ans_activity', $questionId)
+                  ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
+                  ->count();
+        return $return;
+    }
+
+    /* @getStudentForSchoolL2
+     *  @params : activityId
+     *  @response : Returns Correct answer for L2 activity
+     */
+    public static function getCorrectAnswerByL2Activity($activityId)
+    {
+        $return = DB::table(Config::get('databaseconstants.TBL_LEVEL2_OPTIONS'))
+                    ->selectRaw('*')
+                    ->where('l2op_activity', '=', $activityId)
+                    ->where('l2op_fraction', 1)
+                    ->first();
+        return $return;
+    }
+
+    /* @getTotalStudentGivenCorrectAnswer
+     *  @params : questionId, schoolId, classId
+     *  @response : Total teenager count who given answer for question
+     */
+    public static function getTotalStudentGivenCorrectAnswer($questionId, $schoolId, $classId, $answerId)
+    {
+        $return = DB::table(config::get('databaseconstants.TBL_TEENAGERS') ." AS teenager")
+                  ->join(config::get('databaseconstants.TBL_LEVEL2_ANSWERS') ." AS level2answer", 'teenager.id', '=', 'level2answer.l2ans_teenager')
+                  ->selectRaw('teenager.*, level2answer.l2ans_teenager')
+                  ->where('teenager.t_school', $schoolId)
+                  ->where('teenager.t_class', $classId)
+                  ->where('level2answer.l2ans_activity', $questionId)
+                  ->where('level2answer.l2ans_answer', $answerId)
+                  ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
+                  ->get();
+        return $return;
+    }
 }

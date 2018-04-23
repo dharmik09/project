@@ -97,29 +97,43 @@
                         @empty
                             No Record Found....
                         @endforelse
-
-<!--                        <div class="item">
-                            <img src="/frontend/images/agriculture_inspector.png" alt="">
-                            <span class="title">Doctor</span>
-                            <span id="pf" class="count">1000</span>
-                        </div>
-                        <div class="item">
-                            <img src="/frontend/images/agriculture_inspector.png" alt="">
-                            <span class="title">Doctor</span>
-                            <span class="count">1000</span>
-                        </div>
-                        <div class="item">
-                            <img src="/frontend/images/agriculture_inspector.png" alt="">
-                            <span class="title">Doctor</span>
-                            <span class="count">1000</span>
-                        </div>
-                        <div class="item">
-                            <img src="/frontend/images/agriculture_inspector.png" alt="">
-                            <span class="title">Doctor</span>
-                            <span class="count">1000</span>
-                        </div>-->
                     </div>
                 </div><!-- dashboard_inner_box End -->
+                <div class="clearfix col-md-12">
+                    <div class="row">
+                        <div class="parent_h2_header col-xs-12">
+                            <h2>L2 By School</h2>
+                        </div>
+                    </div>
+                    @if(isset($totalL2SchoolQuestions) && count($totalL2SchoolQuestions) > 0)
+                        <div class="table_container fixed_box_type" style="height:300px;">
+                            <table class="sponsor_table">
+                                <tr>
+                                    <th>Questions</th>
+                                    <th>No. of Teen given answer</th>
+                                    <th>No. of Teen gives correct answer</th>
+                                </tr>
+                                @foreach($totalL2SchoolQuestions as $totalL2SchoolQuestion)
+                                <tr>
+                                    <td>{{ $totalL2SchoolQuestion->l2ac_text }}</td>
+                                    <?php $totalTeen = Helpers::getStudentForSchoolL2($totalL2SchoolQuestion->id, Auth::guard('school')->user()->id, $cid); ?>
+                                    <td>{{ ($totalTeen) ? $totalTeen : 0 }}</td>
+                                    <?php
+                                    $correctAns = Helpers::getCorrectAnswerByL2Activity($totalL2SchoolQuestion->id); 
+                                    $numOfTeenWithCorrectAns = 0;
+                                    if (isset($correctAns) && !empty($correctAns)) {
+                                        $numOfTeenWithCorrectAns = Helpers::getTotalStudentGivenCorrectAnswer($totalL2SchoolQuestion->id, Auth::guard('school')->user()->id, $cid, $correctAns->id);
+                                    }
+                                    ?>
+                                    <td>{{ (isset($numOfTeenWithCorrectAns) && count($numOfTeenWithCorrectAns) > 0) ? count($numOfTeenWithCorrectAns) : 0 }}</td>
+                                </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    @else
+                        <div class="no_data col-xs-12" style="margin: 40px 0px;text-align:center;">No questions found</div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

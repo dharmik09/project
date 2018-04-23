@@ -21,10 +21,11 @@ use App\PaidComponent;
 use App\DeductedCoins;
 use App\Http\Requests\SchoolProfileUpdateRequest;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 
 class UpdateProfileController extends Controller {
 
-    public function __construct(SchoolsRepository $schoolsRepository, FileStorageRepository $fileStorageRepository) {
+    public function __construct(SchoolsRepository $schoolsRepository, FileStorageRepository $fileStorageRepository, Level2ActivitiesRepository $level2ActivitiesRepository) {
         $this->objSchools = new Schools();
         $this->schoolsRepository = $schoolsRepository;
         $this->fileStorageRepository = $fileStorageRepository;
@@ -37,6 +38,7 @@ class UpdateProfileController extends Controller {
         $this->schoolThumbImageHeight = Config::get('constant.SCHOOL_THUMB_IMAGE_HEIGHT');
         $this->schoolThumbImageWidth = Config::get('constant.SCHOOL_THUMB_IMAGE_WIDTH');
         $this->loggedInUser = Auth::guard('school');
+        $this->level2ActivitiesRepository = $level2ActivitiesRepository;
     }
 
     public function updateProfile() {
@@ -60,7 +62,7 @@ class UpdateProfileController extends Controller {
         if(empty($cid) && $cid == 0 && $cid == '')
         {   
             $classid = $this->schoolsRepository->getFirstClassDetail($schoolid);
-            $cid = (isset($classid->t_class) && $classid->t_class != '')?$classid->t_class:'';
+            $cid = (isset($classid->t_class) && $classid->t_class != '') ? $classid->t_class : '';
         }
         else {
             $cid = $cid;
@@ -87,14 +89,15 @@ class UpdateProfileController extends Controller {
             if ($deductedCoinsDetail->count() > 0) {
                 $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
             }
+
+            $totalL2SchoolQuestions = $this->schoolsRepository->getTotalAddedL2QuestionsBySchool($schoolid);
+            return view('school.progress', compact('classDetails', 'schoolid', 'cid', 'teenDetailsForLevel1', 'teenDetailsForLevel2', 'teenDetailsForLevel3', 'teenDetailsForLevel4', 'professionAttempted', 'days', 'coins', 'totalL2SchoolQuestions'));
         }
         else
         {
             return Redirect::to("school/home")->with('error', 'No data found');
             exit;
         }
-
-        return view('school.progress', compact('classDetails', 'schoolid', 'cid', 'teenDetailsForLevel1', 'teenDetailsForLevel2', 'teenDetailsForLevel3', 'teenDetailsForLevel4','professionAttempted','days','coins'));
     }
 
     public function saveProfile(SchoolProfileUpdateRequest $request) {
