@@ -622,7 +622,7 @@ body.fixed-nav{padding-bottom: 130px;}
 .login_form .career-data-color-2{background-color:#66c6e6; }
 .login_form .career-data-color-3{background-color:#27a6b6; }
 .login_form .career-data-color-4{background-color:#73376d; }
-.progress-radial > span{position: absolute;right: -8px;border: 1px solid #f1c246;padding: 3px 6px;border-radius: 4px;color: #fff;background: #f1c246;}
+.progress-radial > span{position: absolute;right: -8px;padding: 3px 6px;border-radius: 4px;color: #fff;}
 .strength-high{background: #07c9a7;border: 1px solid #07c9a7;}
 .strength-moderate{background: #f1c246;border: 1px solid #f1c246;}
 .strength-low{background: #f58634;border: 1px solid #f58634;}
