@@ -8,7 +8,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        {{trans('labels.level2activity')}}
+        Ask Your Students
     </h1>
 </section>
 
@@ -71,9 +71,9 @@
             <input type="hidden" name="pageRank" value="<?php echo $page ?>">
             <div class="box-body">
                 <div class="form-group">
-                    <label for="l2ac_text" class="col-sm-2 control-label">{{trans('labels.formlbltext')}}</label>
+                    <label for="l2ac_text" class="col-sm-2 control-label">Question</label>
                     <div class="col-sm-6">
-                        <textarea class="form-control" id="l2ac_text" name="l2ac_text" placeholder="{{trans('labels.formlbltext')}}">{{$l2ac_text}}</textarea>
+                        <textarea class="form-control" id="l2ac_text" name="l2ac_text" placeholder="Question">{{$l2ac_text}}</textarea>
                     </div>
                 </div>
 
@@ -100,9 +100,9 @@
                             
                 <div id="addoption" class="addoption">
                   <div class="form-group">
-                      <label for="l2op_option" class="col-sm-2 control-label">{{trans('labels.formlbloptions')}}</label>
+                      <label for="l2op_option" class="col-sm-2 control-label">Answer Choices</label>
                       <div class="col-sm-5">
-                           <input type="text" class="form-control" id="l2op_option" name="l2op_option[]" placeholder="{{trans('labels.formlbloption')}}" value="{{$option[0]}}" />
+                           <input type="text" class="form-control" id="l2op_option" name="l2op_option[]" placeholder="Answer Choices" value="{{$option[0]}}" />
                       </div>
                        <div class="col-sm-1">
                            <input type="radio" name="l2rad_option" value="0" <?php if($l2op_fraction[0]==1){ ?> checked="checked" <?php } ?> />
@@ -213,14 +213,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblsection')}}</label>
                     <div class="col-sm-6 school-select">
                         <select class="form-control" id="section_type" name="section_type">
                             <option value="{{Config::get('constant.LEVEL2_SECTION_4')}}">Section 4</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblstatus')}}</label>
                     <div class="col-sm-6 school-select">

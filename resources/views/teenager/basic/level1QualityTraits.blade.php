@@ -24,6 +24,23 @@
             <button onclick="saveLevel1TraitQuestion();" id="btnSaveTrait" title="Next" class="btn btn-primary" disabled="disabled">Next</button>
         </div>
     </div>
-@else 
-    <div class="sec-forum"><span>All traits completed</span></div>
+@else
+    <div class="survey-list">
+        <div class="qualities-sec">
+            <div class="row flex-container">
+                @forelse($teenagerTrait as $key => $teenTrait)
+                    <div class="col-md-4 col-sm-6 col-xs-6 flex-items">
+                        <div class="ck-button">
+                            <label>
+                                <input type="checkbox" name="traitAns" />
+                                <span>{{ $teenTrait->options_text }}</span>
+                            </label>
+                        </div>
+                    </div>
+                @empty
+                    <div class="sec-forum"><span>No traits found</span></div>
+                @endforelse
+            </div>
+        </div>
+    </div>
 @endif

@@ -119,13 +119,13 @@ class DashboardManagementController extends Controller {
             $parentType = Auth::guard('parent')->user()->p_user_type;
             if ($parentType == Config::get('constant.PARENT_USER_FLAG')) {
                 if ($teenDetail->is_share_with_parents == Config::get('constant.SHARE_INFO_WITH_PARENT_OFF')) {
-                    return Redirect::to("parent/home")->with('error', 'Private Teen Profile');
+                    return Redirect::to("parent/home")->with('error', 'Sorry. User has preferred to keep this information private');
                     exit;
                 }
             }
             if ($parentType == Config::get('constant.MENTOR_USER_FLAG')) {
                 if ($teenDetail->is_share_with_teachers == Config::get('constant.SHARE_INFO_WITH_MENTOR_OFF')) {
-                    return Redirect::to("parent/home")->with('error', 'Private Teen Profile');
+                    return Redirect::to("parent/home")->with('error', 'Sorry. User has preferred to keep this information private');
                     exit;
                 }
             }

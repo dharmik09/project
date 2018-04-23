@@ -88,6 +88,7 @@
                                         </div>
                                     </div>
                                     <div class="btns">
+                                       <a href="{{ url('parent/update-profile') }}" title="Profile" class="btn btn-primary btn-small text-uppercase">My Profile</a>
                                         <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-small text-uppercase">Sign out</a>
                                         <form id="logout-form" action="{{ url('/parent/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
@@ -103,9 +104,9 @@
                                 <div class="submenu">
                                     <h2>My ProCoins</h2>
                                     <div class="btns">
-                                        <a href="{{ url('/parent/get-gift-coins') }}" class="btn btn-success btn-small text-uppercase">Gift</a>
-                                        <a href="{{ url('/parent/my-coins') }}" class="btn btn-success btn-small text-uppercase">Buy</a>
-                                        <a href="{{ url('/parent/get-consumption') }}" class="btn btn-success btn-small text-uppercase">History</a>
+                                        <a href="{{ url('/parent/get-gift-coins') }}" class="btn btn-success btn-small text-uppercase btn-primary">Gift</a>
+                                        <a href="{{ url('/parent/my-coins') }}" class="btn btn-success btn-small text-uppercase btn-primary">Buy</a>
+                                        <a href="{{ url('/parent/get-consumption') }}" class="btn btn-success btn-small text-uppercase btn-primary">History</a>
                                     </div>
                                 </div>
                             </li>

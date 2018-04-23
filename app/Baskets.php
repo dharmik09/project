@@ -548,10 +548,10 @@ class Baskets extends Model
                                 }
 
                                 if(isset($this->filterBy) && !empty($this->filterBy) && isset($this->filterOption) && !empty($this->filterOption)) {
-                                    if ($this->filterBy == 2) {
+                                    if ($this->filterBy == 2 && $this->filterOption != 0) {
                                         $qry->where('id', $this->filterOption);
                                     }
-                                    if ($this->filterBy == 7) {
+                                    if ($this->filterBy == 7 && $this->filterOption != 0) {
                                         $qry->whereIn('pro_pf_profession.id', $this->professionArray);
                                     }
                                 }
@@ -563,16 +563,16 @@ class Baskets extends Model
                                 }
 
                                 if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
-                                    if ($filterBy == 2) {
+                                    if ($filterBy == 2 && $this->filterOption != 0) {
                                         $query->where('id', $filterOption);
                                     }
-                                    if ($filterBy == 7) {
+                                    if ($filterBy == 7 && $this->filterOption != 0) {
                                         $query->whereIn('pro_pf_profession.id', $this->professionArray);
                                     }
                                 }
                             });
                             
-                            if ($filterBy != '' && $filterOption != '' && $filterBy == 1) {
+                            if ($filterBy != '' && $filterOption != '' && $filterBy == 1 && $this->filterOption != 0) {
                                 $professionQuery->where('id', $filterOption);
                             }
                             

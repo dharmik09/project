@@ -110,6 +110,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	//Level 1 Traits
 	Route::post('/getLevel1Traits', 'Webservice\Level1ActivityController@getLevel1Traits');
 	Route::post('/saveLevel1Traits', 'Webservice\Level1ActivityController@saveLevel1Traits');
+	Route::post('/getLevel1TeenagerTraits', 'Webservice\Level1ActivityController@getLevel1TeenagerTraits');
 
 	//Coupon
 	Route::post('/getCoupons', 'Webservice\CouponController@getCoupons');

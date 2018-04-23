@@ -98,7 +98,11 @@
                         <div class="col-md-5 col-sm-6 pair_with_teen input_icon">
                             <div class="mandatory">*</div>
                             <input type="text" id="p_teenager_reference_id" name="p_teenager_reference_id" maxlength="100" class="cst_input_primary" value="{{$teenReferenceId}}" placeholder="Teen Pair : Use Teen Reference Code"> 
-                            <button class="info_popup_open" style="right: 22px;top: 10px;cursor:pointer;" title="Enter unique Teen ID. Teen will receive an email once you submit the form. Once Teen verifies your invitation, you can see their progress through the ProTeen levels. If you are not aware of unique Teen ID, please contact the Teen or you can find it in their Profile section."><i aria-hidden="true" class="fa fa-question-circle"></i></button>
+                            <!-- <button class="info_popup_open" style="right: 22px;top: 10px;cursor:pointer;" title="Enter unique Teen ID. Teen will receive an email once you submit the form. Once Teen verifies your invitation, you can see their progress through the ProTeen levels. If you are not aware of unique Teen ID, please contact the Teen or you can find it in their Profile section."><i aria-hidden="true" class="fa fa-question-circle"></i></button> -->
+                            <span class="sec-popup help_noti"><a id="parent-signup-teen-reference-field" href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom" onmouseover="getHelpText('parent-signup-teen-reference-field')"><i class="icon-question"></i></a></span>
+                            <div id="pop1" class="hide popoverContent">
+                                <span class="parent-signup-teen-reference-field"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="clearfix">
@@ -346,6 +350,32 @@
             $("#pass_validation").text('');
             return false;
         }
+    }
+
+    function getHelpText(helpSlug)
+    {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('parent/get-help-text')}}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'helpSlug':helpSlug},
+            success: function(response) {
+                $("."+helpSlug).text(response);    
+                showPopover(helpSlug);
+            }
+        });
+    }
+
+    function showPopover(helpSlug) {
+        $('#'+helpSlug).popover({
+            html:true,
+            content : function() { 
+                return $( $(this).data("popover-content") ).html();
+            }
+        });
     }
 
 </script>

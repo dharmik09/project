@@ -162,10 +162,15 @@ class level3ActivityController extends Controller {
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getCareersByBasketId'));
         if($request->userId != "" && $teenager) {
             $this->countryId = ($teenager->t_view_information == 1) ? 2 : 1;
-            $basketId = $request->basketId;
-            $careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId, $this->countryId);
+            //$basketId = $request->basketId;
+            $filterBy = 1;
+            $filterOption = $request->basketId;
+            $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : '';
+            $professionArray = [];
+            $basketDetails = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
+            //$careersData = $this->baskets->getBasketsAndProfessionByBaketIdAndCountryId($basketId, $this->countryId);
+            $careersData = (count($basketDetails) > 0) ? $basketDetails->find($filterOption) : [];
             if($careersData) {
-                
                 $careersData->b_logo = Storage::url($this->basketThumbUrl.$careersData->b_logo);
                 
                 $youtubeId = Helpers::youtube_id_from_url($careersData->b_video);
@@ -222,7 +227,7 @@ class level3ActivityController extends Controller {
                 $response['data']['completed_profession'] = (isset($totalCompletedProfession) && $totalCompletedProfession > 0) ? $totalCompletedProfession : 0;
             }
             else{
-                $response['data'] = [];
+                $response['data']['baskets'] = new \stdClass();
             }
 
             $response['status'] = 1;
@@ -244,8 +249,28 @@ class level3ActivityController extends Controller {
         
         if($request->userId != "" && $teenager) {
             if($request->searchText != "") {
-                $searchValue = $request->searchText;
-                $data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
+                //$searchValue = $request->searchText;
+                $filterBy = (isset($request->filterBy) && !empty($request->filterBy)) ? $request->filterBy : "";
+                $filterOption = (isset($request->filterOption) && !empty($request->filterOption)) ? $request->filterOption : "";
+                $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : '';
+                if ($filterBy == 7) {
+                    $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
+                    $scale = [];
+                    foreach($getTeenagerHML as $key => $value) {
+                        if($value == "match") {
+                            $scale[1][] = $key;
+                        } else if($value == "moderate") {
+                            $scale[2][] = $key;
+                        } else if($value == "nomatch") {
+                            $scale[3][] = $key;
+                        }
+                    }
+                    $professionArray = isset($scale[$request->filterOption]) ? $scale[$request->filterOption] : [];
+                } else {
+                    $professionArray = [];
+                }
+                $data = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
+                //$data = $this->baskets->getBasketsAndProfessionBySearchValue($searchValue);
                 if ($data) {
                     
                     $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
@@ -942,15 +967,22 @@ class level3ActivityController extends Controller {
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getBasketByCareerId'));
         if($request->userId != "" && $teenager) {
             if($request->careerId != "") {
-                $careerId = $request->careerId;
+                //$careerId = $request->careerId;
                 if($teenager->t_view_information == 1){
                     $countryId = 2; // United States
                 } else { 
                     $countryId = 1; // India
                 }
 
-                $data = $this->baskets->getBasketsAndProfessionByProfessionId($careerId, $teenager->id, $countryId);
-                            
+                $filterBy = 2;
+                $filterOption = $request->careerId;
+                $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : '';
+                $professionArray = [];
+                $basketDetails = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
+
+                //$data = $this->baskets->getBasketsAndProfessionByProfessionId($careerId, $teenager->id, $countryId);
+                //$data = 
+                $data = (isset($basketDetails) && count($basketDetails) > 0) ? $basketDetails->first() : [];       
                 if($data){
                         $data->b_logo = Storage::url($this->basketThumbUrl . $data->b_logo);
         
@@ -1012,7 +1044,7 @@ class level3ActivityController extends Controller {
                     $response['data']['baskets'] = $data;
                 }
                 else{
-                    $response['data'] = trans('appmessages.data_empty_msg');
+                    $response['data']['baskets'] = new \stdClass();
                 }
 
                 $response['status'] = 1;
@@ -1499,7 +1531,7 @@ class level3ActivityController extends Controller {
     }
 
     /* @getCareersByMatchScale
-     * @params: loginToken, userId, matchScale
+     * @params: loginToken, userId, matchScale, searchText
      */
     public function getCareersByMatchScale(Request $request) {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
@@ -1507,6 +1539,9 @@ class level3ActivityController extends Controller {
         if($request->userId != "" && $teenager) {
             if ($request->matchScale != "") {
                 $data = [];
+                $filterBy = 7;
+                $filterOption = $request->matchScale;
+                $searchText = (isset($request->searchText) && !empty($request->searchText)) ? $request->searchText : '';
                 $this->countryId = ($teenager->t_view_information == 1) ? 2 : 1;
                 $getTeenagerHML = Helpers::getTeenagerMatchScale($request->userId);
                 $scale = [];
@@ -1520,7 +1555,8 @@ class level3ActivityController extends Controller {
                     }
                 }
                 $professionArray = isset($scale[$request->matchScale]) ? $scale[$request->matchScale] : [];
-                $data = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($this->countryId, $professionArray);
+                //$data = $this->baskets->getBasketsAndProfessionWithSelectedHMLProfessionByBasketId($this->countryId, $professionArray);
+                $data = $this->baskets->getProfessionDetails($searchText, $filterBy, $filterOption, $professionArray);
                 if (isset($data) && count($data) > 0) {
                     foreach ($data as $key => $value) {
                         $match = $nomatch = $moderate = [];

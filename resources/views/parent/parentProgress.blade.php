@@ -304,19 +304,17 @@
                 <div class="icon-voted profession_attempted">
                     <h2>Role Models Voted</h2>
                     <div class="voted-list">
-                        @if(isset($response['teenagerMyIcons']) && count($response['teenagerMyIcons']) > 0)
                         <ul class="row owl-carousel">
-                           @foreach($response['teenagerMyIcons'] as $teenagerMyIcon)
+                           @forelse($response['teenagerMyIcons'] as $teenagerMyIcon)
                             <li class="col-sm-3 col-xs-6">
                                 <figure>
                                     <div class="icon-img"><a href="javascript:void(0);" data-placement="bottom" title="{{ str_limit($teenagerMyIcon['iconDescription'], $limit = 100, $end = '...') }}" data-toggle="tooltip"><img src="{{$teenagerMyIcon['iconImage']}}"></a></div>
                                 </figure>
                             </li>
-                            @endforeach
+                            @empty
+                                No records found
+                            @endforelse
                         </ul>
-                        @else
-                            No records found
-                        @endif
                     </div>
                 </div>
 
@@ -349,6 +347,9 @@
                         <span class="low_label" style="font-size:18px;">L - Low </span>
                     </h2>-->
                     <h2 style="text-align:center;" class="multiple-heading">Your "How well do you know your Teen ?" response </h2>
+                    <div class="parent_h2_header">
+                        <h2 class="parent_h2_text">Multiple Intelligences</h2>
+                    </div>
                     <div class="data-explainations clearfix text-center data-dashboard">
                         <div class="content">
                             <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
@@ -356,10 +357,6 @@
                             <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>
                         </div>
                     </div>
-                    <div class="parent_h2_header">
-                        <h2 class="parent_h2_text">Multiple Intelligences</h2>
-                    </div>
-
                     
                     
                 </div>
@@ -605,29 +602,28 @@
                 }
             });
         });
-        if ($('.voted-list ul').children().length > 4) {
-                $('.voted-list ul').owlCarousel({
-                    loop: true,
-                    margin: 0,
-                    items: 4,
-                    autoplay: false,
-                    autoplayTimeout: 3000,
-                    smartSpeed: 1000,
-                    nav: true,
-                    dots: false,
-                    responsive: {
-                        0: {
-                            items: 1
-                        },
-                        480: {
-                            items: 2
-                        },
-                        768: {
-                            items: 4
-                        },
-                    }
-                });
+        
+        $('.voted-list ul').owlCarousel({
+            loop: false,
+            margin: 0,
+            items: 4,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            smartSpeed: 1000,
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                768: {
+                    items: 4
+                },
             }
+        });
         $('#teenName').on('change', function() {
             $("a[id=report]").each(
                 function(){
@@ -1346,7 +1342,7 @@
                         $("#page_loader").hide();
                         if (rdata == 0) {
                             $('.close_modal').modal('hide');
-                            $("#errorMsg").html('<div class="col-md-8 col-md-offset-2 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-success success"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Your teen assessment has been saved successfully</span></div></div></div>');
+                            $("#errorMsg").html('<div class="col-md-8 col-md-offset-2 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-success success"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Your Opinion of users strengths completed</span></div></div></div>');
                             location.reload(true);
                         }
                     }
