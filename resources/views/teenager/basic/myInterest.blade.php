@@ -9,6 +9,8 @@
             $key = 'block';
             $elementClass = '';
         }
+        
+        $interestValue['score'] = ($interestValue['score'] > 0)?100:$interestValue['score'];
     ?>
     <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};" > 
         <div class="my_chart">
