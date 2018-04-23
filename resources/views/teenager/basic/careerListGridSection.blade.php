@@ -16,7 +16,7 @@
         @if ($showElement == 1)
         <div class="row">
                 <div class="col-md-6">
-                    <p>You have completed <strong>{{$basket->professionAttemptedCount}} of {{count($basket->profession)}}</strong> careers</p>
+                    <p><strong>{{$basket->professionAttemptedCount}}</strong> of <strong>{{count($basket->profession)}}</strong> Career Role Plays Fully Completed
                 </div>
                 <div class="col-md-6">
                     <div class="pull-right">
