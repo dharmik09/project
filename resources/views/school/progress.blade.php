@@ -45,25 +45,25 @@
                     </div>
                     <div class="col-md-9 col-sm-8">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-3 col-sm-6">
                                 <div class="card">
                                     <span class="title">No. of Students Voting</span>
                                     <span id="level1" class="count">{{$teenDetailsForLevel1}}</span>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-3 col-sm-6">
                                 <div class="card">
                                     <span class="title">No. of Students Building Profile</span>
                                     <span id="level2" class="count">{{$teenDetailsForLevel2}}</span>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-3 col-sm-6">
                                 <div class="card">
                                     <span class="title">No of Students Exploring Careers</span>
                                     <span id="level3" class="count">{{$teenDetailsForLevel3}}</span>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-3 col-sm-6">
                                 <div class="card">
                                     <span class="title">No. of Students Role Playing</span>
                                     <span id="level4" class="count">{{$teenDetailsForLevel4}}</span>
@@ -75,7 +75,7 @@
                 <!-- Slider -->
                 <div class="profession_attempted">
                     <h2>Professions Role Played by Students</h2>
-                    <div class="profession_attempted_carousel owl-carousel school_pro_image">
+                    <div class="profession_attempted_carousel owl-carousel school_pro_image profession-attempted-img">
                         @forelse($professionAttempted['profession'] as $key => $value)
                         <div class="item ">
                             <?php  $profession_logo = '';
@@ -107,7 +107,7 @@
                     </div>
                     @if(isset($totalL2SchoolQuestions) && count($totalL2SchoolQuestions) > 0)
                         <div class="table_container fixed_box_type" style="height:300px;">
-                            <table class="sponsor_table">
+                            <table class="sponsor_table sponsor-progress-table">
                                 <tr>
                                     <th>Questions</th>
                                     <th>No. of Teen given answer</th>
