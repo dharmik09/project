@@ -524,7 +524,7 @@ a, a:focus, a:hover{color: #d81c02;}
 body.fixed-nav{padding-bottom: 130px;}
 .card span.title{font-family: ab;line-height: 1.2;color: #27a6b5;}
 .card span.count, .profession_attempted_carousel{color: #f15f4c;}
-.card{border-color: #fff;background: #fff;border-radius: 0;}
+.card{border-color: #565b5f;background: transparent;border-radius: 4px;}
 .profession_attempted_carousel .owl-nav{color: #161c22;}
 .main-menu .menu-container h2{font-family: 'ab';font-size: 44px;}
 .icon-close{cursor: pointer;}
@@ -626,7 +626,9 @@ body.fixed-nav{padding-bottom: 130px;}
 .strength-high{background: #07c9a7;border: 1px solid #07c9a7;}
 .strength-moderate{background: #f1c246;border: 1px solid #f1c246;}
 .strength-low{background: #f58634;border: 1px solid #f58634;}
-
+.sponsor-progress-table{    border-top: 1px solid #ff5f44;}
+.sponsor-progress-table tr th:last-child, .sponsor-progress-table tr td:last-child{ border-right: 1px solid #ff5f44;}
+.profession-attempted-img.profession_attempted_carousel.owl-carousel.owl-loaded.school_pro_image img{max-width: 100%;}
 @media (max-width: 991px) {
 .padTop10 {
     padding-top: 10px;
@@ -634,6 +636,7 @@ body.fixed-nav{padding-bottom: 130px;}
     .intrest_content .my_chart h4{font-size: 22px;}
     .login_form h1{font-size: 29px;}
     .progress-radial > span{right: -13px;}
+    .card span.title{font-size: 22px;}
 }
 .report_download{
     text-align: right;
@@ -1029,6 +1032,8 @@ h2 .tooltip-inner {
     .coin_summary.cst_cst_dsh.cst_dsh .right{padding:0;text-align:left;}
     .coin_summary.cst_cst_dsh.cst_dsh .dashboard_page{padding:0;text-align:right;}    
     .slider_card{height: 400px;}
+    .card span.title{font-size: 20px;}
+    .card{padding: 25px 5px;}
 }
 @media(max-width:767px){
 .coin_summary.cst_cst_dsh.cst_dsh .left{margin:0;}
