@@ -177,5 +177,5 @@
     </div>
     @endforeach
 @else
-<div class="sec-forum bg-offwhite"><span>No result found</span></div>
+<div class="sec-forum bg-offwhite"><span>No result found, try different search</span></div>
 @endif
