@@ -163,9 +163,9 @@ class level2ActivityController extends Controller {
                     if($section3Percentage == 100){
                         $dispatchJob = Helpers::professionMatchScaleCalculate($section3Collection, $request->userId);
                     }
-                    if($teenager->t_school > 0 && $teenager->t_school_status == 1 && $section4Percentage == 100){
-                        $dispatchJob = Helpers::professionMatchScaleCalculate($section4Collection, $request->userId);
-                    }
+//                    if($teenager->t_school > 0 && $teenager->t_school_status == 1 && $section4Percentage == 100){
+//                        $dispatchJob = Helpers::professionMatchScaleCalculate($section4Collection, $request->userId);
+//                    }
                     $data['section_1_Percentage'] = number_format((float)$section1Percentage, 0, '.', '');
                     $data['section_2_Percentage'] = number_format((float)$section2Percentage, 0, '.', '');
                     $data['section_3_Percentage'] = number_format((float)$section3Percentage, 0, '.', '');

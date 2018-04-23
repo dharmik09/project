@@ -87,8 +87,9 @@ class Level2ActivityController extends Controller {
         } else {
             $isSectionCompleted = true;
         }
-        
-        $dispatchJob = Helpers::professionMatchScaleCalculate($sectionPercentageCollection, $user->id);
+        if($section != 4){
+            $dispatchJob = Helpers::professionMatchScaleCalculate($sectionPercentageCollection, $user->id);        
+        }
         $level2ActivityOriginalImageUploadPath = $this->level2ActivityOriginalImageUploadPath;
 
         return view('teenager.basic.level2ActivitySection', compact('timer', 'activities', 'section', 'level2ActivityOriginalImageUploadPath', 'sectionPercentage','isSectionCompleted'));
