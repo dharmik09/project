@@ -590,3 +590,6 @@ ALTER TABLE `pro_pi_profession_institutes` ADD `country_id` INT NOT NULL DEFAULT
 //Add new column in profession subjects table ## 11-04-2014
 ALTER TABLE `pro_ps_profession_subjects` ADD `ps_description` TEXT NULL AFTER `ps_image`;
 ALTER TABLE `pro_ps_profession_subjects` ADD `ps_video` TEXT NULL AFTER `ps_description`;
+
+//Alter 'l2ac_interest' column in 'pro_l2ac_level2_activities' table ## 23-04-2018
+ALTER TABLE `pro_l2ac_level2_activities` CHANGE `l2ac_interest` `l2ac_interest` TINYINT(2) NULL DEFAULT '0' COMMENT 'Reference Interest types';
