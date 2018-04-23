@@ -109,12 +109,17 @@
                         <div class="table_container fixed_box_type" style="height:300px;">
                             <table class="sponsor_table sponsor-progress-table">
                                 <tr>
+                                    <th>Sr. No</th>
                                     <th>Questions</th>
-                                    <th>No. of Teen given answer</th>
-                                    <th>No. of Teen gives correct answer</th>
+                                    <th>Total No. of Teen given answer</th>
+                                    <th>Total No. of Teen gives correct answer</th>
                                 </tr>
+                                <?php $serialNo = 1; ?>
                                 @foreach($totalL2SchoolQuestions as $totalL2SchoolQuestion)
                                 <tr>
+                                    <td>
+                                        {{ $serialNo }}
+                                    </td>
                                     <td>{{ $totalL2SchoolQuestion->l2ac_text }}</td>
                                     <?php $totalTeen = Helpers::getStudentForSchoolL2($totalL2SchoolQuestion->id, Auth::guard('school')->user()->id, $cid); ?>
                                     <td>{{ ($totalTeen) ? $totalTeen : 0 }}</td>
@@ -127,6 +132,7 @@
                                     ?>
                                     <td>{{ (isset($numOfTeenWithCorrectAns) && count($numOfTeenWithCorrectAns) > 0) ? count($numOfTeenWithCorrectAns) : 0 }}</td>
                                 </tr>
+                                <?php $serialNo++; ?>
                                 @endforeach
                             </table>
                         </div>

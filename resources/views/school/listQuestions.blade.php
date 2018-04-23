@@ -101,11 +101,20 @@
                         {{$level2activity->l2ac_points}}
                     </td>
                     <td>
-                        <?php $explode=explode(',',$level2activity->l2op_option);
-                               foreach($explode as $option_name)
-                               {
-                                   echo $option_name."<br/>";
-                               }
+                        <?php 
+                        $explodeOption = explode(',', $level2activity->l2op_option);
+                        $explodeFraction = explode(',', $level2activity->l2op_fraction);
+                        foreach($explodeOption as $key => $option_name)
+                        {
+                            if (count($explodeFraction) > 0 && $explodeFraction[$key] == 1) { ?> 
+                                <strong><span class="font-blue"> 
+                                <?php
+                                    echo $option_name."<br/>"; ?>
+                                </span></strong>
+                            <?php } else { 
+                                echo $option_name."<br/>";
+                            }
+                        }
                         ?>
                     </td>
                     <td>
