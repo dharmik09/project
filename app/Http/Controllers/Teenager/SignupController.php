@@ -83,6 +83,7 @@ class SignupController extends Controller
         $teenagerDetail['t_phone'] = (isset($body['mobile']) && $body['mobile'] != '') ? $body['mobile'] : '';
         //Added new phone name field
         $teenagerDetail['t_phone_new'] = (isset($body['phone']) && $body['phone'] != '') ? $body['phone'] : '';
+        $teenagerDetail['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
 
         $teenagerDetail['t_country'] = (isset($body['country']) && $body['country'] != '') ? $body['country'] : '';
         $teenagerDetail['t_social_provider'] = (isset($body['social_provider']) && $body['social_provider'] != '') ? $body['social_provider'] : '';

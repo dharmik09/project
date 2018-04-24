@@ -83,6 +83,7 @@ class SocialLoginController extends Controller {
             $teenagerDetail['deleted'] = '1';
             $teenagerDetail['t_isverified'] = '1';
             $teenagerDetail['t_gender'] = $gender;
+            $teenagerDetail['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
             //$teenagerDetail['nickname'] = $nickname;
             
             $teenagerWithSocialId = $this->teenagersRepository->getTeenagerBySocialId($teenagerDetail['t_fb_social_identifier'], $teenagerDetail['t_social_provider']);
@@ -213,6 +214,7 @@ class SocialLoginController extends Controller {
             $teenagerDetail['t_gender'] = $gender;
             //$teenagerDetail['nickname'] = $nickname;
             $teenagerDetail['t_isverified'] = '1';
+            $teenagerDetail['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
             
             $teenagerWithSocialId = $this->teenagersRepository->getTeenagerBySocialId($teenagerDetail['t_social_identifier'], $teenagerDetail['t_social_provider']);
             $teenagerWithEmailId = $this->teenagersRepository->getTeenagerDetailByEmailId($teenagerDetail['t_email']);

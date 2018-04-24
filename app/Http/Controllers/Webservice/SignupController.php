@@ -79,6 +79,7 @@ class SignupController extends Controller
             $teenagerDetail['t_device_type'] = $request->deviceType;
             $teenagerDetail['t_photo'] = '';
             $teenagerDetail['deleted'] = '1';
+            $teenagerDetail['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
 
             //Social Providers
             $teenagerDetail['t_social_provider'] = ($request->socialProvider != "") ? $request->socialProvider : 'Normal';
