@@ -635,20 +635,34 @@
         });
     }   
 
-    function addToMyCareerProfession(professionId) {
+    function addToMyCareerProfession(professionId, favoriteStatus, professionName) {
     	$.ajax({
             url : '{{ url("teenager/add-star-to-career") }}',
             method : "POST",
-            data: 'careerId=' + professionId,
+            data: 'careerId=' + professionId + '&favoriteStatus=' + favoriteStatus,
             headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
             dataType: "json",
             success : function (response) {
                 if (typeof response !== "undefined" && typeof response.message !== "undefined" && response.message != "") {
                     //$(".prof_sec_"+professionId).html(response.message).fadeIn('slow');
-                    $(".prof_sec_"+professionId).removeAttr('onclick');
-                    $(".prof_sec_"+professionId).addClass('selected');
-                    $(".prof_sec_"+professionId).attr('title', 'In My Careers');
-                    $(".prof_sec_"+professionId).html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img"><div class="favourite-text career-message-'+professionId+'">Career has been added in My careers</div>');
+                    //$(".prof_sec_"+professionId).removeAttr('onclick');
+                    if (favoriteStatus == "{{Config::get('constant.ADD_STAR_TO_CAREER')}}") {
+                        //onClickFunction = addToMyCareerProfession(professionId, {{Config::get('constant.REMOVE_STAR_FROM_CAREER')}}, +"'"+professionName+"'");
+                        $(".prof_sec_"+professionId).attr("onclick","addToMyCareerProfession("+professionId+", {{Config::get('constant.REMOVE_STAR_FROM_CAREER')}}, '"+professionName+"')");
+                        $(".prof_sec_"+professionId).addClass('selected');
+                        $(".prof_sec_"+professionId).attr('title', 'In My Careers');
+                        $(".prof_sec_"+professionId).html('<img src="{{ Storage::url('img/star-active.png') }}" class="hover-img"><div class="favourite-text career-message-'+professionId+'">Congratulation! You just favorited '+professionName+'. You can now explore it directly from "My careers"</div>');
+                        // $(".career-message-"+professionId).css('display', 'block');
+                        // setTimeout(function () {
+                        //     $(".career-message-"+professionId).hide();
+                        // }, 2500);
+                    } else if (favoriteStatus == "{{Config::get('constant.REMOVE_STAR_FROM_CAREER')}}") {
+                        $(".prof_sec_"+professionId).attr("onclick","addToMyCareerProfession("+professionId+", {{Config::get('constant.ADD_STAR_TO_CAREER')}}, '"+professionName+"')");
+                        //$(".prof_sec_"+professionId).addClass('selected');
+                        $(".prof_sec_"+professionId).attr('title', 'Add to My Careers');
+                        $(".prof_sec_"+professionId).html('<img src="{{ Storage::url('img/star.png') }}"><div class="favourite-text career-message-'+professionId+'">You just remove '+professionName+'from favorite.</div>');
+                    }
+                    //$(".prof_sec_"+professionId).attr("onclick", onClickFunction);
                     $(".career-message-"+professionId).css('display', 'block');
                     setTimeout(function () {
                         $(".career-message-"+professionId).hide();
