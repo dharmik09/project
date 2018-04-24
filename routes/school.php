@@ -37,3 +37,4 @@ Route::get('/add-questions', 'School\QuestionsController@add');
 Route::post('/save-level2-questions', 'School\QuestionsController@save');
 Route::get('/edit-level2-questions/{activityId}', 'School\QuestionsController@edit');
 Route::get('/delete-level2-questions/{activityId}', 'School\QuestionsController@delete');
+Route::post('/search-questions', 'School\QuestionsController@search');

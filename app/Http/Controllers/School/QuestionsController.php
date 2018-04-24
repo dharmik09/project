@@ -134,5 +134,16 @@ class QuestionsController extends Controller {
             return Redirect::to("school/questions")->with('error', trans('labels.commonerrormessage'));
         }
     }
+
+    /*
+     * Search from questions
+     * @param: searchText
+     */
+    public function search()
+    {
+        $searchText = Input::get('searchKeyword');
+        $level2activities = $this->level2ActivitiesRepository->getAllLeve2Activities(Auth::guard('school')->user()->id, $searchText);
+        return view('school.searchQuestions', compact('level2activities'));
+    }
 }
 
