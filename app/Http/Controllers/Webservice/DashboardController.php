@@ -347,6 +347,7 @@ class DashboardController extends Controller
                     $getStrengthTypeRelatedInfo['video'] = ( isset($getStrengthTypeRelatedInfo['video']) && $getStrengthTypeRelatedInfo['video'] != "" ) ? $getStrengthTypeRelatedInfo['video'] : "";
                 }
                 unset($getStrengthTypeRelatedInfo['description']);
+                $getStrengthTypeRelatedInfo['sharingLink'] = url('multi-intelligence/'.$request->strengthType.'/'.$request->strengthSlug);
                 $data = $getStrengthTypeRelatedInfo;
                 $response['message'] = trans('appmessages.default_success_msg');
                 $response['login'] = 1;
