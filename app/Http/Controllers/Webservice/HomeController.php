@@ -128,8 +128,11 @@ class HomeController extends Controller
                 } else {
                     $deductedCoinsDetail = $this->objDeductedCoins->getDeductedCoinsDetailByIdForLS($teenId, $componentsData->id, 1);
                 }
+                $days = 0;
                 if (isset($deductedCoinsDetail) && count($deductedCoinsDetail) > 0) {
                     $days = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+                }
+                if ($days > 0) {
                     $response['status'] = 0;
                     $response['message'] = "Coins already consumed for this activity";
                     $response['data']['remainingDays'] = $days;
