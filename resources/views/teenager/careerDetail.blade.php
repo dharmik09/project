@@ -141,22 +141,21 @@
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
                                 <div class="list-icon">
-                                    <!-- <ul class="social">
-                                        <li>Share :</li>
-                                        <li><a href="http://www.facebook.com/share.php?u={{$siteUrl}}&title={{urlencode($metaTitle)}}&description={{urlencode($metaDescription)}}&picture={{urlencode($shareImageUrl)}}" target="_blank" title="Facebook"><i class="icon-facebook"></i></a></li>
-                                        <li><a href="http://twitter.com/intent/tweet?status={{$metaTitle}}+,+&nbsp;+{{$siteUrl}}+&nbsp;+@ProTeenLife" target="_blank" title="Twitter"><i class="icon-twitter"></i></a></li>
-                                        <li><a href="https://plus.google.com/share?url={{$siteUrl}}&image={{$shareImageUrl}}" target="_blank" title="Google plus"><i class="icon-google"></i></a></li>
-                                        <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{$siteUrl}}&title={{$metaTitle}}&source={{$siteUrl}}" target="_blank" title="Linkedin"><i class="icon-linkdin"></i></a></li>
-                                        
-                                    </ul> -->
                                     <span class="star-icon">
-                                        <a id="socialShare" href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="fa fa-share-alt"></i></a>
-                                        <div id="pop1" class="hide popoverContent">
-                                            <a href="http://www.facebook.com/share.php?u={{$siteUrl}}&title={{urlencode($metaTitle)}}&description={{urlencode($metaDescription)}}&picture={{urlencode($shareImageUrl)}}" target="_blank" title="Facebook"><i class="icon-facebook"></i></a>
-                                            <a href="http://twitter.com/intent/tweet?status={{$metaTitle}}+,+&nbsp;+{{$siteUrl}}+&nbsp;+@ProTeenLife" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                                            <a href="https://plus.google.com/share?url={{$siteUrl}}&image={{$shareImageUrl}}" target="_blank" title="Google plus"><i class="icon-google"></i></a>
-                                            <a href="http://www.linkedin.com/shareArticle?mini=true&url={{$siteUrl}}&title={{$metaTitle}}&source={{$siteUrl}}" target="_blank" title="Linkedin"><i class="icon-linkdin"></i></a>
-                                        </div>
+                                        <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
+                            <i class="icon-share"></i>
+                        </a>
+                        <div class="hide" id="pop2">
+                            <div class="socialmedia-icon">
+                                <p>Share  on:</p>
+                                <ul class="social-icon clearfix">
+                                    <li><a href="http://www.facebook.com/share.php?u={{$siteUrl}}&title={{urlencode($metaTitle)}}&description={{urlencode($metaDescription)}}&picture={{urlencode($shareImageUrl)}}" title="facebook" class="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                                    <li><a href="http://twitter.com/intent/tweet?status={{$metaTitle}}+,+&nbsp;+{{$siteUrl}}+&nbsp;+@ProTeenLife" title="Twitter" class="twitter" target="_blank"><i class="icon-twitter"></i></a></li>
+                                    <li><a href="https://plus.google.com/share?url={{$siteUrl}}&image={{$shareImageUrl}}" title="Google Plus" class="twitter" target="_blank"><i class="icon-google"></i></a></li>
+                                    <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{$siteUrl}}&title={{$metaTitle}}&source={{$siteUrl}}" title="Linked In" class="twitter" target="_blank"><i class="icon-linkdin"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
 
                                     </span>
                                     <span class="star-icon">

@@ -57,6 +57,7 @@ class MultipleIntelligenceManagementController extends Controller
                         $multipleIntelligence->logo = $mi->mit_logo;
                         $multipleIntelligence->video = $mi->mi_video;
                         $multipleIntelligence->description = $mi->mi_information;
+                        $multipleIntelligence->type = Config::get('constant.MULTI_INTELLIGENCE_TYPE');
                         $miThumbImageUploadPath = $this->miThumbImageUploadPath;
                     }else{
                         return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
@@ -71,6 +72,7 @@ class MultipleIntelligenceManagementController extends Controller
                         $multipleIntelligence->logo = $apptitude->apt_logo;
                         $multipleIntelligence->video = $apptitude->apt_video;
                         $multipleIntelligence->description = $apptitude->ap_information;
+                        $multipleIntelligence->type = Config::get('constant.APPTITUDE_TYPE');
                         $miThumbImageUploadPath = $this->apptitudeThumbImageUploadPath;
                     }else{
                         return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
@@ -85,6 +87,7 @@ class MultipleIntelligenceManagementController extends Controller
                         $multipleIntelligence->logo = $personality->pt_logo;
                         $multipleIntelligence->video = $personality->pt_video;
                         $multipleIntelligence->description = $personality->pt_information;
+                        $multipleIntelligence->type = Config::get('constant.PERSONALITY_TYPE');
                         $miThumbImageUploadPath = $this->personalityThumbImageUploadPath;
                     }else{
                         return Redirect::to("teenager/home")->withErrors("Invalid data passed to URL");
