@@ -181,8 +181,11 @@
         </section>
         <!--team section end-->
         <!-- mid section end-->
-        <div class="teaser-overlay">
+        <!-- <div class="teaser-overlay">
             <p><a href="#" title="Read More" class="btn btn-border">Read More</a></p>
+        </div> -->
+        <div class="teaser-overlay">
+            <p><a href="{{ url('/teenager/login') }}" title="Know More" class="btn btn-border">Know More <span><i class="icon-hand-simple"></i></span></a></p>
         </div>
         </div>
     </div>
