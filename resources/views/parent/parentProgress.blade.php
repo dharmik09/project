@@ -346,7 +346,7 @@
                         <span class="mid_label" style="font-size:18px;"> M - Moderate,</span>
                         <span class="low_label" style="font-size:18px;">L - Low </span>
                     </h2>-->
-                    <h2 style="text-align:center;" class="multiple-heading">Your "How well do you know your Teen ?" response </h2>
+                    <h2 style="text-align:center;" class="multiple-heading">Your "How well do you know your Teen ?"</h2>
                     <div class="parent_h2_header">
                         <h2 class="parent_h2_text">Multiple Intelligences</h2>
                     </div>

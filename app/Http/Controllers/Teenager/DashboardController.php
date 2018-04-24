@@ -291,7 +291,7 @@ class DashboardController extends Controller
                     $replaceArray['PARENT_LOGIN_URL'] = url("counselor/login");
                 }
                 $replaceArray['PARENT_EMAIL'] = $parentData['p_email'];
-                $replaceArray['PARENT_PASSWORD'] = "********"; //bcrypt(str_random(10));
+                //$replaceArray['PARENT_PASSWORD'] = "********"; //bcrypt(str_random(10));
                 $replaceArray['PARENT_UNIQUEID'] = Helpers::getParentUniqueId();
                 $replaceArray['VERIFICATION_URL'] = url("parent/verify-parent-teen-pair-registration?token=" . $replaceArray['PARENT_UNIQUEID']);
                 $replaceArray['USERNAME'] = ucwords(Auth::guard('teenager')->user()->t_name." ".Auth::guard('teenager')->user()->t_lastname);

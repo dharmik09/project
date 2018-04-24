@@ -1,7 +1,7 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>Seo teasor</title>    
+    <title>{{$professionsData->pf_name}}</title>    
 @endpush
 
 @section('content')
