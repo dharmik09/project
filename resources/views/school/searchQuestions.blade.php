@@ -63,7 +63,7 @@
             foreach($explodeOption as $key => $option_name)
             {
                 if (count($explodeFraction) > 0 && $explodeFraction[$key] == 1) { ?> 
-                    <strong><span class="font-blue"> 
+                    <strong><span class="font-blue" title="This is correct answer"> 
                     <?php
                         echo $option_name."<br/>"; ?>
                     </span></strong>
