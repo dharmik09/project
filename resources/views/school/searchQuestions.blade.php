@@ -18,25 +18,39 @@
         </td>
         <td>
             <?php
+                $flag = false;
                 if(isset($level2activity->l2ac_apptitude_type) && !empty($level2activity->l2ac_apptitude_type) && $level2activity->l2ac_apptitude_type != '' )
                 {
+                    $flag = false;
                     ?> <div>{{$level2activity->apt_name}}</div> <?php
+                } else {
+                    $flag = true;
                 }
                 
                 if(isset($level2activity->l2ac_personality_type) && !empty($level2activity->l2ac_personality_type) && $level2activity->l2ac_personality_type != '' )
                 {
+                    $flag = false;
                     ?> <div>{{$level2activity->pt_name}}</div> <?php
+                } else {
+                    $flag = true;
                 }
                 
                 if(isset($level2activity->l2ac_mi_type) && !empty($level2activity->l2ac_mi_type) && $level2activity->l2ac_mi_type != '' )
                 {
+                    $flag = false;
                     ?> <div>{{$level2activity->mit_name}}</div> <?php
+                } else {
+                    $flag = true;
                 }
                 
                 if(isset($level2activity->l2ac_interest) && !empty($level2activity->l2ac_interest) && $level2activity->l2ac_interest != '' )
                 {
+                    $flag = false;
                    ?> <div>{{$level2activity->it_name}}</div> <?php
+                } else {
+                    $flag = true;
                 }
+                echo ($flag) ? '-' : '';
                 ?>
         </td>
         <td>
