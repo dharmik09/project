@@ -199,7 +199,7 @@ class CommunityManagementController extends Controller {
             $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has viewed your profile';
             $recordExist = $this->objNotifications->checkIfNotificationAlreadyExist($notificationData);
             if ($recordExist && count($recordExist) > 0) {
-                $notificationData = [];
+                //$notificationData = [];
                 $notificationData['created_at'] = Carbon::now();
                 $notificationData['id'] = $recordExist->id;
             }
