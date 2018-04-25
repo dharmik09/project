@@ -4,7 +4,7 @@
         @forelse($teenagerInterest as $interestKey => $interestValue)
         <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
             <div class="my_chart">
-                <div class="progress-radial progress-{{($interestValue['score'] > 0)?100:$interestValue['score']}} progress-strong">
+                <div class="progress-radial progress-100}} progress-strong">
                     
                 </div>
                 <h4>{{ $interestValue['name']}}</h4>
