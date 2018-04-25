@@ -21,13 +21,6 @@
                 <div class="heading-sec clearfix">
                     <h1>{{ $multipleIntelligence->title }}</h1>
                     <div class="sec-popup">
-                        <a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
-                        <div class="hide" id="pop1">
-                            <div class="popover-data">
-                                <a class="close popover-closer"><i class="icon-close"></i></a>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
-                            </div>
-                        </div>
                         <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom"><i class="icon-share"></i></a>
                         <div class="hide" id="pop2">
                             <div class="socialmedia-icon">
@@ -36,6 +29,13 @@
                                     <li><a href="#" title="facebook" class="facebook"><i class="icon-facebook"></i></a></li>
                                     <li><a href="#" title="Twitter" class="twitter"><i class="icon-twitter"></i></a></li>
                                 </ul>
+                            </div>
+                        </div>
+                        <a href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
+                        <div class="hide" id="pop1">
+                            <div class="popover-data">
+                                <a class="close popover-closer"><i class="icon-close"></i></a>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi eos, earum ipsum illum libero, beatae vitae, quos sit cum voluptate iste placeat distinctio porro nobis incidunt rem nesciunt. Cupiditate, animi.
                             </div>
                         </div>
                     </div>
