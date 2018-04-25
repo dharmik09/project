@@ -44,6 +44,7 @@
             </section>
         </div>
         <!--introduction text end-->
+        <div class="teaser-content">
         <!--related careers section-->
         <div class="related-careers">
             <div class="container">
@@ -180,6 +181,7 @@
             </div>
         </section>
         <!--team section end-->
+        </div>
         <!-- mid section end-->
         <!-- <div class="teaser-overlay">
             <p><a href="#" title="Read More" class="btn btn-border">Read More</a></p>
