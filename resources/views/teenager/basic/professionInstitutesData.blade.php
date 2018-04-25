@@ -147,9 +147,9 @@
                                             <li><strong>Accreditation CGPA </strong>{{$instituteAccreditationScore}}</li>
                                             <li><strong>Accreditation By </strong>{{$instituteAccreditationBody}}</li>
                                         @endif
-                                        <li><strong>Fee Range in <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?> </strong> {{$instituteFeeRange}}</li>
-                                        <li><strong>Hostel <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? 'Count' : 'Availability' ?> </strong>{{$instituteHostelCount}}</li>
-                                        <li><strong>Status </strong>{{$instituteGender}}</li>
+                                        <li><strong>Fees in <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?> </strong> {{$instituteFeeRange}}</li>
+                                        <li><strong>Hostel </strong>{{$instituteHostelCount}}</li>
+                                        <li><strong>Gender </strong>{{$instituteGender}}</li>
                                         <li><strong>Autonomous </strong>{{$instituteAutonomous}}</li>
                                     </ul>
                                 </div>

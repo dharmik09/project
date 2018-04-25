@@ -30,8 +30,8 @@
                                 <option value="Institute_Affiliation">Institute Affiliation</option>
                                 <option value="Management_Category">Category</option>
                                 <option value="Accreditation">Accreditation By</option>
-                                <option value="Hostel">Hostel Count</option>
-                                <option value="Gender">Status</option>
+                                <option value="Hostel">Hostel</option>
+                                <option value="Gender">Gender</option>
                                 <option value="Autonomous">Autonomous</option>
                                 <option value="Fees">Fees Range</option>
                             </select>
