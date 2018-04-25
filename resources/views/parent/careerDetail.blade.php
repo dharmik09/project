@@ -146,12 +146,12 @@
                         </div>
                         <div class="career-detail-tab bg-white">
                             <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                                <li class="active custom-tab col-xs-6 tab-color-1">
+                                <li class="custom-tab col-xs-6 tab-color-1 menu1">
                                     <a data-toggle="tab" href="#menu1">
                                         <span class="dt"><span class="dtc">Career Details</span></span>
                                     </a>
                                 </li>
-                                <li class="custom-tab col-xs-6 tab-color-2">
+                                <li class="custom-tab col-xs-6 tab-color-2 menu2">
                                     <a data-toggle="tab" href="#menu2">
                                         <span class="dt">
                                             <span class="dtc">Explore <span class="tab-complete">
@@ -161,7 +161,7 @@
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div id="menu1" class="tab-pane fade in active">
+                                <div id="menu1" class="tab-pane fade in ">
                                     @include('parent/basic/careerDetailInfoSection')
                                 </div>
                                 <div id="menu2" class="tab-pane fade in">
@@ -2087,6 +2087,12 @@
     $(window).on("load", function(e) {
         e.preventDefault();
         getTeenagersChallengedToParent();
+        var tab = window.location.href.split('#')[1];
+        $("#"+tab).addClass("active");
+        $("."+tab).addClass("active");
+        $("html, body").animate({
+            scrollTop: $("."+tab).offset().top 
+        }, 500);
         //getUserProfessionCompetitor({{$professionsData->id}});
         getLeaderBoard(0);
         getProfessionCompletionPercentage({{$professionsData->id}})

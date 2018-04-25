@@ -515,6 +515,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     transition: background-color 5000s ease-in-out 0s;
     background: transparent !important;
 }
+.table_container{margin-bottom: 30px;}
 .sec-login .login-form .form-sec .btn{height: auto;border-radius: 0;}
 .sec-login .login-form .icon{-webkit-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);transform: rotate(0deg);font-size: 100px;}
 .popover.bottom>.arrow{display: block;}
@@ -629,6 +630,8 @@ body.fixed-nav{padding-bottom: 130px;}
 .sponsor-progress-table{    border-top: 1px solid #ff5f44;}
 .sponsor-progress-table tr th:last-child, .sponsor-progress-table tr td:last-child{ border-right: 1px solid #ff5f44;}
 .profession-attempted-img.profession_attempted_carousel.owl-carousel.owl-loaded.school_pro_image img{max-width: 100%;}
+
+
 @media (max-width: 991px) {
 .padTop10 {
     padding-top: 10px;
