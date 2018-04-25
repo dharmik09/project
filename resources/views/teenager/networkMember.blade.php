@@ -88,10 +88,10 @@
                             <li>{{ $getCityArea }} Area</li>
                             <li>{{ $myConnectionsCount }} {{ ($myConnectionsCount == 1) ? "Connection" : "Connections" }} </li>
                         </ul>
-                        <ul class="social-media">
+                        <!-- <ul class="social-media">
                             <li><a href="https://facebook.com/{{$teenDetails->t_fb_social_identifier}}" title="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
                             <li><a href="https://plus.google.com/{{$teenDetails->t_social_identifier}}" title="google plus" target="_blank"><i class="icon-google"></i></a></li>
-                        </ul>
+                        </ul> -->
                         @if ($connectionStatus['count'] == 0)
 	                        <div class="chat-icon add-icon sent-icon">
 	                            <a href="javascript:void(0)" title="Invitation Sent">
