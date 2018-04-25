@@ -11,7 +11,7 @@ class ProfessionInstitutesSpeciality extends Model
 
     protected $table = 'pro_pis_profession_institutes_speciality';
 
-    protected $fillable = ['pis_name'];
+    protected $fillable = ['pis_name','country_id'];
 
     /**
      * Insert and Update Profession Institutes Speciality
@@ -28,8 +28,8 @@ class ProfessionInstitutesSpeciality extends Model
     /**
      * get all Profession Institutes Speciality
      */
-    public function getAllProfessionInstitutesSpeciality() {  
-        $tags = ProfessionInstitutesSpeciality::get();
+    public function getAllProfessionInstitutesSpeciality($countryId) {  
+        $tags = ProfessionInstitutesSpeciality::where('country_id',$countryId)->get();
         return $tags;
     }
 }

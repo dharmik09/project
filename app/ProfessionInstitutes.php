@@ -35,8 +35,8 @@ class ProfessionInstitutes extends Model
     /**
      * get all Profession Institutes Speciality
      */
-    public function getAllProfessionInstitutesSpeciality() {  
-        $tags = ProfessionInstitutes::select('speciality')->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->get();
+    public function getAllProfessionInstitutesSpeciality($countryId = 1) {  
+        $tags = ProfessionInstitutes::select('speciality')->where('deleted', '<>', Config::get('constant.DELETED_FLAG'))->where('country_id',$countryId)->get();
         return $tags;
     }
 

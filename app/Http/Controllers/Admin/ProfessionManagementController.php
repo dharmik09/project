@@ -861,37 +861,41 @@ class ProfessionManagementController extends Controller {
         ini_set('memory_limit', '20000M');
         ini_set('max_execution_time', 0);
         
-        $results = $this->objProfessionInstitutes->getAllProfessionInstitutesSpeciality();
+        $countryArray = array(1,2);
+       
+        $this->objProfessionInstitutesSpeciality->truncate();
+        foreach($countryArray as $key=>$countryId)
+        {
+            $results = $this->objProfessionInstitutes->getAllProfessionInstitutesSpeciality($countryId);
 
-        if(isset($results) && !empty($results))
-        {       
-            $data = [];
-            foreach ($results as $key => $value) {
-                $eduStream = explode("#", $value->speciality);
-                foreach ($eduStream as $key => $value) {
-                    $data[] = trim($value);
+            if(isset($results) && !empty($results))
+            {       
+                $data = [];
+                foreach ($results as $key => $value) {
+                    $eduStream = explode("#", $value->speciality);
+                    foreach ($eduStream as $key => $value) {
+                        $data[] = trim($value);
+                    }
                 }
-            }
 
-            $dataResults = array_unique($data);
-            
-            if(count($dataResults)>0){
-                $this->objProfessionInstitutesSpeciality->truncate();
-                foreach ($dataResults as $key => $value) {
-                    $pisData = [];
-                    $pisData['pis_name'] = $value;
-                    $response = $this->objProfessionInstitutesSpeciality->insertUpdate($pisData);
-                }
-            }
-            
-            if($response){
-                return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstitutesspecialitylistupdatedsuccessfully'));
-            }
-            else{            
-                return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
-            }
+                $dataResults = array_unique($data);
 
-        }else{
+                if(count($dataResults)>0){
+                    
+                    foreach ($dataResults as $key => $value) {
+                        $pisData = [];
+                        $pisData['pis_name'] = $value;
+                        $pisData['country_id'] = $countryId;
+                        $response = $this->objProfessionInstitutesSpeciality->insertUpdate($pisData);
+                    }
+                }              
+            }
+        }
+        if($response)
+        {
+            return Redirect::to("admin/professionInstitute")->with('success', trans('labels.professioninstitutesspecialitylistupdatedsuccessfully'));
+        }               
+        else{
             return Redirect::to("admin/professionInstitute")->with('error', trans('labels.commonerrormessage'));
         }
     }

@@ -21,7 +21,7 @@
         }else{
             $progressClass = '';
         }
-        $strengthValue['score'] = ($strengthValue['score'] > 0)?100:$strengthValue['score'];
+        $strengthValue['score'] = 100;
         
     ?>
     <div class="col-md-6 col-sm-6 col-xs-6 flex-items {{ $elementClass }}" style="display: {{ $key }};">
