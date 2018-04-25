@@ -199,7 +199,7 @@ class CommunityManagementController extends Controller {
             $notificationData['n_notification_text'] = '<strong>'.ucfirst($userData->t_name).' '.ucfirst($userData->t_lastname).'</strong> has viewed your profile';
             $recordExist = $this->objNotifications->checkIfNotificationAlreadyExist($notificationData);
             if ($recordExist && count($recordExist) > 0) {
-                $notificationData = [];
+                //$notificationData = [];
                 $notificationData['created_at'] = Carbon::now();
                 $notificationData['id'] = $recordExist->id;
             }
@@ -207,7 +207,7 @@ class CommunityManagementController extends Controller {
             
             $androidToken = [];
             $pushNotificationData = [];
-            $pushNotificationData['message'] =  isset($notificationData['n_notification_text'])?$notificationData['n_notification_text']:'';
+            $pushNotificationData['message'] =  isset($notificationData['n_notification_text'])?strip_tags($notificationData['n_notification_text']):'';
             $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
             $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($teenDetails->id);
 
