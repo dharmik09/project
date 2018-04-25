@@ -81,13 +81,13 @@
             <div class="article-que">
                 <h2>{{$forumQuestionData->fq_que}}</h2>
                 <span><button title="Answer" class="btn btn-ans btn-default">Post Answer</button></span>
-                <ul class="social">
+<!--                <ul class="social">
                     <li>Share :</li>
                     <li><a href="http://www.facebook.com/share.php?u={{$siteUrl}}&title={{urlencode($metaTitle)}}&description={{urlencode($metaDescription)}}&picture={{urlencode($shareImageUrl)}}" target="_blank" title="Facebook"><i class="icon-facebook"></i></a></li>
                     <li><a href="http://twitter.com/intent/tweet?status={{$metaTitle}}+,+&nbsp;+{{url($store)}}+&nbsp;+@ProTeenLife" target="_blank" title="Twitter"><i class="icon-twitter"></i></a></li>
                     <li><a href="https://plus.google.com/share?url={{$siteUrl}}&image={{$shareImageUrl}}" target="_blank" title="Google plus"><i class="icon-google"></i></a></li>
                     <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{url($store)}}&title={{$metaTitle}}&source={{url($store)}}" target="_blank" title="Linkedin"><i class="icon-linkdin"></i></a></li>
-                </ul>
+                </ul>-->
             </div>
             <div class="your-answer">
                 <form id="addForumAnswer" class="form-horizontal" method="post" action="{{ url('/teenager/save-forum-answer') }}" enctype="multipart/form-data">
