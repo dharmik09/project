@@ -325,6 +325,9 @@
                 @include maxms {
                     font-size: 14px;
                 }
+                a{
+                     color: blue;
+                }
             }
             ul {
                 include maxms {
@@ -476,6 +479,7 @@
             }
             a{
                 word-break: break-all;
+               
             }
             
         }
