@@ -71,7 +71,7 @@ class ProfessionInstitutesController extends Controller {
 
             $questionType = $request->filterType;
             if($questionType == "Speciality"){
-                $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();                
+                $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality($countryId);                
                 $dataArray1 = [];
                 foreach ($institutesSpecialityData as $key => $value) {
                     $data['label'] = (string) $value->pis_name;

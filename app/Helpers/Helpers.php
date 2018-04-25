@@ -3133,8 +3133,8 @@ Class Helpers {
                     ['label' => "Institute Affiliation", 'value' => "Institute_Affiliation", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Category", 'value' => "Management_Category", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Accreditation By", 'value' => "Accreditation", 'type' => "1", "type_description" => "dropdown"], 
-                    ['label' => "Hostel Count", 'value' => "Hostel", 'type' => "1", "type_description" => "dropdown"], 
-                    ['label' => "Status", 'value' => "Gender", 'type' => "1", "type_description" => "dropdown"], 
+                    ['label' => "Hostel", 'value' => "Hostel", 'type' => "1", "type_description" => "dropdown"], 
+                    ['label' => "Gender", 'value' => "Gender", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Autonomous", 'value' => "Autonomous", 'type' => "1", "type_description" => "dropdown"], 
                     ['label' => "Fees Range", 'value' => "Fees", 'type' => "2", "type_description" => "2 dropdowns"], 
                 ];
