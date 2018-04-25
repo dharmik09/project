@@ -85,10 +85,10 @@
     p {
         color: $r-cl;
         font-size: 20px;
-        @include maxlg{
+        @include maxlg {
             font-size: 18px;
         }
-        @include maxmd{
+        @include maxmd {
             font-size: 16px;
         }
         @include maxms {
@@ -407,8 +407,7 @@
             .team-img {
                 width: 83px;
                 height: 83px;
-                display: table-cell;
-                //vertical-align: top; //margin-right: 10%;
+                display: table-cell; //vertical-align: top; //margin-right: 10%;
                 @include maxsm {
                     margin-right: 102px;
                 }
@@ -421,13 +420,13 @@
                 display: table;
                 margin: 0 10px 0 20px;
                 line-height: 1.2;
-                @include maxmd{
+                @include maxmd {
                     font-size: 18px;
                 }
-                @include maxsm{
+                @include maxsm {
                     margin-bottom: 30px;
                 }
-                @include maxms{
+                @include maxms {
                     font-size: 17px;
                     margin-bottom: 25px;
                 }
@@ -502,11 +501,11 @@
         .social-icon {
             padding: 0;
             list-style-type: none;
-            width: 100px;
+            width: 100%;
             li {
                 color: $white;
                 font-size: 20px;
-                width: 50%;
+                width: 25%;
                 height: 100%;
                 float: left;
                 a {
@@ -518,12 +517,18 @@
                     margin: 0 auto;
                     text-align: center;
                     border-radius: 50%;
+                    position: relative;
                     @include maxsm {
                         line-height: 40px;
                     }
                     i {
                         font-size: 20px;
                         color: $white;
+                        display: block;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
                     }
                     &.facebook {
                         background: #3b5998;
@@ -535,6 +540,22 @@
                         background: #00bef6;
                         &:hover {
                             background: #4bd1f9;
+                        }
+                    }
+                    &.google {
+                        background: #dc4b3e;
+                        &:hover {
+                            background: #ef665a;
+                        }
+                    }
+                    &.linkedin {
+                        background: #007bb5;
+                        i {
+                            display: block;
+                            line-height: 1.9;
+                        }
+                        &:hover {
+                            background: #19a9ec;
                         }
                     }
                 }

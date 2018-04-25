@@ -593,3 +593,6 @@ ALTER TABLE `pro_ps_profession_subjects` ADD `ps_video` TEXT NULL AFTER `ps_desc
 
 //Alter 'l2ac_interest' column in 'pro_l2ac_level2_activities' table ## 23-04-2018
 ALTER TABLE `pro_l2ac_level2_activities` CHANGE `l2ac_interest` `l2ac_interest` TINYINT(2) NULL DEFAULT '0' COMMENT 'Reference Interest types';
+
+//Add new field called country id in institute speciality ## 
+ALTER TABLE `pro_pis_profession_institutes_speciality` ADD `country_id` INT(11) UNSIGNED NOT NULL DEFAULT '1' AFTER `pis_name`; 

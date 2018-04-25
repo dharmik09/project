@@ -184,6 +184,7 @@ class HomeController extends Controller
             }else{
                 $response['message'] = "Please attemp atleast one section of Profile Builder to view your strength!";
             }
+            
             $finalSortedData = [];
             if (isset($teenagerStrength) && !empty($teenagerStrength)) {
                 foreach ($teenagerStrength as $key => $data) {

@@ -60,7 +60,7 @@ class ProfessionInstitutesController extends Controller {
 
             if (Input::get('speciality')){
                 $speciality = Input::get('speciality');
-                $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
+                $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality($countryId);
                 return view ('teenager.professionInstitutes', compact('speciality','city','state','institutesSpecialityData','countryId'));
             }
             return view('teenager.professionInstitutes', compact('speciality','city','state','countryId'));
@@ -94,7 +94,7 @@ class ProfessionInstitutesController extends Controller {
 
     	$questionType = Input::get('question_type');
         if($questionType == "Speciality"){
-            $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
+            $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality($countryId);
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
                             <option disabled selected>Select Education Stream</option>';
