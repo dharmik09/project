@@ -61,8 +61,8 @@
                                 <ul class="social-icon clearfix">
                                     <li><a href="http://www.facebook.com/share.php?u={{$siteUrl}}&title={{urlencode($metaTitle)}}&description={{urlencode($metaDescription)}}&picture={{urlencode($shareImageUrl)}}" title="facebook" class="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
                                     <li><a href="http://twitter.com/intent/tweet?status={{$metaTitle}}+,+&nbsp;+{{$siteUrl}}+&nbsp;+@ProTeenLife" title="Twitter" class="twitter" target="_blank"><i class="icon-twitter"></i></a></li>
-                                    <li><a href="https://plus.google.com/share?url={{$siteUrl}}&image={{$shareImageUrl}}" title="Google Plus" class="twitter" target="_blank"><i class="icon-google"></i></a></li>
-                                    <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{$siteUrl}}&title={{$metaTitle}}&source={{$siteUrl}}" title="Linked In" class="twitter" target="_blank"><i class="icon-linkdin"></i></a></li>
+                                    <li><a href="https://plus.google.com/share?url={{$siteUrl}}&image={{$shareImageUrl}}" title="Google Plus" class="google" target="_blank"><i class="icon-google"></i></a></li>
+                                    <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{$siteUrl}}&title={{$metaTitle}}&source={{$siteUrl}}" title="Linked In" class="linkedin" target="_blank"><i class="icon-linkdin"></i></a></li>
                                 </ul>
                             </div>
                         </div>
