@@ -1,7 +1,7 @@
 @extends('layouts.home-master')
 
 @push('script-header')
-    <title>Seo Multiple Intelligence</title>
+    <title>{{ $multipleIntelligence->title }}</title>
 @endpush
 
 @section('content')
