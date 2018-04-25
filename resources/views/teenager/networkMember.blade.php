@@ -227,7 +227,7 @@
                                     <li>
                                         <figure>
                                             <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
-                                                <div class="progress-radial progress-{{$interestValue['score']}} progress-strong"></div>
+                                                <div class="progress-radial progress-100 progress-strong"></div>
                                             </a>
                                             <a href="{{ url('teenager/interest/') }}/{{$interestKey}}" title="{{ $interestValue['name']}}">
                                                 <figcaption>{{ $interestValue['name']}}</figcaption>
@@ -276,7 +276,7 @@
                                 <li>
                                     <figure>
                                         <a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthKey}}" title="{{ $strengthValue['name'] }}">
-                                            <div class="progress-radial progress-{{$strengthValue['score']}} {{$progressClass}}"></div>
+                                            <div class="progress-radial progress-100 {{$progressClass}}"></div>
                                         </a>
                                         <figcaption><a href="/teenager/multi-intelligence/{{$strengthValue['type']}}/{{$strengthValue['slug']}}" title="{{ $strengthValue['name'] }}"> {{ $strengthValue['name'] }} </a></figcaption>
                                     </figure>
