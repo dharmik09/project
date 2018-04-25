@@ -102,7 +102,7 @@
                 <div class="clearfix col-md-12">
                     <div class="row">
                         <div class="parent_h2_header col-xs-12">
-                            <h2>L2 By School</h2>
+                            <h2>Level 2 response by students</h2>
                         </div>
                     </div>
                     @if(isset($totalL2SchoolQuestions) && count($totalL2SchoolQuestions) > 0)
@@ -112,7 +112,7 @@
                                     <th>Sr. No</th>
                                     <th>Questions</th>
                                     <th>Total No. of Teen given answer</th>
-                                    <th>Total No. of Teen gives correct answer</th>
+                                    <th>Total No. of Teen given correct answer</th>
                                 </tr>
                                 <?php $serialNo = 1; ?>
                                 @foreach($totalL2SchoolQuestions as $totalL2SchoolQuestion)
