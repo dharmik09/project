@@ -37,12 +37,13 @@
         <div class="careers-container">
         <div class="career-data {{$careerClass}} {{ $careerExpandClassTwo }} " style="display: {{ $carrerStyleTwo }};">           
             <h2>
-                @if( $professionArray['added_my_career'] == 0 ) 
-                    <a href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}})" title="Add to My Careers">
+                <?php $pfName = $professionArray['pf_name']; ?>
+                @if( $professionArray['added_my_career'] == 0) 
+                    <a id="add-to-star" href="javascript:void(0)" class="addto pull-left prof_sec_{{$professionArray['id']}}" onclick="addToMyCareerProfession({{$professionArray['id']}}, {{Config::get('constant.ADD_STAR_TO_CAREER')}}, '{{$pfName}}' )" title="Add to My Careers">
                         <img src="{{ Storage::url('img/star.png') }}">
                     </a>
                 @else
-                    <a href="javascript:void(0)" class="addto pull-left selected" title="In My Careers">
+                    <a id="remove-star" href="javascript:void(0)" onclick="addToMyCareerProfession({{$professionArray['id']}}, {{Config::get('constant.REMOVE_STAR_FROM_CAREER')}}, '{{$pfName}}' )" class="addto pull-left selected prof_sec_{{$professionArray['id']}}" title="In My Careers">
                         <img src="{{ Storage::url('img/star-active.png') }}" class="hover-img">
                     </a>
                 @endif

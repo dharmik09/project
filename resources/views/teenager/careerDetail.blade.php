@@ -5,6 +5,13 @@
 @endpush
 
 @section('content')
+    <?php 
+        $metaTitle = ( isset($professionsData->pf_name) && $professionsData->pf_name != "") ? $professionsData->pf_name : "ProTeenLife - Career Details";
+        $metaDescription = ( isset($professionsData->pf_name) && $professionsData->pf_name != "") ? $professionsData->pf_name : "ProTeenLife - Career Details";
+        $urlLink = "career-detail/".$professionsData->pf_slug; 
+        $shareImageUrl = asset('img/logo.png');
+        $siteUrl = url(urlencode($urlLink));
+    ?>
     <div class="bg-offwhite">
     <!-- mid section starts-->
     <!-- mid section-->
@@ -134,6 +141,23 @@
                             <div class="heading">
                                 <h4>{{$professionsData->pf_name}}</h4>
                                 <div class="list-icon">
+                                    <span class="star-icon">
+                                        <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
+                            <i class="icon-share"></i>
+                        </a>
+                        <div class="hide" id="pop2">
+                            <div class="socialmedia-icon">
+                                <p>Share  on:</p>
+                                <ul class="social-icon clearfix">
+                                    <li><a href="http://www.facebook.com/share.php?u={{$siteUrl}}&title={{urlencode($metaTitle)}}&description={{urlencode($metaDescription)}}&picture={{urlencode($shareImageUrl)}}" title="facebook" class="facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                                    <li><a href="http://twitter.com/intent/tweet?status={{$metaTitle}}+,+&nbsp;+{{$siteUrl}}+&nbsp;+@ProTeenLife" title="Twitter" class="twitter" target="_blank"><i class="icon-twitter"></i></a></li>
+                                    <li><a href="https://plus.google.com/share?url={{$siteUrl}}&image={{$shareImageUrl}}" title="Google Plus" class="twitter" target="_blank"><i class="icon-google"></i></a></li>
+                                    <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{$siteUrl}}&title={{$metaTitle}}&source={{$siteUrl}}" title="Linked In" class="twitter" target="_blank"><i class="icon-linkdin"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                                    </span>
                                     <span class="star-icon">
                                         <?php
                                         if (count($professionsData->starRatedProfession)>0) { ?>
@@ -2430,6 +2454,10 @@
             }
         });   
     }
+
+    // $( "#socialShare" ).mouseover(function() {
+    //     $('[data-toggle="popover"]').popover();
+    // });
 </script>
 
 @stop

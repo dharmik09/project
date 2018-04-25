@@ -20,7 +20,7 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
        @$searchParamArray : Array of Searching and Sorting parameters
      */
 
-    public function getAllLeve2Activities($schoolId = '')
+    public function getAllLeve2Activities($schoolId = '', $searchText = '')
     {
         $query = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity")
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'activity.id', '=', 'options.l2op_activity')
@@ -30,6 +30,11 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_PERSONALITY') . " AS personality", 'personality.id', '=', 'activity.l2ac_personality_type')
                           ->selectRaw('activity.* , GROUP_CONCAT(options.l2op_option) AS l2op_option, GROUP_CONCAT(options.l2op_fraction) AS l2op_fraction , mi.mit_name , interest.it_name , personality.pt_name, apptitude.apt_name')
                           ->groupBy('activity.id');
+
+        if (isset($searchText) && !empty($searchText)) {
+            $query->where('activity.l2ac_text', 'like', '%'.$searchText.'%');
+        }
+
         if (isset($schoolId) && !empty($schoolId) && $schoolId > 0) {
             $level2activities = $query->where('activity.l2ac_school_id', $schoolId)->where('activity.deleted', Config::get('constant.ACTIVE_FLAG'))->paginate(Config::get('constant.RECORD_PER_PAGE'));
         } else {
