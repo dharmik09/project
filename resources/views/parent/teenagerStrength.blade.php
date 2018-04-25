@@ -22,7 +22,7 @@
         <?php if(strpos($miVal['slug'], 'mit_') !== false ) { ?>
         <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
             <div class="my_chart">
-                <div class="progress-radial progress-{{($miVal['score'] > 0)?100:$miVal['score']}} {{$progressClass}}">
+                <div class="progress-radial progress-100 {{$progressClass}}">
                     <span class="{{$scaleClass}}">{{$miVal['scale']}}</span>
                 </div>
                 <h4>{{$miVal['name']}}</h4>
@@ -63,7 +63,7 @@
         <?php if(strpos($aptVal['slug'], 'apt_') !== false ) { ?>
         <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
             <div class="my_chart">
-                <div class="progress-radial progress-{{($aptVal['score'] > 0)?100:$aptVal['score']}} {{$progressClass}}">
+                <div class="progress-radial progress-100 {{$progressClass}}">
                     <span class="{{$scaleClass}}">{{$aptVal['scale']}}</span>
                 </div>
                 <h4>{{$aptVal['name']}}</h4>
@@ -104,7 +104,7 @@
         <?php if(substr($ptVal['slug'], 0, 3) === 'pt_' && strpos($ptVal['slug'], 'pt_') !== false ) {  ?>
         <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
             <div class="my_chart">
-                <div class="progress-radial progress-{{($ptVal['score'] > 0)?100:$ptVal['score']}} {{$progressClass}}">
+                <div class="progress-radial progress-100 {{$progressClass}}">
                     <span class="{{$scaleClass}}">{{$ptVal['scale']}}</span>
                 </div>
                 <h4>{{$ptVal['name']}}</h4>
