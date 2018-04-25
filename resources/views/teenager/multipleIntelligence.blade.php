@@ -45,6 +45,9 @@
                 <div class="heading-sec clearfix">
                     <h1>{{ $multipleIntelligence->title }}</h1>
                     <div class="sec-popup">
+                         <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
+                            <i class="icon-share"></i>
+                        </a>
                         <a id="strength-details" href="javascript:void(0);" onmouseover="getHelpText('strength-details')" data-trigger="hover" data-popover-content="#strength-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                         <div class="hide" id="strength-sec">
                             <div class="popover-data">
@@ -52,9 +55,7 @@
                                 <span class="strength-details"></span>
                             </div>
                         </div>
-                        <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
-                            <i class="icon-share"></i>
-                        </a>
+                       
                         <div class="hide" id="pop2">
                             <div class="socialmedia-icon">
                                 <p>Share  on:</p>
