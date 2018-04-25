@@ -94,7 +94,7 @@ class ProfessionInstitutesController extends Controller {
 
     	$questionType = Input::get('question_type');
         if($questionType == "Speciality"){
-            $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality();
+            $institutesSpecialityData = $this->objProfessionInstitutesSpeciality->getAllProfessionInstitutesSpeciality($countryId);
             $response = '<div class="form-group custom-select">
                             <select id="answerDropdown" onchange="fetchInstituteFilter()" tabindex="8" class="form-control">
                             <option disabled selected>Select Education Stream</option>';
