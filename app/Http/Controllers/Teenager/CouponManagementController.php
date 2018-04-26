@@ -150,16 +150,17 @@ class CouponManagementController extends Controller {
 
                                 $androidToken = [];
                                 $pushNotificationData = [];
+                                $pushNotificationData['notificationType'] = Config::get('constant.COUPONS_GIFT_NOTIFICATION_TYPE');
                                 $pushNotificationData['message'] = $notificationData['n_notification_text'];
                                 $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
                                 $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($giftedUserData->id);
 
                                 if(count($userDeviceToken)>0){
                                     foreach ($userDeviceToken as $key => $value) {
-                                        if($value->tdt_device_type == "1"){
+                                        if($value->tdt_device_type == 2){
                                             $androidToken[] = $value->tdt_device_token;
                                         }
-                                        if($value->tdt_device_type == "2"){
+                                        if($value->tdt_device_type == 1){
                                             Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
                                         }
                                     }
