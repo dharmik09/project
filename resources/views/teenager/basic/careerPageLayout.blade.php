@@ -1,5 +1,6 @@
 @if ($basketDetails && count($basketDetails) > 0)
     @foreach ($basketDetails as $basket)
+    <?php if (count($basket->profession) == 0) { continue; } ?>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
