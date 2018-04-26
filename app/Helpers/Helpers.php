@@ -2060,7 +2060,7 @@ Class Helpers {
         $payload = json_encode($payload);
         $deviceToken = $token;  // iPhone 6+
 
-        $apnsHost = 'gateway.push.apple.com';
+        $apnsHost = 'gateway.sandbox.push.apple.com';
         $apnsPort = 2195;
         $apnsCert = $pathForCertificate;
 
