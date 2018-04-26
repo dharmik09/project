@@ -397,4 +397,5 @@ return [
     'SHARE_INFO_WITH_MENTOR_OFF' => 0,
     'ADD_STAR_TO_CAREER' => 1,
     'REMOVE_STAR_FROM_CAREER' => 0,
+    'NOTIFICATION_ON_FLAG' => 1,
 ];

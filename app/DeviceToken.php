@@ -28,6 +28,7 @@ class DeviceToken extends Model {
                         ->selectRaw('*')
                         ->where('deleted', '1')
                         ->where('tdt_user_id', $userId)
+                        ->where('is_notify', Config::get('constant.NOTIFICATION_ON_FLAG'))
                         ->get();
         return $result;
     }
