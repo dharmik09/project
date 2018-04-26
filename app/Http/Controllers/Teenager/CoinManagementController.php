@@ -238,6 +238,7 @@ class CoinManagementController extends Controller
 
         $androidToken = [];
         $pushNotificationData = [];
+        $pushNotificationData['notificationType'] = Config::get('constant.PROCOINS_GIFT_NOTIFICATION_TYPE');
         $pushNotificationData['message'] = (isset($notificationData['n_notification_text']) && !empty($notificationData['n_notification_text'])) ? strip_tags($notificationData['n_notification_text']) : '';
         $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
         $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($giftTo);
