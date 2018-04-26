@@ -2052,8 +2052,28 @@ Class Helpers {
     }
     
     public static function pushNotificationForiPhone($token,$message,$pathForCertificate) {
+        $payload['aps'] = array('alert' => $message['message'],'action-loc-key' => 'View', 'data' => $message);
 
-        
+        $payload['aps']['badge'] = 1;
+        $payload['aps']['loc-args'] = '123';
+
+        $payload = json_encode($payload);
+        $deviceToken = $token;  // iPhone 6+
+
+        $apnsHost = 'gateway.push.apple.com';
+        $apnsPort = 2195;
+        $apnsCert = $pathForCertificate;
+
+        $streamContext = stream_context_create();
+        stream_context_set_option($streamContext, 'ssl', 'local_cert', $apnsCert);
+
+        $apns = stream_socket_client('ssl://' . $apnsHost . ':' . $apnsPort, $error, $errorString, 2, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $streamContext);
+
+        $apnsMessage = chr(0) . chr(0) . chr(32) . pack('H*', str_replace(' ', '', $deviceToken)) . chr(0) . chr(strlen($payload)) . $payload;
+
+        fwrite($apns, $apnsMessage);
+
+        fclose($apns);
     }
 
      public static function getCalculatedTime() {

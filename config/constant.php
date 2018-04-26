@@ -197,7 +197,7 @@ return [
     'LEVEL1B_PROGRESS' => '22.5',
     'FACEBOOK_CLIENT_ID' => '146901802433877',
 
-    'CERTIFICATE_PATH' => 'certificate/proteen.pem',
+    'CERTIFICATE_PATH' => 'certificate/CertificatesProTeen.pem',
     'USER_TASK_REVIEW_TEMPLATE' => 'user-task-review',
 
     'RECORD_PER_PAGE' => 10,
