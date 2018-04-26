@@ -24,11 +24,13 @@ class DeviceToken extends Model {
     }
 
     public function getDeviceTokenDetail($userId) {
-      $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN'))
+      $result = DB::table(config::get('databaseconstants.TBL_TEENAGER_DEVICE_TOKEN') . " AS teenagerToken")
+                        ->join(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'teenager.id', '=', 'teenagerToken.tdt_user_id')
                         ->selectRaw('*')
-                        ->where('deleted', '1')
-                        ->where('tdt_user_id', $userId)
-                        ->where('is_notify', Config::get('constant.NOTIFICATION_ON_FLAG'))
+                        ->where('teenagerToken.deleted', '1')
+                        ->where('teenagerToken.tdt_user_id', $userId)
+                        ->where('teenager.is_notify', Config::get('constant.NOTIFICATION_ON_FLAG'))
+                        ->where('teenager.deleted', 1)
                         ->get();
         return $result;
     }
