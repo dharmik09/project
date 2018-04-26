@@ -2069,7 +2069,7 @@ Class Helpers {
 
         $apns = stream_socket_client('ssl://' . $apnsHost . ':' . $apnsPort, $error, $errorString, 2, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $streamContext);
 
-        $apnsMessage = chr(0) . chr(0) . chr(32) . pack('H*', trim($deviceToken)) . chr(0) . chr(strlen($payload)) . $payload;
+        $apnsMessage = chr(0) . chr(0) . chr(32) . pack('H*', sprintf('%u', CRC32($deviceToken))) . chr(0) . chr(strlen($payload)) . $payload;
 
         fwrite($apns, $apnsMessage);
 
