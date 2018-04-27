@@ -282,6 +282,8 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
         $parentData = $this->model->where('id', '=', $id)->where('deleted', 1)->get()->toArray();
         $data = [];
         if (isset($parentData)) {
+            $data['p_first_name'] = $parentData[0]['p_first_name'];
+            $data['p_last_name'] = $parentData[0]['p_last_name'];
             $data['p_coins'] = $parentData[0]['p_coins'];
         }
         return $data;

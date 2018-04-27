@@ -26,6 +26,9 @@ use App\PaidComponent;
 use App\Configurations;
 use App\TemplateDeductedCoins;
 use Softon\Indipay\Facades\Indipay;
+use App\DeviceToken;
+use App\Notifications;
+use Carbon\Carbon;
 
 class CoinManagementController extends Controller {
 
@@ -36,6 +39,8 @@ class CoinManagementController extends Controller {
         $this->parentsRepository = $parentsRepository;
         $this->templateRepository = $templatesRepository;
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;
+        $this->objDeviceToken = new DeviceToken;
+        $this->objNotifications = new Notifications;
         $this->loggedInUser = Auth::guard('parent');
     }
 
@@ -191,6 +196,46 @@ class CoinManagementController extends Controller {
                     $giftcoins = $parentDetail['p_coins']-$giftcoins;
                 }
                 $result = $this->parentsRepository->updateParentCoinsDetail($parentId, $giftcoins);
+
+
+
+                $notificationData['n_sender_id'] = $saveData['tcg_sender_id'];
+                $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_PARENT');
+                $notificationData['n_receiver_id'] = $saveData['tcg_reciver_id'];
+                $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
+                $notificationData['n_notification_text'] = '<strong>'.ucfirst($parentDetail['p_first_name']).' '.ucfirst($parentDetail['p_last_name']).'</strong> gifted you '.$saveData['tcg_total_coins'].' coins';;
+                $recordExist = $this->objNotifications->checkIfNotificationAlreadyExist($notificationData);
+                if ($recordExist && count($recordExist) > 0) {
+                    $notificationData['created_at'] = Carbon::now();
+                    $notificationData['id'] = $recordExist->id;
+                }
+                $this->objNotifications->insertUpdate($notificationData);
+                
+                $androidToken = [];
+                $pushNotificationData = [];
+                $pushNotificationData['notificationType'] = Config::get('constant.PROCOINS_GIFT_NOTIFICATION_TYPE');
+                $pushNotificationData['message'] =  isset($notificationData['n_notification_text'])?strip_tags($notificationData['n_notification_text']):'';
+                $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+                $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($saveData['tcg_reciver_id']);
+
+                if(count($userDeviceToken)>0){
+                    foreach ($userDeviceToken as $key => $value) {
+                        if($value->tdt_device_type == 2){
+                            $androidToken[] = $value->tdt_device_token;
+                        }
+                        if($value->tdt_device_type == 1){
+                            Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                        }
+                    }
+
+                    if(isset($androidToken) && count($androidToken) > 0)
+                    {
+                        Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                    }            
+                }
+
+
 
                 //Mail to both users
                 //mail to parent
