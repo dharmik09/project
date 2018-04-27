@@ -20,6 +20,9 @@ use App\PaidComponent;
 use App\DeductedCoins;
 use App\TeenagerCoinsGift;
 use Illuminate\Support\Facades\Storage;
+use App\DeviceToken;
+use App\Notifications;
+use Carbon\Carbon;
 
 class DashboardController extends Controller {
 
@@ -37,6 +40,8 @@ class DashboardController extends Controller {
         $this->relationIconOriginalImageUploadPath = Config::get('constant.RELATION_ICON_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
         $this->professionsRepository = $professionsRepository;
+        $this->objDeviceToken = new DeviceToken;
+        $this->objNotifications = new Notifications;
         $this->loggedInUser = Auth::guard('school');
     }
 
@@ -483,6 +488,42 @@ class DashboardController extends Controller {
                     $giftcoins = $schoolData['sc_coins']-$giftcoins;
                 }
                 $result = $this->schoolsRepository->updateSchoolCoinsDetail($schoolId, $giftcoins);
+
+                //Send Notification to teen
+                $notificationData['n_sender_id'] = $schoolId;
+                $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_SCHOOL');
+                $notificationData['n_receiver_id'] = $id;
+                $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
+                $notificationData['n_notification_text'] = '<strong>'.ucfirst($schoolData['sc_name']).'</strong> gifted you '.$saveData['tcg_total_coins'].' coins';
+                $recordExist = $this->objNotifications->checkIfNotificationAlreadyExist($notificationData);
+                if ($recordExist && count($recordExist) > 0) {
+                    $notificationData['created_at'] = Carbon::now();
+                    $notificationData['id'] = $recordExist->id;
+                }
+                $this->objNotifications->insertUpdate($notificationData);
+                $androidToken = [];
+                $pushNotificationData = [];
+                $pushNotificationData['notificationType'] = Config::get('constant.PROCOINS_GIFT_NOTIFICATION_TYPE');
+                $pushNotificationData['message'] = isset($notificationData['n_notification_text'])? strip_tags($notificationData['n_notification_text']) : '';
+                $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+                $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($id);
+
+                if(count($userDeviceToken)>0){
+                    foreach ($userDeviceToken as $key => $value) {
+                        if($value->tdt_device_type == 2){
+                            $androidToken[] = $value->tdt_device_token;
+                        }
+                        if($value->tdt_device_type == 1){
+                            Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                        }
+                    }
+
+                    if(isset($androidToken) && count($androidToken) > 0)
+                    {
+                        Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                    }            
+                }
 
                 //Mail to both users
                 //mail to teenager

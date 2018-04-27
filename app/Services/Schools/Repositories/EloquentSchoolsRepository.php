@@ -521,6 +521,7 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
         $schoolData = $this->model->where('id', '=', $id)->where('deleted', 1)->get()->toArray();
         $data = [];
         if (isset($schoolData)) {
+            $data['sc_name'] = $schoolData[0]['sc_name'];
             $data['sc_coins'] = $schoolData[0]['sc_coins'];
         }
         return $data;

@@ -213,7 +213,21 @@
 <div class="loading-screen loading-wrapper-sub loader-transparent" style="display:none;">
     <div class="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
 </div>
+<div class="modal fade default_popup" id="gift">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- <button type="button" class="close close_next" data-dismiss="modal">Close</button> -->
+            <div class="close close_next">
+                <i class="icon-close"></i>
+            </div>
+            <div class="default_logo"><img src="{{Storage::url('frontend/images/proteen_logo.png')}}" alt=""></div>
+            <div class="sticky_pop_head basket_iframe_video_h2"><h2 class="title" id="basketName" style="padding-top:10px;">Gift Procoins</h2></div>
+            <div id="userDataGiftCoin">
 
+            </div>
+        </div>
+    </div>
+</div>
 <!--</div>-->
 @stop
 @section('script')
