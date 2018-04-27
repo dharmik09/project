@@ -16,16 +16,16 @@ use Monolog\Handler\StreamHandler;
 class SendPushNotificationToAllTeenagers implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $notificationMessage;
+    protected $pushNotificationData;
     
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($notificationMessage)
+    public function __construct($pushNotificationData)
     {
-        $this->notificationMessage = $notificationMessage;
+        $this->pushNotificationData = $pushNotificationData;
     }
 
     /**
@@ -41,8 +41,9 @@ class SendPushNotificationToAllTeenagers implements ShouldQueue
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
 
         $androidToken = [];
-        $pushNotificationData = [];
-        $pushNotificationData['message'] = $this->notificationMessage;
+        // $pushNotificationData = [];
+        // $pushNotificationData['isAdmin'] = $this->pushNotificationData['notificationMessage'];
+        // $pushNotificationData['message'] = $this->pushNotificationData['notificationMessage'];
         $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
 
         $userDeviceToken = $this->objDeviceToken->getAllDeviceTokenDetail();
@@ -58,7 +59,7 @@ class SendPushNotificationToAllTeenagers implements ShouldQueue
                     $androidToken[] = $value->tdt_device_token;
                 }
                 if($value->tdt_device_type == 1){
-                    Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                    Helpers::pushNotificationForiPhone($value->tdt_device_token,$this->pushNotificationData,$certificatePath);
                     // $this->log->info("IOS notification found on Pointer => ". $key);
                 }
             }
@@ -73,7 +74,7 @@ class SendPushNotificationToAllTeenagers implements ShouldQueue
                     $this->log->info("Android notification sent started");
                     foreach($tokenArrChunk as $k1=>$tokenBunch)
                     {                       
-                        $return = Helpers::pushNotificationForAndroid($tokenBunch,$pushNotificationData); 
+                        $return = Helpers::pushNotificationForAndroid($tokenBunch,$this->pushNotificationData); 
                         // $this->log->info("Andorid notification found on Pointer => ". $k1);
                     }
                    $this->log->info("All Andorid notification Sent Successfully");
@@ -84,6 +85,6 @@ class SendPushNotificationToAllTeenagers implements ShouldQueue
 
         $this->log->info("All Notification sent Successfully");
 
-        return $this->notificationMessage;
+        return $this->pushNotificationData;
     }
 }
