@@ -683,11 +683,25 @@ class Level1ActivityController extends Controller
                 } else {
                     $response['qualityAttempted'] = 'no';
                 }
+                
+                //Check if all icons voted 
+                $attemptLevel1At = 0;
+                $array = ['1', '2', '3', '4'];
+                $getLevel1AttemptedQuality = $this->level1ActivitiesRepository->getTeenAttemptedQualityType($teenagerID);
+	        if(isset($getLevel1AttemptedQuality[0]) && count($getLevel1AttemptedQuality) > 0) {
+	            $array2 = $getLevel1AttemptedQuality->toArray();
+                $arrayDiff = array_diff($array, $array2);
+	            $attemptLevel1At = (count($arrayDiff) > 0) ? min($arrayDiff) : 5;
+	        } else {
+	            $attemptLevel1At = 1;
+	        }
 
                 $saveBoosterPoint = $this->teenagersRepository->saveLevel1Part2BoosterPoints($teenagerID, Helpers::getConfigValueByKey('LEVEL1_ICON_SELECTION_POINTS'));
                 
+                
                 $message = Helpers::sendMilestoneNotification(2000);
                 $response['displayMsg'] = $message;
+                $response['attempted_icon_count'] = $attemptLevel1At;
                 $response['status'] = 1;
                 $response['login'] = 1;
                 $response['message'] = trans('appmessages.default_success_msg');
