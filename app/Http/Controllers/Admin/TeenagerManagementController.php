@@ -35,6 +35,7 @@ use App\Services\FileStorage\Contracts\FileStorageRepository;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use App\Jobs\SendPushNotificationToAllTeenagers;
+use App\DeviceToken;
 
 class TeenagerManagementController extends Controller {
 
@@ -68,6 +69,7 @@ class TeenagerManagementController extends Controller {
         $this->relationIconThumbImageUploadPath = Config::get('constant.RELATION_ICON_THUMB_IMAGE_UPLOAD_PATH');
         $this->learningStyleThumbImageUploadPath = Config::get('constant.LEARNING_STYLE_THUMB_IMAGE_UPLOAD_PATH');
         $this->objNotifications = new Notifications();
+        $this->objDeviceToken = new DeviceToken(); 
          
         $this->log = new Logger('admin-teenager');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
@@ -1164,7 +1166,30 @@ class TeenagerManagementController extends Controller {
         $this->objNotifications->insertUpdate($notificationData);
 
         //dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
-        
+        $androidToken = [];
+        $pushNotificationData = [];
+        $pushNotificationData['notificationType'] = Config::get('constant.PROCOINS_GIFT_NOTIFICATION_TYPE');
+        $pushNotificationData['isAdmin'] = Config::get('constant.NOTIFICATION_IS_ADMIN_FLAG');
+        $pushNotificationData['message'] =  isset($notificationData['n_notification_text']) ? strip_tags($notificationData['n_notification_text']) : '';
+        $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+        $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($id);
+
+        if(count($userDeviceToken)>0){
+            foreach ($userDeviceToken as $key => $value) {
+                if($value->tdt_device_type == 2){
+                    $androidToken[] = $value->tdt_device_token;
+                }
+                if($value->tdt_device_type == 1){
+                    Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                }
+            }
+
+            if(isset($androidToken) && count($androidToken) > 0)
+            {
+                Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+            }            
+        }
+
         $userArray = $this->teenagersRepository->getTeenagerByTeenagerId($id);
         $objGiftUser = new TeenagerCoinsGift();
         if($flag) {
