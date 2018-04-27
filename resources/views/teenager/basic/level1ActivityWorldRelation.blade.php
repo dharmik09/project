@@ -9,8 +9,8 @@
         <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12">
             <div class="form-group custom-select">
                 <select tabindex="8" class="form-control icon_selection_select" onChange="getWorldData(this.value);">
-                    <option value="2" @if(isset($type) && $type == 3) selected="selected" @endif>Relation</option>
                     <option value="1" @if(isset($type) && $type == 4) selected="selected" @endif>Self</option>
+                    <option value="2" @if(isset($type) && $type == 3) selected="selected" @endif>Relation</option>
                 </select>
              </div>
         </div>

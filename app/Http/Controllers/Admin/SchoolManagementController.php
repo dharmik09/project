@@ -296,8 +296,11 @@ class SchoolManagementController extends Controller
                         $message->subject($data['subject']);
                         $message->to($data['toEmail'], $data['toName']);
                      });
-
-            dispatch( new SendPushNotificationToAllTeenagers($notificationData['n_notification_text']) )->onQueue('processing');
+            $pushNotificationData = [];
+            $pushNotificationData['notificationType'] = Config::get('constant.COMMON_NOTIFICATION_TYPE');
+            $pushNotificationData['isAdmin'] = Config::get('constant.NOTIFICATION_IS_ADMIN_FLAG');
+            $pushNotificationData['message'] = (isset($notificationData['n_notification_text']) && !empty($notificationData['n_notification_text'])) ? $notificationData['n_notification_text'] : '';
+            dispatch( new SendPushNotificationToAllTeenagers($pushNotificationData) )->onQueue('processing');
             return Redirect::to("admin/schools")->with('success', trans('labels.schoolapprovesuccess'));
         }
         else
