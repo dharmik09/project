@@ -34,7 +34,7 @@
         @if (in_array($basket->id, $shownBasketId))
         @foreach ($basket->profession as $profession)
             <?php $matchScale = ( isset($profession->match_scale) && $profession->match_scale != '') ? $profession->match_scale : "career-data-nomatch"; ?>
-            <li class="{{ $matchScale }} complete-feild"><a href="{{ url('teenager/career-detail') }}/{{$profession->pf_slug}}" title="{{$profession->pf_name}}">{{$profession->pf_name}}</a>
+            <li class="{{ $matchScale }} complete-feild"><a href="{{ url('teenager/career-detail') }}/{{$profession->pf_slug}}" title="{{$profession->pf_name}}{{($profession->pf_profession_alias && $profession->pf_profession_alias != '')?' aka '.$profession->pf_profession_alias:''}}">{{$profession->pf_name}}</a>
                 @if($profession->attempted == 1)
                 <a href="#" class="complete">
                     <span>Complete <i class="icon-thumb"></i></span>
@@ -83,7 +83,7 @@
                     @foreach ($basket->profession as $profession)
                     <div class="col-md-4 col-sm-6 flex-items">
                         <?php $matchGridScale = ( isset($profession->match_scale) && $profession->match_scale != '') ? $profession->match_scale : "career-data-nomatch"; ?>
-                        <a href="{{ url('teenager/career-detail') }}/{{$profession->pf_slug}}" title="{{$profession->pf_name}}" class="category-block {{ $matchGridScale }}">
+                        <a href="{{ url('teenager/career-detail') }}/{{$profession->pf_slug}}" title="{{$profession->pf_name}}{{($profession->pf_profession_alias && $profession->pf_profession_alias != '')?' aka '.$profession->pf_profession_alias:''}}" class="category-block {{ $matchGridScale }}">
                             <figure>
                                 <div class="category-img" style="background-image: url('{{Storage::url(Config::get('constant.PROFESSION_THUMB_IMAGE_UPLOAD_PATH').$profession->pf_logo)}}"></div>
                                 <figcaption>
