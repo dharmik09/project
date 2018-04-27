@@ -138,6 +138,9 @@
                 @include maxms {
                     font-size: 14px;
                 }
+                a{
+                    color: blue;
+                }
                 span {
                     color: $h-cl;
                 }

@@ -56,7 +56,7 @@
         <div class="container-small">
             <div class="login-form">
                 <h1>Student login</h1>
-                <p>Please enter your registered eMail ID or mobile phone number to login. You may also login using your Facebook or GooglePlus credentials.</p>
+                <p>Please enter your registered eMail ID or mobile phone number to login. You may also login using your Facebook or G+ credentials.</p>
                 <span class="icon" ><i class="icon-hand" data-aos="fade-down"><!-- --></i></span>
 
                 <div class="form-sec">
