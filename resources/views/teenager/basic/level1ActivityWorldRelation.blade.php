@@ -14,7 +14,7 @@
                 </select>
              </div>
         </div>
-        <div class="loaderSection" id="relation_data" @if(isset($type) && $type == 4) style="display:none" @endif>
+        <div class="loaderSection" id="relation_data" @if(isset($type) && $type == 4) style="display:none" @endif @if(!isset($type)) style="display:none" @endif>
             <div style="display: block;" class="loading-screen-data loading-wrapper-sub">                
                 <div class="loading-content"><img src="{{ Storage::url("img/Bars.gif") }}"></div>
             </div>
@@ -46,7 +46,7 @@
                 </div>
             </form>
         </div>
-        <div class="loaderSection" id="self_data" @if(isset($type) && $type == 3) style="display:none" @endif  @if(!isset($type)) style="display:none" @endif>
+        <div class="loaderSection" id="self_data" @if(isset($type) && $type == 3) style="display:none" @endif >
             <div style="display: block;" class="loading-screen-data loading-wrapper-sub">                
                 <div class="loading-content"></div>
             </div>
