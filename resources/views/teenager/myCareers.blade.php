@@ -13,8 +13,7 @@
                     <h1>my careers</h1>
                     <p><strong>
                         <?php $attemptedProfessionCount = Helpers::getProfessionCompleteCount(Auth::guard('teenager')->user()->id, 1); ?> <?php 
-                        echo (isset($attemptedProfessionCount)) ? $attemptedProfessionCount : 0; ?>
-                        </strong> of <strong>{{$teenagerTotalProfessionStarRatedCount}}</strong> Career Role Plays Fully Completed from your shortlist</p>
+                        echo (isset($attemptedProfessionCount)) ? $attemptedProfessionCount : 0; ?> of {{$teenagerTotalProfessionStarRatedCount}}</strong> Career Role Plays Fully Completed from your shortlist</p>
                 </div>
                 <div class="sec-filter">    
                     <div class="row">

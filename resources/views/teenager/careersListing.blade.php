@@ -12,7 +12,7 @@
             <div class="top-heading text-center listing-heading">
                 <h1>careers</h1>
                 <?php $attemptedProfessionCount = Helpers::getProfessionCompleteCount(Auth::guard('teenager')->user()->id); ?>
-                <p><strong><?php echo (isset($attemptedProfessionCount)) ? $attemptedProfessionCount : 0; ?></strong> of <strong>{{$totalProfessionCount}}</strong> Career Role Plays Fully Completed</p>
+                <p><strong class="font-blue"><?php echo (isset($attemptedProfessionCount)) ? $attemptedProfessionCount : 0; ?> of {{$totalProfessionCount}}</strong> Career Role Plays Fully Completed</p>
             </div>
             <div class="sec-filter listing-filter">
                 <div class="row">
