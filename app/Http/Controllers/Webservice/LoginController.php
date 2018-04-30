@@ -84,7 +84,7 @@ class LoginController extends Controller
                         $userTokenDetails = $this->objTeenagerLoginToken->saveTeenagerLoginDetail($loginDetail);
                         //Save Device Token Data
                         $saveData['tdt_user_id'] = $teenager->id;
-                        $saveData['tdt_device_token'] = ($request->pushToken != "") ? $request->pushToken : base64_encode($teenager->t_email.':'.$teenager->t_uniqueid);
+                        $saveData['tdt_device_token'] = ($request->pushToken != "") ? $request->pushToken : "";
                         $saveData['tdt_device_type'] = $request->deviceType;
                         $saveData['tdt_device_id'] = $request->deviceId;
                         $userDeviceDetails = $this->objDeviceToken->saveDeviceToken($saveData);
