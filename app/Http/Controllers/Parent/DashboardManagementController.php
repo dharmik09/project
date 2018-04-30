@@ -1034,7 +1034,7 @@ class DashboardManagementController extends Controller {
 
                     $userId = $teenDetail->id;
                     foreach ($professionArray as $key => $pro_val) {
-                        $professionId = $pro_val->id;
+                        $professionId = $pro_val->profession_id;
                         $parentId = Auth::guard('parent')->user()->id;
 
                         $level4Booster = Helpers::level4Booster($professionId, $userId);
