@@ -586,7 +586,7 @@ return [
     'validcoinsparent' => "You don't have enough ProCoins. Please Buy more.",
     'ldlcacheclear' => 'Cache Clear',
     'mycoins' => 'My ProCoins',
-    'giftcoins' => 'GiftCoins',
+    'giftcoins' => 'Gift ProCoins',
     'transaction' => 'Transaction',
     'consumption' => 'Consumption',
     'availablecoins' => 'Available ProCoins',

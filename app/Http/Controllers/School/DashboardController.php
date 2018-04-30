@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Storage;
 use App\DeviceToken;
 use App\Notifications;
 use Carbon\Carbon;
+use App\Jobs\SendPushNotificationToAllTeenagers;
 
 class DashboardController extends Controller {
 
@@ -651,6 +652,19 @@ class DashboardController extends Controller {
 //                    $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
 //                }
 
+            $schoolName = ($schoolData && count($schoolData) > 0) ? $schoolData[0]['sc_name'] : "";
+            $notificationData['n_sender_id'] = $schoolId;
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_SCHOOL');
+            $notificationData['n_receiver_id'] = 0;
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
+            $notificationData['n_notification_text'] = '<strong>'.ucfirst($schoolName).'</strong> gifted you '.$saveData['tcg_total_coins'].' coins';
+
+            $this->objNotifications->insertUpdate($notificationData);
+            $pushNotificationData = [];
+            $pushNotificationData['notificationType'] = Config::get('constant.PROCOINS_GIFT_NOTIFICATION_TYPE');
+            $pushNotificationData['message'] = (isset($notificationData['n_notification_text']) && !empty($notificationData['n_notification_text'])) ? strip_tags($notificationData['n_notification_text']) : '';
+            dispatch( new SendPushNotificationToAllTeenagers($pushNotificationData) )->onQueue('processing');
                 return Redirect::to("school/home")->with('success', trans('labels.coinsgiftsuccess'));
             }
         }
