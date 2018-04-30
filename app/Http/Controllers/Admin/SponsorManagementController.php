@@ -288,7 +288,7 @@ class SponsorManagementController extends Controller
                      });
             $pushNotificationData = [];
             $pushNotificationData['notificationType'] = Config::get('constant.COMMON_NOTIFICATION_TYPE');
-            $pushNotificationData['isAdmin'] = Config::get('constant.NOTIFICATION_IS_ADMIN_FLAG');
+            //$pushNotificationData['isAdmin'] = Config::get('constant.NOTIFICATION_IS_ADMIN_FLAG');
             $pushNotificationData['message'] = (isset($notificationData['n_notification_text']) && !empty($notificationData['n_notification_text'])) ? $notificationData['n_notification_text'] : '';
             dispatch( new SendPushNotificationToAllTeenagers($pushNotificationData) )->onQueue('processing');
 

@@ -1169,7 +1169,7 @@ class TeenagerManagementController extends Controller {
         $androidToken = [];
         $pushNotificationData = [];
         $pushNotificationData['notificationType'] = Config::get('constant.PROCOINS_GIFT_NOTIFICATION_TYPE');
-        $pushNotificationData['isAdmin'] = Config::get('constant.NOTIFICATION_IS_ADMIN_FLAG');
+        //$pushNotificationData['isAdmin'] = Config::get('constant.NOTIFICATION_IS_ADMIN_FLAG');
         $pushNotificationData['message'] =  isset($notificationData['n_notification_text']) ? strip_tags($notificationData['n_notification_text']) : '';
         $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
         $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($id);
