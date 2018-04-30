@@ -140,7 +140,7 @@ class TeenagerController extends Controller
     }
 
     /* Request Params : getTeenagerMemberDetail
-    *  loginToken, userId, teenagerId
+    *  loginToken, userId, teenagerId, shouldSendNotification
     *  teenagerId is the id for another teen. For network member detail page
     */
     public function getTeenagerMemberDetail(Request $request)
@@ -197,46 +197,47 @@ class TeenagerController extends Controller
                 } else {
                     $response['connectionStatus'] = 2;    
                 }
-                
-
-            $notificationData['n_sender_id'] = $teenager->id;
-            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
-            $notificationData['n_receiver_id'] = $networkTeenager->id;
-            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
-            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW');
-            $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has viewed your profile';
-            $recordExist = $this->objNotifications->checkIfNotificationAlreadyExist($notificationData);
-            if ($recordExist && count($recordExist) > 0) {
-                //$notificationData = [];
-                $notificationData['created_at'] = Carbon::now();
-                $notificationData['id'] = $recordExist->id;
-            }
-            $this->objNotifications->insertUpdate($notificationData);
             
-            $androidToken = [];
-            $pushNotificationData = [];
-            $pushNotificationData['notificationType'] = Config::get('constant.PROFILE_VIEW_NOTIFICATION_TYPE');
-            $pushNotificationData['memberId'] = $teenager->id;
-            $pushNotificationData['message'] = strip_tags($notificationData['n_notification_text']);
-            $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
-            $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($networkTeenager->id);
-
-            if(count($userDeviceToken)>0){
-                foreach ($userDeviceToken as $key => $value) {
-                    if($value->tdt_device_type == 2){
-                        $androidToken[] = $value->tdt_device_token;
-                    }
-                    if($value->tdt_device_type == 1){
-                        Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
-                    }
+            if ($request->shouldSendNotification && $request->shouldSendNotification == 1) {
+                $notificationData['n_sender_id'] = $teenager->id;
+                $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                $notificationData['n_receiver_id'] = $networkTeenager->id;
+                $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW');
+                $notificationData['n_notification_text'] = '<strong>'.ucfirst($teenager->t_name).' '.ucfirst($teenager->t_lastname).'</strong> has viewed your profile';
+                $recordExist = $this->objNotifications->checkIfNotificationAlreadyExist($notificationData);
+                if ($recordExist && count($recordExist) > 0) {
+                    //$notificationData = [];
+                    $notificationData['created_at'] = Carbon::now();
+                    $notificationData['id'] = $recordExist->id;
                 }
+                $this->objNotifications->insertUpdate($notificationData);
+                
+                $androidToken = [];
+                $pushNotificationData = [];
+                $pushNotificationData['notificationType'] = Config::get('constant.PROFILE_VIEW_NOTIFICATION_TYPE');
+                $pushNotificationData['memberId'] = $teenager->id;
+                $pushNotificationData['message'] = strip_tags($notificationData['n_notification_text']);
+                $certificatePath = public_path(Config::get('constant.CERTIFICATE_PATH'));
+                $userDeviceToken = $this->objDeviceToken->getDeviceTokenDetail($networkTeenager->id);
 
-                if(isset($androidToken) && count($androidToken) > 0)
-                {
-                    Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                if(count($userDeviceToken)>0){
+                    foreach ($userDeviceToken as $key => $value) {
+                        if($value->tdt_device_type == 2){
+                            $androidToken[] = $value->tdt_device_token;
+                        }
+                        if($value->tdt_device_type == 1){
+                            Helpers::pushNotificationForiPhone($value->tdt_device_token,$pushNotificationData,$certificatePath);
+                        }
+                    }
+
+                    if(isset($androidToken) && count($androidToken) > 0)
+                    {
+                        Helpers::pushNotificationForAndroid($androidToken,$pushNotificationData);
+                    }
+
                 }
-
-            }
+            } 
 
                 $teenagerTrait = $traitAllQuestion = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($request->teenagerId);
                 $arrayData = [];
