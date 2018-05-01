@@ -149,7 +149,7 @@
         <tr>
             <th colspan="2"><h3>L3 & L4 Professions Explored</h3></th>
             <th><h3>No. of Students</h3></th>
-            <th><h3>Academic Path</h3></th>
+            <!-- <th><h3>Academic Path</h3></th> -->
         </tr>
         @forelse($professionAttempted['profession'] as $key => $value)
         <tr>
@@ -169,9 +169,9 @@
                     echo $totalProfessionByClass;
                 ?>
             </td>
-            <td style="border-bottom:2px solid #E66A45;">
+            <!-- <td style="border-bottom:2px solid #E66A45;">
                 {!! strip_tags($value->profession_acadamic_path, "<p></p><br/><ul></ul><li></li><sub></sub><sup></sup><span></span>") !!}
-            </td>
+            </td> -->
         </tr>
         @empty
             <tr><td colspan="3">No Record Found....</td></tr>
@@ -283,6 +283,43 @@
         @endif
     </table>
 </div>
+
+<div style="margin-top: 30px;">
+    <div>
+        <h2>Level 2 response by students</h2>
+    </div>
+</div>
+<div style="margin-top: 30px;">
+    <table border="1" width="650px" cellpadding="7px">
+        <tr align="center">
+            <th>Sr. No</th>
+            <th>Questions</th>
+            <th>Total No. of Teen given answer</th>
+            <th>Total No. of Teen given correct answer</th>
+        </tr>
+        @if(count($l2ActivityResponse) > 0)
+        @foreach($l2ActivityResponse as $l2Activity)
+        <tr align="center">
+            <td>
+                {{ $l2Activity['serialNo'] }}
+            </td>
+            <td>
+                {{ $l2Activity['l2ac_text'] }}
+            </td>
+            <td>
+                {{ $l2Activity['total_given_answer'] }}
+            </td>
+            <td>
+                {{ $l2Activity['total_given_correct_answer'] }}
+            </td>
+        </tr>
+        @endforeach
+        @else
+        <tr><td colspan="4"><center>No record found...</center></td></tr>
+        @endif
+    </table>
+</div>
+
 
 </body>
 </html>

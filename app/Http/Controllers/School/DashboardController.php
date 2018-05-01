@@ -366,6 +366,28 @@ class DashboardController extends Controller {
         $deductedCoinsDetail = $objDeductedCoins->getAllDeductedCoinsDetail($schoolid,3);
         $teenCoinsDetail = $objTeenagerCoinsGift->getAllTeenagerCoinsGiftDetail($schoolid,3);
 
+        //L2 reponse
+        $totalL2SchoolQuestions = $this->schoolsRepository->getTotalAddedL2QuestionsBySchool($schoolid);
+        $l2ActivityArr = [];
+        if(isset($totalL2SchoolQuestions) && count($totalL2SchoolQuestions) > 0) {
+                $serialNo = 1;
+                foreach($totalL2SchoolQuestions as $totalL2SchoolQuestion) {
+                    $l2Activity = [];
+                    $l2Activity['serialNo'] = $serialNo;
+                    $l2Activity['l2ac_text'] = $totalL2SchoolQuestion->l2ac_text;
+                    $totalTeen = Helpers::getStudentForSchoolL2($totalL2SchoolQuestion->id, Auth::guard('school')->user()->id, $id);
+                    $l2Activity['total_given_answer'] = ($totalTeen) ? $totalTeen  : 0;
+                    $correctAns = Helpers::getCorrectAnswerByL2Activity($totalL2SchoolQuestion->id); 
+                    $numOfTeenWithCorrectAns = 0;
+                    if (isset($correctAns) && !empty($correctAns)) {
+                        $numOfTeenWithCorrectAns = Helpers::getTotalStudentGivenCorrectAnswer($totalL2SchoolQuestion->id, Auth::guard('school')->user()->id, $id, $correctAns->id);
+                    }
+                    $l2Activity['total_given_correct_answer'] = (isset($numOfTeenWithCorrectAns) && count($numOfTeenWithCorrectAns) > 0 ) ? count($numOfTeenWithCorrectAns) : 0;
+                    $l2ActivityArr[] = $l2Activity; 
+                    $serialNo++;
+                }
+            } 
+
         $response = [];
         $response['classDetails'] = $classDetails;
         $response['schoolid'] = $schoolid;
@@ -382,6 +404,7 @@ class DashboardController extends Controller {
         $response['logo'] = $image;
         $response['deductedCoinsDetail'] = $deductedCoinsDetail;
         $response['teenCoinsDetail'] = $teenCoinsDetail;
+        $response['l2ActivityResponse'] = $l2ActivityArr;
 
         $pdf=PDF::loadView('school.exportSchoolDetailPDF', $response);
         return $pdf->stream('School.pdf');
