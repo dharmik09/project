@@ -322,14 +322,13 @@ class DashboardController extends Controller {
         if (isset($teenagerIcons) && !empty($teenagerIcons)) {
             foreach ($teenagerIcons as $key => $icon) {
                 if ($icon->ti_icon_type == 1) {
-
-                    if ($icon->fiction_image != '' && isset($icon->ti_icon_image)) {
+                    if ($icon->fiction_image != '' && isset($icon->fiction_image)) {
                         $fictionIcon[] = $this->cartoonOriginalImageUploadPath . $icon->fiction_image;
                     } else {
                         $fictionIcon[] = $this->cartoonOriginalImageUploadPath . 'proteen-logo.png';
                     }
                 } elseif ($icon->ti_icon_type == 2) {
-                    if ($icon->nonfiction_image != '' && isset($icon->ti_icon_image)) {
+                    if ($icon->nonfiction_image != '' && isset($icon->nonfiction_image)) {
                         $nonFiction[] = $this->humanOriginalImageUploadPath . $icon->nonfiction_image;
                     } else {
                         $nonFiction[] = $this->humanOriginalImageUploadPath . 'proteen-logo.png';

@@ -864,10 +864,10 @@ class DashboardManagementController extends Controller {
                         $image = '';
                         $info = '';
                         if (!empty($aptitudemage)) {
-                            if ($aptitudemage->apt_logo != '' && file_exists($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo)) {
-                                $image = asset($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo);
+                            if ($aptitudemage->apt_logo && $aptitudemage->apt_logo != '') {
+                                $image = Storage::url($this->apptitudeOriginalImageUploadPath . $aptitudemage->apt_logo);
                             } else {
-                                $image = asset($this->apptitudeOriginalImageUploadPath . 'proteen-logo.png');
+                                $image = Storage::url($this->apptitudeOriginalImageUploadPath . 'proteen-logo.png');
                             }
                             $video = isset($aptitudemage->apt_video) && ($aptitudemage->apt_video != '') ? Helpers::youtube_id_from_url($aptitudemage->apt_video) : '';
                             $info = $aptitudemage->ap_information;
@@ -877,7 +877,6 @@ class DashboardManagementController extends Controller {
                         //}
                         $k++;
                     }
-
                     // Teenager MI Data
                     foreach ($teenagerAPIData['APIscore']['MI'] as $mi => $val) {
                         //if ($val != 0) {
@@ -886,10 +885,10 @@ class DashboardManagementController extends Controller {
                         $info = '';
                         $miimage = Helpers::getMIData($mi);
                         if (!empty($miimage)) {
-                            if ($miimage->mit_logo != '' && file_exists($this->miOriginalImageUploadPath . $miimage->mit_logo)) {
-                                $image = asset($this->miOriginalImageUploadPath . $miimage->mit_logo);
+                            if ($miimage->mit_logo && $miimage->mit_logo != '') {
+                                $image = Storage::url($this->miOriginalImageUploadPath . $miimage->mit_logo);
                             } else {
-                                $image = asset($this->miOriginalImageUploadPath . 'proteen-logo.png');
+                                $image = Storage::url($this->miOriginalImageUploadPath . 'proteen-logo.png');
                             }
                             $video = isset($miimage->mi_video) && ($miimage->mi_video != '') ? Helpers::youtube_id_from_url($miimage->mi_video) : '';
                             $info = $miimage->mi_information;
@@ -906,10 +905,10 @@ class DashboardManagementController extends Controller {
                         $info = '';
                         $personalityimage = Helpers::getPersonalityData($personality);
                         if (!empty($personalityimage)) {
-                            if ($personalityimage->pt_logo != '' && file_exists($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo)) {
-                                $image = asset($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo);
+                            if ($personalityimage->pt_logo && $personalityimage->pt_logo != '') {
+                                $image = Storage::url($this->personalityOriginalImageUploadPath . $personalityimage->pt_logo);
                             } else {
-                                $image = asset($this->personalityOriginalImageUploadPath . 'proteen-logo.png');
+                                $image = Storage::url($this->personalityOriginalImageUploadPath . 'proteen-logo.png');
                             }
                             $video = isset($personalityimage->pt_video) && ($personalityimage->pt_video != '') ? Helpers::youtube_id_from_url($personalityimage->pt_video) : '';
                             $info = $personalityimage->pt_information;
