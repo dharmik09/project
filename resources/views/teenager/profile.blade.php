@@ -354,9 +354,9 @@
                     @forelse($teenagerParents as $teenagerParent)
                         <?php 
                             if (isset($teenagerParent->p_photo) && $teenagerParent->p_photo != '') {
-                                $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . $teenagerParent->p_photo;
+                                $parentPhoto = Config::get('constant.PARENT_ORIGINAL_IMAGE_UPLOAD_PATH') . $teenagerParent->p_photo;
                             } else {
-                                $parentPhoto = Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
+                                $parentPhoto = Config::get('constant.PARENT_ORIGINAL_IMAGE_UPLOAD_PATH') . "proteen-logo.png";
                             }
                         ?>
                         <li class="col-sm-3 col-xs-6">
