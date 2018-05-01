@@ -169,7 +169,8 @@ class CoinManagementController extends Controller
                 $userDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenId);
                 $replaceArray = array();
                 $replaceArray['USER_NAME'] = $parent['p_first_name'];
-
+                $replaceArray['TEEN_NAME'] = ($userDetail && !empty($userDetail)) ? $userDetail['t_name'] . ' ' . $userDetail['t_lastname']  : '';
+                
                 $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.PARENT_COINS_REQUEST_TEMPLATE'));
                 $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
 
