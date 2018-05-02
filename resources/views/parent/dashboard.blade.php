@@ -61,10 +61,10 @@
                     <h1><span class="title_border">My ProTeen Connects</span></h1>
                     <div class="data-explainations clearfix data-interest">
                                 <div class="content">
-                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Vote</span></div>
-                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Profile</span></div>
-                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Career Detail</span></div>
-                                    <div class="data"><span class="small-box career-data-color-4"></span><span>Role Play</span></div>
+                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Votes</span></div>
+                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Profile Builder</span></div>
+                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Career Research</span></div>
+                                    <div class="data"><span class="small-box career-data-color-4"></span><span>Career Role Play</span></div>
                                 </div>
                             </div>
                 </div><!-- login_form End -->
@@ -79,7 +79,7 @@
                             <!--<th>Status</th>-->
                             <th>Contact</th>
                             <th>ProCoins</th>
-                            <th>Gift</th>
+                            <th>Gift ProCoins</th>
                         </tr>
                         @if(!empty($final))
                         @foreach($final as $key=>$data)

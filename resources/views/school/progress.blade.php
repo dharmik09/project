@@ -59,7 +59,7 @@
                             </div>
                             <div class="col-md-3 col-sm-6">
                                 <div class="card">
-                                    <span class="title">No of Students Exploring Careers</span>
+                                    <span class="title">No of Students Researching Careers</span>
                                     <span id="level3" class="count">{{$teenDetailsForLevel3}}</span>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                 <div class="clearfix col-md-12">
                     <div class="row">
                         <div class="parent_h2_header col-xs-12">
-                            <h2>Level 2 response by students</h2>
+                            <h2>Students Response to School Profile Builder</h2>
                         </div>
                     </div>
                     @if(isset($totalL2SchoolQuestions) && count($totalL2SchoolQuestions) > 0)
@@ -111,8 +111,10 @@
                                 <tr>
                                     <th>Sr. No</th>
                                     <th>Questions</th>
-                                    <th>Total No. of Teen given answer</th>
-                                    <th>Total No. of Teen given correct answer</th>
+                                    <th>Question Type</th>
+                                    <th>Answer Choices</th>
+                                    <th>Total Student Responses</th>
+                                    <th>Total Correct Responses</th>
                                 </tr>
                                 <?php $serialNo = 1; ?>
                                 @foreach($totalL2SchoolQuestions as $totalL2SchoolQuestion)
@@ -121,6 +123,60 @@
                                         {{ $serialNo }}
                                     </td>
                                     <td>{{ $totalL2SchoolQuestion->l2ac_text }}</td>
+                                    <td>
+                                        <?php
+                                        $flag = false;
+                                        if(isset($totalL2SchoolQuestion->l2ac_apptitude_type) && !empty($totalL2SchoolQuestion->l2ac_apptitude_type) && $totalL2SchoolQuestion->l2ac_apptitude_type != '' )
+                                        {
+                                            $flag = false;
+                                            ?> <div>{{$totalL2SchoolQuestion->apt_name}}</div> <?php
+                                        } else {
+                                            $flag = true;
+                                        }
+                                        
+                                        if(isset($totalL2SchoolQuestion->l2ac_personality_type) && !empty($totalL2SchoolQuestion->l2ac_personality_type) && $totalL2SchoolQuestion->l2ac_personality_type != '' )
+                                        {
+                                            $flag = false;
+                                            ?> <div>{{$totalL2SchoolQuestion->pt_name}}</div> <?php
+                                        } else {
+                                            $flag = true;
+                                        }
+                                        
+                                        if(isset($totalL2SchoolQuestion->l2ac_mi_type) && !empty($totalL2SchoolQuestion->l2ac_mi_type) && $totalL2SchoolQuestion->l2ac_mi_type != '' )
+                                        {
+                                            $flag = false;
+                                            ?> <div>{{$totalL2SchoolQuestion->mit_name}}</div> <?php
+                                        } else {
+                                            $flag = true;
+                                        }
+                                        
+                                        if(isset($totalL2SchoolQuestion->l2ac_interest) && !empty($totalL2SchoolQuestion->l2ac_interest) && $totalL2SchoolQuestion->l2ac_interest != '' )
+                                        {
+                                            $flag = false;
+                                           ?> <div>{{$totalL2SchoolQuestion->it_name}}</div> <?php
+                                        } else {
+                                            $flag = true;
+                                        }
+                                        echo ($flag) ? '-' : '';
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php 
+                                        $explodeOption = explode(',', $totalL2SchoolQuestion->l2op_option);
+                                        $explodeFraction = explode(',', $totalL2SchoolQuestion->l2op_fraction);
+                                        foreach($explodeOption as $key => $option_name)
+                                        {
+                                            if (count($explodeFraction) > 0 && $explodeFraction[$key] == 1) { ?> 
+                                                <strong><span class="font-blue" title="This is correct answer"> 
+                                                <?php
+                                                    echo $option_name."<br/>"; ?>
+                                                </span></strong>
+                                            <?php } else { 
+                                                echo $option_name."<br/>";
+                                            }
+                                        }
+                                        ?>
+                                    </td>
                                     <?php $totalTeen = Helpers::getStudentForSchoolL2($totalL2SchoolQuestion->id, Auth::guard('school')->user()->id, $cid); ?>
                                     <td>{{ ($totalTeen) ? $totalTeen : 0 }}</td>
                                     <?php

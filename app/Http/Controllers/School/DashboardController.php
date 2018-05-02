@@ -383,6 +383,8 @@ class DashboardController extends Controller {
                         $numOfTeenWithCorrectAns = Helpers::getTotalStudentGivenCorrectAnswer($totalL2SchoolQuestion->id, Auth::guard('school')->user()->id, $id, $correctAns->id);
                     }
                     $l2Activity['total_given_correct_answer'] = (isset($numOfTeenWithCorrectAns) && count($numOfTeenWithCorrectAns) > 0 ) ? count($numOfTeenWithCorrectAns) : 0;
+                    $l2Activity['l2op_option'] = $totalL2SchoolQuestion->l2op_option;
+                    $l2Activity['l2op_fraction'] = $totalL2SchoolQuestion->l2op_fraction;
                     $l2ActivityArr[] = $l2Activity; 
                     $serialNo++;
                 }
