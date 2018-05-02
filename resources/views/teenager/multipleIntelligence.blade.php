@@ -46,7 +46,7 @@
                     <h1>{{ $multipleIntelligence->title }}</h1>
                     <div class="sec-popup">
                          <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
-                            <i class="icon-share"></i>
+                            <i class="icon-share" title="Click to share"></i>
                         </a>
                         <a id="strength-details" href="javascript:void(0);" onmouseover="getHelpText('strength-details')" data-trigger="hover" data-popover-content="#strength-sec" class="help-icon custompop" rel="popover" data-placement="bottom"><i class="icon-question"></i></a>
                         <div class="hide" id="strength-sec">

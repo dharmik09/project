@@ -143,7 +143,7 @@
                                 <div class="list-icon sec-popup">
                                     <span class="star-icon">
                                         <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
-                                            <i class="icon-share"></i>
+                                            <i class="icon-share" title="Click to share"></i>
                                         </a>
                                         <div class="hide" id="pop2">
                                             <div class="socialmedia-icon">
