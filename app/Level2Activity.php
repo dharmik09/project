@@ -29,5 +29,11 @@ class Level2Activity extends Model
         $result = DB::select(DB::raw("select (SELECT count(*) FROM ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." where deleted=1) as 'NoOfTotalQuestions', (select count(*) from ".config::get('databaseconstants.TBL_LEVEL2_ANSWERS')." as l2ans INNER JOIN " . config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS L2act ON L2act.id = l2ans.l2ans_activity where L2act.deleted = 1 and l2ans_teenager=".$teenagerId.") as 'NoOfAttemptedQuestions' "), array());
         return $result;
     }
+    
+    public function getLevel2NoOfTotalQuestionsAttemptedQuestionProfileBuilder($teenagerId)
+    {
+        $result = DB::select(DB::raw("select (SELECT count(*) FROM ".config::get('databaseconstants.TBL_LEVEL2_ACTIVITY')." where deleted=1 and section_type != 4) as 'NoOfTotalQuestions', (select count(*) from ".config::get('databaseconstants.TBL_LEVEL2_ANSWERS')." as l2ans INNER JOIN " . config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS L2act ON L2act.id = l2ans.l2ans_activity where L2act.deleted = 1 and l2ans_teenager=".$teenagerId.") as 'NoOfAttemptedQuestions' "), array());
+        return $result;
+    }
 
 }
