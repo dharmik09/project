@@ -6,8 +6,12 @@
 
 @section('content')
     <?php 
+
+        $profession_description = $professionsData->professionHeaders->filter(function($item) {
+            return $item->pfic_title == 'profession_description';
+        })->first();
         $metaTitle = ( isset($professionsData->pf_name) && $professionsData->pf_name != "") ? $professionsData->pf_name : "ProTeenLife - Career Details";
-        $metaDescription = ( isset($professionsData->pf_name) && $professionsData->pf_name != "") ? $professionsData->pf_name : "ProTeenLife - Career Details";
+        $metaDescription = (isset($profession_description->pfic_content)) ? $profession_description->pfic_content : "ProTeenLife - Career Details";
         $urlLink = "career-detail/".$professionsData->pf_slug; 
         $shareImageUrl = asset('img/logo.png');
         $siteUrl = url(urlencode($urlLink));
@@ -176,11 +180,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <?php
-                                $profession_description = $professionsData->professionHeaders->filter(function($item) {
-                                    return $item->pfic_title == 'profession_description';
-                                })->first();
-                            ?>
+                            
                             <p><?php echo (isset($profession_description->pfic_content)) ? $profession_description->pfic_content : '' ?></p>
                         </div>
                         <div class="career-detail-tab bg-white">
