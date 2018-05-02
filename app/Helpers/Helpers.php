@@ -3019,8 +3019,8 @@ Class Helpers {
 //       }
        
        //Calculate L2 question complete
-       $level2Activities = $objLevel2Activity->getNoOfTotalQuestionsAttemptedQuestion($user->id);
-       
+       $level2Activities = $objLevel2Activity->getLevel2NoOfTotalQuestionsAttemptedQuestionProfileBuilder($user->id);
+      
        if(isset($level2Activities) && !empty($level2Activities)){
            $profileComplete = $profileComplete + (($level2Activities[0]->NoOfAttemptedQuestions*Config::get('constant.TEEN_LEVEL2_PROFILE_COMPLETE'))/$level2Activities[0]->NoOfTotalQuestions);
        }

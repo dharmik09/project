@@ -9,7 +9,7 @@
         <!-- mid section starts-->
         <div class="inner-banner">
             <div class="container">
-                <div class="sec-banner tag-banner" style="background-image:url({{Storage::url(Config::get('constant.PROFESSION_TAG_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsTagData->pt_image)}})">
+                <div class="sec-banner" style="background-image:url({{Storage::url(Config::get('constant.PROFESSION_TAG_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsTagData->pt_image)}})">
                     <!-- -->
                 </div>
             </div>
