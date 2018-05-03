@@ -25,11 +25,12 @@
                     <span class="points">
                     {{ $teenPoints }} points</span>
                         <?php $connStatus = Helpers::getTeenAlreadyInConnection(Auth::guard('teenager')->user()->id, $value->id); 
-                        $chatUrl = url('teenager/network-member/'.$value->t_uniqueid);
                         if ($value->id == Auth::guard('teenager')->user()->id) {
                             $chatTitleText = "Chat";
+                            $chatUrl = url('teenager/chat');
                         } else {
                             $chatTitleText = "Please make a connection to chat";
+                            $chatUrl = url('teenager/network-member/'.$value->t_uniqueid);
                         }
                         if (isset($connStatus) && !empty($connStatus)) {
                             if (isset($connStatus['count']) && !empty($connStatus['count']) && $connStatus['count'] == 1) {
