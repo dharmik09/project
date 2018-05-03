@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="mck-btn-video-call" class="mck-videocall-btn  blk-lg-2 n-vis"></div>
+<!--                    <div id="mck-btn-video-call" class="mck-videocall-btn  blk-lg-2 n-vis"></div>-->
                     <div class="blk-lg-2 move-right">
                         <div id="mck-tab-menu" class="mck-menu-item mck-text-right">
                             <div class="mck-dropdown-toggle" data-toggle="mckdropdown"
