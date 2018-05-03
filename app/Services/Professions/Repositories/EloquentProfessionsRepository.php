@@ -361,11 +361,12 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 ->get();
         if (isset($return) && !empty($return)) {
             $finalData = array();
-            $professionData = array();
+            
+          
             foreach ($return as $key => $val) {  
                 $professionData = $professionHeaders = array();
                 
-                $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->get();
+                $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->where('pfic_title','!=', 'profession_video')->where('pfic_title','!=', 'basket_video')->get();
                 if (isset($headers) && !empty($headers)) {
                     foreach ($headers as $hkey => $hval) {
                         $professionHeaders[$hval->pfic_title] = $hval->pfic_content;
@@ -375,7 +376,6 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
                 $finalData[] = array_merge($professionData, $professionHeaders);
             }
         }
-       
         return $finalData;
     }
 
