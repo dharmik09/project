@@ -1240,6 +1240,21 @@ class level3ActivityController extends Controller {
                         $data[$key]->t_photo = Storage::url($teenPhoto);
                         $basicBoosterPoint = Helpers::getTeenagerBasicBooster($value->id);
                         $data[$key]->points = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
+
+                        //Check teen is in my connection or not
+                        $connStatus = Helpers::getTeenAlreadyInConnection($request->userId, $value->id); 
+                        $data[$key]->isConnected = Config::get('constant.TEENAGER_NOT_CONNECTED_FLAG');
+                        if (isset($connStatus) && !empty($connStatus)) {
+                            if (isset($connStatus['count']) && !empty($connStatus['count']) && $connStatus['count'] == 1) {
+                                $data[$key]->isConnected = Config::get('constant.TEENAGER_CONNECTED_FLAG');
+                            } else if (isset($connStatus['count']) && !empty($connStatus['count'])  && $connStatus['count'] == 3) {
+                                if (isset($connStatus['connectionDetails']) && !empty($connStatus['connectionDetails'])) {
+                                    if ($connStatus['connectionDetails']->tc_status != '' && $connStatus['connectionDetails']->tc_status == 1) {
+                                        $data[$key]->isConnected = Config::get('constant.TEENAGER_CONNECTED_FLAG');
+                                    }
+                                }
+                            }
+                        }
                     }
                     $response['data'] = $data;
                 } else {
@@ -1498,6 +1513,20 @@ class level3ActivityController extends Controller {
                     $teenArr['t_coins'] = $teenager->t_coins;
                     $teenArr['is_search_on'] = $teenager->is_search_on;
                     $teenArr['points'] = $teenager->tlb_points;
+                    //Check teen is in my connection or not
+                    $connStatus = Helpers::getTeenAlreadyInConnection($request->userId, $teenager->id); 
+                    $teenArr['isConnected'] = Config::get('constant.TEENAGER_NOT_CONNECTED_FLAG');
+                    if (isset($connStatus) && !empty($connStatus)) {
+                        if (isset($connStatus['count']) && !empty($connStatus['count']) && $connStatus['count'] == 1) {
+                            $teenArr['isConnected'] = Config::get('constant.TEENAGER_CONNECTED_FLAG');
+                        } else if (isset($connStatus['count']) && !empty($connStatus['count'])  && $connStatus['count'] == 3) {
+                            if (isset($connStatus['connectionDetails']) && !empty($connStatus['connectionDetails'])) {
+                                if ($connStatus['connectionDetails']->tc_status != '' && $connStatus['connectionDetails']->tc_status == 1) {
+                                    $teenArr['isConnected'] = Config::get('constant.TEENAGER_CONNECTED_FLAG');
+                                }
+                            }
+                        }
+                    }
                     $data[] = $teenArr;
                 }
                 //Store log in System

@@ -248,7 +248,7 @@
                             </div>
                             @if(count($teenagerNetwork) > 6 && !empty($teenagerNetwork))
                             <p>
-                                <a id="network" href="javascript:void(0);" >Expand</a>
+                                <a id="expandNetwork" href="javascript:void(0);" >Expand</a>
                             </p>
                             @endif
                         </div>
@@ -511,13 +511,13 @@
         return false;
     });
 
-    $('#network').click(function() {
+    $('#expandNetwork').click(function() {
         $('.expandNetwork').slideToggle('medium', function() {
             if ($(this).is(':visible')) {
                 $(this).css('display','block');
-                $("#network").text("Collapse");
+                $("#expandNetwork").text("Collapse");
             } else {
-                $("#network").text("Expand");
+                $("#expandNetwork").text("Expand");
             }
         });
         return false;

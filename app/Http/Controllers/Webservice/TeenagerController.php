@@ -306,7 +306,21 @@ class TeenagerController extends Controller
                 }
                 $basicBoosterPoint = Helpers::getTeenagerBasicBooster($connection->id);
                 $teenPoints = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
-                $connections[] = array('id' => $connection->id, 'uniqueId' => $connection->t_uniqueid, 'name' => $connection->t_name, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage, 'coins' => $connection->t_coins, 'points' => $teenPoints, 'is_search_on' => $connection->is_search_on); 
+                //Check teen is in my connection or not
+                $connStatus = Helpers::getTeenAlreadyInConnection($request->userId, $connection->id); 
+                $isConnected = Config::get('constant.TEENAGER_NOT_CONNECTED_FLAG');
+                if (isset($connStatus) && !empty($connStatus)) {
+                    if (isset($connStatus['count']) && !empty($connStatus['count']) && $connStatus['count'] == 1) {
+                        $isConnected = Config::get('constant.TEENAGER_CONNECTED_FLAG');
+                    } else if (isset($connStatus['count']) && !empty($connStatus['count'])  && $connStatus['count'] == 3) {
+                        if (isset($connStatus['connectionDetails']) && !empty($connStatus['connectionDetails'])) {
+                            if ($connStatus['connectionDetails']->tc_status != '' && $connStatus['connectionDetails']->tc_status == 1) {
+                                $isConnected = Config::get('constant.TEENAGER_CONNECTED_FLAG');
+                            }
+                        }
+                    }
+                }
+                $connections[] = array('id' => $connection->id, 'uniqueId' => $connection->t_uniqueid, 'name' => $connection->t_name, 'thumbImage' => $teenagerThumbImage, 'originalImage' => $teenagerOriginalImage, 'coins' => $connection->t_coins, 'points' => $teenPoints, 'is_search_on' => $connection->is_search_on, 'isConnected' => $isConnected); 
             }
             $response['login'] = 1;
             $response['status'] = 1;

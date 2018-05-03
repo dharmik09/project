@@ -172,11 +172,12 @@ class NotificaionController extends Controller {
                 $deletedData = explode(',', $notificationManagementData->tnm_notification_delete);
                 $readData = explode(',', $notificationManagementData->tnm_notification_read);
             }
-            $data = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$deletedData);
-            $count = $data - count($readData);
+            $finalArr = array_unique(array_merge($deletedData, $readData));
+            $data = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,[]);
+            $count = $data - count($finalArr);
             
             if(isset($data)){
-                $response['data']['notificationsCount'] = $count;
+                $response['data']['notificationsCount'] = (isset($count) && $count > 0) ? $count : 0;
                 $response['message'] = trans('appmessages.default_success_msg');
             }
             else{
