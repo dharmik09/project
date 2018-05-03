@@ -181,14 +181,14 @@
 </div><!-- dashboard_inner_box End -->
 
 <div style="margin-top: 30px;" class="clearfix">
-    <h2> L-4 Professions Badges Count</h2>
+    <h2>Students Role Play Performance Analytics</h2>
     <div >
         <table cellspacing="10px">
         <tr align="left">
             <th>Professions Name</th>
-            <th>Basic Badge Stars</th>
-            <th>Intermediate Badges Stars</th>
-            <th>Advance Badges Stars</th>
+            <th>Quiz</th>
+            <th>Profession Tasks</th>
+            <th>Real World Tasks</th>
         </tr>
         <tr><td></td><td></td></tr>
         @forelse($totalBadges as $key => $value)
