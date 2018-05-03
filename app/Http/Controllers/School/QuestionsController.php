@@ -56,6 +56,10 @@ class QuestionsController extends Controller {
     {
         $activityDetail = [];
         $option = input::get('l2op_option');
+        $option3 = input::get('l2op_option_03');
+        if (isset($option3) && !empty($option3)) {
+            $option[] = $option3;
+        }
         $hiddenLogo     = e(input::get('hidden_logo'));
         $activityDetail['l2ac_image']    = $hiddenLogo;
 

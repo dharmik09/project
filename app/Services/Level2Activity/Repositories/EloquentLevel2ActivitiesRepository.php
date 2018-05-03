@@ -98,43 +98,72 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
         $data = $objOption->where('l2op_activity',$activityDetail['id'] )->get();
         
         $optionDataLength=sizeof($data);
-        for($i = 0 ; $i < $optionDataLength; ++$i)
-        {
-            $optionDetail = [];
-            $optionDetail['l2op_activity'] = $id;
-            $optionDetail['l2op_option'] = $option[$i];
-            $optionDetail['deleted'] = $deleted;
-            if($radioval==$i)
-                $optionDetail['l2op_fraction']=1;
-
-            else
-                 $optionDetail['l2op_fraction']=0;
-
-            if($activityDetail['id'] != '' && $activityDetail['id'] > 0)
+        $j = 0;
+        //$countOption = count($optionDetail['l1op_option']);
+        //$countData = count($data);
+        if ($optionLength >= $optionDataLength) {
+            for($i = 0 ; $i < $optionLength; ++$i)
             {
-             
-       
-                $result = $objOption->where('id',$data[$i]->id)->update($optionDetail);
+                $optionDetail = [];
+                $optionDetail['l2op_activity'] = $id;
+                $optionDetail['l2op_option'] = $option[$i];
+                $optionDetail['deleted'] = $deleted;
+                if($radioval==$i)
+                    $optionDetail['l2op_fraction']=1;
+
+                else
+                     $optionDetail['l2op_fraction']=0;
+
+                if ($j < count($data)) {
+                    if($activityDetail['id'] != '' && $activityDetail['id'] > 0)
+                    {
+                        $result = $objOption->where('id',$data[$i]->id)->update($optionDetail);
+                    }
+                    $j++;
+                } else {
+                    $result = $objOption->create($optionDetail);
+                }
             }
-            else{
-                $result = $objOption->create($optionDetail);
+        } else {
+            for ($i = 0; $i < count($data); ++$i) {
+                for($i = 0 ; $i < $optionLength; ++$i)
+                {
+                    $optionDetail = [];
+                    $optionDetail['l2op_activity'] = $id;
+                    $optionDetail['l2op_option'] = $option[$i];
+                    $optionDetail['deleted'] = $deleted;
+                    if($radioval==$i)
+                        $optionDetail['l2op_fraction']=1;
+
+                    else
+                         $optionDetail['l2op_fraction']=0;
+
+                    if ($j < count($data) - 1) {
+                        if($activityDetail['id'] != '' && $activityDetail['id'] > 0)
+                        {
+                            $result = $objOption->where('id',$data[$i]->id)->update($optionDetail);
+                        }
+                        $j++;
+                    } 
+                }
+                $result = $objOption->where('id', $data[$i]->id)->delete($optionDetail);
             }
         }
-        for($i = $optionDataLength;$i<count($option);$i++)
-        {
-            $optionDetail = [];
-            $optionDetail['l2op_activity'] = $id;
-            $optionDetail['l2op_option'] = $option[$i];
-            $optionDetail['deleted'] = $deleted;
-            if($radioval==$i)
-                $optionDetail['l2op_fraction']=1;
+        // for($i = $optionDataLength;$i<count($option);$i++)
+        // {
+        //     $optionDetail = [];
+        //     $optionDetail['l2op_activity'] = $id;
+        //     $optionDetail['l2op_option'] = $option[$i];
+        //     $optionDetail['deleted'] = $deleted;
+        //     if($radioval==$i)
+        //         $optionDetail['l2op_fraction']=1;
 
-            else
-                $optionDetail['l2op_fraction']=0;
+        //     else
+        //         $optionDetail['l2op_fraction']=0;
 
-            $result = $objOption->create($optionDetail);
+        //     $result = $objOption->create($optionDetail);
 
-        }
+        // }
         return $result;
 
     }

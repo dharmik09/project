@@ -96,7 +96,7 @@
                                     ?>
                                     {{ $teenPoints }} points
                                     </span>
-                                    <a href="javascript:void(0);" data-placement="bottom" title="Please make a connection to chat" data-toggle="tooltip" >
+                                    <a href="{{ url('teenager/network-member') }}/{{$newConnection->t_uniqueid }}" data-placement="bottom" title="Please make a connection to chat" data-toggle="tooltip" >
                                         <i class="icon-chat"><!-- --></i>
                                     </a>
                                 </div>

@@ -181,14 +181,14 @@
 </div><!-- dashboard_inner_box End -->
 
 <div style="margin-top: 30px;" class="clearfix">
-    <h2> L-4 Professions Badges Count</h2>
+    <h2>Students Role Play Performance Analytics</h2>
     <div >
         <table cellspacing="10px">
         <tr align="left">
             <th>Professions Name</th>
-            <th>Basic Badge Stars</th>
-            <th>Intermediate Badges Stars</th>
-            <th>Advance Badges Stars</th>
+            <th>Quiz</th>
+            <th>Profession Tasks</th>
+            <th>Real World Tasks</th>
         </tr>
         <tr><td></td><td></td></tr>
         @forelse($totalBadges as $key => $value)
@@ -286,7 +286,7 @@
 
 <div style="margin-top: 30px;">
     <div>
-        <h2>Level 2 response by students</h2>
+        <h2>Students Response to School Profile Builder</h2>
     </div>
 </div>
 <div style="margin-top: 30px;">
@@ -294,8 +294,10 @@
         <tr align="center">
             <th>Sr. No</th>
             <th>Questions</th>
-            <th>Total No. of Teen given answer</th>
-            <th>Total No. of Teen given correct answer</th>
+            <th>Question Type</th>
+            <th>Answer Choices</th>
+            <th>Total Student Responses</th>
+            <th>Total Correct Responses</th>
         </tr>
         @if(count($l2ActivityResponse) > 0)
         @foreach($l2ActivityResponse as $l2Activity)
@@ -305,6 +307,60 @@
             </td>
             <td>
                 {{ $l2Activity['l2ac_text'] }}
+            </td>
+            <td>
+                <?php
+                $flag = false;
+                if(isset($l2Activity->l2ac_apptitude_type) && !empty($l2Activity->l2ac_apptitude_type) && $l2Activity->l2ac_apptitude_type != '' )
+                {
+                    $flag = false;
+                    ?> <div>{{$l2Activity->apt_name}}</div> <?php
+                } else {
+                    $flag = true;
+                }
+                
+                if(isset($l2Activity->l2ac_personality_type) && !empty($l2Activity->l2ac_personality_type) && $l2Activity->l2ac_personality_type != '' )
+                {
+                    $flag = false;
+                    ?> <div>{{$l2Activity->pt_name}}</div> <?php
+                } else {
+                    $flag = true;
+                }
+                
+                if(isset($l2Activity->l2ac_mi_type) && !empty($l2Activity->l2ac_mi_type) && $l2Activity->l2ac_mi_type != '' )
+                {
+                    $flag = false;
+                    ?> <div>{{$l2Activity->mit_name}}</div> <?php
+                } else {
+                    $flag = true;
+                }
+                
+                if(isset($l2Activity->l2ac_interest) && !empty($l2Activity->l2ac_interest) && $l2Activity->l2ac_interest != '' )
+                {
+                    $flag = false;
+                   ?> <div>{{$l2Activity->it_name}}</div> <?php
+                } else {
+                    $flag = true;
+                }
+                echo ($flag) ? '-' : '';
+                ?>
+            </td>
+            <td>
+                <?php 
+                $explodeOption = explode(',', $l2Activity['l2op_option']);
+                $explodeFraction = explode(',', $l2Activity['l2op_fraction']);
+                foreach($explodeOption as $key => $option_name)
+                {
+                    if (count($explodeFraction) > 0 && $explodeFraction[$key] == 1) { ?> 
+                        <strong><span class="font-blue" title="This is correct answer"> 
+                        <?php
+                            echo $option_name."<br/>"; ?>
+                        </span></strong>
+                    <?php } else { 
+                        echo $option_name."<br/>";
+                    }
+                }
+                ?>
             </td>
             <td>
                 {{ $l2Activity['total_given_answer'] }}

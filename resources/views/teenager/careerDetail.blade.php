@@ -6,8 +6,12 @@
 
 @section('content')
     <?php 
+
+        $profession_description = $professionsData->professionHeaders->filter(function($item) {
+            return $item->pfic_title == 'profession_description';
+        })->first();
         $metaTitle = ( isset($professionsData->pf_name) && $professionsData->pf_name != "") ? $professionsData->pf_name : "ProTeenLife - Career Details";
-        $metaDescription = ( isset($professionsData->pf_name) && $professionsData->pf_name != "") ? $professionsData->pf_name : "ProTeenLife - Career Details";
+        $metaDescription = (isset($profession_description->pfic_content)) ? $profession_description->pfic_content : "ProTeenLife - Career Details";
         $urlLink = "career-detail/".$professionsData->pf_slug; 
         $shareImageUrl = asset('img/logo.png');
         $siteUrl = url(urlencode($urlLink));
@@ -143,7 +147,7 @@
                                 <div class="list-icon sec-popup">
                                     <span class="star-icon">
                                         <a href="javascript:void(0);" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
-                                            <i class="icon-share"></i>
+                                            <i class="icon-share" title="Click to share"></i>
                                         </a>
                                         <div class="hide" id="pop2">
                                             <div class="socialmedia-icon">
@@ -176,11 +180,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <?php
-                                $profession_description = $professionsData->professionHeaders->filter(function($item) {
-                                    return $item->pfic_title == 'profession_description';
-                                })->first();
-                            ?>
+                            
                             <p><?php echo (isset($profession_description->pfic_content)) ? $profession_description->pfic_content : '' ?></p>
                         </div>
                         <div class="career-detail-tab bg-white">
@@ -426,7 +426,8 @@
                                             </div>
                                             @forelse($teenagerStrength as $key => $value)
                                                 <div class="progress-block">
-                                                    <div class="skill-name">{{$value['name']}}</div>
+                                                	<a href="{{ url('teenager/multi-intelligence') }}/{{$value['type']}}/{{$value['slug']}}">
+                                                    <div class="skill-name">{{$value['name']}}</div></a>
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin = "0" aria-valuemax = "100" style="width: {{$value['score']}}%;">
                                                         </div>

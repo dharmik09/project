@@ -522,7 +522,8 @@ class ProfileController extends Controller
                         } else {
                             $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
                         }
-                        $fictionIconArr['iconDescription'] = (isset($icon->ci_description) && !empty($icon->ci_description)) ? $icon->ci_description : '';
+                        $iconDesription = (isset($icon->ci_description) && !empty($icon->ci_description)) ? ' - ' . $icon->ci_description : '';
+                        $fictionIconArr['iconDescription'] = $icon->ci_name . $iconDesription;
                         $fictionIcon[] = $fictionIconArr;
                     } else if ($icon->ti_icon_type == 2) {
                         $nonFictionArr = [];
@@ -531,7 +532,8 @@ class ProfileController extends Controller
                         } else {
                             $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
                         }
-                        $nonFictionArr['iconDescription'] = (isset($icon->hi_description) && !empty($icon->hi_description)) ? $icon->hi_description : '';
+                        $nonFictionIconDesctiption = ($icon->hi_description && !empty($icon->hi_description)) ? ' - ' . $icon->hi_description : '';
+                        $nonFictionArr['iconDescription'] = $icon->hi_name . $nonFictionIconDesctiption;
                         $nonFiction[] = $nonFictionArr;
                     } else {
                         $relationIconArr = [];

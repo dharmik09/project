@@ -26,20 +26,23 @@
             <span class="points">
             {{ $leaderBoard->tlb_points }} points</span>
             <?php $connStatus = Helpers::getTeenAlreadyInConnection(Auth::guard('teenager')->user()->id, $leaderBoard->id); 
-                    $chatUrl = "javascript:void(0);";
+                    $chatUrl = url('teenager/network-member/'.$leaderBoard->t_uniqueid);
+                    $chatTitleText = "Please make a connection to chat";
                     if (isset($connStatus) && !empty($connStatus)) {
                         if (isset($connStatus['count']) && !empty($connStatus['count']) && $connStatus['count'] == 1) {
                             $chatUrl = url("teenager/chat/" . $leaderBoard->t_uniqueid );
+                            $chatTitleText = "Chat";
                         } else if (isset($connStatus['count']) && !empty($connStatus['count'])  && $connStatus['count'] == 3) {
                             if (isset($connStatus['connectionDetails']) && !empty($connStatus['connectionDetails'])) {
                                 if ($connStatus['connectionDetails']->tc_status != '' && $connStatus['connectionDetails']->tc_status == 1) {
                                     $chatUrl = url("teenager/chat/" . $leaderBoard->t_uniqueid );
+                                    $chatTitleText = "Chat";
                                 }
                             }
                         }
                     } 
                 ?>
-            <a href="{{$chatUrl}}" title="Chat">
+            <a href="{{$chatUrl}}" title="{{$chatTitleText}}">
                 <i class="icon-chat">
                     <!-- -->
                 </i>

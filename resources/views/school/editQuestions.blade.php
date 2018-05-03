@@ -56,10 +56,11 @@
             $option=array();
             $option[0]='';
             $option[1]='';
-            
+            $option[2] = '';
             $l2op_fraction =array();
             $l2op_fraction[0]='';
             $l2op_fraction[1]='';
+            $l2op_fraction[2]='';
         }
         ?>
         <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
@@ -113,7 +114,7 @@
                   <div class="form-group">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-5">
-                           <input type="text" class="form-control" id="l2op_option" name="l2op_option[]" placeholder="{{trans('labels.formlbloption')}}" value="<?php if($option[0]) echo $option[1]; ?>" />
+                           <input type="text" class="form-control" id="l2op_option" name="l2op_option[]" placeholder="Answer Choices" value="<?php if($option[0]) echo $option[1]; ?>" />
                         </div>
                         <div class="col-sm-1">
                            <input type="radio" name="l2rad_option" value="1" <?php if($l2op_fraction[1]==1){ ?> checked="checked" <?php } ?>/>
@@ -123,39 +124,26 @@
                         <input type="hidden" name="countRadio" value="2" id="countRadio"/>
                     </div>
 
-                  <?php
-                    for($i=2 ; $i < (count($option)) ; $i++)
-                    {
-                   ?>
-                    <div class="form-group" id='delete_action_<?php echo $i; ?>'>
+                    <div class="form-group">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-5">
-                           <input type="text" class="form-control" id="l2op_option" name="l2op_option[]" placeholder="{{trans('labels.formlbloption')}}" value="{{$option[$i]}}" />
+                           <input type="text" class="form-control" id="l2op_option" name="l2op_option_03" placeholder="Answer Choices" value="<?php if(isset($option[2]) && !empty($option[2])) echo $option[2]; ?>" />
                         </div>
-                         <div class="col-sm-1">
-                           <input type="radio" name="l2rad_option" value="<?php echo $i; ?>" <?php if($l2op_fraction[$i]==1){ ?> checked="checked" <?php } ?>/>
+                        <div class="col-sm-1">
+                           <input type="radio" name="l2rad_option" value="2" <?php if(isset($l2op_fraction[2]) && $l2op_fraction[2]==1){ ?> checked="checked" <?php } ?>/>
                            {{trans('labels.formblfraction')}}
                         </div>
-                        <div class="col-sm-1" onclick="delete_action('<?php echo $i; ?>');">
-                        <a href="javascript:void(0);" class="btn btn-success " name="minus">
-                            <span class="glyphicon glyphicon-minus"> </span>
-                        </a>
-                        </div>
-                        <input type="hidden" name="countRow" value="<?php echo count($option); ?>" id="countRaw" />
+
+                        <input type="hidden" name="countRadio" value="2" id="countRadio"/>
                     </div>
-
-                      <?php
-                    }
-                  ?>
-
                 </div>
                 <div class="form-group">
                     <label  class="col-sm-2 control-label"></label>
-                    <div class="col-sm-2">
+                    <!-- <div class="col-sm-2">
                         <a href="javascript:void(0);" class="btn btn-success " name="add" id="add">
                             <span class="glyphicon glyphicon-plus"> </span>
                         </a>
-                    </div>
+                    </div> -->
                 </div> 
                 <div class="form-group">
                         <label for="pf_parent" class="col-sm-2 control-label">{{trans('labels.formlblapptitude')}}</label>

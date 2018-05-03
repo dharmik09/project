@@ -569,7 +569,17 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
 
     public function getTotalAddedL2QuestionsBySchool($schoolId)
     {
-        $l2Activities = DB::table(Config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'))->where('l2ac_school_id', $schoolId)->where('deleted', Config::get('constant.ACTIVE_FLAG'))->get();
+        $l2Activities = DB::table(Config::get('databaseconstants.TBL_LEVEL2_ACTIVITY') . " AS activity")
+            ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'activity.id', '=', 'options.l2op_activity')
+            ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_APPTITUDE') . " AS apptitude", 'apptitude.id', '=', 'activity.l2ac_apptitude_type')
+            ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_MI') . " AS mi", 'mi.id', '=', 'activity.l2ac_mi_type')
+            ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_INTEREST') . " AS interest", 'interest.id', '=', 'activity.l2ac_interest')
+            ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_PERSONALITY') . " AS personality", 'personality.id', '=', 'activity.l2ac_personality_type')
+            ->selectRaw('activity.* , GROUP_CONCAT(options.l2op_option) AS l2op_option, GROUP_CONCAT(options.l2op_fraction) AS l2op_fraction , mi.mit_name , interest.it_name , personality.pt_name, apptitude.apt_name')
+            ->groupBy('activity.id')
+            ->where('activity.l2ac_school_id', $schoolId)
+            ->where('activity.deleted', Config::get('constant.ACTIVE_FLAG'))
+            ->get();
         return $l2Activities;
     }
 }
