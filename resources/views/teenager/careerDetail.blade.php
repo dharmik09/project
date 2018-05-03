@@ -426,7 +426,8 @@
                                             </div>
                                             @forelse($teenagerStrength as $key => $value)
                                                 <div class="progress-block">
-                                                    <div class="skill-name">{{$value['name']}}</div>
+                                                	<a href="{{ url('teenager/multi-intelligence') }}/{{$value['type']}}/{{$value['slug']}}">
+                                                    <div class="skill-name">{{$value['name']}}</div></a>
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin = "0" aria-valuemax = "100" style="width: {{$value['score']}}%;">
                                                         </div>
