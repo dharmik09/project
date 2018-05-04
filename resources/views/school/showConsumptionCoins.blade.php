@@ -42,7 +42,7 @@
             <div class="my_teens_content ">
                 <div class="btn_cont gift_modal_page">
                     <a href="{{ url('school/get-gift-coins') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-gift-coins') ? 'active' : '' }}">{{trans('labels.giftcoins')}}</a>
-                    <a href="{{ url('school/get-consumption') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-consumption') ? 'active' : '' }}">{{trans('labels.consumption')}}</a>
+                    <!-- <a href="{{ url('school/get-consumption') }}" class="btn primary_btn gift_history tab_bttn {{ Request::is('school/get-consumption') ? 'active' : '' }}">{{trans('labels.consumption')}}</a> -->
                 </div>
             </div>
             <h1><span class="title_border">{{trans('labels.consumedcoins')}}</span></h1>
