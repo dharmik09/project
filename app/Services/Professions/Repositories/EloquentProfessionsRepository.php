@@ -351,7 +351,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
         return $result;
     }
 
-    public function getExportProfession() {
+    public function getExportProfession($countryId = 1) {
         
         $professionData = array();
         $return = DB::table(config::get('databaseconstants.TBL_PROFESSIONS') . " AS profession")
@@ -366,7 +366,7 @@ class EloquentProfessionsRepository extends EloquentBaseRepository implements Pr
             foreach ($return as $key => $val) {  
                 $professionData = $professionHeaders = array();
                 
-                $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->where('pfic_title','!=', 'profession_video')->where('pfic_title','!=', 'basket_video')->get();
+                $headers = DB::table(config::get('databaseconstants.TBL_PROFESSION_HEADER') . " AS header")->select('pfic_profession', 'pfic_title', 'pfic_content')->where('pfic_profession', $val->id)->where('country_id', $countryId)->where('pfic_title','!=', 'profession_video')->where('pfic_title','!=', 'basket_video')->get();
                 if (isset($headers) && !empty($headers)) {
                     foreach ($headers as $hkey => $hval) {
                         $professionHeaders[$hval->pfic_title] = $hval->pfic_content;

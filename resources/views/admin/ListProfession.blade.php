@@ -14,7 +14,7 @@
                 <a href="{{ url('admin/addProfession') }}" class="btn btn-block btn-primary pull-right">Add Profession</a>
             </div>
             <div class="col-md-3">
-                <a href="{{ url('admin/exportProfessoin') }}" class="btn btn-block btn-primary">{{trans('labels.exportdata')}}</a>
+                <a href="{{ url('admin/exportProfessoinCountrySelection') }}" class="btn btn-block btn-primary">{{trans('labels.exportdata')}}</a>
             </div>
             <div class="col-md-3">
                 <a href="{{ url('admin/addProfessionBulk') }}" class="btn btn-block btn-primary">{{trans('labels.professionbulkupload')}}</a>
