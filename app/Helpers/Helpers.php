@@ -3235,4 +3235,15 @@ Class Helpers {
                   ->get();
         return $return;
     }
+
+    /* @getCountForAttemptedProfessionBySchoolAndClass
+     *  @params : $pfId, schoolId, classId
+     *  @response : Total teenager count who attempted l4 activity
+     */
+    public static function getCountForAttemptedProfessionBySchoolAndClass($pfId, $schoolId, $classId)
+    {
+        $objLevel4ProfessionProgress = new Level4ProfessionProgress;
+        $attemptedProfession = $objLevel4ProfessionProgress->getTotalL4BasicAttemptedBySchoolAndClass($pfId, $schoolId, $classId);
+        return $attemptedProfession;
+    }
 }

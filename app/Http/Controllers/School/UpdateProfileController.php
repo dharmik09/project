@@ -22,6 +22,7 @@ use App\DeductedCoins;
 use App\Http\Requests\SchoolProfileUpdateRequest;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
+use App\Level4ProfessionProgress;
 
 class UpdateProfileController extends Controller {
 
@@ -39,6 +40,7 @@ class UpdateProfileController extends Controller {
         $this->schoolThumbImageWidth = Config::get('constant.SCHOOL_THUMB_IMAGE_WIDTH');
         $this->loggedInUser = Auth::guard('school');
         $this->level2ActivitiesRepository = $level2ActivitiesRepository;
+        $this->objLevel4ProfessionProgress = new Level4ProfessionProgress; 
     }
 
     public function updateProfile() {
@@ -75,7 +77,7 @@ class UpdateProfileController extends Controller {
             $teenDetailsForLevel2 = $this->schoolsRepository->getStudentForLevel2($schoolid, $cid);
             $teenDetailsForLevel3 = $this->schoolsRepository->getStudentForLevel3($schoolid, $cid);
             $teenDetailsForLevel4 = $this->schoolsRepository->getStudentForLevel4($schoolid, $cid);
-            $professionAttempted = $this->schoolsRepository->getAttemptedProfession($schoolid, $cid);
+            $professionAttempted = $this->objLevel4ProfessionProgress->getAllAttemptedProfessionsBySchoolAndClass($schoolid, $cid);
             $objPaidComponent = new PaidComponent();
             $componentsData = $objPaidComponent->getPaidComponentsData('School Report');
             

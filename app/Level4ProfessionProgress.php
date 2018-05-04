@@ -59,4 +59,64 @@ class Level4ProfessionProgress extends Model
                 ->get();
         return $getTotalCompetingFromLevel3;
     }
+
+    /*
+     * Returns all attempted professions details by school and class
+     */
+    public function getAllAttemptedProfessionsBySchoolAndClass($schoolId, $classId) {
+        $attemptedProfession = $this->join("pro_pf_profession AS profession", 'profession.id', '=', 'pro_l4aapa_level4_profession_progress.profession_id')
+                ->join("pro_t_teenagers AS teenager", 'teenager.id', '=', 'pro_l4aapa_level4_profession_progress.teenager_id')
+                ->where('profession.deleted', 1)
+                ->distinct('pro_l4aapa_level4_profession_progress.profession_id')
+                ->where('teenager.deleted', 1)
+                ->where('teenager.t_school', $schoolId)
+                ->where('teenager.t_class', $classId)
+                ->get();
+        return $attemptedProfession;
+    }
+
+    /*
+     * Returns teenagers which attmpted l4 basic activity by school and class
+     */
+    public function getTotalL4BasicAttemptedBySchoolAndClass($professionId, $schoolId, $classId) {
+        $teenDetails = $this->join("pro_t_teenagers AS teenager", 'teenager.id', '=', 'pro_l4aapa_level4_profession_progress.teenager_id')
+            ->selectRaw('pro_l4aapa_level4_profession_progress.*, teenager.t_name')
+            ->where('pro_l4aapa_level4_profession_progress.level4_basic', '>', 0)
+            ->where('pro_l4aapa_level4_profession_progress.profession_id', $professionId)
+            ->where('teenager.t_school', $schoolId)
+            ->where('teenager.t_class', $classId)
+            ->where('teenager.deleted', 1)
+            ->count();
+        return $teenDetails;
+    }
+
+    /*
+     * Returns teenagers which attmpted l4 intermediate activity by school and class
+     */
+    public function getTotalL4IntermediteAttemptedBySchoolAndClass($professionId, $schoolId, $classId) {
+        $teenDetails = $this->join("pro_t_teenagers AS teenager", 'teenager.id', '=', 'pro_l4aapa_level4_profession_progress.teenager_id')
+            ->selectRaw('pro_l4aapa_level4_profession_progress.*, teenager.t_name')
+            ->where('pro_l4aapa_level4_profession_progress.level4_intermediate', '>', 0)
+            ->where('pro_l4aapa_level4_profession_progress.profession_id', $professionId)
+            ->where('teenager.t_school', $schoolId)
+            ->where('teenager.t_class', $classId)
+            ->where('teenager.deleted', 1)
+            ->count();
+        return $teenDetails;
+    }
+
+    /*
+     * Returns teenagers which attmpted l4 advance activity by school and class
+     */
+    public function getTotalL4AdvanceAttemptedBySchoolAndClass($professionId, $schoolId, $classId) {
+        $teenDetails = $this->join("pro_t_teenagers AS teenager", 'teenager.id', '=', 'pro_l4aapa_level4_profession_progress.teenager_id')
+            ->selectRaw('pro_l4aapa_level4_profession_progress.*, teenager.t_name')
+            ->where('pro_l4aapa_level4_profession_progress.level4_advance', '>', 0)
+            ->where('pro_l4aapa_level4_profession_progress.profession_id', $professionId)
+            ->where('teenager.t_school', $schoolId)
+            ->where('teenager.t_class', $classId)
+            ->where('teenager.deleted', 1)
+            ->count();
+        return $teenDetails;
+    }
 }
