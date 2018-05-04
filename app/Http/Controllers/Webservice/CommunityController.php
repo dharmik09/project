@@ -82,6 +82,7 @@ class CommunityController extends Controller
                     $newConnection->t_photo  = ($newConnection->t_photo != "") ? Storage::url($this->teenagerThumbImageUploadPath.$newConnection->t_photo) : Storage::url($this->teenagerThumbImageUploadPath."proteen-logo.png");
                     $basicBoosterPoint = Helpers::getTeenagerBasicBooster($newConnection->id);
                     $newConnection->points = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
+                    $newConnection->isConnected = Config::get('constant.TEENAGER_NOT_CONNECTED_FLAG');
                     $data['newConnections'][] = $newConnection;
                 }
             }
@@ -153,6 +154,7 @@ class CommunityController extends Controller
                     $myConnection->t_photo  = ($myConnection->t_photo != "") ? Storage::url($this->teenagerThumbImageUploadPath.$myConnection->t_photo) : Storage::url($this->teenagerThumbImageUploadPath."proteen-logo.png");
                     $basicBoosterPoint = Helpers::getTeenagerBasicBooster($myConnection->id);
                     $myConnection->points = (isset($basicBoosterPoint['total']) && $basicBoosterPoint['total'] > 0) ? number_format($basicBoosterPoint['total']) : 0;
+                    $myConnection->isConnected = Config::get('constant.TEENAGER_CONNECTED_FLAG');
                     $data['myConnections'][] = $myConnection;
                 }
             }
