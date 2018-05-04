@@ -76,7 +76,7 @@
                 <div class="profession_attempted">
                     <h2>Professions Role Played by Students</h2>
                     <div class="profession_attempted_carousel owl-carousel school_pro_image profession-attempted-img">
-                        @forelse($professionAttempted['profession'] as $key => $value)
+                        @forelse($professionAttempted as $key => $value)
                         <div class="item ">
                             <?php  $profession_logo = '';
                             if (isset($value->pf_logo) && $value->pf_logo != '') {
@@ -88,8 +88,8 @@
                             <span class="title">{{$value->pf_name}}</span>
                             <span class="count">
                                 <?php
-                                    $pf_id = $value->id;
-                                    $totalProfessionByClass = Helpers::getCountForAttemptedProfession($pf_id,$sid,$cid);
+                                    $pf_id = $value->profession_id;
+                                    $totalProfessionByClass = Helpers::getCountForAttemptedProfessionBySchoolAndClass($pf_id,$sid,$cid);
                                     echo $totalProfessionByClass;
                                 ?>
                             </span>

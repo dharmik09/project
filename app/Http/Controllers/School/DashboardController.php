@@ -24,6 +24,7 @@ use App\DeviceToken;
 use App\Notifications;
 use Carbon\Carbon;
 use App\Jobs\SendPushNotificationToAllTeenagers;
+use App\Level4ProfessionProgress;
 
 class DashboardController extends Controller {
 
@@ -43,6 +44,7 @@ class DashboardController extends Controller {
         $this->professionsRepository = $professionsRepository;
         $this->objDeviceToken = new DeviceToken;
         $this->objNotifications = new Notifications;
+        $this->objLevel4ProfessionProgress = new Level4ProfessionProgress;
         $this->loggedInUser = Auth::guard('school');
     }
 
@@ -236,13 +238,16 @@ class DashboardController extends Controller {
         } else {
             $id = $id;
         }
+        $totalAttemptedProfession = [];
         if (isset($id) && !empty($id)) {
             $classDetails = $this->schoolsRepository->getClassDetail($schoolid);
             $teenDetailsForLevel1 = $this->schoolsRepository->getStudentForLevel1($schoolid, $id);
             $teenDetailsForLevel2 = $this->schoolsRepository->getStudentForLevel2($schoolid, $id);
             $teenDetailsForLevel3 = $this->schoolsRepository->getStudentForLevel3($schoolid, $id);
             $teenDetailsForLevel4 = $this->schoolsRepository->getStudentForLevel4($schoolid, $id);
+
             $professionAttempted = $this->schoolsRepository->getAttemptedProfession($schoolid, $id);
+            $totalAttemptedProfession = $this->objLevel4ProfessionProgress->getAllAttemptedProfessionsBySchoolAndClass($schoolid, $id);
         } else {
             return Redirect::to("school/home")->with('error', 'No data found');
             exit;
@@ -342,17 +347,20 @@ class DashboardController extends Controller {
             $teenagerMyIcons = array_merge($fictionIcon, $nonFiction, $relationIcon);
         }
         $totalBadges = [];
-        foreach ($professionAttempted['profession'] as $key => $value) {
-            $badgesData = [];
-            $professionid = $value->id;
-            $badgesData['pf_name'] = $value->pf_name;
-            $basicData = $this->teenagersRepository->getTeenagerAllTypeBadgesByClass($id, $professionid);
-            $badgesData['bacisbadges'] = $basicData['level4Basic']['badgesStarCount'];
-            $badgesData['intermediatebadges'] = $basicData['level4Intermediate']['badgesCount'];
-            $badgesData['advancebadges'] = $basicData['level4Advance']['advanceBadgeStar'];
-            $totalBadges[] = $badgesData;
+        if (count($totalAttemptedProfession) > 0) {
+            foreach ($totalAttemptedProfession as $attemptedProfession) {
+                $badgesData = [];
+                $badgesData['pf_id'] = $attemptedProfession->profession_id;
+                $badgesData['pf_name'] = $attemptedProfession->pf_name;
+                $totalBasicAttempted = $this->objLevel4ProfessionProgress->getTotalL4BasicAttemptedBySchoolAndClass($attemptedProfession->profession_id, $schoolid, $id);
+                $badgesData['bacisbadges'] = (isset($totalBasicAttempted) && $totalBasicAttempted) ? $totalBasicAttempted : 0;
+                $totalIntermediateAttempted = $this->objLevel4ProfessionProgress->getTotalL4IntermediteAttemptedBySchoolAndClass($attemptedProfession->profession_id, $schoolid, $id);
+                $badgesData['intermediatebadges'] = (isset($totalIntermediateAttempted) && $totalIntermediateAttempted > 0) ? $totalIntermediateAttempted : 0;
+                $totalAdvanceAttempted = $this->objLevel4ProfessionProgress->getTotalL4AdvanceAttemptedBySchoolAndClass($attemptedProfession->profession_id, $schoolid, $id);
+                $badgesData['advancebadges'] = (isset($totalAdvanceAttempted) && $totalAdvanceAttempted > 0) ? $totalAdvanceAttempted : 0;
+                $totalBadges[] = $badgesData;
+            }
         }
-
         $logo = $this->loggedInUser->user()->sc_logo;
         $image = '';
         if (!empty($logo)) {
@@ -407,7 +415,6 @@ class DashboardController extends Controller {
         $response['deductedCoinsDetail'] = $deductedCoinsDetail;
         $response['teenCoinsDetail'] = $teenCoinsDetail;
         $response['l2ActivityResponse'] = $l2ActivityArr;
-
         $pdf=PDF::loadView('school.exportSchoolDetailPDF', $response);
         return $pdf->stream('School.pdf');
     }
