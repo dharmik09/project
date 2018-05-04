@@ -470,7 +470,7 @@ class DashboardManagementController extends Controller {
                 $response['finalTeens'] = $finalTeens;
                 $response['coins'] = $coins;
                 $response['finalSortedData'] = $finalSortedData;
-                $learningGuidance = Helpers::getCmsBySlug('learning-guidance-info');
+                $learningGuidance = Helpers::getCmsBySlug('parent-progress-learning-guidance-text');
                 return view('parent.parentProgress', compact('response', 'teenDetail', 'learningGuidance'));
 
             } else {
