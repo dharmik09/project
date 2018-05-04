@@ -87,7 +87,7 @@ class CommunityManagementController extends Controller {
                 return Redirect::to("teenager/my-profile");
             }
             if ($teenDetails->is_search_on != Config('constant.TEENAGER_PUBLIC_PROFILE_ON')) {
-                return Redirect::to("teenager/home")->with('error', 'Private profile');
+                return Redirect::to("teenager/home")->with('error', 'Sorry. User has preferred to keep this information private');
                 exit;
             }
             
