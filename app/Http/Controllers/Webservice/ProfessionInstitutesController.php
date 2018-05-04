@@ -318,16 +318,26 @@ class ProfessionInstitutesController extends Controller {
                     if(isset($value->hostel_count) && $value->hostel_count != ""){
                         $instituteHostelCount = $value->hostel_count;
                     }        
-                    if(isset($value->girl_exclusive) && $value->girl_exclusive != ""){
-                        if($value->girl_exclusive = 1){
-                            $instituteGender = "Girls Only";
-                        }
+//                    if(isset($value->girl_exclusive) && $value->girl_exclusive != ""){
+//                        if($value->girl_exclusive = 1){
+//                            $instituteGender = "Girls Only";
+//                        }
+//                    }
+//                    if(isset($value->autonomous) && $value->autonomous != ""){
+//                        if($value->autonomous = 1){
+//                            $instituteAutonomous = "Yes";
+//                        }
+//                    }
+                    
+                    if($countryId == 2){
+                        $instituteAutonomous = (isset($value->autonomous) && !empty($value->autonomous) && $value->autonomous == 1)?'YCY':'YPY';
+                        $instituteGender = (isset($value->girl_exclusive) && !empty($value->girl_exclusive) && $value->girl_exclusive == 1)?'Non Co-Ed':'Co-Ed';
                     }
-                    if(isset($value->autonomous) && $value->autonomous != ""){
-                        if($value->autonomous = 1){
-                            $instituteAutonomous = "Yes";
-                        }
-                    }
+                    else{              
+                        $instituteAutonomous = (isset($value->autonomous) && !empty($value->autonomous) && $value->autonomous == 1)?'Yes':'No';
+                        $instituteGender = (isset($value->girl_exclusive) && !empty($value->girl_exclusive) && $value->girl_exclusive == 1)?'Girls Only':'Co-Ed';
+                    }   
+                    
                     if(isset($value->accreditation_score) && $value->accreditation_score != ""){
                         $instituteAccreditationScore = $value->accreditation_score;
                     }
