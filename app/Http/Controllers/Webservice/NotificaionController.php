@@ -69,9 +69,10 @@ class NotificaionController extends Controller {
                 unset($data[$key]->senderTeenager);
                 unset($data[$key]->community);
             }
-            
-            $noticationCount = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$deletedData);
-            $count = $noticationCount - count($readData);
+
+            $finalArr = array_unique(array_merge($deletedData, $readData));
+            $noticationCount = $this->objNotifications->getNotificationsCountByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,[]);
+            $count = $noticationCount - count($finalArr);
 
             $response['data'] = $data;
             $response['notificationUnreadCount'] = (isset($count) && $count > 0) ? $count : 0;
