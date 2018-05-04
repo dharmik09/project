@@ -179,7 +179,7 @@
                            }
                        },
                        complete: function() {
-                           setTimeout(getNotificationCount, 10000);
+                           setTimeout(getNotificationCount, 20000);
                        }
                    });
                })();
