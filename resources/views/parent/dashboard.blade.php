@@ -94,6 +94,10 @@
                             </td>
                             <td>
                                 <div class="outer_level_box bar_box">
+                                    <div class="">
+                                        Total: 
+                                        <?php echo (isset($data['booster']['Total']) && $data['booster']['Total'] > 0) ? $data['booster']['Total'] : 0; ?>
+                                    </div>
                                     <div class="level_box">
                                         <div class="level_cst level-1"><span class="center_detial">{{$data['booster']['Level1'] or 0}}</span></div>
                                         <div class="level_cst level-2"><span class="center_detial">{{$data['booster']['Level2'] or 0}}</span></div>
