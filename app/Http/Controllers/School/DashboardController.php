@@ -691,7 +691,7 @@ class DashboardController extends Controller {
             $notificationData['n_receiver_id'] = 0;
             $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
             $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS');
-            $notificationData['n_notification_text'] = '<strong>'.ucfirst($schoolName).'</strong> school gifted '.$saveData['tcg_total_coins'].' ProCoins to their students!';
+            $notificationData['n_notification_text'] = '<strong>'.ucfirst($schoolName).'</strong> gifted '.$saveData['tcg_total_coins'].' ProCoins to their students!';
 
             $this->objNotifications->insertUpdate($notificationData);
             $pushNotificationData = [];
