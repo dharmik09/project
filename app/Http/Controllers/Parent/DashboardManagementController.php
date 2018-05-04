@@ -1890,7 +1890,7 @@ class DashboardManagementController extends Controller {
     public function getTeenagerStrengthDetails(Request $request){
          $response = [ 'status' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
         $teenager = $this->teenagersRepository->getTeenagerById($request->teenagerId);        
-  
+        $parentId = Auth::guard('parent')->user()->id;
         if($teenager) {
             $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = $sortedMIHData = $sortedMIMData = $sortedMILData = [];
             
@@ -1912,15 +1912,40 @@ class DashboardManagementController extends Controller {
                     if (strpos($paramkey, 'apt_') !== false) { 
                         $scaleapt = $this->objApptitudeScale->calculateApptitudeHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('scale'=>$scaleapt,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey));
+
+                        $objApptitude = new Apptitude();
+                        $aptDetails = $objApptitude->getApptitudeDetailBySlug($paramkey);
+                        $objLevel2ParentsActivity = new Level2ParentsActivity();
+                        $level2AptActivityData = $objLevel2ParentsActivity->getLevel2ParentsActivity($aptDetails->id, $parentId,$teenager->id, 'apptitude');
+                        $parentScale = '';
+                        if (!empty($level2AptActivityData) && count($level2AptActivityData) > 0) {
+                            $parentScale = $level2AptActivityData[0]['l2pac_value'];
+                        }
+                        $teenagerStrength[] = (array('scale'=>$scaleapt,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.APPTITUDE_TYPE').'/'.$paramkey, 'parentScale' => $parentScale));
                     }elseif(strpos($paramkey, 'pt_') !== false){
                         $scalept = $this->objPersonalityScale->calculatePersonalityHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('scale'=>$scalept,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey));
+                        $objPersonality = new Personality();
+                        $ptDetails = $objPersonality->getPersonalityDetailBySlug($paramkey);
+                        $objLevel2ParentsActivity = new Level2ParentsActivity();
+                        $level2PActivityData = $objLevel2ParentsActivity->getLevel2ParentsActivity($ptDetails->id, $parentId,$teenager->id, 'personality');
+                        $ptParentScale = '';
+                        if (!empty($level2PActivityData) && count($level2PActivityData) > 0) {
+                            $ptParentScale = $level2PActivityData[0]['l2pac_value'];
+                        }
+                        $teenagerStrength[] = (array('scale'=>$scalept,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.PERSONALITY_TYPE').'/'.$paramkey, 'parentScale' => $ptParentScale));
                     }elseif(strpos($paramkey, 'mit_') !== false){
                         $scalemi = $this->objMIScale->calculateMIHML($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], $paramvalue);
                         $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                        $teenagerStrength[] = (array('scale'=>$scalemi,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey));
+                        $objMultipleIntelligent = new MultipleIntelligent();
+                        $miDetails = $objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($paramkey);
+                        $objLevel2ParentsActivity = new Level2ParentsActivity();
+                        $level2MIActivityData = $objLevel2ParentsActivity->getLevel2ParentsActivity($miDetails->id, $parentId,$teenager->id, 'mi');
+                        $miParentScale = '';
+                        if (!empty($level2MIActivityData) && count($level2MIActivityData) > 0) {
+                            $miParentScale = $level2MIActivityData[0]['l2pac_value'];
+                        }
+                        $teenagerStrength[] = (array('scale'=>$scalemi,'slug' => $paramkey, 'score' => $teenAptScore, 'points' => $paramvalue, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'link_url' => url('/teenager/multi-intelligence/').'/'.Config::get('constant.MULTI_INTELLIGENCE_TYPE').'/'.$paramkey, 'parentScale' => $miParentScale));
                     }
                 }
             }else{

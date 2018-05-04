@@ -5,17 +5,23 @@
         <?php
             if($miVal['scale'] == 'H'){
                 $progressClass = 'progress-strong';
-                $scaleClass = 'strength-high';
             }
             elseif($miVal['scale'] == 'M'){
                 $progressClass = 'progress-potential';
-                $scaleClass = 'strength-moderate';
             }
             elseif($miVal['scale'] == 'L'){
                 $progressClass = 'progress-unlikely';
-                $scaleClass = 'strength-low';
             }else{
                 $progressClass = '';
+            }
+
+            if ($miVal['parentScale'] == 'H'){
+                $scaleClass = 'strength-high';
+            } else if ($miVal['parentScale'] == 'M'){
+                $scaleClass = 'strength-moderate';
+            } else if ($miVal['parentScale'] == 'L'){
+                $scaleClass = 'strength-low';
+            } else {
                 $scaleClass = '';
             }
         ?>
@@ -23,7 +29,7 @@
         <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
             <div class="my_chart">
                 <div class="progress-radial progress-100 {{$progressClass}}">
-                    <span class="{{$scaleClass}}">{{$miVal['scale']}}</span>
+                    <span class="{{$scaleClass}}">{{$miVal['parentScale']}}</span>
                 </div>
                 <h4>{{$miVal['name']}}</h4>
             </div>
@@ -46,17 +52,23 @@
     <?php
             if($aptVal['scale'] == 'H'){
                 $progressClass = 'progress-strong';
-                $scaleClass = 'strength-high';
             }
             elseif($aptVal['scale'] == 'M'){
                 $progressClass = 'progress-potential';
-                $scaleClass = 'strength-moderate';
             }
             elseif($aptVal['scale'] == 'L'){
                 $progressClass = 'progress-unlikely';
-                $scaleClass = 'strength-low';
             }else{
                 $progressClass = '';
+            }
+
+            if ($aptVal['parentScale'] == 'H'){
+                $scaleClass = 'strength-high';
+            } else if ($aptVal['parentScale'] == 'M'){
+                $scaleClass = 'strength-moderate';
+            } else if ($aptVal['parentScale'] == 'L'){
+                $scaleClass = 'strength-low';
+            } else {
                 $scaleClass = '';
             }
         ?>
@@ -64,7 +76,7 @@
         <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
             <div class="my_chart">
                 <div class="progress-radial progress-100 {{$progressClass}}">
-                    <span class="{{$scaleClass}}">{{$aptVal['scale']}}</span>
+                    <span class="{{$scaleClass}}">{{$aptVal['parentScale']}}</span>
                 </div>
                 <h4>{{$aptVal['name']}}</h4>
             </div>
@@ -87,17 +99,23 @@
     <?php
             if($ptVal['scale'] == 'H'){
                 $progressClass = 'progress-strong';
-                $scaleClass = 'strength-high';
             }
             elseif($ptVal['scale'] == 'M'){
                 $progressClass = 'progress-potential';
-                $scaleClass = 'strength-moderate';
             }
             elseif($ptVal['scale'] == 'L'){
                 $progressClass = 'progress-unlikely';
-                $scaleClass = 'strength-low';
             }else{
                 $progressClass = '';
+            }
+
+            if ($ptVal['parentScale'] == 'H'){
+                $scaleClass = 'strength-high';
+            } else if ($ptVal['parentScale'] == 'M'){
+                $scaleClass = 'strength-moderate';
+            } else if ($ptVal['parentScale'] == 'L'){
+                $scaleClass = 'strength-low';
+            } else {
                 $scaleClass = '';
             }
         ?>
@@ -105,7 +123,7 @@
         <div class="col-md-3 col-sm-3 col-xs-6 flex-items">
             <div class="my_chart">
                 <div class="progress-radial progress-100 {{$progressClass}}">
-                    <span class="{{$scaleClass}}">{{$ptVal['scale']}}</span>
+                    <span class="{{$scaleClass}}">{{$ptVal['parentScale']}}</span>
                 </div>
                 <h4>{{$ptVal['name']}}</h4>
             </div>
