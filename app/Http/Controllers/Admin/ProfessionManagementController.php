@@ -359,8 +359,15 @@ class ProfessionManagementController extends Controller {
         exit;
     }
 
+    public function exportDataCountrySelection() {
+        $countryList = $this->objCountry->getAllCounries();
+        return view('admin.ExportProfessionCountrySelection',compact('countryList'));
+    }
+    
     public function exportData() {
-        $result = $this->professionsRepository->getExportProfession();
+        $countryId = Input::get('p_country');
+       
+        $result = $this->professionsRepository->getExportProfession($countryId);
         Excel::create('profession', function($excel) use($result) {
             $excel->sheet('Sheet 1', function($sheet) use($result) {
                 $sheet->fromArray($result);
