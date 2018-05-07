@@ -1022,11 +1022,12 @@ class Level1ActivityController extends Controller
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager && !empty($teenager)){
-            if (isset($request->memberId) && !empty($request->memberId)) {
-                $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($request->userId, $request->memberId);
-            } else {
-                $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($request->userId, $request->userId);
-            }
+            // if (isset($request->memberId) && !empty($request->memberId)) {
+            //     $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($request->userId, $request->memberId);
+            // } else {
+            //     $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($request->userId, $request->userId);
+            // }
+            $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($request->userId, $request->userId);
             if ($traitQuestion && count($traitQuestion) > 0) {
                 $response['status'] = 0;
                 $response['message'] = "You have not attempted all traits";
