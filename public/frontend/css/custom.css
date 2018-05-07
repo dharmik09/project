@@ -492,7 +492,7 @@ textarea.cst_input_primary{resize: vertical;}
 .data-dashboard .data{display: inline-block;float: none;}
 .multiple-heading{font-family: 'h';font-size: 18px;}
 .parent_h2_header h2.parent_h2_text{font-size: 22px;}
-.parent_h2_header h2.parent_h2_text {font-size: 28px;font-family: 'am';color: #27a6b5;border-bottom: none;}
+.parent_h2_header h2.parent_h2_text {font-size: 28px;font-family: 'am';color: #27a6b5;border-bottom: none;margin-bottom: 0px;}
 .intrest_content .my_chart{width: 100%;}
 .level-1{background-color: #fd604b;}
 .level-2{background-color: #66c6e6;}
@@ -636,6 +636,10 @@ body.fixed-nav{padding-bottom: 130px;}
 .teenager_skill{margin-top: 20px;}
 .data-explainations .small-box.circle-box{border-radius: 50%;}
 .data-explainations .text{margin-right: 10px;color: #000;font-family: "open sans",sans-serif;}
+.data-explainations.margin-top{margin-top: 20px;margin-bottom: 0;}
+.data-explainations.margin-bottom{margin-top: 0px;margin-bottom: 20px;}
+.front_page{}
+.slider_card .dashboard_edu_text{position: absolute;bottom: 20px;margin: 0 auto;left: 50%;transform: translatex(-50%);}
 @media (max-width: 991px) {
 .padTop10 {
     padding-top: 10px;
@@ -1040,7 +1044,7 @@ h2 .tooltip-inner {
 @media(min-width:768px){
     .coin_summary.cst_cst_dsh.cst_dsh .right{padding:0;text-align:left;}
     .coin_summary.cst_cst_dsh.cst_dsh .dashboard_page{padding:0;text-align:right;}    
-    .slider_card{height: 400px;}
+    .slider_card{height: 300px;}
     .card span.title{font-size: 20px;}
     .card{padding: 25px 5px;}
 }

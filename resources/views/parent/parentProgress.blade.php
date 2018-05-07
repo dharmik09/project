@@ -350,14 +350,14 @@
                     <div class="parent_h2_header">
                         <h2 class="parent_h2_text">Multiple Intelligences</h2>
                     </div>
-                    <div class="data-explainations clearfix text-center data-dashboard">
+                    <div class="data-explainations clearfix text-center data-dashboard margin-top">
                         <div class="content"><span class="text">PROMISE Assessment</span>
                             <div class="data"><span class="small-box circle-box career-data-color-1"></span><span>High</span></div>
                             <div class="data"><span class="small-box circle-box career-data-color-2"></span><span>Moderate</span></div>
                             <div class="data"><span class="small-box circle-box career-data-color-3"></span><span>Low</span></div>
                         </div>
                     </div>
-                    <div class="data-explainations clearfix text-center data-dashboard">
+                    <div class="data-explainations clearfix text-center data-dashboard margin-bottom" >
                         <div class="content"><span class="text">Your Assessment</span>
                             <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
                             <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
@@ -459,7 +459,7 @@
             <!--Learning Style start-->
                 <div class="dashboard_inner_box no_bord sec-guidance">
                     <h2>Learning Guidance</h2>
-                    {!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}
+                   <div>{!! (isset($learningGuidance->cms_body)) ? $learningGuidance->cms_body : 'Learning Guidance will be updated!' !!}</div> 
                     <div class="promisebtn">
                         <?php 
                         if ($response['remainingDaysForLS'] == 0) {
