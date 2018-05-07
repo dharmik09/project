@@ -351,7 +351,14 @@
                         <h2 class="parent_h2_text">Multiple Intelligences</h2>
                     </div>
                     <div class="data-explainations clearfix text-center data-dashboard">
-                        <div class="content">
+                        <div class="content"><span class="text">PROMISE Assessment</span>
+                            <div class="data"><span class="small-box circle-box career-data-color-1"></span><span>High</span></div>
+                            <div class="data"><span class="small-box circle-box career-data-color-2"></span><span>Moderate</span></div>
+                            <div class="data"><span class="small-box circle-box career-data-color-3"></span><span>Low</span></div>
+                        </div>
+                    </div>
+                    <div class="data-explainations clearfix text-center data-dashboard">
+                        <div class="content"><span class="text">Your Assessment</span>
                             <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
                             <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
                             <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>

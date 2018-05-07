@@ -632,6 +632,10 @@ body.fixed-nav{padding-bottom: 130px;}
 .profession-attempted-img.profession_attempted_carousel.owl-carousel.owl-loaded.school_pro_image img{max-width: 100%;}
 .sponsor_table tr td .font-blue{font-size: 16px;text-transform: capitalize;}
 .profession-attempted-img .owl-nav .owl-prev,.profession-attempted-img .owl-nav .owl-next{top: 37%;}
+.parent_h2_header h2{font-size: 28px;}
+.teenager_skill{margin-top: 20px;}
+.data-explainations .small-box.circle-box{border-radius: 50%;}
+.data-explainations .text{margin-right: 10px;color: #000;font-family: "open sans",sans-serif;}
 @media (max-width: 991px) {
 .padTop10 {
     padding-top: 10px;
@@ -650,6 +654,7 @@ body.fixed-nav{padding-bottom: 130px;}
     font-size:14px;
     padding: 0 15px;
 }
+
 @media (max-width: 767px) {
     .report_download{
         text-align: left;
@@ -673,7 +678,8 @@ body.fixed-nav{padding-bottom: 130px;}
     .main-menu .menu-container h2{font-size: 30px;}
     .add-question-sec .btn-flat{display: block;}
     .add-question-sec .btn-flat.pull-right{float: none !important;}
-    .login_form h1{font-size: 21px;}
+    .login_form h1,.parent_h2_header h2{font-size: 21px;}
+    
 }
 
 @media (max-width: 430px){
