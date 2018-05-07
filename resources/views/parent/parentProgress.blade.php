@@ -467,13 +467,15 @@
                             $coinsDetails = $response['required_coins'];
                             $learningGuidanceText = 'Learn More';
                             $lgClass = 'learning_guidance';
+                            $lgClickEvent = "learningGuidanceCoinsConumption()";
                         } else {
                             $learningGuidanceUrl = url('parent/learning-guidance/'.$teenDetail->t_uniqueid);
                             $coinsDetails = $response['remainingDaysForLS'].' Days Left';
                             $learningGuidanceText = 'See More';
                             $lgClass = '';
+                            $lgClickEvent = '';
                         } ?>
-                        <a id="lg_activity" href="{{$learningGuidanceUrl}}" class="promise btn_golden_border {{$lgClass}}" title="" >
+                        <a id="lg_activity" href="{{$learningGuidanceUrl}}" class="promise btn_golden_border {{$lgClass}}" title="" onclick="{{ $lgClickEvent }}">
                             <span class="promiseplus lg_text" id="Rdays">{{$learningGuidanceText}}</span>
                             <span class="coinouter">
                                 <span class="coinsnum lg_coins">{{$coinsDetails}}</span>
@@ -801,7 +803,8 @@
             });
         }
 
-        $('body').on('click','.learning_guidance',function() {
+        //$('body').on('click','.learning_guidance',function() {
+        function learningGuidanceCoinsConumption() {
             var days = <?php echo $response['remainingDaysForLS']; ?>;
             var r_coins = parseInt("{{$response['required_coins']}}");
             if (days > 0) {
@@ -890,7 +893,7 @@
                     }
                 });
             }
-        });
+        }
 
         //function getLearningStyleData(teenager_id) {
             //$('.learn_scroll').slideDown();
@@ -929,8 +932,9 @@
                     if (response.status != 0) {
                         $('.lg_text').text('See More');
                         $('.lg_coins').text(response.days + ' days left');
-                        $('.learning_guidance').prop('onclick',null).off('click');
-                        window.location.href = "{{ url('parent/learning-guidance') }}/{{$teenDetail->t_uniqueid}}";
+                        $('#lg_activity').prop('onclick',null).off('click');
+                        $('#lg_activity').attr('href', "{{ url('parent/learning-guidance') }}/{{$teenDetail->t_uniqueid}}");
+                        //window.location.href = "{{ url('parent/learning-guidance') }}/{{$teenDetail->t_uniqueid}}";
                     } else {
                         $('.lg_text').text('Learn More');
                         $('.lg_coins').text(response.coinsDetails);
