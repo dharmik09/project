@@ -425,7 +425,7 @@ class ProfileController extends Controller
             }
             return Redirect::to('teenager/my-profile')->with('success', 'Reference id sent to your parents and mentors');
         } else {
-            return Redirect::to('teenager/my-profile')->with('error', 'No parent or mentors found for teenager');
+            return Redirect::to('teenager/my-profile')->with('error', 'No parent or mentor found for teenager');
         }
     }
 }

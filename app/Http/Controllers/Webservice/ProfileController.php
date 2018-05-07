@@ -26,10 +26,12 @@ use Monolog\Handler\StreamHandler;
 use App\PaidComponent;
 use App\DeductedCoins;
 use App\Level4ProfessionProgress;
+use App\Services\Template\Contracts\TemplatesRepository;
+use Mail;
 
 class ProfileController extends Controller
 {
-    public function __construct(CommunityRepository $communityRepository, FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository)
+    public function __construct(CommunityRepository $communityRepository, FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templateRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->fileStorageRepository = $fileStorageRepository;
@@ -53,6 +55,7 @@ class ProfileController extends Controller
         $this->objPaidComponent = new PaidComponent;
         $this->objDeductedCoins = new DeductedCoins;
         $this->objLevel4ProfessionProgress = new Level4ProfessionProgress;
+        $this->templateRepository = $templateRepository;
     }
 
     /* Request Params : getTeenagerProfileData
@@ -669,6 +672,54 @@ class ProfileController extends Controller
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
             $response['data'] = $data;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
+    }
+
+    /* Request Params : sendReferenceIdToParentsAndMentors
+     *  loginToken, userId
+     *  Service after loggedIn user
+     */
+    public function sendReferenceIdToParentsAndMentors(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg') ] ;
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if($request->userId != "" && $teenager) {
+            $teenagerId = $request->userId;
+            $teenUniqueId = $teenager->t_uniqueid;
+            $parentDetail = $this->teenagersRepository->getTeenParents($teenagerId);
+            if (!empty($parentDetail) && count($parentDetail) > 0) {
+                $userDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenagerId);
+                $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.SEND_REFERENCEID_TO_PARENT'));
+                foreach($parentDetail AS $key => $parent) {
+                    $replaceArray = array();
+                    $replaceArray['USER_NAME'] = $parent->p_first_name;
+                    $replaceArray['REFERENCE_ID'] = $teenUniqueId;
+                    if (!empty($emailTemplateContent) && count($emailTemplateContent) > 0) {
+                        $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                    } else {
+                        $content = 'Hi <strong>'.$parent->p_first_name.'</strong>, <br/><br/> Your teen has send you its Reference Uniqueid.<strong></strong> <br/><br/> Teen Reference :- '.$teenUniqueId;
+                    }
+                    $data = array();
+                    $data['subject'] = (isset($emailTemplateContent->subject) && $emailTemplateContent->subject != "") ? $emailTemplateContent->subject : 'Teenager Reference Id';;
+                    $data['toEmail'] = $parent->p_email;
+                    $data['toName'] = $parent->p_first_name ." ". $parent->p_last_name;
+                    $data['content'] = $content;
+                    Mail::send(['html' => 'emails.Template'], $data , function ($m) use ($data) {
+                        $m->from(Config::get('constant.FROM_MAIL_ID'), 'Teenager Reference Id');
+                        $m->subject($data['subject']);
+                        $m->to($data['toEmail'], $data['toName']);
+                    });
+                }
+                $response['status'] = 1;
+                $response['message'] = 'Reference id sent to your parents and mentors'; 
+            } else {
+                $response['status'] = 0;
+                $response['message'] = 'No parent or mentor found for teenager';
+            }      
+            $response['login'] = 1;
         } else {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
