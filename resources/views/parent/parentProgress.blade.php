@@ -333,7 +333,7 @@
                         </div>
                     </div>
                 </div><!-- dashboard_inner_box End -->
-
+                <h2 class="multiple-heading"></h2>
                 <div class="dash_progress my_intrest col-md-12 teenager_skill">                    
                     <div class="parent_h2_header">
                         <h2>Strengths 
@@ -346,12 +346,19 @@
                         <span class="mid_label" style="font-size:18px;"> M - Moderate,</span>
                         <span class="low_label" style="font-size:18px;">L - Low </span>
                     </h2>-->
-                    <h2 style="text-align:center;" class="multiple-heading">Your "How well do you know your Teen ?"</h2>
+                    <!-- <h2 style="text-align:center;" class="multiple-heading">Your "How well do you know your Teen ?"</h2> -->
                     <div class="parent_h2_header">
                         <h2 class="parent_h2_text">Multiple Intelligences</h2>
                     </div>
                     <div class="data-explainations clearfix text-center data-dashboard">
-                        <div class="content">
+                        <div class="content"><span class="text">PROMISE Assessment</span>
+                            <div class="data"><span class="small-box circle-box career-data-color-1"></span><span>High</span></div>
+                            <div class="data"><span class="small-box circle-box career-data-color-2"></span><span>Moderate</span></div>
+                            <div class="data"><span class="small-box circle-box career-data-color-3"></span><span>Low</span></div>
+                        </div>
+                    </div>
+                    <div class="data-explainations clearfix text-center data-dashboard">
+                        <div class="content"><span class="text">Your Assessment</span>
                             <div class="data"><span class="small-box career-data-color-1"></span><span>High</span></div>
                             <div class="data"><span class="small-box career-data-color-2"></span><span>Moderate</span></div>
                             <div class="data"><span class="small-box career-data-color-3"></span><span>Low</span></div>

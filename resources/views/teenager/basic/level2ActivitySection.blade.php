@@ -29,11 +29,13 @@
                         @endif
                         <div class="radio">
                             @foreach($activities[0]->options as $key => $value)
-                                <label>
-                                    <input type="radio" name="{{$activities[0]->activityID}}l2AnsId" onclick="saveAns('{{$activities[0]->activityID}}', '{{$key}}')" value="{{$value['optionId']}}" />
-                                    <span class="checker"></span>
-                                    <em>{{$value['optionText']}}</em>
-                                </label>
+                                <div>
+                                    <label>
+                                        <input type="radio" name="{{$activities[0]->activityID}}l2AnsId" onclick="saveAns('{{$activities[0]->activityID}}', '{{$key}}')" value="{{$value['optionId']}}" />
+                                        <span class="checker"></span>
+                                        <em>{{$value['optionText']}}</em>
+                                    </label>
+                                </div>
                             @endforeach
                             <input type="hidden" id="{{$activities[0]->activityID}}l2AnsSection" value="{{$section}}">
                         </div>

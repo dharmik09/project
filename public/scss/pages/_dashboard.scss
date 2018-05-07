@@ -549,19 +549,22 @@ h6 {
             height: 14px;
         }
         label {
-            display: block;
+          display: inline-block;
             margin-bottom: 40px;
+            //cursor: default;
             .checker {
                 top: 5px;
                 position: relative;
                 display: block;
                 margin-left: -40px;
+                //cursor: pointer;
             }
             em {
                 font-size: 23px;
                 font-family: 'hn-b';
                 color: $r-cl;
                 font-style: normal;
+                //cursor: pointer;
                 @include maxms {
                     font-size: 16px;
                 }

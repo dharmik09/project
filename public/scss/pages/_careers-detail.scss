@@ -325,8 +325,8 @@
                 @include maxms {
                     font-size: 14px;
                 }
-                a{
-                     color: blue;
+                a {
+                    color: blue;
                 }
             }
             ul {
@@ -393,95 +393,94 @@
                         }*/
                     }
                 }
-                &.certificate-list{
-                ul{
-                    li{
-                        width: 33.33%;
-                        @include maxsm{
-                            width: 50%;
-                        }
-                        @include maxms{
-                            width: 100%;
-                        }
-                        .logo-img {
-                            max-height: 130px;
-                           /* @include maxms {
+                &.certificate-list {
+                    ul {
+                        li {
+                            width: 33.33%;
+                            @include maxsm {
+                                width: 50%;
+                            }
+                            @include maxms {
+                                width: 100%;
+                            }
+                            .logo-img {
+                                max-height: 130px;
+                                /* @include maxms {
                                 max-height: 90px;
                             }*/
-                            img {
-                                //height: 100%;
-                                height: 130px;
-                                width: 100%;
-                               /* @include maxms {
+                                img {
+                                    //height: 100%;
+                                    height: 130px;
+                                    width: 100%;
+                                    /* @include maxms {
                                     height: 90px;
                                 }*/
-                            }
+                                }
 
+                            }
                         }
                     }
                 }
             }
-            }
-            &.sec-tags{
+            &.sec-tags {
                 padding: 0;
-                .unbox-btn{
-                    .unbox-me{
-                            background: #ff5f44;
-                            padding: 8px 20px;
-                            border: 1px solid #ff5f44;
-                            color: #fff;
-                            font-size: 33px;
-                            font-family: hl;
-                            line-height: 1.1;
-                            vertical-align: top;
-                            font-weight: 700;
-                            @include maxlg{
-                                font-size: 28px;
-                                padding: 10px 20px;
-                            }
-                            @include maxmd{
-                                padding: 7px 20px;
-                            }
-                            @include maxsm{
-                                font-size: 22px;
-                                padding: 10px 20px;
-                            }
-                            @include maxms{
-                                padding: 8px 4px;
-                                font-size: 20px;
-                            }
+                .unbox-btn {
+                    .unbox-me {
+                        background: #ff5f44;
+                        padding: 8px 20px;
+                        border: 1px solid #ff5f44;
+                        color: #fff;
+                        font-size: 33px;
+                        font-family: hl;
+                        line-height: 1.1;
+                        vertical-align: top;
+                        font-weight: 700;
+                        @include maxlg {
+                            font-size: 28px;
+                            padding: 10px 20px;
+                        }
+                        @include maxmd {
+                            padding: 7px 20px;
+                        }
+                        @include maxsm {
+                            font-size: 22px;
+                            padding: 10px 20px;
+                        }
+                        @include maxms {
+                            padding: 8px 4px;
+                            font-size: 20px;
+                        }
                     }
-                    .coins-outer.institute_coins{
+                    .coins-outer.institute_coins {
                         margin-left: -5px;
                     }
                 }
-                .btn-default{
-                   // float: right;
-                    @include maxsm{
+                .btn-default {
+                    // float: right;
+                    @include maxsm {
                         float: none;
                         padding: 7px 25px;
                     }
                 }
-                .tag-list{
-                    li{
-                        &.disabled{
+                .tag-list {
+                    li {
+                        &.disabled {
                             background: #ccc;
-                            border-color: #ccc;
-                           // pointer-events: none;
+                            border-color: #ccc; // pointer-events: none;
                             cursor: not-allowed;
-                            a{
-                                
+                            a {
+
                                 pointer-events: none;
                             }
                         }
                     }
                 }
             }
-            a{
+            a {
                 word-break: break-all;
-               
+
             }
-            
+
         }
     }
 }
@@ -582,13 +581,17 @@
             font-size: 14px;
         }
     }
-    &.match-med{
-        h3,p{
+    &.match-med {
+        h3,
+        p {
             color: $remember-cl;
         }
     }
-    &.match-high{
-        h3,p{color: $m-cl;}
+    &.match-high {
+        h3,
+        p {
+            color: $m-cl;
+        }
     }
 }
 
@@ -1138,17 +1141,17 @@
         border: none;
         font-family: hn-b;
         padding: 8px 25px;
-            border: none;
-    font-family: hn-b;
-    padding: 8px 25px;
-    background: #ff5f44;
-    border-color: #ff5f44;
-    font-size: 15px;
-    &:hover{
-        background-color: #65c6e6;
-        border-color: #65c6e6;
-        color: $white;
-    }
+        border: none;
+        font-family: hn-b;
+        padding: 8px 25px;
+        background: #ff5f44;
+        border-color: #ff5f44;
+        font-size: 15px;
+        &:hover {
+            background-color: #65c6e6;
+            border-color: #65c6e6;
+            color: $white;
+        }
     }
     .upload-content {
         min-height: 200px;
@@ -1169,7 +1172,7 @@
             }
         }
     }
-    .nav-tabs{
+    .nav-tabs {
         background: transparent;
     }
 }
@@ -1297,7 +1300,7 @@
         .custom-select {
             position: relative;
             font-family: hn-b;
-           
+
             color: $r-cl;
             font-size: 16px;
             /*@include maxms {
@@ -1323,7 +1326,7 @@
                 cursor: pointer;
                 appearance: none;
                 border: none;
-                 height: 47px;
+                height: 47px;
                 border: 1px solid #dddedf;
                 padding-right: 40px;
                 @include maxms {
@@ -1364,7 +1367,8 @@
             .mentor-list {
                 margin-top: 30px;
                 max-width: 100%;
-                .owl-prev, .owl-next{
+                .owl-prev,
+                .owl-next {
                     display: none;
                 }
             }
@@ -1451,7 +1455,7 @@
     width: 100%;
     background: $white;
     margin: 5px 0 50px;
-    .d-table{
+    .d-table {
         width: 100%;
         height: 100%;
         background: $bg-offwhite;
@@ -1490,7 +1494,7 @@
     text-align: center;
     padding: 3px 0 5px;
     position: relative;
-    @include maxmd{
+    @include maxmd {
         padding: 10px 0;
     }
     .progress-match {
@@ -1583,7 +1587,7 @@
     }
     .data-explainations {
         margin: 0px 0 0 14px;
-        @include maxmd{
+        @include maxmd {
             margin-bottom: 10px;
         }
         .data {
@@ -1667,15 +1671,17 @@
         }
     }
     .progress-bar-primary {
-        background: rgba(242, 133, 56, 1);
+        /*background: rgba(242, 133, 56, 1);
         background: -moz-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
         background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 133, 56, 1)), color-stop(58%, rgba(242, 193, 86, 1)), color-stop(100%, rgba(7, 201, 165, 1)));
         background: -webkit-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
         background: -o-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
         background: -ms-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
         background: linear-gradient(to right, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1);*/
         z-index: 9;
+        background-color: #fff;
+        border-right: 1px solid #565b5f;
     }
     .skill-name {
         width: 45%;
@@ -1778,7 +1784,7 @@
         }
     }
     .sec-popup a {
-        font-size:28px;
+        font-size: 28px;
     }
 }
 
@@ -2025,8 +2031,9 @@ text.highcharts-xaxis-title {
         margin-bottom: 20px;
     }
 }
-.mediaSubmit .btn-primary{
-        border: none;
+
+.mediaSubmit .btn-primary {
+    border: none;
     font-family: hn-b;
     padding: 8px 25px;
     border: none;
@@ -2035,20 +2042,28 @@ text.highcharts-xaxis-title {
     background: #ff5f44;
     border-color: #ff5f44;
     font-size: 15px;
-    &:hover{
+    &:hover {
         background-color: #65c6e6;
         border-color: #65c6e6;
         color: $white;
     }
 }
+
 .btn-institute {
     padding: 6px 15px;
     font-size: 16px;
 }
-.upload-suggestion{
-    display: block;text-align: right;font-style: italic;
-    @include maxms{
+
+.upload-suggestion {
+    display: block;
+    text-align: right;
+    font-style: italic;
+    @include maxms {
         text-align: left;
     }
 }
-.ad-slider .owl-prev,.ad-slider .owl-next{display: none;}
+
+.ad-slider .owl-prev,
+.ad-slider .owl-next {
+    display: none;
+}
