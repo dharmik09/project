@@ -5,7 +5,7 @@ Route::get('/dashboard', 'Teenager\DashboardController@dashboard');
 Route::get('/edit-profile', 'Teenager\ProfileController@profile');
 Route::get('/my-profile', 'Teenager\ProfileController@profile');
 Route::get('/set-sound-value/{sound}', 'Teenager\ProfileController@setSoundOnOff');
-
+Route::get('/send-reference-id-to-parent-mentor', 'Teenager\ProfileController@sendReferenceIdToParentMentor');
 Route::get('/set-profile/{any?}', 'Teenager\ProfileController@setProfile')->name('set-profile');
 Route::post('/save-profile', 'Teenager\ProfileController@saveProfile')->name('save-profile');
 Route::post('/save-teenager-academic-info', 'Teenager\DashboardController@saveTeenagerAcademic');
