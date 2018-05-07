@@ -44,7 +44,7 @@
                                     ?>
                                 <img src="{{ Storage::url($subjectImage) }}" alt="{{$professionSubject->subject['ps_name']}}">
                                 </div>
-                                <a href="javascript:void(0);"><span>{{$professionSubject->subject['ps_name']}}</span></a>                            
+                                <span>{{$professionSubject->subject['ps_name']}}</span>                            
                             </li>
                         @endif
                     @endif                
@@ -64,7 +64,7 @@
                 @foreach($professionsData->ability as $key => $value)
                     <li>
                         <img src="{{ $value['cm_image_url'] }}" alt="{{$value['cm_name']}}">
-                        <a href="javascript:void(0);"><span>{{$value['cm_name']}}</span></a>
+                        <span>{{$value['cm_name']}}</span>
                     </li>
                 @endforeach
             </ul>

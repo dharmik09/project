@@ -348,7 +348,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="sec-tags">
-                            <h4>Tags</h4>
+                            <h4>Hobbies</h4>
                             <div class="sec-popup">
                                 <a id="career-tags" href="javascript:void(0);" onmouseover="getHelpText('career-tags')" data-trigger="hover" data-popover-content="#tags-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
                                     <i class="icon-question"></i>
@@ -362,7 +362,7 @@
                             </div>
                             <ul class="tag-list">
                                 @forelse($professionsData->professionTags as $professionTags)
-                                    <li><a href="javascript:void(0);" title="{{$professionTags->tag['pt_name']}}">{{$professionTags->tag['pt_name']}}</a></li>
+                                    <li>{{$professionTags->tag['pt_name']}}</li>
                                 @empty
                                 @endforelse
                             </ul>
