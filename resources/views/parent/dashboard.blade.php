@@ -95,7 +95,7 @@
                             <td>
                                 <div class="outer_level_box bar_box">
                                     <div class="">
-                                        Total: 
+                                        Total : 
                                         <?php echo (isset($data['booster']['Total']) && $data['booster']['Total'] > 0) ? $data['booster']['Total'] : 0; ?>
                                     </div>
                                     <div class="level_box">
