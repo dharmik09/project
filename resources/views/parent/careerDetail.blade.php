@@ -347,6 +347,116 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                        <div class="sec-match">
+                            <div class="data-explainations clearfix">
+                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Strong match</span></div>
+                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
+                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
+                                </div>
+                            <?php 
+                                $matchScoreArray = ['match' => 100, 'nomatch' => 33, 'moderate' => 66];
+                                $matchScalePoint = ( isset($professionsData->id) && isset($getTeenagerHML[$professionsData->id]) && isset($matchScoreArray[$getTeenagerHML[$professionsData->id]]) ) ? $matchScoreArray[$getTeenagerHML[$professionsData->id]] : 0;
+                            ?>
+                            
+                            <?php if($matchScalePoint == 33)
+                                {$matchName = 'Unlikely'; $class = 'bar-no-match'; $h3class = 'no-match'; $percentage = '100';}
+                                elseif($matchScalePoint == 66){$matchName = 'Potential'; $class = 'bar-moderate';$h3class = 'moderate-match';$percentage = '100';}
+                                elseif($matchScalePoint == 100){$matchName = 'Strong'; $class = 'bar'; $h3class = 'strong-match';$percentage = '100';} 
+                                else{
+                                    $matchName = 'No Attempt'; $class = ''; $h3class = '';$percentage = '0';
+                                }
+                            ?>
+                            
+                            <div class="progress-match">
+                                <div class="sec-popup">
+                                    <!--<a id="career-detail-arc-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-arc-view')" data-trigger="hover" data-popover-content="#arc-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                            <i class="icon-question"></i>
+                                        </a>-->
+                                    <div class="hide" id="arc-view-sec">
+                                        <div class="popover-data">
+                                            <a class="close popover-closer"><i class="icon-close"></i></a>
+                                            <span class="career-detail-arc-view"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="barOverflow">
+                                    <div class="bar {{$class}}"></div>
+                                </div>
+                                <span>{{$percentage}}%</span>
+                            </div>
+                            <h3 class="{{$h3class}}">{{$matchName}}</h3>
+                        </div>
+                        <div class="advanced-sec">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <?php 
+                                                if($remainingDaysForActivity > 0) {
+                                                    $collapseClass = "collapse";
+                                                    $tooltipadv = "";
+                                                } else {
+                                                    $collapseClass = "";
+                                                    $tooltipadv = "Please consume procoins to see Advanced View";
+                                                } ?>
+                                            <a data-parent="#accordion" title="{{$tooltipadv}}" data-toggle="{{$collapseClass}}" href="#accordion1" class="collapsed">Advanced View</a>
+                                            <div class="sec-popup">
+                                                    <a id="career-detail-advanced-view" href="javascript:void(0);" onmouseover="getHelpText('career-detail-advanced-view')" data-trigger="hover" data-toggle="clickover" data-popover-content="#advanced-view-sec" class="help-icon custompop" rel="popover" data-placement="bottom">
+                                                        <i class="icon-question"></i>
+                                                    </a>
+                                                    <div class="hide" id="advanced-view-sec">
+                                                        <div class="popover-data">
+                                                            <a class="close popover-closer"><i class="icon-close"></i></a>
+                                                            <span class="career-detail-advanced-view"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </h4>
+                                    </div>
+                                    <div class="panel-collapse collapse" id="accordion1">
+                                        <div class="panel-body">
+                                            <div class="data-explainations clearfix data-interest">
+                                                <div class="content">
+                                                    <div class="data"><span class="small-box career-data-color-1"></span><span>Maximum</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-2"></span><span>Ideal</span></div>
+                                                    <div class="data"><span class="small-box career-data-color-3"></span><span>Your Strength</span></div>
+                                                </div>
+                                            </div>
+                                            @forelse($teenagerStrength as $key => $value)
+                                                <div class="progress-block">
+                                                    <a href="{{ url('teenager/multi-intelligence') }}/{{$value['type']}}/{{$value['slug']}}">
+                                                    <div class="skill-name">{{$value['name']}}</div></a>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin = "0" aria-valuemax = "100" style="width: {{$value['score']}}%;">
+                                                        </div>
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$value['lowscoreH']}}%; background-color:#65c6e6;" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            @empty
+                                            <div class="progress-block">
+                                                Please attempt at least one section of Profile Builder to view your strength Advanced View!
+                                            </div>
+                                            @endforelse
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-left">
+                                <div class="unbox-btn">
+                                    <a id="activity_unbox" href="javascript:void(0);" title="Unlock Me" @if($remainingDaysForActivity == 0) onclick="getCoinsConsumptionDetails('{{$componentsData->pc_required_coins}}', '{{$componentsData->pc_element_name}}', '{{$remainingDaysForActivity}}');" @endif class="btn-primary">
+                                        @if($remainingDaysForActivity > 0)                                        
+                                        <span class="unbox-me open_advance_view">See Now!</span>
+                                        @else
+                                        <span class="unbox-me" id="advanced_unbox">Unlock Me</span>
+                                        @endif
+                                        
+                                        <span class="coins-outer activity_coins">
+                                            <span class="coins"></span> {{ ($remainingDaysForActivity > 0) ? $remainingDaysForActivity . ' days left' : $componentsData->pc_required_coins }}
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="sec-tags">
                             <h4>Hobbies</h4>
                             <div class="sec-popup">
@@ -1630,40 +1740,41 @@
         return isNaN(x)?"":x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    function saveConsumedCoins() {
-        var consumedCoins = $("#activity_coins").val();
-        var componentName = $("#activity_name").val();
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + componentName + "&professionId=" + '{{$professionsData->id}}';
-        $.ajax({
-            type: 'POST',
-            data: form_data,
-            url: "{{ url('/teenager/save-consumed-coins-details') }}",
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            },
-            cache: false,
-            success: function(response) {
-                if (response > 0) {
-                    if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
-                        $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
-                        $(".panel-heading a").attr("data-toggle", "collapse");
-                        $("#activity_unbox").prop('onclick',null).off('click');
-                    } else {
-                        $(".promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
-                        $("#promise_plus").prop('onclick',null).off('click');
-                        getPromisePlusData({{$professionsData->id}});
-                    }
-                } else {
-                    if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
-                        $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
-                    } else {
-                        $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
-                    }
-                }
-            }
-        });
-    }
+    // function saveConsumedCoins() {
+    //     var consumedCoins = $("#activity_coins").val();
+    //     var componentName = $("#activity_name").val();
+    //     alert(componentName); return false;
+    //     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    //     var form_data = "consumedCoins=" + consumedCoins + "&componentName=" + componentName + "&professionId=" + '{{$professionsData->id}}';
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: form_data,
+    //         url: "{{ url('/teenager/save-consumed-coins-details') }}",
+    //         headers: {
+    //             'X-CSRF-TOKEN': CSRF_TOKEN
+    //         },
+    //         cache: false,
+    //         success: function(response) {
+    //             if (response.days > 0) {
+    //                 if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
+    //                     $(".activity_coins").html('<span class="coins"></span> ' + response + " days left");  
+    //                     $(".panel-heading a").attr("data-toggle", "collapse");
+    //                     $("#activity_unbox").prop('onclick',null).off('click');
+    //                 } else {
+    //                     $(".promise-plus-coins").html('<span class="coins"></span> ' + response + " days left");  
+    //                     $("#promise_plus").prop('onclick',null).off('click');
+    //                     getPromisePlusData({{$professionsData->id}});
+    //                 }
+    //             } else {
+    //                 if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
+    //                     $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
+    //                 } else {
+    //                     $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
+    //                 }
+    //             }
+    //         }
+    //     });
+    // }
 
     function challengeToParentAndMentor() {
         var parent = $("#listParent").val();
@@ -2198,13 +2309,25 @@
             cache: false,
             success: function(response) {
                 if (response.status != 0) {
-                        $(".promise-plus-coins").html('<span class="coins"></span> ' + response.days + " days left");  
-                        $("#promise_plus").attr('onclick', "getPromisePlusData({{$professionsData->id}})");
-                        $("#promisespan").text('See Now!');
-                        getPromisePlusData({{$professionsData->id}});
+                        if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
+                            $(".activity_coins").html('<span class="coins"></span> ' + response.days + " days left");  
+                            $(".panel-heading a").attr("data-toggle", "collapse");
+                            $("#advanced_unbox").html("See Now!");
+                            $("#advanced_unbox").addClass("open_advance_view");
+                            $("#activity_unbox").prop('onclick',null).off('click');
+                        } else {
+                            $(".promise-plus-coins").html('<span class="coins"></span> ' + response.days + " days left");  
+                            $("#promise_plus").attr('onclick', "getPromisePlusData({{$professionsData->id}})");
+                            $("#promisespan").text('See Now!');
+                            getPromisePlusData({{$professionsData->id}});
+                        }
                 } else {
-                    $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
-                    $("#promisespan").text('Unlock Me');
+                    if (componentName == "{{Config::get('constant.ADVANCE_ACTIVITY')}}") {
+                        $(".activity_coins").html('<span class="coins"></span> ' + consumedCoins);
+                    } else {
+                        $(".promise-plus-coins").html('<span class="coins"></span> ' + consumedCoins);
+                        $("#promisespan").text('Unlock Me');
+                    }
                 }
             }
         });
