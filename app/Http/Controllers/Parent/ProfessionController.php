@@ -153,7 +153,7 @@ class ProfessionController extends Controller {
         
         $teenagerDetails = $this->teenagersRepository->getTeenagerByUniqueId($teenId);
         //Get teenager promise score 
-        $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($teenagerDetails->id);
+        $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore($teenagerDetails['id']);
         if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
         {
             $teenPromiseScore = $teenPromiseScore->toArray();                
