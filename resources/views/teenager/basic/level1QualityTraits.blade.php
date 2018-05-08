@@ -30,11 +30,8 @@
             <div class="row flex-container">
                 @forelse($teenagerTrait as $key => $teenTrait)
                     <div class="col-md-4 col-sm-6 col-xs-6 flex-items">
-                        <div class="ck-button">
-                            <label>
-                                <input type="checkbox" name="traitAns" />
-                                <span>{{ $teenTrait->options_text }}</span>
-                            </label>
+                        <div class="ck-button selected">
+                            <label><span>{{ $teenTrait->options_text }}</span></label>
                         </div>
                     </div>
                 @empty

@@ -258,9 +258,9 @@ class Level1ActivityController extends Controller
         $toUser = Input::get('toUserId');
         if($toUser == ''){
             $toUserId = $userId;
-        }
-        else{
-            $toUserId = $this->teenagersRepository->getTeenagerByUniqueId($toUser)->id;
+        } else {
+            $teenDetails = $this->teenagersRepository->getTeenagerByUniqueId($toUser);
+            $toUserId = (isset($teenDetails['id']) && $teenDetails['id'] != "") ? $teenDetails['id'] : $userId;
         }
 
         if (isset($userId) && $userId > 0 && isset($questionID) && $questionID != 0) {
@@ -287,7 +287,11 @@ class Level1ActivityController extends Controller
                 }
             }
             $traitQuestion = $this->level1ActivitiesRepository->getLastNotAttemptedTraits($userId, $toUserId);
-            $teenagerTrait = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($userId);
+            if($toUser == ''){
+                $teenagerTrait = $this->level1ActivitiesRepository->getTeenagerTraitAnswerCount($userId);
+            } else {
+                $teenagerTrait = $this->level1ActivitiesRepository->getTeenagerTraitFromAnotherUser($userId, $toUserId);
+            }
             return view('teenager.basic.level1QualityTraits', compact('traitQuestion', 'teenagerTrait', 'toUserId'));
         }
         

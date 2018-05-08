@@ -2642,6 +2642,9 @@ a:focus {
     .flex-container {
         .flex-items {
             margin-bottom: 33px;
+            @include maxsm{
+                margin-bottom: 20px;
+            }
             .ck-button {
                 margin-bottom: 0 !important;
                 height: 100%;

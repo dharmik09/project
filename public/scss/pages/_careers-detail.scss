@@ -1618,7 +1618,7 @@
     margin-top: 5px;
     margin-bottom: 20px;
     .panel-heading {
-        background: $r-cl;
+        background: $r-cl !important;
         padding: 0;
         a {
             display: block;
@@ -1674,16 +1674,16 @@
         }
     }
     .progress-bar-primary {
-        /*background: rgba(242, 133, 56, 1);
-        background: -moz-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
-        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 133, 56, 1)), color-stop(58%, rgba(242, 193, 86, 1)), color-stop(100%, rgba(7, 201, 165, 1)));
-        background: -webkit-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
-        background: -o-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
-        background: -ms-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
-        background: linear-gradient(to right, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1);*/
+        background: rgba(242, 133, 56, 1);
+        background: -moz-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%) !important;
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 133, 56, 1)), color-stop(58%, rgba(242, 193, 86, 1)), color-stop(100%, rgba(7, 201, 165, 1))) !important;
+        background: -webkit-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%) !important;
+        background: -o-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%) !important;
+        background: -ms-linear-gradient(left, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%) !important;
+        background: linear-gradient(to right, rgba(242, 133, 56, 1) 0%, rgba(242, 193, 86, 1) 58%, rgba(7, 201, 165, 1) 100%) !important;
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1) !important;
         z-index: 9;
-        background-color: #fff;
+        //background-color: #fff;
         border-right: 1px solid #565b5f;
     }
     .skill-name {

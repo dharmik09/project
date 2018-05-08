@@ -578,7 +578,7 @@ h6 {
             height: 14px;
         }
         label {
-            display: inline-block;
+            display: block;
             margin-bottom: 40px; //cursor: default;
             .checker {
                 top: 5px;
@@ -825,3 +825,4 @@ h6 {
 .career-consider h2 {
     margin-bottom: 5px !important;
 }
+.my_career_tab .quiz-que .quiz-ans label{display: inline-block;}
