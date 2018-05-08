@@ -31,7 +31,7 @@
                 <div class="progress-radial progress-100 {{$progressClass}}">
                     <span class="{{$scaleClass}}">{{$miVal['parentScale']}}</span>
                 </div>
-                <h4>{{$miVal['name']}}</h4>
+                <h4><a href="{{ url('multi-intelligence') }}/{{$miVal['type']}}/{{$miVal['slug']}}">{{$miVal['name']}}</a></h4>
             </div>
         </div>
         <?php } ?>
@@ -85,7 +85,7 @@
                 <div class="progress-radial progress-100 {{$progressClass}}">
                     <span class="{{$scaleClass}}">{{$aptVal['parentScale']}}</span>
                 </div>
-                <h4>{{$aptVal['name']}}</h4>
+                <h4><a href="{{ url('multi-intelligence') }}/{{$aptVal['type']}}/{{$aptVal['slug']}}">{{$aptVal['name']}}</a></h4>
             </div>
         </div>
         <?php } ?>
@@ -139,7 +139,7 @@
                 <div class="progress-radial progress-100 {{$progressClass}}">
                     <span class="{{$scaleClass}}">{{$ptVal['parentScale']}}</span>
                 </div>
-                <h4>{{$ptVal['name']}}</h4>
+                <h4><a href="{{ url('multi-intelligence') }}/{{$ptVal['type']}}/{{$ptVal['slug']}}">{{$ptVal['name']}}</a></h4>
             </div>
         </div>
         <?php } ?>
