@@ -1044,9 +1044,10 @@ h2 .tooltip-inner {
 @media(min-width:768px){
     .coin_summary.cst_cst_dsh.cst_dsh .right{padding:0;text-align:left;}
     .coin_summary.cst_cst_dsh.cst_dsh .dashboard_page{padding:0;text-align:right;}    
-    .slider_card{height: 300px;}
+    .slider_card{height: 320px;}
     .card span.title{font-size: 20px;}
     .card{padding: 25px 5px;}
+    .slider_card .img_container{height: 120px;}
 }
 @media(max-width:767px){
 .coin_summary.cst_cst_dsh.cst_dsh .left{margin:0;}
