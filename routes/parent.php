@@ -40,6 +40,7 @@ Route::post('/show-competitor-data/', 'Parent\ProfessionController@showCompetito
 Route::post('/load-more-leaderboard', 'Parent\ProfessionController@getLeaderBoardDetails');
 Route::post('/get-promise-plus', 'Parent\Level4ActivityManagementController@getPromisePlus');
 Route::post('/get-profession-completion-percentage', 'Parent\ProfessionController@getProfessionCompletionPercentage');
+Route::post('/get-career-detail-ads', 'Parent\ProfessionController@getCareerDetailsAds');
 
 //Level4 Basic Activity
 Route::post('/play-basic-level-activity', 'Parent\Level4ActivityManagementController@getL4BasicQuestions');

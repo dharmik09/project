@@ -336,15 +336,17 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="ad-slider owl-carousel">
-                            <div class="ad-sec-h">
-                                <div class="t-table">
-                                    <div class="table-cell">
-                                         No Ads available
+                            <div id="bannerAdsSection">
+                                <div class="ad-slider owl-carousel">
+                                    <div class="ad-sec-h">
+                                        <div class="t-table">
+                                            <div class="table-cell">
+                                                 No Ads available
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="sec-match">
@@ -477,20 +479,22 @@
                                 @endforelse
                             </ul>
                         </div>
-                        <div class="ad-slider owl-carousel">
-                            <div class="ad-v">
-                                <div class="t-table">
-                                    <div class="table-cell">
-                                        No Ads available
+                        <div id="sidebarAdsSection">
+                            <div class="ad-slider owl-carousel">
+                                <div class="ad-v">
+                                    <div class="t-table">
+                                        <div class="table-cell">
+                                            No Ads available
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="ad-slider owl-carousel">
-                            <div class="ad-v-2">
-                                <div class="t-table">
-                                    <div class="table-cell">
-                                        No Ads available
+                            <div class="ad-slider owl-carousel">
+                                <div class="ad-v-2">
+                                    <div class="t-table">
+                                        <div class="table-cell">
+                                            No Ads available
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2206,6 +2210,7 @@
         }, 500);
         //getUserProfessionCompetitor({{$professionsData->id}});
         getLeaderBoard(0);
+        getPageAdsDetail();
         getProfessionCompletionPercentage({{$professionsData->id}})
     });
 
@@ -2347,6 +2352,30 @@
                 }
             }
         });   
+    }
+
+    function getPageAdsDetail() {
+        $.ajax({
+            url: "{{ url('/parent/get-career-detail-ads') }}",
+            type: 'POST',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                "teenUniqueId" : '{{$teenId}}'
+            },
+            success: function(response) {
+                $("#bannerAdsSection").html(response.bannerAds);
+                $("#sidebarAdsSection").html(response.sidebarAds);
+                $('.ad-slider').owlCarousel({
+                    loop: true,
+                    margin: 10,
+                    items: 1,
+                    nav: false,
+                    dots: false,
+                    smartSpeed: 500,
+                    autoplay:true,
+                });
+            }
+        });
     }
 
 </script>

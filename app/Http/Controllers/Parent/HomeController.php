@@ -100,6 +100,6 @@ class HomeController extends Controller
             $help = 'Invalid slug passed';
         }
         return $help;            
-    }        
-   
+    }    
+
 }

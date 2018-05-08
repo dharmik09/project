@@ -26,6 +26,7 @@ use App\MultipleIntelligent;
 use App\MultipleIntelligentScale;
 use App\Personality;
 use App\PersonalityScale;
+use View;
 
 class ProfessionController extends Controller {
 
@@ -348,5 +349,51 @@ class ProfessionController extends Controller {
         return round($percentage);
     }
 
+    /*
+     * Returns advertisement array
+     */
+    public function getCareerDetailsAds() {
+        $teenUniqueId = Input::get('teenUniqueId');
+        $teenagerDetails = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+        $mediumAdImages = [];
+        $largeAdImages = [];
+        $bannerAdImages = [];
+        $adsDetails = [];
+        if (isset($teenagerDetails) && !empty($teenagerDetails)) {
+            $adsDetails = Helpers::getAds($teenagerDetails['id']);
+        }
+        if (isset($adsDetails) && !empty($adsDetails)) {
+            foreach ($adsDetails as $ad) {
+                if ($ad['image'] != '') {
+                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ad['image']);
+                } else {
+                    $ad['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . 'proteen-logo.png');
+                }
+                switch ($ad['sizeType']) {
+                    case '1':
+                        $mediumAdImages[] = $ad;
+                        break;
 
+                    case '2':
+                        $largeAdImages[] = $ad;
+                        break; 
+
+                    case '3':
+                        $bannerAdImages[] = $ad;
+                        break;
+
+                    default:
+                        break;
+                };
+            }
+        }
+        $sidebarAds = View::make('parent.basic.careerSidebarAds', compact('mediumAdImages', 'largeAdImages'));
+        $sidebarHtml = $sidebarAds->render();
+        $bannerAds = View::make('parent.basic.careerBannerAds', compact('bannerAdImages'));
+        $bannerHtml = $bannerAds->render();
+        $response['sidebarAds'] = $sidebarHtml;
+        $response['bannerAds'] = $bannerHtml;
+        return response()->json($response, 200);
+        exit;
+    }    
 }
