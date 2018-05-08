@@ -13,7 +13,12 @@
                     <span class="time_type pull-left">
                         <i class="icon-alarm"></i>
                         <span class="time-tag" id="blackhole"></span>
-                    </span>                    
+                    </span>
+                    <div class="next-icon">
+                        <span class="next-que pull-right">
+                            <i class="icon-hand"></i>
+                        </span>
+                    </div>                   
                 </div>
                 <div class="quiz-que">
                     <p class="que">

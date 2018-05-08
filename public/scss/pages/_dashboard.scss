@@ -26,11 +26,13 @@ h6 {
         line-height: 30px;
         color: $p-cl;
         margin-bottom: 30px;
-        a{
+        a {
             color: $p-cl;
-            border-bottom: 1px solid;display: inline-block;line-height: 0.85;
-            &:hover{
-                color:#d81c02;
+            border-bottom: 1px solid;
+            display: inline-block;
+            line-height: 0.85;
+            &:hover {
+                color: #d81c02;
             }
         }
         &.custom-section {
@@ -49,7 +51,7 @@ h6 {
         @include maxms {
             font-size: 26px;
         }
-        &.profile-title{
+        &.profile-title {
             display: inline-block;
         }
     }
@@ -173,7 +175,8 @@ h6 {
     }
     .my_interests {
         margin-top: 30px;
-        h2,.heading-tag {
+        h2,
+        .heading-tag {
             font-size: 26px;
             line-height: 30px;
             font-family: 'hn-b';
@@ -190,29 +193,30 @@ h6 {
                 @include maxms {
                     font-size: 30px;
                 }
-                &.addto{
+                &.addto {
                     /*font-size: 28px;
                     margin-right: 10px;
                     color: $white;*/
-                   
                     position: absolute;
                     width: 24px;
                     height: 29px;
                     margin-right: 10px;
                     left: 0;
-                    .favourite-text{margin-top: 40px;}
+                    .favourite-text {
+                        margin-top: 40px;
+                    }
                     img {
                         top: 3px;
                         position: absolute;
-                        &.hover-img{
+                        &.hover-img {
                             display: none;
-                        } 
+                        }
                     }
-                    &:hover{
+                    &:hover {
                         text-decoration: none;
                     }
-                    &.selected{
-                        .hover-img{
+                    &.selected {
+                        .hover-img {
                             display: block;
                         }
                     }
@@ -226,25 +230,23 @@ h6 {
                 color: $r-cl;
                 line-height: 30px;
                 font-family: 'ht';
-                margin-top: 15px;
-               // min-height: 90px;
-                @include maxmd{
+                margin-top: 15px; // min-height: 90px;
+                @include maxmd {
                     font-size: 22px;
                 }
                 @include maxsm {
                     font-size: 20px;
                 }
-                @include maxms{
+                @include maxms {
                     min-height: auto;
                 }
-                a{
+                a {
                     color: $r-cl;
                     border-bottom: 1px solid;
                     /*display: inline-block;
                     line-height: 0.85;*/
-                    &:hover{
-                        color: $cl-complete;
-                        //border-color: $cl-complete;
+                    &:hover {
+                        color: $cl-complete; //border-color: $cl-complete;
                     }
                 }
             }
@@ -258,7 +260,7 @@ h6 {
             @include maxmd {
                 margin-top: 20px;
             }
-            span{
+            span {
                 color: $p-cl;
                 display: inline-block;
                 text-decoration: none;
@@ -266,9 +268,11 @@ h6 {
                 line-height: 30px;
                 text-transform: uppercase;
                 font-family: 'hn-b';
-                border-bottom: 1px solid $p-cl;cursor: pointer;
+                border-bottom: 1px solid $p-cl;
+                cursor: pointer;
             }
-            a,.expand {
+            a,
+            .expand {
                 color: $p-cl;
                 display: inline-block;
                 text-decoration: none;
@@ -276,24 +280,30 @@ h6 {
                 line-height: 30px;
                 text-transform: uppercase;
                 font-family: 'hn-b';
-                border-bottom: 1px solid $p-cl;cursor: pointer;
-                &:hover{
-                    color: $dark;border-color: $dark;
-                    @include maxsm{
-                         color: $p-cl;border-color: $p-cl;
+                border-bottom: 1px solid $p-cl;
+                cursor: pointer;
+                &:hover {
+                    color: $dark;
+                    border-color: $dark;
+                    @include maxsm {
+                        color: $p-cl;
+                        border-color: $p-cl;
                     }
                 }
             }
         }
-        &.interest-block{
+        &.interest-block {
             margin-top: 30px;
         }
-        .loader-btn{
-            text-align: center !important; margin-top: 5px !important;
+        .loader-btn {
+            text-align: center !important;
+            margin-top: 5px !important;
         }
-        .unbox-btn{
+        .unbox-btn {
             margin-bottom: 25px;
-            span.coins-outer.career_coins{margin-left: -5px;}
+            span.coins-outer.career_coins {
+                margin-left: -5px;
+            }
         }
     }
     .my_career_tab {
@@ -322,10 +332,11 @@ h6 {
                     display: inline-block;
                     font-size: 24px;
                     font-family: 'ht';
-                    @include maxlg{
-                        font-size: 20px;margin-top: 3px;
+                    @include maxlg {
+                        font-size: 20px;
+                        margin-top: 3px;
                     }
-                    @include maxmd{
+                    @include maxmd {
                         font-size: 16px;
                     }
                     @include maxms {
@@ -343,7 +354,7 @@ h6 {
                     right: 25px;
                     font-size: 25px;
                     transform: rotate(-90deg) !important;
-                    @include maxmd{
+                    @include maxmd {
                         right: 10px;
                         font-size: 20px;
                         top: 36%;
@@ -353,7 +364,7 @@ h6 {
                         right: 15px;
                     }
                 }
-                &:hover{
+                &:hover {
                     text-decoration: underline;
                 }
             }
@@ -382,13 +393,13 @@ h6 {
                 color: $r-cl;
                 font-family: 'hn-b';
                 margin-top: 10px;
-                a{
-                
-                font-size: 16px;
-                color: $r-cl;
-                font-family: 'hn-b';
-                margin-top: 10px;
-                    &:hover{
+                a {
+
+                    font-size: 16px;
+                    color: $r-cl;
+                    font-family: 'hn-b';
+                    margin-top: 10px;
+                    &:hover {
                         color: $cl-complete;
                     }
                 }
@@ -446,9 +457,27 @@ h6 {
     .quiz_view {
         padding-top: 20px;
         color: $r-cl;
+        position: relative;
         .panel-title {
             a {
                 display: block;
+            }
+        }
+        .next-icon {
+            position: absolute;
+            right: 0px;
+            top: -10px;
+            .next-que {
+                color: $p-cl;
+                font-size: 90px;
+                transform: rotate(-50deg);
+                @include maxsm {
+                    font-size: 80px;
+                }
+                i {
+                    display: inline-block;
+                    transform: scaleX(-1);
+                }
             }
         }
     }
@@ -477,17 +506,17 @@ h6 {
         }
     } // Second section start here
     .career-data {
-        a{
-                color: $white;
-            &:hover{
+        a {
+            color: $white;
+            &:hover {
                 text-decoration: underline;
             }
         }
         h2 {
             color: $white;
             margin-bottom: 20px;
-                position: relative;
-   
+            position: relative;
+
             @include maxms {
                 margin-bottom: 10px;
             }
@@ -496,11 +525,11 @@ h6 {
 }
 
 .my_career_tab .panel-title a.collapsed:before {
-   // transform: rotate(90deg) !important;
+    // transform: rotate(90deg) !important;
 }
 
 .my_career_tab .panel-title a:before {
-   // transform: rotate(-90deg) !important;
+    // transform: rotate(-90deg) !important;
 }
 
 .quiz-que {
@@ -527,7 +556,7 @@ h6 {
             top: 9px;
             transform: rotate(-324deg) scaleX(-1);
             color: $p-cl;
-            @include maxms{
+            @include maxms {
                 display: none;
             }
         }
@@ -549,22 +578,19 @@ h6 {
             height: 14px;
         }
         label {
-          display: inline-block;
-            margin-bottom: 40px;
-            //cursor: default;
+            display: inline-block;
+            margin-bottom: 40px; //cursor: default;
             .checker {
                 top: 5px;
                 position: relative;
                 display: block;
-                margin-left: -40px;
-                //cursor: pointer;
+                margin-left: -40px; //cursor: pointer;
             }
             em {
                 font-size: 23px;
                 font-family: 'hn-b';
                 color: $r-cl;
-                font-style: normal;
-                //cursor: pointer;
+                font-style: normal; //cursor: pointer;
                 @include maxms {
                     font-size: 16px;
                 }
@@ -574,25 +600,17 @@ h6 {
         .radio-inline input:checked ~ em {
             color: $p-cl !important;
         }
-        .next-que {
-            color: $p-cl;
-            font-size: 90px;
-            transform: rotate(50deg);
-            @include maxsm{
-                font-size: 80px;
-            }
-            i{
-                display: inline-block;
-                transform: scaleX(-1);
-            }
-        }
+
     }
+
 }
-.my_career_tab{
-    .quiz_view .quiz-ans .next-que i{
+
+.my_career_tab {
+    .quiz_view .quiz-ans .next-que i {
         transform: scaleX(-1);
     }
 }
+
 // Second section start here
 .career-data-color-1 {
     background-color: $m-cl;
@@ -607,7 +625,7 @@ h6 {
 }
 
 .career-data {
-    padding:20px 15px;
+    padding: 20px 15px;
     margin-bottom: 3px;
     position: relative;
     h2 {
@@ -616,10 +634,11 @@ h6 {
         padding-left: 33px;
         padding-right: 110px;
         font-size: 24px !important;
-        @include maxmd{
-            padding-right: 74px;font-size: 20px !important;
+        @include maxmd {
+            padding-right: 74px;
+            font-size: 20px !important;
         }
-        @include maxms{
+        @include maxms {
             font-size: 18px !important;
         }
     }
@@ -632,7 +651,7 @@ h6 {
         @include maxmd {
             font-size: 16px;
         }
-        &:hover{
+        &:hover {
             color: $dark;
         }
     }
@@ -642,7 +661,9 @@ h6 {
         color: $white;
         line-height: 20px;
         opacity: 0.7;
-        position: absolute;top: 25px;right: 15px;
+        position: absolute;
+        top: 25px;
+        right: 15px;
         @include maxmd {
             font-size: 18px;
         }
@@ -650,11 +671,11 @@ h6 {
             //margin-top: 10px;
             display: block
         }
-        &:hover{
+        &:hover {
             color: $dark;
         }
     }
-   
+
 }
 
 .data-explainations {
@@ -679,35 +700,36 @@ h6 {
         color: $r-cl;
         font-family: 'hn-b';
     }
-    &.data-interest{
+    &.data-interest {
         margin-top: -48px;
         text-align: center;
-        .content{
+        .content {
             background: $bg-offwhite;
             display: inline-block;
             padding: 0 15px;
-            @include maxsm{
+            @include maxsm {
                 padding: 0 10px;
             }
         }
-        @include maxlg{
+        @include maxlg {
             margin-top: -28px;
         }
         /*@include maxsm{
             margin-top: 0;
             text-align: left;
         }*/
-        .data{
-            display: inline-block;float: none;
-            span{
-                @include maxlg{
+        .data {
+            display: inline-block;
+            float: none;
+            span {
+                @include maxlg {
                     font-size: 15px;
                 }
-                @include maxms{
+                @include maxms {
                     font-size: 14px;
                 }
             }
-            &:last-child{
+            &:last-child {
                 padding-right: 0;
             }
         }
@@ -732,45 +754,74 @@ h6 {
             }
         }
     }
+    @include maxms{
+        .quiz-que .que {
+        padding-top: 40px;
+        }
+    }
 }
+
 [class*="sec-wrap-"] {
     display: none;
 }
-.das_your_profile.my_interests .col-xs-6{
-    @include maxms{
+
+.das_your_profile.my_interests .col-xs-6 {
+    @include maxms {
         width: 100%;
     }
 }
-.heading-tag:hover{color: $dark !important; }
-.profile_section .flex-container .flex-items{align-items: flex-start;justify-content: center;}
-.quiz-ans{
-    .question-img{
-        width: auto;
-       // max-height: 300px;
-        margin: 0 auto 30px;
-       // max-width: 310px;
+
+.heading-tag:hover {
+    color: $dark !important;
+}
+
+.profile_section .flex-container .flex-items {
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.quiz-ans {
+    .question-img {
+        width: auto; // max-height: 300px;
+        margin: 0 auto 30px; // max-width: 310px;
         text-align: center;
     }
 }
-.career-data-nomatch{
+
+.career-data-nomatch {
     background: #ccc !important;
 }
-.popover-closer{
+
+.popover-closer {
     display: none !important;
-    @include maxsm{
+    @include maxsm {
         display: block !important;
-    }    
+    }
 }
-.dashbord_view_right .my_career_tab #accordionx .panel-heading a.collapsed:before{
-        transform: rotate(90deg) !important;
+
+.dashbord_view_right .my_career_tab #accordionx .panel-heading a.collapsed:before {
+    transform: rotate(90deg) !important;
 }
-.dashbord_view_right .my_career_tab #accordionx .panel-heading a:before{
+
+.dashbord_view_right .my_career_tab #accordionx .panel-heading a:before {
     transform: rotate(-90deg) !important;
 }
-.dashbord_view_left .my_career_tab .panel-heading a:before{transform: rotate(0deg) !important;}  
-.dashbord_view_left .das_your_profile .your_profile_view h4{
+
+.dashbord_view_left .my_career_tab .panel-heading a:before {
+    transform: rotate(0deg) !important;
+}
+
+.dashbord_view_left .das_your_profile .your_profile_view h4 {
     float: right;
     margin-top: 8px;
-    margin-right: 11px;}
-.dashbord_view_right .my_interests .custom-modal .modal-body p{text-align: left;margin-top: 0;}
-.career-consider h2{margin-bottom: 5px !important;}
+    margin-right: 11px;
+}
+
+.dashbord_view_right .my_interests .custom-modal .modal-body p {
+    text-align: left;
+    margin-top: 0;
+}
+
+.career-consider h2 {
+    margin-bottom: 5px !important;
+}

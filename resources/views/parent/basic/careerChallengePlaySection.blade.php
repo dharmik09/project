@@ -6,7 +6,7 @@
                 @forelse($getCompetingUserList as $teenager)
                 <li id="{{$teenager['teenager_id']}}" class="col-sm-3 col-xs-6" onclick="getChallengeScoreDetails({{$teenager['teenager_id']}});">
                     <figure>
-                        <div class="mentor-img" style="background-image: url('{{ Storage::url($teenager['profile_pic']) }}')"></div>
+                        <div class="mentor-img" style="background-image: url('{{ Storage::url($teenager['profile_pic']) }}')" title="Click to view score"></div>
                         <figcaption>{{ $teenager['name'] }}</figcaption>
                     </figure>
                 </li>

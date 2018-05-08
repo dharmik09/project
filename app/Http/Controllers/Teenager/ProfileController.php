@@ -34,6 +34,7 @@ use App\PaidComponent;
 use App\DeductedCoins;
 use App\Level4ProfessionProgress;
 use View;
+use App\Services\Template\Contracts\TemplatesRepository;
 
 class ProfileController extends Controller
 {
@@ -42,7 +43,7 @@ class ProfileController extends Controller
      *
      * @return void
      */
-    public function __construct(ProfessionsRepository $professionsRepository, CommunityRepository $communityRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository)
+    public function __construct(ProfessionsRepository $professionsRepository, CommunityRepository $communityRepository, ParentsRepository $parentsRepository, FileStorageRepository $fileStorageRepository, Level1ActivitiesRepository $level1ActivitiesRepository, SponsorsRepository $sponsorsRepository, TeenagersRepository $teenagersRepository, TemplatesRepository $templateRepository)
     {
         $this->teenagersRepository = $teenagersRepository;
         $this->sponsorsRepository = $sponsorsRepository;
@@ -64,6 +65,7 @@ class ProfileController extends Controller
         $this->objPaidComponent = new PaidComponent;
         $this->objDeductedCoins = new DeductedCoins;
         $this->objLevel4ProfessionProgress = new Level4ProfessionProgress;
+        $this->templateRepository = $templateRepository;
     }
 
     public function setSoundOnOff($data) {
@@ -388,5 +390,42 @@ class ProfileController extends Controller
 
         return response()->json($response, 200);
         exit;
+    }
+
+    /* @sendReferenceIdToParentMentor
+     * Send refernce id to parent and mentors
+     */
+    public function sendReferenceIdToParentMentor()
+    {
+        $teenagerId = Auth::guard('teenager')->user()->id;
+        $teenUniqueId = Auth::guard('teenager')->user()->t_uniqueid;
+        $parentDetail = $this->teenagersRepository->getTeenParents($teenagerId);
+        if (!empty($parentDetail) && count($parentDetail) > 0) {
+            $userDetail = $this->teenagersRepository->getTeenagerByTeenagerId($teenagerId);
+            $emailTemplateContent = $this->templateRepository->getEmailTemplateDataByName(Config::get('constant.SEND_REFERENCEID_TO_PARENT'));
+            foreach($parentDetail AS $key => $parent) {
+                $replaceArray = array();
+                $replaceArray['USER_NAME'] = $parent->p_first_name;
+                $replaceArray['REFERENCE_ID'] = $teenUniqueId;
+                if (!empty($emailTemplateContent) && count($emailTemplateContent) > 0) {
+                    $content = $this->templateRepository->getEmailContent($emailTemplateContent->et_body, $replaceArray);
+                } else {
+                    $content = 'Hi <strong>'.$parent->p_first_name.'</strong>, <br/><br/> Your teen has send you its Reference Uniqueid.<strong></strong> <br/><br/> Teen Reference :- '.$teenUniqueId;
+                }
+                $data = array();
+                $data['subject'] = (isset($emailTemplateContent->subject) && $emailTemplateContent->subject != "") ? $emailTemplateContent->subject : 'Teenager Reference Id';;
+                $data['toEmail'] = $parent->p_email;
+                $data['toName'] = $parent->p_first_name ." ". $parent->p_last_name;
+                $data['content'] = $content;
+                Mail::send(['html' => 'emails.Template'], $data , function ($m) use ($data) {
+                    $m->from(Config::get('constant.FROM_MAIL_ID'), 'Teenager Reference Id');
+                    $m->subject($data['subject']);
+                    $m->to($data['toEmail'], $data['toName']);
+                });
+            }
+            return Redirect::to('teenager/my-profile')->with('success', 'Reference id sent to your parents and mentors');
+        } else {
+            return Redirect::to('teenager/my-profile')->with('error', 'No parent or mentor found for teenager');
+        }
     }
 }

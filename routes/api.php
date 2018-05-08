@@ -39,6 +39,7 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/deleteTeenagerData', 'Webservice\ProfileController@deleteTeenagerData');
 	Route::post('/saveTeenagerAboutInfo', 'Webservice\ProfileController@saveTeenagerAboutInfo');
 	Route::post('/getTeenagerEarnAchievement', 'Webservice\ProfileController@getTeenagerEarnAchievement');
+	Route::post('/sendReferenceIdToParentsAndMentors', 'Webservice\ProfileController@sendReferenceIdToParentsAndMentors');
 
 	Route::post('/getActiveTeenagers', 'Webservice\TeenagerController@getActiveTeenagers');
 	Route::post('/getActiveTeenagersBySearch', 'Webservice\TeenagerController@getActiveTeenagersBySearch');

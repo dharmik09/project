@@ -88,10 +88,12 @@
                                 {{ $getCityArea }} Area</li>
                                 <li>{{ $myConnectionsCount }} {{ ($myConnectionsCount == 1) ? "Connection" : "Connections" }} </li>
                             </ul>
-                            <!-- <ul class="social-media">
-                                <li><a href="javascript:void(0);" title="facebook"><i class="icon-facebook"></i></a></li>
-                                <li><a href="javascript:void(0);" title="google plus" ><i class="icon-google"></i></a></li>
-                            </ul> -->
+                            <ul class="area-detail user-id-sec">
+                                @if (isset($user->t_uniqueid) && $user->t_uniqueid != "" && !empty($user->t_uniqueid))
+                                    <li>Your Unique ProTeen User ID is {{ $user->t_uniqueid }}</li>
+                                    <li><a href="{{ url('teenager/send-reference-id-to-parent-mentor') }}" title="Send to Parent/Mentor">Send to Parent/Mentor</a> </li>
+                                @endif
+                            </ul>
                             <div class="chat-icon">
                                 <a href="{{ url('/teenager/chat') }}" title="Chat"><i class="icon-chat"></i>
                                     <span style="display: none;" id="chatmsgunreadcount"></span></a>
