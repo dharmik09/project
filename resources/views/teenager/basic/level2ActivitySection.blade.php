@@ -44,7 +44,6 @@
                             @endforeach
                             <input type="hidden" id="{{$activities[0]->activityID}}l2AnsSection" value="{{$section}}">
                         </div>
-                        <div class="clearfix"><span class="next-que pull-right"><i class="icon-hand"></i></span></div>
                     </div>
                 </div>
             </div>
