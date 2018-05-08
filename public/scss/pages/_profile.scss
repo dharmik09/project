@@ -256,6 +256,29 @@
             &:last-child {
                 padding-right: 0;
             }
+            a{
+                text-decoration: underline;
+            }
+        }
+        &.user-id-sec{
+            font-size: 17px;
+            li{
+                padding-right: 33px;
+                &:last-child {
+                padding-right: 0;
+            }
+                &:before{
+                    left: -20px;
+                    top: 5px;
+                    @include maxmd{
+                        display: none;
+                    }
+                }
+                @include maxmd{
+                    display: block;
+                    padding-right: 0;
+                }
+            }
         }
     }
     .social-media {

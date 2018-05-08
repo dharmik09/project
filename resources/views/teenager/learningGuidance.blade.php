@@ -25,7 +25,7 @@
             <div class="container">
                 <ul class="match-list">
                     <li><span class="number match-strong"><!-- --></span>Easy</li>
-                    <li><span class="number match-potential"><!-- --></span>Medium</li>
+                    <li><span class="number match-potential"><!-- --></span>Moderate</li>
                     <li><span class="number match-unlikely"><!-- --></span>Challenging</li>
                 </ul>
                 @if (isset($learningGuidance) && !empty($learningGuidance))

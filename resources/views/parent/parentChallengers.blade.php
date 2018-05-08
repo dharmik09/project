@@ -62,8 +62,8 @@ if (!empty($parentChallengeData)) {
                         <div class="research clearfix">
                             <!-- <a href="{{url('/parent/my-challengers-research')}}/{{$value->tpc_profession_id}}/{{$value->tpc_teenager_id}}" class="research btn primary_btn">Research</a>
                             <a href="{{url('/parent/my-challengers-accept')}}/{{$value->tpc_profession_id}}/{{$value->tpc_teenager_id}}" class="btn primary_btn <?php //if($value->L4Attempted == 1) {echo 'accepted'; } else { echo 'accept'; }?>">@if($value->L4Attempted == 1) Playing @else Accept @endif</a> -->
-                            <a href="{{url('/parent/career-detail')}}/{{$value->pf_slug}}/{{$value->t_uniqueid}}#menu1" class="research btn primary_btn">Research</a>
-                            <a href="{{url('/parent/career-detail')}}/{{$value->pf_slug}}/{{$value->t_uniqueid}}#menu2" class="btn primary_btn">  Accept </a>
+                            <a href="{{url('/parent/career-detail')}}/{{$value->pf_slug}}/{{$value->t_uniqueid}}#menu1" class="research btn primary_btn" target="_blank">Research</a>
+                            <a href="{{url('/parent/career-detail')}}/{{$value->pf_slug}}/{{$value->t_uniqueid}}#menu2" class="btn primary_btn" target="_blank">  Play </a>
                         </div>
                     </div>
                 </li>

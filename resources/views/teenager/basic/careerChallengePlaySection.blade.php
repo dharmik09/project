@@ -30,7 +30,7 @@
                 ?>
                 <li id="{{$parent->parentId}}" class="col-sm-3 col-xs-6" onclick="getChallengeScoreDetails({{$parent->parentId}});">
                     <figure>
-                        <div class="mentor-img" style="background-image: url('{{ Storage::url($parentPhoto) }}')"></div>
+                        <div class="mentor-img" style="background-image: url('{{ Storage::url($parentPhoto) }}')" title="Click to view score"></div>
                         <figcaption>{{ $parent->p_first_name }}</figcaption>
                     </figure>
                 </li>
