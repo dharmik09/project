@@ -326,11 +326,13 @@ class ProfessionController extends Controller {
     public function getProfessionCompletionPercentage()
     {
         $professionId = Input::get('professionId');
+        $teenUniqueId = Input::get('teenUniqueId');
+        $teenagerDetails = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
         $response['status'] = 0;
         $response['message'] = 'Something went wrong!';
         $response['percentage'] = 0;
-        if ($professionId != '') {
-            $completionPercentage = Helpers::getProfessionCompletePercentageForParent(Auth::guard('parent')->user()->id, $professionId);
+        if (isset($teenagerDetails) && !empty($teenagerDetails) && $professionId != '') {
+            $completionPercentage = Helpers::getProfessionCompletePercentage($teenagerDetails['id'], $professionId);
             $professionComplete = (isset($completionPercentage) && !empty($completionPercentage)) ? $completionPercentage : 0;
             $response['status'] = 1;
             $response['message'] = 'success';

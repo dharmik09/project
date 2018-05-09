@@ -2372,7 +2372,8 @@
             type: 'POST',
             data: {
                 "_token": '{{ csrf_token() }}',
-                "professionId" : professionId
+                "professionId" : professionId,
+                "teenUniqueId" : '{{$teenId}}'
             },
             success: function(response) {
                 if (response.status != 0) {
