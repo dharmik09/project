@@ -18,11 +18,6 @@
     <div class="flex-item">
         <div class="team-point">
             {{ $leaderBoard->tlb_points }} points
-            <a href="#" title="Chat">
-                <i class="icon-chat">
-                    <!-- -->
-                </i>
-            </a>
         </div>
     </div>
 </div>
