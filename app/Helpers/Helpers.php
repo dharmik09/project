@@ -1096,7 +1096,7 @@ Class Helpers {
     }
 
     //Get teenager Timeline
-    public static function getTeenagerTimeLine($teenagerid) {
+    public static function getTeenagerTimeLine($teenagerid, $parentId) {
         $finalData = array();
         $teenager = DB::select(DB::raw("SELECT
                                             id,created_at
@@ -1117,20 +1117,102 @@ Class Helpers {
                                             teenager_id,created_at
                                             FROM " . config::get('databaseconstants.TBL_LEVEL4_ANSWERS') . " where teenager_id=" . $teenagerid . ' order by created_at'));
 
+        $teenagerCareers = DB::table("pro_srp_star_rated_professions")
+                                ->join('pro_pf_profession as profession', 'profession.id', '=', 'pro_srp_star_rated_professions.srp_profession_id')
+                                ->selectRaw('pro_srp_star_rated_professions.*, profession.pf_name')
+                                ->where("srp_teenager_id", $teenagerid)
+                                ->where('profession.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('created_at')
+                                ->get();
+
+        $teenagerSentConnections = DB::table("pro_tc_teen_connections")
+                                ->join('pro_t_teenagers as teenager', 'teenager.id', '=', 'pro_tc_teen_connections.tc_receiver_id')
+                                ->selectRaw('pro_tc_teen_connections.*, teenager.t_name, teenager.t_lastname')
+                                ->where("pro_tc_teen_connections.tc_sender_id", $teenagerid)
+                                ->where("pro_tc_teen_connections.tc_status", Config::get('constant.CONNECTION_ACCEPT_STATUS'))
+                                ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('created_at')
+                                ->get();
+
+        $teenagerReceivedConnections = DB::table("pro_tc_teen_connections")
+                                ->join('pro_t_teenagers as teenager', 'teenager.id', '=', 'pro_tc_teen_connections.tc_sender_id')
+                                ->selectRaw('pro_tc_teen_connections.*, teenager.t_name, teenager.t_lastname')
+                                ->where("pro_tc_teen_connections.tc_receiver_id", $teenagerid)
+                                ->where("pro_tc_teen_connections.tc_status", Config::get('constant.CONNECTION_ACCEPT_STATUS'))
+                                ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('created_at')
+                                ->get();
+
+        $teenagerScholarshipProgram = DB::table("pro_tsp_teenager_scholarship_program")
+                                ->join('pro_t_teenagers as teenager', 'teenager.id', '=', 'pro_tsp_teenager_scholarship_program.tsp_teenager_id')
+                                ->join('pro_sa_sponsor_activity as activity', 'activity.id', '=', 'pro_tsp_teenager_scholarship_program.tsp_activity_id')
+                                ->selectRaw('pro_tsp_teenager_scholarship_program.*, teenager.t_name, teenager.t_lastname, activity.sa_name')
+                                ->where("pro_tsp_teenager_scholarship_program.tsp_teenager_id", $teenagerid)
+                                ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('created_at')
+                                ->get();
+
+        $teenagerChallenges = DB::table("pro_tpc_teenager_parent_challenge")
+                                ->join('pro_t_teenagers as teenager', 'teenager.id', '=', 'pro_tpc_teenager_parent_challenge.tpc_teenager_id')
+                                ->join('pro_p_parent as parent', 'parent.id', '=', 'pro_tpc_teenager_parent_challenge.tpc_parent_id')
+                                ->join('pro_pf_profession as profession', 'profession.id', '=', 'pro_tpc_teenager_parent_challenge.tpc_profession_id')
+                                ->selectRaw('pro_tpc_teenager_parent_challenge.*, teenager.t_name, teenager.t_lastname, parent.p_first_name, parent.p_last_name, profession.pf_name')
+                                ->where("pro_tpc_teenager_parent_challenge.tpc_teenager_id", $teenagerid)
+                                ->where('pro_tpc_teenager_parent_challenge.tpc_parent_id', $parentId)
+                                ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->where('parent.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('created_at')
+                                ->get();
+
+        $profileComplte = Self::calculateProfileComplete($teenagerid);
+                                
         if (!empty($teenager)) {
             $finalData['Registered with ProTeen'] = $teenager[0]->created_at;
         }
         if (!empty($teenagerLevel1Answer)) {
-            $finalData['Started Playing Level1'] = $teenagerLevel1Answer[0]->created_at;
+            $finalData['Started Playing Votes'] = $teenagerLevel1Answer[0]->created_at;
         }
         if (!empty($teenagerLevel2Answer)) {
-            $finalData['Started Playing Level2'] = $teenagerLevel2Answer[0]->created_at;
+            $finalData['Started Playing Profile Builder'] = $teenagerLevel2Answer[0]->created_at;
         }
         if (!empty($teenagerLevel3Answer)) {
-            $finalData['Started Playing Level3'] = $teenagerLevel3Answer[0]->created_at;
+            $finalData['Started Playing Career Research'] = $teenagerLevel3Answer[0]->created_at;
         }
         if (!empty($teenagerLevel4Answer)) {
-            $finalData['Started Playing Level4'] = $teenagerLevel4Answer[0]->created_at;
+            $finalData['Started Playing Career Role Play'] = $teenagerLevel4Answer[0]->created_at;
+        }
+        if (count($teenagerCareers) > 0) {
+            foreach ($teenagerCareers as $career) {
+                $finalData[$career->pf_name ." added as favorite career"] = $career->created_at;
+            }
+        }
+        if ($profileComplte && $profileComplte > 0) {
+            $finalData["Completed their profile " . $profileComplte . "%"] = Carbon::now();
+        }
+        if (count($teenagerCareers) > 0) {
+            foreach ($teenagerCareers as $career) {
+                $finalData[$career->pf_name ." added as favorite career"] = $career->created_at;
+            }
+        }
+        if (count($teenagerSentConnections) > 0) {
+            foreach ($teenagerSentConnections as $sentConnection) {
+                $finalData["Connected with " . ucfirst($sentConnection->t_name) . " " . ucfirst($sentConnection->t_lastname)] = $sentConnection->created_at;
+            }
+        }
+        if (count($teenagerReceivedConnections) > 0) {
+            foreach ($teenagerReceivedConnections as $recivedConnection) {
+                $finalData["Connected with " . ucfirst($recivedConnection->t_name) . " " . ucfirst($recivedConnection->t_lastname)] = $recivedConnection->created_at;
+            }
+        }
+        if (count($teenagerScholarshipProgram) > 0) {
+            foreach ($teenagerScholarshipProgram as $scholarshipProgram) {
+                $finalData["Applied for " . ucfirst($scholarshipProgram->sa_name)] = $recivedConnection->created_at;
+            }
+        }
+        if (count($teenagerChallenges) > 0) {
+            foreach ($teenagerChallenges as $challenge) {
+                $finalData["Challenged you to play " . ucfirst($challenge->pf_name)] = $recivedConnection->created_at;
+            }
         }
 
         return $finalData;

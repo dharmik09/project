@@ -2,11 +2,14 @@
 
 @section('content')
 <div id="dashboard_modal" class="modal fade info_modal skill_pop_up close_modal" role="dialog">
-    <div class="loader" id="page_loader" style="display:none;">
+    <!-- <div class="loader" id="page_loader" style="display:none;">
         <div class="cont_loader">
             <div class="img1"></div>
             <div class="img2"></div>
         </div>
+    </div> -->
+    <div id="assessment-loader" class="loading-screen loading-wrapper-sub" style="display:none;">
+        <div class="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
     </div>
     <div class="modal-dialog">
         <div class="modal-content">
@@ -509,7 +512,8 @@
                     <div class="timeline_inner">
                         <table>
                             <?php
-                            $timeLine = Helpers::getTeenagerTimeLine($teenId);
+                            $parentId = Auth::guard('parent')->user()->id;
+                            $timeLine = Helpers::getTeenagerTimeLine($teenId, $parentId);
                             $classArray = array('alpha', 'beta', 'gamma', 'delta');
                             ?>
                             @if(isset($timeLine) && !empty($timeLine))
@@ -1323,7 +1327,9 @@
               return false;
         }
         $("#errorGoneMsg").html('');
-        $("#page_loader").show();
+        //$("#page_loader").show();
+        $('#assessment-loader').parent().addClass('loading-screen-parent');
+        $('#assessment-loader').show();
         $.ajax({
           url: "{{ url('/parent/save-teen-promise-rate') }}",
           type: 'POST',
@@ -1337,7 +1343,7 @@
           },
           success: function(response) {
             if (section != '') {
-                $("#page_loader").hide();
+                //$("#page_loader").hide();
                 $('.section').slideUp();
                 $('#'+section).slideDown();
             } else {
@@ -1350,7 +1356,7 @@
                         "teenId": <?php echo $teenDetail->id; ?>,
                     },
                     success: function(rdata) {
-                        $("#page_loader").hide();
+                        //$("#page_loader").hide();
                         if (rdata == 0) {
                             $('.close_modal').modal('hide');
                             $("#errorMsg").html('<div class="col-md-8 col-md-offset-2 r_after_click" id="useForClass"><div class="box-body"><div class="alert alert-success success"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button><span class="fontWeight">Your Opinion of users strengths completed</span></div></div></div>');
@@ -1359,6 +1365,8 @@
                     }
                 });
             }
+            $('#assessment-loader').parent().removeClass('loading-screen-parent');
+            $('#assessment-loader').hide();
           }
       });
     }
