@@ -640,6 +640,8 @@ body.fixed-nav{padding-bottom: 130px;}
 .data-explainations.margin-bottom{margin-top: 0px;margin-bottom: 20px;}
 .front_page{}
 .slider_card .dashboard_edu_text{position: absolute;bottom: 20px;margin: 0 auto;left: 50%;transform: translatex(-50%);}
+.nav-tabs>li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover{background-color: none !important;}
+.intrest_content .my_chart h4 a{color: #565b5f;}
 @media (max-width: 991px) {
 .padTop10 {
     padding-top: 10px;
