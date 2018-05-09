@@ -169,7 +169,7 @@
                 </div>
                 <div id="load-video"></div>
                 @if(isset($videoCount) && $videoCount > 12)
-                    <p id="remove-row" class="text-center"><a id="load-more" data-id="{{ $video->id }}" href="javascript:void(0)" title="load more" class="btn btn-primary">load more</a></p>
+                    <p id="remove-row" class="text-center"><a id="load-more" data-id="{{ $video->id }}" href="javascript:void(0)" title="see more" class="btn btn-primary">see more</a></p>
                 @endif
             </div>
         </div>

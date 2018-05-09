@@ -18,11 +18,6 @@
     <div class="flex-item">
         <div class="team-point">
             {{ $leaderBoard->tlb_points }} points
-            <a href="#" title="Chat">
-                <i class="icon-chat">
-                    <!-- -->
-                </i>
-            </a>
         </div>
     </div>
 </div>
@@ -33,5 +28,5 @@
     <div class="loader_con remove-row">
         <img src="{{Storage::url('img/loading.gif')}}">
     </div>
-    <p class="text-center remove-row"><a id="load-more-leaderboard" href="javascript:void(0)" title="load more" class="load-more">load more</a></p>
+    <p class="text-center remove-row"><a id="load-more-leaderboard" href="javascript:void(0)" title="see more" class="load-more">see more</a></p>
 @endif

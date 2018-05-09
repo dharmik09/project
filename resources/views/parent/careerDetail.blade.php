@@ -165,6 +165,24 @@
                                     @include('parent/basic/careerDetailInfoSection')
                                 </div>
                                 <div id="menu2" class="tab-pane fade in">
+                                    <!-- Section for booster scale --> 
+                                    <div class="explore-table table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Competitors</th>
+                                                    <th>Score</th>
+                                                    <th>Rank</th>
+                                                    <th>Points</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id="load-user-profession-competitor">
+                                                    <td colspan="4">Calculating Score...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <!-- Section for promise plus --> 
                                     <div class="promise-plus-outer">
                                         @include('parent/basic/careerPromisePlusSection')
@@ -327,11 +345,21 @@
                                 <h2>Connect</h2>
                                 <div class="bg-white">
                                     <ul class="nav nav-tabs custom-tab-container clearfix bg-offwhite">
-                                        <li class="active custom-tab col-xs-12 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Leaderboard</span></span></a></li>
+                                        <li class="active custom-tab col-xs-6 tab-color-1"><a data-toggle="tab" href="#menu3"><span class="dt"><span class="dtc">Leaderboard</span></span></a></li>
+                                        <li class="custom-tab col-xs-6 tab-color-3"><a data-toggle="tab" href="#menu4" onclick="getFansTeenForCareerFromTabButton();"><span class="dt"><span class="dtc">Fans of this career</span></span></a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div id="menu3" class="tab-pane fade in active">
-                                            
+                                        </div>
+                                        <div id="menu4" class="tab-pane fade in">
+                                            <div id="fav-teenager-list"></div>
+                                            <div class="text-center load-more" id="loadMoreButton">
+                                                <div id="loader_con"></div>
+                                                <p class="text-center">
+                                                    <a href="javascript:void(0)" id="load-more-data" title="see more">see more</a>
+                                                        <input type="hidden" id="pageValue" value="0">
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -822,7 +850,7 @@
 
     function getFansTeenForCareerFromTabButton(){
         if( !$('#menu4').hasClass('active') ){
-            $("#menu4").html('<div id="fav-teenager-list"></div><div class="text-center load-more" id="loadMoreButton"><div id="loader_con"></div><p class="text-center"><a href="javascript:void(0)" id="load-more-data" title="load more">load more</a><input type="hidden" id="pageValue" value="0"></p></div>');
+            $("#menu4").html('<div id="fav-teenager-list"></div><div class="text-center load-more" id="loadMoreButton"><div id="loader_con"></div><p class="text-center"><a href="javascript:void(0)" id="load-more-data" title="see more">see more</a><input type="hidden" id="pageValue" value="0"></p></div>');
             getFansTeenForCareer();
         }
     }
@@ -2208,7 +2236,7 @@
         $("html, body").animate({
             scrollTop: $("."+tab).offset().top 
         }, 500);
-        //getUserProfessionCompetitor({{$professionsData->id}});
+        getUserProfessionCompetitor({{$professionsData->id}});
         getLeaderBoard(0);
         getPageAdsDetail();
         getProfessionCompletionPercentage({{$professionsData->id}})
@@ -2378,6 +2406,62 @@
         });
     }
 
+    $(document).on('click','#load-more-data', function(){    
+        getFansTeenForCareer();
+    });
+
+    function getFansTeenForCareerFromTabButton(){
+        if( !$('#menu4').hasClass('active') ){
+            $("#menu4").html('<div id="fav-teenager-list"></div><div class="text-center load-more" id="loadMoreButton"><div id="loader_con"></div><p class="text-center"><a href="javascript:void(0)" id="load-more-data" title="see more">see more</a><input type="hidden" id="pageValue" value="0"></p></div>');
+            getFansTeenForCareer();
+        }
+    }
+
+    function getFansTeenForCareer(){
+        $("#loader_con").html('<img src="{{Storage::url('img/loading.gif')}}">');
+        var pageNo = $('#pageValue').val();
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('parent/get-teenagers-for-starrated')}}",
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'page_no':pageNo,'professionId':{{$professionsData->id}}, 'teenUniqueId':'{{$teenId}}' },
+            success: function (response) {
+                if (response.teenagersCount == 0) {
+                    $("#fav-teenager-list").html('<div class="sec-forum"><span>No result Found</span></div>');
+                }
+                if (response.teenagersCount != 10) {
+                    $('#loadMoreButton').removeClass('text-center');
+                    $('#loadMoreButton').removeClass('load-more');
+                    $('#loadMoreButton').addClass('notification-complete');
+                    $('#loadMoreButton').html("");
+                } 
+                $('#pageValue').val(response.pageNo);
+                $("#fav-teenager-list").append(response.teenagers);
+                $("#loader_con").html('');
+            }
+        });
+    }
+
+    //get profession competitors data
+    function getUserProfessionCompetitor(professionId)
+    {
+        $.ajax({
+            url: "{{ url('parent/get-teen-profession-competitor') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                'professionId':professionId,
+                'teenUniqueId':'{{$teenId}}'
+            },
+            success: function(response) {               
+                $('#load-user-profession-competitor').html(response);
+            }
+        });
+    }
 </script>
 
 @stop

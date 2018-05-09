@@ -56,7 +56,7 @@
                 <div class="text-center" id="loadMoreButton">
                     <div id="loader_con"></div>
                     <p>
-                        <button title="Read More" class="btn btn-primary load-more btnLoad" id="pageNo" value="0" onclick="fetchQuestion(this.value)">Load More</button>
+                        <button title="Read More" class="btn btn-primary load-more btnLoad" id="pageNo" value="0" onclick="fetchQuestion(this.value)">See More</button>
                     </p>
                 </div>
             </div>

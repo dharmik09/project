@@ -861,7 +861,7 @@
 
     function getFansTeenForCareerFromTabButton(){
         if( !$('#menu4').hasClass('active') ){
-            $("#menu4").html('<div id="fav-teenager-list"></div><div class="text-center load-more" id="loadMoreButton"><div id="loader_con"></div><p class="text-center"><a href="javascript:void(0)" id="load-more-data" title="load more">load more</a><input type="hidden" id="pageValue" value="0"></p></div>');
+            $("#menu4").html('<div id="fav-teenager-list"></div><div class="text-center load-more" id="loadMoreButton"><div id="loader_con"></div><p class="text-center"><a href="javascript:void(0)" id="load-more-data" title="see more">see more</a><input type="hidden" id="pageValue" value="0"></p></div>');
             getFansTeenForCareer();
         }
     }
