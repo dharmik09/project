@@ -66,6 +66,13 @@
         <div class="container">
             <div class="bg-white procoins">
                <div class="icon_arrow"><i class="icon-arrow-spring"></i></div>
+               <span class="sec-popup help_noti"><a id="procoins-buy-packages" href="javascript:void(0);" onmouseover="getHelpText('procoins-buy-packages')" data-trigger="hover" data-popover-content="#profile-sec" class="help-icon" rel="popover" data-placement="bottom"><i class="icon-question"></i></a></span>
+                <div class="hide" id="profile-sec">
+                    <div class="popover-data">
+                        <a class="close popover-closer"><i class="icon-close"></i></a> 
+                        <span class="procoins-buy-packages"></span>
+                    </div>
+                </div>
                 <div class="sec-procoins">
                     <h2>Buy ProCoins</h2>
                     <p>Purchase ProCoins Packs Online</p>
