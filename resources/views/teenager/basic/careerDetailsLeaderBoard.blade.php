@@ -59,5 +59,5 @@
     <div class="loader_con remove-row">
         <img src="{{Storage::url('img/loading.gif')}}">
     </div>
-    <p class="text-center remove-row"><a id="load-more-leaderboard" href="javascript:void(0)" title="load more" class="load-more">see more</a></p>
+    <p class="text-center remove-row"><a id="load-more-leaderboard" href="javascript:void(0)" title="see more" class="load-more">see more</a></p>
 @endif

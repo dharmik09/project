@@ -53,7 +53,7 @@
                             <div id="menu1-loader-con" class="loader_con remove-row">
                                 <img src="{{Storage::url('img/loading.gif')}}">
                             </div>
-                            <p id="remove-row" class="text-center remove-row"><a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a></p>
+                            <p id="remove-row" class="text-center remove-row"><a href="javascript:void(0)" id="load-more" title="see more" class="load-more" data-id="{{ $newConnection->id }}">see more</a></p>
                         @endif
                     </div>
                     <div id="menu4" class="tab-pane fade my-connection">
@@ -109,7 +109,7 @@
                             <div id="menu2-loader-con" class="loader_con remove-my-connection-row">
                                 <img src="{{Storage::url('img/loading.gif')}}">
                             </div>
-                            <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" data-id="{{ $myConnection->id }}" title="load more" class="load-more">load more</a></p>
+                            <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" data-id="{{ $myConnection->id }}" title="see more" class="load-more">see more</a></p>
                         @endif
                     </div>
                 </div>

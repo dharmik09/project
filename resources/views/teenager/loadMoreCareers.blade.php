@@ -28,6 +28,6 @@
         <img src="{{Storage::url('img/loading.gif')}}">
     </div>
     <p class="text-center remove-my-careers-row">
-        <a id="load-more-career" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myCareer->careerId }}">load more</a>
+        <a id="load-more-career" href="javascript:void(0)" title="see more" class="load-more" data-id="{{ $myCareer->careerId }}">see more</a>
     </p>
 @endif

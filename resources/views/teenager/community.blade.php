@@ -112,7 +112,7 @@
                             <img src="{{Storage::url('img/loading.gif')}}">
                         </div>
                         <p id="remove-row" class="text-center remove-row">
-                            <a href="javascript:void(0)" id="load-more" title="load more" class="load-more" data-id="{{ $newConnection->id }}">load more</a>
+                            <a href="javascript:void(0)" id="load-more" title="see more" class="load-more" data-id="{{ $newConnection->id }}">see more</a>
                         </p>
                         @endif
                     </div>
@@ -163,7 +163,7 @@
                             <div id="menu2-loader-con" class="loader_con remove-my-connection-row remove-loader">
                                 <img src="{{Storage::url('img/loading.gif')}}">
                             </div>
-                            <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" title="load more" class="load-more" data-id="{{ $myConnection->id }}">load more</a></p>
+                            <p class="text-center remove-my-connection-row"><a id="load-more-connection" href="javascript:void(0)" title="see more" class="load-more" data-id="{{ $myConnection->id }}">see more</a></p>
                         @endif
                     </div>
                 </div>

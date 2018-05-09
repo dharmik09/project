@@ -75,7 +75,7 @@
                     <div id="pageWiseNotifications"></div>
                         <div class="text-center load-more" id="loadMoreButton">
                             <div id="loader_con"></div>
-                            <button class="btn btn-primary" title="Load More" id="pageNo" value="0" onclick="fetchNotification()">Load More</button>
+                            <button class="btn btn-primary" title="See More" id="pageNo" value="0" onclick="fetchNotification()">See More</button>
                         </div>
                 </div>
             </div>
