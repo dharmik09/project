@@ -351,7 +351,8 @@ class DashboardManagementController extends Controller {
                             } else {
                                 $fictionIconArr['iconImage'] = Storage::url($this->cartoonThumbImageUploadPath . 'proteen-logo.png');
                             }
-                            $fictionIconArr['iconDescription'] = $icon->ci_description;
+                            $iconDesription = (isset($icon->ci_description) && !empty($icon->ci_description)) ? ' - ' . $icon->ci_description : '';
+                            $fictionIconArr['iconDescription'] = $icon->ci_name . $iconDesription;
                             $fictionIcon[] = $fictionIconArr;
                         } else if ($icon->ti_icon_type == 2) {
                             $nonFictionArr = [];
@@ -360,7 +361,8 @@ class DashboardManagementController extends Controller {
                             } else {
                                 $nonFictionArr['iconImage'] = Storage::url($this->humanThumbImageUploadPath . 'proteen-logo.png');
                             }
-                            $nonFictionArr['iconDescription'] = $icon->hi_description;
+                            $iconDesription = (isset($icon->hi_description) && !empty($icon->hi_description)) ? ' - ' . $icon->hi_description : '';
+                            $nonFictionArr['iconDescription'] = $icon->hi_name .  $iconDesription;
                             $nonFiction[] = $nonFictionArr;
                         } else {
                             $relationIconArr = [];
@@ -369,7 +371,7 @@ class DashboardManagementController extends Controller {
                             } else {
                                 $relationIconArr['iconImage'] = Storage::url($this->relationIconThumbImageUploadPath . 'proteen-logo.png');
                             }
-                            $relationIconArr['iconDescription'] = "";
+                            $relationIconArr['iconDescription'] = $icon->rel_name;
                             $relationIcon[] = $relationIconArr;
                         }
                     }
