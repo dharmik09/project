@@ -537,7 +537,7 @@ class ProfessionController extends Controller {
         $pageNo = Input::get('page_no');
         $record = $pageNo * 10;
         $professionId = Input::get('professionId');
-        $teenagerData = $this->objTeenagers->getAllTeenWhoStarRatedCareer($record, $professionId, $user->id);        
+        $teenagerData = $this->objTeenagers->getAllTeenWhoStarRatedCareer($record, $professionId, $user->id);  
         $view = view('teenager.basic.level3TeenagerFansForCareer',compact('teenagerData'));
         $response['teenagersCount'] = count($teenagerData);
         $response['teenagers'] = $view->render();

@@ -27,6 +27,7 @@ use App\MultipleIntelligentScale;
 use App\Personality;
 use App\PersonalityScale;
 use View;
+use App\Teenagers;
 
 class ProfessionController extends Controller {
 
@@ -48,6 +49,7 @@ class ProfessionController extends Controller {
         $this->objMIScale = new MultipleIntelligentScale;
         $this->objPersonality = new Personality;
         $this->objPersonalityScale = new PersonalityScale;
+        $this->objTeenagers = new Teenagers;
         $this->log = new Logger('parent-profession-controller');
         $this->log->pushHandler(new StreamHandler(storage_path().'/logs/monolog-'.date('m-d-Y').'.log'));
     }
@@ -395,5 +397,27 @@ class ProfessionController extends Controller {
         $response['bannerAds'] = $bannerHtml;
         return response()->json($response, 200);
         exit;
-    }    
+    }   
+
+    /* @getTeenagerWhoStarRatedCareer
+     * params: teenUniqueId, professionId, page_no
+     * Returns Career fans section view
+     */
+    public function getTeenagerWhoStarRatedCareer()
+    {
+        $teenUniqueId = Input::get('teenUniqueId');
+        $teenagerDetails = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+        $pageNo = Input::get('page_no');
+        $record = $pageNo * 10;
+        $professionId = Input::get('professionId');
+        $teenagerData = [];
+        if (isset($teenagerDetails) && !empty($teenagerDetails)) {
+            $teenagerData = $this->objTeenagers->getAllTeenWhoStarRatedCareer($record, $professionId, $teenagerDetails['id']); 
+        }
+        $view = view('parent.basic.level3TeenagerFansForCareer', compact('teenagerData'));
+        $response['teenagersCount'] = count($teenagerData);
+        $response['teenagers'] = $view->render();
+        $response['pageNo'] = $pageNo+1;
+        return $response;
+    } 
 }
