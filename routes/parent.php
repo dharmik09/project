@@ -42,6 +42,7 @@ Route::post('/get-promise-plus', 'Parent\Level4ActivityManagementController@getP
 Route::post('/get-profession-completion-percentage', 'Parent\ProfessionController@getProfessionCompletionPercentage');
 Route::post('/get-career-detail-ads', 'Parent\ProfessionController@getCareerDetailsAds');
 Route::post('/get-teenagers-for-starrated/', 'Parent\ProfessionController@getTeenagerWhoStarRatedCareer');
+Route::post('/get-teen-profession-competitor', 'Parent\Level4ActivityManagementController@getProfessionCompetitor');
 
 //Level4 Basic Activity
 Route::post('/play-basic-level-activity', 'Parent\Level4ActivityManagementController@getL4BasicQuestions');

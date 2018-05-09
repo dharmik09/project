@@ -1860,4 +1860,19 @@ class Level4ActivityManagementController extends Controller {
         return response()->json($response, 200);
         exit;
     }
+
+    public function getProfessionCompetitor() {
+        $professionId = Input::get('professionId');
+        $teenUniqueId = Input::get('teenUniqueId');
+        $teenagerDetails = $this->teenagersRepository->getTeenagerByUniqueId($teenUniqueId);
+        if (isset($teenagerDetails) && !empty($teenagerDetails) && $professionId != '') {
+            $level4Booster = Helpers::level4Booster($professionId, $teenagerDetails['id']);
+            return view('parent.basic.careerBoosterScaleSection', compact('level4Booster'));
+        }
+        $response['status'] = 0;
+        $response['message'] = "Something went wrong!";
+
+        return response()->json($response, 200);
+        exit;
+    }
 }

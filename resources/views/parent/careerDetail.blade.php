@@ -165,6 +165,24 @@
                                     @include('parent/basic/careerDetailInfoSection')
                                 </div>
                                 <div id="menu2" class="tab-pane fade in">
+                                    <!-- Section for booster scale --> 
+                                    <div class="explore-table table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Competitors</th>
+                                                    <th>Score</th>
+                                                    <th>Rank</th>
+                                                    <th>Points</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id="load-user-profession-competitor">
+                                                    <td colspan="4">Calculating Score...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <!-- Section for promise plus --> 
                                     <div class="promise-plus-outer">
                                         @include('parent/basic/careerPromisePlusSection')
@@ -2218,7 +2236,7 @@
         $("html, body").animate({
             scrollTop: $("."+tab).offset().top 
         }, 500);
-        //getUserProfessionCompetitor({{$professionsData->id}});
+        getUserProfessionCompetitor({{$professionsData->id}});
         getLeaderBoard(0);
         getPageAdsDetail();
         getProfessionCompletionPercentage({{$professionsData->id}})
@@ -2424,6 +2442,23 @@
                 $('#pageValue').val(response.pageNo);
                 $("#fav-teenager-list").append(response.teenagers);
                 $("#loader_con").html('');
+            }
+        });
+    }
+
+    //get profession competitors data
+    function getUserProfessionCompetitor(professionId)
+    {
+        $.ajax({
+            url: "{{ url('parent/get-teen-profession-competitor') }}",
+            type: 'post',
+            data: {
+                "_token": '{{ csrf_token() }}',
+                'professionId':professionId,
+                'teenUniqueId':'{{$teenId}}'
+            },
+            success: function(response) {               
+                $('#load-user-profession-competitor').html(response);
             }
         });
     }
