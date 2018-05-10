@@ -51,6 +51,11 @@ class LoginController extends Controller
     			}
     		}
             if($teenager) {
+                if ($request->pushToken == "" && $request->deviceType == 2) {
+                    $teenager->isAndroidTokenReceived = Config::get('constant.ANDROID_TOKEN_NOT_RECEIVED_FLAG');
+                } else {
+                    $teenager->isAndroidTokenReceived = Config::get('constant.ANDROID_TOKEN_RECEIVED_FLAG');
+                }
     			if(isset($teenager->t_isverified) && $teenager->t_isverified == 1) {
     				if (Auth::guard('teenager')->attempt(['t_email' => $teenager->t_email, 'password' => $request->password, 'deleted' => 1])) {
     					//Get/Format Sponsor Detail
