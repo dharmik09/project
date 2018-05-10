@@ -3,9 +3,7 @@
     @if(count($professionsTagData->professionTags)>0)
     <div class="pull-right">
         <div class="sec-popup">
-            <a href="#" class="custompop" rel="popover" data-popover-content="#pop2" data-placement="bottom">
-                <i class="icon-share"></i>
-            </a>
+            
             <div class="hide" id="pop2">
                 <div class="socialmedia-icon">
                     <p>Share  on:</p>
