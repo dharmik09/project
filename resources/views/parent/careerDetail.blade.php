@@ -2240,6 +2240,9 @@
         getLeaderBoard(0);
         getPageAdsDetail();
         getProfessionCompletionPercentage({{$professionsData->id}})
+        $(document).on( "click", ".open_advance_view", function() {
+           $("#accordion1").collapse('show');
+        })
     });
 
     function adjusting_box_size() {
