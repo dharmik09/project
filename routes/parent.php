@@ -92,6 +92,7 @@ Route::post('/get-profession-education-path/', 'Parent\DashboardManagementContro
 Route::post('/accept-teen-request','Parent\CoinManagementController@acceptTeenRequest')->name('accept-teen-request');
 Route::post('/get-interest-detail', 'Parent\DashboardManagementController@getTeenagerInterestDetails')->name('get-interest-detail');
 Route::post('/get-strength-detail', 'Parent\DashboardManagementController@getTeenagerStrengthDetails')->name('get-strength-detail');
+Route::post('/get-activity-timeline-details', 'Parent\DashboardManagementController@getActivityTimelineDetails');
 
 //Password
 Route::get('/change-password', 'Parent\PasswordManagementController@changePassword')->name('change-password');

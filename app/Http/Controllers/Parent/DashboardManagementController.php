@@ -1977,4 +1977,16 @@ class DashboardManagementController extends Controller {
         exit;
     }
 
+    /* @getActivityTimelineDetails
+     * params: teenagerId
+     * Returns an array of teenager activity details
+     */
+    public function getActivityTimelineDetails()
+    {
+        $teenId = Input::get('teenagerId');
+        $parentId = Auth::guard('parent')->user()->id;
+        $timeLine = Helpers::getTeenagerTimeLine($teenId, $parentId);
+        return view("parent.basic.progressActivityTimeLineData", compact('teenId', 'timeLine'));
+    }
+
 }

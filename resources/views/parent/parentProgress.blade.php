@@ -510,32 +510,9 @@
                 <h2>Activity Timeline</h2>
                 <div class="timeline">
                     <div class="timeline_inner">
-                        <table>
-                            <?php
-                            $parentId = Auth::guard('parent')->user()->id;
-                            $timeLine = Helpers::getTeenagerTimeLine($teenId, $parentId);
-                            $classArray = array('alpha', 'beta', 'gamma', 'delta');
-                            ?>
-                            @if(isset($timeLine) && !empty($timeLine))
-                            <?php $flag = 0; ?>
-                            @foreach($timeLine as $line=>$date)
-
-                            <tr class="{{$classArray[$flag]}}">
-                                <td class="timeline_icon">
-                                    <span class="box"></span>
-                                </td>
-                                <td class="timeline_date">{{date('d, F Y',strtotime($date))}}</td>
-                                <td class="timeline_detail">{{$line}}</td>
-                            </tr>
-                            <?php
-                            $flag++;
-                            if ($flag > 3) {
-                                $flag = 0;
-                            }
-                            ?>
-                            @endforeach
-                            @endif
-                        </table>
+                        <div id="activity-loader" class="loading-screen loading-wrapper-sub" style="display:none;">
+                            <div class="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1427,6 +1404,7 @@
         e.preventDefault();
         getTeenagerInterestData("{{$teenDetail->id}}");
         getTeenagerStrengthData("{{$teenDetail->id}}");
+        getActivityTimeLineDetails("{{$teenDetail->id}}");
    });
 
    function getTeenagerInterestData(teenagerId) {
@@ -1519,6 +1497,24 @@
                         }, 1000);
                     }
                 });
+            }
+        });
+    }
+
+    //get teenager activity timeline details
+    function getActivityTimeLineDetails(teenagerId) {
+        $('#activity-loader .loading-screen-data').parent().addClass('loading-screen-parent');
+        $('#activity-loader .loading-screen-data').show();
+        $.ajax({
+            type: 'POST',
+            url: "{{url('parent/get-activity-timeline-details')}}",
+            dataType: 'html',
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            data: {'teenagerId':teenagerId},
+            success: function (response) {
+                $(".timeline_inner").append(response);
+                $('#activity-loader .loading-screen-data').hide();
+                $('#activity-loader .loading-screen-data').parent().removeClass('loading-screen-parent');
             }
         });
     }

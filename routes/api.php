@@ -203,4 +203,6 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
     Route::post('/getProfessionInstituteAllFilter', 'Webservice\ProfessionInstitutesController@getProfessionInstituteFilter');
     Route::post('/getProfessionInstituteFilterData', 'Webservice\ProfessionInstitutesController@getProfessionInstituteFilterData');
     Route::post('/getProfessionInstitute', 'Webservice\ProfessionInstitutesController@getProfessionInstitute');
+
+    
 });

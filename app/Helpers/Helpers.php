@@ -1211,7 +1211,7 @@ Class Helpers {
         }
         if (count($teenagerChallenges) > 0) {
             foreach ($teenagerChallenges as $challenge) {
-                $finalData["Challenged you to play " . ucfirst($challenge->pf_name)] = $recivedConnection->created_at;
+                $finalData["Challenged you to play " . ucfirst($challenge->pf_name)] = $challenge->created_at;
             }
         }
 
