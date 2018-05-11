@@ -493,7 +493,7 @@ textarea.cst_input_primary{resize: vertical;}
 .multiple-heading{font-family: 'h';font-size: 18px;}
 .parent_h2_header h2.parent_h2_text{font-size: 22px;}
 .parent_h2_header h2.parent_h2_text {font-size: 28px;font-family: 'am';color: #27a6b5;border-bottom: none;margin-bottom: 0px;}
-.intrest_content .my_chart{width: 100%;}
+.intrest_content .my_chart{width: 100%;padding-bottom:20px;}
 .level-1{background-color: #fd604b;}
 .level-2{background-color: #66c6e6;}
 .level-3{background-color: #27a6b6;}
