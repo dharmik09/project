@@ -146,6 +146,7 @@ Route::group(['prefix' => 'school'], function () {
 	Route::get('/set-forgot-password', 'School\PasswordController@forgotPassword')->name('set-forgot-password');
 	Route::get('/save-forgot-password', 'School\PasswordController@forgotPassword');
 	Route::post('/load-more-video', 'School\HomeController@loadMoreVideo')->name('load-more-video');
+	Route::post('/get-help-text', 'School\HomeController@getHelpTextBySlug');
 });
 
 Route::get('/verify-parent-teen-pair', 'Parent\LoginController@verifyParent')->name('parent.verify-parent-teen-pair');
