@@ -1912,6 +1912,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
                 ->where('parent_teen.ptp_teenager', $teenId)
                 ->where('parent_teen.ptp_is_verified', 1)
                 ->where('parent_teen.deleted', 1)
+                ->where('parent.deleted', 1)
                 ->get();
 
         return $result;
