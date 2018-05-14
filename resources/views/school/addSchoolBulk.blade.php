@@ -3,8 +3,9 @@
 @section('content')
 
 @if(Session::has('invalidemails'))
-<?php $invalidEmails = Session::get('invalidemails'); ?>
-@if(!empty($invalidEmails))
+<?php $invalidEmails = Session::get('invalidemails'); 
+?>
+@if(count($invalidEmails) > 0)
 <div class="col-md-12">
     <div class="box-body">
         <div class="alert alert-error alert-dismissable danger">
@@ -12,7 +13,9 @@
             <h4><i class="icon fa fa-check"></i> {{trans('validation.whoops')}}</h4>Below are the invalid emails so not imported into database
             <ul>
                 @foreach($invalidEmails as $key=>$email)
+                @if ($email != "")
                 <li>{{ $email }}</li>
+                @endif
                 @endforeach
             </ul>
         </div>

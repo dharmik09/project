@@ -4,7 +4,7 @@
 
 @if(Session::has('invalidemails'))
 <?php $invalidEmails = Session::get('invalidemails'); ?>
-@if(!empty($invalidEmails))
+@if(count(array_filter($invalidEmails)) != "")
 <div class="col-md-12">
     <div class="box-body">
         <div class="alert alert-error alert-dismissable danger">
@@ -12,16 +12,18 @@
             <h4><i class="icon fa fa-check"></i> {{trans('validation.whoops')}}</h4>Below are the invalid emails so not imported into database
             <ul>
                 @foreach($invalidEmails as $key=>$email)
+                @if ($email != "")
                 <li>{{ $email }}</li>
+                @endif
                 @endforeach
             </ul>
         </div>
     </div>
 </div>
 @endif
-
+@endif
 <?php Session::forget('invalidemails'); ?>
-@elseif($message = Session::get('success'))
+@if($message = Session::get('success'))
 <div class="col-md-12">
     <div class="box-body">
         <div class="alert alert-success alert-succ-msg alert-dismissable">
