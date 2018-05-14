@@ -12,38 +12,18 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <style>
-        .custom-tab-container{border-bottom: none;}
-        .nav{margin-bottom: 0;}
-        .nav:before, .nav:after{display: table;content: " ";}
-        .custom-tab-container .custom-tab.active{z-index: 99;}
-        .custom-tab-container .custom-tab{position: relative;}
-        .nav-tabs > li{margin-bottom: -1px;}
-        .nav > li{display: block;}
-        .nav-tabs > li > a, .nav-tabs > li > a:focus, .nav-tabs > li > a:hover, .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover{border: none;}
-        .active.custom-tab a, .active.custom-tab a > span, .active.custom-tab a:before, .active.custom-tab a:after{background-color: #fff !important;}
-        .custom-tab-container .custom-tab a:after, .custom-tab-container .custom-tab a:before {position: absolute;content: '';top: 0;display: block;width: 50px;height: 110px;-webkit-transition: background-color 0.3s ease-out;-o-transition: background-color 0.3s ease-out;transition: background-color 0.3s ease-out}
-        .custom-tab-container .custom-tab a:after {right: 0;-webkit-transform: rotate(-22deg);-ms-transform: rotate(-22deg);-o-transform: rotate(-22deg);transform: rotate(-22deg);}
-        .custom-tab-container .custom-tab a:before {left: 0;-webkit-transform: rotate(22deg);-ms-transform: rotate(22deg);-o-transform: rotate(22deg);transform: rotate(22deg);}
-        .custom-tab-container .custom-tab a:after, .custom-tab-container .custom-tab a:before {position: absolute;content: '';top: 0;display: block;width: 50px; height: 110px; -webkit-transition: background-color 0.3s ease-out;-o-transition: background-color 0.3s ease-out;transition: background-color 0.3s ease-out;}
-        .custom-tab-container .custom-tab a > span {position: relative;z-index: 99;-webkit-transition: background-color 0.3s ease-out;-o-transition: background-color 0.3s ease-out;transition: background-color 0.3s ease-out;}
         @page { margin: 90px 50px; }
         #header { position: fixed; top: -60px; right: 0px;  height: 40px;padding-bottom: 10px;}
         .clearfix:after {
-          /*visibility: hidden;
-          display: block;
-          font-size: 0;
-          content: " ";*/
           clear: both;
-          /*height: 0;*/
         }
         .pagebreak {
             page-break-after:always;
-            /*page-break-before:always;*/
-            /*page-break-after: auto;*/
             position: relative;
         }
         #footer { position: fixed; left: 0px; bottom: -80px; right: 0px; height: 40px; border-top: 1px solid;}
-        #footer .page:after { content: counter(page); padding-left : 390px;}
+        #footer .page:after { content: counter(page); text-align: right; position: absolute; right:0; }
+        .content_link a { color: #00f; }
     </style>
 </head>
 
@@ -58,7 +38,7 @@
         </table>
     </div>
     <div id="footer" class="clearfix">
-        <p class="page">Copyright &copy; <?php echo date('Y');?> <span style="color:#E66A45;"> ProTeen</span>. All rights reserved.</p>
+        <p class="page" >Copyright &copy; <?php echo date('Y');?> <span style="color:#E66A45;"> ProTeen</span>. All rights reserved.</p>
     </div>
     <div style="height: 500px; width: 99.5%; margin-top: 30px;">
         <img src="{{Storage::url(Config::get('constant.PROFESSION_ORIGINAL_IMAGE_UPLOAD_PATH').$professionsData->pf_logo)}}" style="width: 100%;height: 100%;">
@@ -261,7 +241,7 @@
                 <td style="font-size: 28px;">Abilities</td>
             </tr>
         </table>
-        <div class="clearfix pagebreak" style="margin-top: 30px;">
+        <div class="clearfix" style="margin-top: 30px;">
         @if(isset($professionsData->ability) && !empty($professionsData->ability))
         <?php $abilityColCount = 0; ?>
         @foreach($professionsData->ability as $key => $value)
@@ -489,7 +469,7 @@
                     <td style="font-size: 28px;">Apprenticeships</td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="content_link">
                     <?php
                         $profession_bridge = $professionsData->professionHeaders->filter(function($item) {
                             return $item->pfic_title == 'profession_bridge';
@@ -507,7 +487,7 @@
                     <td style="font-size: 28px;">General Information And Links</td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="content_link">
                     <?php
                         $trends_infolinks_usa = $professionsData->professionHeaders->filter(function($item) {
                             return $item->pfic_title == 'trends_infolinks';
@@ -522,7 +502,7 @@
                     <td height="10"></td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="content_link">
                         @if(isset($trends_infolinks_usa->pfic_content) && !empty($trends_infolinks_usa->pfic_content))
                             {!!$trends_infolinks_usa->pfic_content!!}
                         @endif
@@ -609,9 +589,9 @@
                                     <td colspan="3" width="100%" height="50px" align="left" cellpadding="20" style="font-family: hn-b;font-size: 16px; color: #565b5f; background-color: #EEEEEF; padding-left: 10px;">{{$value['name']}}</td>
                                     <td colspan="3" width="100%" height="50px" align="left" cellpadding="20" style=" padding-left: 10px;">
                                         <!-- <div style="width: 70px; background-color: #ebebeb;"> -->
-                                            <div style="background-color: #ebebeb; position: relative; width: 70px;z-index: 9;height: 10px;"> 
-                                                <span style="background-color: #65c6e6; position: absolute; left: 0; z-index: 99; width: 40px;height: 10px;top:0;"></span>
-                                                <span style="background-color: #ffe195; position: absolute; left: 0; z-index: 999; width: 30px;height: 10px;top:0;"></span>
+                                            <div style="width: 300px; background-color: #ebebeb; position: relative; height:20px; z-index: 1;"> 
+                                                <div style="background-color: #ffe195; position: absolute;left: 0; top:0; height: 20px; z-index: 2; width: {{$value['score']}}%;"></div>
+                                                <div style="background-color: #65c6e6; position: absolute; left: 0; top:0; height: 20px; z-index: 2; width: {{round($value['lowscoreH'])}}%;"></div>
                                             </div>
                                         <!-- </div> -->
                                     </td>
@@ -621,7 +601,25 @@
                         </table>
                     </div>
         </div>
-         
+        <table style="font-size: 18px; color: #565b5f; font-family: hl;">
+            <tr>
+                <td height="10"></td>
+            </tr>
+            <tr>
+                <td style="font-size: 28px;">Hobbies</td>
+            </tr>
+            <tr>
+                <td height="10"></td>
+            </tr>
+        </table>
+        <div class="clearfix">
+            @forelse($professionsData->professionTags as $professionTags)
+                <div style="display: inline-block; height: 20px; color: #fff; font-family: hl; font-size: 16px; background: #73376d; padding: 0px 2px 10px 5px;">
+                    {{$professionTags->tag['pt_name']}}
+                </div>
+            @empty
+            @endforelse
+        </div>
     </div>
 </body>
 
