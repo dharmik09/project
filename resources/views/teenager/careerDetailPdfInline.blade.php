@@ -573,8 +573,8 @@
                                 <td style="color: {{$matchColor}}; font-size: 15px;">
                                     Match
                                 </td>
-                                <td>
-                                    <div style="background-color: {{$matchColor}}; height: 5px; display: inline-block; width: 100%"></div>
+                                <td colspan="2">
+                                    <div style="background-color: {{$matchColor}}; height: 15px; display: inline-block; width: 100%"></div>
                                 </td>    
                             </tr>
                             <tr>
@@ -582,22 +582,37 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="3" width="100%" height="50px" align="center" cellpadding="20" style="font-size: 20px; background-color: #565B5F; color: #fff;">Advanced View</td>
+                                <td colspan="4" width="100%" height="50px" align="center" cellpadding="20" style="font-size: 20px; background-color: #565B5F; color: #fff;">Advanced View</td>
                             </tr>
+                            @if ($remainingDaysForActivity > 0) 
                             @forelse($teenagerStrength as $value)
                                 <tr>
-                                    <td colspan="3" width="100%" height="50px" align="left" cellpadding="20" style="font-family: hn-b;font-size: 16px; color: #565b5f; background-color: #EEEEEF; padding-left: 10px;">{{$value['name']}}</td>
-                                    <td colspan="3" width="100%" height="50px" align="left" cellpadding="20" style=" padding-left: 10px;">
+                                    <td colspan="2" width="" height="50px" align="left" cellpadding="20" style="font-family: hn-b;font-size: 16px; color: #565b5f; background-color: #F6F6F7; padding-left: 10px;">{{$value['name']}}</td>
+                                    <td colspan="2" width="" height="30px" align="left" cellpadding="20" style=" padding-left: 10px; padding-right: 10px; background-color:#F6F6F7;">
                                         <!-- <div style="width: 70px; background-color: #ebebeb;"> -->
                                             <div style="width: 300px; background-color: #ebebeb; position: relative; height:20px; z-index: 1;"> 
-                                                <div style="background-color: #ffe195; position: absolute;left: 0; top:0; height: 20px; z-index: 2; width: {{$value['score']}}%;"></div>
-                                                <div style="background-color: #65c6e6; position: absolute; left: 0; top:0; height: 20px; z-index: 2; width: {{round($value['lowscoreH'])}}%;"></div>
+                                                <?php if ($value['lowscoreH'] < $value['score']) {
+                                                    ?>
+                                                    <div style="background-color: #65c6e6; position: absolute; left: 0; top:0; height: 20px; z-index: 3; width: {{round($value['lowscoreH'])}}%;"></div>
+                                                    <div style="background-color: #ffe195; position: absolute;left: 0; top:0; height: 20px; z-index: 2; width: {{$value['score']}}%;"></div>
+                                                    <?php
+                                                 } else { ?>
+                                                    <div style="background-color: #ffe195; position: absolute;left: 0; top:0; height: 20px; z-index: 3; width: {{$value['score']}}%;"></div>
+                                                    <div style="background-color: #65c6e6; position: absolute; left: 0; top:0; height: 20px; z-index: 2; width: {{round($value['lowscoreH'])}}%;"></div>
+                                                 <?php }
+                                                ?>
                                             </div>
                                         <!-- </div> -->
                                     </td>
                                 </tr>
                             @empty
                             @endforelse
+                            @else
+                                <tr>
+                                    <td colspan="4" height="50px" align="left" cellpadding="20" style="padding-left: 10px; padding-right: 10px; background-color:#F6F6F7; color: #565b5f; font-family: hl; font-size: 18px;">Please consume procoins to see Advanced View
+                                    </td>
+                                </tr>
+                            @endif
                         </table>
                     </div>
         </div>
