@@ -1070,8 +1070,16 @@ class ProfessionController extends Controller {
         $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
         $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
         
+        //Advance Activity Coins consumption details
+        $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.ADVANCE_ACTIVITY'));
+        $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($user->id, $componentsData->id, 1, $professionsData->id) : [];
+        $remainingDaysForActivity = 0;
+        if (!empty($deductedCoinsDetail[0])) {
+            $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
+        }
+
         $fileName = $professionsData->pf_slug."-".time().'.pdf';
-        $checkPDF = PDF::loadView('teenager.careerDetailPdfInline',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml'))->save($this->careerDetailsPdfUploadedPath.$fileName);
+        $checkPDF = PDF::loadView('teenager.careerDetailPdfInline',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml', 'remainingDaysForActivity'))->save($this->careerDetailsPdfUploadedPath.$fileName);
         
         if(isset($checkPDF))
         {
