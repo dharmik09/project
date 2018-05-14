@@ -364,7 +364,7 @@
                         <li class="col-sm-3 col-xs-6">
                             <figure>
                                 <div class="mentor-img" style="background-image: url({{ Storage::url($parentPhoto) }})"></div>
-                                <figcaption>{{ $teenagerParent->p_first_name }}</figcaption>
+                                <figcaption>{{ $teenagerParent->p_first_name }} {{ $teenagerParent->p_last_name }}</figcaption>
                             </figure>
                         </li>
                     @empty
