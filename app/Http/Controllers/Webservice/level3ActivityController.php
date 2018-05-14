@@ -29,10 +29,11 @@ use App\ProfessionTag;
 use App\TeenagerBoosterPoint;
 use App\PaidComponent;
 use App\DeductedCoins;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class level3ActivityController extends Controller {
 
-    public function __construct(TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository) {
+    public function __construct(TeenagersRepository $teenagersRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository, FileStorageRepository $fileStorageRepository) {
         $this->teenagersRepository = $teenagersRepository;
         $this->professionsRepository = $professionsRepository;
         $this->baskets = new Baskets();
@@ -68,6 +69,7 @@ class level3ActivityController extends Controller {
         $this->objDeductedCoins = new DeductedCoins;
         $this->teenOriginalImageUploadPath = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH');
         $this->teenThumbImageUploadPath = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->fileStorageRepository = $fileStorageRepository;
     }
 
     public function getAllBasktes(Request $request) {
@@ -1640,6 +1642,41 @@ class level3ActivityController extends Controller {
             $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
         }
         return response()->json($response, 200);
+    }
+
+    /* @getCareerPdf
+     * @params: loginToken, userId, careerSlug
+     */
+    public function getCareerPdf(Request $request) {
+        $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
+        $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
+        if ($request->userId != "" && $teenager) {
+            if ($request->careerSlug != "") {
+                $response = [];
+                $pdfDetails = Helpers::getCareerPdf($teenager, $request->careerSlug);
+                if ($pdfDetails['status'] == 1) {
+                    $pdfPath = public_path(Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH').$pdfDetails['fileName']);      
+                    //Uploading on AWS
+                    $originalPdf = $this->fileStorageRepository->addFileToStorage($pdfDetails['fileName'], Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH'), $pdfPath, "s3");
+                    //Deleting Local Files
+                    \File::delete(Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH') . $pdfDetails['fileName']);   
+                    $response['status'] = 1;
+                    $response['message'] = trans('appmessages.default_success_msg');
+                    $response['data']['filePath'] = Storage::url(Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH').$pdfDetails['fileName']);
+                } else {
+                    $response['status'] = 0;
+                    $response['message'] = "Something went wrong while generate pdf";
+                }
+            } else {
+                $response['status'] = 0;
+                $response['message'] = trans('appmessages.missing_data_msg');
+            }
+            $response['login'] = 1;
+        } else {
+            $response['message'] = trans('appmessages.invalid_userid_msg') . ' or ' . trans('appmessages.notvarified_user_msg');
+        }
+        return response()->json($response, 200);
+        exit;
     }
  
 }
