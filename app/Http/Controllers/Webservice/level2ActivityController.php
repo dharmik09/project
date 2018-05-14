@@ -90,9 +90,12 @@ class level2ActivityController extends Controller {
             $data['section_2'] = $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId, Config::get('constant.LEVEL2_SECTION_2'));
             $data['section_3'] = $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId, Config::get('constant.LEVEL2_SECTION_3'));
             $data['section_4'] = ($teenager->t_school_status == 1 && $teenager->t_school > 0) ? $this->Level2ActivitiesRepository->getAllNotAttemptedActivitiesBySection($request->userId, Config::get('constant.LEVEL2_SECTION_4'), $teenager->t_school) : [];
-            
-            //$response['is_section_4'] = ($teenager->t_school > 0 && $teenager->t_school_status == 1 && count($data['section_4']) > 0) ? 1 : 0;
-            $response['is_section_4'] = ($teenager->t_school > 0 && $teenager->t_school_status == 1) ? 1 : 0;
+            $response['is_section_4'] = 0;
+            if ($teenager->t_school > 0 && $teenager->t_school_status == 1) {
+                if (count($data['section_4']) > 0 || number_format((float)$section4Percentage, 0, '.', '') == 100) {
+                    $response['is_section_4'] = 1;      
+                } 
+            }
             $response['status'] = 1;
             $response['login'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');
