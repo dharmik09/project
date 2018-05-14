@@ -202,8 +202,11 @@
                 <tr>
                     <td style="font-size: 28px;">Subjects</td>
                 </tr>   
+                <tr>
+                    <td height="10"></td>
+                </tr>
             </table>
-            <div class="clearfix pagebreak" style="margin-top: 30px;">
+            <div class="clearfix pagebreak" style="margin-top: 20px;">
             @if(isset($professionsData->professionSubject) && !empty($professionsData->professionSubject))
             <?php $column_count = 0; ?>
             @forelse($professionsData->professionSubject as $professionSubject)
@@ -217,7 +220,7 @@
             ?>
             <div style="width:300px; text-align:center; display:inline-block; margin:0 10px 10px 0; vertical-align: top;">
                 <img src="{{ Storage::url($subjectImageUrl) }}" alt="{{$professionSubject->subject['ps_name']}}" width="250px" height="170px" class="circular" style="display: block;">
-                <span style="display: block; font-size: 18px; font-family: 'h'; font-weight: 700; color: #565b5f;">{{$professionSubject->subject['ps_name']}}</span>
+                <span style="display: block; font-size: 18px; font-family: 'h'; font-weight: 700; color: #565b5f; padding-bottom: 10px;">{{$professionSubject->subject['ps_name']}}</span>
             </div>
             <?php
                 $column_count++;
@@ -240,14 +243,17 @@
             <tr>
                 <td style="font-size: 28px;">Abilities</td>
             </tr>
+            <tr>
+                <td height="10"></td>
+            </tr>
         </table>
-        <div class="clearfix" style="margin-top: 30px;">
+        <div class="clearfix" style="margin-top: 20px;">
         @if(isset($professionsData->ability) && !empty($professionsData->ability))
         <?php $abilityColCount = 0; ?>
         @foreach($professionsData->ability as $key => $value)
             <div style="width: 300px; text-align:center; display:inline-block; margin:0 10px 10px 0;">
                 <img src="{{ $value['cm_image_url'] }}" alt="{{$value['cm_name']}}" width="250px" height="170px" class="circular" >
-                <span style="display: block; font-size: 18px; font-family: 'h'; font-weight: 700; color: #565b5f;">{{$value['cm_name']}}</span>
+                <span style="display: block; font-size: 18px; font-family: 'h'; font-weight: 700; color: #565b5f; padding-bottom: 10px;">{{$value['cm_name']}}</span>
             </div>
             <?php
                 $column_count++;
@@ -363,9 +369,9 @@
                 <tr>
                     <td style="font-size: 28px;">Certifications</td>
                 </tr>
-                <!-- <tr>
-                    <td></td>
-                </tr> -->
+                <tr>
+                    <td height="10"></td>
+                </tr>
             </table>
             <div class="clearfix pagebreak" style="margin-top: 30px;">
             @if(isset($professionsData->professionCertificates) && !empty($professionsData->professionCertificates))
