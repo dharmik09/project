@@ -26,7 +26,7 @@
                     break; 
             };
             $countCareersConsideration++;
-            if ($countCareersConsideration > 6) {
+            if ($countCareersConsideration > 7) {
                 $carrerStyleTwo = 'none';
                 $careerExpandClassTwo = "sec-wrap-5";
             } else {
@@ -72,7 +72,7 @@
         <div class="data"><span class="small-box career-data-color-2"></span><span>Potential match</span></div>
         <div class="data"><span class="small-box career-data-color-3"></span><span>Unlikely match</span></div>
     </div>
-    @if(count($careerConsideration) > 6) 
+    @if(count($careerConsideration) > 7) 
         <p>
             <span class="expand-4 less">Expand</span>
         </p>

@@ -87,7 +87,7 @@ class HomeController extends Controller
     }
 
     /*
-     * Get chat users and pass json data
+     * Get helptext details by passed slug
      */
     public function getHelpTextBySlug()
     { 

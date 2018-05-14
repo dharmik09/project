@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Video;
 use App\CMS;
 use App\Testimonial;
+use App\Helptext;
+use Input;
 
 class HomeController extends Controller
 {
@@ -30,6 +32,7 @@ class HomeController extends Controller
         $this->cmsObj = new CMS;
         $this->objTestimonial = new Testimonial;
         $this->objVideo = new Video;
+        $this->objHelptext = new Helptext;
     }
 
     /**
@@ -68,4 +71,20 @@ class HomeController extends Controller
         $videoCount = $this->objVideo->loadMoreVideoCount($id);
         return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
     }
+
+    /*
+     * Get helptext details by passed slug
+     */
+    public function getHelpTextBySlug()
+    { 
+        $helpSlug = Input::get('helpSlug');
+        
+        $helptext = $this->objHelptext->getHelptextBySlug($helpSlug);
+        if(isset($helptext) && count($helptext) > 0){
+            $help = mb_convert_encoding($helptext->h_description, "UTF-8", "HTML-ENTITIES");
+        }else{
+            $help = 'Invalid slug passed';
+        }
+        return $help;            
+    }    
 }

@@ -144,7 +144,13 @@
                             <span class="glyphicon glyphicon-plus"> </span>
                         </a>
                     </div> -->
-                </div> 
+                </div>
+                <div>
+                    <span class="sec-popup help_noti"><a id="school-questions-page" href="javascript:void(0);" data-trigger="hover" data-popover-content="#pop1" class="help-icon custompop" rel="popover" data-placement="bottom" onmouseover="getHelpText('school-questions-page')"><i class="icon-question"></i></a></span>
+                    <div id="pop1" class="hide popoverContent">
+                        <span class="school-questions-page"></span>
+                    </div>
+                </div>
                 <div class="form-group">
                         <label for="pf_parent" class="col-sm-2 control-label">{{trans('labels.formlblapptitude')}}</label>
                         <div class="col-sm-10 school-select">
@@ -347,5 +353,30 @@
         })
 
     });
+    function getHelpText(helpSlug)
+    {
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+        $.ajax({
+            type: 'POST',
+            url: "{{url('school/get-help-text')}}",
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            data: {'helpSlug':helpSlug},
+            success: function(response) {
+                $("."+helpSlug).text(response);    
+                showPopover(helpSlug);
+            }
+        });
+    }
+
+    function showPopover(helpSlug) {
+        $('#'+helpSlug).popover({
+            html:true,
+            content : function() { 
+                return $( $(this).data("popover-content") ).html();
+            }
+        });
+    }
 </script>
 @stop

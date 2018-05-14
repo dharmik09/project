@@ -40,10 +40,11 @@ use App\ProfessionTag;
 use App\MultipleIntelligentScale;
 use App\ApptitudeTypeScale;
 use App\PersonalityScale;
+use App\Services\FileStorage\Contracts\FileStorageRepository;
 
 class ProfessionController extends Controller {
 
-    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository, TeenagersRepository $teenagersRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository) 
+    public function __construct(Level4ActivitiesRepository $level4ActivitiesRepository, ProfessionsRepository $professionsRepository, BasketsRepository $basketsRepository, TeenagersRepository $teenagersRepository, ParentsRepository $parentsRepository, TemplatesRepository $templatesRepository, FileStorageRepository $fileStorageRepository) 
     {
         $this->professionsRepository = $professionsRepository;
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;
@@ -75,6 +76,7 @@ class ProfessionController extends Controller {
         $this->objMIScale = new MultipleIntelligentScale();
         $this->objApptitudeScale = new ApptitudeTypeScale();
         $this->objPersonalityScale = new PersonalityScale();
+        $this->fileStorageRepository = $fileStorageRepository;
     }
 
     public function listIndex(){
@@ -955,141 +957,22 @@ class ProfessionController extends Controller {
     public function getCareerPdf($slug)
     {
         $user = Auth::guard('teenager')->user();
-        $getTeenagerHML = Helpers::getTeenagerMatchScale($user->id);
-        //1=India, 2=US
-        $countryId = ($user->t_view_information == 1) ? 2 : 1;
-
-        $professionsData = $this->professions->getProfessionBySlugWithHeadersAndCertificatesAndTags($slug, $countryId, $user->id);
-        $professionsData = ($professionsData) ? $professionsData : [];
-        if(!$professionsData) {
-            return Redirect::to("teenager/list-career")->withErrors("Invalid professions data");
-        }
-        $careerMapHelperArray = Helpers::getCareerMapColumnName();
-        $careerMappingdata = [];
-        
-        foreach ($careerMapHelperArray as $key => $value) {
-            $data = [];
-            if(isset($professionsData->careerMapping[$value]) && $professionsData->careerMapping[$value] != 'L'){
-                $arr = explode("_", $key);
-                if($arr[0] == 'apt'){
-                    $apptitudeData = $this->objApptitude->getApptitudeDetailBySlug($key);
-                    $data['cm_name'] = $apptitudeData->apt_name;   
-                    $data['cm_image_url'] = Storage::url($this->aptitudeThumb . $apptitudeData->apt_logo);
-                    $data['cm_slug_url'] = url('/teenager/multi-intelligence/'.Config::get('constant.APPTITUDE_TYPE').'/'.$apptitudeData->apt_slug); 
-                    $careerMappingdata[] = $data;  
-                }
-            }
-        }
-        
-        unset($professionsData->careerMapping);
-        $professionsData->ability = $careerMappingdata;
-
-        $teenagerStrength = $arraypromiseParametersMaxScoreBySlug = [];
-        
-        $professionPromiseParameters = Helpers::getCareerMapColumnName();
-        
-        //Get Max score for MI parameters
-        $promiseParametersMaxScore = $this->objPromiseParametersMaxScore->getPromiseParametersMaxScore();
-        $arraypromiseParametersMaxScore = $promiseParametersMaxScore->toArray();
-        foreach($arraypromiseParametersMaxScore as $maxkey=>$maxVal){
-            $arraypromiseParametersMaxScoreBySlug[$maxVal['parameter_slug']] = $maxVal;
-        }
-        
-        //Get teenager promise score 
-        $teenPromiseScore = $this->objTeenagerPromiseScore->getTeenagerPromiseScore(Auth::guard('teenager')->user()->id);
-        if(isset($teenPromiseScore) && count($teenPromiseScore) > 0)
-        {
-            $teenPromiseScore = $teenPromiseScore->toArray();                
-            foreach($teenPromiseScore as $paramkey=>$paramvalue)
-            {                    
-                if (strpos($paramkey, 'apt_') !== false) { 
-                    $careerMappingKey = $professionPromiseParameters[$paramkey];
-                    $careerMappingHML = $professionsData->careerMapping->$careerMappingKey;
-                    //get aptitude detail 
-                    $aptitudeDetail =  $this->objApptitude->getApptitudeDetailBySlug($paramkey); 
-                    $aptituteScale = $this->objApptitudeScale->getApptitudeScaleById($aptitudeDetail->id);
-                    if($careerMappingHML == 'H'){
-                        if($aptituteScale['ats_high_min_score'] == $aptituteScale['ats_high_max_score']){
-                            $blueBand = $aptituteScale['ats_moderate_max_score'];
-                        }else{
-                            $blueBand = $aptituteScale['ats_high_min_score']; 
-                        }  
-                    }elseif($careerMappingHML == 'M')
-                    {
-                        $blueBand = $aptituteScale['ats_moderate_min_score'];
-                    }else{
-                        $blueBand = $aptituteScale['ats_low_max_score']/2;
-                    }
-                   
-                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                    $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.APPTITUDE_TYPE'), 'lowscoreH' => ((100*$blueBand)/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score']), 'slug' => $paramkey));
-                }elseif(strpos($paramkey, 'pt_') !== false){
-                    $careerMappingKey = $professionPromiseParameters[$paramkey];
-                    $careerMappingHML = $professionsData->careerMapping->$careerMappingKey;
-                    //get personality detail 
-                    $personalityDetail =  $this->objPersonality->getPersonalityDetailBySlug($paramkey); 
-                    $personalityScale = $this->objPersonalityScale->getPersonalityScaleById($personalityDetail->id);
-                    if($careerMappingHML == 'H'){
-                        if($personalityScale['pts_high_min_score'] == $personalityScale['pts_high_max_score']){
-                            $blueBand = $personalityScale['pts_moderate_max_score'];
-                        }else{
-                            $blueBand = $personalityScale['pts_high_min_score']; 
-                        }  
-                    }elseif($careerMappingHML == 'M')
-                    {
-                        $blueBand = $personalityScale['pts_moderate_min_score'];
-                    }else{
-                        $blueBand = $personalityScale['pts_low_max_score']/2;
-                    }
-                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                    $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.PERSONALITY_TYPE'), 'lowscoreH' => ((100*$blueBand)/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score']), 'slug' => $paramkey));               
-                }elseif(strpos($paramkey, 'mit_') !== false){
-                    $careerMappingKey = $professionPromiseParameters[$paramkey];
-                    $careerMappingHML = $professionsData->careerMapping->$careerMappingKey;
-                    //get MI detail 
-                    $miDetail =  $this->objMultipleIntelligent->getMultipleIntelligenceDetailBySlug($paramkey); 
-                    $miScale = $this->objMIScale->getMIScaleById($miDetail->id);
-                    if($careerMappingHML == 'H'){
-                        if($miScale['mts_high_min_score'] == $miScale['mts_high_max_score']){
-                            $blueBand = $miScale['mts_moderate_max_score'];
-                        }else{
-                            $blueBand = $miScale['mts_high_min_score']; 
-                        }  
-                    }elseif($careerMappingHML == 'M')
-                    {
-                        $blueBand = $miScale['mts_moderate_min_score'];
-                    }else{
-                        $blueBand = $miScale['mts_low_max_score']/2;
-                    }
-                    $teenAptScore = $this->getTeenScoreInPercentage($arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score'], $paramvalue);
-                    $teenagerStrength[] = (array('score' => $teenAptScore, 'name' => $arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_name'], 'type' => Config::get('constant.MULTI_INTELLIGENCE_TYPE'), 'lowscoreH' => ((100*$blueBand)/$arraypromiseParametersMaxScoreBySlug[$paramkey]['parameter_max_score']), 'slug' => $paramkey));
-           
-                }
-            }
-        }
-        $professionCertificationImagePath = Config('constant.PROFESSION_CERTIFICATION_ORIGINAL_IMAGE_UPLOAD_PATH');
-        $professionSubjectImagePath = Config('constant.PROFESSION_SUBJECT_ORIGINAL_IMAGE_UPLOAD_PATH');
-        
-        //Advance Activity Coins consumption details
-        $componentsData = $this->objPaidComponent->getPaidComponentsData(Config::get('constant.ADVANCE_ACTIVITY'));
-        $deductedCoinsDetail = (isset($componentsData->id)) ? $this->objDeductedCoins->getDeductedCoinsDetailById($user->id, $componentsData->id, 1, $professionsData->id) : [];
-        $remainingDaysForActivity = 0;
-        if (!empty($deductedCoinsDetail[0])) {
-            $remainingDaysForActivity = Helpers::calculateRemainingDays($deductedCoinsDetail[0]->dc_end_date);
-        }
-
-        $fileName = $professionsData->pf_slug."-".time().'.pdf';
-        $checkPDF = PDF::loadView('teenager.careerDetailPdfInline',compact('getTeenagerHML', 'professionsData', 'countryId', 'professionCertificationImagePath', 'professionSubjectImagePath', 'teenagerStrength', 'mediumAdImages', 'largeAdImages', 'bannerAdImages','chartHtml', 'remainingDaysForActivity'))->save($this->careerDetailsPdfUploadedPath.$fileName);
-        
-        if(isset($checkPDF))
-        {
-            $pdfPath = public_path($this->careerDetailsPdfUploadedPath.$fileName);           
+        $response = Helpers::getCareerPdf($user, $slug);
+        if ($response['status'] == 1) {
+            $pdfPath = public_path(Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH').$response['fileName']);        
+            //Uploading on AWS
+            $originalPdf = $this->fileStorageRepository->addFileToStorage($response['fileName'], Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH'), $pdfPath, "s3");
+            //Deleting Local Files
+            \File::delete(Config::get('constant.CAREER_DETAILS_PDF_UPLOAD_PATH') . $response['fileName']);   
             header('Content-type: application/pdf');
-            header('Content-Disposition: inline; filename='.$fileName);
+            header('Content-Disposition: inline; filename='.$response['fileName']);
             header('Content-Transfer-Encoding: binary');
-            header('Content-Length: ' . filesize($pdfPath));
-            @readfile($pdfPath);
-            exit;                      
+            //$fileContent = Storage::url($this->careerDetailsPdfUploadedPath.$response['fileName']);
+            //header('Content-Length: ' . filesize($fileContent));
+            @readfile(Storage::url($this->careerDetailsPdfUploadedPath.$response['fileName']));
+            exit;
+        } else {
+            return redirect::to('teenager/career-detail/'.$slug)->with('error', $response['message']);
         }
     }
 
