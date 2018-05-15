@@ -55,7 +55,7 @@ class Video extends Model
         $videos = Video::select('*')
                         ->where('id', '<', $id)
                         ->where('deleted' ,'1')
-                        ->orderBy('created_at','DESC')
+                        ->orderBy('id','DESC')
                         ->limit(12)
                         ->get();
         return $videos;
@@ -65,7 +65,7 @@ class Video extends Model
     {
         $result = Video::select('*')
                         ->where('deleted' ,'1')
-                        ->orderBy('created_at','ASC')
+                        ->orderBy('id','DESC')
                         ->limit(12)
                         ->get();
         return $result;
