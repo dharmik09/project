@@ -625,7 +625,7 @@ class ProfileController extends Controller
             $careerArr['child_data'] = [];
             for ($careerBadges = 1; $careerBadges <= 5; $careerBadges++) { 
                 $careerChildData = [];
-                $careerChildData['badge_name'] = 'Careers Completed';
+                $careerChildData['badge_name'] = 'CAREERS COMPLETED';
                 $careerSign = '';
                 if($careerBadges == 5) { $careerSign = '+'; };
                 $careerChildData['badge_point'] = Config::get('constant.CAREER_COMPLETED_BADGE_ARRAY')[$careerBadges].$careerSign;
