@@ -382,13 +382,14 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
         DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'))->where('l2ans_teenager', $userid)->delete(); 
     }
     
-    public function getLevel2ActivityWithAnswer($id)
+    public function getLevel2ActivityWithAnswer($id, $sectionType)
     {
         $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ANSWERS'). " AS answer")
                               ->join(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity", 'answer.l2ans_activity', '=', 'activity.id')
                               ->join(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'answer.l2ans_answer', '=', 'options.id')
                               ->selectRaw('activity.*, answer.*, options.*')
                               ->where('answer.l2ans_teenager', '=', $id)
+                              ->where('activity.section_type', $sectionType)
                               ->get();
         return $level2activities;
     }
