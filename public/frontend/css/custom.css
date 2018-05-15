@@ -484,8 +484,8 @@ textarea.cst_input_primary{resize: vertical;}
 .detail_container{border: none;}
 .pair_with_teen .sec-popup{position: absolute;top: 4px;right: 20px;}
 .pair_with_teen .sec-popup a{font-size: 25px;}
-.front_page, .back_page, .slider_card .full_path{background: #fff;}
-.slider_card{color:#565b5f;border-color: #fff;padding: 15px; }
+.front_page, .back_page, .slider_card .full_path{background: #eeeeef;}
+.slider_card{color:#565b5f;border-color:#f58634;padding: 15px; }
 .parent_h2_header{margin-bottom: 20px;}
 .intrest_content .my_chart h4{font-size: 26px;color: #565b5f;line-height: 30px;font-family: ht;margin: 15px 0;}
 .slider_card .full_path .inner_path{color: #565b5f;}
