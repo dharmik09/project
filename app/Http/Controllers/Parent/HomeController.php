@@ -11,6 +11,7 @@ use App\CMS;
 use App\Testimonial;
 use App\Helptext;
 use Input;
+use View;
 
 class HomeController extends Controller
 {
@@ -46,11 +47,12 @@ class HomeController extends Controller
         }
         $type = 'Parent';
         $objVideo = new Video();
-        $videoDetail =  $this->objVideo->getVideos();
+        $videoDetail = $this->objVideo->getVideos(0);
+        $nextSlotExist = $this->objVideo->getVideos(1);
         $videoCount = $this->objVideo->getAllVideoDetail()->count();
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote-blue.png';
-        return view('parent.index', compact('videoDetail', 'type', 'text', 'testimonials', 'quoteImage', 'videoCount'));
+        return view('parent.index', compact('videoDetail', 'type', 'text', 'testimonials', 'quoteImage', 'videoCount', 'nextSlotExist'));
     }
 
     public function loginCounselor()
@@ -66,11 +68,12 @@ class HomeController extends Controller
         }
         $type = 'Mentor';
         $objVideo = new Video();
-        $videoDetail =  $this->objVideo->getVideos();
+        $videoDetail = $this->objVideo->getVideos(0);
+        $nextSlotExist = $this->objVideo->getVideos(1);
         $videoCount = $this->objVideo->getAllVideoDetail()->count();
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote-mentor.png';
-        return view('parent.index', compact('videoDetail', 'type', 'text', 'testimonials', 'quoteImage', 'videoCount'));
+        return view('parent.index', compact('videoDetail', 'type', 'text', 'testimonials', 'quoteImage', 'videoCount', 'nextSlotExist'));
     }
 
     /**
@@ -80,10 +83,14 @@ class HomeController extends Controller
      */
     public function loadMoreVideo(Request $request)
     {
-        $id = $request->id;
-        $videoDetail = $this->objVideo->getMoreVideos($id);
-        $videoCount = $this->objVideo->loadMoreVideoCount($id);
-        return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
+        $slot = Input::get('slot');
+        $videoDetail = $this->objVideo->getVideos($slot);
+        $nextSlotExist = $this->objVideo->getVideos($slot + 1);
+        $view = view('teenager.loadMoreVideo', compact('videoDetail', 'nextSlotExist'));
+        $response['view'] = $view->render();
+        $response['nextSlotExist'] = count($nextSlotExist);
+        return response()->json($response, 200);
+        exit;
     }
 
     /*

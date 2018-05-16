@@ -19,7 +19,7 @@ interface Level2ActivitiesRepository extends BaseRepository
      */
     public function deleteLevel2Activity($id);
     
-    public function getLevel2ActivityWithAnswer($id);
+    public function getLevel2ActivityWithAnswer($id, $sectionType);
     
     public function getTotalTimeForAttemptedQuestion($teenagerId);
 }

@@ -62,7 +62,7 @@
                             <div class="panel panel-default {{$panelClass}}">
                                 <div class="panel-heading accordionClass{{$learningGuidanceData['id']}}">
                                     <h4 class="panel-title">
-                                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$learningGuidanceData['id']}}" class="{{$tagClass}}" data-class-id="{{$learningGuidanceData['id']}}">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#accordion{{$learningGuidanceData['id']}}" class="{{$tagClass}} collapsed" data-class-id="{{$learningGuidanceData['id']}}">
                                             <span class="icon">
                                                 <img src="{{ $learningGuidanceData['image'] }}" alt="icon img">
                                             </span>

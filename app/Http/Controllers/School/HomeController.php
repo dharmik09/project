@@ -11,6 +11,7 @@ use App\CMS;
 use App\Testimonial;
 use App\Helptext;
 use Input;
+use View;
 
 class HomeController extends Controller
 {
@@ -52,11 +53,12 @@ class HomeController extends Controller
             $schoolText = $loginText['cms_body'];
         }
         $objVideo = new Video();
-        $videoDetail =  $this->objVideo->getVideos();
+        $videoDetail = $this->objVideo->getVideos(0);
+        $nextSlotExist = $this->objVideo->getVideos(1);
         $videoCount = $this->objVideo->getAllVideoDetail()->count();
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote-school.png';
-        return view('school.index', compact('videoDetail', 'schoolText', 'testimonials', 'quoteImage', 'videoCount'));
+        return view('school.index', compact('videoDetail', 'schoolText', 'testimonials', 'quoteImage', 'videoCount', 'nextSlotExist'));
     }
 
     /**
@@ -66,10 +68,14 @@ class HomeController extends Controller
      */
     public function loadMoreVideo(Request $request)
     {
-        $id = $request->id;
-        $videoDetail = $this->objVideo->getMoreVideos($id);
-        $videoCount = $this->objVideo->loadMoreVideoCount($id);
-        return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
+        $slot = Input::get('slot');
+        $videoDetail = $this->objVideo->getVideos($slot);
+        $nextSlotExist = $this->objVideo->getVideos($slot + 1);
+        $view = view('teenager.loadMoreVideo', compact('videoDetail', 'nextSlotExist'));
+        $response['view'] = $view->render();
+        $response['nextSlotExist'] = count($nextSlotExist);
+        return response()->json($response, 200);
+        exit;
     }
 
     /*

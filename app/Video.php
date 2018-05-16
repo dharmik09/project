@@ -55,19 +55,24 @@ class Video extends Model
         $videos = Video::select('*')
                         ->where('id', '<', $id)
                         ->where('deleted' ,'1')
-                        ->orderBy('created_at','DESC')
+                        ->orderBy('id','DESC')
                         ->limit(12)
                         ->get();
         return $videos;
     }
 
-    public function getVideos()
+    public function getVideos($slot = "")
     {
+        if ($slot > 0) {
+            $slot = $slot * 12;
+        }
         $result = Video::select('*')
                         ->where('deleted' ,'1')
-                        ->orderBy('created_at','ASC')
-                        ->limit(12)
-                        ->get();
+                        ->orderBy('id','DESC')
+                        ->skip($slot)
+                        ->take(12)
+                        ->get()
+                        ->toArray();
         return $result;
     }
 

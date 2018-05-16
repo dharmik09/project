@@ -242,17 +242,17 @@
             list-style-type: none;
             li {
                 position: relative;
-                padding-left: 35px;
+                padding-left: 55px;
                 font-size: 24px;
                 font-family: hl;
                 margin-bottom: 44px;
                 &:before {
                     position: absolute;
                     content: '';
-                    width: 17px;
-                    height: 17px;
+                    width: 30px;
+                    height: 29px;
                     background: $remember-cl;
-                    top: 5px;
+                    top: 2px;
                     left: 0;
                 }
                 h5 {

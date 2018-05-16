@@ -665,10 +665,13 @@ class TeenagerManagementController extends Controller {
             return view('admin.ViewTeenagerDetail', compact('l1Activity','boosterPoints','id','type','teenagerMyIcons'));
         }
         elseif($type == "level2"){
-            $l2Activity = $this->level2ActivitiesRepository->getLevel2ActivityWithAnswer($id);
+            $l2ActivitySection1 = $this->level2ActivitiesRepository->getLevel2ActivityWithAnswer($id, Config::get('constant.LEVEL2_SECTION_1'));
+            $l2ActivitySection2 = $this->level2ActivitiesRepository->getLevel2ActivityWithAnswer($id, Config::get('constant.LEVEL2_SECTION_2'));
+            $l2ActivitySection3 = $this->level2ActivitiesRepository->getLevel2ActivityWithAnswer($id, Config::get('constant.LEVEL2_SECTION_3'));
+            $l2ActivitySection4 = $this->level2ActivitiesRepository->getLevel2ActivityWithAnswer($id, Config::get('constant.LEVEL2_SECTION_4'));
             $boosterPoints = $this->teenagersRepository->getTeenagerBoosterPoints($id);
             $this->log->info('Admin view teen Level2 detail',array('userid'=>$this->loggedInUser->user()->id,'teenid'=>$id));
-            return view('admin.ViewTeenagerDetail', compact('l2Activity','boosterPoints','id','type'));
+            return view('admin.ViewTeenagerDetail', compact('l2ActivitySection1','boosterPoints','id','type', 'l2ActivitySection2', 'l2ActivitySection3', 'l2ActivitySection4'));
         }
         elseif($type == "promisescore"){
             $finalMIParameters = array();

@@ -378,7 +378,7 @@ class SchoolManagementController extends Controller
             $schoolDetail = $this->schoolsRepository->getSchoolById($school->id);
             
             $FieldArray = [];
-            $FieldArray['sc_name'] = $school->sc_name;
+            $FieldArray['sc_name'] = mb_convert_encoding($school->sc_name, "UTF-8", "HTML-ENTITIES");
             $FieldArray['sc_address1'] = $school->sc_address1;
             $FieldArray['sc_address2'] = $school->sc_address2;
             $FieldArray['sc_pincode'] = $school->sc_pincode;

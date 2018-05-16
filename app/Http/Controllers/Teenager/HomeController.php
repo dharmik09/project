@@ -26,6 +26,7 @@ use App\DeductedCoins;
 use App\MultipleIntelligentScale;
 use App\ApptitudeTypeScale;
 use App\PersonalityScale;
+use View;
 
 class HomeController extends Controller
 {
@@ -71,7 +72,8 @@ class HomeController extends Controller
             return redirect()->to(route('teenager.home'));
         }
         $videoCount = $this->objVideo->getAllVideoDetail()->count();
-        $videoDetail = $this->objVideo->getVideos();
+        $videoDetail = $this->objVideo->getVideos(0);
+        $nextSlotExist = $this->objVideo->getVideos(1);
         $teenText = '';
         $loginInfo = $this->cmsObj->getCmsBySlug('teenagerlogininfotext');
         if(!empty($loginInfo)){
@@ -80,7 +82,7 @@ class HomeController extends Controller
         }
         $testimonials = $this->objTestimonial->getAllTestimonials();
         $quoteImage = 'img/quote.png';
-        return view('teenager.index', compact('videoDetail', 'teenText', 'testimonials', 'quoteImage', 'videoCount'));
+        return view('teenager.index', compact('videoDetail', 'teenText', 'testimonials', 'quoteImage', 'videoCount', 'nextSlotExist'));
     }
     
     /**
@@ -90,10 +92,14 @@ class HomeController extends Controller
      */
     public function loadMoreVideo(Request $request)
     {
-        $id = $request->id;
-        $videoDetail = $this->objVideo->getMoreVideos($id);
-        $videoCount = $this->objVideo->loadMoreVideoCount($id);
-        return view('teenager.loadMoreVideo', compact('videoDetail', 'videoCount'));
+        $slot = Input::get('slot');
+        $videoDetail = $this->objVideo->getVideos($slot);
+        $nextSlotExist = $this->objVideo->getVideos($slot + 1);
+        $view = view('teenager.loadMoreVideo', compact('videoDetail', 'nextSlotExist'));
+        $response['view'] = $view->render();
+        $response['nextSlotExist'] = count($nextSlotExist);
+        return response()->json($response, 200);
+        exit;
     }
 
     /* Request Params : getInterestDetail

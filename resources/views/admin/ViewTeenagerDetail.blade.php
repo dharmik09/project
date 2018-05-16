@@ -366,20 +366,82 @@
                             <div class="interest pull-right">
                                 <strong>L2 total points : <?php echo $boosterPoints['Level2']; ?></strong>
                             </div>
-                            @forelse($l2Activity as $l2)
-                                <ul>
-                                    <li>
-                                        <div class="teen_base_question">
-                                            {{$l2->l2ac_text}}
-                                        </div>
-                                        <div class="teen_base_answer">
-                                            - &nbsp;{{$l2->l2op_option}}
-                                        </div>
-                                    </li>
-                                </ul>
-                            @empty
-                                <div><?php echo "no records found"; ?></div>
-                            @endforelse
+                            <div>
+                                <h4><strong>&nbsp;&nbsp;Profile Builder 1</strong></h4>
+                            </div>
+                            <div>
+                                @forelse($l2ActivitySection1 as $l2)
+                                    <ul>
+                                        <li>
+                                            <div class="teen_base_question">
+                                                {{$l2->l2ac_text}}
+                                            </div>
+                                            <div class="teen_base_answer">
+                                                - &nbsp;{{$l2->l2op_option}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                @empty
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo "No records found"; ?></div>
+                                @endforelse
+                            </div>
+                            <div>
+                                <h4><strong>&nbsp;&nbsp;Profile Builder 2</strong></h4>
+                            </div>
+                            <div>
+                                @forelse($l2ActivitySection2 as $l2)
+                                    <ul>
+                                        <li>
+                                            <div class="teen_base_question">
+                                                {{$l2->l2ac_text}}
+                                            </div>
+                                            <div class="teen_base_answer">
+                                                - &nbsp;{{$l2->l2op_option}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                @empty
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;No records found</div>
+                                @endforelse
+                            </div>
+                            <div>
+                                <h4><strong>&nbsp;&nbsp;Profile Builder 3</strong></h4>
+                            </div>
+                            <div>
+                                @forelse($l2ActivitySection3 as $l2)
+                                    <ul>
+                                        <li>
+                                            <div class="teen_base_question">
+                                                {{$l2->l2ac_text}}
+                                            </div>
+                                            <div class="teen_base_answer">
+                                                - &nbsp;{{$l2->l2op_option}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                @empty
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;No records found</div>
+                                @endforelse
+                            </div>
+                            <div>
+                                <h4><strong>&nbsp;&nbsp;Profile Builder 4</strong></h4>
+                            </div>
+                            <div>
+                                @forelse($l2ActivitySection4 as $l2)
+                                    <ul>
+                                        <li>
+                                            <div class="teen_base_question">
+                                                {{$l2->l2ac_text}}
+                                            </div>
+                                            <div class="teen_base_answer">
+                                                - &nbsp;{{$l2->l2op_option}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                @empty
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;No records found</div>
+                                @endforelse
+                            </div>
                         </div>
                         @endif
                         <!-- Level2 Details End -->
