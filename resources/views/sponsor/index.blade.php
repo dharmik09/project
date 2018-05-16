@@ -8,11 +8,6 @@
 
     <div class="banner-landing banner-enterprise">
         <div class="container">
-<!--            <div class="play-icon">
-                <a href="javascript:void(0);" class="play-btn" id="iframe-video-click">
-                    <img src="{{ asset('img/play-icon.png') }}" alt="play icon">
-                </a>
-            </div>-->
         </div>
         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/GeJ53SZ12po?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
@@ -116,48 +111,11 @@
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>
                     <div class="product-list clearfix">
-                        @forelse($videoDetail as $video)
-                            <div class="item clearfix">
-                                <div class="grid-box">
-                                    <?php
-                                        $videoId = '';
-                                        $videoCode = Helpers::youtube_id_from_url($video->v_link);
-                                        if ($videoCode != '') {
-                                            if(strlen($video->v_link) > 50) {
-                                                preg_match('/=(.*?)\&/s', $video->v_link, $output);
-                                                $videoId = $output[1];
-                                            } else {
-                                                if (strpos($video->v_link, '=') !== false) {
-                                                    $output = explode('=',$video->v_link);
-                                                    $videoId = $output[1];
-                                                } else {
-                                                    $videoId = substr($video->v_link, strrpos($video->v_link, '/') + 1);
-                                                }
-                                            }
-                                        }
-                                    ?>
-                                    <figure>
-                                        <a title="Play : {{ $video->v_title }}" @if($videoId != '') href="https://www.youtube.com/watch?v={{$videoId}}?rel=0&amp;showinfo=0&autoplay=1" @else href="{{$video->v_link}}" @endif class="play-video">
-                                            <img src="{{ Storage::url(Config::get('constant.VIDEO_ORIGINAL_IMAGE_UPLOAD_PATH').$video->v_photo) }}" alt="{{ $video->v_title }}">
-                                            <div class="overlay">
-                                                <i class="icon-play"></i>
-                                            </div>
-                                        </a>
-                                        <h4 class="text-center">{{ $video->v_title }}</h4>
-                                        <figcaption>{{ substr($video->v_description, 0, 100) }} </figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="col-sm-12 text-center">
-                                <h3>Video will coming soon! </h3>
-                            </div>
-                        @endforelse
+                        @include('teenager/loadMoreVideo')
                     </div>
                 </div>
-                <div id="load-video"></div>
-                @if(isset($videoCount) && $videoCount > 12)
-                    <p id="remove-row" class="text-center"><a id="load-more" href="javascript:void(0)" data-id="{{ $video->id }}" title="see more" class="btn btn-primary">see more</a></p>
+                @if(isset($nextSlotExist) && count($nextSlotExist) > 0)
+                    <p id="remove-row" class="text-center"><a id="load-more" href="javascript:void(0)" title="see more" class="btn btn-primary">see more</a></p>
                 @endif
             </div>
         </div>
@@ -275,20 +233,22 @@
                 $("#loginSubmit").removeClass('sending').blur();
             }
         });
+        var videoSlot = 0;
         $(document).on('click','#load-more',function(){
-                var id = $(this).data('id');
-                //$("#btn-more").html("Loading....");
-                $.ajax({
+            videoSlot = videoSlot + 1;
+            $.ajax({
                     url : '{{ url("sponsor/load-more-video") }}',
                     method : "POST",
-                    data : {id:id, _token:"{{csrf_token()}}"},
-                    dataType : "text",
+                    data : {slot: videoSlot, _token:"{{csrf_token()}}"},
+                    dataType : "json",
                     success : function (data) {
-                        if(data != '') {
-                            $('#remove-row').remove();
-                            $('#load-video').append(data);
-                        } else {
-                            //$('#btn-more').html("No Data");
+                        if(data.view != '') {
+                            if (data.nextSlotExist <= 0) {
+                                $('#remove-row').remove();
+                            } 
+                            $('.masonary-grid').append(data.view);
+                            $('.masonary-grid').masonry('reloadItems');
+                            $('.masonary-grid').masonry();
                         }
                     }
                 });

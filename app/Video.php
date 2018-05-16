@@ -61,13 +61,18 @@ class Video extends Model
         return $videos;
     }
 
-    public function getVideos()
+    public function getVideos($slot = "")
     {
+        if ($slot > 0) {
+            $slot = $slot * 12;
+        }
         $result = Video::select('*')
                         ->where('deleted' ,'1')
                         ->orderBy('id','DESC')
-                        ->limit(12)
-                        ->get();
+                        ->skip($slot)
+                        ->take(12)
+                        ->get()
+                        ->toArray();
         return $result;
     }
 
