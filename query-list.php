@@ -596,3 +596,6 @@ ALTER TABLE `pro_l2ac_level2_activities` CHANGE `l2ac_interest` `l2ac_interest` 
 
 //Add new field called country id in institute speciality ## 
 ALTER TABLE `pro_pis_profession_institutes_speciality` ADD `country_id` INT(11) UNSIGNED NOT NULL DEFAULT '1' AFTER `pis_name`; 
+
+//change the datatype for speciality column in pro_pi_profession_institutes table
+ALTER TABLE `pro_pi_profession_institutes` CHANGE `speciality` `speciality` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL; 
