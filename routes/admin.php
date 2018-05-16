@@ -255,6 +255,7 @@ Route::get('/viewUserImage', 'Admin\Level1CartoonIconManagementController@displa
 Route::post('/deleteSelectedIcon', 'Admin\Level1CartoonIconManagementController@deleteSelectedIcon')->name('deleteSelectedIcon');
 Route::get('/uploadCartoons', 'Admin\Level1CartoonIconManagementController@uploadView')->name('uploadCartoons');
 Route::post('/saveCartoons', 'Admin\Level1CartoonIconManagementController@uploadCartoons')->name('saveCartoons');
+Route::post('/bulkDeleteCartoonIcons', 'Admin\Level1CartoonIconManagementController@bulkDeleteCartoonIcons');
 
 //Cartoon Icons Category
 Route::get('/cartoonIconsCategory', 'Admin\Level1CartoonIconCategoryManagementController@index')->name('cartoonIconsCategory');

@@ -300,4 +300,42 @@ class Level1CartoonIconManagementController extends Controller
             return Redirect::to("admin/viewUserImage")->with('error', 'Please select atleast image to delete');
         }        
     }
+
+    /* @bulkDeleteCartoonIcons
+     * @params: deletedIconsId
+     * Delete selected cartoon icons
+     */
+    public function bulkDeleteCartoonIcons()
+    {
+        $selectedIcons = Input::get('deletedIconsId');
+        if(isset($selectedIcons) && !empty($selectedIcons)){
+            foreach($selectedIcons as $iconId){
+                $return = $this->level1CartoonIconRepository->deleteLevel1Cartoon($iconId);
+                if ($return) {
+                    $cartoonOriginalImageUploadPath = Config::get('constant.CARTOON_ORIGINAL_IMAGE_UPLOAD_PATH');
+                    $cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
+                    $cartoon = $this->objLevel1CartoonActivity->find($iconId);
+                    if ($cartoon && !empty($cartoon) && $cartoon->ci_image != "") {
+                        $imageOriginal = public_path($cartoonOriginalImageUploadPath . $cartoon->ci_image);
+                        $imageThumb = public_path($cartoonThumbImageUploadPath . $cartoon->ci_image);
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($cartoon->ci_image, $cartoonOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($cartoon->ci_image, $cartoonThumbImageUploadPath, "s3");
+                    }
+                }
+            }
+            //return Redirect::to('/admin/cartoons')->with('success', trans('labels.level1cartoondeletesuccess'));
+            $response['status'] = 1;
+            $response['message'] = trans('labels.level1cartoondeletesuccess');
+        } else {
+            //return Redirect::to('/admin/cartoons')->with('error', 'Please select atleast image to delete');
+            $response['status'] = 0;
+            $response['message'] = "Please select atleast image to delete";
+        }
+        $level1cartoonicon = $this->level1CartoonIconRepository->getLeve1CartoonIcon();
+        $cartoonThumbPath = $this->cartoonThumbImageUploadPath;
+        $view = view('admin.Level1CartoonIconData', compact('level1cartoonicon','cartoonThumbPath'));
+        $response['view'] = $view->render();
+        return response()->json($response, 200);
+        exit;    
+    }
 }
