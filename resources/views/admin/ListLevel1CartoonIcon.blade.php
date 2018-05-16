@@ -2,8 +2,25 @@
 
 @section('content')
 <!-- content push wrapper -->
-
 <!-- Content Header (Page header) -->
+<div id="successDiv" class="col-md-12" style="display: none;">
+    <div class="box-body">
+        <div class="alert alert-success">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+            <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+            <span class="successDiv"></span>
+        </div>
+    </div>
+</div>
+<div id="errorDiv" class="col-md-12" style="display: none;">
+    <div class="box-body">
+        <div class="alert alert-error">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+            <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
+            <span class="errorDiv"></span>
+        </div>
+    </div>
+</div>
 <section class="content-header">
     <h1>
         <div class="col-md-7">
@@ -25,60 +42,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box-header pull-right ">
+                <a id="bulkDelete" href="javascript:void(0);" class="btn btn-block btn-primary">Bulk Delete</a>
                 <i class="s_active fa fa-square"></i> {{trans('labels.activelbl')}} <i class="s_inactive fa fa-square"></i>{{trans('labels.inactivelbl')}}
             </div>
         </div>
         <div class="col-md-12">
             <div class="box box-primary">
-                <div class="box-body">
-                    <table id="listCartoonIcon" class="table table-striped display" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>{{trans('labels.cartooniconheadname')}}</th>
-                                <th>{{trans('labels.humaniconheadcategory')}}</th>
-    <!--                            <th>{{trans('labels.humaniconheadprofession')}}</th>-->
-                                <th>{{trans('labels.cartooniconheadimage')}}</th>
-                                <th>{{trans('labels.cartooniconheadaction')}}</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($level1cartoonicon as $level1icon)
-                            <tr>
-                                <td>
-                                    {{$level1icon->ci_name}}
-                                </td>
-                                <td>
-                                    {{$level1icon->cic_name}}
-                                </td>
-                                
-                                    <?php 
-    //                                    $professionName = explode(',', $level1icon->pfname);
-    //                                    foreach($professionName as $proName)
-    //                                    {
-    //                                        echo $proName."<br />";
-    //                                    }
-                                    ?>
-                                
-                                <td>
-                                    <?php 
-                                        $image = ($level1icon->ci_image != "" && isset($level1icon->ci_image)) ? Storage::url($cartoonThumbPath.$level1icon->ci_image) : asset('/backend/images/proteen_logo.png'); 
-                                    ?>
-                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
-                                </td>
-                                <td>
-                                    <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
-                                    <a href="{{ url('/admin/editCartoon') }}/{{$level1icon->id}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
-                                    <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteCartoon') }}/{{$level1icon->id}}"><i class="i_delete fa fa-trash"></i></a>
-                               </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="6"><center>{{trans('labels.norecordfound')}}</center></td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <div class="box-body level1CartoonIcon">
+                    @include('admin/Level1CartoonIconData')
                 </div>
             </div>
         </div>
@@ -90,6 +61,39 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#listCartoonIcon').DataTable();
+    });
+    $("#bulkDelete").click(function() {
+        if ($("input:checkbox:checked").length == 0) {
+            alert("Check at least one checkbox");
+        } else {
+            var iconsCheckbox = [];
+            $("input[name='iconsCheckbox[]']").each( function () {
+                if ($(this).prop('checked') == true) {
+                    iconsCheckbox.push($(this).val());
+                }
+            });
+            $.ajax({
+                url: "{{url('admin/bulkDeleteCartoonIcons')}}",
+                type : 'POST',
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                data: {
+                    deletedIconsId: iconsCheckbox,
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 1) {
+                        $(".successDiv").text(response.message);
+                        $("#successDiv").css('display', 'block');
+                        $("#successDiv .alert").addClass('show');
+                    } else {
+                        $(".errorDiv").text(response.message);
+                        $("#errorDiv").css('display', 'block');
+                        $("#errorDiv .alert").addClass('show');
+                    }
+                    $(".level1CartoonIcon").html(response.view);
+                }
+            });
+        }
     });
 </script>
 @stop
