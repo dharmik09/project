@@ -1098,7 +1098,7 @@ Class Helpers {
     }
 
     //Get teenager Timeline
-    public static function getTeenagerTimeLine($teenagerid, $parentId) {
+    public static function getTeenagerTimeLine($teenagerid) {
         $finalData = array();
         $teenager = DB::select(DB::raw("SELECT
                                             id,created_at
@@ -1160,7 +1160,6 @@ Class Helpers {
                                 ->join('pro_pf_profession as profession', 'profession.id', '=', 'pro_tpc_teenager_parent_challenge.tpc_profession_id')
                                 ->selectRaw('pro_tpc_teenager_parent_challenge.*, teenager.t_name, teenager.t_lastname, parent.p_first_name, parent.p_last_name, profession.pf_name')
                                 ->where("pro_tpc_teenager_parent_challenge.tpc_teenager_id", $teenagerid)
-                                ->where('pro_tpc_teenager_parent_challenge.tpc_parent_id', $parentId)
                                 ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
                                 ->where('parent.deleted', Config::get('constant.ACTIVE_FLAG'))
                                 ->orderBy('created_at')
@@ -1208,12 +1207,12 @@ Class Helpers {
         }
         if (count($teenagerScholarshipProgram) > 0) {
             foreach ($teenagerScholarshipProgram as $scholarshipProgram) {
-                $finalData["Applied for " . ucfirst($scholarshipProgram->sa_name)] = $recivedConnection->created_at;
+                $finalData["Applied for " . ucfirst($scholarshipProgram->sa_name)] = $scholarshipProgram->created_at;
             }
         }
         if (count($teenagerChallenges) > 0) {
             foreach ($teenagerChallenges as $challenge) {
-                $finalData["Challenged you to play " . ucfirst($challenge->pf_name)] = $challenge->created_at;
+                $finalData["Challenged " . $challenge->p_first_name . " " . $challenge->p_last_name  . " to play " . ucfirst($challenge->pf_name)] = $challenge->created_at;
             }
         }
 

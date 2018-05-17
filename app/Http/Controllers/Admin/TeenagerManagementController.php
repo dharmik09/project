@@ -1002,6 +1002,10 @@ class TeenagerManagementController extends Controller {
             }
             $this->log->info('Admin view teen learning guidance detail',array('userid'=>$this->loggedInUser->user()->id,'teenid'=>$id));
             return view('admin.ViewTeenagerDetail', compact('userLearningData','id','type'));
+        } elseif($type == "activityTimeline") {
+            $timeLine = Helpers::getTeenagerTimeLine($id);
+            //return view("admin.progressActivityTimeLineData", compact('teenId', 'timeLine'));
+            return view('admin.ViewTeenagerDetail', compact('id', 'timeLine', 'type'));
         }
     }
 

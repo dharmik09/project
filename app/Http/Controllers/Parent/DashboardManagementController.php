@@ -1985,7 +1985,7 @@ class DashboardManagementController extends Controller {
     {
         $teenId = Input::get('teenagerId');
         $parentId = Auth::guard('parent')->user()->id;
-        $timeLine = Helpers::getTeenagerTimeLine($teenId, $parentId);
+        $timeLine = Helpers::getTeenagerTimeLine($teenId);
         return view("parent.basic.progressActivityTimeLineData", compact('teenId', 'timeLine'));
     }
 
