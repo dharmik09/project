@@ -114,7 +114,9 @@
 @section('script')
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#enterprise_table").DataTable();
+        $("#enterprise_table").DataTable({
+            "lengthMenu": [ 10, 25, 50, 100, 200, 500, 1000 ]
+        });
     });
     function add_coins_details($id)
     {

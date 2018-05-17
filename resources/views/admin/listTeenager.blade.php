@@ -87,6 +87,7 @@
             "processing": true,
             "serverSide": true,
             "destroy": true,
+            "lengthMenu": [ 10, 25, 50, 100, 200, 500, 1000 ],
             "ajax":{
                 "url": "{{ url('admin/get-teenager') }}",
                 "dataType": "json",
