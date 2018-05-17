@@ -271,7 +271,7 @@
                                     </li>
                                     <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/level4AdvanceActivityParentTask') ? 'active' : '' }} treeview">
                                         <a href="{{ url('admin/level4AdvanceActivityParentTask') }}">
-                                            <i class="{{ (Request::is('admin/level4AdvanceActivityParentTask')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i><span>Advance Parent Tasks</span>
+                                            <i class="{{ (Request::is('admin/level4AdvanceActivityParentTask')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i><span>Advance Parent/Mentor Tasks</span>
                                         </a>
                                     </li>
                                     <li class="{{ (Route::getFacadeRoot()->current()->uri() == 'admin/level4LearningStyle') ? 'active' : '' }} treeview">

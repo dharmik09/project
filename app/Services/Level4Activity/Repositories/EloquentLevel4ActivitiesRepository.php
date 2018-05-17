@@ -1853,6 +1853,8 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
                 ->where('usertask.l4aapa_parent_id','=',$parent)
                 ->where('usertask.l4aapa_profession_id','=',$profession)
                 ->where('usertask.deleted','!=',3)
+                ->where('parent.deleted', 1)
+                ->where('profession.deleted', 1)
                 ->where('l4aapa_is_verified','!=',0)
                 ->where('l4aapa_media_type',$type)
                 ->get();
