@@ -634,12 +634,15 @@
             </tr>
         </table>
         <div class="clearfix">
+            <ul style="list-style-type: none; margin-top: 20px;">
             @forelse($professionsData->professionTags as $professionTags)
-                <div style="display: inline-block; height: 20px; color: #fff; font-family: hl; font-size: 16px; background: #73376d; padding: 0px 2px 10px 5px;">
-                    {{$professionTags->tag['pt_name']}}
-                </div>
+            <?php if (isset($professionTags->tag['pt_name']) && $professionTags->tag['pt_name'] != "" ) { ?>
+                    <li style="display: inline-block; font-family: hl; font-size: 16px; color: #fff; border: 1px solid #73376d; padding: 9px 10px; margin: 0 3px 3px 0; background: #73376d;">{{$professionTags->tag['pt_name']}}
+                    </li>
+            <?php } ?>
             @empty
             @endforelse
+            </ul>
         </div>
     </div>
 </body>
