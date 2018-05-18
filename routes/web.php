@@ -124,6 +124,7 @@ Route::group(['prefix' => 'counselor'], function () {
 	Route::get('/', 'Parent\HomeController@loginCounselor');
 	Route::get('/login', 'Parent\CounselorManagementController@login');
 	Route::get('/signup', 'Parent\CounselorManagementController@signup');
+	Route::get('/verify-counselor-teen-pair-registration', 'Parent\LoginController@verifyParentTeenRegistration')->name('verify-counselor-pair-registration');
 });
 
 //School Section
