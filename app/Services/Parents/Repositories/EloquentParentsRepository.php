@@ -51,7 +51,11 @@ class EloquentParentsRepository extends EloquentBaseRepository implements Parent
                                             left join " . config::get('databaseconstants.TBL_STATES') . " AS state on state.id = parent.p_state
                                             left join " . config::get('databaseconstants.TBL_CITIES') . " AS city on city.id = parent.p_city
                                            where parent.deleted != 3 AND parent.id = " . $id));
-        return $ParentDetails[0];
+        if (isset($ParentDetails) && count($ParentDetails) > 0) {
+            return $ParentDetails[0];
+        } else {
+            return [];
+        }
     }
 
     /**

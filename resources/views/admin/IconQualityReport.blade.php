@@ -26,14 +26,8 @@
                                 <option value="">-Select-</option>
                                 <?php
                                 foreach ($teenDetails as $key => $teen) {
-                                    if ($teen->t_photo != '') {
-                                        $profilePicUrl = Config::get('constant.DEFAULT_AWS').Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH') . $teen->t_photo;
-                                    } else {
-                                        $profilePicUrl = asset('/backend/images/proteen_logo.png');
-                                    }
                                     ?>                    
-                                    <option value="{{$teen->id}}" style="background: url({{$profilePicUrl}}); background-size: 20px 20px;
-                                        background-repeat: no-repeat; padding-left: 25px;" <?php
+                                    <option value="{{$teen->id}}" <?php
                                     if (isset($id) && $id == $teen->id) {
                                         echo "selected='selected'";
                                     }

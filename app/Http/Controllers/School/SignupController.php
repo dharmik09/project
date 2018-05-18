@@ -79,8 +79,9 @@ class SignupController extends Controller {
         $response = [];
         $response['status'] = 0;
         $response['message'] = trans('appmessages.default_error_msg');
-
+        $schoolInitialCoins = Helpers::getConfigValueByKey('SCHOOL_INITIAL_COINS');
         $schoolDetail = [];
+        $schoolDetail['sc_coins'] = (isset($schoolInitialCoins) && !empty($schoolInitialCoins)) ? $schoolInitialCoins : 0;
         $schoolDetail['sc_name'] = (isset($body['school_name']) && $body['school_name'] != '') ? e($body['school_name']) : '';
         $schoolDetail['sc_address1'] = (isset($body['address1']) && $body['address1'] != '') ? $body['address1'] : '';
         $schoolDetail['sc_address2'] = (isset($body['address2']) && $body['address2'] != '') ? $body['address2'] : '';

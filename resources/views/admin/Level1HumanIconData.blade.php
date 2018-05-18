@@ -1,0 +1,41 @@
+<table id="listHumanIcon" class="table table-striped display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>{{trans('labels.humaniconheadname')}}</th>
+            <th>{{trans('labels.humaniconheadcategory')}}</th>
+            <th>{{trans('labels.humaniconheadimage')}}</th>
+            <th>{{trans('labels.humaniconheadaction')}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($level1humanicon as $level1icon)
+        <tr>
+            <td>
+                <input name="iconsCheckbox[]" type="checkbox" value="{{ $level1icon->id }}">
+            </td>
+            <td>
+                {{$level1icon->hi_name}}
+            </td>
+            <td>
+                {{$level1icon->hic_name}}
+            </td>
+            <td>
+                <?php 
+                    $image = ($level1icon->hi_image != "" && isset($level1icon->hi_image)) ? Storage::url($humanThumbPath.$level1icon->hi_image) : asset('/backend/images/proteen_logo.png'); 
+                ?>
+                <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
+            </td>
+            <td>
+                <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
+                <a href="{{ url('/admin/editHumanIcon') }}/{{$level1icon->id}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
+                <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteHumanIcon') }}/{{$level1icon->id}}"><i class="i_delete fa fa-trash"></i></a>
+            </td>
+        </tr>
+        @empty
+        <tr>
+            <td><center>{{trans('labels.norecordfound')}}</center></td>
+        </tr>
+        @endforelse
+    </tbody>
+</table>

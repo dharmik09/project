@@ -292,4 +292,41 @@ class Level1HumanIconManagementController extends Controller
             return Redirect::to("admin/viewHumanUserImage")->with('error', 'Please select atleast image to delete');
         }
     }
+
+    /* @bulkDeleteHumanIcons
+     * @params: deletedIconsId
+     * Delete selected cartoon icons
+     */
+    public function bulkDeleteHumanIcons()
+    {
+        $selectedIcons = Input::get('deletedIconsId');
+        if(isset($selectedIcons) && !empty($selectedIcons)){
+            foreach($selectedIcons as $iconId){
+                $return = $this->level1HumanIconRepository->deleteLevel1HumanIcon($iconId);
+                if ($return) {
+                    $humanOriginalImageUploadPath = Config::get('constant.HUMAN_ORIGINAL_IMAGE_UPLOAD_PATH');
+                    $humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
+                    $human = $this->objLevel1HumanActivity->find($iconId);
+                    if ($human && !empty($human) && $human->hi_image != "") {
+                        $imageOriginal = public_path($humanOriginalImageUploadPath . $human->hi_image);
+                        $imageThumb = public_path($humanThumbImageUploadPath . $human->hi_image);
+                        $originalImageDelete = $this->fileStorageRepository->deleteFileToStorage($human->hi_image, $humanOriginalImageUploadPath, "s3");
+                        $thumbImageDelete = $this->fileStorageRepository->deleteFileToStorage($human->hi_image, $humanThumbImageUploadPath, "s3");
+                    }
+                }
+            }
+            $response['status'] = 1;
+            $response['message'] = trans('labels.level1humandeletesuccess');
+        } else {
+            $response['status'] = 0;
+            $response['message'] = "Please select atleast one record to delete";
+        }
+
+        $humanThumbPath = $this->humanThumbImageUploadPath;
+        $level1humanicon = $this->level1HumanIconRepository->getLeve1HumanIcon();
+        $view = view('admin.Level1HumanIconData', compact('level1humanicon','humanThumbPath'));
+        $response['view'] = $view->render();
+        return response()->json($response, 200);
+        exit;    
+    }
 }

@@ -6,7 +6,7 @@
 <section class="content-header">
     <h1>
         <div class="col-md-9">
-            Parent Advance Level Tasks
+            Parent/Mentor Advance Level Tasks
         </div>
     </h1>
 </section>
@@ -26,6 +26,8 @@
                                 <th>{{trans('labels.serialnumber')}}</th>
                                 <th>UserName</th>
                                 <th>Professions</th>
+                                <th>Submission date</th>
+                                <th>Task Status</th>
                                 <th>View More</th>
                             </tr>
                         </thead>
@@ -43,7 +45,34 @@
                                 <td>
                                     {{$task->pf_name}}
                                 </td>
+                                <td>
+                                    <?php echo date('d F Y', strtotime($task->created_at)); ?>
+                                </td>
+                                <td>
+                                <?php
+                                    switch($task->l4aapa_is_verified) {
+                                        case 0:
+                                            echo "Not Submitted";
+                                            break;
 
+                                        case 1:
+                                            echo "Pending";
+                                            break;
+
+                                        case 2:
+                                            echo "Verified";
+                                            break;
+
+                                        case 3:
+                                            echo "Rejected";
+                                            break;
+
+                                        default:
+                                            echo "-";
+                                            break;
+                                    };
+                                ?>
+                                </td>
                                 <td>
                                     <?php $type = (isset($_GET['type']) && $_GET['type'] > 0 )? "?".$_GET['type']."": 3;?>
                                     <a href="{{ url('/admin/viewParentAllAdvanceActivities') }}/{{$task->l4aapa_parent_id}}/{{$task->l4aapa_profession_id}}/{{$type}}"><i class="fa fa-eye"></i> &nbsp;&nbsp;</a>

@@ -323,13 +323,11 @@ class Level1CartoonIconManagementController extends Controller
                     }
                 }
             }
-            //return Redirect::to('/admin/cartoons')->with('success', trans('labels.level1cartoondeletesuccess'));
             $response['status'] = 1;
             $response['message'] = trans('labels.level1cartoondeletesuccess');
         } else {
-            //return Redirect::to('/admin/cartoons')->with('error', 'Please select atleast image to delete');
             $response['status'] = 0;
-            $response['message'] = "Please select atleast image to delete";
+            $response['message'] = "Please select atleast one record to delete";
         }
         $level1cartoonicon = $this->level1CartoonIconRepository->getLeve1CartoonIcon();
         $cartoonThumbPath = $this->cartoonThumbImageUploadPath;

@@ -285,7 +285,7 @@ Route::get('/deleteUserHumanIcon/{id}', 'Admin\Level1HumanIconManagementControll
 Route::post('/deleteHumanIcon', 'Admin\Level1HumanIconManagementController@deleteHumanIcon')->name('deleteHumanIcon');
 Route::get('/uploadHumanIcons', 'Admin\Level1HumanIconManagementController@uploadView');
 Route::post('/saveHumanIcons', 'Admin\Level1HumanIconManagementController@uploadHumanIcons');
-
+Route::post('/bulkDeleteHumanIcons', 'Admin\Level1HumanIconManagementController@bulkDeleteHumanIcons');
 
 //Traits
 Route::get('/level1Traits', 'Admin\Level1TraitsManagementController@index')->name('level1Traits');

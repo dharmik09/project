@@ -26,6 +26,7 @@
                         <li role="presentation"  <?php if ($type == "level4"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/level4" aria-controls="level4">Level4 Details</a></li>
                         <li role="presentation"  <?php if ($type == "points"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/points" aria-controls="points">Booster Points</a></li>
                         <li role="presentation"  <?php if ($type == "learningstyle"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/learningstyle" aria-controls="learningstyle">Learning Guidance</a></li>
+                        <li role="presentation"  <?php if ($type == "activityTimeline"){echo 'class="active"';} ?> ><a href="{{url('admin/view-teenager')}}/{{$id}}/activityTimeline" aria-controls="activityTimeline">Activity Timeline</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -740,6 +741,38 @@
                         </div>
                         @endif
                         <!-- Learning Guidance End -->
+
+                        <!-- Activity Timeline start -->
+                        @if ($type == "activityTimeline")
+                            <table border="1px solid black">
+                                <thead>
+                                    <th>Date</th>
+                                    <th>Activity</th>
+                                </thead>
+                                <tbody>
+                                <?php
+                                    $classArray = array('alpha', 'beta', 'gamma', 'delta');
+                                    ?>
+                                    @if(isset($timeLine) && !empty($timeLine))
+                                    <?php $flag = 0; ?>
+                                    @foreach($timeLine as $line=>$date)
+
+                                    <tr>
+                                        <td style="padding: 5px;  border: 1px solid black;">{{date('d, F Y',strtotime($date))}}</td>
+                                        <td style="padding: 5px;  border: 1px solid black;">{{$line}}</td>
+                                    </tr>
+                                    <?php
+                                    $flag++;
+                                    if ($flag > 3) {
+                                        $flag = 0;
+                                    }
+                                    ?>
+                                    @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                        @endif
+                        <!-- Activity Timeline End -->
 
                     </div>
                 </div>

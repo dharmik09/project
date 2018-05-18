@@ -1,6 +1,24 @@
 @extends('layouts.admin-master')
 
 @section('content')
+<div id="successDiv" class="col-md-12" style="display: none;">
+    <div class="box-body">
+        <div class="alert alert-success">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+            <h4><i class="icon fa fa-check"></i> {{trans('validation.successlbl')}}</h4>
+            <span class="successDiv"></span>
+        </div>
+    </div>
+</div>
+<div id="errorDiv" class="col-md-12" style="display: none;">
+    <div class="box-body">
+        <div class="alert alert-error">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+            <h4><i class="icon fa fa-check"></i> {{trans('validation.errorlbl')}}</h4>
+            <span class="errorDiv"></span>
+        </div>
+    </div>
+</div>
 <!-- content push wrapper -->
 
 <!-- Content Header (Page header) -->
@@ -25,49 +43,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box-header pull-right ">
+                <a id="bulkDelete" href="javascript:void(0);" class="btn btn-block btn-primary">Bulk Delete</a>
                 <i class="s_active fa fa-square"></i> {{trans('labels.activelbl')}} <i class="s_inactive fa fa-square"></i>{{trans('labels.inactivelbl')}}
             </div>
         </div>
         <div class="col-md-12">
             <div class="box box-primary">
-                <div class="box-body">
-                    <table id="listHumanIcon" class="table table-striped display" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>{{trans('labels.humaniconheadname')}}</th>
-                                <th>{{trans('labels.humaniconheadcategory')}}</th>
-                                <th>{{trans('labels.humaniconheadimage')}}</th>
-                                <th>{{trans('labels.humaniconheadaction')}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($level1humanicon as $level1icon)
-                            <tr>
-                                <td>
-                                    {{$level1icon->hi_name}}
-                                </td>
-                                <td>
-                                    {{$level1icon->hic_name}}
-                                </td>
-                                <td>
-                                    <?php 
-                                        $image = ($level1icon->hi_image != "" && isset($level1icon->hi_image)) ? Storage::url($humanThumbPath.$level1icon->hi_image) : asset('/backend/images/proteen_logo.png'); 
-                                    ?>
-                                    <img src="{{$image}}" class="user-image" alt="Default Image" height="{{ Config::get('constant.DEFAULT_IMAGE_HEIGHT') }}" width="{{ Config::get('constant.DEFAULT_IMAGE_WIDTH') }}">
-                                </td>
-                                <td>
-                                    <?php $page = (isset($_GET['page']) && $_GET['page'] > 0 )? "?page=".$_GET['page']."":'';?>
-                                    <a href="{{ url('/admin/editHumanIcon') }}/{{$level1icon->id}}{{$page}}"><i class="fa fa-edit"></i> &nbsp;&nbsp;</a>
-                                    <a onclick="return confirm('<?php echo trans('labels.confirmdelete'); ?>')" href="{{ url('/admin/deleteHumanIcon') }}/{{$level1icon->id}}"><i class="i_delete fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td><center>{{trans('labels.norecordfound')}}</center></td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <div class="box-body level1HumanIcon">
+                    @include('admin/Level1HumanIconData')
                 </div>
             </div>
         </div>
@@ -79,6 +62,39 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#listHumanIcon').DataTable();
+    });
+    $("#bulkDelete").click(function() {
+        if ($("input:checkbox:checked").length == 0) {
+            alert("Check at least one checkbox");
+        } else {
+            var iconsCheckbox = [];
+            $("input[name='iconsCheckbox[]']").each( function () {
+                if ($(this).prop('checked') == true) {
+                    iconsCheckbox.push($(this).val());
+                }
+            });
+            $.ajax({
+                url: "{{url('admin/bulkDeleteHumanIcons')}}",
+                type : 'POST',
+                headers: { 'X-CSRF-TOKEN': '{{csrf_token()}}' },
+                data: {
+                    deletedIconsId: iconsCheckbox,
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 1) {
+                        $(".successDiv").text(response.message);
+                        $("#successDiv").css('display', 'block');
+                        $("#successDiv .alert").addClass('show');
+                    } else {
+                        $(".errorDiv").text(response.message);
+                        $("#errorDiv").css('display', 'block');
+                        $("#errorDiv .alert").addClass('show');
+                    }
+                    $(".level1HumanIcon").html(response.view);
+                }
+            });
+        }
     });
 </script>
 @stop

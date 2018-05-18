@@ -26,12 +26,13 @@
                                 <th>{{trans('labels.serialnumber')}}</th>
                                 <th>UserName</th>
                                 <th>Professions</th>
+                                <th>Submission date</th>
+                                <th>Task Status</th>
                                 <th>View More</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php  $serialno = 1; ?>
-
                             @forelse($userTasks  as $task)
                             <tr>
                                 <td>
@@ -42,6 +43,34 @@
                                 </td>
                                 <td>
                                     {{$task->pf_name}}
+                                </td>
+                                <td>
+                                    <?php echo date('d F Y', strtotime($task->created_at)); ?>
+                                </td>
+                                <td>
+                                <?php
+                                    switch($task->l4aaua_is_verified) {
+                                        case 0:
+                                            echo "Not Submitted";
+                                            break;
+
+                                        case 1:
+                                            echo "Pending";
+                                            break;
+
+                                        case 2:
+                                            echo "Verified";
+                                            break;
+
+                                        case 3:
+                                            echo "Rejected";
+                                            break;
+
+                                        default:
+                                            echo "-";
+                                            break;
+                                    };
+                                ?>
                                 </td>
                                 <td>
                                     <?php $type = (isset($_GET['type']) && $_GET['type'] > 0 )? "?".$_GET['type']."": 3;?>
