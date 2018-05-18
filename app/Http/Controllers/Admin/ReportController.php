@@ -17,6 +17,7 @@ use Helpers;
 use Input;
 use Redirect;
 use Config;
+use App\Level1Answers;
 
 class ReportController extends Controller {
 
@@ -32,6 +33,7 @@ class ReportController extends Controller {
         $this->level4ActivitiesRepository = $level4ActivitiesRepository;
         $this->cartoonThumbImageUploadPath = Config::get('constant.CARTOON_THUMB_IMAGE_UPLOAD_PATH');
         $this->humanThumbImageUploadPath = Config::get('constant.HUMAN_THUMB_IMAGE_UPLOAD_PATH');
+        $this->objLevel1Answers = new Level1Answers;
     }
 
     public function level1() {
@@ -83,7 +85,7 @@ class ReportController extends Controller {
                 $anstotal = $level1final['anstotal'];
             }
         }
-
+        $total = $this->objLevel1Answers->getAllTeenagersAttemptedL1($id);
         return view('admin.ListLevel1Report', compact('id','level1Questions','questionText','finallevel1', 'final', 'teenDetails','total','chart','allQuestion','gender','anstotal','age'));
     }
 
