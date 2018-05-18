@@ -46,19 +46,19 @@
         }
         
         if($instituteName != ""){
-            $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($instituteName).'&sensor=false&iwloc=near');
+            // $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($instituteName).'&sensor=false&iwloc=near');
 
-            $output= json_decode($geocode);
-            if(count($output->results)>0)
-            {
-                $latitude = $output->results[0]->geometry->location->lat;
-                $longitude = $output->results[0]->geometry->location->lng;
-                $instituteMapUrl = "https://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
-            }
-            elseif(isset($value->latitude) && $value->latitude != "" && isset($value->longitude) && $value->longitude != "")
-            {
-                $instituteMapUrl = "https://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=10&output=embed&iwloc=near";
-            }
+            // $output= json_decode($geocode);
+            // if(count($output->results)>0)
+            // {
+            //     $latitude = $output->results[0]->geometry->location->lat;
+            //     $longitude = $output->results[0]->geometry->location->lng;
+            //     $instituteMapUrl = "https://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
+            // }
+            // elseif(isset($value->latitude) && $value->latitude != "" && isset($value->longitude) && $value->longitude != "")
+            // {
+            //     $instituteMapUrl = "https://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=10&output=embed&iwloc=near";
+            // }
         }
       
         if(isset($value->affiliat_university) && $value->affiliat_university != ""){
@@ -125,7 +125,7 @@
                                 </div>
                             @endif
                             <h4><a href="{{$instituteWebsite}}" target="_blank">{{ $instituteName }} </a></h4>
-                            <h5><strong>Year of Establishment </strong>{{$instituteEstablishmentYear}}</h5>
+                            <h5><strong><?php echo (isset(Auth::guard('teenager')->user()->t_view_information) && !empty(Auth::guard('teenager')->user()->t_view_information) && Auth::guard('teenager')->user()->t_view_information == 1) ? 'Office of Postsecondary Education(OPE) ID Number ': 'Year of Establishment ' ?></strong>{{$instituteEstablishmentYear}}</h5>
                             <h5><strong>Affiliated University </strong>{{$instituteAffiliateUniversity}} </h5>
                             <h5><strong>Address </strong>{{$instituteAddress}}</h5>
                         </div>
@@ -148,13 +148,13 @@
                                     <ul class="institute-detail">
                                         <li><strong>Management Type </strong>{{$instituteManagement}}</li>
                                         @if($instituteAccreditationScore != "")
-                                            <li><strong>Accreditation CGPA </strong>{{$instituteAccreditationScore}}</li>
+                                            <li><strong><?php echo (isset(Auth::guard('teenager')->user()->t_view_information) && !empty(Auth::guard('teenager')->user()->t_view_information) && Auth::guard('teenager')->user()->t_view_information == 1) ? 'Management System' : 'Accreditation CGPA' ?> </strong>{{$instituteAccreditationScore}}</li>
                                             <li><strong>Accreditation By </strong>{{$instituteAccreditationBody}}</li>
                                         @endif
                                         <li><strong>Fees in <?php echo (isset($countryId) && !empty($countryId) && $countryId == 1) ? '₹' : '<i class="icon-dollor"></i>' ?> </strong> {{$instituteFeeRange}}</li>
                                         <li><strong>Hostel </strong>{{$instituteHostelCount}}</li>
                                         <li><strong>Gender </strong>{{$instituteGender}}</li>
-                                        <li><strong>Autonomous </strong>{{$instituteAutonomous}}</li>
+                                        <li><strong><?php echo (isset(Auth::guard('teenager')->user()->t_view_information) && !empty(Auth::guard('teenager')->user()->t_view_information) && Auth::guard('teenager')->user()->t_view_information == 1) ? 'PEPS Title IV Status' : 'Autonomous' ?> </strong>{{$instituteAutonomous}}</li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
