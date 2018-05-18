@@ -1162,6 +1162,17 @@ Class Helpers {
                                 ->where("pro_tpc_teenager_parent_challenge.tpc_teenager_id", $teenagerid)
                                 ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
                                 ->where('parent.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->where('profession.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->orderBy('created_at')
+                                ->get();
+
+        $attemptedProfessions = DB::table("pro_l4aapa_level4_profession_progress")
+                                ->join('pro_t_teenagers as teenager', 'teenager.id', '=', 'pro_l4aapa_level4_profession_progress.teenager_id')
+                                ->join('pro_pf_profession as profession', 'profession.id', '=', 'pro_l4aapa_level4_profession_progress.profession_id')
+                                ->selectRaw('pro_l4aapa_level4_profession_progress.*, teenager.t_name, teenager.t_lastname, profession.pf_name')
+                                ->where("pro_l4aapa_level4_profession_progress.teenager_id", $teenagerid)
+                                ->where('teenager.deleted', Config::get('constant.ACTIVE_FLAG'))
+                                ->where('profession.deleted', Config::get('constant.ACTIVE_FLAG'))
                                 ->orderBy('created_at')
                                 ->get();
 
@@ -1213,6 +1224,12 @@ Class Helpers {
         if (count($teenagerChallenges) > 0) {
             foreach ($teenagerChallenges as $challenge) {
                 $finalData["Challenged " . $challenge->p_first_name . " " . $challenge->p_last_name  . " to play " . ucfirst($challenge->pf_name)] = $challenge->created_at;
+            }
+        }
+
+        if (count($attemptedProfessions) > 0) {
+            foreach ($attemptedProfessions as $profession) {
+                $finalData["Career " . $profession->pf_name . " role played"] = $profession->created_at;
             }
         }
 
