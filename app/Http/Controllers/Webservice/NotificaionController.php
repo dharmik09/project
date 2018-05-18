@@ -15,6 +15,9 @@ use Redirect;
 use Illuminate\Http\Request;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use App\Schools;
+use App\Teenagers;
+use App\Parents;
 
 class NotificaionController extends Controller {
 
@@ -49,13 +52,40 @@ class NotificaionController extends Controller {
             $data = $this->objNotifications->getNotificationsByUserTypeAndIdByDeleted(Config::get('constant.NOTIFICATION_TEENAGER'),$teenager->id,$pageNo,$deletedData);
             foreach($data as $key => $value){
                 $teenPhoto = Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png';
-                if(isset($value->senderTeenager) && $value->senderTeenager != '') {
-                    $photoURL = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
-                    if(Storage::size(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo)>0){
-                        $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
+                $data[$key]->n_notification_text = strip_tags($value->n_notification_text);
+                // if(isset($value->senderTeenager) && $value->senderTeenager != '') {
+                //     $photoURL = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
+                //     if(Storage::size(Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo)>0){
+                //         $teenPhoto = Config::get('constant.TEEN_ORIGINAL_IMAGE_UPLOAD_PATH').$value->senderTeenager->t_photo;
+                //     }
+                // }
+                if ($value->n_sender_type == Config::get('constant.NOTIFICATION_TEENAGER')) {
+                    $teenDetails = Teenagers::find($value->n_sender_id);
+                    if (isset($teenDetails) && !empty($teenDetails) && $teenDetails->t_photo != "" && Storage::size(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$teenDetails->t_photo) > 0) {
+                        $photoUrl = Storage::url(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').$teenDetails->t_photo);
+                    } else {
+                        $photoUrl = Storage::url(Config::get('constant.TEEN_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png');
                     }
-                }
-                $data[$key]->n_sender_image = Storage::url($teenPhoto);
+                } else if ($value->n_sender_type == Config::get('constant.NOTIFICATION_ADMIN')) {
+                    $photoUrl = Storage::url('img/proteen-logo.png');
+                } else if ($value->n_sender_type == Config::get('constant.NOTIFICATION_PARENT')) {
+                    $parentDetails = Parents::find($value->n_sender_id);
+                    if (isset($parentDetails) && !empty($parentDetails) && $parentDetails->p_photo != "" && Storage::size(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH').$parentDetails->p_photo) > 0) {
+                        $photoUrl = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH').$teenDetails->t_photo);
+                    } else {
+                        $photoUrl = Storage::url(Config::get('constant.PARENT_THUMB_IMAGE_UPLOAD_PATH').'proteen-logo.png');
+                    }
+                } else if ($value->n_sender_type == Config::get('constant.NOTIFICATION_SCHOOL')) {
+                    $schoolDetails = Schools::find($value->n_sender_id);
+                    if (isset($schoolDetails) && !empty($schoolDetails) && $schoolDetails->sc_logo != "" && Storage::size(Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH').$schoolDetails->sc_logo) > 0) {
+                        $photoUrl = Storage::url(Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH').$schoolDetails->sc_logo);
+                    } else {
+                        $photoUrl = Storage::url(Config::get('constant.SCHOOL_ORIGINAL_IMAGE_UPLOAD_PATH').'proteen-logo.png');
+                    }
+                } else {
+                    $photoUrl = Storage::url('img/proteen-logo.png');
+                } 
+                $data[$key]->n_sender_image = $photoUrl;
                 if($value->n_record_id != 0){
                     $data[$key]->n_request_status = $value->community->tc_status;
                 }
