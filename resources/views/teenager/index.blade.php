@@ -119,6 +119,9 @@
                     </div>
                 </div>
                 @if(isset($nextSlotExist) && count($nextSlotExist) > 0)
+                    <div id="video-loader" class="loader_con">
+                        <img src="{{Storage::url('img/loading.gif')}}">
+                    </div>
                     <p id="remove-row" class="text-center"><a id="load-more" href="javascript:void(0)" title="see more" class="btn btn-primary">see more</a></p>
                 @endif
             </div>
@@ -169,6 +172,7 @@
             var videoSlot = 0;
             $(document).on('click','#load-more',function(){
                 videoSlot = videoSlot + 1;
+                $("#video-loader").show();
                 $.ajax({
                     url : '{{ url("teenager/load-more-video") }}',
                     method : "POST",
@@ -176,6 +180,7 @@
                     dataType : "json",
                     success : function (data) {
                         if(data.view != '') {
+                            $("#video-loader").hide();
                             if (data.nextSlotExist <= 0) {
                                 $('#remove-row').remove();
                             } 
