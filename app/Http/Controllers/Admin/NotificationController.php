@@ -15,6 +15,7 @@ use Redirect;
 use Helpers;
 use App\DeviceToken;
 use Config;
+use App\Jobs\SendPushNotificationToAllTeenagers;
 
 class NotificationController extends Controller
 {
@@ -172,11 +173,17 @@ class NotificationController extends Controller
         $objNotifications = new Notifications();
         $sendToAll = Input::get('sendtoall');
         if (isset($sendToAll) && !empty($sendToAll)) {
-            $teenDetails = $this->teenagersRepository->getAllActiveTeenagersForNotificationObj()->get();
-            foreach($teenDetails as $teenDetail) {
-                $teenIds[] = $teenDetail->id; 
-            }
-            $return = $objNotifications->saveTeenagerDetailForSendNotification($teenIds, $$data['message']);
+            $notificationData['n_sender_id'] = '0';
+            $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_ADMIN');
+            $notificationData['n_receiver_id'] = 0;
+            $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+            $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_ADD_PROFESSION');
+            $notificationData['n_notification_text'] = $data['message'];
+            $return = $objNotifications->insertUpdate($notificationData);
+            $pushNotificationData = [];
+            $pushNotificationData['notificationType'] = Config::get('constant.COMMON_NOTIFICATION_TYPE');
+            $pushNotificationData['message'] = (isset($notificationData['n_notification_text']) && !empty($notificationData['n_notification_text'])) ? strip_tags($notificationData['n_notification_text']) : '';
+            dispatch( new SendPushNotificationToAllTeenagers($pushNotificationData) )->onQueue('processing');
             if ($return) {
                 return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendaftersuccess'));
             } else {
@@ -214,7 +221,13 @@ class NotificationController extends Controller
             } 
             else 
             {
-                $return = $objNotifications->saveTeenagerDetailForSendNotification($getId, $data['message']);
+                $notificationData['n_sender_id'] = '0';
+                $notificationData['n_sender_type'] = Config::get('constant.NOTIFICATION_ADMIN');
+                $notificationData['n_receiver_id'] = 0;
+                $notificationData['n_receiver_type'] = Config::get('constant.NOTIFICATION_TEENAGER');
+                $notificationData['n_notification_type'] = Config::get('constant.NOTIFICATION_TYPE_ADD_PROFESSION');
+                $notificationData['n_notification_text'] = $data['message'];
+                $return = $objNotifications->insertUpdate($notificationData);
                 if ($return) {
                     return Redirect::to("admin/notification")->with('success', trans('labels.notificationsendaftersuccess'));
                 } else {
