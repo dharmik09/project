@@ -746,8 +746,8 @@
                         @if ($type == "activityTimeline")
                             <table border="1px solid black">
                                 <thead>
-                                    <th>Date</th>
-                                    <th>Activity</th>
+                                    <th style="text-align: center;">Date</th>
+                                    <th style="text-align: center;">Activity</th>
                                 </thead>
                                 <tbody>
                                 <?php
@@ -755,11 +755,11 @@
                                     ?>
                                     @if(isset($timeLine) && !empty($timeLine))
                                     <?php $flag = 0; ?>
-                                    @foreach($timeLine as $line=>$date)
+                                    @foreach($timeLine as $data)
 
                                     <tr>
-                                        <td style="padding: 5px;  border: 1px solid black;">{{date('d, F Y',strtotime($date))}}</td>
-                                        <td style="padding: 5px;  border: 1px solid black;">{{$line}}</td>
+                                        <td style="padding: 5px;  border: 1px solid black;">{{ $data['date'] }}</td>
+                                        <td style="padding: 5px;  border: 1px solid black;">{{ $data['timeLineText'] }}</td>
                                     </tr>
                                     <?php
                                     $flag++;

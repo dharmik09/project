@@ -68,6 +68,10 @@ Route::group([ 'middleware' => ['api-support'] ], function () {
 	Route::post('/saveTeenagerAcademicInfo', 'Webservice\ProfileController@saveTeenagerAcademicInfo');
 	Route::post('/getTeenagerAchievementInfo', 'Webservice\ProfileController@getTeenagerAchievementInfo');
 	Route::post('/saveTeenagerAchievementInfo', 'Webservice\ProfileController@saveTeenagerAchievementInfo');
+
+	//Activity Time line
+	Route::post('/getTeenagerActivityTimeLineData', 'Webservice\TeenagerController@getTeenagerActivityTimeLineData');
+
 	//Icons Route
 	Route::post('/getTeenagerProfileIcons', 'Webservice\ProfileController@getTeenagerProfileIcons');
 	//Help
