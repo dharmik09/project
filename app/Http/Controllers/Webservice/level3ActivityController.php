@@ -630,87 +630,32 @@ class level3ActivityController extends Controller {
                     $professionsData->profession_bridge = (isset($profession_bridge->pfic_content) && !empty($profession_bridge->pfic_content)) ? $profession_bridge->pfic_content : '';
                     $professionsData->trends_infolinks_usa = (isset($trends_infolinks_usa->pfic_content) && !empty($trends_infolinks_usa->pfic_content)) ? $trends_infolinks_usa->pfic_content : '';
 
-                    if(isset($high_school_req->pfic_content)){
-                        if($countryId == 1){ // India
-                            if(strip_tags($high_school_req->pfic_content) == 0){
-                                $high_school = 10;
-                            }elseif(strip_tags($high_school_req->pfic_content) == 1){
-                                $high_school = 20;
-                            }else{
-                                $high_school = strip_tags($high_school_req->pfic_content);
-                            }
-                        }
-                        elseif($countryId == 2){ // United States
-                            $high_school = strip_tags($high_school_req->pfic_content);
-                        }
+                    if(isset($high_school_req->pfic_content)){                        
+                        $high_school = strip_tags($high_school_req->pfic_content);                        
                     }else{
                         $high_school = 0;
                     }
 
-                    if(isset($junior_college_req->pfic_content)){
-                        if($countryId == 1){ // India
-                            if(strip_tags($junior_college_req->pfic_content) == 0){
-                                $junior_college = 10;
-                            }elseif(strip_tags($junior_college_req->pfic_content) == 1){
-                                $junior_college = 20;
-                            }else{
-                                $junior_college = strip_tags($junior_college_req->pfic_content);
-                            }
-                        }
-                        elseif($countryId == 2){ // United States
-                            $junior_college = strip_tags($junior_college_req->pfic_content);
-                        }
+                    if(isset($junior_college_req->pfic_content)){                        
+                        $junior_college = strip_tags($junior_college_req->pfic_content);                        
                     }else{
                         $junior_college = 0;
                     }
 
                     if(isset($bachelor_degree_req->pfic_content)){
-                        if($countryId == 1){ // India
-                            if(strip_tags($bachelor_degree_req->pfic_content) == 0){
-                                $bachelor_degree = 10;
-                            }elseif(strip_tags($bachelor_degree_req->pfic_content) == 1){
-                                $bachelor_degree = 20;
-                            }else{
-                                $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
-                            }
-                        }
-                        elseif($countryId == 2){ // United States
-                            $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
-                        }
+                        $bachelor_degree = strip_tags($bachelor_degree_req->pfic_content);
                     }else{
                         $bachelor_degree = 0;
                     }
 
                     if(isset($masters_degree_req->pfic_content)){
-                        if($countryId == 1){ // India
-                            if(strip_tags($masters_degree_req->pfic_content) == 0){
-                                $masters_degree = 10;
-                            }elseif(strip_tags($masters_degree_req->pfic_content) == 1){
-                                $masters_degree = 20;
-                            }else{
-                                $masters_degree = strip_tags($masters_degree_req->pfic_content);
-                            }
-                        }
-                        elseif($countryId == 2){ // United States
-                            $masters_degree = strip_tags($masters_degree_req->pfic_content);
-                        }
+                        $masters_degree = strip_tags($masters_degree_req->pfic_content);
                     }else{
                         $masters_degree = 0;
                     }
 
                     if(isset($PhD_req->pfic_content)){
-                        if($countryId == 1){ // India
-                            if(strip_tags($PhD_req->pfic_content) == 0){
-                                $phd_degree = 10;
-                            }elseif(strip_tags($PhD_req->pfic_content) == 1){
-                                $phd_degree = 20;
-                            }else{
-                                $phd_degree = strip_tags($PhD_req->pfic_content);
-                            }
-                        }
-                        elseif($countryId == 2){ // United States
-                            $phd_degree = strip_tags($PhD_req->pfic_content);
-                        }
+                        $phd_degree = strip_tags($PhD_req->pfic_content);                        
                     }else{
                         $phd_degree = 0;
                     }
