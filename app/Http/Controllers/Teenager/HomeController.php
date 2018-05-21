@@ -290,5 +290,15 @@ class HomeController extends Controller
         $response['totalpoint'] = ( isset($basicBoosterPoint['Total']) && $basicBoosterPoint['Total'] > 0) ? number_format($basicBoosterPoint['Total']) : 0;
         return response()->json($response, 200);
         exit;
-    }    
+    }   
+
+    /* @getActivityTimelineDetails
+     * Returns an array of teenager activity details
+     */
+    public function getActivityTimelineDetails()
+    {
+        $teenId = Auth::guard('teenager')->user()->id;
+        $timeLine = Helpers::getTeenagerTimeLine($teenId);
+        return view("teenager.basic.progressActivityTimeLineData", compact('teenId', 'timeLine'));
+    } 
 }

@@ -2984,3 +2984,156 @@ a:focus {
         font-size: 14px;
     }
 }
+.sec-timeline{
+    text-align: center;
+    padding: 50px 0;
+    .timeline-scroll {
+        max-width: 500px;
+        margin: 0 auto;
+        max-height: 300px;
+        font-size: 15px;
+        font-size: 18px;
+        max-height: 300px;
+        overflow-x:auto;
+    }
+    .timeline-inner {
+        position: relative;
+        padding: 20px;
+        &:before{
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 37px;
+            width: 2px;
+            background: $p-cl;
+        }
+        table{
+            width: 100%;
+            height: 100%;
+            tr{
+                td{
+                    padding: 15px 5px;
+                    vertical-align: middle;
+                    &.timeline_icon{
+                        .box{
+                            display: block;
+                            width: 25px;
+                            height: 25px;
+                            position: relative;
+                            -webkit-border-radius: 50%;
+                            border-radius: 50%;
+                            background: #eeeeef;
+                            &:before{
+                                content: '';
+                                -webkit-border-radius: 50%;
+                                border-radius: 50%;
+                                top: 0px;
+                                bottom: 0;
+                                left: 0;
+                                right: 0;
+                                border: 2px solid red;
+                                position: absolute;
+                            }
+                            &:after{
+                                content: '';
+                                top: 5px;
+                                left: 5px;
+                                right: 5px;
+                                bottom: 5px;
+                                position: absolute;
+                                -webkit-border-radius: 50%;
+                                border-radius: 50%;
+                            }
+                        }
+                    }
+                }
+                
+                .alpha{
+                    color: #fd604b;
+                }
+
+            }
+        }
+    }
+}
+.timeline table tr.alpha {
+    color: #fd604b;
+}
+.timeline table tr.beta {
+    color: #66c6e6;
+}
+.timeline table tr.gamma {
+    color: #73376d;
+}
+.timeline table tr.delta {
+    color: #f2c337;
+}
+.timeline table tr.alpha td.timeline_icon .box:before {
+    border-color: #fd604b;
+}
+.timeline table tr.alpha td.timeline_icon .box:after {
+    background-color: #fd604b;
+}
+.timeline table tr.beta td.timeline_icon .box:before {
+    border-color: #66c6e6;
+}
+.timeline table tr.beta td.timeline_icon .box:after {
+    background-color: #66c6e6;
+}
+.timeline table tr.gamma td.timeline_icon .box:before {
+    border-color: #73376d;
+}
+.timeline table tr.gamma td.timeline_icon .box:after {
+    background-color: #73376d;
+}
+.timeline table tr.delta td.timeline_icon .box:before {
+    border-color: #f2c337;
+}
+.timeline table tr.delta td.timeline_icon .box:after {
+    background-color: #f2c337;
+}
+.timeline-scroll::-webkit-scrollbar{width: 4px;}
+.timeline-scroll::-webkit-scrollbar-track{-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);}
+.timeline-scroll::-webkit-scrollbar-thumb{background-color: darkgrey;outline: 1px solid slategrey;}
+.timeline_icon{
+    .box{
+        display: block;
+        width: 25px;
+        height: 25px;
+        position: relative;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        background: #eeeeef;
+            &:before{
+                content: '';
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                top: 0px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border: 2px solid red;
+                position: absolute;
+            }
+            &:after{
+                content: '';
+                top: 5px;
+                left: 5px;
+                right: 5px;
+                bottom: 5px;
+                position: absolute;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+            }
+        }
+    }
+.timeline_date{
+    min-width: 100px;
+    font-style: italic;
+    font-weight: 300;
+    text-align: left;
+}
+.timeline_detail{
+    text-align: left;
+}

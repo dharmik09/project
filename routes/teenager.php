@@ -22,7 +22,7 @@ Route::post('/see-more-inerest-page-gurus', 'Teenager\InterestManagementControll
 Route::get('/multi-intelligence/{type}/{slug}', 'Teenager\MultipleIntelligenceManagementController@index');
 Route::post('/see-more-related-careers', 'Teenager\MultipleIntelligenceManagementController@seeMoreRelatedCareers');
 Route::post('/see-more-gurus', 'Teenager\MultipleIntelligenceManagementController@seeMoreGurus');
-
+Route::post('/get-activity-timeline-details', 'Teenager\HomeController@getActivityTimelineDetails');
 Route::get('/seo-teaser', function() {
 	return view('teenager.seoTeaser');
 });

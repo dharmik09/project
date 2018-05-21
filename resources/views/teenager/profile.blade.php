@@ -579,6 +579,18 @@
             </div>
         </div>
     </section>
+    <section class="sec-timeline">
+        <div>
+            <h2>Activity Timeline</h2>
+            <div class="timeline-scroll timeline">
+                <div class="timeline-inner">
+                    <div id="activity-loader" class="loading-screen loading-wrapper-sub" style="display:none;">
+                        <div class="loading-content"><img src="{{ Storage::url('img/Bars.gif') }}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="bg-offwhite">
         <div class="container">
             <div class="col-xs-12">
@@ -997,6 +1009,7 @@
         fetchLevel1TraitQuestion();
         getUserUnreadMessageCountChat();
         getUserProfileIcons();
+        getActivityTimeLineDetails();
     });
 
     function getFirstLevelData() {
@@ -1834,5 +1847,22 @@
         $("#academicBtn").text('Edit');
     });
       
+    //get teenager activity timeline details
+    function getActivityTimeLineDetails(teenagerId) {
+        $('#activity-loader .loading-screen-data').parent().addClass('loading-screen-parent');
+        $('#activity-loader .loading-screen-data').show();
+        $.ajax({
+            type: 'POST',
+            url: "{{url('teenager/get-activity-timeline-details')}}",
+            dataType: 'html',
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            //data: {'teenagerId':teenagerId},
+            success: function (response) {
+                $(".timeline-inner").append(response);
+                $('#activity-loader .loading-screen-data').hide();
+                $('#activity-loader .loading-screen-data').parent().removeClass('loading-screen-parent');
+            }
+        });
+    }
 </script>
 @stop
