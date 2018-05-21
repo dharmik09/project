@@ -24,7 +24,7 @@
                     <table id="listVideo" class="table table-striped display" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>{{trans('labels.videolink')}}</th>
+                                <th>Title</th>
                                 <th>{{trans('labels.formlblphoto')}}</th>
                                 <th>{{trans('labels.cmsblheadstatus')}}</th>
                                 <th>{{trans('labels.cmsblheadaction')}}</th>
@@ -34,7 +34,7 @@
                         @forelse($videoDetail as $value)
                             <tr>
                                 <td>
-                                    {{$value->v_link}}
+                                    {{$value->v_title}}
                                 </td>
                                 <td>
                                     <?php
