@@ -14,6 +14,24 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
+            <form method="POST" action="{{ url('admin/searchSchoolLevel2Activity') }}">
+                {{csrf_field()}}
+                <div class="form-group"> 
+                    <label for="chart" class="col-sm-1 control-label">School:</label>
+                    <div class="col-sm-6">
+                        <select id="school" name="school" class="form-control">
+                            <option value="">Select</option>     
+                            @forelse ($schools as $school)
+                                <option value="{{ $school->school_id }}">{{$school->sc_name}}</option>
+                            @empty
+                            @endforelse
+                        </select>
+                    </div>
+                    <div class="col-md-">
+                        <input type="submit" class="btn btn-warning btn-primary" value="{{trans('labels.lblsearch')}}">
+                    </div>
+                </div>
+            </form>
             <div class="box-header pull-right ">
                 <i class="s_active fa fa-square"></i> {{trans('labels.activelbl')}} <i class="s_inactive fa fa-square"></i>{{trans('labels.inactivelbl')}}
             </div>
@@ -79,8 +97,8 @@
                                     ?>
                                 </td>
                                 <td>
-                                     @if ($level2activity->deleted == 1)
-                                    <i class="s_active fa fa-square"></i>
+                                    @if ($level2activity->deleted == 1)
+                                        <i class="s_active fa fa-square"></i>
                                     @else
                                         <i class="s_inactive fa fa-square"></i>
                                     @endif

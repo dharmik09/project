@@ -270,7 +270,11 @@
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{trans('labels.savebtn')}}</button>
-                        <a class="btn btn-danger btn-flat pull-right" href="{{ url('admin/level2Activity') }}{{$page}}"> {{trans('labels.cancelbtn')}}</a>
+                        @if ($section == Config::get('constant.LEVEL2_SECTION_4'))
+                            <a class="btn btn-danger btn-flat pull-right" href="{{ url('admin/schoolLevel2Activity') }}{{$page}}"> {{trans('labels.cancelbtn')}}</a>
+                        @else
+                            <a class="btn btn-danger btn-flat pull-right" href="{{ url('admin/level2Activity') }}{{$page}}"> {{trans('labels.cancelbtn')}}</a>
+                        @endif
                     </div><!-- /.box-footer -->
                 </form>
             </div>   <!-- /.row -->

@@ -16,11 +16,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Level2ActivityRequest;
 use App\Services\Level2Activity\Contracts\Level2ActivitiesRepository;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
+use App\Services\Schools\Contracts\SchoolsRepository;
 
 class Level2ActivityManagementController extends Controller
 {
 
-    public function __construct(FileStorageRepository $fileStorageRepository, Level2ActivitiesRepository $level2ActivitiesRepository) {
+    public function __construct(FileStorageRepository $fileStorageRepository, Level2ActivitiesRepository $level2ActivitiesRepository, SchoolsRepository $schoolsRepository) {
         $this->objLevel2Activities = new Level2Activity();
         $this->level2ActivitiesRepository = $level2ActivitiesRepository;
         $this->fileStorageRepository = $fileStorageRepository;
@@ -29,6 +30,7 @@ class Level2ActivityManagementController extends Controller
         $this->level2ActivityThumbImageUploadPath = Config::get('constant.LEVEL2_ACTIVITY_THUMB_IMAGE_UPLOAD_PATH'); 
         $this->level2ActivityThumbImageHeight = Config::get('constant.LEVEL2_ACTIVITY_THUMB_IMAGE_HEIGHT');
         $this->level2ActivityThumbImageWidth = Config::get('constant.LEVEL2_ACTIVITY_THUMB_IMAGE_WIDTH');
+        $this->schoolsRepository = $schoolsRepository;
         $this->controller = 'Level2ActivityManagementController';
     }
     public function index()
@@ -159,6 +161,16 @@ class Level2ActivityManagementController extends Controller
     {
         $correctAnswerQuestionsIds = Helpers::getTeenAPIScore(8);
         $level2activities = $this->level2ActivitiesRepository->getAllSchoolLeve2Activities();
-        return view('admin.ListSchoolLevel2Activity',compact('level2activities','searchParamArray'));
+        $schools = $this->schoolsRepository->getApprovedSchools();
+        return view('admin.ListSchoolLevel2Activity',compact('level2activities','searchParamArray', 'schools'));
+    }
+
+    /* Returns searched List view of school l2 activity */
+    public function searchSchoolLevel2Activity()
+    {
+        $schoolId = Input::get('school');
+        $level2activities = $this->level2ActivitiesRepository->getAllSchoolLeve2Activities($schoolId);
+        $schools = $this->schoolsRepository->getApprovedSchools();
+        return view('admin.ListSchoolLevel2Activity',compact('level2activities','searchParamArray', 'schools'));
     }
 }

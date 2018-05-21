@@ -571,9 +571,9 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
     }
 
     // Returns school level 2 activities
-    public function getAllSchoolLeve2Activities()
+    public function getAllSchoolLeve2Activities($schoolId = '')
     {
-        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity")
+        $qry = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity")
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'activity.id', '=', 'options.l2op_activity')
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_APPTITUDE') . " AS apptitude", 'apptitude.id', '=', 'activity.l2ac_apptitude_type')
                           ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_MI') . " AS mi", 'mi.id', '=', 'activity.l2ac_mi_type')
@@ -582,7 +582,11 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
                           ->selectRaw('activity.* , GROUP_CONCAT(options.l2op_option) AS l2op_option, GROUP_CONCAT(options.l2op_fraction) AS l2op_fraction , mi.mit_name , interest.it_name , personality.pt_name, apptitude.apt_name')
                           ->groupBy('activity.id')
                           ->where('activity.section_type', Config::get('constant.LEVEL2_SECTION_4'))
-                          ->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'))->get(); 
+                          ->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'));
+        if (isset($schoolId) && !empty($schoolId)) {
+            $qry->where('activity.l2ac_school_id', $schoolId);
+        }
+        $level2activities = $qry->get(); 
         return $level2activities;
     }
 }
