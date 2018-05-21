@@ -122,12 +122,20 @@ class Level2ActivityManagementController extends Controller
         if($response)
         {
           Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.level2activityupdatesuccess'), serialize($activityDetail), $_SERVER['REMOTE_ADDR']);
-          return Redirect::to("admin/level2Activity".$postData['pageRank'])->with('success', trans('labels.level2activityupdatesuccess'));
+          if($activityDetail['section_type'] == Config::get('constant.LEVEL2_SECTION_4')) {
+            return Redirect::to("admin/schoolLevel2Activity".$postData['pageRank'])->with('success', trans('labels.level2activityupdatesuccess'));
+          } else {
+            return Redirect::to("admin/level2Activity".$postData['pageRank'])->with('success', trans('labels.level2activityupdatesuccess'));
+          }
         }
         else
         {
           Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_UPDATE'), Config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'), $response, Config::get('constant.AUDIT_ORIGIN_WEB'),  trans('labels.somethingwrong'), serialize($activityDetail), $_SERVER['REMOTE_ADDR']);
-          return Redirect::to("admin/level2Activity".$postData['pageRank'])->with('error', trans('labels.commonerrormessage'));
+          if ($activityDetail['section_type'] == Config::get('constant.LEVEL2_SECTION_4')) {
+            return Redirect::to("admin/schoolLevel2Activity".$postData['pageRank'])->with('success', trans('labels.level2activityupdatesuccess'));
+          } else {
+            return Redirect::to("admin/level2Activity".$postData['pageRank'])->with('error', trans('labels.commonerrormessage'));
+          }
         }
     }
 
@@ -144,5 +152,13 @@ class Level2ActivityManagementController extends Controller
         {
             return Redirect::to("admin/level2Activity")->with('error', trans('labels.commonerrormessage'));
         }
+    }
+
+    /* Returns List view of school l2 activity */
+    public function schoolLevel2Activity()
+    {
+        $correctAnswerQuestionsIds = Helpers::getTeenAPIScore(8);
+        $level2activities = $this->level2ActivitiesRepository->getAllSchoolLeve2Activities();
+        return view('admin.ListSchoolLevel2Activity',compact('level2activities','searchParamArray'));
     }
 }

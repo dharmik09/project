@@ -38,7 +38,7 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
         if (isset($schoolId) && !empty($schoolId) && $schoolId > 0) {
             $level2activities = $query->where('activity.l2ac_school_id', $schoolId)->where('activity.deleted', Config::get('constant.ACTIVE_FLAG'))->paginate(Config::get('constant.RECORD_PER_PAGE'));
         } else {
-            $level2activities = $query->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'))->get(); 
+            $level2activities = $query->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'))->where('activity.section_type', '<>',Config::get('constant.LEVEL2_SECTION_4'))->get(); 
         }
         return $level2activities;
     }
@@ -568,5 +568,21 @@ class EloquentLevel2ActivitiesRepository extends EloquentBaseRepository implemen
         }
         
         return $activities;  
+    }
+
+    // Returns school level 2 activities
+    public function getAllSchoolLeve2Activities()
+    {
+        $level2activities = DB::table(config::get('databaseconstants.TBL_LEVEL2_ACTIVITY'). " AS activity")
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_OPTIONS') . " AS options", 'activity.id', '=', 'options.l2op_activity')
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_APPTITUDE') . " AS apptitude", 'apptitude.id', '=', 'activity.l2ac_apptitude_type')
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_MI') . " AS mi", 'mi.id', '=', 'activity.l2ac_mi_type')
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_INTEREST') . " AS interest", 'interest.id', '=', 'activity.l2ac_interest')
+                          ->leftjoin(config::get('databaseconstants.TBL_LEVEL2_PERSONALITY') . " AS personality", 'personality.id', '=', 'activity.l2ac_personality_type')
+                          ->selectRaw('activity.* , GROUP_CONCAT(options.l2op_option) AS l2op_option, GROUP_CONCAT(options.l2op_fraction) AS l2op_fraction , mi.mit_name , interest.it_name , personality.pt_name, apptitude.apt_name')
+                          ->groupBy('activity.id')
+                          ->where('activity.section_type', Config::get('constant.LEVEL2_SECTION_4'))
+                          ->where('activity.deleted', '<>', Config::get('constant.DELETED_FLAG'))->get(); 
+        return $level2activities;
     }
 }

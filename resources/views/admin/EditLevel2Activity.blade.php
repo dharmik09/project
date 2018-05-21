@@ -242,10 +242,14 @@
                         <label for="category_type" class="col-sm-2 control-label">{{trans('labels.formlblsection')}}</label>
                         <div class="col-sm-6">
                             <select class="form-control" id="section_type" name="section_type">
+                            @if ($section == Config::get('constant.LEVEL2_SECTION_4'))
+                                <option value="{{Config::get('constant.LEVEL2_SECTION_4')}}" <?php if($section == Config::get('constant.LEVEL2_SECTION_4')) echo 'selected'; ?>>{{trans('labels.formlblsection')}} {{Config::get('constant.LEVEL2_SECTION_4')}}</option>
+                            @else
                                 <option value="" disabled>{{trans('labels.formlblselectsection')}}</option>
                                 <option value="{{Config::get('constant.LEVEL2_SECTION_1')}}" <?php if($section == Config::get('constant.LEVEL2_SECTION_1')) echo 'selected'; ?>>{{trans('labels.formlblsection')}} {{Config::get('constant.LEVEL2_SECTION_1')}}</option>
                                 <option value="{{Config::get('constant.LEVEL2_SECTION_2')}}" <?php if($section == Config::get('constant.LEVEL2_SECTION_2')) echo 'selected'; ?>>{{trans('labels.formlblsection')}} {{Config::get('constant.LEVEL2_SECTION_2')}}</option>
                                 <option value="{{Config::get('constant.LEVEL2_SECTION_3')}}" <?php if($section == Config::get('constant.LEVEL2_SECTION_3')) echo 'selected'; ?>>{{trans('labels.formlblsection')}} {{Config::get('constant.LEVEL2_SECTION_3')}}</option>
+                            @endif
                             </select>
                         </div>
                     </div>

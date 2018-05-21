@@ -304,6 +304,10 @@ Route::get('/addLevel2Activity', 'Admin\Level2ActivityManagementController@add')
 Route::get('/editLevel2Activity/{id}', 'Admin\Level2ActivityManagementController@edit')->name('editLevel2Activity');
 Route::post('/saveLevel2Activity', 'Admin\Level2ActivityManagementController@save')->name('saveLevel2Activity');
 
+//L2 School Activity
+Route::get('/schoolLevel2Activity', 'Admin\Level2ActivityManagementController@schoolLevel2Activity')->name('schoolLevel2Activity');
+Route::post('/schoolLevel2Activity', 'Admin\Level2ActivityManagementController@schoolLevel2Activity')->name('schoolLevel2Activity');
+
 //Level 3 Section
 
 //Baskets

@@ -179,6 +179,11 @@
                                             <i class="{{ (Request::is('admin/level2Activity')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.activity')}}
                                         </a>
                                     </li>
+                                    <li class="{{ (Request::is('admin/schoolLevel2Activity')) ? 'active' : '' }}">
+                                        <a href="{{ url('admin/schoolLevel2Activity') }}">
+                                            <i class="{{ (Request::is('admin/schoolLevel2Activity')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>School Activity
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="{{ (Request::is('admin/baskets') || Request::is('admin/addBasket') || Request::is('admin/editBasket/*') || Request::is('admin/saveBaskets') ||Request::is('admin/deleteBaskets') || Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*') || Request::is('admin/addProfessionBulk') || Request::is('admin/saveProfessionBulk') || Request::is('admin/exportProfessoin') || Request::is('admin/exportCompetitors') || Request::is('admin/headers') || Request::is('admin/addHeader') || Request::is('admin/editHeader/*') || Request::is('admin/deleteHeader') || Request::is('admin/deleteHeader/*') || Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*') || Request::is('admin/importExcel') || Request::is('admin/addImportExcel') || Request::is('admin/professionCertifications') || Request::is('admin/professionSubjects') || Request::is('admin/professionTags') || Request::is('admin/addProfessionTag') || Request::is('admin/editProfessionTag/*') || Request::is('admin/saveProfessionTag') || Request::is('admin/deleteProfessionTag/*')) ? 'active' : '' }} treeview">
