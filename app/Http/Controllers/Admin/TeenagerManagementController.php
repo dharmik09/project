@@ -317,19 +317,15 @@ class TeenagerManagementController extends Controller {
         if ($return) {
             if ($teenagerDetails && !empty($teenagerDetails))
             {
-                $teenUniqueId = $teenagerDetails->t_uniqueid;
-                   
                 //delete user from applozic
-                $postData = array('userId' => $teenUniqueId);
-                $jsonData = json_encode($postData);
                 $curlObj = curl_init();
-                curl_setopt($curlObj, CURLOPT_URL, ' https://apps.applozic.com/rest/ws/user/delete');
+                curl_setopt($curlObj, CURLOPT_URL, 'https://apps.applozic.com/rest/ws/user/delete');
                 curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
                 curl_setopt($curlObj, CURLOPT_HEADER, 0);
-                curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json','Apz-AppId:'.Config::get('constant.APP_LOGIC_CHAT_API_KEY'),'Apz-Token:BASIC cHJvdGVlbmxpZmVAZ21haWwuY29tOiFQcm9UZWVubGlmZSE='));
+                curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json','Apz-AppId:'.Config::get('constant.APP_LOGIC_CHAT_API_KEY'),'Apz-Token:BASIC cHJvdGVlbmxpZmVAZ21haWwuY29tOiFQcm9UZWVubGlmZSE=','Of-User-Id:'.$teenagerDetails->t_uniqueid));
                 curl_setopt($curlObj, CURLOPT_POST, 1);
-                curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
+                //curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
                 $result = curl_exec($curlObj);
                 $json = json_decode($result);
             }

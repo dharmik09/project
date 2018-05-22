@@ -1684,7 +1684,7 @@
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f28538', endColorstr='#07c9a5', GradientType=1) !important;*/
         z-index: 9;
         //background-color: #fff;
-        border-right: 1px solid #565b5f;
+        border-right: 2px solid #565b5f;
     }
     .skill-name {
         width: 45%;
@@ -2074,4 +2074,3 @@ text.highcharts-xaxis-title {
     display: none;
 }
 .advanced-sec .personal-strength .progress-bar.bg-success{z-index: 9;}
-.advanced-sec .personal-strength .progress-bar.progress-bar-primary{border-right: none;}
