@@ -323,7 +323,7 @@ class TeenagerManagementController extends Controller {
                 $postData = array('userId' => $teenUniqueId);
                 $jsonData = json_encode($postData);
                 $curlObj = curl_init();
-                curl_setopt($curlObj, CURLOPT_URL, ' https://apps.applozic.com/rest/ws/user/delete');
+                curl_setopt($curlObj, CURLOPT_URL, 'https://apps.applozic.com/rest/ws/user/delete');
                 curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
                 curl_setopt($curlObj, CURLOPT_HEADER, 0);
