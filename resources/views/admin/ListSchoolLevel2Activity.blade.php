@@ -19,10 +19,10 @@
                 <div class="form-group"> 
                     <label for="chart" class="col-sm-1 control-label">School:</label>
                     <div class="col-sm-6">
-                        <select id="school" name="school" class="form-control">
+                        <select id="school" name="school" class="form-control chosen-select">
                             <option value="">Select</option>     
                             @forelse ($schools as $school)
-                                <option value="{{ $school->school_id }}">{{$school->sc_name}}</option>
+                                <option value="{{ $school->school_id }}" <?php if (isset($schoolId) && $schoolId != "" && $school->school_id == $schoolId) { ?> selected <?php } ?> >{{$school->sc_name}}</option>
                             @empty
                             @endforelse
                         </select>
@@ -128,9 +128,20 @@
 @stop
 
 @section('script')
+<script src="{{ asset('backend/js/chosen.jquery.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#listLevel2Activity').DataTable();
     });
+    var config = {
+        '.chosen-select': {},
+        '.chosen-select-deselect': {allow_single_deselect: true},
+        '.chosen-select-no-single': {disable_search_threshold: 10},
+        '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
+        '.chosen-select-width': {width: "95%"},
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
 </script>
 @stop

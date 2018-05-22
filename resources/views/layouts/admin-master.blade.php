@@ -169,7 +169,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*') || Request::is('admin/schoolLevel2Activity')) ? 'active' : '' }} treeview">
+                            <li class="{{ (Request::is('admin/level2Activity') || Request::is('admin/addLevel2Activity') || Request::is('admin/editLevel2Activity/*') || Request::is('admin/saveLevel2Activity') || Request::is('admin/deleteLevel2Activity/*') || Request::is('admin/schoolLevel2Activity') || Request::is('admin/searchSchoolLevel2Activity')) ? 'active' : '' }} treeview">
                                 <a href="{{ url('admin/level2Activity') }}">
                                     <i class="fa fa-dashboard"></i> <span>{{trans('labels.level2')}}</span><i class="fa fa-angle-left pull-right"></i>
                                 </a>
@@ -179,9 +179,9 @@
                                             <i class="{{ (Request::is('admin/level2Activity')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.activity')}}
                                         </a>
                                     </li>
-                                    <li class="{{ (Request::is('admin/schoolLevel2Activity')) ? 'active' : '' }}">
+                                    <li class="{{ (Request::is('admin/schoolLevel2Activity') || Request::is('admin/searchSchoolLevel2Activity')) ? 'active' : '' }}">
                                         <a href="{{ url('admin/schoolLevel2Activity') }}">
-                                            <i class="{{ (Request::is('admin/schoolLevel2Activity')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>School Activity
+                                            <i class="{{ (Request::is('admin/schoolLevel2Activity') || Request::is('admin/searchSchoolLevel2Activity')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>School Activity
                                         </a>
                                     </li>
                                 </ul>

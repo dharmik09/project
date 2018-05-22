@@ -171,6 +171,6 @@ class Level2ActivityManagementController extends Controller
         $schoolId = Input::get('school');
         $level2activities = $this->level2ActivitiesRepository->getAllSchoolLeve2Activities($schoolId);
         $schools = $this->schoolsRepository->getApprovedSchools();
-        return view('admin.ListSchoolLevel2Activity',compact('level2activities','searchParamArray', 'schools'));
+        return view('admin.ListSchoolLevel2Activity',compact('level2activities','schoolId', 'schools'));
     }
 }
