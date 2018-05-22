@@ -14,24 +14,31 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <form method="POST" action="{{ url('admin/searchSchoolLevel2Activity') }}">
-                {{csrf_field()}}
-                <div class="form-group"> 
-                    <label for="chart" class="col-sm-1 control-label">School:</label>
-                    <div class="col-sm-6">
-                        <select id="school" name="school" class="form-control chosen-select">
-                            <option value="">Select</option>     
-                            @forelse ($schools as $school)
-                                <option value="{{ $school->school_id }}" <?php if (isset($schoolId) && $schoolId != "" && $school->school_id == $schoolId) { ?> selected <?php } ?> >{{$school->sc_name}}</option>
-                            @empty
-                            @endforelse
-                        </select>
+            <div class="box box-info">
+                <form method="POST" class="form-horizontal" action="{{ url('admin/searchSchoolLevel2Activity') }}">
+                    {{csrf_field()}}
+                    <div class="box-body">
+                        <div class="form-group"> 
+                            <label for="chart" class="col-sm-2 control-label">Select School:</label>
+                            <div class="col-sm-6">
+                                <select id="school" name="school" class="form-control chosen-select">
+                                    <option value="">Select</option>     
+                                    @forelse ($schools as $school)
+                                        <option value="{{ $school->school_id }}" <?php if (isset($schoolId) && $schoolId != "" && $school->school_id == $schoolId) { ?> selected <?php } ?> >{{$school->sc_name}}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-3">
+                                <input id="search" type="submit" class="btn btn-primary btn-flat" value="{{trans('labels.search')}}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-">
-                        <input type="submit" class="btn btn-warning btn-primary" value="{{trans('labels.lblsearch')}}">
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
             <div class="box-header pull-right ">
                 <i class="s_active fa fa-square"></i> {{trans('labels.activelbl')}} <i class="s_inactive fa fa-square"></i>{{trans('labels.inactivelbl')}}
             </div>
@@ -115,7 +122,7 @@
                             <?php $serialno++; ?>
                             @empty
                             <tr>
-                                <td colspan="6"><center>{{trans('labels.norecordfound')}}</center></td>
+                                <td colspan="8"><center>{{trans('labels.norecordfound')}}</center></td>
                             </tr>
                             @endforelse
                         </tbody>
