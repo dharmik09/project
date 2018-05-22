@@ -432,7 +432,7 @@
                                                     <div class="progress {{$exceedClass}}">
                                                         <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin = "0" aria-valuemax = "100" style="width: {{$value['score']}}%;">
                                                         </div>
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{round($value['lowscoreH'])}}%; background-color:#65c6e6;" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{round($value['lowscoreH'])}}%; background-color:rgb(101, 198, 230,0.4);" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             @empty
