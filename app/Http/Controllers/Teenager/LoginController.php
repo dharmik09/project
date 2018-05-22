@@ -102,12 +102,14 @@ class LoginController extends Controller
         //$currentProgress = Helpers::calculateProfileComplete($user->id);
         
         $basicBoosterPoint = $this->teenagersRepository->getTeenagerBasicBooster($user->id);
-       
-        $increasedProgress = ($basicBoosterPoint['Total'] - $user->t_logout_progress)/100;
+        $increasedProgress = 0;
+        if (isset($basicBoosterPoint) && !empty($basicBoosterPoint) && isset($basicBoosterPoint['Total'])) {
+            $increasedProgress = ($basicBoosterPoint['Total'] - $user->t_logout_progress)/100;
+            $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($user->id, $increasedProgress,$basicBoosterPoint['Total']);
+        }
         if ($user->is_sound_on == 1){
             Session::put('user_logout', 1);
         }
-        $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($user->id, $increasedProgress,$basicBoosterPoint['Total']);
         Auth::guard('teenager')->logout();
         return redirect()->to(route('login'))->with('success', 'Logout successfully!');;
     }
