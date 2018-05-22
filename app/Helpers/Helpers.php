@@ -1222,14 +1222,14 @@ Class Helpers {
             $data['timeLineText'] = "Completed their profile " . $profileComplte . "%";
             $finalData[] = $data; 
         }
-        if (count($teenagerCareers) > 0) {
-            foreach ($teenagerCareers as $career) {
-                $careerData = [];
-                $careerData['date'] = date('d, F Y', strtotime($career->created_at));
-                $careerData['timeLineText'] = $career->pf_name ." added as favorite career";
-                $finalData[] = $careerData;
-            }
-        }
+        // if (count($teenagerCareers) > 0) {
+        //     foreach ($teenagerCareers as $career) {
+        //         $careerData = [];
+        //         $careerData['date'] = date('d, F Y', strtotime($career->created_at));
+        //         $careerData['timeLineText'] = $career->pf_name ." added as favorite career";
+        //         $finalData[] = $careerData;
+        //     }
+        // }
         if (count($teenagerSentConnections) > 0) {
             foreach ($teenagerSentConnections as $sentConnection) {
                 $sentConnectionData = [];
@@ -1243,7 +1243,7 @@ Class Helpers {
                 $receivedConnectionData = [];
                 $receivedConnectionData['date'] = date('d, F Y', strtotime($recivedConnection->created_at));
                 $receivedConnectionData['timeLineText'] = "Connected with " . ucfirst($recivedConnection->t_name) . " " . ucfirst($recivedConnection->t_lastname);
-                $finalData[] = $receivedConnection;
+                $finalData[] = $receivedConnectionData;
             }
         }
         if (count($teenagerScholarshipProgram) > 0) {
