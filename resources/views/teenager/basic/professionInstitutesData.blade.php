@@ -46,19 +46,19 @@
         }
         
         if($instituteName != ""){
-            // $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($instituteName).'&sensor=false&iwloc=near');
+            $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($instituteName).'&sensor=false&iwloc=near');
 
-            // $output= json_decode($geocode);
-            // if(count($output->results)>0)
-            // {
-            //     $latitude = $output->results[0]->geometry->location->lat;
-            //     $longitude = $output->results[0]->geometry->location->lng;
-            //     $instituteMapUrl = "https://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
-            // }
-            // elseif(isset($value->latitude) && $value->latitude != "" && isset($value->longitude) && $value->longitude != "")
-            // {
-            //     $instituteMapUrl = "https://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=10&output=embed&iwloc=near";
-            // }
+            $output= json_decode($geocode);
+            if(count($output->results)>0)
+            {
+                $latitude = $output->results[0]->geometry->location->lat;
+                $longitude = $output->results[0]->geometry->location->lng;
+                $instituteMapUrl = "https://maps.google.com/maps?q=".$latitude.", ".$longitude."&z=10&output=embed&iwloc=near";
+            }
+            elseif(isset($value->latitude) && $value->latitude != "" && isset($value->longitude) && $value->longitude != "")
+            {
+                $instituteMapUrl = "https://maps.google.com/maps?q=".$value->latitude.", ".$value->longitude."&z=10&output=embed&iwloc=near";
+            }
         }
       
         if(isset($value->affiliat_university) && $value->affiliat_university != ""){
