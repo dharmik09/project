@@ -312,8 +312,28 @@ class TeenagerManagementController extends Controller {
     }
 
     public function delete($id) {
+        $teenagerDetails = Teenagers::find($id);
         $return = $this->teenagersRepository->deleteTeenager($id);
         if ($return) {
+            if ($teenagerDetails && !empty($teenagerDetails))
+            {
+                $teenUniqueId = $teenagerDetails->t_uniqueid;
+                   
+                //delete user from applozic
+                $postData = array('userId' => $teenUniqueId);
+                $jsonData = json_encode($postData);
+                $curlObj = curl_init();
+                curl_setopt($curlObj, CURLOPT_URL, ' https://apps.applozic.com/rest/ws/user/delete');
+                curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($curlObj, CURLOPT_HEADER, 0);
+                curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json','Apz-AppId:'.Config::get('constant.APP_LOGIC_CHAT_API_KEY'),'Apz-Token:BASIC cHJvdGVlbmxpZmVAZ21haWwuY29tOiFQcm9UZWVubGlmZSE='));
+                curl_setopt($curlObj, CURLOPT_POST, 1);
+                curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
+                $result = curl_exec($curlObj);
+                $json = json_decode($result);
+            }
+
             Helpers::createAudit($this->loggedInUser->user()->id, Config::get('constant.AUDIT_ADMIN_USER_TYPE'), Config::get('constant.AUDIT_ACTION_DELETE'), Config::get('databaseconstants.TBL_TEENAGERS'), $id, Config::get('constant.AUDIT_ORIGIN_WEB'), trans('labels.teendeletesuccess'), '', $_SERVER['REMOTE_ADDR']);
             $this->log->info('Admin Teen deleted successfully',array('userid'=>$this->loggedInUser->user()->id,'teenid' => $id));
             return Redirect::to("admin/teenagers")->with('success', trans('labels.teendeletesuccess'));
