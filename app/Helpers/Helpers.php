@@ -1179,100 +1179,64 @@ Class Helpers {
 
         $finalData = [];                  
         if (!empty($teenager)) {
-            $data = [];
-            $data['date'] = date('d, F Y', strtotime($teenager[0]->created_at));
-            $data['timeLineText'] = 'Registered with ProTeen';
-            $finalData[] = $data;
+            $finalData[strtotime($teenager[0]->created_at)] = 'Registered with ProTeen';
         }
         if (!empty($teenagerLevel1Answer)) {
-            $data = [];
-            $data['date'] = date('d, F Y', strtotime($teenagerLevel1Answer[0]->created_at));
-            $data['timeLineText'] = 'Started Playing Votes'; 
-            $finalData[] = $data;
+            $finalData[strtotime($teenagerLevel1Answer[0]->created_at)] = 'Started Playing Votes';
         }
         if (!empty($teenagerLevel2Answer)) {
-            $data = [];
-            $data['date'] = date('d, F Y', strtotime($teenagerLevel2Answer[0]->created_at));
-            $data['timeLineText'] = 'Started Playing Profile Builder';
-            $finalData[] = $data; 
+            $finalData[strtotime($teenagerLevel2Answer[0]->created_at)] = 'Started Playing Profile Builder'; 
         }
         if (!empty($teenagerLevel3Answer)) {
-            $data = [];
-            $data['date'] = date('d, F Y', strtotime($teenagerLevel3Answer[0]->created_at));
-            $data['timeLineText'] = 'Started Playing Career Research';
-            $finalData[] = $data;
+            $finalData[strtotime($teenagerLevel3Answer[0]->created_at)] = 'Started Playing Career Research';
         }
         if (!empty($teenagerLevel4Answer)) {
-            $data = [];
-            $data['date'] = date('d, F Y', strtotime($teenagerLevel4Answer[0]->created_at));
-            $data['timeLineText'] = 'Started Playing Career Role Play';
-            $finalData[] = $data;
+            $finalData[strtotime($teenagerLevel4Answer[0]->created_at)] = 'Started Playing Career Role Play';
         }
         if (count($teenagerCareers) > 0) {
             foreach ($teenagerCareers as $career) {
-                $tempData = [];
-                $tempData['date'] = date('d, F Y', strtotime($career->created_at));
-                $tempData['timeLineText'] = $career->pf_name ." added as favorite career";
-                $finalData[] = $tempData;
+                $finalData[strtotime($career->created_at)] = $career->pf_name ." added as favorite career";
             }
         }
         if ($profileComplte && $profileComplte > 0) {
-            $data = [];
-            $data['date'] = date('d, F Y', strtotime(Carbon::now()));
-            $data['timeLineText'] = "Completed their profile " . $profileComplte . "%";
-            $finalData[] = $data; 
+            $finalData[strtotime(Carbon::now())] = "Completed their profile " . $profileComplte . "%";
         }
-        // if (count($teenagerCareers) > 0) {
-        //     foreach ($teenagerCareers as $career) {
-        //         $careerData = [];
-        //         $careerData['date'] = date('d, F Y', strtotime($career->created_at));
-        //         $careerData['timeLineText'] = $career->pf_name ." added as favorite career";
-        //         $finalData[] = $careerData;
-        //     }
-        // }
         if (count($teenagerSentConnections) > 0) {
             foreach ($teenagerSentConnections as $sentConnection) {
-                $sentConnectionData = [];
-                $sentConnectionData['date'] = date('d, F Y', strtotime($sentConnection->created_at));
-                $sentConnectionData['timeLineText'] = "Connected with " . ucfirst($sentConnection->t_name) . " " . ucfirst($sentConnection->t_lastname);
-                $finalData[] = $sentConnectionData;
+                $finalData[strtotime($sentConnection->created_at)] = "Connected with " . ucfirst($sentConnection->t_name) . " " . ucfirst($sentConnection->t_lastname);
             }
         }
         if (count($teenagerReceivedConnections) > 0) {
             foreach ($teenagerReceivedConnections as $recivedConnection) {
-                $receivedConnectionData = [];
-                $receivedConnectionData['date'] = date('d, F Y', strtotime($recivedConnection->created_at));
-                $receivedConnectionData['timeLineText'] = "Connected with " . ucfirst($recivedConnection->t_name) . " " . ucfirst($recivedConnection->t_lastname);
-                $finalData[] = $receivedConnectionData;
+                $finalData[strtotime($recivedConnection->created_at)] = "Connected with " . ucfirst($recivedConnection->t_name) . " " . ucfirst($recivedConnection->t_lastname);
             }
         }
         if (count($teenagerScholarshipProgram) > 0) {
             foreach ($teenagerScholarshipProgram as $scholarshipProgram) {
-                $scholarshipData = [];
-                $scholarshipData['date'] = date('d, F Y', strtotime($scholarshipProgram->created_at));
-                $scholarshipData['timeLineText'] = "Applied for " . ucfirst($scholarshipProgram->sa_name);
-                $finalData[] = $scholarshipData;
+                $finalData[strtotime($scholarshipProgram->created_at)] = "Applied for " . ucfirst($scholarshipProgram->sa_name);
             }
         }
         if (count($teenagerChallenges) > 0) {
             foreach ($teenagerChallenges as $challenge) {
-                $challegeData = [];
-                $challegeData['date'] = date('d, F Y', strtotime($challenge->created_at));
-                $challegeData['timeLineText'] = "Challenged " . $challenge->p_first_name . " " . $challenge->p_last_name  . " to play " . ucfirst($challenge->pf_name);
-                $finalData[] = $challegeData;
+                $finalData[strtotime($challenge->created_at)] = "Challenged " . $challenge->p_first_name . " " . $challenge->p_last_name  . " to play " . ucfirst($challenge->pf_name);
             }
         }
 
         if (count($attemptedProfessions) > 0) {
             foreach ($attemptedProfessions as $profession) {
-                $attemptedProfessions = [];
-                $attemptedProfessions['date'] = date('d, F Y', strtotime($profession->created_at));
-                $attemptedProfessions['timeLineText'] = "Career " . $profession->pf_name . " role played";
-                $finalData[] = $attemptedProfessions;
+                $finalData[strtotime($profession->created_at)] = "Career " . $profession->pf_name . " role played";
             }
         }
 
-        return array_values($finalData);
+        krsort($finalData);
+        $dataArr = [];
+        foreach ($finalData as $key => $value) {
+            $data = [];
+            $data['date'] = date("d, F Y", $key);
+            $data['timeLineText'] = $value;
+            $dataArr[] = $data;
+        }
+        return array_values($dataArr);
     }
 
     //Get teenager meta data
