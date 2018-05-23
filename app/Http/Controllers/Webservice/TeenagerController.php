@@ -342,7 +342,7 @@ class TeenagerController extends Controller
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         if($teenager) {
             $data = [];
-            $data = Helpers::getTeenagerTimeLine($request->userId);
+            //$data = Helpers::getTeenagerTimeLine($request->userId);
             $response['login'] = 1;
             $response['status'] = 1;
             $response['message'] = trans('appmessages.default_success_msg');

@@ -48,7 +48,7 @@
                     <input id="selectAll" name="selectAll" type="checkbox" value="">
                 </div>
                 <div class="col-md-3">
-                    <a id="bulkDelete" href="javascript:void(0);" class="btn btn-block btn-primary">Bulk Delete</a>
+                    <a id="bulkDelete" href="javascript:void(0);" class="btn btn-block btn-primary bulkDelete">Bulk Delete</a>
                 </div>
             </div>
             <div class="box-header pull-right ">
@@ -83,6 +83,7 @@
         if ($("input:checkbox:checked").length == 0) {
             alert("Check at least one checkbox");
         } else {
+            $("#bulkDelete").toggleClass('sending').blur();
             var iconsCheckbox = [];
             $("input[name='iconsCheckbox[]']").each( function () {
                 if ($(this).prop('checked') == true) {
@@ -109,6 +110,7 @@
                     }
                     $("#selectAll").prop('checked', false);
                     $(".level1HumanIcon").html(response.view);
+                    $("#bulkDelete").removeClass('sending').blur();
                 }
             });
         }

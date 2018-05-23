@@ -1,16 +1,14 @@
 <table id="listCartoonIcon" class="table table-striped display" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>{{trans('labels.cartooniconheadname')}}</th>
-                                <th>{{trans('labels.humaniconheadcategory')}}</th>
-    <!--                            <th>{{trans('labels.humaniconheadprofession')}}</th>-->
-                                <th>{{trans('labels.cartooniconheadimage')}}</th>
-                                <th>{{trans('labels.cartooniconheadaction')}}</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody> 
+<thead>
+    <tr>
+        <th></th>
+        <th>{{trans('labels.cartooniconheadname')}}</th>
+        <th>{{trans('labels.humaniconheadcategory')}}</th>
+        <th>{{trans('labels.cartooniconheadimage')}}</th>
+        <th>{{trans('labels.cartooniconheadaction')}}</th>
+    </tr>
+</thead>
+<tbody> 
                         
                     
 @forelse($level1cartoonicon as $level1icon)
