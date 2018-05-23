@@ -386,7 +386,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             }
 
             $questionsID[] = $response['questionID'];
-            $deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
+            //$deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
         }
 
         $teenagerLevel4PointsRow = [];
@@ -418,7 +418,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER'))->where('id', $teenagerIntermediateAnswer->id)->update($data);
         } else {
             DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER'))->insert($data);
-            $deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
+            //$deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
         }
 
         $teenagerLevel4PointsRow = [];
@@ -460,7 +460,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER'))->where('id', $teenagerIntermediateAnswer->id)->update($data);
         } else {
             DB::table(config::get('databaseconstants.TBL_LEVEL4_INTERMEDIATE_ACTIVITY_ANSWER'))->insert($data);
-            $deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
+            //$deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
         }
 
         $teenagerLevel4PointsRow = [];
@@ -495,7 +495,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             }
         }
 
-        $deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
+        //$deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
         $teenagerLevel4PointsRow = [];
         $teenagerLevel4PointsRow['tlb_teenager'] = $teenagerId;
         $teenagerLevel4PointsRow['tlb_level'] = config::get('constant.LEVEL4_ID');
@@ -529,7 +529,7 @@ class EloquentLevel4ActivitiesRepository extends EloquentBaseRepository implemen
             }
         }
 
-        $deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
+        //$deductPointsFromBoosterPoints = Helpers::deductTeenagerPoints($teenagerId, config::get('constant.LEVEL4_DEDUCT_POINTS'));
         $teenagerLevel4PointsRow = [];
         $teenagerLevel4PointsRow['tlb_teenager'] = $teenagerId;
         $teenagerLevel4PointsRow['tlb_level'] = config::get('constant.LEVEL4_ID');
