@@ -189,7 +189,7 @@ class SignupController extends Controller
                                 }
                             }
                         }
-
+                        $recordData['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
                         $teenagerDetailSaved = $this->teenagersRepository->saveTeenagerDetail($recordData);
                         $teenagerDetailSaved->t_photo = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerOriginalImageUrl($teenagerDetailSaved->t_photo) : "";
                         $teenagerDetailSaved->t_photo_thumb = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerThumbImageUrl($teenagerDetailSaved->t_photo) : "";
