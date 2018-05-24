@@ -211,6 +211,8 @@ class LoginController extends Controller
         $parentDetail['p_state'] = (Input::get('state') != '') ? e(Input::get('state')) : '';
         $parentDetail['p_country'] = (Input::get('country') != '') ? e(Input::get('country')) : '';
         $parentDetail['p_gender'] = (Input::get('gender') != '') ? e(Input::get('gender')) : '';
+        $parentInitialCoins = Helpers::getConfigValueByKey('PARENT_INITIAL_COINS');
+        $parentDetail['p_coins'] = (isset($parentInitialCoins) && !empty($parentInitialCoins)) ? $parentInitialCoins : 0;
         $p_email = (Input::get('email') != '') ? e(Input::get('email')) : '';
         $parentDetail['password'] = (Input::get('password') != '') ? bcrypt(e(Input::get('password'))) : '';
         //Image upload
