@@ -131,9 +131,11 @@ class LoginController extends Controller
                 $return = $this->objTeenagerLoginToken->deletedTeenagerLoginDetail($request->userId, $request->deviceId);
                 
                 $basicBoosterPoint = $this->teenagersRepository->getTeenagerBasicBooster($request->userId);
-                
-                $increasedProgress = ($basicBoosterPoint['Total'] - $user->t_logout_progress)/100;
-                $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($request->userId, $increasedProgress, $basicBoosterPoint['Total']);
+                $increasedProgress = 0;
+                if (isset($basicBoosterPoint) && !empty($basicBoosterPoint) && isset($basicBoosterPoint['Total'])) {
+                    $increasedProgress = ($basicBoosterPoint['Total'] - $user->t_logout_progress)/100;
+                    $teenDetails = $this->teenagersRepository->updateTeenagerProgressCalculationsById($request->userId, $increasedProgress, $basicBoosterPoint['Total']);
+                }
                 
                 $response['status'] = 1;
                 $response['message'] = 'Logout successfully!';
