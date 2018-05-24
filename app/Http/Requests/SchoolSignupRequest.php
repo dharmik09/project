@@ -40,7 +40,7 @@ class SchoolSignupRequest extends Request {
                 'logo' => 'required | mimes:jpeg,jpg,bmp,png',
                 'photo' => ' mimes:jpeg,jpg,bmp,png',
                 'password' => 'required | min : 6',
-                'email'=> "required | email | unique:".Config::get('databaseconstants.TBL_SCHOOLS').",sc_email," . $this->get('id'),
+                'email'=> "required | email | unique:".Config::get('databaseconstants.TBL_SCHOOLS').",sc_email," . $this->get('id') . ",id,deleted,1",
 
             ];
     }
