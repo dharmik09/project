@@ -134,18 +134,20 @@ class ParentController extends Controller
                         // --------------------start sending mail -----------------------------//
                         $replaceArray = array();
                         $replaceArray['PARENT_NAME'] = (isset($parentData['p_first_name']) && !empty($parentData['p_first_name'])) ? $parentData['p_first_name'] : "";
-                        
+                        $replaceArray['PARENT_UNIQUEID'] = Helpers::getParentUniqueId();
                         if($parentDetail['p_user_type'] == 1) {
                             $replaceArray['PARENT_SET_PROFILE_URL'] = url("parent/set-profile");
                             $replaceArray['PARENT_LOGIN_URL'] = url("parent/login");
+                            $replaceArray['VERIFICATION_URL'] = url("parent/verify-parent-teen-pair-registration?token=" . $replaceArray['PARENT_UNIQUEID']);
                         } else {
                             $replaceArray['PARENT_SET_PROFILE_URL'] = url("counselor/set-profile");
                             $replaceArray['PARENT_LOGIN_URL'] = url("counselor/login");
+                            $replaceArray['VERIFICATION_URL'] = url("counselor/verify-counselor-teen-pair-registration?token=" . $replaceArray['PARENT_UNIQUEID']);
                         }
                         $replaceArray['PARENT_EMAIL'] = $parentData['p_email'];
                         $replaceArray['PARENT_PASSWORD'] = "********"; //bcrypt(str_random(10));
-                        $replaceArray['PARENT_UNIQUEID'] = Helpers::getParentUniqueId();
-                        $replaceArray['VERIFICATION_URL'] = url("parent/verify-parent-teen-pair-registration?token=" . $replaceArray['PARENT_UNIQUEID']);
+                        
+                        
                         $replaceArray['USERNAME'] = ucwords($teenager->t_name." ".$teenager->t_lastname);
                         
                         if (isset($parentEmailExist) && $parentEmailExist) {
