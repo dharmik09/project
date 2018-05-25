@@ -323,8 +323,6 @@ $("#enddate").datepicker({
             $('#startdate').datepicker('destroy');
             $('#enddate').datepicker('destroy');
         <?php } else { ?>
-            //$("#enddate").datepicker("option", "minDate", <?php echo $sa_start_date; ?>);
-            //$("#enddate").datepicker("option", "maxDate", <?php echo $sa_end_date; ?>);
             $("#startdate").datepicker({
                 changeMonth: true,
                 changeYear: true,

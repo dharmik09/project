@@ -517,11 +517,11 @@
             ?>
             @if(isset($timeLine) && !empty($timeLine))
             <?php $flag = 0; ?>
-            @foreach($timeLine as $line=>$date)
+            @foreach($timeLine as $data)
 
             <tr bgcolor="#f58634">
-                <td>{{date('d, F Y',strtotime($date))}}</td>
-                <td>{{$line}}</td>
+                <td>{{$data['date']}}</td>
+                <td>{{$data['timeLineText']}}</td>
             </tr>
             <?php
             $flag++;
