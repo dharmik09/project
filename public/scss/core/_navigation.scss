@@ -101,7 +101,7 @@ nav {
             font-size: 43px;
             font-family: 'ab';
             text-decoration: none;
-            line-height: 85px;
+            line-height:1.5;
             text-transform: capitalize;
             display: inline-block;
             position: relative;
@@ -140,12 +140,12 @@ nav {
 
             @include maxms {
                 font-size: 18px;
-                line-height: 3;
+                //line-height: 3;
             }
 
             @include maxsm {
                 font-size: 22px;
-                line-height: 2;
+                //line-height: 2;
             }
         }
     }

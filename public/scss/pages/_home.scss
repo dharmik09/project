@@ -686,6 +686,12 @@ a[href^="mailto"] {
     @include  maxlg{
         max-width: 130px;
     }
+    @include maxmd{
+        max-width: 90px;
+    }
+    @include maxsm{
+        max-width: 60px;
+    }
     span {
         display: inline-block;
         width: 70%;
