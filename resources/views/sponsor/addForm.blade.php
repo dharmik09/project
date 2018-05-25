@@ -37,6 +37,7 @@
             <div class="col-md-offset-1 col-md-10 col-sm-12 padd_none">
                 <form name="addActivity" id="addActivity" method="post" class="sponsor_account_form" action="{{ url('/sponsor/save') }}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" id="endDateTypeWise" name="endDateTypeWise" val="" >
                     <h1><span class="title_border" style="margin-bottom: 30px;">Activities</span></h1>                    
                     <input type="hidden" name="id" value="<?php echo (isset($activityDetail) && !empty($activityDetail)) ? $activityDetail->id : '0' ?>">
                     <input type="hidden" name="hidden_logo" value="<?php echo (isset($activityDetail) && !empty($activityDetail)) ? $activityDetail->sa_image : '' ?>">
@@ -302,12 +303,16 @@ $("#startdate").datepicker({
         defaultDate: null,
         minDate: mdate('startdate'),
         onSelect: function (selected) {
-            //var dt = new Date(selected);
-            //dt.setDate(dt.getDate());
-            var date=new Date(selected.split('/')[2],(selected.split('/')[1]-0+1),selected.split('/')[0]);
-            var dt = date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear();
-            $("#enddate").datepicker("option", "minDate" ,selected);
-            $("#enddate").datepicker("option", "maxDate" ,dt);
+            var selectedDate = new Date(selected.split('/')[2],(selected.split('/')[1]),selected.split('/')[0]);
+            var getDays = $("#endDateTypeWise").val();
+            if (getDays != "") {
+                selectedDate.setDate(selectedDate.getDate() + parseInt(getDays));
+            } else {
+                selectedDate.setDate(selectedDate.getDate() + 30);
+            }
+            $("#enddate").datepicker("option", "minDate", selected);
+            var finalEndDate = selectedDate.getDate()+'/'+selectedDate.getMonth()+'/'+selectedDate.getFullYear();
+            $("#enddate").datepicker("option", "maxDate", finalEndDate);
         }
     }).on('change', function () {
         $(this).valid();
@@ -516,8 +521,32 @@ jQuery(document).ready(function () {
                 "_token": '{{ csrf_token() }}',
                 "configKey": configKey
             },
-            success: function (type) {
-                $("#creditdeducted").val(type);
+            success: function (response) {
+                if (response.requiredCredit != "") {
+                    $("#creditdeducted").val(response.requiredCredit);
+                }
+                
+                if (response.allowedDays && response.allowedDays != "") {
+                    var startDate = $("#startdate").val();
+                    if (startDate != "") {
+                        var setEndDate = new Date(startDate.split('/')[2],(startDate.split('/')[1]-1),startDate.split('/')[0]);
+                        setEndDate.setDate(setEndDate.getDate() + response.allowedDays);
+                        var finalEndDate = setEndDate.getDate()+'/'+ (setEndDate.getMonth()+1) +'/'+setEndDate.getFullYear();
+                        $("#enddate").datepicker("option", "minDate", startDate);
+                        $("#enddate").datepicker("option", "maxDate", finalEndDate);
+                    } else {
+                        var date = new Date();
+                        var currentDate = date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear();
+                        date.setDate(date.getDate() + response.allowedDays);
+                        var setEnddate = date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear();
+                        $("#enddate").datepicker("option", "minDate", currentDate);
+                        $("#enddate").datepicker("option", "maxDate", setEnddate);
+                    }
+                    $("#endDateTypeWise").val(response.allowedDays);
+                } else {
+                    $("#endDateTypeWise").val(30);
+                }
+
             }
         });
 

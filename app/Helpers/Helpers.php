@@ -1956,11 +1956,11 @@ Class Helpers {
 
     public static function getConfigValueByKeyForSponsor($key) {
         $configValue = DB::table(config::get('databaseconstants.TBL_PAID_COMPONENTS'))->where('pc_element_name', $key)->where('deleted', 1)->first();
-        if (isset($configValue) && !empty($configValue)) {
-            $configValue = $configValue->pc_required_coins;
-        } else {
-            $configValue = '';
-        }
+        // if (isset($configValue) && !empty($configValue)) {
+        //     $configValue = $configValue->pc_required_coins;
+        // } else {
+        //     $configValue = '';
+        // }
         return $configValue;
     }
 

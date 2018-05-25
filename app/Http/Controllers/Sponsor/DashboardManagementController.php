@@ -289,8 +289,15 @@ class DashboardManagementController extends Controller
     public function getCreditKey()
     {
         $configKey = Input::get('configKey');
+        $response = [];
         $credit = Helpers::getConfigValueByKeyForSponsor($configKey);
-        return $credit;
+        if (!empty($credit) && isset($credit)) {
+            $response['requiredCredit'] = $credit->pc_required_coins;
+            $response['allowedDays'] = $credit->pc_valid_upto;
+        } 
+        //return $credit;
+        return response()->json($response, 200);
+        exit;
     }
 
     public function inactive($id)
