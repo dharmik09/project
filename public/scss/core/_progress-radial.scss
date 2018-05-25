@@ -320,7 +320,7 @@
   background-image: linear-gradient(86.4deg, $cl-procedural 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $cl-procedural 50%, #c8cbce 50%, #c8cbce);
 }
 .progress-100 {
-  background-image: linear-gradient(90deg, $cl-procedural 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $cl-procedural 50%, #c8cbce 50%, #c8cbce);
+  background: $cl-procedural;
 }
 
 /*------ orange progressbar-------*/
@@ -626,7 +626,7 @@
   background-image: linear-gradient(86.4deg, $cl-complete 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $cl-complete 50%, #c8cbce 50%, #c8cbce);
 }
 .progress-orange.progress-100 {
-  background-image: linear-gradient(90deg, $cl-complete 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $cl-complete 50%, #c8cbce 50%, #c8cbce);
+  background: $cl-complete;
 }
 
 /*----------------strong match ----------------*/
@@ -931,7 +931,7 @@
   background-image: linear-gradient(86.4deg, $m-cl 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $m-cl 50%, #c8cbce 50%, #c8cbce);
 }
 .progress-strong.progress-100 {
-  background-image: linear-gradient(90deg, $m-cl 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $m-cl 50%, #c8cbce 50%, #c8cbce);
+  background:$m-cl;
 }
 
 
@@ -1237,7 +1237,7 @@
   background-image: linear-gradient(86.4deg, $remember-cl 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $remember-cl 50%, #c8cbce 50%, #c8cbce);
 }
 .progress-potential.progress-100 {
-  background-image: linear-gradient(90deg, $remember-cl 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $remember-cl 50%, #c8cbce 50%, #c8cbce);
+  background:$remember-cl;
 }
 
 /*--------------unlikely match -----------*/
@@ -1542,5 +1542,5 @@
   background-image: linear-gradient(86.4deg, $cl-analyzing 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $cl-analyzing 50%, #c8cbce 50%, #c8cbce);
 }
 .progress-unlikely.progress-100 {
-  background-image: linear-gradient(90deg, $cl-analyzing 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), linear-gradient(270deg, $cl-analyzing 50%, #c8cbce 50%, #c8cbce);
+  background: $cl-analyzing;
 }
