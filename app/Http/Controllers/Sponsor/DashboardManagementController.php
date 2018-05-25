@@ -21,6 +21,7 @@ use App\DeductedCoins;
 use App\Transactions;
 use App\Services\FileStorage\Contracts\FileStorageRepository;
 use App\TeenagerScholarshipProgram;
+use App\SponsorsActivity;
 
 class DashboardManagementController extends Controller
 {
@@ -96,6 +97,7 @@ class DashboardManagementController extends Controller
     {
         $sponsorData = $this->sponsorsRepository->getSponsorById($this->loggedInUser->user()->id);                               
         $sponsorAvailableCredit = $sponsorData->sp_credit;
+        $saDurationDays = "";
         if($sponsorAvailableCredit == 0){
             return Redirect::to("sponsor/home")->with('error', 'You don\'t have sufficient credit to add the activity. Please contact administrator for more detail.');
             exit;
@@ -103,7 +105,7 @@ class DashboardManagementController extends Controller
         $activityDetail = [];
         $uploadSAOrigionalPath = $this->saOrigionalImagePath;
         $uploadSAThumbPath = $this->saThumbImagePath;
-        return view('sponsor.addForm', compact('activityDetail','uploadSAThumbPath','uploadSAOrigionalPath'));
+        return view('sponsor.addForm', compact('activityDetail','uploadSAThumbPath','uploadSAOrigionalPath', 'saDurationDays'));
     }
     
     public function edit($id)
@@ -111,7 +113,29 @@ class DashboardManagementController extends Controller
         $uploadSAOrigionalPath = $this->saOrigionalImagePath;
         $uploadSAThumbPath = $this->saThumbImagePath;
         $activityDetail = $this->sponsorsRepository->getActivityById($id);
-        return view('sponsor.addForm', compact('activityDetail','uploadSAOrigionalPath','uploadSAThumbPath'));
+        $saDurationDays = 0;
+        $datePickerDisabled = 0;
+        if (isset($activityDetail) && !empty($activityDetail)) {
+            if ($activityDetail->sa_type == 1) {
+                $configKey = 'Ads ProCoins';
+            } else if ($activityDetail->sa_type == 2) {
+                $configKey = 'Event ProCoins';
+            } else if ($activityDetail->sa_type == 3) {
+                $configKey = 'Contest ProCoins';
+            } else {
+                $configKey = "";
+            }
+            $credit = Helpers::getConfigValueByKeyForSponsor($configKey);
+            $saDurationDays = (isset($credit) && !empty($credit)) ? $credit->pc_valid_upto : 0;
+            $sa_start_date = strtotime($activityDetail->sa_start_date);
+            $sa_end_date = strtotime($activityDetail->sa_end_date);
+            $currentDate = strtotime('today');
+            if ($currentDate >= $sa_start_date && $currentDate <= $sa_end_date) {
+                $datePickerDisabled = 1;
+            }
+        }
+
+        return view('sponsor.addForm', compact('activityDetail','uploadSAOrigionalPath','uploadSAThumbPath','saDurationDays','datePickerDisabled'));
     }
     
     public function save(AddSponsorActivityRequest $addSponsorActivityRequest)
@@ -251,6 +275,9 @@ class DashboardManagementController extends Controller
                 $activityDetail['sa_image'] = $fileName;
             }
         }
+        if ($activityDetail['id'] > 0) {
+            $sADetails = SponsorsActivity::find($activityDetail['id']);
+        }
         $response = $this->sponsorsRepository->saveSponsorActivityDetail($activityDetail);
         //$teenagers = $this->teenagersRepository->getAllActiveTeenagersForNotification();
         $type = '';
@@ -261,16 +288,22 @@ class DashboardManagementController extends Controller
         } else if ($activityDetail['sa_type'] == 3) {
             $type = 'Contest';
         }
-//        foreach ($teenagers AS $key => $value) {
-//            $message = 'New ' .$type.' "' .$activityDetail['sa_name'].'" has been added/updated in ProTeen!';
-//            $return = Helpers::saveAllActiveTeenagerForSendNotifivation($value->id, $message);
-//        }
-        if($response)
-        {
-            if($activityDetail['id'] == 0){
-                $setCredit = Helpers::setCredit($arr);
+
+        if ($activityDetail['id'] > 0) {
+            if ($sADetails && !empty($sADetails)) {
+                $savedStartDate = strtotime($sADetails->sa_start_date);
+                $savedEndDate = strtotime($sADetails->sa_end_date);
+                $updatedStartDate = strtotime($activityDetail['sa_start_date']);
+                $updatedEndDate = strtotime($activityDetail['sa_end_date']);
+                if (($updatedStartDate !== $savedStartDate) || ($updatedEndDate !== $savedEndDate)) {
+                    $setCredit = Helpers::setCredit($arr);
+                } 
             }
         }
+        if($activityDetail['id'] == 0){
+            $setCredit = Helpers::setCredit($arr);
+        }
+        
         $p_type = '';
         if ($activityDetail['sa_type'] == 1) {
             $p_type = 'Ads ProCoins';

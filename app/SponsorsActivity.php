@@ -9,7 +9,7 @@ use DB;
 class SponsorsActivity extends Model 
 {
 
-    protected $table = 'pro_sp_sponsor';
+    protected $table = 'pro_sa_sponsor_activity';
 
     protected $guarded = [];
 

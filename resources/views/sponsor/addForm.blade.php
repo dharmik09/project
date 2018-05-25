@@ -37,7 +37,12 @@
             <div class="col-md-offset-1 col-md-10 col-sm-12 padd_none">
                 <form name="addActivity" id="addActivity" method="post" class="sponsor_account_form" action="{{ url('/sponsor/save') }}" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" id="endDateTypeWise" name="endDateTypeWise" val="" >
+                    <?php if (isset($activityDetail) && !empty($activityDetail)) {
+                        $days = $saDurationDays;
+                    } else {
+                        $days = '';
+                    } ?>
+                    <input type="hidden" id="endDateTypeWise" name="endDateTypeWise" value="{{ $days }}" >
                     <h1><span class="title_border" style="margin-bottom: 30px;">Activities</span></h1>                    
                     <input type="hidden" name="id" value="<?php echo (isset($activityDetail) && !empty($activityDetail)) ? $activityDetail->id : '0' ?>">
                     <input type="hidden" name="hidden_logo" value="<?php echo (isset($activityDetail) && !empty($activityDetail)) ? $activityDetail->sa_image : '' ?>">
@@ -255,7 +260,7 @@
                             <div class="col-md-2 col-sm-4 input_title"><span class="special">Credit Deducted</span></div>
                             <div class="col-md-10 col-sm-8">                                
                             <div class="mandatory">*</div>
-                                <input type="text" name="creditdeducted" id="creditdeducted" class="cst_input_primary" placeholder="" readonly value="{{$sa_credit}}">            
+                                <input type="text" name="creditdeducted" id="creditdeducted" class="cst_input_primary" placeholder="" readonly value="{{ $sa_credit }}">
                             </div>
                         </div>
 
@@ -287,16 +292,63 @@
         </div>
     </div>
 </div>
-
 @stop
 
 @section('script')
 
 <script type="text/javascript">
-<?php if($sa_start_date != '') {?>
-    $('#startdate').datepicker('destroy');
-<?php } else {?>
-$("#startdate").datepicker({
+$("#enddate").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    dateFormat: 'dd/mm/yy',
+    defaultDate: null,
+    minDate: mdate('enddate')
+}).on('change', function () {
+    $(this).valid();
+    var myDate = new Date($(this).val());
+    var currentYear = (new Date).getFullYear();
+    var mydate_fullyear = myDate.getFullYear();
+    if(mydate_fullyear < currentYear)
+    {
+        $('#submit').attr('disabled', true);
+    }
+    else
+    {
+        $('#submit').attr('disabled', false);
+    }
+});
+<?php 
+    if(isset($activityDetail) && !empty($activityDetail)) { 
+        if ($datePickerDisabled == 1) { ?>
+            $('#startdate').datepicker('destroy');
+            $('#enddate').datepicker('destroy');
+        <?php } else { ?>
+            //$("#enddate").datepicker("option", "minDate", <?php echo $sa_start_date; ?>);
+            //$("#enddate").datepicker("option", "maxDate", <?php echo $sa_end_date; ?>);
+            $("#startdate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                defaultDate: null,
+                minDate: <?php echo $sa_start_date; ?>,
+                onSelect: function (selected) {
+                    var selectedDate = new Date(selected.split('/')[2],(selected.split('/')[1]),selected.split('/')[0]);
+                    var getDays = $("#endDateTypeWise").val();
+                    if (getDays != "") {
+                        selectedDate.setDate(selectedDate.getDate() + parseInt(getDays));
+                    } else {
+                        selectedDate.setDate(selectedDate.getDate() + 30);
+                    }
+                    $("#enddate").datepicker("option", "minDate", selected);
+                    var finalEndDate = selectedDate.getDate()+'/'+selectedDate.getMonth()+'/'+selectedDate.getFullYear();
+                    $("#enddate").datepicker("option", "maxDate", finalEndDate);
+                }
+            }).on('change', function () {
+                $(this).valid();
+            });
+        <?php } 
+    } else { ?>
+        $("#startdate").datepicker({
         changeMonth: true,
         changeYear: true,
         dateFormat: 'dd/mm/yy',
@@ -333,30 +385,11 @@ $("#startdate").datepicker({
             return checkForDate;
         }
     }
-<?php if($sa_end_date != '') {?>
-    $('#enddate').datepicker('destroy');
-<?php } else {?>
- $("#enddate").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        dateFormat: 'dd/mm/yy',
-        defaultDate: null,
-        minDate: mdate('enddate')
-    }).on('change', function () {
-        $(this).valid();
-        var myDate = new Date($(this).val());
-        var currentYear = (new Date).getFullYear();
-        var mydate_fullyear = myDate.getFullYear();
-        if(mydate_fullyear < currentYear)
-        {
-            $('#submit').attr('disabled', true);
-        }
-        else
-        {
-            $('#submit').attr('disabled', false);
-        }
-    });
- <?php }?>
+<?php //if($sa_end_date != '') { ?>
+    //$('#enddate').datepicker('destroy');
+<?php //} else { ?>
+
+ <?php //} ?>
     //var imageWidth = 730;
     //var imageHeight = 50;
 jQuery(document).ready(function () {
