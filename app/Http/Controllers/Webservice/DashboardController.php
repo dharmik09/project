@@ -289,7 +289,7 @@ class DashboardController extends Controller
                             $data['logo'] = Storage::url($this->interestThumbImageUploadPath . 'proteen-logo.png');
                         }
                         $data['video'] = $interest->it_video;
-                        $data['details'] = $interest->it_description;
+                        $data['details'] = mb_convert_encoding($interest->it_description, "UTF-8", "HTML-ENTITIES");
                     }    
                 } else {
                     $subjectDetails = $this->objProfessionSubject->getSubjectDetailsBySlug($request->interestSlug);
@@ -313,7 +313,7 @@ class DashboardController extends Controller
                             $subjectDetails->ps_video = "";
                         }
                         $data['video'] = $subjectDetails->ps_video;
-                        $data['details'] = $subjectDetails->ps_description;
+                        $data['details'] = mb_convert_encoding($subjectDetails->ps_description, "UTF-8", "HTML-ENTITIES");
                     }
                 }
                 $response['message'] = trans('appmessages.default_success_msg');
@@ -343,7 +343,7 @@ class DashboardController extends Controller
                 $getStrengthTypeRelatedInfo = Helpers::getStrengthTypeRelatedInfo($request->strengthType, $request->strengthSlug);
                 
                 if($getStrengthTypeRelatedInfo) {
-                    $getStrengthTypeRelatedInfo['details'] = ( isset($getStrengthTypeRelatedInfo['description']) ) ? $getStrengthTypeRelatedInfo['description'] : "";
+                    $getStrengthTypeRelatedInfo['details'] = ( isset($getStrengthTypeRelatedInfo['description']) ) ? mb_convert_encoding($getStrengthTypeRelatedInfo['description'], "UTF-8", "HTML-ENTITIES") : "";
                     $getStrengthTypeRelatedInfo['video'] = ( isset($getStrengthTypeRelatedInfo['video']) && $getStrengthTypeRelatedInfo['video'] != "" ) ? $getStrengthTypeRelatedInfo['video'] : "";
                 }
                 unset($getStrengthTypeRelatedInfo['description']);

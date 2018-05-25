@@ -32,7 +32,7 @@ class HelpController extends Controller {
         
         $helptext = $this->objHelptext->getHelptextBySlug($helpSlug);
         if(isset($helptext) && count($helptext) > 0){
-            $help = $helptext->h_description;
+            $help = mb_convert_encoding($helptext->h_description, "UTF-8", "HTML-ENTITIES");
         }else{
             $help = 'Invalid slug passed';
         }
