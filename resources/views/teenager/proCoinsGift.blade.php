@@ -172,7 +172,7 @@
                         },
                         success: function(coins) {
                             $('#coin_'+teenager_id).html(format(coins));
-                            $('#send_'+teenager_id).text('Coins gifted successfully');
+                            $('#send_'+teenager_id).text('ProCoins gifted successfully');
                             setTimeout(function(){$('#send_'+teenager_id).text(' ');},5000);
                             $('.coin_count_ttl').html(response);
                             $('#user_procoins').html(response);
