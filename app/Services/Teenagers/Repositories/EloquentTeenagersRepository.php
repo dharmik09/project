@@ -958,9 +958,7 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         $total['total'] = array_sum($boosterArray);
         $boosterArray = array_merge($boosterArray, $zeroBoosterLevel);
         $finalArray = array_merge($boosterArray, $total);
-        echo "<pre>";
-        print_r($finalArray);
-        exit;
+        
         
         return $finalArray;
     }
