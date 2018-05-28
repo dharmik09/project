@@ -938,7 +938,8 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
     */
     public function getTeenagerBasicBooster($teenagerId) {
         $boosterPoints = DB::select( DB::raw("select SUM(tlb_points) as points, tlb_level from " . config::get('databaseconstants.TBL_TEENAGER_LEVEL_BOOSTERS') . " where tlb_teenager=" . $teenagerId . " GROUP BY tlb_level"), array());
-        $boosterArray = [];
+        
+        $boosterArray = $zeroBoosterLevel = [];
         $totalPoints = 0;
         if($boosterPoints) {
             foreach ($boosterPoints as $points) {
@@ -947,6 +948,18 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
             }
             $boosterArray["Total"] = max((int)$totalPoints, 0);
         }
+        
+        $systemLevels = DB::table(config::get('databaseconstants.TBL_SYSTEM_LEVELS'))->get();
+        foreach ($systemLevels as $key => $level) {
+            if (!array_key_exists($level->sl_name, $boosterArray)) {
+                $zeroBoosterLevel[$level->sl_name] = 0;
+                $zeroBoosterLevel['Total'] = 0;
+            }
+        }
+        
+        
+        $boosterArray = array_merge($boosterArray, $zeroBoosterLevel);
+        
         return $boosterArray;
     }
 
