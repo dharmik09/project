@@ -953,14 +953,16 @@ class EloquentTeenagersRepository extends EloquentBaseRepository implements Teen
         foreach ($systemLevels as $key => $level) {
             if (!array_key_exists($level->sl_name, $boosterArray)) {
                 $zeroBoosterLevel[$level->sl_name] = 0;
-                $zeroBoosterLevel['Total'] = 0;
             }
         }
-        
-        
+        $total['total'] = array_sum($boosterArray);
         $boosterArray = array_merge($boosterArray, $zeroBoosterLevel);
+        $finalArray = array_merge($boosterArray, $total);
+        echo "<pre>";
+        print_r($finalArray);
+        exit;
         
-        return $boosterArray;
+        return $finalArray;
     }
 
     public function getTeenagerBoosterPoints($teenagerId) {
