@@ -122,14 +122,20 @@ class NotificaionController extends Controller {
         $response = [ 'status' => 0, 'login' => 0, 'message' => trans('appmessages.default_error_msg')];
         $teenager = $this->teenagersRepository->getTeenagerById($request->userId);
         $this->log->info('Get teenager detail for userId'.$request->userId , array('api-name'=> 'getNotification'));
+       
         if($request->userId != "" && $teenager) {
             if($request->notificationId != "") {
                 $notificationId = $request->notificationId;
                 $notificationDetails = $this->objNotifications->find($notificationId);
+              
                 if (isset($notificationDetails) && !empty($notificationDetails)) {
+                   
                     $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($teenager->id);
-                    $deletedNotificationArr = ($teenNotificationManagementCheck->tnm_notification_delete && !empty($teenNotificationManagementCheck->tnm_notification_delete)) ? explode(',', $teenNotificationManagementCheck->tnm_notification_delete) : [];
+                   
+                    $deletedNotificationArr = (isset($teenNotificationManagementCheck->tnm_notification_delete) && !empty($teenNotificationManagementCheck->tnm_notification_delete)) ? explode(',', $teenNotificationManagementCheck->tnm_notification_delete) : [];
+                    
                     if (!in_array($notificationId, $deletedNotificationArr)) {
+                        
                         $notificationData['tnm_notification_delete'] = $notificationId;
                         if(count($teenNotificationManagementCheck)>0)
                         {
