@@ -545,7 +545,7 @@ class Baskets extends Model
                             ->with(['profession' => function ($qry) {
                                 if (isset($this->searchText) && !empty($this->searchText)) {
                                     $qry->where('pf_name', 'like', '%'.$this->searchText.'%');
-                                    $qry->where('pf_profession_alias', 'like', '%'.$this->searchText.'%');
+                                    $qry->Orwhere('pf_profession_alias', 'like', '%'.$this->searchText.'%');
                                 }
 
                                 if(isset($this->filterBy) && !empty($this->filterBy) && isset($this->filterOption) && !empty($this->filterOption)) {
@@ -561,6 +561,7 @@ class Baskets extends Model
                             ->whereHas('profession', function ($query) use ($searchText, $filterBy, $filterOption, $professionArray) {
                                 if (isset($searchText) && !empty($searchText)) {
                                     $query->where('pf_name', 'like', '%'.$searchText.'%');
+                                    $query->Orwhere('pf_profession_alias', 'like', '%'.$this->searchText.'%');
                                 }
 
                                 if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
