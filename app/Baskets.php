@@ -572,6 +572,7 @@ class Baskets extends Model
                                         $query->whereIn('pro_pf_profession.id', $this->professionArray);
                                     }
                                 }
+                                $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                             });
                             
                             if ($filterBy != '' && $filterOption != '' && $filterBy == 1 && $this->filterOption != 0) {
