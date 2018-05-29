@@ -545,6 +545,7 @@ class Baskets extends Model
                             ->with(['profession' => function ($qry) {
                                 if (isset($this->searchText) && !empty($this->searchText)) {
                                     $qry->where('pf_name', 'like', '%'.$this->searchText.'%');
+                                    $qry->where('pf_profession_alias', 'like', '%'.$this->searchText.'%');
                                 }
 
                                 if(isset($this->filterBy) && !empty($this->filterBy) && isset($this->filterOption) && !empty($this->filterOption)) {
