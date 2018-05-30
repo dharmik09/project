@@ -79,7 +79,7 @@ class SignupController extends Controller
             $teenagerDetail['t_device_type'] = $request->deviceType;
             $teenagerDetail['t_photo'] = '';
             $teenagerDetail['deleted'] = '1';
-            $teenagerDetail['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
+            //$teenagerDetail['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
 
             //Social Providers
             $teenagerDetail['t_social_provider'] = ($request->socialProvider != "") ? $request->socialProvider : 'Normal';
@@ -189,7 +189,7 @@ class SignupController extends Controller
                                 }
                             }
                         }
-                        $recordData['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
+                        //$recordData['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
                         $teenagerDetailSaved = $this->teenagersRepository->saveTeenagerDetail($recordData);
                         $teenagerDetailSaved->t_photo = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerOriginalImageUrl($teenagerDetailSaved->t_photo) : "";
                         $teenagerDetailSaved->t_photo_thumb = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerThumbImageUrl($teenagerDetailSaved->t_photo) : "";
