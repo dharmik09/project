@@ -148,7 +148,7 @@ class SignupController extends Controller
                         } else {
                             $recordData['t_email'] = $teenagerDetail['t_email'];
                             $recordData['t_name'] = $teenagerDetail['t_name'];
-                            $recordData['t_lastname'] = $teenagerDetail['t_lastname'];
+                            $recordData['t_lastname'] = ($teenagerDetail['t_lastname'] != '')?$teenagerDetail['t_lastname']:$request->lastname;
                             $recordData['t_birthdate'] = $teenagerDetail['t_birthdate'];
                             $recordData['t_photo'] = "";
                             $recordData['t_uniqueid'] = $teenagerDetail['t_uniqueid'];
