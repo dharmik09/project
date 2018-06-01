@@ -9,7 +9,7 @@
         <div class="container">
             <div class="play-icon"><a href="javascript:void(0);" class="play-btn" id="iframe-video-click"><img src="img/play-icon.png" alt="play icon"></a></div>
         </div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/hF3CYmBrfyQ?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{Config::get('constant.PROTEEN_INTRO_VIDEO')}}?autohide=1&amp;showinfo=0&amp;modestBranding=1&amp;start=0&amp;rel=0&amp;enablejsapi=1" frameborder="0" allowfullscreen id="iframe-video"></iframe>
     </div>
     <!-- teen bio-->
     <section class="teen-bio">
