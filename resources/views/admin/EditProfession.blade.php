@@ -387,7 +387,8 @@
     jQuery(document).ready(function() {
         $('#pf_profession_alias').tagEditor({
                 placeholder: 'Enter alias ...',
-                maxLength : 255
+                maxLength : 255,
+                forceLowercase : false
             });
         // $('#pf_profession_tags').tagEditor({
         //         placeholder: 'Enter tags ...',
