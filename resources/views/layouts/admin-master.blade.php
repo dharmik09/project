@@ -447,59 +447,69 @@
                     
                     @if(Auth::guard('admin')->user()->email == trans('labels.adminemailid'))
                     <ul class="sidebar-menu">
-                         <li class="{{ (Request::is('admin/baskets') || Request::is('admin/addBasket') || Request::is('admin/editBasket/*') || Request::is('admin/saveBaskets') ||Request::is('admin/deleteBaskets') || Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*') || Request::is('admin/addProfessionBulk') || Request::is('admin/saveProfessionBulk') || Request::is('admin/exportProfessoin') || Request::is('admin/exportCompetitors') || Request::is('admin/headers') || Request::is('admin/addHeader') || Request::is('admin/editHeader/*') || Request::is('admin/deleteHeader') || Request::is('admin/deleteHeader/*') || Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*') || Request::is('admin/importExcel') || Request::is('admin/addImportExcel') || Request::is('admin/professionCertifications') || Request::is('admin/professionSubjects') ) ? 'active' : '' }} treeview">
-                                <a href="{{ url('admin/baskets') }}">
-                                    <i class="fa fa-dashboard"></i> <span>{{trans('labels.level3')}}</span><i class="fa fa-angle-left pull-right"></i>
+                         <li class="{{ (Request::is('admin/userReport') || Request::is('admin/schoolReport') || Request::is('admin/level1Chart') || Request::is('admin/iconReport') || Request::is('admin/iconQualityReport') || Request::is('admin/level2Chart') || Request::is('admin/userApi') || Request::is('admin/level3Report') || Request::is('admin/level4BasicReport') || Request::is('admin/level4IntermediateReport') || Request::is('admin/level4AdvanceReport')) ? 'active' : '' }} treeview">
+                                <a href="{{ url('admin/level1Chart') }}">
+                                    <i class="fa fa-dashboard"></i> 
+                                    <span>{{trans('labels.report')}}</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li class="{{ (Request::is('admin/baskets') || Request::is('admin/addBaskets') || Request::is('admin/editBaskets/*') || Request::is('admin/saveBaskets') || Request::is('admin/deleteBaskets')) ? 'active' : '' }}">
-                                        <a href="{{ url('admin/baskets') }}">
-                                            <i class="{{ (Request::is('admin/baskets')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.baskets')}}
+                                    <li>
+                                        <a href="{{ url('admin/userReport') }}">
+                                            <i class="{{ (Request::is('admin/userReport')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>Teens
                                         </a>
                                     </li>
-                                        <li class="{{ (Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*') || Request::is('admin/headers') || Request::is('admin/addHeaders') || Request::is('admin/editHeaders/*') || Request::is('admin/saveHeaders') || Request::is('admin/deleteHeaders/*') || Request::is('admin/careerMapping') || Request::is('admin/professionCertifications') || Request::is('admin/professionSubjects')) ? 'active' : '' }}">
-                                        <a href="{{ url('admin/professions') }}">
-                                            <i class="{{ (Request::is('admin/professions')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.professions')}}<i class="fa fa-angle-left pull-right"></i>
+                                    <li>
+                                        <a href="{{ url('admin/schoolReport') }}">
+                                            <i class="{{ (Request::is('admin/schoolReport')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>School Report
                                         </a>
-                                        <ul class="treeview-menu">
-                                            <li class="{{ (Request::is('admin/professions') || Request::is('admin/addProfessions') || Request::is('admin/editProfessions/*') || Request::is('admin/saveProfessions') || Request::is('admin/deleteProfessions/*')) ? 'active' : '' }}">
-                                                <a href="{{ url('admin/professions') }}">
-                                                    <i class="{{ (Request::is('admin/professions')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.professions')}}
-                                                </a>
-                                            </li>
-                                       
-                                            <li class="{{ (Request::is('admin/headers') || Request::is('admin/addHeaders') || Request::is('admin/editHeaders/*') || Request::is('admin/saveHeaders') || Request::is('admin/deleteHeaders/*')) ? 'active' : '' }}">
-                                                <a href="{{ url('admin/headers') }}">
-                                                    <i class="{{ (Request::is('admin/headers')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.headers')}}
-                                                </a>
-                                            </li>
-                                        
-                                            <li class="{{ (Request::is('admin/careerMapping') || Request::is('admin/addCareerMapping') || Request::is('admin/editCareerMapping/*') || Request::is('admin/saveCareerMapping') || Request::is('admin/deleteCareerMapping/*') || Request::is('admin/importExcel') || Request::is('admin/addImportExcel')) ? 'active' : '' }} treeview">
-                                                <a href="{{ url('admin/careerMapping') }}">
-                                                    <i class="{{ (Request::is('admin/careerMapping')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i><span>Profession HML Mapping</span>
-                                                </a>
-                                            </li>
-                                        
-                                            <li class="treeview">
-                                                <a href="{{ url('admin/professionCertifications') }}">
-                                                    <i class="{{ (Request::is('admin/professionCertifications')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i><span>{{trans('labels.professioncertification')}}</span>
-                                                </a>
-                                            </li>
-                                       
-                                            <li class="{{ (Request::is('admin/professionSubjects') || Request::is('admin/addProfessionSubject') || Request::is('admin/editProfessionSubject/*') || Request::is('admin/saveProfessionSubject') || Request::is('admin/deleteProfessionSubject/*')) ? 'active' : '' }} treeview">
-                                                <a href="{{ url('admin/professionSubjects') }}">
-                                                    <i class="{{ (Request::is('admin/professionSubjects')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i> <span>{{trans('labels.professionsubject')}}</span>
-                                                </a>
-                                            </li>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('admin/level1Chart') }}">
+                                            <i class="{{ (Request::is('admin/level1Chart')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.level1')}} Survey
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('admin/iconReport') }}">
+                                            <i class="{{ (Request::is('admin/iconReport')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>Level 1 Icon
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('admin/iconQualityReport') }}">
+                                            <i class="{{ (Request::is('admin/iconQualityReport')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>Level 1 Quality
+                                        </a>
+                                    </li>
 
-                                            <li class="{{ (Request::is('admin/professionTags') || Request::is('admin/addProfessionTag') || Request::is('admin/editProfessionTag/*') || Request::is('admin/saveProfessionTag') || Request::is('admin/deleteProfessionTag/*')) ? 'active' : '' }} treeview">
-                                                <a href="{{ url('admin/professionTags') }}">
-                                                    <i class="{{ (Request::is('admin/professionTags')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i> <span>{{trans('labels.professiontag')}}</span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                    <li>
+                                        <a href="{{ url('admin/level2Chart') }}">
+                                            <i class="{{ (Request::is('admin/level2Chart')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.level2')}}
+                                        </a>
                                     </li>
-                                    
+                                    <li>
+                                        <a href="{{ url('admin/userApi') }}">
+                                            <i class="{{ (Request::is('admin/userApi')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>Teen PROMISE
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('admin/level3Report') }}">
+                                            <i class="{{ (Request::is('admin/level3Report')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>{{trans('labels.level3')}}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('admin/level4BasicReport') }}">
+                                            <i class="{{ (Request::is('admin/level4BasicReport')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>Level 4 Basic
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('admin/level4IntermediateReport') }}">
+                                            <i class="{{ (Request::is('admin/level4IntermediateReport')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>Level 4 Intermediate
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('admin/level4AdvanceReport') }}">
+                                            <i class="{{ (Request::is('admin/level4AdvanceReport')) ? 'fa fa-dot-circle-o' : 'fa fa-circle-o' }}"></i>Level 4 Advance
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                     </ul>

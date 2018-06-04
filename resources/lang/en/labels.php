@@ -624,7 +624,7 @@ return [
     'paymentfailmessage' => 'Sorry, Your Transaction is fail.Try again',
     'teenparentpairnotexist' => 'Parent/Mentor not paired. Please invite and pair with Parent/Mentor',
     'sendparentidsuccess' => 'Reference ID has been successfully sent to Parent/Mentor',
-    'adminemailid' => 'admin.user1@proteenlife.com',
+    'adminemailid' => 'admin.marketing@proteenlife.com',
     'formlblbillingname' => 'Billing Name',
     'formlblbillingemail' => 'Billing Email',
     'faqupdatesuccess' => 'FAQ Updated Successfully',
