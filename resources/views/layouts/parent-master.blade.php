@@ -152,6 +152,8 @@
                         <li><a href="https://twitter.com/ProTeenLife" target="_blank"><i class="icon-twitter"></i></a></li>
                         <li><a href="https://plus.google.com/109414106711493074923" target="_blank"><i class="icon-google"></i></a></li>
                         <li><a href="https://www.linkedin.com/company/proteen-life" target="_blank"><i class="icon-linkdin"></i></a></li>
+                        <li><a href="https://www.youtube.com/channel/UCJ7Bw7Jrxgs2QfCI-DzUNSw" target="_blank"><i class="icon-search icon-youtube"><img src="{{ Storage::url('img/youtube.png')}}" alt="youtube" class="icon-img"><img src="{{ Storage::url('img/youtube-hover.png')}}" alt="youtube" class="icon-hover"></i></a></li>
+                        <li><a href="https://www.instagram.com/proteenlife/" target="_blank"><i class="icon-search icon-instagram icon-youtube"><img src="{{ Storage::url('img/instagram.png')}}" alt="instagram" class="icon-img"><img src="{{ Storage::url('img/instagram-hover.png')}}" alt="instagram" class="icon-hover"></i></a></li>
                     </ul>
                 </div>
             </div>
