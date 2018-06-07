@@ -215,6 +215,9 @@ nav {
             span.coins {
                 margin-right: 5px;
                 display: inline-block;
+                background-image: url(../img/coins.png);
+                background-size: contain;
+                background-position: center;
                 @include maxsm {
                     float: left;
                     width: 15px;
@@ -275,6 +278,9 @@ nav {
 
 .coins {
     @extend .i-coin;
+    background-image: url(../img/coins.png);
+    background-size: contain;
+    background-position: center;
     display: inline-block;
     width: 20px;
     height: 20px;
