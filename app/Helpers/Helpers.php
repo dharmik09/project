@@ -1045,6 +1045,7 @@ Class Helpers {
                         $adsData['id'] = $ads->id;
                         $adsData['sizeType'] = $ads->sa_size_type;
                         $adsData['image'] = $ads->sa_image;
+                        $adsData['sa_image_href'] = $ads->sa_image_href;
                         // if ($ads->sa_image != '') {
                         //     $adsData['image'] = Storage::url(Config::get('constant.SA_ORIGINAL_IMAGE_UPLOAD_PATH') . $ads->sa_image);
                         // } else {

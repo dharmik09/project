@@ -356,7 +356,7 @@
                 @forelse ($advertisements as $ad)
                 <div class="ad-sec-h">
                     <div class="t-table">
-                        <a href="javascript:void(0);" target="_blank"><img src="{{$ad['image']}}"></a>
+                        <a href="{{$ad['sa_image_href']}}" target="_blank"><img src="{{$ad['image']}}"></a>
                     </div>
                 </div>
                 @empty
