@@ -215,7 +215,7 @@ class SignupController extends Controller
                                 $this->teenagersRepository->addTeenagerEmailVarifyToken($teenagerTokenDetail);
                             });
                         // ------------------------end sending mail ----------------------------//
-                            $responseMsg = 'Hi <strong>'.$teenagerDetailbyId->t_name.'</strong>, <br/> The access link to activate your account has been sent to your registered eMailID. If you do not receive the confirmation message within a few minutes of signing up, please check your Junk/Spam/Promotions E-mail folder just in case the confirmation email got delivered there instead of your inbox.<strong>'.$teenagerDetailbyId->t_email.'</strong>';
+                            $responseMsg = 'Hi <strong>'.$teenagerDetailbyId->t_name.'</strong>, <br/> The access link to activate your account has been sent to your registered eMailID. If you do not receive a confirmation message from us within a few minutes of signing up, please check your Junk/Spam/Promotions E-mail folder.<strong>'.$teenagerDetailbyId->t_email.'</strong>';
                         return view('teenager.signupVerification', compact('responseMsg'));
                     }
                 } else {
