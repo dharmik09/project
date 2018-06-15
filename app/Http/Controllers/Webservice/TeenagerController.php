@@ -257,7 +257,7 @@ class TeenagerController extends Controller
 
             } else {
                 $response['login'] = 1;
-                $response['status'] = 1;
+                $response['status'] = 0;
                 $response['message'] = "Network Teenager not found or not verified!";
             }
         } else {
