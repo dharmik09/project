@@ -278,7 +278,7 @@ class NotificaionController extends Controller {
             if (isset($notificationDetails) && !empty($notificationDetails)) {
                 $teenNotificationManagementCheck = $this->objTeenNotificationManagement->getTeenNotificationManagementByTeenagerId($teenager->id);
 
-                $readNotificationArr = ($teenNotificationManagementCheck->tnm_notification_read && !empty($teenNotificationManagementCheck->tnm_notification_read)) ? explode(',', $teenNotificationManagementCheck->tnm_notification_read) : [];
+                $readNotificationArr = (isset($teenNotificationManagementCheck->tnm_notification_read) && !empty($teenNotificationManagementCheck->tnm_notification_read)) ? explode(',', $teenNotificationManagementCheck->tnm_notification_read) : [];
                 
                 if (!in_array($notificationId, $readNotificationArr)) {
                     $notificationData['tnm_notification_read'] = $notificationId;
