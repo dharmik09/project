@@ -3514,4 +3514,14 @@ Class Helpers {
         $percentage = $mul/$maxScore;
         return round($percentage);
     }
+
+    //get teenager details  by teenager id
+    public static function getTeenagerDetailsById($id) 
+    {
+        if ($teenDetails = Teenagers::find($id)) {
+            return $teenDetails;
+        } else {
+            return [];
+        } 
+    }
 }

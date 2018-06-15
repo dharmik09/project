@@ -13,7 +13,32 @@
             ?>
             <img src="{{ Storage::url($teenPhoto) }}" alt="notification img">
         </div>
-        <div class="notification-content"><a href="#">{!!$value->n_notification_text!!}</a>
+        <?php
+            switch ($value->n_notification_type) {
+                case Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS'):
+                    $redirectPageUrl = url("teenager/gift-coins");
+                    break;
+                
+                case Config::get('constant.NOTIFICATION_TYPE_GIFT_COUPANS'):
+                    $redirectPageUrl = url("teenager/coupons");
+                    break;
+
+                case Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW'):
+                    $senderId = $value->n_sender_id;
+                    $teenDetails = Helpers::getTeenagerDetailsById($value->n_sender_id);
+                    if (!empty($teenDetails) && $teenDetails->t_uniqueid != "") {
+                        $redirectPageUrl = url("teenager/network-member/".$teenDetails->t_uniqueid);
+                    } else {
+                        $redirectPageUrl = url ("teenager/chat");
+                    }
+                    break;
+
+                default:
+                    $redirectPageUrl = url("teenager/chat");
+                    break;
+            };
+        ?>
+        <div class="notification-content"><a href="{{ $redirectPageUrl }}">{!!$value->n_notification_text!!}</a>
             <span class="date">
                 {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans() }}
             </span>
