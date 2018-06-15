@@ -615,7 +615,7 @@ class level3ActivityController extends Controller {
                     $professionsData->work_hours_per_week = (isset($work_hours_per_week->pfic_content) && !empty($work_hours_per_week->pfic_content)) ? $work_hours_per_week->pfic_content : '';
                     $professionsData->positions_current = (isset($positions_current->pfic_content) && !empty($positions_current->pfic_content)) ? $positions_current->pfic_content : '';
                     $professionsData->positions_projected = (isset($positions_projected->pfic_content) && !empty($positions_projected->pfic_content)) ? $positions_projected->pfic_content : '';
-                    $professionsData->profession_description = (isset($profession_description->pfic_content) && !empty($profession_description->pfic_content)) ? $profession_description->pfic_content : '';
+                    $professionsData->profession_description = (isset($profession_description->pfic_content) && !empty($profession_description->pfic_content)) ? mb_convert_encoding($profession_description->pfic_content,"UTF-8", "HTML-ENTITIES") : '';
                     $professionsData->profession_outlook = (isset($profession_outlook->pfic_content) && !empty($profession_outlook->pfic_content)) ? $profession_outlook->pfic_content : '';
                     $professionsData->AI_redundancy_threat = (isset($AI_redundancy_threat->pfic_content) && !empty($AI_redundancy_threat->pfic_content)) ? $AI_redundancy_threat->pfic_content : '';
                     $professionsData->profession_job_activities = (isset($profession_job_activities->pfic_content) && !empty($profession_job_activities->pfic_content)) ? $profession_job_activities->pfic_content : '';

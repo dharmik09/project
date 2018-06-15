@@ -272,6 +272,9 @@ class ProfileController extends Controller
                 $teenagerDetail['t_view_information'] = ( $request->viewInformation != "") ? $request->viewInformation : "0";
                 $teenagerDetail['is_sound_on'] = ( $request->isSoundOn != "") ? $request->isSoundOn : "0";
 
+                //Set initial procoins 
+                $teenagerDetail['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
+                
                 if($request->sponsorIds == "") {
                     $response['message'] = "Please, select at-least one sponsor";
                     $response['login'] = 1;

@@ -148,7 +148,7 @@ class SignupController extends Controller
                         } else {
                             $recordData['t_email'] = $teenagerDetail['t_email'];
                             $recordData['t_name'] = $teenagerDetail['t_name'];
-                            $recordData['t_lastname'] = $teenagerDetail['t_lastname'];
+                            $recordData['t_lastname'] = ($teenagerDetail['t_lastname'] != '')?$teenagerDetail['t_lastname']:$request->lastname;
                             $recordData['t_birthdate'] = $teenagerDetail['t_birthdate'];
                             $recordData['t_photo'] = "";
                             $recordData['t_uniqueid'] = $teenagerDetail['t_uniqueid'];
@@ -189,7 +189,7 @@ class SignupController extends Controller
                                 }
                             }
                         }
-                        $recordData['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
+                        //$recordData['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
                         $teenagerDetailSaved = $this->teenagersRepository->saveTeenagerDetail($recordData);
                         $teenagerDetailSaved->t_photo = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerOriginalImageUrl($teenagerDetailSaved->t_photo) : "";
                         $teenagerDetailSaved->t_photo_thumb = ($teenagerDetailSaved->t_photo != "") ? Helpers::getTeenagerThumbImageUrl($teenagerDetailSaved->t_photo) : "";

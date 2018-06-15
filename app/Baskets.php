@@ -544,8 +544,9 @@ class Baskets extends Model
         $professionQuery = $this->select('*')
                             ->with(['profession' => function ($qry) {
                                 if (isset($this->searchText) && !empty($this->searchText)) {
+                                    $qry->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                                     $qry->where('pf_name', 'like', '%'.$this->searchText.'%');
-                                    $qry->where('pf_profession_alias', 'like', '%'.$this->searchText.'%');
+                                    $qry->Orwhere('pf_profession_alias', 'like', '%'.$this->searchText.'%');
                                 }
 
                                 if(isset($this->filterBy) && !empty($this->filterBy) && isset($this->filterOption) && !empty($this->filterOption)) {
@@ -560,7 +561,9 @@ class Baskets extends Model
                             }])
                             ->whereHas('profession', function ($query) use ($searchText, $filterBy, $filterOption, $professionArray) {
                                 if (isset($searchText) && !empty($searchText)) {
+                                    $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                                     $query->where('pf_name', 'like', '%'.$searchText.'%');
+                                    $query->Orwhere('pf_profession_alias', 'like', '%'.$this->searchText.'%');
                                 }
 
                                 if(isset($filterBy) && !empty($filterBy) && isset($filterOption) && !empty($filterOption)) {
@@ -571,6 +574,7 @@ class Baskets extends Model
                                         $query->whereIn('pro_pf_profession.id', $this->professionArray);
                                     }
                                 }
+                                $query->where('deleted', Config::get('constant.ACTIVE_FLAG'));
                             });
                             
                             if ($filterBy != '' && $filterOption != '' && $filterBy == 1 && $this->filterOption != 0) {

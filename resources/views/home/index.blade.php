@@ -21,7 +21,7 @@
                             </h1>
                             <p>Unlocking the true potential of young adults</p>
                         </div>
-                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
+<!--                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>-->
                     </div>
                 </div>
                 <div class="banner-0-2 banner item">
@@ -34,7 +34,7 @@
                             </h1>
                             <p>Unlocking the true potential of young adults</p>
                         </div>
-                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
+<!--                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>-->
                     </div>
                 </div>
                 <div class="banner-0-3 banner item">
@@ -47,7 +47,7 @@
                             </h1>
                             <p>Unlocking the true potential of young adults</p>
                         </div>
-                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
+<!--                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>-->
                     </div>
                 </div>
                 <div class="banner-0-4 banner item">
@@ -60,7 +60,7 @@
                             </h1>
                             <p>Unlocking the true potential of young adults</p>
                         </div>
-                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>
+<!--                        <a href="#teen" class="bottom-show"><i class="icon-down-arrow"></i></a>-->
                     </div>
                 </div>
             </ul>
@@ -105,7 +105,7 @@
                     </ul>
                 </div>
             </div>
-            <a href="#parent" class="bottom-show"><i class="icon-down-arrow"></i></a>
+<!--            <a href="#parent" class="bottom-show"><i class="icon-down-arrow"></i></a>-->
         </div>
         <div class="banner-2 banner" id="parent">
             <div class="container">
@@ -133,7 +133,7 @@
                     </ul>
                 </div>
             </div>
-            <a href="#mentor" class="bottom-show"><i class="icon-down-arrow"></i></a>
+<!--            <a href="#mentor" class="bottom-show"><i class="icon-down-arrow"></i></a>-->
         </div>
         <div class="banner-3 banner" id="mentor">
             <div class="container">
@@ -162,7 +162,7 @@
                     </ul>
                 </div>
             </div>
-            <a href="#school" class="bottom-show"><i class="icon-down-arrow"></i></a>
+<!--            <a href="#school" class="bottom-show"><i class="icon-down-arrow"></i></a>-->
         </div>
         <div class="banner-4 banner" id="school">
             <div class="container">
@@ -190,7 +190,7 @@
                     </ul>
                 </div>
             </div>
-            <a href="#enterprise" class="bottom-show"><i class="icon-down-arrow"></i></a>
+<!--            <a href="#enterprise" class="bottom-show"><i class="icon-down-arrow"></i></a>-->
         </div>
         <div class="banner-5 banner" id="enterprise">
             <div class="container">

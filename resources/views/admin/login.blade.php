@@ -24,7 +24,7 @@
         <form id="login_form" role="form" method="POST" action="{{ url('/admin/loginCheck') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" id="email" maxlength="30" minlength="5" name="email" placeholder="{{trans('labels.emaillbl')}}" value="{{ old('email') }}">
+                <input type="text" class="form-control" id="email" maxlength="50" minlength="5" name="email" placeholder="{{trans('labels.emaillbl')}}" value="{{ old('email') }}">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

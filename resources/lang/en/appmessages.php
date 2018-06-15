@@ -35,7 +35,7 @@ return [
     'not_complete_basic_profession_msg' => 'Play Basic to get to play Intermediate',
     'no_basic_question' => "Profession Doesn't have any basic questions",
     'mail_success_msg' => 'Successfully send',
-    'signupmail_success_msg' => 'Successfully sign up and sending mail for verified',
+    'signupmail_success_msg' => 'The access link to activate your account has been sent to your registered eMailID. Please check your Junk or Spam folder as well.',
     'invalidOTP' => 'OTP you have entered is invalid',
     'invalidoldpassword' => 'Invalid Old Password',
     'usernotexistwithemail' => 'User do not exist with such email',

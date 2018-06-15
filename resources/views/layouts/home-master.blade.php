@@ -62,7 +62,7 @@
                         <li><a href="{{ url('contact-us') }}" title="Contact Us">Contact</a></li>
                         <!--<li><a href="{{ url('team') }}" title="Team">Team</a></li>-->                        
                         <li><a href="{{ url('privacy-policy') }}" title="Privacy Policy">Privacy</a></li>
-                        <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>
+                        <li><a href="{{ url('terms-condition') }}" title="Terms & Conditions">Terms & Conditions</a></li>                        
                     </ul>
                     <ul class="links">
                         <li><span>&copy; 2018 ProTeen</span></li>
@@ -76,15 +76,17 @@
                         <li><a href="https://twitter.com/ProTeenLife" target="_blank"><i class="icon-twitter"></i></a></li>
                         <li><a href="https://plus.google.com/109414106711493074923" target="_blank"><i class="icon-google"></i></a></li>
                         <li><a href="https://www.linkedin.com/company/proteen-life" target="_blank"><i class="icon-linkdin"></i></a></li>
+                        <li><a href="https://www.youtube.com/channel/UCJ7Bw7Jrxgs2QfCI-DzUNSw" target="_blank"><i class="icon-search icon-youtube"><img src="{{ Storage::url('img/youtube.png')}}" alt="youtube" class="icon-img"><img src="{{ Storage::url('img/youtube-hover.png')}}" alt="youtube" class="icon-hover"></i></a></li>
+                        <li><a href="https://www.instagram.com/proteenlife/" target="_blank"><i class="icon-search icon-instagram icon-youtube"><img src="{{ Storage::url('img/instagram.png')}}" alt="instagram" class="icon-img"><img src="{{ Storage::url('img/instagram-hover.png')}}" alt="instagram" class="icon-hover"></i></a></li>
                     </ul>
-<!--                    <div class="store">
-                        <a href="https://itunes.apple.com/us/app/proteen/id1247894187?mt=8"  target="_blank" class="appstore">
+                    <div class="store">
+                        <a href="https://itunes.apple.com/us/app/proteen/id1247894187?ls=1&mt=8"  target="_blank" class="appstore">
                             <img class="i-app-store" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAAA1AQMAAACOZRAoAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABJJREFUeNpjYBgFo2AUjAIqAwAEWQABDrhkeAAAAABJRU5ErkJggg==">
                         </a>
                         <a href="https://play.google.com/store/apps/details?id=com.proteenlife" target="_blank" class="playstore">
                             <img class="i-play-store" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAAA1AQMAAABsuQtRAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABJJREFUeNpjYBgFo2AUjAIqAwAEWQABDrhkeAAAAABJRU5ErkJggg==">
                         </a>
-                    </div>-->
+                    </div>
                 </div>
             </div>
         </footer>
