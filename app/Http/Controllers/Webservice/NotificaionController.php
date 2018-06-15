@@ -95,6 +95,37 @@ class NotificaionController extends Controller {
                 $createdDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$value->created_at)->diffForHumans();
                 $data[$key]->notification_time = $createdDate;
                 $data[$key]->n_read_status = (in_array($value->id, $readData)) ? '1' : '0';
+
+                $data[$key]->memberIdForPageRedirect = "";
+                switch ($data[$key]->n_notification_type) {
+                    case Config::get('constant.NOTIFICATION_TYPE_GIFT_PRO_COINS'):
+                        $data[$key]->notificationTypeForPageRedirect = Config::get('constant.PROCOINS_GIFT_NOTIFICATION_TYPE');
+                        break;
+                    
+                    case Config::get('constant.NOTIFICATION_TYPE_GIFT_COUPANS'):
+                        $data[$key]->notificationTypeForPageRedirect = Config::get('constant.COUPONS_GIFT_NOTIFICATION_TYPE');
+                        break;
+
+                    case Config::get('constant.NOTIFICATION_TYPE_PROFILE_VIEW'):
+                        $senderId = $data[$key]->n_sender_id;
+                        $teenDetails = Helpers::getTeenagerDetailsById($data[$key]->n_sender_id);
+                        if (!empty($teenDetails) && $teenDetails->t_uniqueid != "") {
+                            $data[$key]->notificationTypeForPageRedirect = Config::get('constant.PROFILE_VIEW_NOTIFICATION_TYPE');
+                            $data[$key]->memberIdForPageRedirect = $data[$key]->n_sender_id;
+                        } else {
+                            $data[$key]->notificationTypeForPageRedirect = Config::get('constant.COMMON_NOTIFICATION_TYPE');
+                        }
+                        break;
+
+                    case Config::get('constant.NOTIFICATION_TYPE_CONNECTION_REQUEST'):
+                        $data[$key]->notificationTypeForPageRedirect = Config::get('constant.CONNECTION_REQUEST_NOTIFICATION_TYPE');
+                        break;
+
+                    default:
+                        $data[$key]->notificationTypeForPageRedirect = Config::get('constant.COMMON_NOTIFICATION_TYPE');
+                        break;
+                };
+        
                 // $data[$key]->notification_time = "";
                 unset($data[$key]->senderTeenager);
                 unset($data[$key]->community);
