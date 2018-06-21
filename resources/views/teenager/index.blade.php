@@ -153,7 +153,7 @@
             });
             $('#iframe-video-click').on('click', function(ev) {
                 $('iframe').show();
-                $("#iframe-video")[0].src += "&autoplay=1";
+                $("#iframe-video")[0].src += "&autoplay=1&mute=1";
                 ev.preventDefault();
             });
             // Cache the toggle button
