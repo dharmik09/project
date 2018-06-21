@@ -49,9 +49,7 @@ class SchoolRequest extends Request
         {
             return [
                 'sc_name'         => 'required',
-                'sc_email'         => "required | email | unique:".Config::get('databaseconstants.TBL_SCHOOLS').",sc_email," . $this->get('id'),
-                'password'         => 'required',
-                'confirm_password'    => 'required | same:password',
+                'sc_email'         => "required | email | unique:".Config::get('databaseconstants.TBL_SCHOOLS').",sc_email," . $this->get('id'),                
                 'sc_address1'      => 'required',
                 'sc_address2'      => 'required',
                 'sc_city'      => 'required',
