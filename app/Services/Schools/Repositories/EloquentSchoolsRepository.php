@@ -61,11 +61,10 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
       public function getAllSchoolsDataObj()
       {
             $schools = DB::table(config::get('databaseconstants.TBL_SCHOOLS') . " AS school")
-                  ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'teenager.t_school', '=', 'school.id')   
+                  ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", function($join){ $join->on('teenager.t_school', '=', 'school.id')->where('teenager.deleted',1); })  
                   ->selectRaw('school.*,count(teenager.id) as studentcount')
                   ->groupBy('school.id')
-                  ->whereIn('school.deleted', ['1','2']);
-                 
+                  ->whereIn('school.deleted', ['1','2']);                  
             return $schools;
       }
 
