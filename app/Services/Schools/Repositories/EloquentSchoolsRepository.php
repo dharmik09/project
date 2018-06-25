@@ -64,7 +64,8 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
                   ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'teenager.t_school', '=', 'school.id')   
                   ->selectRaw('school.*,count(teenager.id) as studentcount')
                   ->groupBy('school.id')
-                  ->whereIn('school.deleted', ['1','2']);
+                  ->whereIn('school.deleted', ['1','2'])
+                  ->where('teenager.deleted','1');
             return $schools;
       }
 
@@ -76,6 +77,7 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
                           ->groupBy('school.id')
                           ->whereIn('school.deleted', ['1','2'])
                           ->where('school.sc_isapproved', '1')
+                          ->where('teenager.deleted', '1')
                           ->get();
             return $schools;
       }
@@ -426,7 +428,7 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
         {
           $return->where('t_class', $class_id);
         }
-        //$return->where('deleted', 1);
+        $return->where('deleted', 1);
         $return->orderBy('id', 'ASC');
         $return = $return->get();
 
