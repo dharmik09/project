@@ -42,14 +42,14 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
             }
             if($isExport){
                 $schools = DB::table(config::get('databaseconstants.TBL_SCHOOLS') . " AS school")
-                              ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'teenager.t_school', '=', 'school.id')   
+                              ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", function($join){ $join->on('teenager.t_school', '=', 'school.id')->where('teenager.deleted',1); })  
                               ->selectRaw('school.*,count(teenager.id) as studentcount')
                               ->groupBy('school.id')
                               ->whereRaw($whereStr . $orderStr)
                               ->get();
             }else{
                 $schools = DB::table(config::get('databaseconstants.TBL_SCHOOLS') . " AS school")
-                              ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'teenager.t_school', '=', 'school.id')   
+                              ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", function($join){ $join->on('teenager.t_school', '=', 'school.id')->where('teenager.deleted',1); })  
                               ->selectRaw('school.*,count(teenager.id) as studentcount')
                               ->groupBy('school.id')
                               ->whereRaw($whereStr . $orderStr)
@@ -71,12 +71,11 @@ class EloquentSchoolsRepository extends EloquentBaseRepository
       public function getAllSchoolsData()
       {
             $schools = DB::table(config::get('databaseconstants.TBL_SCHOOLS') . " AS school")
-                          ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", 'teenager.t_school', '=', 'school.id')   
+                          ->leftjoin(config::get('databaseconstants.TBL_TEENAGERS') . " AS teenager", function($join){ $join->on('teenager.t_school', '=', 'school.id')->where('teenager.deleted',1); })  
                           ->selectRaw('school.*,count(teenager.id) as studentcount')
                           ->groupBy('school.id')
                           ->whereIn('school.deleted', ['1','2'])
-                          ->where('school.sc_isapproved', '1')
-                          ->where('teenager.deleted', '1')
+                          ->where('school.sc_isapproved', '1')                          
                           ->get();
             return $schools;
       }
