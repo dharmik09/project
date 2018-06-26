@@ -210,10 +210,18 @@
                 ?>
                 <div class="col-md-offset-1 col-md-5 col-sm-6 input_icon pincode clearfix">
                     <div class="mandatory">*</div>
-                    <div class="pincode_input">
-                        <input type="text" name="pincode" class="cst_input_primary onlyNumber" minlength="6" maxlength="6" placeholder="Zip Code"  value="{{ $pincode  or ''}}">
-                    </div><!-- pincode_input End -->                   
+                    
                     <div class="city_input">
+                        <div class="mandatory">*</div>
+                        <div class="select-style input_icon_parent state_icon">
+                            <select id="state_name" name="state" onchange="getDataOfCity(this.value)" onclick="getDataOfCity(this.value)">
+                                <option value="">State</option>
+                            </select>
+                        </div>
+                        <em for="state_name" class="invalid"></em>
+                    </div>    
+                    
+                    <div class="pincode_input">
                         <div class="mandatory">*</div>
                         <div class="select-style input_icon_parent country_icon">
                             <select name="country" onchange="getDataOfState(this.value);" onclick="getDataOfState(this.value);">
@@ -224,19 +232,11 @@
                             </select>
                         </div>
                         <em for="country" class="invalid"></em>
-                    </div><!-- city_input End -->                                                         
+                    </div><!-- city_input End -->      
+                    
                 </div>
-                <div class=" col-md-5 col-sm-6 input_icon clearfix">
+                <div class=" col-md-5 col-sm-6 input_icon clearfix">                                    
                     <div class="pincode_input">
-                        <div class="mandatory">*</div>
-                        <div class="select-style input_icon_parent state_icon">
-                            <select id="state_name" name="state" onchange="getDataOfCity(this.value)" onclick="getDataOfCity(this.value)">
-                                <option value="">State</option>
-                            </select>
-                        </div>
-                        <em for="state_name" class="invalid"></em>
-                    </div>                    
-                    <div class="city_input">
                         <div class="mandatory">*</div>
                         <div class="select-style input_icon_parent city_icon">
                             <select id="city_name" name="city" >
@@ -245,6 +245,9 @@
                         </div>
                         <em for="city_name" class="invalid"></em>
                     </div><!-- city_input End --> 
+                    <div class="city_input">
+                        <input type="text" name="pincode" class="cst_input_primary onlyNumber" minlength="6" maxlength="6" placeholder="Zip Code"  value="{{ $pincode  or ''}}">
+                    </div><!-- pincode_input End -->   
                 </div> 
 
             </div>
