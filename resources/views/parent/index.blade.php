@@ -120,11 +120,12 @@
             <span><img src="{{ Storage::url('img/award-finalist-transparent.png')}}" alt="award img"></span>
         </div>-->
     </section>
-    <!-- content area end-->
+    <!-- content area end-->    
     <!-- masonary section-->
     <section class="sec-masonary">
         <div class="container-large">
             <h2 class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">Listen to our Community</h2>
+            <h3 class="{{ ($type == 'Parent') ? 'font-blue' : 'cl-mentor' }}">Real Stories by Real People</h3>
             <div class="row">
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>

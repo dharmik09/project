@@ -601,7 +601,7 @@ a {
     @include maxsm {
         padding: 40px 0;
     }
-    h2 {
+    h2, h3 {
         text-align: center;
         color: $p-cl;
     }

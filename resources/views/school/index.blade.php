@@ -108,6 +108,7 @@
     <section class="sec-masonary">
         <div class="container-large">
             <h2 class="cl-school">Listen to our Community</h2>
+            <h3 class="cl-school">Real Stories by Real People</h3>
             <div class="row">
                 <div class="masonary-grid">
                     <div class="grid_sizer"></div>
