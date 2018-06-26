@@ -117,6 +117,7 @@ class DashboardController extends Controller {
                                     $schoolDetail['t_nickname'] = $row['nick_name'];
                                     $schoolDetail['t_email'] = $row['student_email'];
                                     $schoolDetail['t_birthdate'] = $row['birthdate'];
+                                    $schoolDetail['t_coins'] = Helpers::getConfigValueByKey('STUDENT_INITIAL_PROCOINS_GIFT');
                                     if ($row['gender'] == "Male") {
                                         $gender = 1;
                                     } else {
