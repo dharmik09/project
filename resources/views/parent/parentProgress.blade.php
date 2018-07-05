@@ -78,7 +78,7 @@
                                         </div>
                                     </div>
                                     <div class="section" id="section2" style="display: none;">
-                                        <h1><span class="title_border">><span class="parent_assessment_header_text">How well do you know {{$teenDetail->t_name}}</span><br/>VOTE your
+                                        <h1><span class="title_border"><span class="parent_assessment_header_text">How well do you know {{$teenDetail->t_name}}</span><br/>VOTE your
                                             <span class="high_label">H - High,</span>
                                             <span class="mid_label"> M - Moderate,</span>
                                             <span class="low_label">L - Low </span> on 24 aspects</span></h1>
@@ -290,7 +290,7 @@
                             </table>
                         </div>
                     @else
-                        <div class="no_data col-xs-12" style="margin: 40px 0px;text-align:center;">Not Attempted Level 1 yet...</div>
+                        
                         <!--<div class="no_data_page  col-xs-12">
                             <span class="nodata_outer">
                                 <span class="nodata_middle">
@@ -315,7 +315,6 @@
                                 </figure>
                             </li>
                             @empty
-                                No records found
                             @endforelse
                         </ul>
                     </div>
@@ -354,7 +353,7 @@
                         <h2 class="parent_h2_text">Multiple Intelligences</h2>
                     </div>
                     <div class="data-explainations clearfix text-center data-dashboard margin-top">
-                        <div class="content"><span class="text">PROMISE Assessment</span>
+                        <div class="content"><span class="text">PROMISE Results</span>
                             <div class="data"><span class="small-box circle-box career-data-color-1"></span><span>High</span></div>
                             <div class="data"><span class="small-box circle-box career-data-color-2"></span><span>Moderate</span></div>
                             <div class="data"><span class="small-box circle-box career-data-color-3"></span><span>Low</span></div>
@@ -445,7 +444,7 @@
                     @else
                     <div class="no_data">
                         <span class="nodata_outer">
-                            <span class="nodata_middle">No professions attempted</span>
+                            <span class="nodata_middle">No professions explored</span>
                         </span>
                     </div>
                     @endif

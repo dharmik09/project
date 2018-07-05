@@ -743,7 +743,7 @@ class DashboardManagementController extends Controller {
             return Redirect::to("/parent/pair-with-teen")->with('error', 'Pair with teen doesn\'t happen as invalid teen reference id');
             exit;
         }
-        return Redirect::to("/parent/home")->with('success', 'Your invitation has been sent successfully');
+        return Redirect::to("/parent/home")->with('success', 'Your invitation has been sent successfully. Please check your Junk/Spam/Promotions E-mail folder');
         exit;
     }
 

@@ -41,7 +41,7 @@
         <h2 class="parent_h2_text">Aptitude</h2>
     </div>
     <div class="data-explainations clearfix text-center data-dashboard">
-        <div class="content"><span class="text">PROMISE Assessment</span>
+        <div class="content"><span class="text">PROMISE Results</span>
             <div class="data"><span class="small-box circle-box career-data-color-1"></span><span>High</span></div>
             <div class="data"><span class="small-box circle-box career-data-color-2"></span><span>Moderate</span></div>
             <div class="data"><span class="small-box circle-box career-data-color-3"></span><span>Low</span></div>
@@ -95,7 +95,7 @@
         <h2 class="parent_h2_text">Personality</h2>
     </div>
     <div class="data-explainations clearfix text-center data-dashboard">
-        <div class="content"><span class="text">PROMISE Assessment</span>
+        <div class="content"><span class="text">PROMISE Results</span>
             <div class="data"><span class="small-box circle-box career-data-color-1"></span><span>High</span></div>
             <div class="data"><span class="small-box circle-box career-data-color-2"></span><span>Moderate</span></div>
             <div class="data"><span class="small-box circle-box career-data-color-3"></span><span>Low</span></div>
