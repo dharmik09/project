@@ -49,6 +49,9 @@
                     </div>
                     @endif
                 </div>
+                <div class="procoin-img-block text-center">
+                   <img src="{{asset('/frontend/images/procoin-poster.png')}}" alt="procoin img">
+               </div>
                 <h1 class="font-blue">BUY</h1>
                 <p>Request to Parent/Mentor</p>
                 <div class="procoin-form">
